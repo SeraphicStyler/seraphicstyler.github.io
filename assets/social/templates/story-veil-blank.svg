@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" role="img" aria-label="Story Veil — blank 9:16 backdrop">
+  <!-- ④ Angelic Aura · Story Veil. Reusable 1080×1920 backdrop for Stories & Reels.
+       Aura sits in the top + bottom thirds; the centre band (y≈560–1360) stays calm for
+       type / lookbook / pricing. Layer one mark + clear text in front. -->
+  <defs>
+    <linearGradient id="sv-bg" x1="0" y1="0" x2="0" y2="1920" gradientUnits="userSpaceOnUse">
+      <stop offset="0"   stop-color="#eef3fb"/>
+      <stop offset="0.5" stop-color="#f3eef6"/>
+      <stop offset="1"   stop-color="#efeaf8"/>
+    </linearGradient>
+    <radialGradient id="sv-top" cx="50%" cy="0%" r="62%">
+      <stop offset="0"   stop-color="#c9b6e8" stop-opacity="0.32"/>
+      <stop offset="55%" stop-color="#e2ebfb" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#eef3fb" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="sv-bot" cx="50%" cy="100%" r="62%">
+      <stop offset="0"   stop-color="#8a93de" stop-opacity="0.26"/>
+      <stop offset="55%" stop-color="#e2ebfb" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#efeaf8" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="sv-b" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="22"/></filter>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#sv-bg)"/>
+  <g filter="url(#sv-b)">
+    <ellipse cx="330" cy="150" rx="420" ry="300" fill="url(#sv-top)"/>
+    <ellipse cx="760" cy="1780" rx="440" ry="320" fill="url(#sv-bot)"/>
+  </g>
+  <!-- floating motes -->
+  <g>
+    <circle cx="180" cy="300" r="6" fill="#cdb8e6" opacity="0.4"/>
+    <circle cx="900" cy="240" r="5" fill="#ffffff" opacity="0.6"/>
+    <circle cx="860" cy="1640" r="7" fill="#c9b6e8" opacity="0.4"/>
+    <circle cx="220" cy="1700" r="5" fill="#cdb8e6" opacity="0.45"/>
+  </g>
+  <path d="M540 210 l9 22 22 9 -22 9 -9 22 -9 -22 -22 -9 22 -9 z" fill="#ffffff" fill-opacity="0.75"/>
+  <!-- butterfly sign-off -->
+  <g transform="translate(540 1690) scale(2.8) translate(-25.7 -24)" opacity="0.85">
+    <g fill="none" stroke="#2e54ad" stroke-width="1.05" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22.3,27.0 C18.4,18.0 21.6,8.4 31.6,6.6 C38.2,5.4 41.0,11.4 37.8,18.0 C35.0,24.2 28.6,27.4 23.0,28.6 Z"/>
+      <path d="M22.6,29.4 C26.8,31.2 32.2,33.0 35.0,38.0 C36.6,40.8 36.0,43.8 33.6,43.4 C29.6,42.7 25.0,35.6 22.4,30.4 Z"/>
+      <path d="M22.3,27.0 C21.5,28.8 21.5,30.6 22.6,32.2"/>
+      <path d="M22.3,27.0 C19.9,22.2 17.2,18.4 13.4,16.4"/>
+      <path d="M22.3,27.0 C20.6,21.8 18.8,17.2 16.0,13.8"/>
+    </g>
+    <circle cx="13.4" cy="16.4" r="0.95" fill="#2e54ad"/>
+    <circle cx="16.0" cy="13.8" r="0.95" fill="#2e54ad"/>
+  </g>
+</svg>

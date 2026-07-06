@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Seraphic halo ring">
+  <!-- Open frame (transparent centre): wrap a photo/avatar, a loader, or a badge. -->
+  <defs>
+    <radialGradient id="hr-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="70%" stop-color="#e2ebfb" stop-opacity="0"/>
+      <stop offset="90%" stop-color="#cdb8e6" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#cdb8e6" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="hr-b" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="0.8"/></filter>
+  </defs>
+  <circle cx="60" cy="60" r="58" fill="url(#hr-glow)"/>
+  <g fill="none" filter="url(#hr-b)">
+    <circle cx="60" cy="60" r="50" stroke="#ffffff" stroke-opacity="0.7" stroke-width="1"/>
+    <circle cx="60" cy="60" r="44" stroke="#8e8dad" stroke-opacity="0.4" stroke-width="0.7"/>
+  </g>
+  <path d="M60 4 l1.8 4.4 4.4 1.8 -4.4 1.8 -1.8 4.4 -1.8 -4.4 -4.4 -1.8 4.4 -1.8 z" fill="#ffffff" fill-opacity="0.95"/>
+  <circle cx="103" cy="34" r="1.6" fill="#f1bcd3" opacity="0.7"/>
+  <circle cx="20" cy="82" r="1.8" fill="#cdb8e6" opacity="0.6"/>
+  <circle cx="98" cy="92" r="1.3" fill="#ffffff" opacity="0.7"/>
+</svg>

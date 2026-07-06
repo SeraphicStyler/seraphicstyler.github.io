@@ -1,0 +1,22 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Seraphic Styler monogram">
+  <defs>
+    <linearGradient id="ss-grad" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d2bfd6"/>
+      <stop offset="0.5" stop-color="#8e8dad"/>
+      <stop offset="1" stop-color="#446a8c"/>
+    </linearGradient>
+    <radialGradient id="ss-glow" cx="0.35" cy="0.3" r="0.8">
+      <stop offset="0" stop-color="#fae2e2" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#eccedc" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="60" cy="60" r="56" fill="url(#ss-grad)"/>
+  <circle cx="60" cy="60" r="56" fill="url(#ss-glow)"/>
+  <circle cx="60" cy="60" r="51" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="1"/>
+  <!-- Seraphic S -->
+  <text x="60" y="80" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="62" font-weight="600" fill="#ffffff">S</text>
+  <!-- sparkle / halo accents -->
+  <path d="M88 34 l2.2 5.4 5.4 2.2 -5.4 2.2 -2.2 5.4 -2.2 -5.4 -5.4 -2.2 5.4 -2.2 z" fill="#ffffff" fill-opacity="0.95"/>
+  <circle cx="33" cy="86" r="2.4" fill="#ffffff" fill-opacity="0.85"/>
+  <circle cx="92" cy="74" r="1.8" fill="#ffffff" fill-opacity="0.7"/>
+</svg>

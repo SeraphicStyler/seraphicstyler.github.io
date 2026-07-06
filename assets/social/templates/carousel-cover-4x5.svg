@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" role="img" aria-label="Carousel cover template (4:5)">
+  <!-- ④ Angelic Aura · Carousel cover (1080×1350). Slide 1 of an educational / haul carousel.
+       Swap eyebrow, the 3 title lines, and the subtitle. The swipe cue invites slide 2. -->
+  <style><![CDATA[@import url('https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Pinyon+Script&family=Montserrat:wght@400;500&family=Merriweather+Sans:wght@300&display=swap');]]></style>
+  <defs>
+    <linearGradient id="cc-bg" x1="0" y1="0" x2="0" y2="1350" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#eef3fb"/><stop offset="0.55" stop-color="#f3eef6"/><stop offset="1" stop-color="#efeaf8"/>
+    </linearGradient>
+    <radialGradient id="cc-top" cx="20%" cy="6%" r="62%">
+      <stop offset="0" stop-color="#c9b6e8" stop-opacity="0.32"/>
+      <stop offset="60%" stop-color="#e2ebfb" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#eef3fb" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="cc-peri" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#8a93de" stop-opacity="0.20"/><stop offset="1" stop-color="#8a93de" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="cc-b" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="26"/></filter>
+  </defs>
+  <rect width="1080" height="1350" fill="url(#cc-bg)"/>
+  <g filter="url(#cc-b)">
+    <ellipse cx="240" cy="120" rx="440" ry="320" fill="url(#cc-top)"/>
+    <ellipse cx="960" cy="1180" rx="400" ry="360" fill="url(#cc-peri)"/>
+  </g>
+
+  <!-- lockup -->
+  <text x="80" y="180" font-family="'Tenor Sans', serif" font-size="34" letter-spacing="10" fill="#233a72">SERAPHIC</text>
+  <text x="80" y="234" font-family="'Pinyon Script', cursive" font-size="52" fill="#9070c4">Styler</text>
+
+  <!-- eyebrow -->
+  <text x="80" y="470" font-family="'Montserrat', sans-serif" font-size="30" font-weight="500" letter-spacing="7" fill="#51618f">THE EDIT · MOST REQUESTED</text>
+
+  <!-- title (swap 3 lines) -->
+  <text font-family="'Merriweather Sans', sans-serif" font-weight="300" font-size="104" fill="#233a72">
+    <tspan x="78" y="600">Brands you</tspan>
+    <tspan x="78" y="712">can't get</tspan>
+    <tspan x="78" y="824">abroad</tspan>
+  </text>
+
+  <!-- subtitle -->
+  <text x="80" y="930" font-family="'Montserrat', sans-serif" font-size="36" fill="#51618f">Five Saigon labels I source in person —</text>
+  <text x="80" y="982" font-family="'Montserrat', sans-serif" font-size="36" fill="#51618f">shipped to your door, worldwide.</text>
+
+  <!-- swipe cue -->
+  <g>
+    <text x="1000" y="1262" text-anchor="end" font-family="'Montserrat', sans-serif" font-size="34" font-weight="500" letter-spacing="4" fill="#2e54ad">SWIPE</text>
+    <path d="M1018 1240 h44 m-16 -14 16 14 -16 14" fill="none" stroke="#2e54ad" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <path d="M80 1240 l8 19 19 8 -19 8 -8 19 -8 -19 -19 -8 19 -8 z" fill="#c9b6e8" fill-opacity="0.85"/>
+  <image href="../../shapes/crescent.svg" x="872" y="96" width="140" height="140" opacity="0.42"/>
+</svg>

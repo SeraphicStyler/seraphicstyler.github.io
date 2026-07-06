@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" role="img" aria-label="Quote / education post template (1:1)">
+  <!-- ④ Angelic Aura · Card Wash quote tile (1080×1080). For promise / education / care-tip posts.
+       Aura ~10% behind text-only; keep copy on the calm centre. Swap the quote + attribution. -->
+  <style><![CDATA[@import url('https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Pinyon+Script&family=Montserrat:wght@400;500&family=Merriweather+Sans:wght@300&display=swap');]]></style>
+  <defs>
+    <linearGradient id="pq-bg" x1="0" y1="0" x2="1080" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#eef3fb"/><stop offset="1" stop-color="#efeaf8"/>
+    </linearGradient>
+    <radialGradient id="pq-bloom" cx="78%" cy="20%" r="60%">
+      <stop offset="0" stop-color="#cdb8e6" stop-opacity="0.20"/>
+      <stop offset="60%" stop-color="#e2ebfb" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#eef3fb" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="pq-b" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="20"/></filter>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#pq-bg)"/>
+  <g filter="url(#pq-b)"><ellipse cx="860" cy="200" rx="360" ry="280" fill="url(#pq-bloom)"/></g>
+
+  <!-- hairline inner frame -->
+  <rect x="64" y="64" width="952" height="952" rx="28" fill="none" stroke="#2e54ad" stroke-opacity="0.16" stroke-width="2"/>
+
+  <!-- eyebrow -->
+  <text x="540" y="300" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="28"
+        font-weight="500" letter-spacing="8" fill="#51618f">THE PROMISE</text>
+
+  <!-- big quote (Merriweather display; swap copy) -->
+  <text text-anchor="middle" font-family="'Merriweather Sans', sans-serif" font-weight="300" font-size="64" fill="#233a72">
+    <tspan x="540" y="470">What you see is</tspan>
+    <tspan x="540" y="560">precisely what</tspan>
+    <tspan x="540" y="650">arrives.</tspan>
+  </text>
+
+  <!-- script accent -->
+  <text x="540" y="770" text-anchor="middle" font-family="'Pinyon Script', cursive" font-size="72" fill="#9070c4">honestly priced</text>
+
+  <!-- sparkle -->
+  <path d="M540 830 l8 19 19 8 -19 8 -8 19 -8 -19 -19 -8 19 -8 z" fill="#ffffff" fill-opacity="0.9" stroke="#cdb8e6" stroke-width="1.4"/>
+
+  <!-- lockup foot -->
+  <text x="540" y="952" text-anchor="middle" font-family="'Tenor Sans', serif" font-size="26"
+        letter-spacing="8" fill="#51618f">SERAPHIC STYLER · @seraphicstyler</text>
+  <!-- butterfly sign-off -->
+  <g transform="translate(540 168) scale(2.2) translate(-25.7 -24)" opacity="0.9">
+    <g fill="none" stroke="#2e54ad" stroke-width="1.05" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22.3,27.0 C18.4,18.0 21.6,8.4 31.6,6.6 C38.2,5.4 41.0,11.4 37.8,18.0 C35.0,24.2 28.6,27.4 23.0,28.6 Z"/>
+      <path d="M22.6,29.4 C26.8,31.2 32.2,33.0 35.0,38.0 C36.6,40.8 36.0,43.8 33.6,43.4 C29.6,42.7 25.0,35.6 22.4,30.4 Z"/>
+      <path d="M22.3,27.0 C21.5,28.8 21.5,30.6 22.6,32.2"/>
+      <path d="M22.3,27.0 C19.9,22.2 17.2,18.4 13.4,16.4"/>
+      <path d="M22.3,27.0 C20.6,21.8 18.8,17.2 16.0,13.8"/>
+    </g>
+    <circle cx="13.4" cy="16.4" r="0.95" fill="#2e54ad"/>
+    <circle cx="16.0" cy="13.8" r="0.95" fill="#2e54ad"/>
+  </g>
+</svg>

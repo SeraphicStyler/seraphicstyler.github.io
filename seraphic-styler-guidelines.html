@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seraphic Styler — Brand Guidelines</title>
+<meta name="description" content="The single source of truth for Seraphic Styler — positioning, the butterfly & aura marks, the Ethereal Lavender colour system, typography, imagery, components, motion, voice, accessibility, content series and design tokens.">
+<link rel="icon" href="assets/butterfly-side.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400;500;700&family=Montserrat:wght@300;400;500;600&family=Tenor+Sans&family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,500&display=swap" rel="stylesheet">
+<style>
+/* =========================================================================
+   Seraphic Styler — Brand Guidelines (single source of truth)
+   Ethereal Lavender V2 · Lavender Mist + Aurora on soft ice.
+   Reconciled to css/styles.css on the live site. Plain CSS/JS, no build.
+   Marks: side-profile butterfly · monoline butterfly · angelic wings · aura.
+   NO monogram, NO seal-in-disc, NO lettermark.
+   ========================================================================= */
+:root{
+  /* — Light · Ethereal Lavender (default) — */
+  --bg-primary:#eef3fb;      /* soft ice-blue */
+  --bg-secondary:#efeaf8;    /* lavender mist */
+  --surface:rgba(255,255,255,.58);
+  --surface-soft:rgba(255,255,255,.44);
+  --surface-solid:#ffffff;
+  --surface-border:rgba(46,71,115,.16);
+  --text-primary:#233a72;    /* deep cobalt ink — pensive, everlasting */
+  --text-secondary:#51618f;  /* muted cobalt */
+  --on-dark:#ffffff;
+  --accent:#2e54ad;          /* luminous cobalt */
+  --accent-hover:#234193;
+  --accent-soft:rgba(46,84,173,.10);
+  --highlight:#c9b6e8;        /* lavender-mist glow */
+  --eyebrow-ink:#5a63b8;
+  /* Aurora — the four gossamer tones */
+  --lav-mist:#c9b6e8; --periwinkle:#8a93de; --orchid:#c98fc4; --mauve:#cf9bb4;
+  --aurora:linear-gradient(120deg,#c9b6e8,#8a93de,#c98fc4,#cf9bb4);
+  --blush:#f1bcd3; --blush-wash:#f7e6ee;
+  --styler-purple:#9070c4;    /* the script "Styler" ink */
+  --halo:0 0 18px rgba(255,255,255,.55),0 0 40px rgba(201,182,232,.30),0 0 64px rgba(46,84,173,.18);
+  --frame-halo:0 24px 60px -44px rgba(46,71,115,.30);
+  --card-radius:1.25rem; --btn-radius:999px; --tile-radius:1rem;
+  --font-display:'Merriweather Sans','Cormorant Garamond',system-ui,sans-serif;
+  --font-script:'Pinyon Script','Cormorant Garamond',cursive;
+  --font-brand:'Tenor Sans','Cormorant Garamond',serif;
+  --font-body:'Montserrat',system-ui,sans-serif;
+  --font-accent:'Montserrat',system-ui,sans-serif;
+  --doc-maxw:1080px;
+}
+/* — Dark · Seraphic Dark Inversion (low-strain navy) — */
+html.dark{
+  --bg-primary:#1a1d29; --bg-secondary:#242837;
+  --surface:rgba(36,40,55,.7); --surface-soft:rgba(36,40,55,.4); --surface-solid:#242837;
+  --surface-border:rgba(247,245,250,.12);
+  --text-primary:#eef2fb; --text-secondary:#a8b5c4;
+  --accent:#a9b8ee;          /* lightened periwinkle (live value) */
+  --accent-hover:#c2cdf5; --accent-soft:rgba(169,184,238,.14);
+  --highlight:#242837; --eyebrow-ink:#a9b8ee;
+  --halo:0 0 1px rgba(26,29,41,.7),0 0 22px rgba(247,245,250,.55),0 0 52px rgba(169,184,238,.4);
+  --frame-halo:0 24px 60px -44px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box}
+html{font-size:106.25%;scroll-behavior:smooth;scroll-padding-top:24px}
+body{margin:0;font-family:var(--font-body);font-weight:400;line-height:1.75;color:var(--text-primary);
+  background:var(--bg-primary);-webkit-font-smoothing:antialiased;
+  transition:background-color .6s cubic-bezier(.4,0,.2,1),color .6s cubic-bezier(.4,0,.2,1)}
+/* celestial wash */
+body::before{content:'';position:fixed;inset:-25%;z-index:-2;pointer-events:none;opacity:.4;
+  background:radial-gradient(120% 110% at 50% 30%,rgba(201,182,232,.5) 0%,rgba(207,155,180,.34) 48%,rgba(138,147,222,.30) 100%);filter:blur(90px)}
+html.dark body::before{opacity:.5;background:radial-gradient(1000px 700px at 50% -10%,rgba(56,104,190,.4),transparent 60%),radial-gradient(800px 800px at 84% 110%,rgba(34,70,140,.34),transparent 60%)}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-hover)}
+img,svg{max-width:100%;display:block}
+
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:300;margin:0 0 .4em;line-height:1.12}
+h1{font-size:clamp(2.6rem,6vw,4.4rem);letter-spacing:-.01em;line-height:1.04}
+h2{font-size:clamp(1.9rem,4vw,2.8rem);letter-spacing:0}
+h2::first-letter{font-family:var(--font-script);font-weight:400;color:var(--accent);font-size:1.5em;text-shadow:var(--halo);padding-right:.03em}
+h3{font-size:clamp(1.1rem,2.4vw,1.45rem);font-weight:400;letter-spacing:.01em;line-height:1.3}
+h4{font-size:1rem;font-weight:500;font-family:var(--font-body);letter-spacing:.01em}
+.eyebrow{font-family:var(--font-body);font-weight:600;font-size:.7rem;text-transform:uppercase;letter-spacing:.26em;color:var(--eyebrow-ink);display:block;margin-bottom:.7rem}
+.lead{font-size:clamp(1.02rem,1.9vw,1.18rem);line-height:1.62;max-width:62ch;color:var(--text-secondary)}
+.small{font-size:.82rem;line-height:1.6;color:var(--text-secondary)}
+p{max-width:66ch}
+strong{font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82em;background:var(--accent-soft);padding:.12em .42em;border-radius:6px;color:var(--accent)}
+
+/* layout shell */
+.shell{display:grid;grid-template-columns:264px 1fr;max-width:1380px;margin:0 auto}
+nav.toc{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:30px 16px 48px 30px;border-right:1px solid var(--surface-border)}
+nav.toc .lock{margin-bottom:22px}
+nav.toc .grp{font-family:var(--font-body);font-weight:600;font-size:.6rem;text-transform:uppercase;letter-spacing:.22em;color:var(--text-primary);margin:20px 0 5px;opacity:.6}
+nav.toc a{display:block;color:var(--text-secondary);font-size:.78rem;padding:4px 0;border-left:2px solid transparent;padding-left:10px;margin-left:-10px;transition:color .25s,border-color .25s}
+nav.toc a:hover,nav.toc a.active{color:var(--accent);border-left-color:var(--accent)}
+main{padding:40px clamp(20px,5vw,68px) 140px;max-width:var(--doc-maxw);min-width:0}
+section{padding:46px 0;border-bottom:1px solid var(--surface-border)}
+section:last-child{border-bottom:none}
+.row{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){.shell{grid-template-columns:1fr}nav.toc{display:none}.g3,.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.g2,.g3,.g4{grid-template-columns:1fr}}
+
+/* theme toggle */
+.theme-fab{position:fixed;right:20px;bottom:20px;z-index:50;width:50px;height:50px;border-radius:999px;border:1px solid var(--surface-border);background:var(--surface-solid);color:var(--text-primary);font-size:1.2rem;cursor:pointer;box-shadow:0 14px 34px -10px rgba(46,71,115,.45);transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.theme-fab:hover{transform:translateY(-2px) scale(1.05)}
+
+/* brand lockup */
+.brand-lockup{display:inline-flex;flex-direction:column;align-items:center;line-height:.9}
+.brand-seraphic{font-family:var(--font-brand);text-transform:uppercase;letter-spacing:.32em;font-size:1.3rem;color:var(--text-primary);text-shadow:var(--halo);padding-left:.32em}
+.brand-styler{font-family:var(--font-script);font-size:1.9rem;color:var(--styler-purple);margin-top:.02em;text-shadow:0 0 16px rgba(160,140,210,.4)}
+html.dark .brand-styler{color:#c9b6e8}
+
+/* cover */
+.cover{padding:56px 0 30px;border-bottom:1px solid var(--surface-border)}
+.cover .mark{width:64px;height:64px;margin-bottom:22px}
+.positioning{font-family:var(--font-script);font-size:clamp(2.1rem,5.5vw,3.4rem);line-height:1.16;color:var(--text-primary);max-width:20ch;text-shadow:var(--halo);margin:.2em 0 .5em}
+.meta-line{font-family:var(--font-body);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-secondary)}
+
+/* cards */
+.card{background:var(--surface-solid);border:1px solid var(--surface-border);border-radius:var(--card-radius);padding:22px;box-shadow:var(--frame-halo)}
+.glass{background:var(--surface);border:1px solid rgba(255,255,255,.55);border-radius:var(--card-radius);padding:22px;backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%)}
+html.dark .glass{border-color:rgba(255,255,255,.12)}
+.pullquote{font-family:var(--font-display);font-weight:300;font-size:clamp(1.25rem,3vw,1.85rem);line-height:1.4;color:var(--text-primary);text-shadow:var(--halo);border-left:2px solid var(--accent);padding:.2rem 0 .2rem 1.2rem;margin:1.2rem 0;max-width:34ch}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;cursor:pointer;font-family:var(--font-accent);font-weight:500;font-size:.8rem;text-transform:uppercase;letter-spacing:.12em;padding:1rem 2.2rem;border-radius:var(--btn-radius);border:1px solid transparent;text-decoration:none;transition:transform .4s cubic-bezier(.25,1,.5,1),background .4s ease}
+.btn-primary{background:var(--accent);color:var(--on-dark);box-shadow:0 10px 30px -10px rgba(63,114,168,.6)}
+html.dark .btn-primary{color:#1a1d29}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--accent);border-bottom:1px solid var(--accent);border-radius:0;padding:.6rem .2rem}
+
+/* pills / badges */
+.pill{display:inline-block;font-family:var(--font-accent);font-size:.66rem;text-transform:uppercase;letter-spacing:.16em;padding:.35rem .8rem;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+.badge{display:inline-flex;gap:.4rem;align-items:center;font-family:var(--font-accent);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;padding:.35rem .75rem;border-radius:999px;border:1px solid var(--surface-border);color:var(--text-secondary)}
+
+/* swatches */
+.swatch{border-radius:14px;overflow:hidden;border:1px solid var(--surface-border);background:var(--surface-solid)}
+.swatch .chip{height:88px}
+.swatch .meta{padding:10px 12px}
+.swatch .nm{font-family:var(--font-body);font-weight:600;font-size:.82rem}
+.swatch .hx{font-family:ui-monospace,Menlo,monospace;font-size:.72rem;color:var(--text-secondary);text-transform:uppercase}
+.swatch .role{font-size:.72rem;color:var(--text-secondary);margin-top:2px}
+
+/* do / don't */
+.dd{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.dd{grid-template-columns:1fr}}
+.dd .do,.dd .dont{border-radius:14px;padding:16px 18px;border:1px solid var(--surface-border)}
+.dd .do{background:rgba(47,138,87,.08)} .dd .dont{background:rgba(174,52,71,.07)}
+.dd h4{margin:0 0 .5em;display:flex;gap:.5rem;align-items:center}
+.dd .do h4{color:#2f8a57} .dd .dont h4{color:#b23a4a}
+html.dark .dd .do h4{color:#7fd0a1} html.dark .dd .dont h4{color:#e79aa6}
+.dd ul{margin:0;padding-left:1.1rem} .dd li{margin:.3rem 0;font-size:.9rem;color:var(--text-secondary)}
+
+/* type specimens */
+.spec{border:1px solid var(--surface-border);border-radius:14px;padding:20px 22px;margin:12px 0;background:var(--surface-soft)}
+.spec .tag{font-family:var(--font-accent);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:.5rem}
+
+/* tables */
+table{width:100%;border-collapse:collapse;font-size:.9rem;margin:.4rem 0}
+th,td{text-align:left;padding:.7rem .8rem;border-bottom:1px solid var(--surface-border);vertical-align:top}
+th{font-family:var(--font-accent);font-weight:600;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-secondary)}
+td .yes{color:#2f8a57;font-weight:600} td .no{color:#b23a4a;font-weight:600}
+html.dark td .yes{color:#7fd0a1} html.dark td .no{color:#e79aa6}
+
+/* token block */
+pre.tokens{background:var(--surface-solid);border:1px solid var(--surface-border);border-radius:14px;padding:20px;overflow:auto;font-family:ui-monospace,Menlo,monospace;font-size:.76rem;line-height:1.7;color:var(--text-secondary)}
+pre.tokens .k{color:var(--accent)}
+
+ul.clean{list-style:none;padding:0;margin:.4rem 0}
+ul.clean li{padding:.35rem 0;border-bottom:1px solid var(--surface-border);font-size:.9rem}
+ul.clean li:last-child{border-bottom:none}
+.hint{font-size:.8rem;color:var(--text-secondary);font-style:italic}
+.aurora-band{height:10px;border-radius:999px;background:var(--aurora);margin:6px 0 0}
+.spark{color:var(--blush)}
+</style>
+</head>
+<body>
+<button class="theme-fab" id="themeFab" aria-label="Toggle light / dark">☾</button>
+<div class="shell">
+
+<nav class="toc" aria-label="Contents">
+  <div class="lock"><span class="brand-lockup"><span class="brand-seraphic">Seraphic</span><span class="brand-styler">Styler</span></span></div>
+  <div class="grp">Foundations</div>
+  <a href="#essence">Positioning &amp; essence</a>
+  <a href="#audience">Who we serve</a>
+  <div class="grp">Identity</div>
+  <a href="#marks">Logo &amp; marks</a>
+  <a href="#colour">Colour</a>
+  <a href="#type">Typography</a>
+  <a href="#aura">The Angelic Aura</a>
+  <a href="#imagery">Imagery</a>
+  <div class="grp">System</div>
+  <a href="#components">Components</a>
+  <a href="#motion">Motion</a>
+  <a href="#a11y">Accessibility</a>
+  <div class="grp">Expression</div>
+  <a href="#voice">Voice &amp; tone</a>
+  <a href="#content">Content series</a>
+  <div class="grp">Reference</div>
+  <a href="#tokens">Design tokens</a>
+  <a href="#assets">Asset library</a>
+</nav>
+
+<main>
+  <header class="cover">
+    <svg class="mark" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Seraphic Styler butterfly mark">
+      <defs><radialGradient id="wf" cx="42%" cy="58%" r="68%"><stop offset="0%" stop-color="#2e54ad" stop-opacity=".10"/><stop offset="55%" stop-color="#cdb8e6" stop-opacity=".05"/><stop offset="100%" stop-color="#2e54ad" stop-opacity="0"/></radialGradient></defs>
+      <g fill="none" stroke="currentColor" style="color:var(--accent)" stroke-width="1.05" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22.3,27.0 C18.4,18.0 21.6,8.4 31.6,6.6 C38.2,5.4 41.0,11.4 37.8,18.0 C35.0,24.2 28.6,27.4 23.0,28.6 Z" fill="url(#wf)"/>
+        <path d="M22.6,29.4 C26.8,31.2 32.2,33.0 35.0,38.0 C36.6,40.8 36.0,43.8 33.6,43.4 C29.6,42.7 25.0,35.6 22.4,30.4 Z" fill="url(#wf)"/>
+        <path d="M22.3,27.0 C21.5,28.8 21.5,30.6 22.6,32.2"/>
+        <path d="M22.3,27.0 C19.9,22.2 17.2,18.4 13.4,16.4"/>
+        <path d="M22.3,27.0 C20.6,21.8 18.8,17.2 16.0,13.8"/>
+      </g>
+      <circle cx="13.4" cy="16.4" r=".95" fill="var(--accent)"/><circle cx="16.0" cy="13.8" r=".95" fill="var(--accent)"/>
+    </svg>
+    <span class="eyebrow">Brand Guidelines · V2 “Ethereal Lavender”</span>
+    <h1>The Brand System</h1>
+    <p class="positioning">Saigon fashion,<br>sourced with love,<br>shipped worldwide.</p>
+    <p class="lead">One page so every screen, caption, DM, invoice and post looks and sounds like the same warm, honest, quietly-couture person. This is the definitive reference — reconciled to the live site’s <code>css/styles.css</code>.</p>
+    <p class="meta-line">seraphicstyler.com · @seraphicstyler · seraphicstyler@gmail.com</p>
+  </header>
+
+  <!-- FOUNDATIONS -->
+  <section id="essence">
+    <span class="eyebrow">Foundations</span>
+    <h2>Positioning &amp; essence</h2>
+    <p class="lead">Seraphic Styler is a bilingual, on-the-ground personal shopper who <strong>sources, photographs and ships any Vietnamese fashion brand worldwide</strong> — with transparent pricing and a couture eye. Not a reseller, not a forwarder: a stylist who happens to live in Saigon.</p>
+    <div class="pullquote">“Seraphic” — angelic, ethereal, luminous. The taste is celestial; the service is grounded and honest.</div>
+    <div class="grid g3" style="margin-top:26px">
+      <div class="card"><span class="pill">Essence</span><h3 style="margin-top:.8rem">Ethereal, but honest</h3><p class="small">Soft, romantic, quietly modern — never loud, never salesy. Elegance reads as restraint.</p></div>
+      <div class="card"><span class="pill">Difference</span><h3 style="margin-top:.8rem">Verified in person</h3><p class="small">Real photos before you pay. She styles and confirms; she doesn’t just forward a link.</p></div>
+      <div class="card"><span class="pill">Promise</span><h3 style="margin-top:.8rem">Rare Saigon, delivered</h3><p class="small">Labels that never leave the city — chosen with care and shipped to your door.</p></div>
+    </div>
+    <h3 style="margin-top:34px">Vibe words</h3>
+    <p>seraphic · soft · feminine · modern · curated · trustworthy · bilingual · sourced · in person · quietly couture</p>
+    <div class="dd" style="margin-top:20px">
+      <div class="do"><h4>◆ We are</h4><ul><li>A stylist &amp; personal shopper on the ground in Saigon</li><li>Bilingual VN / EN, bicultural, diaspora-fluent</li><li>Transparent about fees, stock and shipping</li></ul></div>
+      <div class="dont"><h4>◆ We are not</h4><ul><li>A cheap reseller or anonymous forwarder</li><li>A hype/urgency drop shop (“DM NOW!!”)</li><li>A guarantee machine — we advise honestly instead</li></ul></div>
+    </div>
+  </section>
+
+  <section id="audience">
+    <span class="eyebrow">Foundations</span>
+    <h2>Who we serve</h2>
+    <p class="lead">In priority order — start with the first.</p>
+    <ul class="clean" style="max-width:66ch">
+      <li><strong>1 · Vietnamese diaspora</strong> (US, Australia, Canada, Europe) — emotional pull, repeat buyers, trust a bilingual local. <em>Begin here.</em></li>
+      <li><strong>2 · VN / K-fashion fans</strong> who follow the coquette / soft-girl aesthetic and find you on TikTok.</li>
+      <li><strong>3 · Expats &amp; former residents</strong> who miss specific Saigon boutiques.</li>
+      <li><strong>4 · Gift-buyers</strong> sending pieces to family, in-country or abroad.</li>
+    </ul>
+  </section>
+
+  <!-- IDENTITY -->
+  <section id="marks">
+    <span class="eyebrow">Identity</span>
+    <h2>Logo &amp; marks</h2>
+    <p class="lead">The system is a <strong>butterfly</strong> (transformation, softness, flight) plus a stacked wordmark. There is no monogram, no lettermark, and no seal-in-a-disc — those were retired.</p>
+
+    <div class="grid g3" style="margin-top:24px">
+      <div class="card" style="text-align:center">
+        <svg style="width:74px;height:74px;margin:6px auto 12px" viewBox="0 0 48 48" role="img" aria-label="Side-profile butterfly mark">
+          <g fill="none" stroke="currentColor" style="color:var(--accent)" stroke-width="1.05" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22.3,27.0 C18.4,18.0 21.6,8.4 31.6,6.6 C38.2,5.4 41.0,11.4 37.8,18.0 C35.0,24.2 28.6,27.4 23.0,28.6 Z"/>
+            <path d="M22.6,29.4 C26.8,31.2 32.2,33.0 35.0,38.0 C36.6,40.8 36.0,43.8 33.6,43.4 C29.6,42.7 25.0,35.6 22.4,30.4 Z"/>
+            <path d="M22.3,27.0 C21.5,28.8 21.5,30.6 22.6,32.2"/><path d="M22.3,27.0 C19.9,22.2 17.2,18.4 13.4,16.4"/><path d="M22.3,27.0 C20.6,21.8 18.8,17.2 16.0,13.8"/>
+          </g><circle cx="13.4" cy="16.4" r=".95" fill="var(--accent)"/><circle cx="16.0" cy="13.8" r=".95" fill="var(--accent)"/>
+        </svg>
+        <h4>Side butterfly</h4><p class="small"><code>butterfly-side.svg</code> — the primary small mark. Favicon, nav, watermark.</p>
+      </div>
+      <div class="card" style="text-align:center">
+        <svg style="width:74px;height:74px;margin:6px auto 12px" viewBox="0 0 120 120" role="img" aria-label="Monoline butterfly mark">
+          <g stroke="currentColor" style="color:var(--accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <path d="M60,57 C66,43 84,29 99,30 C95,32 88,50 74,54 C69,55 64,57 60,57 Z"/><path d="M60,57 C54,43 36,29 21,30 C25,32 32,50 46,54 C51,55 56,57 60,57 Z"/>
+            <path d="M60,60 C66,63 80,76 86,86 C82,82 68,82 60,63 Z"/><path d="M60,60 C54,63 40,76 34,86 C38,82 52,82 60,63 Z"/>
+            <path d="M60,38 C61.6,40 61.6,47 61.2,56 C60.8,66 60.4,75 60,84 C59.6,75 59.2,66 58.8,56 C58.4,47 58.4,40 60,38 Z"/>
+            <path d="M59,40 C54,34 50,30 49,25"/><path d="M61,40 C66,34 70,30 71,25"/>
+          </g><circle cx="49" cy="24" r="2" fill="var(--accent)"/><circle cx="71" cy="24" r="2" fill="var(--accent)"/>
+          <path d="M98 20 l1.7 4.4 4.4 1.7 -4.4 1.7 -1.7 4.4 -1.7 -4.4 -4.4 -1.7 4.4 -1.7 z" fill="var(--blush)"/>
+        </svg>
+        <h4>Monoline butterfly</h4><p class="small"><code>butterfly-mark.svg</code> — with the seraphic sparkle. Covers, stamps, larger marks.</p>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="padding:20px 0 16px"><span class="brand-lockup"><span class="brand-seraphic">Seraphic</span><span class="brand-styler">Styler</span></span></div>
+        <h4>Stacked wordmark</h4><p class="small">SERAPHIC (Tenor Sans, cobalt, wide-tracked caps) over <em>Styler</em> (Pinyon Script, soft violet).</p>
+      </div>
+    </div>
+
+    <div class="dd" style="margin-top:22px">
+      <div class="do"><h4>◆ Do</h4><ul><li>Recolour by the stroke: cobalt <code>#2e54ad</code> on light, ivory on dark, or <code>currentColor</code></li><li>Keep clear space of ≥ the mark’s width around it</li><li>Use the angelic-wings avatar for profile photos</li></ul></div>
+      <div class="dont"><h4>◆ Don’t</h4><ul><li>Never an S-in-disc monogram / lettermark / seal (both retired)</li><li>Don’t stretch, rotate, add drop-shadows or recolour the gradient</li><li>Don’t place the cobalt mark on a busy mid-tone photo without a scrim</li></ul></div>
+    </div>
+  </section>
+
+  <section id="colour">
+    <span class="eyebrow">Identity</span>
+    <h2>Colour</h2>
+    <p class="lead">Ethereal Lavender: a soft ice-blue field, deep cobalt ink, and a gossamer <strong>Aurora</strong> of lavender-mist, periwinkle, orchid and mauve. Blush is a whisper, never a theme.</p>
+    <div class="aurora-band" title="Aurora gradient: lav-mist → periwinkle → orchid → mauve"></div>
+    <p class="small">The Aurora gradient — used only as a soft wash, divider or glow. Never as body text or large flat fills.</p>
+
+    <h3 style="margin-top:26px">Core palette (light)</h3>
+    <div class="grid g4">
+      <div class="swatch"><div class="chip" style="background:#eef3fb"></div><div class="meta"><div class="nm">Soft ice</div><div class="hx">#eef3fb</div><div class="role">Page background</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#efeaf8"></div><div class="meta"><div class="nm">Lavender mist</div><div class="hx">#efeaf8</div><div class="role">Secondary surface</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#233a72"></div><div class="meta"><div class="nm">Cobalt ink</div><div class="hx">#233a72</div><div class="role">Primary text</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#51618f"></div><div class="meta"><div class="nm">Muted cobalt</div><div class="hx">#51618f</div><div class="role">Secondary text</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#2e54ad"></div><div class="meta"><div class="nm">Luminous cobalt</div><div class="hx">#2e54ad</div><div class="role">Accent · buttons · links</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#234193"></div><div class="meta"><div class="nm">Cobalt hover</div><div class="hx">#234193</div><div class="role">Accent hover</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#c9b6e8"></div><div class="meta"><div class="nm">Lavender-mist glow</div><div class="hx">#c9b6e8</div><div class="role">Highlight · selection</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#ffffff;border-bottom:1px solid var(--surface-border)"></div><div class="meta"><div class="nm">Ivory</div><div class="hx">#ffffff</div><div class="role">Cards · panels</div></div></div>
+    </div>
+
+    <h3 style="margin-top:26px">Aurora tones &amp; blush</h3>
+    <div class="grid g4">
+      <div class="swatch"><div class="chip" style="background:#c9b6e8"></div><div class="meta"><div class="nm">Lav-mist</div><div class="hx">#c9b6e8</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#8a93de"></div><div class="meta"><div class="nm">Periwinkle</div><div class="hx">#8a93de</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#c98fc4"></div><div class="meta"><div class="nm">Orchid</div><div class="hx">#c98fc4</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#cf9bb4"></div><div class="meta"><div class="nm">Mauve</div><div class="hx">#cf9bb4</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#5a63b8"></div><div class="meta"><div class="nm">Eyebrow ink</div><div class="hx">#5a63b8</div><div class="role">Readable periwinkle ≥4.5:1</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#f1bcd3"></div><div class="meta"><div class="nm">Blush</div><div class="hx">#f1bcd3</div><div class="role">Whisper only</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#f7e6ee"></div><div class="meta"><div class="nm">Blush wash</div><div class="hx">#f7e6ee</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#9070c4"></div><div class="meta"><div class="nm">Styler violet</div><div class="hx">#9070c4</div><div class="role">Script wordmark</div></div></div>
+    </div>
+
+    <h3 style="margin-top:26px">The 70 / 20 / 10 rule</h3>
+    <div class="row" style="align-items:stretch;gap:0;border-radius:12px;overflow:hidden;border:1px solid var(--surface-border)">
+      <div style="flex:70;background:#eef3fb;padding:16px;font-size:.78rem;color:#233a72">70% · ice &amp; ivory (calm)</div>
+      <div style="flex:20;background:#233a72;padding:16px;font-size:.78rem;color:#fff">20% · cobalt (text &amp; structure)</div>
+      <div style="flex:10;background:#2e54ad;padding:16px;font-size:.78rem;color:#fff">10% · accent &amp; aurora</div>
+    </div>
+
+    <h3 style="margin-top:26px">Themes</h3>
+    <p class="small">The system ships four themes (toggle with the ☾ button). All are variable-swaps of the same tokens.</p>
+    <table>
+      <tr><th>Theme</th><th>Background</th><th>Text</th><th>Accent</th><th>When</th></tr>
+      <tr><td><strong>Light</strong> (default)</td><td>#eef3fb</td><td>#233a72</td><td>#2e54ad</td><td>Everywhere — the brand’s true face</td></tr>
+      <tr><td><strong>Dark</strong> inversion</td><td>#1a1d29</td><td>#eef2fb</td><td>#a9b8ee</td><td>Low-light; a navy starfield, not black</td></tr>
+      <tr><td><strong>Mono</strong> duotone</td><td>#dce8f6</td><td>#173451</td><td>#2c6bb0</td><td>Blue/white with film grain — editorial</td></tr>
+      <tr><td><strong>High-contrast</strong></td><td>#eef3fb</td><td>#233a72</td><td>#2e54ad</td><td>Accessibility — deeper borders, no glow</td></tr>
+    </table>
+  </section>
+
+  <section id="type">
+    <span class="eyebrow">Identity</span>
+    <h2>Typography</h2>
+    <p class="lead">Five families, each with one job. Light weights read as couture; wide tracking reads as quiet luxury.</p>
+    <table>
+      <tr><th>Family</th><th>Role</th><th>Weights</th></tr>
+      <tr><td><strong>Merriweather Sans</strong></td><td>Display — h1/h2/h3, headings</td><td>300 / 400 / 500 / 700</td></tr>
+      <tr><td><strong>Montserrat</strong></td><td>Body, eyebrows, nav, buttons, UI</td><td>300 / 400 / 500 / 600</td></tr>
+      <tr><td><strong>Pinyon Script</strong></td><td>The hero line, the script “Styler”, section-title first-letter</td><td>400</td></tr>
+      <tr><td><strong>Tenor Sans</strong></td><td>The “SERAPHIC” brand caps (wide-tracked)</td><td>400</td></tr>
+      <tr><td><strong>Cormorant Garamond</strong></td><td>Italic accent word inside a roman heading only</td><td>400 / 500i / 600</td></tr>
+    </table>
+
+    <div class="spec"><div class="tag">H1 · Merriweather Sans 300</div><span style="font-family:var(--font-display);font-weight:300;font-size:clamp(2.4rem,6vw,3.6rem);line-height:1.05;letter-spacing:-.01em">Sourced in Saigon</span></div>
+    <div class="spec"><div class="tag">H2 · with Pinyon script first-letter</div><span style="font-family:var(--font-display);font-weight:300;font-size:clamp(1.8rem,4vw,2.6rem)"><span style="font-family:var(--font-script);color:var(--accent);font-size:1.5em;text-shadow:var(--halo)">B</span>ehind the find</span></div>
+    <div class="spec"><div class="tag">Smooth heading · roman + Cormorant italic accent</div><span style="font-family:var(--font-display);font-weight:300;font-size:clamp(1.5rem,3.4vw,2.2rem)">Quiet <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;color:var(--accent)">luxury</span>, delivered</span></div>
+    <div class="spec"><div class="tag">Hero line · Pinyon Script</div><span style="font-family:var(--font-script);font-size:clamp(2rem,5vw,3rem);color:var(--text-primary);text-shadow:var(--halo)">wear Saigon, wherever you are</span></div>
+    <div class="spec"><div class="tag">Eyebrow · Montserrat 600 · .26em tracking</div><span class="eyebrow" style="margin:0">Sourced in person</span></div>
+    <div class="spec"><div class="tag">Body · Montserrat 400 · 1.75 line-height · 17px base</div><span style="font-family:var(--font-body)">Vietnamese sizing runs small and varies by brand, so I never guess — I match the size chart to your measurements and confirm before I buy.</span></div>
+  </section>
+
+  <section id="aura">
+    <span class="eyebrow">Identity</span>
+    <h2>The Angelic Aura</h2>
+    <p class="lead">The signature that makes the brand feel celestial. Use sparingly — it’s the 10%, the glow at the edges, never the whole room.</p>
+    <div class="grid g2" style="margin-top:20px">
+      <div class="glass"><h4>Halo headings</h4><p class="small">Headings carry a soft white/lavender <code>text-shadow</code> (the <code>--halo</code> token) so they seem lit from within.</p></div>
+      <div class="glass"><h4>Aurora wash</h4><p class="small">A blurred lavender·mauve·periwinkle radial fixed behind the page at ~40% opacity. Gossamer, never sharp.</p></div>
+      <div class="glass"><h4>Hero aura bloom</h4><p class="small">A pearl-white radial bloom behind the hero line; a slow 7s pulse. In dark mode it becomes a dim moon-glow.</p></div>
+      <div class="glass"><h4>Sparkles ✦ <span class="spark">✦</span></h4><p class="small">A few twinkling ✦ marks appear <em>after</em> content settles, at ~0.6 opacity. Restraint — two or three, not a shower.</p></div>
+      <div class="glass"><h4>Glass frames</h4><p class="small">Sections sit in frosted glass cards: <code>backdrop-filter: blur(7px) saturate(130%)</code> with a hairline border and a soft halo shadow.</p></div>
+      <div class="glass"><h4>Pinyon first-letter</h4><p class="small">Every section title opens with a cursive cobalt initial — the through-line across the whole site.</p></div>
+    </div>
+    <p class="hint" style="margin-top:16px">All aura effects respect <code>prefers-reduced-motion</code> and are removed in high-contrast mode.</p>
+  </section>
+
+  <section id="imagery">
+    <span class="eyebrow">Identity</span>
+    <h2>Imagery</h2>
+    <div class="dd">
+      <div class="do"><h4>◆ Do</h4><ul><li>Real photos — your own try-ons, sourcing trips, flat-lays</li><li>Soft daylight, airy negative space, ice/lavender surroundings</li><li>Show the piece honestly: fabric, fit, the tag, the price</li><li>Sign with a corner butterfly watermark at ~70% opacity</li></ul></div>
+      <div class="dont"><h4>◆ Don’t</h4><ul><li>No watermarked third-party stock or scraped brand images</li><li>No heavy filters, harsh HDR, or oversaturated colour</li><li>No busy collages — one calm subject per frame</li></ul></div>
+    </div>
+    <p class="hint" style="margin-top:14px">Overlay kit (transparent PNGs) lives in the archive — titles, lower-thirds, seals, frames, sparkles, CTA pills — in <code>-cobalt</code> and <code>-ivory</code> colourways. Use ivory on dark/busy footage, cobalt on pale.</p>
+  </section>
+
+  <!-- SYSTEM -->
+  <section id="components">
+    <span class="eyebrow">System</span>
+    <h2>Components</h2>
+    <h3>Buttons</h3>
+    <div class="row"><a class="btn btn-primary">Get an estimate</a><a class="btn btn-ghost">How it works →</a></div>
+    <p class="small" style="margin-top:10px">Primary: cobalt pill, uppercase Montserrat 500, .12em tracking, soft lift on hover. Ghost: underlined text, no box.</p>
+
+    <h3 style="margin-top:26px">Pills, badges &amp; tiers</h3>
+    <div class="row"><span class="pill">Sourced in person</span><span class="badge">✓ Verified</span><span class="pill">New find</span></div>
+    <div class="grid g3" style="margin-top:16px">
+      <div class="card" style="text-align:center"><div style="font-family:var(--font-accent);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-secondary)">Under 2M₫</div><div style="font-family:var(--font-display);font-weight:300;font-size:2.4rem;color:var(--accent)">150k</div><div class="small">flat service fee</div></div>
+      <div class="card" style="text-align:center"><div style="font-family:var(--font-accent);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-secondary)">2–5M₫</div><div style="font-family:var(--font-display);font-weight:300;font-size:2.4rem;color:var(--accent)">8%</div><div class="small">of store price</div></div>
+      <div class="card" style="text-align:center"><div style="font-family:var(--font-accent);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-secondary)">Over 5M₫</div><div style="font-family:var(--font-display);font-weight:300;font-size:2.4rem;color:var(--accent)">7%</div><div class="small">of store price</div></div>
+    </div>
+
+    <h3 style="margin-top:26px">Cards &amp; glass</h3>
+    <div class="grid g2"><div class="card"><h4>Solid card</h4><p class="small">Ivory surface, hairline border, soft halo shadow, 1.25rem radius. For content that must stay legible.</p></div><div class="glass"><h4>Glass panel</h4><p class="small">Frosted, blurred, translucent. For the estimator, shipping table, and section frames.</p></div></div>
+
+    <h3 style="margin-top:26px">Signature patterns</h3>
+    <ul class="clean" style="max-width:70ch">
+      <li><strong>Hidden-reveal nav</strong> — links hide behind the centered lockup and breathe in on hover (fade + rise + un-blur, staggered).</li>
+      <li><strong>Directory cards</strong> — brand name (Merriweather) · category tag · area · tier · honest note. The reusable “curated directory” pattern.</li>
+      <li><strong>Concierge widget</strong> — a frosted Shop + Help panel with push/pop navigation, keyed to the blush band.</li>
+      <li><strong>Contact hub</strong> — a radiating beacon button that expands into channel pills.</li>
+      <li><strong>Guided quizzes</strong> — the estimate wizard &amp; the “what size am I in Vietnam?” estimator: one calm question per step.</li>
+    </ul>
+  </section>
+
+  <section id="motion">
+    <span class="eyebrow">System</span>
+    <h2>Motion</h2>
+    <p class="lead">Motion settles rather than performs. Content <em>arrives</em>; it doesn’t bounce.</p>
+    <ul class="clean" style="max-width:70ch">
+      <li><strong>Reveal</strong> — elements fade + rise 10px on scroll, 0.8s ease. The hero choreographs eyebrow → headline → lead → CTAs in ~120ms steps.</li>
+      <li><strong>Hover lift</strong> — cards &amp; buttons rise 2px with a gentle cubic-bezier(.25,1,.5,1).</li>
+      <li><strong>Twinkle &amp; aura-pulse</strong> — slow, 4–7s loops at low opacity. Ambient, not attention-grabbing.</li>
+      <li><strong>Reduced motion</strong> — <code>prefers-reduced-motion</code> and the manual toggle strip all animation; reveals snap to visible.</li>
+    </ul>
+  </section>
+
+  <section id="a11y">
+    <span class="eyebrow">System</span>
+    <h2>Accessibility</h2>
+    <p class="lead">Beauty and access are not a trade-off. The ⚙ panel on the site offers:</p>
+    <div class="grid g3">
+      <div class="card"><h4>Language</h4><p class="small">EN / VN (extensible). Fast toggle in the nav.</p></div>
+      <div class="card"><h4>Text size</h4><p class="small">A / A+ / A++ (17 → 21px), saved between visits.</p></div>
+      <div class="card"><h4>Theme</h4><p class="small">Light / dark / mono / high-contrast.</p></div>
+      <div class="card"><h4>Reduce motion</h4><p class="small">Honors the OS setting and a manual switch.</p></div>
+      <div class="card"><h4>Focus &amp; keyboard</h4><p class="small">Visible focus rings, skip-to-content, ARIA labels.</p></div>
+      <div class="card"><h4>Contrast</h4><p class="small">Eyebrow ink (#5a63b8) chosen for ≥4.5:1 on ice.</p></div>
+    </div>
+  </section>
+
+  <!-- EXPRESSION -->
+  <section id="voice">
+    <span class="eyebrow">Expression</span>
+    <h2>Voice &amp; tone</h2>
+    <div class="pullquote">A warm, honest friend in Saigon with a couture eye — generous, specific, never pushy.</div>
+    <h3>Five traits</h3>
+    <ul class="clean" style="max-width:66ch">
+      <li><strong>Warm</strong> — you genuinely care; a little 🤍 is your signature.</li>
+      <li><strong>Honest</strong> — you say when something won’t fit, sells out, or isn’t worth it. Honesty <em>is</em> the brand.</li>
+      <li><strong>Specific</strong> — real names, real prices, real photos. Never vague hype.</li>
+      <li><strong>Calm &amp; unpushy</strong> — you advise, you don’t sell. No urgency tricks.</li>
+      <li><strong>Quietly elegant</strong> — soft, editorial, a touch couture. Lowercase warmth, not loud sales.</li>
+    </ul>
+    <table style="margin-top:12px">
+      <tr><th>Sounds like you</th><th>Never</th></tr>
+      <tr><td>atelier · sourced · in person · honestly · a little / a touch · lovely · darling / dove · quietly modern · considered · for you 🤍</td><td>reseller · cheap · ASAP / hurry / last chance · “DM ME NOW” · 🔥💯🤑 · “guaranteed lowest price” · synergy / leverage</td></tr>
+    </table>
+    <h3 style="margin-top:22px">How to address people</h3>
+    <table>
+      <tr><th>Context</th><th>Address</th></tr>
+      <tr><td>One-to-one (DM, email)</td><td>“darling” or “dove” — intimate, singular</td></tr>
+      <tr><td>The group (captions, broadcasts)</td><td>“my doves”</td></tr>
+      <tr><td>Businesslike (site, Terms, invoices)</td><td>“clients” — trust language, not pet names</td></tr>
+    </table>
+    <h3 style="margin-top:22px">Rewrite anything into voice</h3>
+    <div class="dd">
+      <div class="dont"><h4>◆ Before</h4><ul><li>“🔥 AMAZING DEAL!! DM me NOW before it’s GONE!!!”</li><li>“We guarantee a perfect fit on all items.”</li></ul></div>
+      <div class="do"><h4>◆ After</h4><ul><li>“this one’s quietly romantic — and the kind of piece that sells out. if it’s calling to you, send me a note and I’ll check it’s still in stock. 🤍”</li><li>“vietnamese sizing runs small and varies by brand, so I never guess — I match the chart to your measurements and confirm before buying.”</li></ul></div>
+    </div>
+  </section>
+
+  <section id="content">
+    <span class="eyebrow">Expression</span>
+    <h2>Content series</h2>
+    <p class="lead">Repeatable series beat one-off posts. Pick 2–3 and rotate; each maps to a ready title asset so the first frame is instantly on-brand.</p>
+    <div class="grid g3">
+      <div class="card"><h4>Look of the Day</h4><p class="small">One outfit, styled head to toe. Tag where each piece is from.</p></div>
+      <div class="card"><h4>Unique Finds</h4><p class="small">A rare local piece you can’t get abroad. End with <em>DM to Order</em>.</p></div>
+      <div class="card"><h4>Sourced in Saigon</h4><p class="small">BTS of finding &amp; verifying a piece in person — your differentiator.</p></div>
+      <div class="card"><h4>Lookbook</h4><p class="small">3–5 looks to music, minimal talking. Great as a carousel.</p></div>
+      <div class="card"><h4>Behind the Find</h4><p class="small">The story of one hard-to-find piece.</p></div>
+      <div class="card"><h4>How to Order</h4><p class="small">A 30-second explainer of your process → pin it.</p></div>
+    </div>
+    <h3 style="margin-top:22px">Rhythm &amp; bio</h3>
+    <p class="small"><strong>Sustainable cadence:</strong> 1 Look of the Day + 1 Unique Find per week, plus a Lookbook carousel when you have 3+ looks. Three posts, one asset kit. Reuse each across TikTok + Reels.</p>
+    <div class="card" style="margin-top:12px"><p class="small" style="margin:0;font-family:ui-monospace,Menlo,monospace">Seraphic Styler 🎀<br>Saigon fashion, sourced &amp; shipped worldwide<br>🇻🇳→🌎 Personal shopper · bilingual VN/EN<br>Order any VN brand ↓ estimate + DM</p></div>
+    <p class="small" style="margin-top:10px">Hashtags: #vietnamfashion #localbrandvietnam #sgfashion #personalshopper #aodai #shipworldwide</p>
+  </section>
+
+  <!-- REFERENCE -->
+  <section id="tokens">
+    <span class="eyebrow">Reference</span>
+    <h2>Design tokens</h2>
+    <p class="lead">Copy-paste from the live <code>css/styles.css</code> <code>:root</code>. Re-theme by editing these variables only.</p>
+<pre class="tokens"><span class="k">:root</span>{
+  --bg-primary:#eef3fb;      <span style="opacity:.6">/* soft ice */</span>
+  --bg-secondary:#efeaf8;    <span style="opacity:.6">/* lavender mist */</span>
+  --surface-solid:#ffffff;
+  --surface-border:rgba(46,71,115,.16);
+  --text-primary:#233a72;    <span style="opacity:.6">/* cobalt ink */</span>
+  --text-secondary:#51618f;
+  --accent:#2e54ad;          <span style="opacity:.6">/* luminous cobalt */</span>
+  --accent-hover:#234193;
+  --accent-soft:rgba(46,84,173,.10);
+  --highlight:#c9b6e8;       <span style="opacity:.6">/* lavender-mist glow */</span>
+  --eyebrow-ink:#5a63b8;
+  --lav-mist:#c9b6e8; --periwinkle:#8a93de;
+  --orchid:#c98fc4; --mauve:#cf9bb4;   <span style="opacity:.6">/* Aurora */</span>
+  --blush:#f1bcd3; --blush-wash:#f7e6ee;
+  --btn-radius:999px; --card-radius:1.25rem; --tile-radius:1rem;
+  --space-xs:.75rem; --space-sm:1rem; --space-md:1.5rem;
+  --space-lg:2rem; --space-xl:3rem; --space-2xl:4.5rem; --space-3xl:6.5rem;
+  --font-display:'Merriweather Sans',...;
+  --font-script:'Pinyon Script',...;
+  --font-brand:'Tenor Sans',...;
+  --font-body:'Montserrat',...;
+}
+<span class="k">html.dark</span>{ --bg-primary:#1a1d29; --text-primary:#eef2fb; --accent:#a9b8ee; }</pre>
+  </section>
+
+  <section id="assets">
+    <span class="eyebrow">Reference</span>
+    <h2>Asset library</h2>
+    <div class="grid g2">
+      <div class="card"><h4>Marks (SVG)</h4><ul class="clean small"><li><code>butterfly-side.svg</code> — primary small mark / favicon</li><li><code>butterfly-mark.svg</code> — monoline + sparkle</li><li><code>angelic-wings.svg</code> — avatar</li><li><code>aura-favicon.svg</code>, <code>butterfly-seal.svg</code></li></ul></div>
+      <div class="card"><h4>Ornaments</h4><ul class="clean small"><li><code>assets/shapes/</code> — sparkle6, crescent, lotus, leaf, ring…</li><li><code>aura-divider.svg</code>, <code>aurora-band.svg</code>, <code>halo-ring.svg</code></li></ul></div>
+      <div class="card"><h4>Social kit (PNG, 2×)</h4><ul class="clean small"><li>Wordmarks · lockups · series titles · lower-thirds</li><li>Badges/seals · frames (1080×1920 / 1080×1080) · decor · CTA stickers</li><li>Two colourways: <code>-cobalt</code> · <code>-ivory</code></li></ul></div>
+      <div class="card"><h4>Fonts (bundled)</h4><ul class="clean small"><li>Merriweather Sans · Montserrat · Pinyon Script</li><li>Tenor Sans · Cormorant Garamond</li><li>All SIL Open Font License — also on Google Fonts</li></ul></div>
+    </div>
+    <p class="hint" style="margin-top:16px">This page is the single source of truth. If a value here disagrees with an older doc (e.g. the June draft, or the retired warm-ivory/burgundy “quiet editorial luxury” v1), <strong>this page &amp; the live <code>css/styles.css</code> win.</strong></p>
+  </section>
+
+</main>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement, fab=document.getElementById('themeFab');
+  function set(dark){ root.classList.toggle('dark',dark); fab.textContent=dark?'☀':'☾'; try{localStorage.setItem('ss-guide-theme',dark?'dark':'light')}catch(e){} }
+  try{ set(localStorage.getItem('ss-guide-theme')==='dark'); }catch(e){}
+  fab.addEventListener('click',function(){ set(!root.classList.contains('dark')); });
+  // scrollspy
+  var links=[].slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  var obs=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ links.forEach(function(l){l.classList.remove('active')}); if(map[e.target.id]) map[e.target.id].classList.add('active'); } }); },{rootMargin:'-20% 0px -70% 0px'});
+  Object.keys(map).forEach(function(id){ obs.observe(document.getElementById(id)); });
+})();
+</script>
+</body>
+</html>

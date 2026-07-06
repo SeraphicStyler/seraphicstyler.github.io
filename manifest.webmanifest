@@ -1,0 +1,15 @@
+{
+  "name": "Seraphic Styler — Saigon Fashion Directory",
+  "short_name": "Saigon Fashion",
+  "description": "A curated, routable directory of Saigon's fashion houses — filter, save, and plan an optimized shopping route.",
+  "start_url": "./fashion-directory.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#eef3fb",
+  "theme_color": "#2e54ad",
+  "icons": [
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any" },
+    { "src": "assets/butterfly-seal.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

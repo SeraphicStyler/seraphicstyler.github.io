@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 24" role="img" aria-label="Seraphic divider">
+  <!-- Section divider. Stretch full-width; the bloom + sparkle sit at centre. -->
+  <defs>
+    <linearGradient id="dv-ln" x1="0" y1="0" x2="320" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2e54ad" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#8e8dad" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#2e54ad" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="dv-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#cdb8e6" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="dv-b" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="0.7"/></filter>
+  </defs>
+  <ellipse cx="160" cy="12" rx="60" ry="9" fill="url(#dv-glow)" opacity="0.6"/>
+  <rect x="0" y="11.4" width="320" height="1.2" fill="url(#dv-ln)"/>
+  <g filter="url(#dv-b)"><path d="M160 4 l2.4 5.6 5.6 2.4 -5.6 2.4 -2.4 5.6 -2.4 -5.6 -5.6 -2.4 5.6 -2.4 z" fill="#ffffff"/></g>
+  <circle cx="116" cy="12" r="1.4" fill="#cdb8e6" opacity="0.6"/>
+  <circle cx="204" cy="12" r="1.4" fill="#f1bcd3" opacity="0.6"/>
+</svg>

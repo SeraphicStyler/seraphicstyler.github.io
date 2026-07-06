@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Saigon Fashion Directory — Seraphic Styler</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#2e54ad" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#161a26" media="(prefers-color-scheme: dark)" />
+  <script>if('serviceWorker' in navigator && location.protocol==='https:'){addEventListener('load',function(){navigator.serviceWorker.register('service-worker.js').catch(function(){});});}</script>
+  <meta name="description" content="A curated, filterable directory of 239 Vietnamese fashion houses — boutiques, ateliers, designer labels and markets across Saigon and beyond, mapped by Seraphic Styler." />
+  <link rel="canonical" href="https://www.seraphicstyler.com/fashion-directory.html" />
+  <meta property="og:title" content="The Saigon Fashion Directory — Seraphic Styler" />
+  <meta property="og:description" content="239 Vietnamese fashion houses, filterable by district, tier and category, with a Saigon cluster map." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://www.seraphicstyler.com/assets/social/og-image.png" />
+  <link rel="icon" href="assets/butterfly-side.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&family=Tenor+Sans&display=swap" rel="stylesheet" />
+  <script>
+  /* Pre-paint theme: honour the main site's ss-theme (auto|light|dark|mono) before styles apply — no flash. */
+  (function(){var t=null;try{t=localStorage.getItem("ss-theme");}catch(e){}
+   var dark=t==="dark"||((!t||t==="auto")&&matchMedia("(prefers-color-scheme: dark)").matches);
+   if(dark)document.documentElement.setAttribute("data-theme","dark");})();
+  </script>
+  <style>
+
+:root{
+  /* Seraphic V2 "Ethereal Lavender / Aurora" */
+  --ice:#eef3fb; --mist:#efeaf8; --paper:#ffffff;
+  --ink:#233a72; --ink-soft:#51618f; --ink-faint:#8b97b8;
+  --cobalt:#2e54ad; --cobalt-deep:#234193;
+  --lav:#c9b6e8; --peri:#8a93de; --orchid:#c98fc4; --mauve:#cf9bb4;
+  --line:rgba(46,71,115,.14); --line-soft:rgba(46,71,115,.08);
+  --card:rgba(255,255,255,.72); --card-solid:#fff;
+  --shadow:0 22px 48px -34px rgba(35,58,114,.45);
+  --shadow-sm:0 8px 22px -16px rgba(35,58,114,.4);
+  --halo:0 0 22px rgba(201,182,232,.5),0 0 54px rgba(46,84,173,.14);
+  --font-display:"Tenor Sans",Cambria,"Hoefler Text",serif;
+  --font-script:"Pinyon Script","Snell Roundhand",cursive;
+  --font-body:"Montserrat","Helvetica Neue","Segoe UI",system-ui,sans-serif;
+  --maxw:1240px;
+  --r:18px; --r-sm:12px; --r-pill:999px;
+}
+[data-theme=dark]{
+  --ice:#161a26; --mist:#1b2030; --paper:#1f2536;
+  --ink:#f2f0f7; --ink-soft:#aab6cc; --ink-faint:#7d8aa6;
+  --cobalt:#a9b8ee; --cobalt-deep:#c2cdf5;
+  --lav:#b9a6dd; --peri:#8f98df; --orchid:#c98fc4; --mauve:#cf9bb4;
+  --line:rgba(220,224,240,.14); --line-soft:rgba(220,224,240,.08);
+  --card:rgba(36,42,60,.62); --card-solid:#232a3d;
+  --shadow:0 24px 54px -34px rgba(0,0,0,.7);
+  --shadow-sm:0 10px 24px -18px rgba(0,0,0,.65);
+  --halo:0 0 24px rgba(169,184,238,.22),0 0 56px rgba(180,168,215,.14);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--ice);color:var(--ink);
+  font-family:var(--font-body);font-weight:400;line-height:1.55;
+  font-size:15px;-webkit-font-smoothing:antialiased;letter-spacing:.005em;
+  transition:background .5s ease,color .3s ease;
+}
+h1,h2,h3{font-family:var(--font-display);font-weight:400;line-height:1.12;
+  text-wrap:balance;letter-spacing:.01em;margin:0;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(18px,4vw,44px);}
+
+/* ---------- Masthead ---------- */
+.masthead{position:relative;overflow:hidden;isolation:isolate;
+  padding:clamp(34px,6vw,68px) 0 clamp(30px,5vw,52px);}
+#aurora{position:absolute;inset:-20% -10% auto -10%;height:150%;width:120%;z-index:-2;
+  filter:blur(46px) saturate(1.15);opacity:.72;}
+.masthead::after{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(238,243,251,0) 40%,var(--ice) 100%);}
+[data-theme=dark] .masthead::after{background:linear-gradient(180deg,rgba(22,26,38,0) 40%,var(--ice) 100%);}
+.brandrow{display:flex;align-items:center;gap:14px;margin-bottom:clamp(20px,4vw,34px);}
+.mark{width:42px;height:42px;flex:none;filter:drop-shadow(0 4px 10px rgba(46,84,173,.28));}
+.lockup{display:flex;flex-direction:column;line-height:1;}
+.lockup .s{font-family:var(--font-display);font-size:1.32rem;letter-spacing:.34em;
+  text-transform:uppercase;padding-left:.34em;}
+.lockup .t{font-family:var(--font-script);font-size:1.9rem;color:var(--cobalt);
+  margin-top:-.14em;margin-left:-.02em;}
+.eyebrow{font-family:var(--font-body);text-transform:uppercase;letter-spacing:.32em;
+  font-size:.66rem;font-weight:500;color:var(--ink-soft);}
+.title{font-size:clamp(2.5rem,7vw,5.1rem);margin:.28em 0 .1em;}
+.title .script{font-family:var(--font-script);color:var(--cobalt);
+  font-size:1.14em;letter-spacing:0;}
+.lede{max-width:60ch;color:var(--ink-soft);font-size:clamp(.95rem,1.6vw,1.06rem);margin:.7em 0 0;}
+.statline{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:26px;}
+.stat{display:flex;flex-direction:column;gap:2px;}
+.stat b{font-family:var(--font-display);font-size:1.85rem;color:var(--ink);
+  font-variant-numeric:tabular-nums;line-height:1;}
+.stat span{font-size:.66rem;text-transform:uppercase;letter-spacing:.2em;color:var(--ink-faint);}
+
+/* ---------- Now ribbon ---------- */
+.nowbar{margin:6px 0 0;border:1px solid var(--line);border-radius:var(--r);
+  background:var(--card);backdrop-filter:blur(12px);box-shadow:var(--shadow-sm);
+  padding:16px 18px;display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;}
+.nowbar .tag{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;
+  color:#fff;background:linear-gradient(120deg,var(--orchid),var(--peri));
+  padding:5px 10px;border-radius:var(--r-pill);white-space:nowrap;}
+.nowbar .items{display:flex;flex-wrap:wrap;gap:6px 20px;flex:1;min-width:220px;}
+.nowbar .it{font-size:.82rem;color:var(--ink-soft);}
+.nowbar .it b{color:var(--ink);font-weight:600;}
+
+/* ---------- Controls ---------- */
+.controls{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--ice) 86%,transparent);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line);
+  padding:14px 0;margin-top:30px;transition:box-shadow .25s ease;}
+.controls.stuck{box-shadow:0 1px 0 var(--line),var(--shadow-sm);}
+.controls .wrap{display:flex;flex-direction:column;gap:12px;}
+.searchrow{display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+.search{flex:1;min-width:190px;display:flex;align-items:center;gap:9px;
+  background:var(--card-solid);border:1px solid var(--line);border-radius:var(--r-pill);
+  padding:9px 16px;box-shadow:var(--shadow-sm);}
+.search input{border:0;outline:0;background:none;font:inherit;color:var(--ink);width:100%;}
+.search svg{flex:none;opacity:.5;}
+.count{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);
+  white-space:nowrap;font-variant-numeric:tabular-nums;}
+.chips{display:flex;gap:7px;flex-wrap:wrap;}
+.chip{font:inherit;font-size:.78rem;cursor:pointer;border:1px solid var(--line);
+  background:var(--card-solid);color:var(--ink-soft);padding:6px 14px;border-radius:var(--r-pill);
+  transition:.18s ease;letter-spacing:.01em;}
+.chip:hover{border-color:var(--peri);color:var(--ink);}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--ice);border-color:var(--ink);}
+.chip.city[aria-pressed=true]{background:var(--cobalt);border-color:var(--cobalt);color:#fff;}
+[data-theme=dark] .chip.city[aria-pressed=true]{color:#161a26;}
+.togglerow{display:flex;gap:16px;align-items:center;flex-wrap:wrap;}
+.switch{display:inline-flex;gap:8px;align-items:center;font-size:.76rem;color:var(--ink-soft);cursor:pointer;}
+.switch input{appearance:none;width:34px;height:19px;border-radius:99px;background:var(--line);
+  position:relative;cursor:pointer;transition:.2s;flex:none;}
+.switch input:checked{background:var(--cobalt);}
+.switch input::after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;
+  border-radius:50%;background:#fff;transition:.2s;}
+.switch input:checked::after{transform:translateX(15px);}
+
+/* ---------- Group headers ---------- */
+.group{padding:44px 0 4px;}
+main>.group:not(:first-child){border-top:1px solid var(--line-soft);margin-top:26px;}
+.group h2{font-size:clamp(1.5rem,3vw,2.05rem);display:flex;align-items:center;gap:12px;}
+.group h2 .n{font-family:var(--font-body);font-size:.68rem;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;letter-spacing:.08em;background:var(--mist);
+  border:1px solid var(--line);padding:3px 10px;border-radius:var(--r-pill);flex:none;}
+.group p{color:var(--ink-soft);margin:.5em 0 0;max-width:70ch;font-size:.9rem;}
+
+/* ---------- Card grid ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));
+  gap:14px;padding:18px 0 8px;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:16px 16px 15px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;
+  display:flex;flex-direction:column;gap:9px;transition:.2s ease;backdrop-filter:blur(8px);}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--lav);}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--tier,var(--lav));opacity:.85;}
+.card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+.card .tt{flex:1;min-width:0;}
+.blogo{flex:none;width:40px;height:40px;border-radius:10px;object-fit:cover;
+  border:1px solid var(--line);box-shadow:var(--shadow-sm);background:var(--paper);}
+.card .nm{font-family:var(--font-display);font-size:1.18rem;line-height:1.14;color:var(--ink);}
+.card .hd{font-size:.72rem;color:var(--cobalt);letter-spacing:.01em;margin-top:3px;
+  display:inline-flex;align-items:center;gap:4px;overflow-wrap:anywhere;text-decoration:none;max-width:100%;}
+.card a.hd:hover{text-decoration:underline;text-underline-offset:2px;}
+.card .st{flex:none;font-size:.58rem;text-transform:uppercase;letter-spacing:.13em;
+  padding:4px 8px;border-radius:var(--r-pill);white-space:nowrap;
+  border:1px solid var(--line);color:var(--ink-soft);background:var(--paper);}
+.card .st.walk{color:#1f7a54;border-color:rgba(31,122,84,.3);background:rgba(31,122,84,.08);}
+.card .st.appt{color:#8a5a1f;border-color:rgba(138,90,31,.3);background:rgba(138,90,31,.08);}
+.card .st.online{color:var(--ink-faint);}
+.card .st.hub{color:var(--cobalt);border-color:rgba(46,84,173,.3);background:rgba(46,84,173,.08);}
+.card .addr{font-size:.82rem;color:var(--ink);display:flex;gap:6px;align-items:flex-start;}
+.card .addr svg{flex:none;margin-top:2px;opacity:.55;}
+.maplink{font-size:.66rem;font-weight:500;color:var(--cobalt);margin-left:auto;white-space:nowrap;text-decoration:none;
+  border:1px solid var(--line);padding:2px 9px;border-radius:var(--r-pill);transition:background .15s,border-color .15s;}
+.maplink:hover{background:var(--accent-soft);border-color:var(--cobalt);text-decoration:none;}
+.card .tr{display:flex;gap:6px;align-items:center;flex:none;}
+.card .sv{font:inherit;background:none;border:0;cursor:pointer;padding:2px;color:var(--ink-faint);
+  display:grid;place-items:center;transition:.18s ease;}
+.card .sv:hover{color:var(--orchid);transform:scale(1.12);}
+.card .sv.on{color:var(--orchid);}
+.card .sv.on svg{fill:var(--orchid);}
+.card .price{font-size:.62rem;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-soft);}
+.savebar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:18px 0 0;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:10px 14px;font-size:.82rem;color:var(--ink-soft);box-shadow:var(--shadow-sm);}
+.savebar button{font:inherit;font-size:.76rem;cursor:pointer;border:1px solid var(--cobalt);
+  background:var(--accent-soft,rgba(46,84,173,.09));color:var(--cobalt);padding:5px 12px;border-radius:var(--r-pill);}
+.fg-banner{background:var(--mist);border:1px solid var(--line);border-radius:var(--r);
+  padding:15px 18px;margin:28px 0 12px;font-size:.88rem;color:var(--ink-soft);
+  line-height:1.55;box-shadow:var(--shadow-sm);}
+.fg-banner a{color:var(--cobalt);}
+.fg-banner a:hover{text-decoration:underline;color:var(--cobalt-deep);}
+.fd-tools{display:flex;gap:14px;align-items:center;}
+.card .note{font-size:.82rem;color:var(--ink-soft);line-height:1.45;}
+.card .foot{margin-top:auto;padding-top:4px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.card .area{font-size:.62rem;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-faint);}
+.card .tierlab{font-size:.6rem;text-transform:uppercase;letter-spacing:.15em;font-weight:600;
+  color:#fff;background:var(--tier,var(--lav));padding:3px 8px;border-radius:var(--r-pill);}
+.card .flag{font-size:.76rem;color:#b0451f;background:rgba(176,69,31,.09);
+  border:1px solid rgba(176,69,31,.25);border-radius:var(--r-sm);padding:6px 9px;line-height:1.4;}
+[data-theme=dark] .card .flag{color:#e79b7c;}
+.empty{grid-column:1/-1;text-align:center;color:var(--ink-faint);padding:50px 0;font-size:.9rem;}
+
+/* ---------- Streets panel ---------- */
+.streets{background:var(--mist);border:1px solid var(--line);border-radius:var(--r);
+  padding:clamp(20px,3vw,30px);margin:20px 0;box-shadow:var(--shadow-sm);}
+.streets h3{font-size:1.35rem;margin-bottom:4px;}
+.streets .sub{color:var(--ink-soft);font-size:.86rem;margin-bottom:18px;max-width:64ch;}
+.stgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;}
+.stcard{background:var(--card-solid);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:13px 14px;box-shadow:var(--shadow-sm);}
+.stcard .h{font-family:var(--font-display);font-size:1rem;color:var(--ink);display:flex;
+  justify-content:space-between;align-items:baseline;gap:8px;}
+.stcard .h b{font-family:var(--font-body);font-size:.7rem;color:var(--cobalt);font-weight:600;
+  font-variant-numeric:tabular-nums;background:var(--accent-soft,rgba(46,84,173,.09));
+  padding:2px 7px;border-radius:99px;white-space:nowrap;}
+.stcard .d{font-size:.62rem;text-transform:uppercase;letter-spacing:.15em;color:var(--ink-faint);margin:3px 0 7px;}
+.stcard .l{font-size:.8rem;color:var(--ink-soft);line-height:1.5;}
+
+/* ---------- Footer ---------- */
+footer{margin-top:44px;border-top:1px solid var(--line);background:var(--mist);}
+footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4fr 1fr;}
+.legend{display:flex;flex-direction:column;gap:9px;}
+.legend h4,.contact h4{font-size:.68rem;text-transform:uppercase;letter-spacing:.24em;
+  color:var(--ink-faint);margin:0 0 4px;font-weight:600;font-family:var(--font-body);}
+.legend .row{display:flex;gap:9px;align-items:center;font-size:.8rem;color:var(--ink-soft);}
+.dot{width:11px;height:11px;border-radius:3px;flex:none;}
+.legend .meta{font-size:.76rem;color:var(--ink-faint);margin-top:6px;line-height:1.55;max-width:60ch;}
+.contact a{color:var(--cobalt);}
+.sig{font-family:var(--font-script);font-size:1.7rem;color:var(--cobalt);}
+.themebtn{position:fixed;right:16px;bottom:16px;z-index:40;width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--line);background:var(--card-solid);color:var(--ink);cursor:pointer;
+  box-shadow:var(--shadow);display:grid;place-items:center;transition:.2s;}
+.themebtn:hover{transform:scale(1.06);border-color:var(--peri);}
+:focus-visible{outline:2px solid var(--cobalt);outline-offset:2px;border-radius:4px;}
+
+/* ---------- Houses showcase ---------- */
+.houses{padding:26px 0 2px;}
+.houses .eyebrow{margin-bottom:14px;}
+.houses-strip{display:flex;flex-direction:column;gap:12px;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);}
+.hrow{display:flex;width:max-content;animation:hdrift 70s linear infinite;}
+.hrow.rev{animation-direction:reverse;animation-duration:84s;}
+.hrow:hover,.hrow:focus-within{animation-play-state:paused;}
+.hgrp{display:flex;gap:12px;padding-right:12px;}
+@keyframes hdrift{to{transform:translateX(-50%);}}
+.hbtn{font:inherit;cursor:pointer;padding:7px;border:1px solid var(--line);border-radius:14px;
+  background:var(--card);box-shadow:var(--shadow-sm);transition:.2s ease;line-height:0;}
+.hbtn img{width:52px;height:52px;border-radius:9px;object-fit:cover;display:block;
+  filter:grayscale(.15);opacity:.85;transition:.2s ease;}
+.hbtn:hover,.hbtn:focus-visible{border-color:var(--lav);box-shadow:var(--shadow);}
+.hbtn:hover img,.hbtn:focus-visible img{filter:none;opacity:1;}
+@media(prefers-reduced-motion:reduce){.hrow{animation:none;}}
+
+.fdmap-sec{padding:24px 0 4px;}
+.fdmap-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:12px;}
+.fdmap-title{font-size:clamp(1.4rem,3vw,2rem);}
+.fdmap-sub{color:var(--ink-soft);font-size:.9rem;max-width:62ch;margin:.4em 0 0;}
+.fdmap-clear{font:inherit;font-size:.74rem;cursor:pointer;border:1px solid var(--cobalt);
+  background:var(--accent-soft,rgba(46,84,173,.09));color:var(--cobalt);padding:7px 13px;border-radius:var(--r-pill);white-space:nowrap;}
+.fdmap-clear b{font-weight:600;}
+.fdmap-wrap{border:1px solid var(--line);border-radius:var(--r);
+  background:radial-gradient(120% 100% at 70% 20%,var(--mist),var(--paper));
+  box-shadow:var(--shadow-sm);padding:6px;overflow-x:auto;}
+#fdmap{width:100%;height:auto;display:block;min-width:520px;max-height:56vh;}
+.fdmap-river-lbl{fill:var(--peri);font-size:11px;font-family:var(--font-body);letter-spacing:.14em;text-transform:uppercase;opacity:.65;}
+.fdmap-node{cursor:pointer;}
+.fdmap-node circle{transition:.2s ease;stroke:#fff;stroke-width:1.5;}
+[data-theme=dark] .fdmap-node circle{stroke:rgba(255,255,255,.22);}
+.fdmap-node:hover circle{filter:brightness(1.09);}
+.fdmap-node.active circle{stroke:var(--ink);stroke-width:3;}
+.fdmap-node:focus-visible circle{stroke:var(--cobalt);stroke-width:3;}
+.fdmap-node .z-n{fill:#fff;font-family:var(--font-display);text-anchor:middle;dominant-baseline:central;pointer-events:none;}
+.fdmap-node .z-l{fill:var(--ink-soft);font-family:var(--font-body);font-size:11.5px;text-anchor:middle;font-weight:500;letter-spacing:.02em;pointer-events:none;}
+.fdmap-node.oth circle{opacity:.5!important;}
+.fdmap-node.oth .z-l{fill:var(--ink-faint);}
+.fdmap-note{font-size:.75rem;color:var(--ink-soft);margin:10px 4px 0;line-height:1.5;}
+.fdmap-note b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;}
+.fdmap-legend{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0;
+  padding:9px 10px 5px;font-size:.72rem;color:var(--ink-faint);font-variant-numeric:tabular-nums;}
+.fdmap-legend .lgd{display:inline-block;width:var(--d);height:var(--d);border-radius:50%;
+  border:1px solid var(--ink-faint);opacity:.6;flex:none;}
+.skiplink{position:absolute;left:-9999px;top:10px;z-index:100;background:var(--card-solid);
+  color:var(--cobalt);border:1px solid var(--cobalt);border-radius:var(--r-pill);
+  padding:8px 16px;font-size:.8rem;box-shadow:var(--shadow);}
+.skiplink:focus{left:12px;}
+.chip.tier[aria-pressed=true]{background:var(--orchid);border-color:var(--orchid);color:#fff;}
+.chip.vibe[aria-pressed=true]{background:var(--peri);border-color:var(--peri);color:#fff;}
+.card .vibe{font-size:.58rem;text-transform:uppercase;letter-spacing:.13em;color:var(--peri);
+  border:1px solid color-mix(in srgb,var(--peri) 45%,transparent);border-radius:var(--r-pill);padding:3px 8px;}
+.fdtip{position:fixed;z-index:80;pointer-events:none;background:color-mix(in srgb,var(--card-solid) 92%,transparent);
+  backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:13px;padding:9px 13px;box-shadow:var(--shadow);
+  max-width:198px;display:flex;flex-direction:column;gap:2px;}
+.fdtip b{font-family:var(--font-display);font-size:.98rem;color:var(--ink);line-height:1.1;}
+.fdtip span{font-size:.72rem;color:var(--cobalt);font-variant-numeric:tabular-nums;}
+.fdtip em{font-size:.72rem;color:var(--ink-soft);font-style:normal;margin-top:2px;line-height:1.35;}
+.fdtip i{font-size:.63rem;color:var(--ink-faint);font-style:normal;margin-top:3px;letter-spacing:.04em;text-transform:uppercase;}
+.fdtip::after{content:"";position:absolute;left:var(--caret,50%);top:100%;transform:translateX(-50%);width:0;height:0;
+  border:7px solid transparent;border-top-color:color-mix(in srgb,var(--card-solid) 92%,transparent);
+  filter:drop-shadow(0 3px 2px rgba(35,58,114,.12));}
+.fdtip.below::after{top:auto;bottom:100%;border-top-color:transparent;
+  border-bottom-color:color-mix(in srgb,var(--card-solid) 92%,transparent);}
+@media(max-width:720px){
+  footer .wrap{grid-template-columns:1fr;}
+  .controls{top:0;}
+  .title{font-size:clamp(2.2rem,10vw,3rem);}
+}
+@media(prefers-reduced-motion:reduce){
+  *{scroll-behavior:auto;}
+  #aurora{animation:none;}
+  .card:hover{transform:none;}
+}
+.fd-topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:11px clamp(18px,4vw,44px);background:var(--mist);border-bottom:1px solid var(--line);}
+.fd-back{font-family:var(--font-body);font-size:.82rem;color:var(--cobalt);text-decoration:none;letter-spacing:.02em;}
+.fd-back:hover{color:var(--cobalt-deep);text-decoration:underline;}
+.fd-topbar .fd-brand{font-family:var(--font-display);letter-spacing:.28em;text-transform:uppercase;font-size:.8rem;color:var(--ink);}
+.fd-topbar select{font:inherit;font-size:.8rem;color:var(--ink);background:var(--card-solid);
+  border:1px solid var(--line);border-radius:var(--r-pill);padding:6px 12px;cursor:pointer;}
+/* ---------- Page nav (pill bar, like the field guide) ---------- */
+.secnav{background:color-mix(in srgb,var(--ice) 92%,transparent);border-bottom:1px solid var(--line);
+  padding:10px 0;}
+.secnav .wrap{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.secnav a{font-family:var(--font-body);font-size:.78rem;border:1px solid var(--line);
+  background:var(--card-solid);color:var(--ink-soft);padding:6px 15px;border-radius:var(--r-pill);
+  transition:.18s ease;letter-spacing:.01em;white-space:nowrap;}
+.secnav a:hover{border-color:var(--peri);color:var(--ink);}
+.secnav a:focus-visible{outline:2px solid var(--cobalt);outline-offset:2px;}
+.secnav a[aria-current="page"]{background:var(--cobalt);border-color:var(--cobalt);color:#fff;}
+[data-theme=dark] .secnav a[aria-current="page"]{color:#161a26;}
+.card .opennow{flex:none;font-size:.56rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;padding:.22em .55em;border-radius:var(--r-pill);white-space:nowrap;}
+.card .opennow.open{color:#1f7a54;background:rgba(31,122,84,.1);}
+.card .opennow.soon{color:var(--mauve);background:rgba(207,155,180,.15);}
+.card .opennow.closed{color:var(--ink-faint);background:rgba(139,151,184,.12);}
+
+/* ===== Concierge widget — token bridge + styles (ported from css/styles.css) ===== */
+:root{
+  --accent:var(--cobalt); --accent-deep:var(--cobalt-deep); --accent-hover:var(--cobalt-deep);
+  --accent-soft:rgba(46,84,173,.10);
+  --blush:var(--lav); --blush-wash:rgba(201,182,232,.22);
+  --cta-text:#fff; --eyebrow-ink:var(--ink-faint);
+  --bg-secondary:var(--mist); --surface:var(--card); --surface-soft:var(--mist);
+  --surface-solid:var(--card-solid); --surface-border:var(--line);
+  --text-primary:var(--ink); --text-secondary:var(--ink-soft);
+  --font-accent:var(--font-script); --btn-radius:var(--r-sm); --card-radius:var(--r);
+}
+[data-theme=dark]{ --accent-soft:rgba(169,184,238,.14); --blush-wash:rgba(185,166,221,.18); --cta-text:#161a26; }
+/* Floating control stack, bottom-right (top→bottom): theme · Plan a route */
+.themebtn{ bottom:4.6rem; right:1.25rem; }
+
+.cc-fab {
+  position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 300; display: inline-flex; align-items: center; gap: 0.45rem;
+  font-family: var(--font-accent); font-weight: 500; font-size: 0.8rem; letter-spacing: 0.05em;
+  padding: 0.6rem 1.05rem; border-radius: 999px; cursor: pointer; color: var(--text-primary);
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--blush-wash) 100%); border: 1px solid var(--blush);
+  box-shadow: 0 12px 30px -12px rgba(34,28,26,0.35);
+  transition: transform 0.32s cubic-bezier(0.22,1,0.36,1), box-shadow 0.32s ease, background 0.3s ease;
+}
+.cc-fab svg { width: 17px; height: 17px; color: var(--accent); }
+.cc-fab:hover, .cc-fab:focus-visible { transform: translateY(-2px) scale(1.03); background: linear-gradient(135deg, var(--blush-wash) 0%, var(--blush) 100%); box-shadow: 0 18px 38px -14px rgba(34,28,26,0.42); }
+.cc-fab:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 3px; }
+html.dark .cc-fab {
+  background: linear-gradient(135deg, #242837 0%, #323048 100%); border-color: var(--surface-border);
+  box-shadow: 0 12px 30px -12px rgba(0,0,0,0.55);
+}
+html.dark .cc-fab:hover, html.dark .cc-fab:focus-visible { background: linear-gradient(135deg, #2a2e42 0%, #3a3752 100%); box-shadow: 0 18px 38px -14px rgba(0,0,0,0.6); }
+
+.cc-panel {
+  position: fixed; right: 1.25rem; bottom: 4.9rem; z-index: 301;
+  width: min(344px, calc(100vw - 2rem)); height: min(560px, calc(100vh - 7rem));
+  border-radius: 1.1rem; overflow: hidden;
+  background: var(--surface); -webkit-backdrop-filter: blur(20px) saturate(150%); backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255,255,255,0.55);
+  box-shadow: 0 30px 70px -26px rgba(34,28,26,0.45), inset 0 1px 0 rgba(255,255,255,0.6);
+  transform-origin: bottom right;
+  opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(12px) scale(0.98);
+  transition: opacity 0.28s ease, transform 0.36s cubic-bezier(0.22,1,0.36,1), visibility 0s linear 0.36s;
+}
+html.dark .cc-panel { background: rgba(26,29,41,0.74); border-color: rgba(255,255,255,0.12); box-shadow: 0 30px 70px -26px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06); }
+.cc-panel.open { opacity: 1; visibility: visible; pointer-events: auto; transform: none; transition: opacity 0.28s ease, transform 0.36s cubic-bezier(0.22,1,0.36,1); }
+
+.cc-head {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 2; padding: 0.7rem 0.85rem 0.55rem;
+  background: linear-gradient(rgba(247,230,238,0.84), rgba(247,230,238,0.64));
+  -webkit-backdrop-filter: blur(12px) saturate(140%); backdrop-filter: blur(12px) saturate(140%);
+  border-bottom: 1px solid rgba(255,255,255,0.5); border-radius: 1.1rem 1.1rem 0 0;
+}
+html.dark .cc-head { background: linear-gradient(rgba(62,42,54,0.72), rgba(42,32,44,0.6)); border-bottom-color: rgba(255,255,255,0.08); color: #f7f5fa; }
+.cc-titles { text-align: center; padding: 0 2.2rem; min-height: 1.2rem; }
+.cc-title { font-family: var(--font-display); font-weight: 400; font-size: 1.04rem; color: var(--text-primary); line-height: 1.25; }
+.cc-sub { font-family: var(--font-accent); font-size: 0.62rem; letter-spacing: 0.08em; color: var(--text-secondary); margin-top: 0.1rem; }
+.cc-back, .cc-close { position: absolute; top: 0.5rem; width: 30px; height: 30px; display: grid; place-items: center; border: none; background: transparent; color: var(--text-secondary); cursor: pointer; border-radius: 8px; transition: background 0.2s ease, color 0.2s ease; }
+.cc-back { left: 0.6rem; } .cc-close { right: 0.6rem; }
+.cc-back:hover, .cc-close:hover, .cc-back:focus-visible, .cc-close:focus-visible { background: rgba(255,255,255,0.55); color: var(--text-primary); }
+.cc-back svg, .cc-close svg { width: 18px; height: 18px; }
+.cc-tabs { display: flex; gap: 0.2rem; justify-content: center; margin: 0.55rem auto 0; padding: 0.2rem; width: -moz-fit-content; width: fit-content; background: rgba(255,255,255,0.42); border: 1px solid rgba(255,255,255,0.5); border-radius: 999px; }
+html.dark .cc-tabs { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1); }
+.cc-tab { font-family: var(--font-accent); font-size: 0.72rem; letter-spacing: 0.04em; padding: 0.32rem 1rem; border-radius: 999px; border: none; background: transparent; color: var(--text-secondary); cursor: pointer; transition: background 0.25s ease, color 0.25s ease; }
+.cc-tab[aria-selected="true"] { background: var(--surface-solid); color: var(--text-primary); box-shadow: 0 4px 12px -6px rgba(34,28,26,0.3); }
+.cc-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; opacity: 0; transition: opacity 0.3s ease; }
+.cc-progress-bar { display: block; height: 100%; width: 0; background: var(--accent); transition: width 0.4s cubic-bezier(0.22,1,0.36,1); }
+
+.cc-stage { position: absolute; inset: 0; overflow: hidden; }
+.cc-view { position: absolute; inset: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: var(--cc-head-h, 4.7rem) 0.85rem 1rem; transition: transform 0.38s cubic-bezier(0.22,1,0.36,1), opacity 0.3s ease; will-change: transform, opacity; }
+html.rm .cc-panel, html.rm .cc-view { transition: none !important; }
+
+.cc-msg { color: var(--text-primary); line-height: 1.6; font-size: 0.9rem; margin-bottom: 0.8rem; }
+.cc-q { font-family: var(--font-display); font-size: 1.05rem; color: var(--text-primary); margin: 0.2rem 0 0.7rem; }
+.cc-lbl { font-family: var(--font-accent); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-secondary); display: block; margin: 0.7rem 0 0.5rem; }
+.cc-menu { display: flex; flex-direction: column; gap: 0.4rem; }
+.cc-opt { display: flex; gap: 0.55rem; align-items: center; width: 100%; min-height: 40px; text-align: left; cursor: pointer; padding: 0.6rem 0.8rem; border-radius: 0.7rem; border: 1px solid var(--surface-border); background: rgba(255,255,255,0.45); color: var(--text-primary); font-family: var(--font-body); font-size: 0.86rem; line-height: 1.4; transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease; }
+html.dark .cc-opt { background: rgba(255,255,255,0.06); }
+.cc-opt:hover, .cc-opt:focus-visible { background: var(--accent-soft); border-color: var(--accent); transform: translateX(2px); }
+.cc-search { width: 100%; padding: 0.55rem 0.8rem; border-radius: 0.7rem; border: 1px solid var(--surface-border); background: var(--surface-solid); color: var(--text-primary); font-family: var(--font-body); margin-bottom: 0.6rem; }
+.cc-cta { width: 100%; text-align: center; text-decoration: none; margin-top: 0.6rem; }
+.cc-restart { justify-content: center; }
+.cc-art-a { color: var(--text-secondary); line-height: 1.7; font-size: 0.9rem; }
+.cc-art-a a { color: var(--accent); }
+.cc-field { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 0.6rem; }
+.cc-field label { font-family: var(--font-accent); font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-secondary); }
+.cc-field input, .cc-field select, .cc-field textarea { font-family: var(--font-body); font-size: 0.9rem; padding: 0.55rem 0.65rem; border-radius: 0.5rem; border: 1px solid var(--surface-border); background: var(--surface-solid); color: var(--text-primary); }
+.cc-field textarea { min-height: 84px; resize: vertical; }
+.cc-card { border: 1px solid var(--surface-border); background: rgba(255,255,255,0.5); border-radius: 0.7rem; padding: 0.65rem 0.8rem; margin-bottom: 0.4rem; }
+html.dark .cc-card { background: rgba(255,255,255,0.06); }
+.cc-card-top { display: flex; align-items: baseline; gap: 0.5rem; }
+.cc-card-name { font-family: var(--font-display); font-weight: 400; font-size: 0.96rem; color: var(--text-primary); }
+.cc-card-cat { font-family: var(--font-accent); font-size: 0.56rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); margin-left: auto; white-space: nowrap; }
+.cc-card-link { font-size: 0.9rem; text-decoration: none; color: var(--accent); }
+.cc-card-note { color: var(--text-secondary); line-height: 1.55; font-size: 0.82rem; margin-top: 0.3rem; }
+@media (max-width: 600px) { .cc-fab { right: 1rem; bottom: 1rem; } .cc-panel { right: 0.5rem; left: 0.5rem; width: auto; height: min(72vh, calc(100vh - 5.5rem)); bottom: 4.4rem; } }
+.cc-fab.chub-hidden { display: none !important; }
+</style>
+</head>
+<body>
+  <a class="skiplink" href="#main" data-i18n="fd.skip">Skip to the directory</a>
+  <div class="fd-topbar">
+    <a class="fd-back" href="./">← <span class="fd-brand">Seraphic Styler</span></a>
+    <div class="fd-tools">
+      <select id="langSelect" aria-label="Language / Ngôn ngữ"></select>
+    </div>
+  </div>
+  <nav class="secnav" aria-label="Pages">
+    <div class="wrap">
+      <a href="./" data-i18n="fd.nav.home">The atelier</a>
+      <a href="fashion-directory.html" aria-current="page" data-i18n="fd.nav.dir">Directory</a>
+      <a href="field-guide.html" data-i18n="fd.nav.guide">Field guide</a>
+      <a href="lookbook.html" data-i18n="fd.nav.look">Lookbook</a>
+      <a href="./#contact" data-i18n="fd.nav.contact">Contact</a>
+    </div>
+  </nav>
+
+
+<div class="masthead">
+  <canvas id="aurora" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="brandrow">
+      <svg class="mark" viewBox="0 0 48 48" fill="none" stroke="url(#bwg)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <defs><linearGradient id="bwg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2e54ad"/><stop offset=".5" stop-color="#8a93de"/><stop offset="1" stop-color="#c98fc4"/></linearGradient></defs>
+        <path d="M22.3,27 C18.4,18 21.6,8.4 31.6,6.6 C38.2,5.4 41,11.4 37.8,18 C35,24.2 28.6,27.4 23,28.6 Z"/>
+        <path d="M22.6,29.4 C26.8,31.2 32.2,33 35,38 C36.6,40.8 36,43.8 33.6,43.4 C29.6,42.7 25,35.6 22.4,30.4 Z"/>
+        <path d="M22.3,27 C21.5,28.8 21.5,30.6 22.6,32.2"/>
+        <path d="M22.3,27 C19.9,22.2 17.2,18.4 13.4,16.4"/>
+        <path d="M22.3,27 C20.6,21.8 18.8,17.2 16,13.8"/>
+        <circle cx="13.4" cy="16.4" r="1.1" fill="#2e54ad" stroke="none"/>
+        <circle cx="16" cy="13.8" r="1.1" fill="#2e54ad" stroke="none"/>
+      </svg>
+      <div class="lockup"><span class="s">Seraphic</span><span class="t">Styler</span></div>
+    </div>
+    <div class="eyebrow" data-i18n="fd.eye">A styling atelier's field guide</div>
+    <h1 class="title" data-i18n="fd.title">The Saigon <span class="script">Fashion</span> Directory</h1>
+    <p class="lede" data-i18n="fd.lede">Every house worth knowing in the city's fashion landscape — verified boutiques, ateliers,
+      designer labels and markets — curated for clients of Seraphic Styler. Filter by what you're
+      looking for, where you'll be, and how it's priced.</p>
+    <div class="statline" id="statline"></div>
+    <div class="nowbar">
+      <span class="tag">On now · July 2026</span>
+      <div class="items">
+        <span class="it"><b>Vincom Red Sale</b> — up to 70% off, all Vincom malls · to 20 Jul</span>
+        <span class="it"><b>7.7 mid-year mega-sale</b> — Shopee / Lazada / TikTok Shop, peak 7 Jul</span>
+        <span class="it"><b>Rue Miche L'Édition</b> — rotating PULSE pop-ups, Union Square</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="fd-discover" style="padding:22px 0 2px;" aria-label="Discover a brand">
+  <div class="wrap"><div class="discover-brand" style="max-width:540px;margin:0 auto;"></div></div>
+</section>
+
+<section class="houses" aria-label="A rotating selection of the houses in this directory">
+  <div class="wrap"><div class="eyebrow" data-i18n="fd.houses">The houses</div></div>
+  <div class="houses-strip" id="housesstrip"></div>
+</section>
+
+<section class="fdmap-sec">
+  <div class="wrap">
+    <div class="fdmap-head">
+      <div>
+        <div class="eyebrow" data-i18n="fd.mapeye">The lay of the land</div>
+        <h2 class="fdmap-title" data-i18n="fd.maptitle">Where the houses cluster</h2>
+        <p class="fdmap-sub" data-i18n="fd.mapsub">Saigon's fashion concentrates in a handful of districts — and often single streets. Tap an area to filter the directory to it.</p>
+      </div>
+      <button class="fdmap-clear" id="fdmapclear" hidden><span data-i18n="fd.showing">Showing</span> <b id="fdmapzone"></b> · <span data-i18n="fd.clear">clear ✕</span></button>
+    </div>
+    <div class="fdmap-wrap">
+      <svg id="fdmap" viewBox="0 0 720 470" role="img" aria-label="Stylized map of Saigon fashion districts, sized by number of stores">
+        <defs>
+          <linearGradient id="riverg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a93de"/><stop offset="1" stop-color="#c9b6e8"/></linearGradient>
+          <radialGradient id="nodeg" cx="42%" cy="38%" r="70%"><stop offset="0" stop-color="#c98fc4"/><stop offset=".55" stop-color="#8a93de"/><stop offset="1" stop-color="#2e54ad"/></radialGradient>
+        </defs>
+        <path d="M556,8 C534,120 496,196 520,272 C542,344 582,404 604,466" fill="none" stroke="url(#riverg)" stroke-width="30" stroke-linecap="round" opacity=".42"/>
+        <text class="fdmap-river-lbl" x="612" y="330" transform="rotate(74 612 330)">Saigon River</text>
+        <g id="fdmapnodes"></g>
+      </svg>
+      <p class="fdmap-legend"><span class="lgd" style="--d:8px"></span>5 <span class="lgd" style="--d:16px"></span>20 <span class="lgd" style="--d:28px"></span>60 <span data-i18n="fd.maplegend">houses — circle area ∝ house count</span></p>
+    </div>
+    <p class="fdmap-note" data-i18n="fd.mapnote">Symbol <b>area</b> is proportional to house count (r = k·√n). The nine districts hold <b>141</b> houses; <b>37</b> more are online or multi-brand — together the <b>178</b> in Saigon.</p>
+  </div>
+</section>
+<div class="fdtip" id="fdtip" hidden></div>
+
+<div id="stickysentinel" aria-hidden="true"></div>
+<div class="controls">
+  <div class="wrap">
+    <div class="searchrow">
+      <label class="search">
+        <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="9" r="6"/><path d="M14 14l4 4"/></svg>
+        <input id="q" type="search" placeholder="Search brand, street, or note…" data-i18n-ph="fd.qph" aria-label="Search brands" />
+      </label>
+      <span class="count" id="count" role="status"></span>
+    </div>
+    <div class="chips" id="catchips" role="group" aria-label="Filter by category"></div>
+    <div class="togglerow">
+      <div class="chips" id="citychips" role="group" aria-label="Filter by city"></div>
+      <div class="chips" id="tierchips" role="group" aria-label="Filter by tier"></div>
+      <div class="chips" id="vibechips" role="group" aria-label="Filter by athleisure vibe"></div>
+      <label class="switch"><input type="checkbox" id="walkonly" /> <span data-i18n="fd.walkonly">Walk-in stores only</span></label>
+      <label class="switch"><input type="checkbox" id="savedonly" /> <span data-i18n="fd.savedlab">Saved</span> <b id="savedcount"></b></label>
+    </div>
+  </div>
+</div>
+
+<main class="wrap" id="main"></main>
+
+<button class="themebtn" id="theme" aria-label="Toggle dark mode" title="Toggle light / dark">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+</button>
+
+<footer><div class="wrap">
+  <div class="legend">
+    <h4 data-i18n="fd.legendh">How to read this guide</h4>
+    <div class="row"><span class="dot" style="background:var(--lav)"></span> Mid — accessible local design</div>
+    <div class="row"><span class="dot" style="background:var(--peri)"></span> Premium — elevated local labels</div>
+    <div class="row"><span class="dot" style="background:var(--orchid)"></span> Luxury — designer / high-end</div>
+    <div class="row"><span class="dot" style="background:var(--mauve)"></span> Couture — made-to-measure &amp; ateliers</div>
+    <p class="meta">Addresses are current to July 2026 from brands' own channels and 2025–26 press, each carried
+      at the confidence noted in the master directory. Saigon boutiques relocate often — message a shop the day
+      before you visit. Ward names changed mid-2025; Grab &amp; Google Maps still resolve the older district labels.</p>
+  </div>
+  <div class="contact">
+    <h4>Seraphic Styler</h4>
+    <p style="color:var(--ink-soft);font-size:.85rem;line-height:1.6;margin:.2em 0 .6em">Personal styling &amp;
+      Vietnamese-fashion sourcing, shipping worldwide. We shop these houses so you don't have to.</p>
+    <p style="font-size:.85rem"><a href="mailto:seraphicstyler@gmail.com">seraphicstyler@gmail.com</a><br>
+      <a href="https://instagram.com/seraphicstyler">@seraphicstyler</a></p>
+    <div class="sig">Seraphic Styler</div>
+  </div>
+  <div class="contributors" style="grid-column:1/-1;border-top:1px solid var(--line-soft);padding-top:20px;margin-top:2px">
+    <h4>Contributors</h4>
+    <div style="display:flex;flex-wrap:wrap;gap:1.8em;margin-top:.7em">
+      <a href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:.6em;text-decoration:none;color:var(--ink)">
+        <img src="assets/angelic-wings.svg" alt="" width="36" height="36" loading="lazy" style="border-radius:50%;background:var(--paper);padding:5px;box-shadow:var(--shadow-sm)">
+        <span style="line-height:1.3"><b style="font-size:.9rem">SeraphicStyler</b><br><span style="font-size:.72rem;color:var(--ink-faint)">Curation &amp; direction</span></span>
+      </a>
+      <div style="display:flex;align-items:center;gap:.6em">
+        <span aria-hidden="true" style="width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:.8rem;font-weight:600;background:linear-gradient(135deg,var(--peri),var(--orchid))">ST</span>
+        <span style="line-height:1.3"><b style="font-size:.9rem;color:var(--ink)">Sandria Tran</b><br><span style="font-size:.72rem;color:var(--ink-faint)">Research &amp; build</span></span>
+      </div>
+    </div>
+  </div>
+</div></footer>
+
+
+  <script src="js/translations.js"></script>
+  <script>window.SS_TRANSLATIONS=window.SS_TRANSLATIONS||{};window.SS_TRANSLATIONS.vi=Object.assign(window.SS_TRANSLATIONS.vi||{},{"fd.eye": "Cẩm nang tuyển chọn của atelier", "fd.title": "Danh mục <span class=\"script\">Thời trang</span> Sài Gòn", "fd.lede": "Mọi thương hiệu đáng biết trong bản đồ thời trang thành phố — cửa hàng, atelier, nhãn thiết kế và chợ phiên đã được xác minh — tuyển chọn cho khách của Seraphic Styler. Lọc theo nhu cầu, khu vực và mức giá.", "fd.houses": "Các nhà mốt", "fd.mapeye": "Bản đồ khu vực", "fd.maptitle": "Các cụm cửa hàng", "fd.mapsub": "Thời trang Sài Gòn tập trung ở vài quận — thường trên cùng một con phố. Chạm vào một khu vực để lọc danh mục.", "fd.skip": "Bỏ qua, đến danh mục", "fd.showing": "Đang xem", "fd.clear": "bỏ lọc ✕", "fd.maplegend": "nhà mốt — diện tích vòng tròn ∝ số lượng", "fd.qph": "Tìm thương hiệu, con phố hoặc ghi chú…", "fd.walkonly": "Chỉ cửa hàng ghé trực tiếp", "fd.savedlab": "Đã lưu", "fd.legendh": "Cách đọc cẩm nang này", "fd.nav.home": "Atelier", "fd.nav.dir": "Danh mục", "fd.nav.guide": "Cẩm nang", "fd.nav.look": "Lookbook", "fd.nav.contact": "Liên hệ"});</script>
+  <script src="js/i18n.js"></script>
+  <script src="js/directory-data.js"></script>
+  <script>
+/* ============ DATA ============ */
+const B=window.SS_DIRECTORY; // data lives in js/directory-data.js (shared with the route planner)
+
+/* — Retail clusters (streets panel) — */
+const STREETS=[
+{h:"Trần Quang Diệu",d:"District 3 · the design strip",c:"13 shops",l:"Goût De Jun (1) · Kathy Atelier + BaaBeeBoo (6) · Laneci (27) · Moulin Rose + Lace Lingerie Lover (48) · 18 Again (52) · Tartan (70) · Chérieon (76) · Rêver (91) · So Dópe Club (97) · caleélilou (136/5) · Chan Club (154)"},
+{h:"42 Tôn Thất Thiệp",d:"District 1 · Bến Nghé",c:"3 in one building",l:"Dawn Vintage + 1998 Before The Dawn (2F) · Depass (Rm 38E)"},
+{h:"Võ Văn Tần",d:"District 3",c:"5 shops",l:"Mooris (234) · Résel + Résel Bridal (245) · LAVIEM (289) · So Dópe Club (353) · Cocosin (365)"},
+{h:"214 Hai Bà Trưng",d:"District 1 · Tân Định",c:"3 labels",l:"Huelley Rose · Huelley · Stress Mama — one address, three brands"},
+{h:"Hai Bà Trưng · Tân Định",d:"District 1 · the sleepwear corridor",c:"3 doors",l:"VINCY Homewear (248) · Wacoal (232) · ONOFF (366) — all within ~300 m of the 214 Hai Bà Trưng stop"},
+{h:"11 Garmentory",d:"Phú Nhuận · 117B Nguyễn Đình Chính",c:"multi-brand hub",l:"Duu Stu flagship · Babie Club · Badchoices · The Fancé + rotating local creatives & The Muse café"},
+{h:"Lý Tự Trọng",d:"District 1",c:"4 shops",l:"The New Playground (26) · Wephobia (98) · Enuff Studio (261) · Calista de Minh Thanh (265)"},
+{h:"Lê Thánh Tôn",d:"District 1 · the tailor & shoe strip",c:"MTM row",l:"Dung Tailor (221) · ManGii custom shoes (228) · Shimmer Silver (128 Lê Lai nearby) — Saigon's made-to-measure heart"}
+];
+
+/* ============ BRAND ICONS (icons/ folder, matched to entry names) ============ */
+const ICONS={"11 Garmentory":"icons/11 Garmentory.jpg","18 Again":"icons/18 Again.jpg","1998 Before The Dawn":"icons/1998beforethedawn.png","Aeva Atelier":"icons/AEVA Atelier.jpg","Aguja Studio":"icons/Aguja Studio.jpg","Aimee":"icons/Aimee.jpg","Aisytum":"icons/Aisytum.jpg","AME Jewellery":"icons/AME Jewellery.jpg","Amory":"icons/Amory.jpg","Ananas":"icons/Ananas.jpg","Anna Clothes":"icons/Anna Clothes.jpg","Arya":"icons/Arya.jpg","Augety":"icons/Augety.jpg","BaaBeeBoo":"icons/BaaBeeBoo.jpg","Babie Club":"icons/Babie Club.jpg","Badchoices":"icons/Bad Choices.webp","Brown VN":"icons/Brown.png","Bubble":"icons/Bubble.jpg","Bupbes":"icons/Bupbes.png","By Cotno":"icons/By Cotno.jpg","By Fairy":"icons/By Fairy.jpg","By Vee":"icons/By Vee.jpg","caleélilou":"icons/caleelilou.jpg","Calista de Minh Thanh":"icons/Calista de Minh Thanh.png","Cao Minh Saigon":"icons/Cao Minh Saigon.png","CAOSTU":"icons/CAOSTU.jpg","CE CE":"icons/Ce Ce.jpg","CEM — Chị Em Mình":"icons/CEM - Chi Em Minh.jpg","Chan Club":"icons/Chan Club.jpg","CHATS by C.DAM":"icons/Chats by C.Dam.jpg","Chautfifth":"icons/Chautfifth.jpg","Chérieon":"icons/Cherieon.webp","Chou Chou":"icons/Chou Chou.png","Chung Thanh Phong":"icons/Chung Thanh Phong.jpg","Clothes Bar":"icons/Clothes Bar.jpg","Cocosin":"icons/Cocosin.jpg","Curnon":"icons/Curnon.jpg","Daniv Dear":"icons/Daniv Dear.jpg","Daphale Studios":"icons/427607833_358377757122119_2907036623528799797_n.jpg","Dawn Vintage":"icons/Dawn.png","De Pure":"icons/De Pure.jpg","Depass":"icons/Depass.png","Dimo":"icons/Dimo.jpg","Đỗ Long":"icons/Do Long.jpg","Dòng Dòng Sài Gòn":"icons/Dong Dong Sai Gon.jpg","Dune De Label":"icons/Dune De Label.jpg","Duu Stu":"icons/Duu Stu.jpg","Elena NGN":"icons/Elena NGN.jpg","Enuff Studio":"icons/Enuff Studio.jpg","EQL Apparel":"icons/EQL Apparel .jpg","Fancì Club":"icons/Fanci Club.jpg","Feiin Atelier":"icons/Feiin Atelier.jpg","Firefly Studio":"icons/Firefly Studio.jpg","Fitme":"icons/Fitme .jpg","Floralpunk":"icons/Floralpunk.jpg","Gèrme":"icons/Germe.jpg","GIA Studios":"icons/GIA Studios .jpg","Glamdoll":"icons/Glamdoll.png","Goût De Jun":"icons/Gout De Jun.webp","Guvie":"icons/Guvie.webp","Hà Linh Thu":"icons/Ha Linh Thu.jpg","Hangkao Closet":"icons/Hangkao Closet.jpg","Hapas":"icons/Hapas.jpg","Happy Hahaha Studio":"icons/Happy Hahaha Studio.jpg","Hello Weekend Market":"icons/Hello Weekend Market.jpg","Her Day Off":"icons/Her Day Off.jpg","Hoang Studios":"icons/Hoang Studios.jpg","Huelley":"icons/Huelley.jpg","Huelley Rose":"icons/Huelley Rose.jpg","Is Flourish":"icons/Is Flourish.jpg","IVY moda":"icons/IVY moda.jpg","Jenéa by Jenny":"icons/Jenea by Jenny.jpg","Jennie Choo":"icons/Jennie Choo.jpg","Josephine":"icons/Josephine.png","Josephine (Hanoi)":"icons/Josephine (Hanoi).jpg","Joven":"icons/Joven.jpg","Jubin Studio":"icons/Jubin Studio.jpg","Jujubae":"icons/Jujubae.jpg","Jula":"icons/Jula.png","Juno":"icons/Juno.jpg","Kae":"icons/Kae.jpg","Kaiiros":"icons/Kaiiros.jpg","Katherine Studio":"icons/Katherine Studio.jpg","Kathy Atelier":"icons/Kathy Atelier.jpeg","Keira Tong":"icons/Keira Tong.jpg","Kistiny":"icons/Kistiny.jpg","L'Espoir":"icons/L'Espoir.jpg","La Phạm":"icons/La Pham.jpg","La Vierge":"icons/la Vierge.jpg","Lace Lingerie Lover":"icons/Lace Lingerie Lover .webp","LaLune":"icons/LaLune.png","Laneci":"icons/Laneci.jpg","LAVIEM":"icons/Laviem.jpg","Le Thanh Hoa":"icons/Le Thanh Hoa .jpg","Levents":"icons/Levents.png","LI LAM / LAM":"icons/LI LAM LAM.jpg","Libé":"icons/Libe.jpg","Linh Nga Couture":"icons/Linh Nga Couture.jpg","Lovelyn":"icons/Lovelyn.jpg","LSOUL":"icons/LSOUL.jpg","Lụa Là by Diễm":"icons/Lua La by Diem.jpg","Lussera":"icons/Lussera.jpg","Mael Femme":"icons/Mael Femme.jpg","Mangata":"icons/Mangata.jpg","Matemade":"icons/Mate Made.jpg","Metiseko":"icons/Metiseko.jpg","Miah Noir":"icons/miah.noir.jpg","Mimilys":"icons/Mimilys.jpg","Minh Tuan Couture":"icons/Minh Tuan Couture.jpg","Mira Emb":"icons/Mira Emb.jpg","Mood Emode":"icons/Mood Emode.jpg","Moodswings":"icons/Moodswings.jpg","Moon Me":"icons/Moon Me.jpg","Mooris":"icons/Mooris.jpg","Morris":"icons/Morris.jpg","Moulin Rose":"icons/Moulin Rose.jpg","Nguyễn Hoàng Tú":"icons/Nguyen Hoang Tu.jpg","Nosbyn":"icons/Nosbyn.jpg","Nosbyn Studio":"icons/Nosbyn Studio.jpg","OAK — Wear of a Kind":"icons/OAK.jpg","OCÉARA":"icons/OCEARA.jpg","Olaben":"icons/Olaben.jpg","OLV":"icons/OLV.png","OnOnMM ®":"icons/OnOnMM.jpg","ONWAYS":"icons/ONWAYS.jpg","Perpearl":"icons/Per Pearl.png","Phan Đăng Hoàng":"icons/Phan Dang Hoang.jpg","Phan Huy":"icons/Phan Huy .jpg","Pomelo Flower":"icons/Pomelo Flower.jpg","Poppy Babi":"icons/Poppy Babi.jpg","Punch":"icons/Punch.jpg","REBN":"icons/REBN Official.jpg","Rêver":"icons/REVER.jpg","Rid Kid Closet":"icons/Rid Kid Closet.jpg","Rosie":"icons/Rosie.jpg","Rue Des Chats":"icons/Rue Des Chats.jpg","Rue Miche L'Édition":"icons/Rue Miche L'Edition.jpg","Sassy Sis":"icons/Sassy Sis.png","SEESON":"icons/SEESON.jpg","Sensore":"icons/Sensore.jpg","Shimmer Silver":"icons/Shimmer Silver.jpg","Shondo":"icons/Shondo.jpg","Shu Shi":"icons/Shu Shi.jpg","Sister Sister by Min":"icons/Sister Sister by Min.jpg","SIXDO":"icons/SIXDO .jpg","So Dópe Club":"icons/So Dope Club.jpg","Sò Vintage":"icons/So Vintage.jpg","Some Official":"icons/Some Official.jpg","Sonancy Mood":"icons/So Nancy Mood.webp","Stress Mama":"icons/Stress Mama.jpg","Striped T":"icons/Striped T.jpg","Subtle Le Nguyen":"icons/Subtle Le Nguyen.jpg","Sundei":"icons/Sundei.jpg","Swessy":"icons/Swessy.jpg","Szombies":"icons/Szombies.jpg","Tartan Studios":"icons/Tartan Studios.png","Teddy And":"icons/Teddy And.jpg","Thao Bibi":"icons/Thao Bibi .jpg","The Country Boutiques":"icons/The Country Boutiques .jpg","The Fancé":"icons/The Fance.webp","The New Playground":"icons/The New Playground.jpg","The Nicolette House":"icons/The Nicolette House.jpg","The Purists Club":"icons/The Purists Club.jpg","Tiela":"icons/Tiela.png","Trần Hùng":"icons/Tran Hung.jpg","Valenciani":"icons/Valenciani.jpg","Vanila Gals":"icons/Vanila Gals.jpg","Vascara":"icons/Vascara.jpg","Velia Co":"icons/Velia Co.jpg","Velvet Venom":"icons/Velvet Venom.png","Veos":"icons/Veos.jpg","Vintage Angel Tailor":"icons/Vintage Angel.jpg","VUNGOC&SON":"icons/VUNGOC&SON.jpg","Wabitales":"icons/WabiTales.jpg","Wephobia":"icons/Wephobia.png","Whenever Atelier":"icons/Where Atelier.png","Whose Studio":"icons/Whose Studio.webp","Xinh Hà":"icons/Xinh Ha.jpg"};
+
+/* ============ RENDER ============ */
+const TIERCOL={mid:"var(--lav)",premium:"var(--peri)",luxury:"var(--orchid)",couture:"var(--mauve)",none:"var(--ink-faint)"};
+const STLAB={walk:["Walk-in","walk"],appt:["Appointment","appt"],online:["Online","online"],hub:["In a hub","hub"],popup:["Pop-up","hub"]};
+/* chip tuples: [value, EN label, VI label] — chipbar picks by the active language */
+const CATS=[["all","All","Tất cả"],["women","Womenswear","Thời trang nữ"],["men","Menswear","Thời trang nam"],["luxury","Luxury & Couture","Cao cấp & Couture"],["tailor","Áo dài & Tailors","Áo dài & Nhà may"],["active","Athleisure","Đồ thể thao"],["access","Accessories","Phụ kiện"],["sleep","Sleep & loungewear","Đồ ngủ & mặc nhà"],["market","Markets","Chợ phiên"]];
+const CITIES=[["all","Everywhere","Mọi nơi"],["SGN","Saigon","Sài Gòn"],["HAN","Hanoi","Hà Nội"],["VN","Other VN","VN khác"],["INTL","Overseas","Nước ngoài"]];
+const TIERS=[["all","All tiers","Mọi phân khúc"],["mid","Mid","Tầm trung"],["premium","Premium","Cao cấp"],["luxury","Luxury","Xa xỉ"],["couture","Couture","Couture"]];
+const VIBES=[["all","All vibes","Mọi phong cách"],["coastal","Coastal","Coastal"],["studio","Studio","Studio"],["performance","Performance","Performance"]];
+/* dynamic-string i18n (chrome only — store notes/data stay EN by owner precedent) */
+const LTXT={
+ en:{houses:"houses",pct:"% of Saigon",count:(a,b)=>a+" of "+b,
+  banner:`Planning a trip around these houses? Read <a href="field-guide.html">the field guide</a> — getting around, dressing for the heat, and 1-to-30-day shopping itineraries.`,
+  st:{walk:"Walk-in",appt:"Appointment",online:"Online",hub:"In a hub",popup:"Pop-up"},
+  tier:{mid:"mid",premium:"premium",luxury:"luxury",couture:"couture"},
+  map:"Map ↗",byAppt:"By appointment",listing:"Directory listing",
+  stat:["houses catalogued","in Saigon","walk-in stores","districts mapped"],
+  streetsH:"The retail clusters",
+  streetsSub:"Saigon's fashion isn't spread evenly — these streets and buildings each hold several boutiques, the highest-value stops on any styling route."},
+ vi:{houses:"nhà mốt",pct:"% của Sài Gòn",count:(a,b)=>a+" trên "+b,
+  banner:`Lên lộ trình ghé các nhà mốt này? Đọc <a href="field-guide.html">cẩm nang thực địa</a> — cách di chuyển, ăn mặc hợp trời nóng và lịch trình mua sắm 1–30 ngày.`,
+  st:{walk:"Ghé trực tiếp",appt:"Hẹn trước",online:"Trực tuyến",hub:"Trong hub",popup:"Pop-up"},
+  tier:{mid:"tầm trung",premium:"cao cấp",luxury:"xa xỉ",couture:"couture"},
+  map:"Bản đồ ↗",byAppt:"Theo lịch hẹn",listing:"Có trong danh mục",
+  stat:["nhà mốt trong danh mục","tại Sài Gòn","cửa hàng ghé trực tiếp","quận được lập bản đồ"],
+  streetsH:"Các cụm mua sắm",
+  streetsSub:"Thời trang Sài Gòn không rải đều — những con phố và toà nhà này mỗi nơi tụ nhiều cửa hàng, là điểm dừng đáng giá nhất trên mọi lộ trình phối đồ."}
+};
+function isVI(){return document.documentElement.getAttribute("lang")==="vi";}
+function LX(){return isVI()?LTXT.vi:LTXT.en;}
+/* aesthetic vibe for activewear — coastal=California/laid-back-luxe, studio=Pilates/yoga, performance=gym/run */
+const VIBEMAP={Olaben:"coastal","EQL Apparel":"coastal",REBN:"studio","Hibi Sports":"studio",Kydra:"performance",Supersports:"performance",Fitme:"performance","Thế Giới Đồ Tập":"performance",Shamdi:"performance",Coolmate:"performance","I.Sport":"performance"};
+function vibeOf(b){return b.vibe||VIBEMAP[b.n]||"";}
+/* group tuples: [key, EN title, EN desc, VI title] — descs stay EN (data precedent) */
+const GROUPS=[
+ ["women","Contemporary womenswear","Local design houses and boutiques — the heart of the Saigon scene, plus a few chains and Hanoi names.","Thời trang nữ đương đại"],
+ ["men","Menswear & streetwear","Local menswear labels, streetwear flagships (most unisex-leaning) and made-to-measure suiting.","Thời trang nam & streetwear"],
+ ["luxury","Luxury & couture","Designer labels and made-to-order houses. Most work by appointment; several show internationally.","Cao cấp & couture"],
+ ["tailor","Áo dài, tailors & craft studios","Bespoke áo dài, made-to-measure ateliers, embroidery and upcycling — what's distinctive to Vietnam.","Áo dài, nhà may & xưởng thủ công"],
+ ["active","Premium athleisure","Studio-to-street activewear and functional sun-wear. No official Lululemon or Alo store exists in Vietnam yet.","Đồ thể thao cao cấp"],
+ ["access","Eyewear, shoes, bags & jewelry","Vietnamese accessory labels with real HCMC stores.","Kính, giày, túi & trang sức"],
+ ["sleep","Sleep & loungewear","Cotton, linen and silk nightwear built for tropical nights — the natural-fibre houses, not the polyester-satin mass market.","Đồ ngủ & mặc nhà"],
+ ["market","Markets & pop-ups","Where many brands gather at once — highest value per trip. Dates roam; check socials first.","Chợ phiên & pop-up"]
+];
+
+let fCat="all",fCity="all",fWalk=false,fQ="",fZone="",fTier="all",fVibe="all",fSaved=false;
+
+/* — Saved shortlist (localStorage) — */
+let SAVED=new Set();
+try{SAVED=new Set(JSON.parse(localStorage.getItem("fd-saved")||"[]"));}catch(e){}
+function bid(b){return b.h||b.n;}
+function isSaved(b){return SAVED.has(bid(b));}
+function persistSaved(){try{localStorage.setItem("fd-saved",JSON.stringify([...SAVED]));}catch(e){}}
+function updateSavedCount(){const el=document.getElementById("savedcount");if(el)el.textContent="("+SAVED.size+")";}
+
+/* — Shareable URL state (#cat=…&zone=… etc.) — */
+function syncHash(){
+  const p=new URLSearchParams();
+  if(fCat!=="all")p.set("cat",fCat);
+  if(fCity!=="all")p.set("city",fCity);
+  if(fTier!=="all")p.set("tier",fTier);
+  if(fVibe!=="all")p.set("vibe",fVibe);
+  if(fZone)p.set("zone",fZone);
+  if(fWalk)p.set("walk","1");
+  if(fSaved)p.set("saved","1");
+  if(fQ)p.set("q",fQ);
+  const s=p.toString();
+  try{history.replaceState(null,"",s?"#"+s:location.pathname+location.search);}catch(e){}
+}
+
+/* — Google Maps link helpers — */
+function cityLabel(b){return b.city==="SGN"?"Ho Chi Minh City":b.city==="HAN"?"Hanoi":"Vietnam";}
+function mapsUrl(b){
+  const a1=(b.a||"").split(/\s*[+·]\s*/)[0];
+  return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(b.n+", "+a1+", "+cityLabel(b));
+}
+function hasStreet(b){return b.st!=="online"&&["walk","hub","popup","appt"].includes(b.st)&&["SGN","HAN","VN"].includes(b.city);}
+
+function statChips(){
+  const sl=document.getElementById("statline");
+  const walk=B.filter(b=>b.st==="walk").length,sgn=B.filter(b=>b.city==="SGN").length;
+  const lab=LX().stat,vals=[B.length,sgn,walk,DISTRICTS];
+  sl.innerHTML=vals.map((v,i)=>`<div class="stat"><b>${v}</b><span>${lab[i]}</span></div>`).join("");
+}
+function chipbar(id,arr,cur,cls){
+  const vi=isVI();
+  document.getElementById(id).innerHTML=arr.map(([v,l,lv])=>
+    `<button class="chip ${cls}" data-v="${v}" aria-pressed="${cur===v}">${vi&&lv?lv:l}</button>`).join("");
+}
+function match(b){
+  if(fCat!=="all"&&b.cat!==fCat)return false;
+  if(fCity!=="all"&&b.city!==fCity)return false;
+  if(fWalk&&b.st!=="walk")return false;
+  if(fTier!=="all"&&b.tier!==fTier)return false;
+  if(fVibe!=="all"&&vibeOf(b)!==fVibe)return false;
+  if(fSaved&&!isSaved(b))return false;
+  if(fZone&&zoneOf(b)!==fZone)return false;
+  if(fQ){const t=(b.n+" "+(b.h||"")+" "+(b.a||"")+" "+(b.no||"")+" "+b.area).toLowerCase();
+    if(!t.includes(fQ))return false;}
+  return true;
+}
+/* Live open/closed status from a store's stated hours (walk-in / hub only) */
+function openState(b){
+  if(b.st!=="walk"&&b.st!=="hub")return null;
+  const m=(b.no||"").match(/(\d{1,2})[:h](\d{2})\s*[–\-—]\s*(\d{1,2})[:h](\d{2})/);
+  if(!m)return null;
+  const open=+m[1]*60+ +m[2],close=+m[3]*60+ +m[4];
+  const now=new Date(),cur=now.getHours()*60+now.getMinutes();
+  if(cur>=open&&cur<close)return{cls:"open",label:isVI()?"Đang mở":"Open now"};
+  if(cur<open)return{cls:"soon",label:(isVI()?"Mở ":"Opens ")+("0"+m[1]).slice(-2)+":"+m[2]};
+  return{cls:"closed",label:isVI()?"Đã đóng":"Closed"};
+}
+function card(b){
+  const L=LX(),st=STLAB[b.st]||["",""],stl=(L.st[b.st]||st[0]);
+  const ost=openState(b),openbadge=ost?`<span class="opennow ${ost.cls}">${ost.label}</span>`:"";
+  const handle=b.w?`<a class="hd" href="${b.w}" target="_blank" rel="noopener">${new URL(b.w).hostname}</a>`:b.h?`<a class="hd" href="https://instagram.com/${b.h}">@${b.h}</a>`:`<span class="hd" style="color:var(--ink-faint)">${b.area.includes("appointment")||b.st==="appt"?L.byAppt:L.listing}</span>`;
+  const tier=b.tier&&b.tier!=="none"?`<span class="tierlab" style="--tier:${TIERCOL[b.tier]}">${L.tier[b.tier]||b.tier}</span>`:"";
+  const sub=b.sub?`<span class="area">${b.sub}</span>`:"";
+  const vb=vibeOf(b),vibe=vb?`<span class="vibe">${vb}</span>`:"";
+  const flag=b.flag?`<div class="flag">${b.no}</div>`:"";
+  const note=b.flag?"":`<div class="note">${b.no}</div>`;
+  const price=b.price?`<span class="price">${b.price}</span>`:"";
+  const on=isSaved(b);
+  const sv=`<button class="sv${on?" on":""}" data-id="${bid(b)}" aria-pressed="${on}" aria-label="Save ${b.n}">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21C7 16.5 3 13 3 8.8 3 6.1 5.1 4 7.7 4c1.7 0 3.2.9 4.3 2.4C13.1 4.9 14.6 4 16.3 4 18.9 4 21 6.1 21 8.8c0 4.2-4 7.7-9 12.2Z"/></svg></button>`;
+  const map=hasStreet(b)?`<a class="maplink" target="_blank" rel="noopener" href="${mapsUrl(b)}">${L.map}</a>`:"";
+  const logo=ICONS[b.n]?`<img class="blogo" src="${encodeURI(ICONS[b.n])}" alt="" width="40" height="40" loading="lazy" decoding="async">`:"";
+  return `<article class="card" style="--tier:${TIERCOL[b.tier]||'var(--lav)'}">
+    <div class="top">${logo}<div class="tt"><div class="nm">${b.n}</div>${handle}</div>
+      <div class="tr"><span class="st ${st[1]}">${stl}</span>${sv}</div></div>
+    <div class="addr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg><span>${b.a}</span>${map}</div>
+    ${note}${flag}
+    <div class="foot">${openbadge}${price}${tier}${vibe}${sub}<span class="area">${b.area}</span></div>
+  </article>`;
+}
+function render(){
+  const main=document.getElementById("main");
+  const shown=B.filter(match);
+  document.getElementById("count").textContent=LX().count(shown.length,B.length);
+  let html="";
+  const useGroups=(fCat==="all");
+  const order=useGroups?GROUPS:GROUPS.filter(g=>g[0]===fCat);
+  for(const [key,title,desc,titleVI] of order){
+    const items=shown.filter(b=>b.cat===key);
+    if(!items.length)continue;
+    html+=`<section class="group"><h2>${isVI()&&titleVI?titleVI:title} <span class="n">${items.length}</span></h2><p>${desc}</p></section>`;
+    html+=`<div class="grid">${items.map(card).join("")}</div>`;
+    if(key==="women"&&fCity!=="HAN"&&fCity!=="INTL"&&fCity!=="VN"){
+      html+=streetsPanel();
+    }
+  }
+  if(!shown.length)html=`<div class="grid"><div class="empty">No houses match that filter. Try clearing the search or switching city.</div></div>`;
+  if(fSaved&&shown.length)html=`<div class="savebar">Your shortlist · <button id="copylist">Copy as text</button></div>`+html;
+  html+=`<div class="fg-banner">${LX().banner}</div>`;
+  main.innerHTML=html;
+}
+function streetsPanel(){
+  const L=LX();
+  return `<div class="streets"><h3>${L.streetsH}</h3>
+    <p class="sub">${L.streetsSub}</p>
+    <div class="stgrid">${STREETS.map(s=>`<div class="stcard">
+      <div class="h">${s.h} <b>${s.c}</b></div><div class="d">${s.d}</div><div class="l">${s.l}</div></div>`).join("")}</div></div>`;
+}
+
+/* ---- Cluster map: proportional-symbol, area ∝ count (r = k·√n) ---- */
+const ZONES=[
+ {k:"gv",x:120,y:58,n:"Gò Vấp"},
+ {k:"tb",x:214,y:86,n:"Tân Bình"},
+ {k:"tp",x:118,y:150,n:"Tân Phú"},
+ {k:"pn",x:262,y:172,n:"Phú Nhuận"},
+ {k:"bt",x:430,y:112,n:"Bình Thạnh"},
+ {k:"d3",x:332,y:258,n:"District 3"},
+ {k:"d1",x:452,y:262,n:"District 1"},
+ {k:"td",x:634,y:168,n:"Thảo Điền"},
+ {k:"q5",x:256,y:384,n:"Q5 · Chợ Lớn"},
+ {k:"other",x:140,y:394,n:"Online & multi-brand"}
+];
+const DISTRICTS=ZONES.filter(z=>z.k!=="other").length;
+/* Every Saigon record maps to exactly one node → node counts sum to the "in Saigon" total. */
+function zoneOf(b){
+ if(b.city!=="SGN")return null;
+ const a=b.area||"";
+ if(/Thảo Điền|Thủ Đức/.test(a))return "td";
+ if(/Phú Nhuận/.test(a))return "pn";
+ if(/Tân Phú/.test(a))return "tp";
+ if(/Tân Bình/.test(a))return "tb";
+ if(/Gò Vấp/.test(a))return "gv";
+ if(/Bình Thạnh/.test(a))return "bt";
+ if(/Q5|Chợ Lớn|Chợ Quán/.test(a))return "q5";
+ if(/D1|Đồng Khởi|Bến Thành|Bến Nghé|Tân Định|Đa Kao|Sài Gòn ward|Ký Con/.test(a))return "d1";
+ if(/D3|Bàn Cờ|Nhiêu Lộc|Võ Thị Sáu/.test(a))return "d3";
+ return "other";
+}
+function zoneCounts(){const c={};B.forEach(b=>{const z=zoneOf(b);if(z)c[z]=(c[z]||0)+1;});return c;}
+function topHouses(zk){return B.filter(b=>zoneOf(b)===zk&&b.st!=="online").slice(0,3).map(b=>b.n);}
+const R_MAX=44;
+function renderMap(){
+ const g=document.getElementById("fdmapnodes");if(!g)return;
+ const counts=zoneCounts(),max=Math.max(1,...Object.values(counts)),K=R_MAX/Math.sqrt(max);
+ g.innerHTML=ZONES.map(z=>{
+   const c=counts[z.k]||0,r=c?Math.max(5,K*Math.sqrt(c)):4,act=fZone===z.k?" active":"";
+   const fs=r>=20?16:r>=10?12:10; /* count text scaled to fit small nodes */
+   return `<g class="fdmap-node${act}${z.k==="other"?" oth":""}" data-z="${z.k}" tabindex="0" role="button" aria-label="${z.n}: ${c} ${LX().houses}">
+     <circle cx="${z.x}" cy="${z.y}" r="${r.toFixed(1)}" fill="url(#nodeg)" opacity="${c?0.9:0.2}"/>
+     <text class="z-n" x="${z.x}" y="${z.y}" font-size="${fs}" dominant-baseline="central">${c||""}</text>
+     <text class="z-l" x="${z.x}" y="${(z.y+r+15).toFixed(1)}">${z.n}</text>
+   </g>`;
+ }).join("");
+}
+function setZone(z){
+ fZone=(!z||fZone===z)?"":z;
+ const cl=document.getElementById("fdmapclear");
+ if(fZone){fCity="all";chipbar("citychips",CITIES,fCity,"city");
+   document.getElementById("fdmapzone").textContent=(ZONES.find(x=>x.k===fZone)||{}).n||"";cl.hidden=false;}
+ else if(cl){cl.hidden=true;}
+ syncHash();renderMap();render();
+ if(fZone){const m=document.getElementById("main");if(m)m.scrollIntoView({behavior:"smooth",block:"start"});}
+}
+function fdTip(n){
+ const tip=document.getElementById("fdtip");if(!tip||!n)return;
+ const zk=n.dataset.z,z=ZONES.find(v=>v.k===zk)||{},sgn=B.filter(b=>b.city==="SGN").length;
+ const c=B.filter(b=>zoneOf(b)===zk).length,pct=Math.round(c/sgn*100),tops=topHouses(zk);
+ const more=c-tops.length,vi=isVI();
+ tip.innerHTML=`<b>${z.n}</b><span>${c} ${LX().houses} · ${pct}${LX().pct}</span>`
+   +(tops.length?`<em>${tops.join(" · ")}${more>0?` +${more} ${vi?"nữa":"more"}`:""}</em>`:"")
+   +`<i>${vi?"Chạm để lọc":"Tap to filter"}</i>`;
+ tip.hidden=false; /* reveal before measuring */
+ /* anchor above the circle centre, with viewport-edge detection + an aligned caret */
+ const circle=n.querySelector("circle")||n,r=circle.getBoundingClientRect();
+ const cx=r.left+r.width/2,tw=tip.offsetWidth,th=tip.offsetHeight,gap=11,pad=12;
+ const left=Math.max(pad,Math.min(cx-tw/2,window.innerWidth-tw-pad));
+ let top=r.top-th-gap,below=false;
+ if(top<pad){top=r.bottom+gap;below=true;}
+ tip.style.left=left+"px";tip.style.top=top+"px";
+ tip.style.setProperty("--caret",Math.max(14,Math.min(cx-left,tw-14))+"px");
+ tip.classList.toggle("below",below);
+}
+function fdHideTip(){const t=document.getElementById("fdtip");if(t)t.hidden=true;}
+
+/* ============ HOUSES SHOWCASE ============ */
+(function(){
+  const strip=document.getElementById("housesstrip");if(!strip)return;
+  const keys=Object.keys(ICONS).filter(n=>n!=="Huelley"); /* shares Huelley Rose's icon — one tile */
+  for(let i=keys.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[keys[i],keys[j]]=[keys[j],keys[i]];}
+  const pick=keys.slice(0,24),half=Math.ceil(pick.length/2);
+  const tile=n=>`<button class="hbtn" data-n="${n}" aria-label="${n}"><img src="${encodeURI(ICONS[n])}" alt="" width="52" height="52" loading="lazy" decoding="async"></button>`;
+  const row=(names,rev)=>{
+    const grp=names.map(tile).join("");
+    return `<div class="hrow${rev?" rev":""}"><div class="hgrp">${grp}</div><div class="hgrp" aria-hidden="true">${grp.replace(/<button /g,'<button tabindex="-1" ')}</div></div>`;
+  };
+  strip.innerHTML=row(pick.slice(0,half))+row(pick.slice(half),1);
+  strip.addEventListener("click",e=>{
+    const bt=e.target.closest(".hbtn");if(!bt)return;
+    const q=document.getElementById("q");
+    q.value=bt.dataset.n;q.dispatchEvent(new Event("input"));
+    document.getElementById("main").scrollIntoView({behavior:"smooth",block:"start"});
+  });
+})();
+
+/* ============ EVENTS ============ */
+document.getElementById("catchips").addEventListener("click",e=>{
+  const b=e.target.closest(".chip");if(!b)return;fCat=b.dataset.v;
+  chipbar("catchips",CATS,fCat,"cat");syncHash();render();});
+document.getElementById("citychips").addEventListener("click",e=>{
+  const b=e.target.closest(".chip");if(!b)return;fCity=b.dataset.v;
+  chipbar("citychips",CITIES,fCity,"city");syncHash();render();});
+document.getElementById("walkonly").addEventListener("change",e=>{fWalk=e.target.checked;syncHash();render();});
+document.getElementById("savedonly").addEventListener("change",e=>{fSaved=e.target.checked;syncHash();render();});
+document.getElementById("tierchips").addEventListener("click",e=>{
+  const b=e.target.closest(".chip");if(!b)return;fTier=b.dataset.v;
+  chipbar("tierchips",TIERS,fTier,"tier");syncHash();render();});
+document.getElementById("vibechips").addEventListener("click",e=>{
+  const b=e.target.closest(".chip");if(!b)return;fVibe=b.dataset.v;
+  chipbar("vibechips",VIBES,fVibe,"vibe");syncHash();render();});
+document.getElementById("q").addEventListener("input",e=>{fQ=e.target.value.trim().toLowerCase();syncHash();render();});
+/* Hearts + shortlist copy — delegated so heart clicks never trigger a full re-render */
+document.getElementById("main").addEventListener("click",e=>{
+  const sv=e.target.closest(".sv");
+  if(sv){
+    const id=sv.dataset.id;
+    if(SAVED.has(id))SAVED.delete(id);else SAVED.add(id);
+    persistSaved();
+    const on=SAVED.has(id);
+    sv.classList.toggle("on",on);sv.setAttribute("aria-pressed",on);
+    updateSavedCount();
+    return;
+  }
+  const cp=e.target.closest("#copylist");
+  if(cp&&navigator.clipboard){
+    const rows=B.filter(match).map(b=>
+      b.n+" — "+b.a+" ("+b.area+")"+(hasStreet(b)?" — "+mapsUrl(b):"")+(b.h?" — @"+b.h:""));
+    navigator.clipboard.writeText(rows.join("\n")).then(()=>{
+      cp.textContent="Copied ✓";setTimeout(()=>{cp.textContent="Copy as text";},1600);
+    });
+  }
+});
+(function(){const fdmap=document.getElementById("fdmap");
+ if(fdmap){
+  fdmap.addEventListener("click",e=>{const n=e.target.closest(".fdmap-node");if(n){setZone(n.dataset.z);fdHideTip();}});
+  fdmap.addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const n=e.target.closest(".fdmap-node");if(n){e.preventDefault();setZone(n.dataset.z);}});
+  fdmap.addEventListener("mousemove",e=>{const n=e.target.closest(".fdmap-node");if(n)fdTip(n);else fdHideTip();});
+  fdmap.addEventListener("mouseleave",fdHideTip);
+  fdmap.addEventListener("focusin",e=>{const n=e.target.closest(".fdmap-node");if(n)fdTip(n);});
+  fdmap.addEventListener("focusout",fdHideTip);
+  addEventListener("keydown",e=>{if(e.key==="Escape")fdHideTip();});
+  addEventListener("scroll",fdHideTip,{passive:true});
+ }
+ const fdc=document.getElementById("fdmapclear");if(fdc)fdc.addEventListener("click",()=>setZone(null));
+})();
+document.getElementById("theme").addEventListener("click",()=>{
+  const d=document.documentElement.getAttribute("data-theme")==="dark";
+  const next=d?"light":"dark";
+  document.documentElement.setAttribute("data-theme",next);
+  try{localStorage.setItem("ss-theme",next);}catch(e){}});
+
+/* ============ AURORA (the one bold moment) ============ */
+(function(){
+  const c=document.getElementById("aurora");if(!c)return;
+  const rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  const ctx=c.getContext("2d");let W,H,t=0;
+  const blobs=[["#c9b6e8",.55],["#8a93de",.5],["#c98fc4",.42],["#cf9bb4",.4]];
+  function size(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}
+  function draw(){
+    ctx.clearRect(0,0,W,H);ctx.globalCompositeOperation="lighter";
+    blobs.forEach((b,i)=>{
+      const x=W*(.25+.28*Math.sin(t*.0004+i*1.7))+ (i%2?W*.3:0);
+      const y=H*(.4+.34*Math.cos(t*.0005+i*2.1));
+      const r=Math.max(W,H)*(.34+.06*Math.sin(t*.0006+i));
+      const g=ctx.createRadialGradient(x,y,0,x,y,r);
+      g.addColorStop(0,b[0]);g.addColorStop(1,"transparent");
+      ctx.globalAlpha=b[1];ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill();
+    });
+    ctx.globalAlpha=1;
+  }
+  size();draw();addEventListener("resize",()=>{size();draw();});
+  if(!rm){(function loop(){t+=16;draw();requestAnimationFrame(loop);})();}
+})();
+
+/* — Map-note numbers computed from B/zoneOf (EN element + VI dict), before i18n caches — */
+(function(){
+  const c=zoneCounts(),o=c.other||0,s=B.filter(b=>b.city==="SGN").length,d=s-o;
+  const el=document.querySelector(".fdmap-note");
+  if(el)el.innerHTML=`Symbol <b>area</b> is proportional to house count (r = k·√n). The nine districts hold <b>${d}</b> houses; <b>${o}</b> more are online or multi-brand — together the <b>${s}</b> in Saigon.`;
+  window.SS_TRANSLATIONS=window.SS_TRANSLATIONS||{};window.SS_TRANSLATIONS.vi=window.SS_TRANSLATIONS.vi||{};
+  window.SS_TRANSLATIONS.vi["fd.mapnote"]=`<b>Diện tích</b> ký hiệu tỉ lệ với số nhà mốt (r = k·√n). Chín quận nắm <b>${d}</b> nhà; <b>${o}</b> nhà khác trực tuyến hoặc đa chi nhánh — tổng cộng <b>${s}</b> tại Sài Gòn.`;
+})();
+
+/* — Re-localize the dynamic UI whenever the i18n engine switches <html lang> — */
+new MutationObserver(()=>{
+  statChips();
+  chipbar("catchips",CATS,fCat,"cat");chipbar("citychips",CITIES,fCity,"city");
+  chipbar("tierchips",TIERS,fTier,"tier");chipbar("vibechips",VIBES,fVibe,"vibe");
+  render();renderMap();
+}).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
+
+/* — Hairline shadow on the sticky controls once they stick — */
+(function(){
+  const s=document.getElementById("stickysentinel"),c=document.querySelector(".controls");
+  if(!s||!c||!("IntersectionObserver"in window))return;
+  new IntersectionObserver(es=>c.classList.toggle("stuck",!es[0].isIntersecting),
+    {rootMargin:"30px 0px 0px 0px"}).observe(s);
+})();
+
+/* — Restore state from a shared deep link (#cat=men&tier=mid, #zone=d3, #q=…) — also re-applies on in-page hash navigation — */
+function applyHash(){
+  const h=location.hash.replace(/^#/,"");
+  fCat="all";fCity="all";fTier="all";fVibe="all";fZone="";fWalk=false;fSaved=false;fQ="";
+  document.getElementById("q").value="";
+  if(h){
+    const p=new URLSearchParams(h);
+    if(p.get("cat"))fCat=p.get("cat");
+    if(p.get("city"))fCity=p.get("city");
+    if(p.get("tier"))fTier=p.get("tier");
+    if(p.get("vibe"))fVibe=p.get("vibe");
+    fZone=p.get("zone")||"";
+    fWalk=p.get("walk")==="1";
+    fSaved=p.get("saved")==="1";
+    const q=p.get("q")||"";
+    if(q){fQ=q.toLowerCase();document.getElementById("q").value=q;}
+  }
+  document.getElementById("walkonly").checked=fWalk;
+  document.getElementById("savedonly").checked=fSaved;
+  const cl=document.getElementById("fdmapclear");
+  if(fZone){document.getElementById("fdmapzone").textContent=(ZONES.find(x=>x.k===fZone)||{}).n||"";if(cl)cl.hidden=false;}
+  else if(cl){cl.hidden=true;}
+}
+function syncUI(){
+  chipbar("catchips",CATS,fCat,"cat");chipbar("citychips",CITIES,fCity,"city");
+  chipbar("tierchips",TIERS,fTier,"tier");chipbar("vibechips",VIBES,fVibe,"vibe");
+  statChips();updateSavedCount();render();renderMap();
+}
+applyHash();
+syncUI();
+addEventListener("hashchange",function(){
+  applyHash();syncUI();
+  const m=document.getElementById("main");if(m)m.scrollIntoView({behavior:"smooth",block:"start"});
+});
+
+/* — Reusable hooks for the route planner (js/route-panel.js): reuse the real zoneOf/match/mapsUrl — */
+window.SS_FD={zoneOf:zoneOf,match:match,mapsUrl:mapsUrl};
+</script>
+
+  <script src="js/route-solver.js"></script>
+  <script src="js/store-coords.js"></script>
+  <script src="js/route-panel.js"></script>
+  <script src="js/discover-brand.js"></script>
+  <script>if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("rm");</script>
+  <!-- Concierge widget intentionally not loaded on the directory page -->
+
+</body>
+</html>

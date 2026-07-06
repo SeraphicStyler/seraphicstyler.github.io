@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="Seraphic Styler avatar — crescent moon cradling a side butterfly">
+  <!-- Profile picture · crescent moon + side butterfly. Export 640×640 PNG. Centre-circle safe. -->
+  <defs>
+    <radialGradient id="cr-halo" cx="50%" cy="46%" r="62%">
+      <stop offset="0%"  stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="40%" stop-color="#e2ebfb" stop-opacity="0.5"/>
+      <stop offset="76%" stop-color="#cdb8e6" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#cdb8e6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="cr-g" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e7dcf5"/><stop offset="0.5" stop-color="#c9b6e8"/><stop offset="1" stop-color="#2e54ad"/>
+    </linearGradient>
+    <filter id="cr-grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0" result="m"/>
+      <feComponentTransfer in="m" result="g"><feFuncA type="table" tableValues="0 0.7"/></feComponentTransfer>
+      <feComposite in="g" in2="SourceAlpha" operator="in"/></filter>
+    <path id="cr-moon" transform="rotate(-22 50 50)" d="M58 12 A38 38 0 1 0 58 88 A30 38 0 1 1 58 12 Z"/>
+    <radialGradient id="cr-wing" cx="42%" cy="58%" r="68%">
+      <stop offset="0%" stop-color="#2e54ad" stop-opacity="0.12"/><stop offset="100%" stop-color="#2e54ad" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="640" height="640" fill="#eef3fb"/>
+  <rect width="640" height="640" fill="url(#cr-halo)"/>
+
+  <!-- crescent moon, opening up-right, cradling the butterfly -->
+  <g transform="translate(346 348) scale(5.3) translate(-50 -50)">
+    <use href="#cr-moon" fill="url(#cr-g)"/>
+    <use href="#cr-moon" filter="url(#cr-grain)" opacity="0.10" style="mix-blend-mode:multiply"/>
+  </g>
+
+  <!-- side butterfly nestled in the crescent's mouth -->
+  <g transform="translate(330 322) scale(5.0) translate(-25.7 -24)">
+    <path d="M22.3,27.0 C18.4,18.0 21.6,8.4 31.6,6.6 C38.2,5.4 41.0,11.4 37.8,18.0 C35.0,24.2 28.6,27.4 23.0,28.6 Z" fill="url(#cr-wing)" stroke="#2e54ad" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M22.6,29.4 C26.8,31.2 32.2,33.0 35.0,38.0 C36.6,40.8 36.0,43.8 33.6,43.4 C29.6,42.7 25.0,35.6 22.4,30.4 Z" fill="url(#cr-wing)" stroke="#2e54ad" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+    <g fill="none" stroke="#2e54ad" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M23.4,27.4 C25.4,21.6 28.2,15.6 31.6,10.8" stroke-width="0.4" stroke-opacity="0.55"/>
+      <path d="M23.4,30.8 C26.6,33.4 29.8,36.6 32.4,40.6" stroke-width="0.4" stroke-opacity="0.55"/>
+      <path d="M22.3,27.0 C21.5,28.8 21.5,30.6 22.6,32.2"/>
+      <path d="M22.3,27.0 C19.9,22.2 17.2,18.4 13.4,16.4"/>
+      <path d="M22.3,27.0 C20.6,21.8 18.8,17.2 16.0,13.8"/>
+    </g>
+    <circle cx="13.4" cy="16.4" r="0.95" fill="#2e54ad"/>
+    <circle cx="16.0" cy="13.8" r="0.95" fill="#2e54ad"/>
+  </g>
+  <!-- companion star — contrast accent (distinct from cobalt butterfly & lavender moon) -->
+  <g transform="translate(196 198)">
+    <path d="M0 -34 C5 -8 8 -5 34 0 C8 5 5 8 0 34 C-5 8 -8 5 -34 0 C-8 -5 -5 -8 0 -34 Z"
+          fill="#c98fc4" stroke="#ffffff" stroke-width="2.5" stroke-opacity="0.9" stroke-linejoin="round"/>
+  </g>
+  <path d="M262 150 l5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5 z" fill="#8a93de" fill-opacity="0.9"/>
+  <circle cx="156" cy="262" r="4.5" fill="#cdb8e6" fill-opacity="0.7"/>
+</svg>

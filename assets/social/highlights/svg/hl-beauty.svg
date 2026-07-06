@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" role="img" aria-label="Highlight cover — BEAUTY / Làm đẹp">
+  <!-- Seraphic Styler · Instagram highlight cover · Frosted Medallion on Aurora wash.
+       Icon-only by design — Instagram prints the highlight name underneath. BEAUTY / Làm đẹp. -->
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2="0" y2="1920" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#eef3fb"/><stop offset="1" stop-color="#efeaf8"/></linearGradient>
+    <radialGradient id="lav"    cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#c9b6e8" stop-opacity="0.55"/><stop offset="1" stop-color="#c9b6e8" stop-opacity="0"/></radialGradient>
+    <radialGradient id="peri"   cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#8a93de" stop-opacity="0.42"/><stop offset="1" stop-color="#8a93de" stop-opacity="0"/></radialGradient>
+    <radialGradient id="orchid" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#c98fc4" stop-opacity="0.45"/><stop offset="1" stop-color="#c98fc4" stop-opacity="0"/></radialGradient>
+    <radialGradient id="mauve"  cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#cf9bb4" stop-opacity="0.45"/><stop offset="1" stop-color="#cf9bb4" stop-opacity="0"/></radialGradient>
+    <radialGradient id="frost" cx="50%" cy="42%" r="62%"><stop offset="0" stop-color="#ffffff" stop-opacity="0.66"/><stop offset="0.7" stop-color="#ffffff" stop-opacity="0.42"/><stop offset="1" stop-color="#f3eef9" stop-opacity="0.34"/></radialGradient>
+    <filter id="ab" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="72"/></filter>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#base)"/>
+  <g filter="url(#ab)">
+    <ellipse cx="235" cy="360"  rx="420" ry="400" fill="url(#lav)"/>
+    <ellipse cx="885" cy="560"  rx="430" ry="430" fill="url(#peri)"/>
+    <ellipse cx="850" cy="1500" rx="470" ry="430" fill="url(#orchid)"/>
+    <ellipse cx="225" cy="1560" rx="450" ry="430" fill="url(#mauve)"/>
+  </g>
+  <circle cx="540" cy="960" r="300" fill="url(#frost)"/>
+  <ellipse cx="540" cy="858" rx="232" ry="120" fill="#ffffff" fill-opacity="0.18"/>
+  <circle cx="540" cy="960" r="300" fill="none" stroke="#ffffff" stroke-opacity="0.8" stroke-width="3"/>
+  <circle cx="540" cy="960" r="311" fill="none" stroke="#2e54ad" stroke-opacity="0.16" stroke-width="2"/>
+  <g transform="translate(540 960) scale(1.5455) translate(-540 -902)" fill="none" stroke="#2e54ad" stroke-width="5.50" stroke-linecap="round" stroke-linejoin="round"><rect x="506" y="792" width="68" height="44" rx="10"/><path d="M516 836 L516 856 M564 836 L564 856"/><rect x="476" y="856" width="128" height="156" rx="28"/><path d="M508 906 H572"/></g>
+</svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" role="img" aria-label="Reels / TikTok safe-zone guide overlay">
+  <!-- ④ Angelic Aura · working guide. Lay this over any 1080×1920 design to keep type & marks
+       clear of platform UI. Rose = keep clear (covered by app chrome); cobalt dashes = title-safe. -->
+  <defs>
+    <linearGradient id="sz-bg" x1="0" y1="0" x2="0" y2="1920" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#eef3fb"/><stop offset="1" stop-color="#f3eef6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#sz-bg)"/>
+
+  <!-- exclusion zones (app chrome) -->
+  <g fill="#c0617a" fill-opacity="0.12">
+    <rect x="0" y="0" width="1080" height="220"/>
+    <rect x="0" y="1400" width="1080" height="520"/>
+    <rect x="900" y="760" width="180" height="640"/>
+  </g>
+
+  <!-- title-safe area -->
+  <rect x="72" y="248" width="808" height="1112" fill="none"
+        stroke="#2e54ad" stroke-width="3" stroke-dasharray="18 14" rx="10"/>
+
+  <!-- labels -->
+  <g font-family="'Montserrat', system-ui, sans-serif" fill="#233a72">
+    <text x="48" y="130" font-size="34" font-weight="500" letter-spacing="3" fill="#9a4b63">TOP UI — KEEP CLEAR</text>
+    <text x="48" y="1470" font-size="34" font-weight="500" letter-spacing="3" fill="#9a4b63">CAPTION · HANDLE · MUSIC · CTA — KEEP CLEAR</text>
+    <text x="96" y="300" font-size="30" font-weight="600" letter-spacing="4" fill="#2e54ad">TITLE-SAFE</text>
+  </g>
+  <text x="990" y="1080" font-family="'Montserrat', system-ui, sans-serif" font-size="30" font-weight="500"
+        letter-spacing="3" fill="#9a4b63" text-anchor="middle" transform="rotate(90 990 1080)">ACTION RAIL</text>
+
+  <!-- centre crosshair -->
+  <g stroke="#2e54ad" stroke-opacity="0.3" stroke-width="2">
+    <path d="M540 900 V1020 M480 960 H600"/>
+  </g>
+</svg>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" role="img" aria-label="Lookbook / try-on post template (4:5)">
+  <!-- ④ Angelic Aura · Lookbook frame (1080×1350, the feed's best-performing ratio).
+       Drop a try-on / product photo into the glass frame; a Photo-Glow halo ties a set together.
+       Swap piece name, detail line, price, handle. -->
+  <style><![CDATA[@import url('https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Pinyon+Script&family=Montserrat:wght@400;500&family=Merriweather+Sans:wght@300&display=swap');]]></style>
+  <defs>
+    <linearGradient id="lb-bg" x1="0" y1="0" x2="0" y2="1350" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#eef3fb"/><stop offset="1" stop-color="#efeaf8"/>
+    </linearGradient>
+    <radialGradient id="lb-photo" cx="50%" cy="50%" r="60%">
+      <stop offset="0" stop-color="#ffffff"/><stop offset="100%" stop-color="#e9eefb"/>
+    </radialGradient>
+    <radialGradient id="lb-glow" cx="100%" cy="0%" r="70%">
+      <stop offset="0" stop-color="#c9b6e8" stop-opacity="0.5"/>
+      <stop offset="55%" stop-color="#cdb8e6" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#cdb8e6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1080" height="1350" fill="url(#lb-bg)"/>
+
+  <!-- glass photo frame -->
+  <rect x="72" y="72" width="936" height="930" rx="24" fill="url(#lb-photo)" stroke="#ffffff" stroke-width="6"/>
+  <rect x="72" y="72" width="936" height="930" rx="24" fill="none" stroke="#2e54ad" stroke-opacity="0.16" stroke-width="2"/>
+  <!-- Photo-Glow corner halo (ties a set together; never over a face) -->
+  <rect x="72" y="72" width="936" height="930" rx="24" fill="url(#lb-glow)"/>
+  <!-- placeholder mark -->
+  <path d="M540 470 l11 27 27 11 -27 11 -11 27 -11 -27 -27 -11 27 -11 z" fill="#cdb8e6" fill-opacity="0.5"/>
+  <text x="540" y="600" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="34"
+        font-weight="500" letter-spacing="8" fill="#9aa6c4">YOUR TRY-ON PHOTO</text>
+
+  <!-- caption strip -->
+  <text x="72" y="1118" font-family="'Merriweather Sans', sans-serif" font-weight="300" font-size="60" fill="#233a72">Áo Dài — Modern Cut</text>
+  <text x="72" y="1170" font-family="'Montserrat', sans-serif" font-size="32" fill="#51618f">Cotton silk · sizes S–L · in stock now</text>
+  <text x="1008" y="1124" text-anchor="end" font-family="'Merriweather Sans', sans-serif" font-weight="300"
+        font-size="52" fill="#2e54ad" font-variant-numeric="tabular-nums">1,250,000₫</text>
+
+  <line x1="72" y1="1212" x2="1008" y2="1212" stroke="#2e54ad" stroke-opacity="0.16" stroke-width="2"/>
+  <text x="72" y="1280" font-family="'Tenor Sans', serif" font-size="30" letter-spacing="6" fill="#51618f">SERAPHIC STYLER · @seraphicstyler</text>
+  <path d="M1000 1260 l7 17 17 7 -17 7 -7 17 -7 -17 -17 -7 17 -7 z" fill="#c9b6e8" fill-opacity="0.85"/>
+  <!-- butterfly sign-off -->
+  <g transform="translate(974 1262) scale(1.9) translate(-25.7 -24)" opacity="0.9">
+    <g fill="none" stroke="#2e54ad" stroke-width="1.05" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22.3,27.0 C18.4,18.0 21.6,8.4 31.6,6.6 C38.2,5.4 41.0,11.4 37.8,18.0 C35.0,24.2 28.6,27.4 23.0,28.6 Z"/>
+      <path d="M22.6,29.4 C26.8,31.2 32.2,33.0 35.0,38.0 C36.6,40.8 36.0,43.8 33.6,43.4 C29.6,42.7 25.0,35.6 22.4,30.4 Z"/>
+      <path d="M22.3,27.0 C21.5,28.8 21.5,30.6 22.6,32.2"/>
+      <path d="M22.3,27.0 C19.9,22.2 17.2,18.4 13.4,16.4"/>
+      <path d="M22.3,27.0 C20.6,21.8 18.8,17.2 16.0,13.8"/>
+    </g>
+    <circle cx="13.4" cy="16.4" r="0.95" fill="#2e54ad"/>
+    <circle cx="16.0" cy="13.8" r="0.95" fill="#2e54ad"/>
+  </g>
+</svg>

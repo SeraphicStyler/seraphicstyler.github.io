@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" role="img" aria-label="Carousel end / CTA template (4:5)">
+  <!-- ④ Angelic Aura · Carousel end card (1080×1350). The closing slide — one calm CTA.
+       Reuse the same card to end any carousel. Swap nothing but the headline if you like. -->
+  <style><![CDATA[@import url('https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Pinyon+Script&family=Montserrat:wght@400;500&family=Merriweather+Sans:wght@300&display=swap');]]></style>
+  <defs>
+    <linearGradient id="ce-bg" x1="0" y1="0" x2="0" y2="1350" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#eef3fb"/><stop offset="1" stop-color="#efeaf8"/>
+    </linearGradient>
+    <radialGradient id="ce-halo" cx="50%" cy="30%" r="58%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="40%" stop-color="#e2ebfb" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="#cdb8e6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ce-disc" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d2bfd6"/><stop offset="0.52" stop-color="#8e8dad"/><stop offset="1" stop-color="#446a8c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1350" fill="url(#ce-bg)"/>
+  <rect width="1080" height="1350" fill="url(#ce-halo)"/>
+
+  <!-- side butterfly sign-off (replaces retired monogram) -->
+  <g transform="translate(540 330) scale(3.0) translate(-25.7 -24)">
+    <g fill="none" stroke="#2e54ad" stroke-width="1.05" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22.3,27.0 C18.4,18.0 21.6,8.4 31.6,6.6 C38.2,5.4 41.0,11.4 37.8,18.0 C35.0,24.2 28.6,27.4 23.0,28.6 Z"/>
+      <path d="M22.6,29.4 C26.8,31.2 32.2,33.0 35.0,38.0 C36.6,40.8 36.0,43.8 33.6,43.4 C29.6,42.7 25.0,35.6 22.4,30.4 Z"/>
+      <path d="M23.4,27.4 C25.4,21.6 28.2,15.6 31.6,10.8" stroke-width="0.4" stroke-opacity="0.55"/>
+      <path d="M23.4,30.8 C26.6,33.4 29.8,36.6 32.4,40.6" stroke-width="0.4" stroke-opacity="0.55"/>
+      <path d="M22.3,27.0 C21.5,28.8 21.5,30.6 22.6,32.2"/>
+      <path d="M22.3,27.0 C19.9,22.2 17.2,18.4 13.4,16.4"/>
+      <path d="M22.3,27.0 C20.6,21.8 18.8,17.2 16.0,13.8"/>
+    </g>
+    <circle cx="13.4" cy="16.4" r="0.95" fill="#2e54ad"/>
+    <circle cx="16.0" cy="13.8" r="0.95" fill="#2e54ad"/>
+  </g>
+  <path d="M636 248 l7 17 17 7 -17 7 -7 17 -7 -17 -17 -7 17 -7 z" fill="#c98fc4" fill-opacity="0.85"/>
+
+  <!-- headline -->
+  <text x="540" y="600" text-anchor="middle" font-family="'Merriweather Sans', sans-serif" font-weight="300" font-size="84" fill="#233a72">Ready to order?</text>
+  <text x="540" y="676" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="36" fill="#51618f">Send the piece — I'll send an estimate.</text>
+
+  <!-- CTA pill -->
+  <rect x="330" y="760" width="420" height="104" rx="52" fill="#2e54ad"/>
+  <text x="540" y="826" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="36" font-weight="500" letter-spacing="6" fill="#ffffff">DM TO START</text>
+
+  <!-- handle + link -->
+  <text x="540" y="990" text-anchor="middle" font-family="'Tenor Sans', serif" font-size="48" letter-spacing="6" fill="#233a72">@seraphicstyler</text>
+  <text x="540" y="1050" text-anchor="middle" font-family="'Pinyon Script', cursive" font-size="60" fill="#9070c4">Saigon style, delivered anywhere</text>
+
+  <!-- hashtags -->
+  <text x="540" y="1270" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="26" fill="#9aa6c4">#vietnamfashion · #sgfashion · #personalshopper · #shipworldwide</text>
+</svg>

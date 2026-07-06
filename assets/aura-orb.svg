@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Seraphic orb">
+  <!-- Tiny accent: list bullets, tier dots, timeline nodes, inline status dot. -->
+  <defs>
+    <radialGradient id="ob-core" cx="0.4" cy="0.35" r="0.7">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.4" stop-color="#cbd8f2"/>
+      <stop offset="1" stop-color="#2e54ad"/>
+    </radialGradient>
+    <radialGradient id="ob-halo" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#cdb8e6" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#cdb8e6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="16" cy="16" r="15" fill="url(#ob-halo)"/>
+  <circle cx="16" cy="16" r="8" fill="url(#ob-core)"/>
+  <ellipse cx="13" cy="12.5" rx="3" ry="2" fill="#ffffff" opacity="0.7"/>
+</svg>

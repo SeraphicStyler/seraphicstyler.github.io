@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" role="img" aria-label="Reel / TikTok cover template">
+  <!-- ④ Angelic Aura · Reel cover (1080×1920). Hook lives in the title-safe band (y 248–1360).
+       Swap the two display lines + tagline. Keep bottom 520px clear for caption/CTA UI. -->
+  <style><![CDATA[@import url('https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Pinyon+Script&family=Montserrat:wght@400;500&family=Merriweather+Sans:wght@300&display=swap');]]></style>
+  <defs>
+    <linearGradient id="rc-bg" x1="0" y1="0" x2="0" y2="1920" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#eef3fb"/><stop offset="0.5" stop-color="#f3eef6"/><stop offset="1" stop-color="#efeaf8"/>
+    </linearGradient>
+    <radialGradient id="rc-top" cx="50%" cy="2%" r="60%">
+      <stop offset="0" stop-color="#c9b6e8" stop-opacity="0.34"/>
+      <stop offset="60%" stop-color="#e2ebfb" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#eef3fb" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="rc-peri" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#8a93de" stop-opacity="0.20"/><stop offset="1" stop-color="#8a93de" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="rc-b" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="24"/></filter>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#rc-bg)"/>
+  <g filter="url(#rc-b)">
+    <ellipse cx="600" cy="120" rx="460" ry="320" fill="url(#rc-top)"/>
+    <ellipse cx="150" cy="1560" rx="440" ry="380" fill="url(#rc-peri)"/>
+  </g>
+
+  <!-- brand lockup -->
+  <text x="540" y="470" text-anchor="middle" font-family="'Tenor Sans', serif" font-size="40"
+        letter-spacing="12" fill="#233a72">SERAPHIC</text>
+  <text x="540" y="540" text-anchor="middle" font-family="'Pinyon Script', cursive" font-size="62" fill="#9070c4">Styler</text>
+
+  <!-- eyebrow -->
+  <text x="540" y="700" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="32"
+        font-weight="500" letter-spacing="8" fill="#51618f">HOW ORDERING WORKS</text>
+
+  <!-- hook (swap these two lines) -->
+  <text x="540" y="840" text-anchor="middle" font-family="'Merriweather Sans', sans-serif" font-weight="300" font-size="118" fill="#233a72">Order any</text>
+  <text x="540" y="966" text-anchor="middle" font-family="'Merriweather Sans', sans-serif" font-weight="300" font-size="118" fill="#233a72">Saigon brand</text>
+
+  <!-- sparkle divider -->
+  <path d="M540 1040 l10 24 24 10 -24 10 -10 24 -10 -24 -24 -10 24 -10 z" fill="#ffffff" fill-opacity="0.85" stroke="#cdb8e6" stroke-width="1.5"/>
+
+  <!-- tagline -->
+  <text x="540" y="1150" text-anchor="middle" font-family="'Pinyon Script', cursive" font-size="78" fill="#2e54ad">delivered anywhere</text>
+
+  <!-- handle (above the caption exclusion zone) -->
+  <text x="540" y="1330" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="38"
+        font-weight="500" letter-spacing="4" fill="#51618f">@seraphicstyler</text>
+  <image href="../../shapes/crescent.svg" x="854" y="70" width="150" height="150" opacity="0.45"/>
+</svg>

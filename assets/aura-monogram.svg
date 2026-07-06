@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Seraphic Styler aura monogram">
+  <!-- Avatar / favicon / nav mark. Reads down to ~24px. -->
+  <defs>
+    <radialGradient id="am-halo" cx="50%" cy="42%" r="60%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="38%" stop-color="#e2ebfb" stop-opacity="0.45"/>
+      <stop offset="72%" stop-color="#cdb8e6" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#cdb8e6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="am-disc" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d2bfd6"/>
+      <stop offset="0.52" stop-color="#8e8dad"/>
+      <stop offset="1" stop-color="#446a8c"/>
+    </linearGradient>
+    <radialGradient id="am-glow" cx="0.36" cy="0.3" r="0.85">
+      <stop offset="0" stop-color="#fae2e2" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#eccedc" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="am-soft" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.1"/></filter>
+  </defs>
+  <rect width="120" height="120" fill="url(#am-halo)"/>
+  <circle cx="60" cy="60" r="40" fill="url(#am-disc)"/>
+  <circle cx="60" cy="60" r="40" fill="url(#am-glow)"/>
+  <circle cx="60" cy="60" r="35.5" fill="none" stroke="#ffffff" stroke-opacity="0.5" stroke-width="0.9"/>
+  <text x="60" y="76" text-anchor="middle" font-family="Cormorant Garamond, Georgia, 'Times New Roman', serif" font-size="46" font-weight="600" fill="#ffffff">S</text>
+  <g filter="url(#am-soft)">
+    <path d="M86 36 l1.9 4.7 4.7 1.9 -4.7 1.9 -1.9 4.7 -1.9 -4.7 -4.7 -1.9 4.7 -1.9 z" fill="#ffffff" fill-opacity="0.95"/>
+  </g>
+  <circle cx="34" cy="82" r="2" fill="#ffffff" fill-opacity="0.8"/>
+  <circle cx="90" cy="78" r="1.4" fill="#f1bcd3" fill-opacity="0.7"/>
+</svg>

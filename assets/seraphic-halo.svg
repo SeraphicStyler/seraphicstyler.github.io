@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Seraphic aura halo">
+  <!-- Hero / footer atmospheric backdrop. Place large (>=140px) behind content, low z-index. -->
+  <defs>
+    <radialGradient id="sh-bloom" cx="50%" cy="46%" r="55%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="30%" stop-color="#e7edfb" stop-opacity="0.4"/>
+      <stop offset="62%" stop-color="#cdb8e6" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#cdb8e6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sh-ray" x1="100" y1="40" x2="100" y2="170" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#f1bcd3" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#2e54ad" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="sh-g" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.4"/></filter>
+    <filter id="sh-g2" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="1"/></filter>
+  </defs>
+  <rect width="200" height="200" fill="url(#sh-bloom)"/>
+  <g fill="none" stroke="#ffffff" filter="url(#sh-g2)">
+    <circle cx="100" cy="92" r="34" stroke-opacity="0.5" stroke-width="0.8"/>
+    <circle cx="100" cy="92" r="50" stroke-opacity="0.28" stroke-width="0.7"/>
+    <circle cx="100" cy="92" r="66" stroke-opacity="0.14" stroke-width="0.6"/>
+  </g>
+  <g filter="url(#sh-g)"><ellipse cx="100" cy="100" rx="10" ry="60" fill="url(#sh-ray)" opacity="0.6"/></g>
+  <g filter="url(#sh-g2)">
+    <path d="M100 50 l2.6 6.4 6.4 2.6 -6.4 2.6 -2.6 6.4 -2.6 -6.4 -6.4 -2.6 6.4 -2.6 z" fill="#ffffff" fill-opacity="0.95"/>
+  </g>
+  <path d="M138 78 l1.6 4 4 1.6 -4 1.6 -1.6 4 -1.6 -4 -4 -1.6 4 -1.6 z" fill="#ffffff" fill-opacity="0.8"/>
+  <path d="M64 116 l1.3 3.2 3.2 1.3 -3.2 1.3 -1.3 3.2 -1.3 -3.2 -3.2 -1.3 3.2 -1.3 z" fill="#ffffff" fill-opacity="0.7"/>
+  <g>
+    <circle cx="56" cy="74" r="2.4" fill="#cdb8e6" opacity="0.42"/>
+    <circle cx="148" cy="120" r="2.8" fill="#f1bcd3" opacity="0.36"/>
+    <circle cx="120" cy="150" r="1.8" fill="#ffffff" opacity="0.5"/>
+    <circle cx="78" cy="150" r="1.4" fill="#cdb8e6" opacity="0.4"/>
+  </g>
+</svg>

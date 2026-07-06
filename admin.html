@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>Seraphic Styler — Lookbook admin</title>
+<link rel="icon" href="assets/butterfly-side.svg" type="image/svg+xml" />
+<link rel="icon" href="assets/favicon-48.png" type="image/png" sizes="48x48" />
+<link rel="icon" href="assets/favicon-192.png" type="image/png" sizes="192x192" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400;500&family=Pinyon+Script&family=Tenor+Sans&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{--ink:#233a72;--ink2:#51618f;--accent:#2e54ad;--bg:#eef3fb;--card:#fff;--border:rgba(46,71,115,.16);--ok:#2f8f6a;--warn:#9a4b63}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Montserrat',sans-serif;color:var(--ink);background:linear-gradient(160deg,#eef3fb,#efeaf8 55%,#eaf0fb);min-height:100vh}
+  a{color:var(--accent)}
+  .wrap{max-width:780px;margin:0 auto;padding:2.4rem 1.25rem 5rem}
+  h1{font-family:'Merriweather Sans',sans-serif;font-weight:300;font-size:2rem;margin:0}
+  h1 em{font-style:italic;color:var(--accent)}
+  .muted{color:var(--ink2);font-size:.9rem;line-height:1.6}
+  .btn{font:inherit;font-weight:600;font-size:.85rem;border:1px solid var(--border);background:#fff;color:var(--ink);
+    border-radius:999px;padding:.5rem 1rem;cursor:pointer;transition:background .2s,transform .2s}
+  .btn:hover{background:var(--bg)} .btn.primary{background:var(--accent);color:#fff;border-color:transparent}
+  .btn.ghost{border-color:transparent;background:transparent} .btn.sm{padding:.3rem .55rem;font-size:.8rem}
+  .btn.danger{color:var(--warn)}
+  input,select,textarea{font:inherit;font-size:.92rem;width:100%;padding:.6rem .7rem;border:1px solid var(--border);
+    border-radius:.6rem;background:#fff;color:var(--ink)}
+  label.fl{font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);display:block;margin:.6rem 0 .25rem}
+
+  /* login */
+  #login{max-width:380px;margin:14vh auto;background:var(--card);border:1px solid var(--border);border-radius:1.2rem;
+    padding:2rem 1.8rem;box-shadow:0 30px 70px -30px rgba(46,71,115,.35);text-align:center}
+  #login .mark{width:62px;height:62px;border-radius:50%;margin:0 auto 1rem;display:grid;place-items:center;
+    background:radial-gradient(circle at 50% 40%,#fff,#eef3fb 80%);border:1px solid var(--border)}
+  #login .mark img{width:38px;height:38px}
+  #login input{text-align:center;margin:1rem 0 .8rem}
+  #login .err{color:var(--warn);font-size:.82rem;min-height:1.1em}
+
+  /* editor */
+  #app{display:none}
+  .top{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin-bottom:.4rem}
+  .top .save{margin-left:auto;font-size:.78rem;color:var(--ok);font-weight:600}
+  .bar{display:flex;gap:.5rem;flex-wrap:wrap;margin:1.1rem 0 1.4rem}
+  .look{background:var(--card);border:1px solid var(--border);border-radius:1rem;padding:1rem 1.1rem;margin-bottom:.9rem}
+  .look .head{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
+  .look .head select{width:auto;flex:0 0 auto;font-weight:600}
+  .look .head .pos{font-size:.74rem;color:var(--ink2);margin-left:.2rem}
+  .look .head .sp{flex:1}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+  @media(max-width:560px){.grid2{grid-template-columns:1fr}}
+  .field-url,.field-img{display:none}
+  .look[data-needs="url"] .field-url{display:block}
+  .look[data-needs="img"] .field-img{display:block}
+  .imgrow{display:flex;align-items:center;gap:.7rem}
+  .thumb{width:46px;height:46px;border-radius:.5rem;background:#dfe6f4 center/cover no-repeat;flex:0 0 auto;border:1px solid var(--border)}
+  .hint{font-size:.72rem;color:var(--ink2);margin-top:.3rem}
+  .note{background:var(--card);border:1px solid var(--border);border-radius:.8rem;padding:.9rem 1.1rem;font-size:.82rem;color:var(--ink2);line-height:1.6;margin-top:1.6rem}
+  .note b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div id="login">
+  <div class="mark"><img src="assets/butterfly-side.svg" alt="Seraphic Styler"></div>
+  <h1 style="font-size:1.5rem">Lookbook <em>admin</em></h1>
+  <p class="muted" style="margin:.4rem 0 0">Sign in to manage your looks.</p>
+  <input id="pass" type="password" placeholder="Passphrase" autocomplete="current-password" />
+  <div class="err" id="loginErr"></div>
+  <button class="btn primary" id="loginBtn" style="width:100%">Sign in</button>
+</div>
+
+<!-- ===== EDITOR ===== -->
+<div id="app"><div class="wrap">
+  <div class="top">
+    <h1>Lookbook <em>admin</em></h1>
+    <span class="save" id="saveState">saved ✓</span>
+  </div>
+  <p class="muted">Add, edit, reorder or remove looks. Changes save instantly. Each look can be a photo, an
+  Instagram reel, a TikTok, a YouTube Short, an external link, or a text update.</p>
+  <div class="bar">
+    <button class="btn primary" id="add">＋ Add look</button>
+    <button class="btn" id="preview">Preview site ↗</button>
+    <button class="btn" id="export">Export ⤓</button>
+    <button class="btn" id="importBtn">Import ⤒</button>
+    <input id="importFile" type="file" accept="application/json" hidden />
+    <button class="btn ghost danger" id="reset">Reset to default</button>
+    <button class="btn ghost" id="logout" style="margin-left:auto">Sign out</button>
+  </div>
+  <div id="list"></div>
+
+  <div class="note">
+    <b>Where this saves:</b> right now, to <b>this browser</b> — perfect for building your lookbook and
+    previewing. To make it live for every visitor, we'll connect the free Supabase backend (your sign-in +
+    a real database) — then the same editor publishes for everyone. Use <b>Export</b> to back up your looks
+    as a file any time.
+    <p style="margin:.7rem 0 0"><b>Links to paste:</b> Instagram reel (the post URL) · TikTok video URL ·
+    YouTube Short URL (youtube.com/shorts/…) · or any external link. Photos upload from your device.</p>
+  </div>
+</div></div>
+
+<script src="js/lookbook.js"></script>
+<script>
+(function(){
+  'use strict';
+  // ⚠ Convenience gate only — NOT real security. On a public static site anyone can
+  //    read this file, and a sessionStorage flag can be set by hand, so this only keeps
+  //    the literal passphrase out of the source. Real auth needs a server (see the
+  //    Supabase hook in js/lookbook.js).
+  //    Stored as the SHA-256 hash of the passphrase. To change it, run:
+  //      printf '%s' 'your-new-passphrase' | shasum -a 256
+  //    and paste the hash below.
+  var PASS_HASH = '1b2218e1231e9b148b7fb7a964d6c07d36478628eab32942b056803b2df23eb9';
+
+  function sha256Hex(str){
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(str)).then(function(buf){
+      return Array.prototype.map.call(new Uint8Array(buf), function(b){ return b.toString(16).padStart(2,'0'); }).join('');
+    });
+  }
+
+  var loginEl = document.getElementById('login'), appEl = document.getElementById('app');
+  function showApp(){ loginEl.style.display='none'; appEl.style.display='block'; renderList(); }
+  if (sessionStorage.getItem('ss-admin-ok') === '1') showApp();
+
+  document.getElementById('loginBtn').onclick = tryLogin;
+  document.getElementById('pass').addEventListener('keydown', function(e){ if(e.key==='Enter') tryLogin(); });
+  function tryLogin(){
+    var v = document.getElementById('pass').value;
+    var errEl = document.getElementById('loginErr');
+    if (!(window.crypto && crypto.subtle)){
+      errEl.textContent = 'Secure check needs HTTPS or localhost (not file://).';
+      return;
+    }
+    sha256Hex(v).then(function(h){
+      if (h === PASS_HASH){ sessionStorage.setItem('ss-admin-ok','1'); showApp(); }
+      else errEl.textContent = 'Incorrect passphrase.';
+    }).catch(function(){ errEl.textContent = 'Could not run the secure check in this browser.'; });
+  }
+  document.getElementById('logout').onclick = function(){ sessionStorage.removeItem('ss-admin-ok'); location.reload(); };
+
+  var LB = window.SS_Lookbook;
+  var looks = LB.load();
+  var TYPE_LABEL = { image:'📷 Photo', instagram:'⌾ Instagram reel', tiktok:'♪ TikTok',
+    youtube:'▷ YouTube Short', link:'🔗 External link', update:'✎ Text update', placeholder:'▢ Placeholder' };
+  var NEEDS = { image:'img', link:'url', instagram:'url', tiktok:'url', youtube:'url', update:'', placeholder:'' };
+
+  function flash(){ var s=document.getElementById('saveState'); s.textContent='saving…';
+    if(LB.save(looks)){ setTimeout(function(){ s.textContent='saved ✓'; },250); } else { s.textContent='⚠ storage full'; } }
+
+  function renderList(){
+    var list = document.getElementById('list'); list.innerHTML='';
+    looks.forEach(function(lk, i){ list.appendChild(card(lk, i)); });
+  }
+
+  function card(lk, i){
+    var d = document.createElement('div'); d.className='look'; d.dataset.needs = NEEDS[lk.type]||'';
+    var opts = ['image','instagram','tiktok','youtube','link','update'].concat(lk.type==='placeholder'?['placeholder']:[])
+      .map(function(t){ return '<option value="'+t+'"'+(t===lk.type?' selected':'')+'>'+TYPE_LABEL[t]+'</option>'; }).join('');
+    d.innerHTML =
+      '<div class="head"><select class="f-type">'+opts+'</select><span class="pos">#'+(i+1)+'</span>'+
+        '<span class="sp"></span>'+
+        '<button class="btn sm up" '+(i===0?'disabled':'')+'>↑</button>'+
+        '<button class="btn sm down" '+(i===looks.length-1?'disabled':'')+'>↓</button>'+
+        '<button class="btn sm danger del">✕</button></div>'+
+      '<div class="grid2">'+
+        '<div><label class="fl">Title</label><input class="f-title" value="'+att(lk.title)+'" placeholder="Look 07 / Áo Dài"></div>'+
+        '<div><label class="fl">Subtitle</label><input class="f-sub" value="'+att(lk.subtitle)+'" placeholder="Coquette / Soft Girl"></div>'+
+      '</div>'+
+      '<div class="field-url"><label class="fl">Link</label><input class="f-url" value="'+att(lk.url)+'" placeholder="Paste the Instagram / TikTok / YouTube / external URL">'+
+        '<div class="hint">Reels &amp; Shorts play inline on the site.</div></div>'+
+      '<div class="field-img"><label class="fl">Photo</label><div class="imgrow"><div class="thumb" style="background-image:url('+JSON.stringify(lk.image||'')+')"></div>'+
+        '<input type="file" accept="image/*" class="f-img"></div><div class="hint">Stored in your browser for now (keep photos under ~1MB each).</div></div>';
+
+    d.querySelector('.f-type').onchange = function(e){ lk.type=e.target.value; d.dataset.needs=NEEDS[lk.type]||''; flash(); };
+    d.querySelector('.f-title').oninput = function(e){ lk.title=e.target.value; flash(); };
+    d.querySelector('.f-sub').oninput   = function(e){ lk.subtitle=e.target.value; flash(); };
+    d.querySelector('.f-url').oninput   = function(e){ lk.url=e.target.value; flash(); };
+    d.querySelector('.f-img').onchange  = function(e){ var f=e.target.files[0]; if(!f) return;
+      var r=new FileReader(); r.onload=function(){ lk.image=r.result; d.querySelector('.thumb').style.backgroundImage='url('+JSON.stringify(r.result)+')'; flash(); }; r.readAsDataURL(f); };
+    d.querySelector('.del').onclick = function(){ if(confirm('Delete this look?')){ looks.splice(i,1); flash(); renderList(); } };
+    d.querySelector('.up').onclick  = function(){ if(i>0){ looks.splice(i-1,0,looks.splice(i,1)[0]); flash(); renderList(); } };
+    d.querySelector('.down').onclick= function(){ if(i<looks.length-1){ looks.splice(i+1,0,looks.splice(i,1)[0]); flash(); renderList(); } };
+    return d;
+  }
+  function att(s){ return (s||'').replace(/"/g,'&quot;'); }
+
+  document.getElementById('add').onclick = function(){
+    looks.push({ id: LB.uid(), type:'image', title:'New look', subtitle:'' }); flash(); renderList();
+    window.scrollTo(0, document.body.scrollHeight);
+  };
+  document.getElementById('preview').onclick = function(){ window.open('/#lookbook','_blank'); };
+  document.getElementById('export').onclick = function(){
+    var blob = new Blob([JSON.stringify(looks,null,2)], {type:'application/json'});
+    var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='lookbook.json'; a.click();
+  };
+  document.getElementById('importBtn').onclick = function(){ document.getElementById('importFile').click(); };
+  document.getElementById('importFile').onchange = function(e){ var f=e.target.files[0]; if(!f) return;
+    var r=new FileReader(); r.onload=function(){ try{ var d=JSON.parse(r.result); if(Array.isArray(d)){ looks=d; flash(); renderList(); } else alert('That file isn’t a lookbook export.'); }catch(_){ alert('Could not read that file.'); } }; r.readAsText(f); };
+  document.getElementById('reset').onclick = function(){ if(confirm('Reset the lookbook to the original six placeholders?')){ looks = LB.SEED.map(function(s){return Object.assign({},s);}); flash(); renderList(); } };
+})();
+</script>
+</body>
+</html>
