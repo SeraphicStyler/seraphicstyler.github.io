@@ -27,11 +27,17 @@
   <style>
 
 :root{
-  /* Seraphic V2 "Ethereal Lavender / Aurora" */
+  /* Seraphic V2 "Ethereal Lavender / Aurora" — directory token set.
+     Proof + WCAG-AA audit for every pair: tools/design-test.html */
   --ice:#eef3fb; --mist:#efeaf8; --paper:#ffffff;
-  --ink:#233a72; --ink-soft:#51618f; --ink-faint:#8b97b8;
+  --ink:#233a72; --ink-soft:#51618f; --ink-mute:#55638e; --ink-faint:#8b97b8; /* faint = decorative only, never text */
   --cobalt:#2e54ad; --cobalt-deep:#234193;
   --lav:#c9b6e8; --peri:#8a93de; --orchid:#c98fc4; --mauve:#cf9bb4;
+  --peri-text:#5560b5; /* AA-safe periwinkle for small text; --peri itself is decorative */
+  --ok:#1b6b4a;   --ok-bg:rgba(31,122,84,.10);
+  --warn:#7d541e; --warn-bg:rgba(176,122,31,.12);
+  --danger:#b0451f; --danger-bg:rgba(176,69,31,.09);
+  --stale:#55638e; --stale-bg:rgba(46,71,115,.08);
   --line:rgba(46,71,115,.14); --line-soft:rgba(46,71,115,.08);
   --card:rgba(255,255,255,.72); --card-solid:#fff;
   --shadow:0 22px 48px -34px rgba(35,58,114,.45);
@@ -41,13 +47,21 @@
   --font-script:"Pinyon Script","Snell Roundhand",cursive;
   --font-body:"Montserrat","Helvetica Neue","Segoe UI",system-ui,sans-serif;
   --maxw:1240px;
-  --r:18px; --r-sm:12px; --r-pill:999px;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:20px; --s6:24px; --s8:32px; --s10:40px; --s12:48px;
+  --r:18px; --r-sm:12px; --r-lg:22px; --r-pill:999px;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --ctrl-h:64px; --tabbar-h:0px;
 }
 [data-theme=dark]{
   --ice:#161a26; --mist:#1b2030; --paper:#1f2536;
-  --ink:#f2f0f7; --ink-soft:#aab6cc; --ink-faint:#7d8aa6;
+  --ink:#f2f0f7; --ink-soft:#aab6cc; --ink-mute:#93a0bd; --ink-faint:#7d8aa6;
   --cobalt:#a9b8ee; --cobalt-deep:#c2cdf5;
   --lav:#b9a6dd; --peri:#8f98df; --orchid:#c98fc4; --mauve:#cf9bb4;
+  --peri-text:#8f98df;
+  --ok:#6fc79b;   --ok-bg:rgba(91,189,143,.14);
+  --warn:#e0aa6a; --warn-bg:rgba(217,160,91,.14);
+  --danger:#e79b7c; --danger-bg:rgba(176,69,31,.18);
+  --stale:#9caac8; --stale-bg:rgba(220,224,240,.08);
   --line:rgba(220,224,240,.14); --line-soft:rgba(220,224,240,.08);
   --card:rgba(36,42,60,.62); --card-solid:#232a3d;
   --shadow:0 24px 54px -34px rgba(0,0,0,.7);
@@ -61,12 +75,40 @@ body{
   font-family:var(--font-body);font-weight:400;line-height:1.55;
   font-size:15px;-webkit-font-smoothing:antialiased;letter-spacing:.005em;
   transition:background .5s ease,color .3s ease;
+  padding-bottom:var(--tabbar-h);
 }
 h1,h2,h3{font-family:var(--font-display);font-weight:400;line-height:1.12;
   text-wrap:balance;letter-spacing:.01em;margin:0;}
 a{color:inherit;text-decoration:none;}
 img{max-width:100%;}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(18px,4vw,44px);}
+.vh{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+:focus-visible{outline:2px solid var(--cobalt);outline-offset:2px;border-radius:4px;}
+
+/* ---------- Skip links ---------- */
+.skiplink{position:absolute;left:-9999px;top:10px;z-index:100;background:var(--card-solid);
+  color:var(--cobalt);border:1px solid var(--cobalt);border-radius:var(--r-pill);
+  padding:8px 16px;font-size:.8rem;box-shadow:var(--shadow);}
+.skiplink:focus{left:12px;}
+.skiplink:nth-of-type(2):focus{left:150px;}
+.skiplink:nth-of-type(3):focus{left:288px;}
+
+/* ---------- Top bar + page nav ---------- */
+.fd-topbar{display:flex;justify-content:space-between;align-items:center;gap:var(--s3);
+  padding:11px clamp(18px,4vw,44px);background:var(--mist);border-bottom:1px solid var(--line);}
+.fd-back{font-family:var(--font-body);font-size:.82rem;color:var(--cobalt);text-decoration:none;letter-spacing:.02em;}
+.fd-back:hover{color:var(--cobalt-deep);text-decoration:underline;}
+.fd-topbar .fd-brand{font-family:var(--font-display);letter-spacing:.28em;text-transform:uppercase;font-size:.8rem;color:var(--ink);}
+.fd-topbar select{font:inherit;font-size:.8rem;color:var(--ink);background:var(--card-solid);
+  border:1px solid var(--line);border-radius:var(--r-pill);padding:6px 12px;cursor:pointer;}
+.secnav{background:color-mix(in srgb,var(--ice) 92%,transparent);border-bottom:1px solid var(--line);padding:10px 0;}
+.secnav .wrap{display:flex;gap:var(--s2);flex-wrap:wrap;align-items:center;}
+.secnav a{font-family:var(--font-body);font-size:.78rem;border:1px solid var(--line);
+  background:var(--card-solid);color:var(--ink-soft);padding:6px 15px;border-radius:var(--r-pill);
+  transition:.18s var(--ease);letter-spacing:.01em;white-space:nowrap;}
+.secnav a:hover{border-color:var(--peri);color:var(--ink);}
+.secnav a[aria-current="page"]{background:var(--cobalt);border-color:var(--cobalt);color:#fff;}
+[data-theme=dark] .secnav a[aria-current="page"]{color:#161a26;}
 
 /* ---------- Masthead ---------- */
 .masthead{position:relative;overflow:hidden;isolation:isolate;
@@ -84,74 +126,200 @@ img{max-width:100%;}
 .lockup .t{font-family:var(--font-script);font-size:1.9rem;color:var(--cobalt);
   margin-top:-.14em;margin-left:-.02em;}
 .eyebrow{font-family:var(--font-body);text-transform:uppercase;letter-spacing:.32em;
-  font-size:.66rem;font-weight:500;color:var(--ink-soft);}
+  font-size:.66rem;font-weight:500;color:var(--ink-mute);}
 .title{font-size:clamp(2.5rem,7vw,5.1rem);margin:.28em 0 .1em;}
-.title .script{font-family:var(--font-script);color:var(--cobalt);
-  font-size:1.14em;letter-spacing:0;}
+.title .script{font-family:var(--font-script);color:var(--cobalt);font-size:1.14em;letter-spacing:0;}
 .lede{max-width:60ch;color:var(--ink-soft);font-size:clamp(.95rem,1.6vw,1.06rem);margin:.7em 0 0;}
 .statline{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:26px;}
 .stat{display:flex;flex-direction:column;gap:2px;}
 .stat b{font-family:var(--font-display);font-size:1.85rem;color:var(--ink);
   font-variant-numeric:tabular-nums;line-height:1;}
-.stat span{font-size:.66rem;text-transform:uppercase;letter-spacing:.2em;color:var(--ink-faint);}
+.stat span{font-size:.66rem;text-transform:uppercase;letter-spacing:.2em;color:var(--ink-mute);}
 
-/* ---------- Now ribbon ---------- */
-.nowbar{margin:6px 0 0;border:1px solid var(--line);border-radius:var(--r);
+/* ---------- Now ribbon (auto-expiring) ---------- */
+.nowbar{margin:26px 0 0;border:1px solid var(--line);border-radius:var(--r);
   background:var(--card);backdrop-filter:blur(12px);box-shadow:var(--shadow-sm);
-  padding:16px 18px;display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;}
+  padding:var(--s4) 18px;display:flex;gap:var(--s4);align-items:flex-start;flex-wrap:wrap;}
+.nowbar[hidden]{display:none;}
 .nowbar .tag{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;
-  color:#fff;background:linear-gradient(120deg,var(--orchid),var(--peri));
-  padding:5px 10px;border-radius:var(--r-pill);white-space:nowrap;}
+  color:#fff;background:var(--cobalt);padding:5px 10px;border-radius:var(--r-pill);white-space:nowrap;}
+[data-theme=dark] .nowbar .tag{color:#161a26;}
 .nowbar .items{display:flex;flex-wrap:wrap;gap:6px 20px;flex:1;min-width:220px;}
 .nowbar .it{font-size:.82rem;color:var(--ink-soft);}
 .nowbar .it b{color:var(--ink);font-weight:600;}
+.nowbar .it .til{color:var(--ink-mute);font-size:.74rem;white-space:nowrap;}
 
-/* ---------- Controls ---------- */
-.controls{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--ice) 86%,transparent);
+/* ---------- Quick browse (the index) ---------- */
+.browse{padding:clamp(26px,4vw,42px) 0 6px;}
+.browse-grid-wrap{display:grid;gap:var(--s5);grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr);align-items:start;margin-top:var(--s4);}
+.browse h2{font-size:clamp(1.5rem,3vw,2.05rem);}
+.browse .sub{color:var(--ink-soft);margin:.4em 0 0;max-width:64ch;font-size:.9rem;}
+.qbgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:var(--s3);}
+.qb{font:inherit;cursor:pointer;text-align:left;border:1px solid var(--line);border-radius:var(--r-sm);
+  background:var(--card);backdrop-filter:blur(8px);box-shadow:var(--shadow-sm);
+  padding:var(--s4) var(--s4) var(--s3);display:flex;flex-direction:column;gap:3px;min-height:104px;
+  color:var(--ink);transition:transform .2s var(--ease),border-color .2s,box-shadow .2s;}
+.qb:hover{transform:translateY(-2px);border-color:var(--lav);box-shadow:var(--shadow);}
+.qb .n{font-family:var(--font-display);font-size:1.7rem;line-height:1;font-variant-numeric:tabular-nums;}
+.qb .t{font-size:.84rem;font-weight:500;line-height:1.25;}
+.qb .a{margin-top:auto;font-size:.68rem;color:var(--cobalt);letter-spacing:.06em;}
+.qb.all{background:var(--cobalt);border-color:var(--cobalt);color:#fff;}
+.qb.all .a{color:#fff;opacity:.85;}
+[data-theme=dark] .qb.all{color:#161a26;}
+[data-theme=dark] .qb.all .a{color:#161a26;}
+.qb.all:hover{background:var(--cobalt-deep);border-color:var(--cobalt-deep);}
+
+/* ---------- Cluster map ---------- */
+.fdmap-sec{padding:24px 0 4px;}
+.fdmap-head{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--s4);flex-wrap:wrap;margin-bottom:var(--s3);}
+.fdmap-title{font-size:clamp(1.4rem,3vw,2rem);}
+.fdmap-sub{color:var(--ink-soft);font-size:.9rem;max-width:62ch;margin:.4em 0 0;}
+.fdmap-clear{font:inherit;font-size:.74rem;cursor:pointer;border:1px solid var(--cobalt);
+  background:rgba(46,84,173,.09);color:var(--cobalt);padding:7px 13px;border-radius:var(--r-pill);white-space:nowrap;}
+[data-theme=dark] .fdmap-clear{background:rgba(169,184,238,.14);}
+.fdmap-clear b{font-weight:600;}
+.maptoggle{display:none;font:inherit;font-size:.8rem;cursor:pointer;border:1px solid var(--line);
+  background:var(--card-solid);color:var(--cobalt);padding:9px 18px;border-radius:var(--r-pill);box-shadow:var(--shadow-sm);}
+.mapbody{display:grid;grid-template-rows:1fr;transition:grid-template-rows .3s var(--ease);}
+.mapbody>div{min-height:0;overflow:hidden;}
+.fdmap-wrap{border:1px solid var(--line);border-radius:var(--r);
+  background:radial-gradient(120% 100% at 70% 20%,var(--mist),var(--paper));
+  box-shadow:var(--shadow-sm);padding:6px;overflow-x:auto;}
+#fdmap{width:100%;height:auto;display:block;min-width:520px;max-height:56vh;}
+.fdmap-river-lbl{fill:var(--peri);font-size:11px;font-family:var(--font-body);letter-spacing:.14em;text-transform:uppercase;opacity:.65;}
+.fdmap-node{cursor:pointer;}
+.fdmap-node circle{transition:.2s var(--ease);stroke:#fff;stroke-width:1.5;}
+[data-theme=dark] .fdmap-node circle{stroke:rgba(255,255,255,.22);}
+.fdmap-node:hover circle{filter:brightness(1.09);}
+.fdmap-node.active circle{stroke:var(--ink);stroke-width:3;}
+.fdmap-node:focus-visible circle{stroke:var(--cobalt);stroke-width:3;}
+.fdmap-node .z-n{fill:#fff;font-family:var(--font-display);text-anchor:middle;dominant-baseline:central;pointer-events:none;}
+.fdmap-node .z-l{fill:var(--ink-soft);font-family:var(--font-body);font-size:11.5px;text-anchor:middle;font-weight:500;letter-spacing:.02em;pointer-events:none;}
+.fdmap-foot{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);flex-wrap:wrap;padding:9px 4px 5px;}
+.fdmap-legend{display:flex;align-items:center;gap:var(--s2);flex-wrap:wrap;margin:0;
+  font-size:.72rem;color:var(--ink-mute);font-variant-numeric:tabular-nums;}
+.fdmap-legend .lgd{display:inline-block;width:var(--d);height:var(--d);border-radius:50%;
+  border:1px solid var(--ink-faint);opacity:.7;flex:none;}
+.onlinechip{font:inherit;font-size:.76rem;cursor:pointer;border:1px solid var(--line);
+  background:var(--card-solid);color:var(--cobalt);padding:6px 14px;border-radius:var(--r-pill);
+  transition:.18s var(--ease);white-space:nowrap;font-variant-numeric:tabular-nums;}
+.onlinechip:hover{border-color:var(--peri);}
+.onlinechip[aria-pressed=true]{background:var(--cobalt);border-color:var(--cobalt);color:#fff;}
+[data-theme=dark] .onlinechip[aria-pressed=true]{color:#161a26;}
+.fdmap-note{font-size:.75rem;color:var(--ink-soft);margin:8px 4px 0;line-height:1.5;}
+.fdmap-note b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;}
+.fdtip{position:fixed;z-index:80;pointer-events:none;background:color-mix(in srgb,var(--card-solid) 92%,transparent);
+  backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:13px;padding:9px 13px;box-shadow:var(--shadow);
+  max-width:198px;display:flex;flex-direction:column;gap:2px;}
+.fdtip b{font-family:var(--font-display);font-size:.98rem;color:var(--ink);line-height:1.1;}
+.fdtip span{font-size:.72rem;color:var(--cobalt);font-variant-numeric:tabular-nums;}
+.fdtip em{font-size:.72rem;color:var(--ink-soft);font-style:normal;margin-top:2px;line-height:1.35;}
+.fdtip i{font-size:.63rem;color:var(--ink-mute);font-style:normal;margin-top:3px;letter-spacing:.04em;text-transform:uppercase;}
+.fdtip::after{content:"";position:absolute;left:var(--caret,50%);top:100%;transform:translateX(-50%);width:0;height:0;
+  border:7px solid transparent;border-top-color:color-mix(in srgb,var(--card-solid) 92%,transparent);
+  filter:drop-shadow(0 3px 2px rgba(35,58,114,.12));}
+.fdtip.below::after{top:auto;bottom:100%;border-top-color:transparent;
+  border-bottom-color:color-mix(in srgb,var(--card-solid) 92%,transparent);}
+
+/* ---------- Controls (sticky) ---------- */
+.controls{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--ice) 88%,transparent);
   backdrop-filter:blur(14px);border-bottom:1px solid var(--line);
-  padding:14px 0;margin-top:30px;transition:box-shadow .25s ease;}
+  padding:var(--s3) 0;margin-top:30px;transition:box-shadow .25s ease;}
 .controls.stuck{box-shadow:0 1px 0 var(--line),var(--shadow-sm);}
-.controls .wrap{display:flex;flex-direction:column;gap:12px;}
-.searchrow{display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
-.search{flex:1;min-width:190px;display:flex;align-items:center;gap:9px;
+.controls .wrap{display:flex;flex-direction:column;gap:var(--s3);}
+.searchrow{display:flex;gap:var(--s3);align-items:center;flex-wrap:wrap;}
+.search{flex:1;min-width:200px;display:flex;align-items:center;gap:9px;
   background:var(--card-solid);border:1px solid var(--line);border-radius:var(--r-pill);
-  padding:9px 16px;box-shadow:var(--shadow-sm);}
-.search input{border:0;outline:0;background:none;font:inherit;color:var(--ink);width:100%;}
-.search svg{flex:none;opacity:.5;}
-.count{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);
-  white-space:nowrap;font-variant-numeric:tabular-nums;}
-.chips{display:flex;gap:7px;flex-wrap:wrap;}
+  padding:8px 10px 8px 16px;box-shadow:var(--shadow-sm);}
+.search input{border:0;outline:0;background:none;font:inherit;color:var(--ink);width:100%;min-width:0;}
+.search svg{flex:none;opacity:.55;}
+.qclear{all:unset;cursor:pointer;flex:none;display:grid;place-items:center;width:26px;height:26px;
+  border-radius:50%;color:var(--ink-mute);font-size:.9rem;line-height:1;}
+.qclear:hover{background:var(--mist);color:var(--ink);}
+.qclear:focus-visible{outline:2px solid var(--cobalt);outline-offset:1px;}
+.qclear[hidden]{display:none;}
+.count{font-size:.72rem;letter-spacing:.06em;color:var(--ink-mute);font-variant-numeric:tabular-nums;}
+.updated{flex:none;font-size:.62rem;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-mute);
+  border:1px solid var(--line);border-radius:var(--r-pill);padding:4px 10px;background:var(--card-solid);white-space:nowrap;}
+.util{display:flex;gap:var(--s2);align-items:center;margin-left:auto;}
+.utilbtn{font:inherit;font-size:.76rem;cursor:pointer;border:1px solid var(--line);
+  background:var(--card-solid);color:var(--ink-soft);padding:6px 14px;border-radius:var(--r-pill);
+  transition:.18s var(--ease);display:inline-flex;align-items:center;gap:6px;white-space:nowrap;}
+.utilbtn:hover{border-color:var(--peri);color:var(--ink);}
+.utilbtn[aria-pressed=true]{background:var(--cobalt);border-color:var(--cobalt);color:#fff;}
+[data-theme=dark] .utilbtn[aria-pressed=true]{color:#161a26;}
+.utilbtn svg{flex:none;}
+.qtip{display:none;font-size:.72rem;color:var(--ink-mute);margin:-4px 0 0;}
+.fset{border:0;padding:0;margin:0;min-width:0;} /* fieldsets that lay out like plain rows */
+legend.mlabel{float:left;padding:0;} /* float releases legend's special rendering into the flex row */
+.chips{display:flex;gap:var(--s2);flex-wrap:wrap;}
 .chip{font:inherit;font-size:.78rem;cursor:pointer;border:1px solid var(--line);
   background:var(--card-solid);color:var(--ink-soft);padding:6px 14px;border-radius:var(--r-pill);
-  transition:.18s ease;letter-spacing:.01em;}
+  transition:.18s var(--ease);letter-spacing:.01em;white-space:nowrap;}
 .chip:hover{border-color:var(--peri);color:var(--ink);}
-.chip[aria-pressed=true]{background:var(--ink);color:var(--ice);border-color:var(--ink);}
-.chip.city[aria-pressed=true]{background:var(--cobalt);border-color:var(--cobalt);color:#fff;}
-[data-theme=dark] .chip.city[aria-pressed=true]{color:#161a26;}
-.togglerow{display:flex;gap:16px;align-items:center;flex-wrap:wrap;}
-.switch{display:inline-flex;gap:8px;align-items:center;font-size:.76rem;color:var(--ink-soft);cursor:pointer;}
-.switch input{appearance:none;width:34px;height:19px;border-radius:99px;background:var(--line);
+.chip[aria-pressed=true]{background:var(--cobalt);border-color:var(--cobalt);color:#fff;}
+[data-theme=dark] .chip[aria-pressed=true]{color:#161a26;}
+.fchipbtn{display:none;}
+.row2{display:flex;gap:var(--s3);align-items:center;flex-wrap:wrap;}
+.selwrap{display:inline-flex;align-items:center;gap:7px;font-size:.72rem;color:var(--ink-mute);text-transform:uppercase;letter-spacing:.1em;}
+.sel{font:inherit;font-size:.8rem;color:var(--ink);background:var(--card-solid);
+  border:1px solid var(--line);border-radius:var(--r-pill);padding:7px 13px;cursor:pointer;max-width:220px;}
+.morebtn{font:inherit;font-size:.78rem;cursor:pointer;border:1px solid var(--cobalt);
+  background:rgba(46,84,173,.09);color:var(--cobalt);padding:7px 15px;border-radius:var(--r-pill);}
+[data-theme=dark] .morebtn{background:rgba(169,184,238,.14);}
+.morepanel{display:none;padding:var(--s3) var(--s4);border:1px solid var(--line);border-radius:var(--r-sm);
+  background:var(--card);backdrop-filter:blur(8px);flex-direction:column;gap:var(--s3);}
+.morepanel.open{display:flex;}
+.morepanel .mrow{display:flex;gap:var(--s3) var(--s4);align-items:center;flex-wrap:wrap;}
+.mlabel{font-size:.68rem;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-mute);min-width:120px;}
+.switch{display:inline-flex;gap:8px;align-items:center;font-size:.78rem;color:var(--ink-soft);cursor:pointer;}
+.switch input{appearance:none;width:36px;height:20px;border-radius:99px;margin:0;
+  background:color-mix(in srgb,var(--ink) 14%,var(--paper));border:1px solid var(--ink-mute);
   position:relative;cursor:pointer;transition:.2s;flex:none;}
-.switch input:checked{background:var(--cobalt);}
-.switch input::after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;
-  border-radius:50%;background:#fff;transition:.2s;}
-.switch input:checked::after{transform:translateX(15px);}
+.switch input:checked{background:var(--cobalt);border-color:var(--cobalt);}
+.switch input::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;
+  border-radius:50%;background:var(--paper);transition:.2s var(--ease);}
+.switch input:checked::after{transform:translateX(15px);background:#fff;}
+[data-theme=dark] .switch input:checked::after{background:#161a26;}
+/* active filters bar */
+.activebar{display:none;gap:var(--s2);align-items:center;flex-wrap:wrap;}
+.activebar.on{display:flex;}
+.fchip{display:inline-flex;align-items:center;gap:7px;font-size:.76rem;
+  background:rgba(46,84,173,.09);border:1px solid color-mix(in srgb,var(--cobalt) 40%,transparent);
+  color:var(--cobalt);padding:4px 6px 4px 13px;border-radius:var(--r-pill);
+  animation:chipin .2s var(--ease) both;}
+[data-theme=dark] .fchip{background:rgba(169,184,238,.14);}
+@keyframes chipin{from{opacity:0;transform:scale(.9);}to{opacity:1;transform:scale(1);}}
+.fchip b{font-weight:500;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fchip .x{all:unset;cursor:pointer;display:grid;place-items:center;width:22px;height:22px;
+  border-radius:50%;font-size:.82rem;line-height:1;}
+.fchip .x:hover{background:color-mix(in srgb,var(--cobalt) 18%,transparent);}
+.fchip .x:focus-visible{outline:2px solid var(--cobalt);outline-offset:1px;}
+.showall{font:inherit;cursor:pointer;border:1px solid var(--cobalt);background:var(--cobalt);color:#fff;
+  font-size:.78rem;font-weight:500;padding:7px 16px;border-radius:var(--r-pill);transition:.18s var(--ease);white-space:nowrap;}
+[data-theme=dark] .showall{color:#161a26;}
+.showall:hover{background:var(--cobalt-deep);border-color:var(--cobalt-deep);}
 
-/* ---------- Group headers ---------- */
-.group{padding:44px 0 4px;}
+/* ---------- Group headers (sticky) ---------- */
+.group{padding:var(--s8) 0 var(--s1);}
 main>.group:not(:first-child){border-top:1px solid var(--line-soft);margin-top:26px;}
-.group h2{font-size:clamp(1.5rem,3vw,2.05rem);display:flex;align-items:center;gap:12px;}
+.group .ghead{position:sticky;top:var(--ctrl-h);z-index:10;
+  background:color-mix(in srgb,var(--ice) 90%,transparent);backdrop-filter:blur(10px);
+  padding:10px 0 8px;margin:0 0 2px;}
+.group h2{font-size:clamp(1.5rem,3vw,2.05rem);display:flex;align-items:center;gap:var(--s3);}
 .group h2 .n{font-family:var(--font-body);font-size:.68rem;color:var(--ink-soft);
   font-variant-numeric:tabular-nums;letter-spacing:.08em;background:var(--mist);
   border:1px solid var(--line);padding:3px 10px;border-radius:var(--r-pill);flex:none;}
-.group p{color:var(--ink-soft);margin:.5em 0 0;max-width:70ch;font-size:.9rem;}
+.group p{color:var(--ink-soft);margin:.4em 0 0;max-width:70ch;font-size:.9rem;}
 
 /* ---------- Card grid ---------- */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));
-  gap:14px;padding:18px 0 8px;}
+  gap:var(--s4);padding:18px 0 8px;}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
-  padding:16px 16px 15px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;
-  display:flex;flex-direction:column;gap:9px;transition:.2s ease;backdrop-filter:blur(8px);}
+  padding:var(--s4) var(--s4) 15px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;
+  display:flex;flex-direction:column;gap:9px;transition:.2s var(--ease);backdrop-filter:blur(8px);
+  animation:cardin .26s var(--ease) both;animation-delay:calc(var(--i,0)*40ms);}
+@keyframes cardin{from{opacity:0;}to{opacity:1;}}
 .card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--lav);}
 .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--tier,var(--lav));opacity:.85;}
 .card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
@@ -165,280 +333,215 @@ main>.group:not(:first-child){border-top:1px solid var(--line-soft);margin-top:2
 .card .st{flex:none;font-size:.58rem;text-transform:uppercase;letter-spacing:.13em;
   padding:4px 8px;border-radius:var(--r-pill);white-space:nowrap;
   border:1px solid var(--line);color:var(--ink-soft);background:var(--paper);}
-.card .st.walk{color:#1f7a54;border-color:rgba(31,122,84,.3);background:rgba(31,122,84,.08);}
-.card .st.appt{color:#8a5a1f;border-color:rgba(138,90,31,.3);background:rgba(138,90,31,.08);}
-.card .st.online{color:var(--ink-faint);}
-.card .st.hub{color:var(--cobalt);border-color:rgba(46,84,173,.3);background:rgba(46,84,173,.08);}
-.card .addr{font-size:.82rem;color:var(--ink);display:flex;gap:6px;align-items:flex-start;}
-.card .addr svg{flex:none;margin-top:2px;opacity:.55;}
-.maplink{font-size:.66rem;font-weight:500;color:var(--cobalt);margin-left:auto;white-space:nowrap;text-decoration:none;
-  border:1px solid var(--line);padding:2px 9px;border-radius:var(--r-pill);transition:background .15s,border-color .15s;}
-.maplink:hover{background:var(--accent-soft);border-color:var(--cobalt);text-decoration:none;}
-.card .tr{display:flex;gap:6px;align-items:center;flex:none;}
-.card .sv{font:inherit;background:none;border:0;cursor:pointer;padding:2px;color:var(--ink-faint);
-  display:grid;place-items:center;transition:.18s ease;}
-.card .sv:hover{color:var(--orchid);transform:scale(1.12);}
+.card .st.walk{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 30%,transparent);background:var(--ok-bg);}
+.card .st.appt{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 30%,transparent);background:var(--warn-bg);}
+.card .st.online{color:var(--ink-mute);}
+.card .st.hub{color:var(--cobalt);border-color:color-mix(in srgb,var(--cobalt) 30%,transparent);background:rgba(46,84,173,.08);}
+[data-theme=dark] .card .st.hub{background:rgba(169,184,238,.12);}
+.card .tr{display:flex;gap:4px;align-items:center;flex:none;}
+.card .sv{font:inherit;background:none;border:0;cursor:pointer;padding:8px;color:var(--ink-mute);
+  display:grid;place-items:center;transition:.18s var(--ease);border-radius:50%;}
+.card .sv:hover{color:var(--orchid);transform:scale(1.1);}
 .card .sv.on{color:var(--orchid);}
 .card .sv.on svg{fill:var(--orchid);}
+.cx{display:none;font:inherit;background:none;border:0;cursor:pointer;padding:8px;color:var(--ink-mute);border-radius:50%;}
+.cx svg{transition:transform .3s var(--ease);display:block;}
+.card.open .cx svg{transform:rotate(180deg);}
+.cd-more{display:grid;grid-template-rows:1fr;}
+.cd-more>div{min-height:0;display:flex;flex-direction:column;gap:9px;}
+.card .addr{font-size:.82rem;color:var(--ink);display:flex;gap:6px;align-items:flex-start;}
+.card .addr svg{flex:none;margin-top:2px;opacity:.55;}
+.maplink,.shr{font-size:.66rem;font-weight:500;color:var(--cobalt);white-space:nowrap;text-decoration:none;
+  border:1px solid var(--line);padding:2px 9px;border-radius:var(--r-pill);transition:background .15s,border-color .15s,color .15s;}
+.maplink:hover,.shr:hover{background:rgba(46,84,173,.09);border-color:var(--cobalt);text-decoration:none;}
+.shr{font-family:inherit;cursor:pointer;background:none;margin-left:auto;flex:none;}
+.shr.ok{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 45%,transparent);background:var(--ok-bg);}
+.card .note{font-size:.82rem;color:var(--ink-soft);line-height:1.45;}
+.card .foot{margin-top:auto;padding-top:4px;display:flex;gap:7px;align-items:center;flex-wrap:wrap;}
+.card .area{font-size:.62rem;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-mute);}
 .card .price{font-size:.62rem;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-soft);}
-.savebar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:18px 0 0;
+.tierchip{display:inline-flex;align-items:center;gap:6px;font-size:.6rem;text-transform:uppercase;
+  letter-spacing:.14em;color:var(--ink);border:1px solid var(--line);background:var(--paper);
+  padding:3px 9px;border-radius:var(--r-pill);}
+.tierchip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--tier,var(--lav));}
+.card .vibe{font-size:.58rem;text-transform:uppercase;letter-spacing:.13em;color:var(--peri-text);
+  border:1px solid color-mix(in srgb,var(--peri) 45%,transparent);border-radius:var(--r-pill);padding:3px 8px;}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.6rem;font-weight:600;
+  text-transform:uppercase;letter-spacing:.08em;padding:3px 9px;border-radius:var(--r-pill);white-space:nowrap;}
+.badge::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;flex:none;}
+.badge.ok{color:var(--ok);background:var(--ok-bg);}
+.badge.warn{color:var(--warn);background:var(--warn-bg);}
+.badge.stale{color:var(--stale);background:var(--stale-bg);}
+.badge.soon{color:var(--warn);background:var(--warn-bg);}
+.badge.closed{color:var(--stale);background:var(--stale-bg);}
+.savebar{display:flex;gap:var(--s3);align-items:center;flex-wrap:wrap;margin:18px 0 0;
   background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);
   padding:10px 14px;font-size:.82rem;color:var(--ink-soft);box-shadow:var(--shadow-sm);}
 .savebar button{font:inherit;font-size:.76rem;cursor:pointer;border:1px solid var(--cobalt);
-  background:var(--accent-soft,rgba(46,84,173,.09));color:var(--cobalt);padding:5px 12px;border-radius:var(--r-pill);}
+  background:rgba(46,84,173,.09);color:var(--cobalt);padding:5px 12px;border-radius:var(--r-pill);}
+[data-theme=dark] .savebar button{background:rgba(169,184,238,.14);}
 .fg-banner{background:var(--mist);border:1px solid var(--line);border-radius:var(--r);
   padding:15px 18px;margin:28px 0 12px;font-size:.88rem;color:var(--ink-soft);
   line-height:1.55;box-shadow:var(--shadow-sm);}
 .fg-banner a{color:var(--cobalt);}
 .fg-banner a:hover{text-decoration:underline;color:var(--cobalt-deep);}
 .fd-tools{display:flex;gap:14px;align-items:center;}
-.card .note{font-size:.82rem;color:var(--ink-soft);line-height:1.45;}
-.card .foot{margin-top:auto;padding-top:4px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
-.card .area{font-size:.62rem;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-faint);}
-.card .tierlab{font-size:.6rem;text-transform:uppercase;letter-spacing:.15em;font-weight:600;
-  color:#fff;background:var(--tier,var(--lav));padding:3px 8px;border-radius:var(--r-pill);}
-.card .flag{font-size:.76rem;color:#b0451f;background:rgba(176,69,31,.09);
-  border:1px solid rgba(176,69,31,.25);border-radius:var(--r-sm);padding:6px 9px;line-height:1.4;}
-[data-theme=dark] .card .flag{color:#e79b7c;}
-.empty{grid-column:1/-1;text-align:center;color:var(--ink-faint);padding:50px 0;font-size:.9rem;}
+/* single-result + empty states */
+.onehit{display:flex;gap:var(--s3) var(--s4);align-items:center;flex-wrap:wrap;margin:18px 0 0;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:12px 16px;font-size:.86rem;color:var(--ink-soft);box-shadow:var(--shadow-sm);}
+.empty{grid-column:1/-1;text-align:center;color:var(--ink-soft);padding:44px 16px 50px;font-size:.92rem;}
+.empty svg{color:var(--ink-faint);margin-bottom:10px;animation:drift 4s ease-in-out infinite alternate;}
+@keyframes drift{from{transform:translateY(0) rotate(-3deg);}to{transform:translateY(-7px) rotate(4deg);}}
+.empty h3{font-size:1.3rem;color:var(--ink);margin-bottom:4px;}
+.empty .acts{display:flex;gap:var(--s2);justify-content:center;flex-wrap:wrap;margin-top:var(--s4);}
+/* skeletons */
+.skcard{border:1px solid var(--line-soft);border-radius:var(--r);padding:var(--s4);
+  display:flex;flex-direction:column;gap:11px;background:var(--card);}
+.skcard i{display:block;border-radius:6px;height:12px;
+  background:linear-gradient(90deg,var(--mist) 25%,var(--paper) 50%,var(--mist) 75%);
+  background-size:200% 100%;animation:shimmer 1.5s ease-in-out infinite;}
+.skcard .a{width:46%;height:16px;}.skcard .b{width:84%;}.skcard .c{width:62%;}.skcard .d{width:38%;height:10px;margin-top:6px;}
+@keyframes shimmer{from{background-position:200% 0;}to{background-position:-200% 0;}}
 
 /* ---------- Streets panel ---------- */
 .streets{background:var(--mist);border:1px solid var(--line);border-radius:var(--r);
   padding:clamp(20px,3vw,30px);margin:20px 0;box-shadow:var(--shadow-sm);}
 .streets h3{font-size:1.35rem;margin-bottom:4px;}
 .streets .sub{color:var(--ink-soft);font-size:.86rem;margin-bottom:18px;max-width:64ch;}
-.stgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;}
+.stgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:var(--s3);}
 .stcard{background:var(--card-solid);border:1px solid var(--line);border-radius:var(--r-sm);
   padding:13px 14px;box-shadow:var(--shadow-sm);}
 .stcard .h{font-family:var(--font-display);font-size:1rem;color:var(--ink);display:flex;
   justify-content:space-between;align-items:baseline;gap:8px;}
 .stcard .h b{font-family:var(--font-body);font-size:.7rem;color:var(--cobalt);font-weight:600;
-  font-variant-numeric:tabular-nums;background:var(--accent-soft,rgba(46,84,173,.09));
+  font-variant-numeric:tabular-nums;background:rgba(46,84,173,.09);
   padding:2px 7px;border-radius:99px;white-space:nowrap;}
-.stcard .d{font-size:.62rem;text-transform:uppercase;letter-spacing:.15em;color:var(--ink-faint);margin:3px 0 7px;}
+[data-theme=dark] .stcard .h b{background:rgba(169,184,238,.14);}
+.stcard .d{font-size:.62rem;text-transform:uppercase;letter-spacing:.15em;color:var(--ink-mute);margin:3px 0 7px;}
 .stcard .l{font-size:.8rem;color:var(--ink-soft);line-height:1.5;}
 
 /* ---------- Footer ---------- */
 footer{margin-top:44px;border-top:1px solid var(--line);background:var(--mist);}
 footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4fr 1fr;}
 .legend{display:flex;flex-direction:column;gap:9px;}
-.legend h4,.contact h4{font-size:.68rem;text-transform:uppercase;letter-spacing:.24em;
-  color:var(--ink-faint);margin:0 0 4px;font-weight:600;font-family:var(--font-body);}
+.legend h3,.contact h3{font-size:.68rem;text-transform:uppercase;letter-spacing:.24em;
+  color:var(--ink-mute);margin:0 0 4px;font-weight:600;font-family:var(--font-body);}
 .legend .row{display:flex;gap:9px;align-items:center;font-size:.8rem;color:var(--ink-soft);}
 .dot{width:11px;height:11px;border-radius:3px;flex:none;}
-.legend .meta{font-size:.76rem;color:var(--ink-faint);margin-top:6px;line-height:1.55;max-width:60ch;}
+.legend .cd{width:9px;height:9px;border-radius:50%;flex:none;}
+.legend .meta{font-size:.76rem;color:var(--ink-mute);margin-top:6px;line-height:1.55;max-width:60ch;}
 .contact a{color:var(--cobalt);}
 .sig{font-family:var(--font-script);font-size:1.7rem;color:var(--cobalt);}
-.themebtn{position:fixed;right:16px;bottom:16px;z-index:40;width:44px;height:44px;border-radius:50%;
+
+/* ---------- Floating controls ---------- */
+.themebtn{position:fixed;right:1.25rem;bottom:4.6rem;z-index:40;width:44px;height:44px;border-radius:50%;
   border:1px solid var(--line);background:var(--card-solid);color:var(--ink);cursor:pointer;
   box-shadow:var(--shadow);display:grid;place-items:center;transition:.2s;}
 .themebtn:hover{transform:scale(1.06);border-color:var(--peri);}
-:focus-visible{outline:2px solid var(--cobalt);outline-offset:2px;border-radius:4px;}
+.themebtn .sun{display:none;}
+[data-theme=dark] .themebtn .sun{display:block;}
+[data-theme=dark] .themebtn .moon{display:none;}
 
-/* ---------- Houses showcase ---------- */
-.houses{padding:26px 0 2px;}
-.houses .eyebrow{margin-bottom:14px;}
-.houses-strip{display:flex;flex-direction:column;gap:12px;overflow:hidden;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);
-  mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);}
-.hrow{display:flex;width:max-content;animation:hdrift 70s linear infinite;}
-.hrow.rev{animation-direction:reverse;animation-duration:84s;}
-.hrow:hover,.hrow:focus-within{animation-play-state:paused;}
-.hgrp{display:flex;gap:12px;padding-right:12px;}
-@keyframes hdrift{to{transform:translateX(-50%);}}
-.hbtn{font:inherit;cursor:pointer;padding:7px;border:1px solid var(--line);border-radius:14px;
-  background:var(--card);box-shadow:var(--shadow-sm);transition:.2s ease;line-height:0;}
-.hbtn img{width:52px;height:52px;border-radius:9px;object-fit:cover;display:block;
-  filter:grayscale(.15);opacity:.85;transition:.2s ease;}
-.hbtn:hover,.hbtn:focus-visible{border-color:var(--lav);box-shadow:var(--shadow);}
-.hbtn:hover img,.hbtn:focus-visible img{filter:none;opacity:1;}
-@media(prefers-reduced-motion:reduce){.hrow{animation:none;}}
+/* ---------- Mobile bottom tab bar ---------- */
+.tabbar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:50;
+  background:color-mix(in srgb,var(--card-solid) 94%,transparent);backdrop-filter:blur(16px);
+  border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);}
+.tabbar button{font:inherit;background:none;border:0;cursor:pointer;color:var(--ink-soft);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  min-height:52px;padding:6px 2px;font-size:.56rem;text-transform:uppercase;letter-spacing:.08em;
+  transition:color .15s,background .15s;position:relative;}
+.tabbar button:active{background:var(--mist);}
+.tabbar button[aria-pressed=true],.tabbar button.here{color:var(--cobalt);}
+.tabbar svg{flex:none;}
+.tabbar .bub{position:absolute;top:4px;right:calc(50% - 20px);min-width:15px;height:15px;border-radius:99px;
+  background:var(--orchid);color:#fff;font-size:.56rem;font-weight:600;display:grid;place-items:center;
+  padding:0 4px;letter-spacing:0;}
 
-.fdmap-sec{padding:24px 0 4px;}
-.fdmap-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:12px;}
-.fdmap-title{font-size:clamp(1.4rem,3vw,2rem);}
-.fdmap-sub{color:var(--ink-soft);font-size:.9rem;max-width:62ch;margin:.4em 0 0;}
-.fdmap-clear{font:inherit;font-size:.74rem;cursor:pointer;border:1px solid var(--cobalt);
-  background:var(--accent-soft,rgba(46,84,173,.09));color:var(--cobalt);padding:7px 13px;border-radius:var(--r-pill);white-space:nowrap;}
-.fdmap-clear b{font-weight:600;}
-.fdmap-wrap{border:1px solid var(--line);border-radius:var(--r);
-  background:radial-gradient(120% 100% at 70% 20%,var(--mist),var(--paper));
-  box-shadow:var(--shadow-sm);padding:6px;overflow-x:auto;}
-#fdmap{width:100%;height:auto;display:block;min-width:520px;max-height:56vh;}
-.fdmap-river-lbl{fill:var(--peri);font-size:11px;font-family:var(--font-body);letter-spacing:.14em;text-transform:uppercase;opacity:.65;}
-.fdmap-node{cursor:pointer;}
-.fdmap-node circle{transition:.2s ease;stroke:#fff;stroke-width:1.5;}
-[data-theme=dark] .fdmap-node circle{stroke:rgba(255,255,255,.22);}
-.fdmap-node:hover circle{filter:brightness(1.09);}
-.fdmap-node.active circle{stroke:var(--ink);stroke-width:3;}
-.fdmap-node:focus-visible circle{stroke:var(--cobalt);stroke-width:3;}
-.fdmap-node .z-n{fill:#fff;font-family:var(--font-display);text-anchor:middle;dominant-baseline:central;pointer-events:none;}
-.fdmap-node .z-l{fill:var(--ink-soft);font-family:var(--font-body);font-size:11.5px;text-anchor:middle;font-weight:500;letter-spacing:.02em;pointer-events:none;}
-.fdmap-node.oth circle{opacity:.5!important;}
-.fdmap-node.oth .z-l{fill:var(--ink-faint);}
-.fdmap-note{font-size:.75rem;color:var(--ink-soft);margin:10px 4px 0;line-height:1.5;}
-.fdmap-note b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;}
-.fdmap-legend{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0;
-  padding:9px 10px 5px;font-size:.72rem;color:var(--ink-faint);font-variant-numeric:tabular-nums;}
-.fdmap-legend .lgd{display:inline-block;width:var(--d);height:var(--d);border-radius:50%;
-  border:1px solid var(--ink-faint);opacity:.6;flex:none;}
-.skiplink{position:absolute;left:-9999px;top:10px;z-index:100;background:var(--card-solid);
-  color:var(--cobalt);border:1px solid var(--cobalt);border-radius:var(--r-pill);
-  padding:8px 16px;font-size:.8rem;box-shadow:var(--shadow);}
-.skiplink:focus{left:12px;}
-.chip.tier[aria-pressed=true]{background:var(--orchid);border-color:var(--orchid);color:#fff;}
-.chip.vibe[aria-pressed=true]{background:var(--peri);border-color:var(--peri);color:#fff;}
-.card .vibe{font-size:.58rem;text-transform:uppercase;letter-spacing:.13em;color:var(--peri);
-  border:1px solid color-mix(in srgb,var(--peri) 45%,transparent);border-radius:var(--r-pill);padding:3px 8px;}
-.fdtip{position:fixed;z-index:80;pointer-events:none;background:color-mix(in srgb,var(--card-solid) 92%,transparent);
-  backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:13px;padding:9px 13px;box-shadow:var(--shadow);
-  max-width:198px;display:flex;flex-direction:column;gap:2px;}
-.fdtip b{font-family:var(--font-display);font-size:.98rem;color:var(--ink);line-height:1.1;}
-.fdtip span{font-size:.72rem;color:var(--cobalt);font-variant-numeric:tabular-nums;}
-.fdtip em{font-size:.72rem;color:var(--ink-soft);font-style:normal;margin-top:2px;line-height:1.35;}
-.fdtip i{font-size:.63rem;color:var(--ink-faint);font-style:normal;margin-top:3px;letter-spacing:.04em;text-transform:uppercase;}
-.fdtip::after{content:"";position:absolute;left:var(--caret,50%);top:100%;transform:translateX(-50%);width:0;height:0;
-  border:7px solid transparent;border-top-color:color-mix(in srgb,var(--card-solid) 92%,transparent);
-  filter:drop-shadow(0 3px 2px rgba(35,58,114,.12));}
-.fdtip.below::after{top:auto;bottom:100%;border-top-color:transparent;
-  border-bottom-color:color-mix(in srgb,var(--card-solid) 92%,transparent);}
-@media(max-width:720px){
-  footer .wrap{grid-template-columns:1fr;}
-  .controls{top:0;}
-  .title{font-size:clamp(2.2rem,10vw,3rem);}
-}
+/* ---------- Filter sheet (mobile) ---------- */
+.scrim{position:fixed;inset:0;z-index:60;background:rgba(20,28,54,.44);backdrop-filter:blur(3px);
+  opacity:0;transition:opacity .28s ease;}
+.scrim.open{opacity:1;}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:61;background:var(--paper);
+  border-radius:var(--r-lg) var(--r-lg) 0 0;border:1px solid var(--line);border-bottom:0;
+  box-shadow:0 -18px 50px -20px rgba(20,28,54,.4);max-height:82vh;display:flex;flex-direction:column;
+  transform:translateY(102%);transition:transform .34s var(--ease);
+  padding-bottom:calc(env(safe-area-inset-bottom) + 10px);touch-action:none;}
+.sheet[hidden]{display:none;} /* hidden must beat the flex display: off-screen ≠ gone for keyboards/AT */
+.sheet.open{transform:none;}
+.sheet-grab{padding:10px 0 2px;display:grid;place-items:center;cursor:grab;}
+.sheet-grab span{width:42px;height:5px;border-radius:99px;background:var(--line);display:block;}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);
+  padding:4px var(--s5) var(--s3);border-bottom:1px solid var(--line-soft);}
+.sheet-head h2{font-size:1.15rem;}
+.sheet-done{font:inherit;font-size:.8rem;font-weight:500;cursor:pointer;border:1px solid var(--cobalt);
+  background:var(--cobalt);color:#fff;padding:7px 18px;border-radius:var(--r-pill);}
+[data-theme=dark] .sheet-done{color:#161a26;}
+.sheet-body{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:var(--s4) var(--s5) var(--s5);
+  display:flex;flex-direction:column;gap:var(--s4);touch-action:pan-y;}
+.sheet-body .row2{flex-direction:column;align-items:stretch;}
+.sheet-body .selwrap{justify-content:space-between;}
+.sheet-body .sel{max-width:none;flex:1;}
+.sheet-body .morebtn{display:none;}
+.sheet-body .morepanel{display:flex;border:0;padding:0;background:none;backdrop-filter:none;}
+
+/* ---------- Motion & responsive ---------- */
 @media(prefers-reduced-motion:reduce){
   *{scroll-behavior:auto;}
   #aurora{animation:none;}
+  .card{animation:none;}
   .card:hover{transform:none;}
+  .fchip{animation:none;}
+  .skcard i{animation:none;background:var(--mist);}
+  .empty svg{animation:none;}
+  .mapbody,.sheet,.scrim,.cd-more{transition:none;}
 }
-.fd-topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;
-  padding:11px clamp(18px,4vw,44px);background:var(--mist);border-bottom:1px solid var(--line);}
-.fd-back{font-family:var(--font-body);font-size:.82rem;color:var(--cobalt);text-decoration:none;letter-spacing:.02em;}
-.fd-back:hover{color:var(--cobalt-deep);text-decoration:underline;}
-.fd-topbar .fd-brand{font-family:var(--font-display);letter-spacing:.28em;text-transform:uppercase;font-size:.8rem;color:var(--ink);}
-.fd-topbar select{font:inherit;font-size:.8rem;color:var(--ink);background:var(--card-solid);
-  border:1px solid var(--line);border-radius:var(--r-pill);padding:6px 12px;cursor:pointer;}
-/* ---------- Page nav (pill bar, like the field guide) ---------- */
-.secnav{background:color-mix(in srgb,var(--ice) 92%,transparent);border-bottom:1px solid var(--line);
-  padding:10px 0;}
-.secnav .wrap{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
-.secnav a{font-family:var(--font-body);font-size:.78rem;border:1px solid var(--line);
-  background:var(--card-solid);color:var(--ink-soft);padding:6px 15px;border-radius:var(--r-pill);
-  transition:.18s ease;letter-spacing:.01em;white-space:nowrap;}
-.secnav a:hover{border-color:var(--peri);color:var(--ink);}
-.secnav a:focus-visible{outline:2px solid var(--cobalt);outline-offset:2px;}
-.secnav a[aria-current="page"]{background:var(--cobalt);border-color:var(--cobalt);color:#fff;}
-[data-theme=dark] .secnav a[aria-current="page"]{color:#161a26;}
-.card .opennow{flex:none;font-size:.56rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;padding:.22em .55em;border-radius:var(--r-pill);white-space:nowrap;}
-.card .opennow.open{color:#1f7a54;background:rgba(31,122,84,.1);}
-.card .opennow.soon{color:var(--mauve);background:rgba(207,155,180,.15);}
-.card .opennow.closed{color:var(--ink-faint);background:rgba(139,151,184,.12);}
-
-/* ===== Concierge widget — token bridge + styles (ported from css/styles.css) ===== */
-:root{
-  --accent:var(--cobalt); --accent-deep:var(--cobalt-deep); --accent-hover:var(--cobalt-deep);
-  --accent-soft:rgba(46,84,173,.10);
-  --blush:var(--lav); --blush-wash:rgba(201,182,232,.22);
-  --cta-text:#fff; --eyebrow-ink:var(--ink-faint);
-  --bg-secondary:var(--mist); --surface:var(--card); --surface-soft:var(--mist);
-  --surface-solid:var(--card-solid); --surface-border:var(--line);
-  --text-primary:var(--ink); --text-secondary:var(--ink-soft);
-  --font-accent:var(--font-script); --btn-radius:var(--r-sm); --card-radius:var(--r);
+@media(max-width:1024px){
+  .browse-grid-wrap{grid-template-columns:1fr;}
 }
-[data-theme=dark]{ --accent-soft:rgba(169,184,238,.14); --blush-wash:rgba(185,166,221,.18); --cta-text:#161a26; }
-/* Floating control stack, bottom-right (top→bottom): theme · Plan a route */
-.themebtn{ bottom:4.6rem; right:1.25rem; }
-
-.cc-fab {
-  position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 300; display: inline-flex; align-items: center; gap: 0.45rem;
-  font-family: var(--font-accent); font-weight: 500; font-size: 0.8rem; letter-spacing: 0.05em;
-  padding: 0.6rem 1.05rem; border-radius: 999px; cursor: pointer; color: var(--text-primary);
-  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--blush-wash) 100%); border: 1px solid var(--blush);
-  box-shadow: 0 12px 30px -12px rgba(34,28,26,0.35);
-  transition: transform 0.32s cubic-bezier(0.22,1,0.36,1), box-shadow 0.32s ease, background 0.3s ease;
+@media(max-width:720px){
+  :root{--tabbar-h:calc(58px + env(safe-area-inset-bottom));}
+  footer .wrap{grid-template-columns:1fr;}
+  .title{font-size:clamp(2.2rem,10vw,3rem);}
+  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);}
+  .themebtn{bottom:calc(var(--tabbar-h) + 12px)!important;}
+  .ssrp-open{bottom:calc(var(--tabbar-h) + 66px)!important;}
+  /* condensed controls: search row + one scrollable chip row */
+  .controls{padding:10px 0;}
+  .controls .wrap{gap:9px;}
+  .updated,.util{display:none;}
+  .qtip.on{display:block;}
+  .chips.cats{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;
+    -webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);mask-image:linear-gradient(90deg,#000 92%,transparent);}
+  .chips.cats::-webkit-scrollbar{display:none;}
+  .fchipbtn{display:inline-flex;align-items:center;gap:6px;flex:none;}
+  .row2,.morepanel{display:none!important;} /* they live in the sheet on mobile */
+  .sheet-body .row2{display:flex!important;}
+  .sheet-body .morepanel{display:flex!important;}
+  /* compact cards: header visible, details expand */
+  .cx{display:grid;}
+  .cd-more{grid-template-rows:0fr;transition:grid-template-rows .3s var(--ease);}
+  .card.open .cd-more{grid-template-rows:1fr;}
+  .card{gap:7px;}
+  /* map collapsed behind a toggle */
+  .maptoggle{display:inline-flex;}
+  .mapbody:not(.open){grid-template-rows:0fr;}
+  .fdmap-sec .fdmap-head{margin-bottom:8px;}
 }
-.cc-fab svg { width: 17px; height: 17px; color: var(--accent); }
-.cc-fab:hover, .cc-fab:focus-visible { transform: translateY(-2px) scale(1.03); background: linear-gradient(135deg, var(--blush-wash) 0%, var(--blush) 100%); box-shadow: 0 18px 38px -14px rgba(34,28,26,0.42); }
-.cc-fab:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 3px; }
-html.dark .cc-fab {
-  background: linear-gradient(135deg, #242837 0%, #323048 100%); border-color: var(--surface-border);
-  box-shadow: 0 12px 30px -12px rgba(0,0,0,0.55);
+@media(min-width:721px){
+  .mapbody{grid-template-rows:1fr!important;}
+  .cd-more{grid-template-rows:1fr!important;}
 }
-html.dark .cc-fab:hover, html.dark .cc-fab:focus-visible { background: linear-gradient(135deg, #2a2e42 0%, #3a3752 100%); box-shadow: 0 18px 38px -14px rgba(0,0,0,0.6); }
-
-.cc-panel {
-  position: fixed; right: 1.25rem; bottom: 4.9rem; z-index: 301;
-  width: min(344px, calc(100vw - 2rem)); height: min(560px, calc(100vh - 7rem));
-  border-radius: 1.1rem; overflow: hidden;
-  background: var(--surface); -webkit-backdrop-filter: blur(20px) saturate(150%); backdrop-filter: blur(20px) saturate(150%);
-  border: 1px solid rgba(255,255,255,0.55);
-  box-shadow: 0 30px 70px -26px rgba(34,28,26,0.45), inset 0 1px 0 rgba(255,255,255,0.6);
-  transform-origin: bottom right;
-  opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(12px) scale(0.98);
-  transition: opacity 0.28s ease, transform 0.36s cubic-bezier(0.22,1,0.36,1), visibility 0s linear 0.36s;
-}
-html.dark .cc-panel { background: rgba(26,29,41,0.74); border-color: rgba(255,255,255,0.12); box-shadow: 0 30px 70px -26px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06); }
-.cc-panel.open { opacity: 1; visibility: visible; pointer-events: auto; transform: none; transition: opacity 0.28s ease, transform 0.36s cubic-bezier(0.22,1,0.36,1); }
-
-.cc-head {
-  position: absolute; top: 0; left: 0; right: 0; z-index: 2; padding: 0.7rem 0.85rem 0.55rem;
-  background: linear-gradient(rgba(247,230,238,0.84), rgba(247,230,238,0.64));
-  -webkit-backdrop-filter: blur(12px) saturate(140%); backdrop-filter: blur(12px) saturate(140%);
-  border-bottom: 1px solid rgba(255,255,255,0.5); border-radius: 1.1rem 1.1rem 0 0;
-}
-html.dark .cc-head { background: linear-gradient(rgba(62,42,54,0.72), rgba(42,32,44,0.6)); border-bottom-color: rgba(255,255,255,0.08); color: #f7f5fa; }
-.cc-titles { text-align: center; padding: 0 2.2rem; min-height: 1.2rem; }
-.cc-title { font-family: var(--font-display); font-weight: 400; font-size: 1.04rem; color: var(--text-primary); line-height: 1.25; }
-.cc-sub { font-family: var(--font-accent); font-size: 0.62rem; letter-spacing: 0.08em; color: var(--text-secondary); margin-top: 0.1rem; }
-.cc-back, .cc-close { position: absolute; top: 0.5rem; width: 30px; height: 30px; display: grid; place-items: center; border: none; background: transparent; color: var(--text-secondary); cursor: pointer; border-radius: 8px; transition: background 0.2s ease, color 0.2s ease; }
-.cc-back { left: 0.6rem; } .cc-close { right: 0.6rem; }
-.cc-back:hover, .cc-close:hover, .cc-back:focus-visible, .cc-close:focus-visible { background: rgba(255,255,255,0.55); color: var(--text-primary); }
-.cc-back svg, .cc-close svg { width: 18px; height: 18px; }
-.cc-tabs { display: flex; gap: 0.2rem; justify-content: center; margin: 0.55rem auto 0; padding: 0.2rem; width: -moz-fit-content; width: fit-content; background: rgba(255,255,255,0.42); border: 1px solid rgba(255,255,255,0.5); border-radius: 999px; }
-html.dark .cc-tabs { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1); }
-.cc-tab { font-family: var(--font-accent); font-size: 0.72rem; letter-spacing: 0.04em; padding: 0.32rem 1rem; border-radius: 999px; border: none; background: transparent; color: var(--text-secondary); cursor: pointer; transition: background 0.25s ease, color 0.25s ease; }
-.cc-tab[aria-selected="true"] { background: var(--surface-solid); color: var(--text-primary); box-shadow: 0 4px 12px -6px rgba(34,28,26,0.3); }
-.cc-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; opacity: 0; transition: opacity 0.3s ease; }
-.cc-progress-bar { display: block; height: 100%; width: 0; background: var(--accent); transition: width 0.4s cubic-bezier(0.22,1,0.36,1); }
-
-.cc-stage { position: absolute; inset: 0; overflow: hidden; }
-.cc-view { position: absolute; inset: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: var(--cc-head-h, 4.7rem) 0.85rem 1rem; transition: transform 0.38s cubic-bezier(0.22,1,0.36,1), opacity 0.3s ease; will-change: transform, opacity; }
-html.rm .cc-panel, html.rm .cc-view { transition: none !important; }
-
-.cc-msg { color: var(--text-primary); line-height: 1.6; font-size: 0.9rem; margin-bottom: 0.8rem; }
-.cc-q { font-family: var(--font-display); font-size: 1.05rem; color: var(--text-primary); margin: 0.2rem 0 0.7rem; }
-.cc-lbl { font-family: var(--font-accent); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-secondary); display: block; margin: 0.7rem 0 0.5rem; }
-.cc-menu { display: flex; flex-direction: column; gap: 0.4rem; }
-.cc-opt { display: flex; gap: 0.55rem; align-items: center; width: 100%; min-height: 40px; text-align: left; cursor: pointer; padding: 0.6rem 0.8rem; border-radius: 0.7rem; border: 1px solid var(--surface-border); background: rgba(255,255,255,0.45); color: var(--text-primary); font-family: var(--font-body); font-size: 0.86rem; line-height: 1.4; transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease; }
-html.dark .cc-opt { background: rgba(255,255,255,0.06); }
-.cc-opt:hover, .cc-opt:focus-visible { background: var(--accent-soft); border-color: var(--accent); transform: translateX(2px); }
-.cc-search { width: 100%; padding: 0.55rem 0.8rem; border-radius: 0.7rem; border: 1px solid var(--surface-border); background: var(--surface-solid); color: var(--text-primary); font-family: var(--font-body); margin-bottom: 0.6rem; }
-.cc-cta { width: 100%; text-align: center; text-decoration: none; margin-top: 0.6rem; }
-.cc-restart { justify-content: center; }
-.cc-art-a { color: var(--text-secondary); line-height: 1.7; font-size: 0.9rem; }
-.cc-art-a a { color: var(--accent); }
-.cc-field { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 0.6rem; }
-.cc-field label { font-family: var(--font-accent); font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-secondary); }
-.cc-field input, .cc-field select, .cc-field textarea { font-family: var(--font-body); font-size: 0.9rem; padding: 0.55rem 0.65rem; border-radius: 0.5rem; border: 1px solid var(--surface-border); background: var(--surface-solid); color: var(--text-primary); }
-.cc-field textarea { min-height: 84px; resize: vertical; }
-.cc-card { border: 1px solid var(--surface-border); background: rgba(255,255,255,0.5); border-radius: 0.7rem; padding: 0.65rem 0.8rem; margin-bottom: 0.4rem; }
-html.dark .cc-card { background: rgba(255,255,255,0.06); }
-.cc-card-top { display: flex; align-items: baseline; gap: 0.5rem; }
-.cc-card-name { font-family: var(--font-display); font-weight: 400; font-size: 0.96rem; color: var(--text-primary); }
-.cc-card-cat { font-family: var(--font-accent); font-size: 0.56rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); margin-left: auto; white-space: nowrap; }
-.cc-card-link { font-size: 0.9rem; text-decoration: none; color: var(--accent); }
-.cc-card-note { color: var(--text-secondary); line-height: 1.55; font-size: 0.82rem; margin-top: 0.3rem; }
-@media (max-width: 600px) { .cc-fab { right: 1rem; bottom: 1rem; } .cc-panel { right: 0.5rem; left: 0.5rem; width: auto; height: min(72vh, calc(100vh - 5.5rem)); bottom: 4.4rem; } }
-.cc-fab.chub-hidden { display: none !important; }
-</style>
+  </style>
 </head>
 <body>
-  <a class="skiplink" href="#main" data-i18n="fd.skip">Skip to the directory</a>
+  <a class="skiplink" href="#q" data-i18n="fd.skipsearch">Skip to search</a>
+  <a class="skiplink" href="#filters" data-i18n="fd.skipfilters">Skip to filters</a>
+  <a class="skiplink" href="#main" data-i18n="fd.skipresults">Skip to results</a>
   <div class="fd-topbar">
     <a class="fd-back" href="./">← <span class="fd-brand">Seraphic Styler</span></a>
     <div class="fd-tools">
-      <select id="langSelect" aria-label="Language / Ngôn ngữ"></select>
+      <select id="langSelect" aria-label="Language / Ngôn ngữ" title="This page is available in English & Tiếng Việt"></select>
     </div>
   </div>
   <nav class="secnav" aria-label="Pages">
@@ -450,7 +553,6 @@ html.dark .cc-card { background: rgba(255,255,255,0.06); }
       <a href="./#contact" data-i18n="fd.nav.contact">Contact</a>
     </div>
   </nav>
-
 
 <div class="masthead">
   <canvas id="aurora" aria-hidden="true"></canvas>
@@ -474,118 +576,210 @@ html.dark .cc-card { background: rgba(255,255,255,0.06); }
       designer labels and markets — curated for clients of Seraphic Styler. Filter by what you're
       looking for, where you'll be, and how it's priced.</p>
     <div class="statline" id="statline"></div>
-    <div class="nowbar">
-      <span class="tag">On now · July 2026</span>
-      <div class="items">
-        <span class="it"><b>Vincom Red Sale</b> — up to 70% off, all Vincom malls · to 20 Jul</span>
-        <span class="it"><b>7.7 mid-year mega-sale</b> — Shopee / Lazada / TikTok Shop, peak 7 Jul</span>
-        <span class="it"><b>Rue Miche L'Édition</b> — rotating PULSE pop-ups, Union Square</span>
-      </div>
+    <div class="nowbar" id="nowbar" hidden>
+      <span class="tag" id="nowtag">On now</span>
+      <div class="items" id="nowitems"></div>
     </div>
   </div>
 </div>
 
-<section class="fd-discover" style="padding:22px 0 2px;" aria-label="Discover a brand">
-  <div class="wrap"><div class="discover-brand" style="max-width:540px;margin:0 auto;"></div></div>
+<section class="browse" aria-labelledby="browseh">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="fd.browse.eye">Start here</div>
+    <h2 id="browseh" data-i18n="fd.browse.title">Browse by wardrobe</h2>
+    <p class="sub" data-i18n="fd.browse.sub">Tap a category to jump straight to those houses — or open the full directory below and filter as finely as you like.</p>
+    <div class="browse-grid-wrap">
+      <div class="qbgrid" id="qbgrid"></div>
+      <div class="discover-brand"></div>
+    </div>
+  </div>
 </section>
 
-<section class="houses" aria-label="A rotating selection of the houses in this directory">
-  <div class="wrap"><div class="eyebrow" data-i18n="fd.houses">The houses</div></div>
-  <div class="houses-strip" id="housesstrip"></div>
-</section>
-
-<section class="fdmap-sec">
+<section class="fdmap-sec" id="map" aria-labelledby="mapth">
   <div class="wrap">
     <div class="fdmap-head">
       <div>
         <div class="eyebrow" data-i18n="fd.mapeye">The lay of the land</div>
-        <h2 class="fdmap-title" data-i18n="fd.maptitle">Where the houses cluster</h2>
+        <h2 class="fdmap-title" id="mapth" data-i18n="fd.maptitle">Where the houses cluster</h2>
         <p class="fdmap-sub" data-i18n="fd.mapsub">Saigon's fashion concentrates in a handful of districts — and often single streets. Tap an area to filter the directory to it.</p>
       </div>
+      <button class="maptoggle" id="maptoggle" aria-expanded="false" aria-controls="mapbody"><span data-i18n="fd.mapshow">Show map</span></button>
       <button class="fdmap-clear" id="fdmapclear" hidden><span data-i18n="fd.showing">Showing</span> <b id="fdmapzone"></b> · <span data-i18n="fd.clear">clear ✕</span></button>
     </div>
-    <div class="fdmap-wrap">
-      <svg id="fdmap" viewBox="0 0 720 470" role="img" aria-label="Stylized map of Saigon fashion districts, sized by number of stores">
-        <defs>
-          <linearGradient id="riverg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a93de"/><stop offset="1" stop-color="#c9b6e8"/></linearGradient>
-          <radialGradient id="nodeg" cx="42%" cy="38%" r="70%"><stop offset="0" stop-color="#c98fc4"/><stop offset=".55" stop-color="#8a93de"/><stop offset="1" stop-color="#2e54ad"/></radialGradient>
-        </defs>
-        <path d="M556,8 C534,120 496,196 520,272 C542,344 582,404 604,466" fill="none" stroke="url(#riverg)" stroke-width="30" stroke-linecap="round" opacity=".42"/>
-        <text class="fdmap-river-lbl" x="612" y="330" transform="rotate(74 612 330)">Saigon River</text>
-        <g id="fdmapnodes"></g>
-      </svg>
-      <p class="fdmap-legend"><span class="lgd" style="--d:8px"></span>5 <span class="lgd" style="--d:16px"></span>20 <span class="lgd" style="--d:28px"></span>60 <span data-i18n="fd.maplegend">houses — circle area ∝ house count</span></p>
-    </div>
-    <p class="fdmap-note" data-i18n="fd.mapnote">Symbol <b>area</b> is proportional to house count (r = k·√n). The nine districts hold <b>141</b> houses; <b>37</b> more are online or multi-brand — together the <b>178</b> in Saigon.</p>
+    <div class="mapbody" id="mapbody"><div>
+      <div class="fdmap-wrap">
+        <svg id="fdmap" viewBox="0 0 720 470" role="img" aria-label="Stylized map of Saigon fashion districts, sized by number of stores">
+          <defs>
+            <linearGradient id="riverg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a93de"/><stop offset="1" stop-color="#c9b6e8"/></linearGradient>
+            <radialGradient id="nodeg" cx="46%" cy="42%" r="72%"><stop offset="0" stop-color="#234193"/><stop offset=".55" stop-color="#2e54ad"/><stop offset="1" stop-color="#8a93de"/></radialGradient>
+          </defs>
+          <path d="M556,8 C534,120 496,196 520,272 C542,344 582,404 604,466" fill="none" stroke="url(#riverg)" stroke-width="30" stroke-linecap="round" opacity=".42"/>
+          <text class="fdmap-river-lbl" x="612" y="330" transform="rotate(74 612 330)" aria-hidden="true">Saigon River</text>
+          <g id="fdmapnodes"></g>
+        </svg>
+        <div class="fdmap-foot">
+          <p class="fdmap-legend"><span class="lgd" style="--d:8px"></span>5 <span class="lgd" style="--d:16px"></span>20 <span class="lgd" style="--d:28px"></span>60 <span data-i18n="fd.maplegend">houses — circle area ∝ house count</span></p>
+          <button class="onlinechip" id="onlinechip" aria-pressed="false"></button>
+        </div>
+      </div>
+      <p class="fdmap-note" id="fdmapnote"></p>
+    </div></div>
   </div>
 </section>
 <div class="fdtip" id="fdtip" hidden></div>
 
 <div id="stickysentinel" aria-hidden="true"></div>
-<div class="controls">
+<div class="controls" id="filters" tabindex="-1" role="region" aria-label="Search and filters">
   <div class="wrap">
     <div class="searchrow">
       <label class="search">
-        <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="9" r="6"/><path d="M14 14l4 4"/></svg>
-        <input id="q" type="search" placeholder="Search brand, street, or note…" data-i18n-ph="fd.qph" aria-label="Search brands" />
+        <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="M14 14l4 4"/></svg>
+        <input id="q" type="search" placeholder="Search brand, street, or note…" data-i18n-ph="fd.qph" aria-label="Search brands" autocomplete="off" />
+        <button class="qclear" id="qclear" hidden aria-label="Clear search">✕</button>
       </label>
-      <span class="count" id="count" role="status"></span>
+      <span class="count" id="count" role="status" aria-live="polite"></span>
+      <span class="updated" data-i18n="fd.updated">Updated July 2026</span>
+      <div class="util">
+        <button class="utilbtn" id="savedbtn" aria-pressed="false" title="Saved to this browser — no account needed.">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21C7 16.5 3 13 3 8.8 3 6.1 5.1 4 7.7 4c1.7 0 3.2.9 4.3 2.4C13.1 4.9 14.6 4 16.3 4 18.9 4 21 6.1 21 8.8c0 4.2-4 7.7-9 12.2Z"/></svg>
+          <span data-i18n="fd.savedlab">Saved</span> <b id="savedcount"></b>
+        </button>
+        <a class="utilbtn" href="#map" data-i18n="fd.maputil">Map</a>
+      </div>
     </div>
-    <div class="chips" id="catchips" role="group" aria-label="Filter by category"></div>
-    <div class="togglerow">
-      <div class="chips" id="citychips" role="group" aria-label="Filter by city"></div>
-      <div class="chips" id="tierchips" role="group" aria-label="Filter by tier"></div>
-      <div class="chips" id="vibechips" role="group" aria-label="Filter by athleisure vibe"></div>
-      <label class="switch"><input type="checkbox" id="walkonly" /> <span data-i18n="fd.walkonly">Walk-in stores only</span></label>
-      <label class="switch"><input type="checkbox" id="savedonly" /> <span data-i18n="fd.savedlab">Saved</span> <b id="savedcount"></b></label>
+    <p class="qtip" id="qtip" data-i18n="fd.searchtip">Tip: clear the search to see every house again.</p>
+    <fieldset class="fset"><legend class="vh" data-i18n="fd.catlegend">Filter by category</legend>
+      <div class="chips cats" id="catchips"></div></fieldset>
+    <fieldset class="row2 fset" id="row2"><legend class="vh" data-i18n="fd.rowlegend">Location, tier and sort order</legend>
+      <label class="selwrap"><span data-i18n="fd.loclabel">Location</span>
+        <select class="sel" id="locsel"></select></label>
+      <label class="selwrap"><span data-i18n="fd.tierlabel">Tier</span>
+        <select class="sel" id="tiersel"></select></label>
+      <label class="selwrap"><span data-i18n="fd.sortlabel">Sort</span>
+        <select class="sel" id="sortsel"></select></label>
+      <button class="morebtn" id="morebtn" aria-expanded="false" aria-controls="morepanel"><span data-i18n="fd.morefilters">More filters</span></button>
+    </fieldset>
+    <div class="morepanel" id="morepanel">
+      <fieldset class="mrow fset"><legend class="mlabel" data-i18n="fd.vibelabel">Activewear vibe</legend>
+        <div class="chips" id="vibechips"></div></fieldset>
+      <fieldset class="mrow fset"><legend class="mlabel" data-i18n="fd.availlabel">Availability</legend>
+        <label class="switch"><input type="checkbox" id="walkonly" /> <span data-i18n="fd.walkonly">Walk-in stores only</span></label></fieldset>
     </div>
+    <div class="activebar" id="activebar"></div>
   </div>
 </div>
 
-<main class="wrap" id="main"></main>
+<main class="wrap" id="main" tabindex="-1">
+  <div class="grid" aria-hidden="true" id="skgrid">
+    <div class="skcard"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></div>
+    <div class="skcard"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></div>
+    <div class="skcard"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></div>
+    <div class="skcard"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></div>
+    <div class="skcard"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></div>
+    <div class="skcard"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></div>
+  </div>
+</main>
+<noscript><div class="wrap" style="padding:30px 0"><p>The directory is interactive and needs JavaScript to filter its 239 houses. Please enable it, or write to seraphicstyler@gmail.com for a copy.</p></div></noscript>
 
-<button class="themebtn" id="theme" aria-label="Toggle dark mode" title="Toggle light / dark">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+<button class="themebtn" id="theme" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle light / dark">
+  <svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+  <svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M19.1 4.9l-1.9 1.9M6.8 17.2l-1.9 1.9"/></svg>
 </button>
+
+<nav class="tabbar" aria-label="Directory quick actions">
+  <button type="button" data-act="search"><svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="M14 14l4 4"/></svg><span data-i18n="fd.tb.search">Search</span></button>
+  <button type="button" data-act="sheet"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg><span data-i18n="fd.tb.filters">Filters</span></button>
+  <button type="button" data-act="map"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg><span data-i18n="fd.tb.map">Map</span></button>
+  <button type="button" data-act="saved" id="tbsaved"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21C7 16.5 3 13 3 8.8 3 6.1 5.1 4 7.7 4c1.7 0 3.2.9 4.3 2.4C13.1 4.9 14.6 4 16.3 4 18.9 4 21 6.1 21 8.8c0 4.2-4 7.7-9 12.2Z"/></svg><span data-i18n="fd.tb.saved">Saved</span><span class="bub" id="tbsavedn" hidden></span></button>
+  <button type="button" data-act="all"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg><span data-i18n="fd.tb.all">All</span></button>
+</nav>
+
+<div class="scrim" id="scrim" hidden></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheettitle" hidden>
+  <div class="sheet-grab" id="sheetgrab" aria-hidden="true"><span></span></div>
+  <div class="sheet-head">
+    <h2 id="sheettitle" data-i18n="fd.sheettitle">Filters &amp; sort</h2>
+    <button class="sheet-done" id="sheetdone" data-i18n="fd.done">Done</button>
+  </div>
+  <div class="sheet-body" id="sheetbody"></div>
+</div>
 
 <footer><div class="wrap">
   <div class="legend">
-    <h4 data-i18n="fd.legendh">How to read this guide</h4>
+    <h3 data-i18n="fd.legendh">How to read this guide</h3>
     <div class="row"><span class="dot" style="background:var(--lav)"></span> Mid — accessible local design</div>
     <div class="row"><span class="dot" style="background:var(--peri)"></span> Premium — elevated local labels</div>
     <div class="row"><span class="dot" style="background:var(--orchid)"></span> Luxury — designer / high-end</div>
     <div class="row"><span class="dot" style="background:var(--mauve)"></span> Couture — made-to-measure &amp; ateliers</div>
-    <p class="meta">Addresses are current to July 2026 from brands' own channels and 2025–26 press, each carried
-      at the confidence noted in the master directory. Saigon boutiques relocate often — message a shop the day
-      before you visit. Ward names changed mid-2025; Grab &amp; Google Maps still resolve the older district labels.</p>
+    <h3 style="margin-top:14px" data-i18n="fd.legendconf">Confidence badges</h3>
+    <div class="row"><span class="cd" style="background:var(--ok)"></span> <span data-i18n="fd.conf.okl">Verified — address confirmed against the brand's own channels</span></div>
+    <div class="row"><span class="cd" style="background:var(--warn)"></span> <span data-i18n="fd.conf.warnl">Confirm first — message the shop before you go (single-source, pop-up or in flux)</span></div>
+    <div class="row"><span class="cd" style="background:var(--stale)"></span> <span data-i18n="fd.conf.stalel">May be outdated — kept for reference until re-verified</span></div>
+    <p class="meta" data-i18n="fd.legendmeta">Addresses are current to July 2026 from brands' own channels and 2025–26 press, each carried
+      at the confidence noted above. Saigon boutiques relocate often — message a shop the day
+      before you visit. Ward names changed mid-2025; Grab &amp; Google Maps still resolve the older district labels.
+      Hearts save to this browser only — no account, nothing leaves your device.</p>
+    <p class="meta" data-i18n="fd.transnote">This page is written in English and Tiếng Việt; house notes stay in their original language.</p>
   </div>
   <div class="contact">
-    <h4>Seraphic Styler</h4>
-    <p style="color:var(--ink-soft);font-size:.85rem;line-height:1.6;margin:.2em 0 .6em">Personal styling &amp;
+    <h3>Seraphic Styler</h3>
+    <p style="color:var(--ink-soft);font-size:.85rem;line-height:1.6;margin:.2em 0 .6em" data-i18n="fd.contactp">Personal styling &amp;
       Vietnamese-fashion sourcing, shipping worldwide. We shop these houses so you don't have to.</p>
     <p style="font-size:.85rem"><a href="mailto:seraphicstyler@gmail.com">seraphicstyler@gmail.com</a><br>
-      <a href="https://instagram.com/seraphicstyler">@seraphicstyler</a></p>
+      <a href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener noreferrer">@seraphicstyler</a></p>
     <div class="sig">Seraphic Styler</div>
-  </div>
-  <div class="contributors" style="grid-column:1/-1;border-top:1px solid var(--line-soft);padding-top:20px;margin-top:2px">
-    <h4>Contributors</h4>
-    <div style="display:flex;flex-wrap:wrap;gap:1.8em;margin-top:.7em">
-      <a href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:.6em;text-decoration:none;color:var(--ink)">
-        <img src="assets/angelic-wings.svg" alt="" width="36" height="36" loading="lazy" style="border-radius:50%;background:var(--paper);padding:5px;box-shadow:var(--shadow-sm)">
-        <span style="line-height:1.3"><b style="font-size:.9rem">SeraphicStyler</b><br><span style="font-size:.72rem;color:var(--ink-faint)">Curation &amp; direction</span></span>
-      </a>
-      <div style="display:flex;align-items:center;gap:.6em">
-        <span aria-hidden="true" style="width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:.8rem;font-weight:600;background:linear-gradient(135deg,var(--peri),var(--orchid))">ST</span>
-        <span style="line-height:1.3"><b style="font-size:.9rem;color:var(--ink)">Sandria Tran</b><br><span style="font-size:.72rem;color:var(--ink-faint)">Research &amp; build</span></span>
-      </div>
-    </div>
   </div>
 </div></footer>
 
-
   <script src="js/translations.js"></script>
-  <script>window.SS_TRANSLATIONS=window.SS_TRANSLATIONS||{};window.SS_TRANSLATIONS.vi=Object.assign(window.SS_TRANSLATIONS.vi||{},{"fd.eye": "Cẩm nang tuyển chọn của atelier", "fd.title": "Danh mục <span class=\"script\">Thời trang</span> Sài Gòn", "fd.lede": "Mọi thương hiệu đáng biết trong bản đồ thời trang thành phố — cửa hàng, atelier, nhãn thiết kế và chợ phiên đã được xác minh — tuyển chọn cho khách của Seraphic Styler. Lọc theo nhu cầu, khu vực và mức giá.", "fd.houses": "Các nhà mốt", "fd.mapeye": "Bản đồ khu vực", "fd.maptitle": "Các cụm cửa hàng", "fd.mapsub": "Thời trang Sài Gòn tập trung ở vài quận — thường trên cùng một con phố. Chạm vào một khu vực để lọc danh mục.", "fd.skip": "Bỏ qua, đến danh mục", "fd.showing": "Đang xem", "fd.clear": "bỏ lọc ✕", "fd.maplegend": "nhà mốt — diện tích vòng tròn ∝ số lượng", "fd.qph": "Tìm thương hiệu, con phố hoặc ghi chú…", "fd.walkonly": "Chỉ cửa hàng ghé trực tiếp", "fd.savedlab": "Đã lưu", "fd.legendh": "Cách đọc cẩm nang này", "fd.nav.home": "Atelier", "fd.nav.dir": "Danh mục", "fd.nav.guide": "Cẩm nang", "fd.nav.look": "Lookbook", "fd.nav.contact": "Liên hệ"});</script>
+  <script>
+  /* This page ships complete UI strings in EN + VI only. Offering the other 18 site languages here
+     would render a broken English/Vietnamese mix, so the selector is trimmed to what truly works.
+     A site-wide preference for another language is preserved (page shows EN, pref untouched). */
+  (function(){var keep={en:1,vi:1};
+    try{window.__ssPrevLang=localStorage.getItem("ss-lang");}catch(e){window.__ssPrevLang=null;}
+    window.SS_LANGS=(window.SS_LANGS||[{code:"en",name:"English"}]).filter(function(l){return keep[l.code];});
+    var t=window.SS_TRANSLATIONS||{};window.SS_TRANSLATIONS={vi:t.vi||{}};
+  })();
+  </script>
+  <script>window.SS_TRANSLATIONS.vi=Object.assign(window.SS_TRANSLATIONS.vi||{},{
+  "fd.eye":"Cẩm nang tuyển chọn của atelier",
+  "fd.title":"Danh mục <span class=\"script\">Thời trang</span> Sài Gòn",
+  "fd.lede":"Mọi thương hiệu đáng biết trong bản đồ thời trang thành phố — cửa hàng, atelier, nhãn thiết kế và chợ phiên đã được xác minh — tuyển chọn cho khách của Seraphic Styler. Lọc theo nhu cầu, khu vực và mức giá.",
+  "fd.mapeye":"Bản đồ khu vực","fd.maptitle":"Các cụm cửa hàng",
+  "fd.mapsub":"Thời trang Sài Gòn tập trung ở vài quận — thường trên cùng một con phố. Chạm vào một khu vực để lọc danh mục.",
+  "fd.skipsearch":"Bỏ qua, đến ô tìm kiếm","fd.skipfilters":"Bỏ qua, đến bộ lọc","fd.skipresults":"Bỏ qua, đến danh sách",
+  "fd.showing":"Đang xem","fd.clear":"bỏ lọc ✕",
+  "fd.maplegend":"nhà mốt — diện tích vòng tròn ∝ số lượng",
+  "fd.mapshow":"Hiện bản đồ","fd.maphide":"Ẩn bản đồ",
+  "fd.qph":"Tìm thương hiệu, con phố hoặc ghi chú…",
+  "fd.updated":"Cập nhật 7/2026",
+  "fd.searchtip":"Mẹo: xoá ô tìm kiếm để xem lại tất cả các nhà mốt.",
+  "fd.browse.eye":"Bắt đầu tại đây","fd.browse.title":"Chọn theo tủ đồ",
+  "fd.browse.sub":"Chạm một nhóm để đến thẳng các nhà mốt đó — hoặc mở toàn bộ danh mục bên dưới và lọc chi tiết tuỳ ý.",
+  "fd.catlegend":"Lọc theo nhóm","fd.rowlegend":"Khu vực, phân khúc và sắp xếp",
+  "fd.loclabel":"Khu vực","fd.tierlabel":"Phân khúc","fd.sortlabel":"Sắp xếp",
+  "fd.morefilters":"Bộ lọc nâng cao","fd.lessfilters":"Thu gọn bộ lọc",
+  "fd.vibelabel":"Phong cách activewear","fd.availlabel":"Hình thức mua",
+  "fd.walkonly":"Chỉ cửa hàng ghé trực tiếp","fd.savedlab":"Đã lưu","fd.maputil":"Bản đồ",
+  "fd.sheettitle":"Bộ lọc & sắp xếp","fd.done":"Xong",
+  "fd.tb.search":"Tìm","fd.tb.filters":"Lọc","fd.tb.map":"Bản đồ","fd.tb.saved":"Đã lưu","fd.tb.all":"Tất cả",
+  "fd.legendh":"Cách đọc cẩm nang này","fd.legendconf":"Nhãn độ tin cậy",
+  "fd.conf.okl":"Đã xác minh — địa chỉ đối chiếu với kênh chính thức của thương hiệu",
+  "fd.conf.warnl":"Nên xác nhận trước — nhắn cho cửa hàng trước khi ghé (nguồn đơn lẻ, pop-up hoặc đang thay đổi)",
+  "fd.conf.stalel":"Có thể đã cũ — giữ để tham khảo cho đến khi xác minh lại",
+  "fd.legendmeta":"Địa chỉ cập nhật đến tháng 7/2026 từ kênh chính thức của thương hiệu và báo chí 2025–26, kèm mức độ tin cậy như trên. Cửa hàng Sài Gòn dời địa điểm thường xuyên — nên nhắn trước một ngày. Tên phường đổi giữa 2025; Grab & Google Maps vẫn nhận nhãn quận cũ. Trái tim chỉ lưu trên trình duyệt này — không cần tài khoản, không gửi đi đâu.",
+  "fd.transnote":"Trang này có tiếng Anh và tiếng Việt; ghi chú của từng nhà mốt giữ nguyên ngôn ngữ gốc.",
+  "fd.contactp":"Styling cá nhân & săn thời trang Việt, giao toàn cầu. Chúng tôi đi các nhà mốt này thay cho bạn.",
+  "fd.nav.home":"Atelier","fd.nav.dir":"Danh mục","fd.nav.guide":"Cẩm nang","fd.nav.look":"Lookbook","fd.nav.contact":"Liên hệ"});</script>
   <script src="js/i18n.js"></script>
+  <script>
+  /* Restore a non-EN/VI site-wide language pref that i18n's fallback would otherwise overwrite. */
+  (function(){addEventListener("DOMContentLoaded",function(){
+    var p=window.__ssPrevLang;
+    if(p&&p!=="en"&&p!=="vi"){try{localStorage.setItem("ss-lang",p);}catch(e){}}
+  });})();
+  </script>
   <script src="js/directory-data.js"></script>
   <script>
 /* ============ DATA ============ */
@@ -606,35 +800,93 @@ const STREETS=[
 /* ============ BRAND ICONS (icons/ folder, matched to entry names) ============ */
 const ICONS={"11 Garmentory":"icons/11 Garmentory.jpg","18 Again":"icons/18 Again.jpg","1998 Before The Dawn":"icons/1998beforethedawn.png","Aeva Atelier":"icons/AEVA Atelier.jpg","Aguja Studio":"icons/Aguja Studio.jpg","Aimee":"icons/Aimee.jpg","Aisytum":"icons/Aisytum.jpg","AME Jewellery":"icons/AME Jewellery.jpg","Amory":"icons/Amory.jpg","Ananas":"icons/Ananas.jpg","Anna Clothes":"icons/Anna Clothes.jpg","Arya":"icons/Arya.jpg","Augety":"icons/Augety.jpg","BaaBeeBoo":"icons/BaaBeeBoo.jpg","Babie Club":"icons/Babie Club.jpg","Badchoices":"icons/Bad Choices.webp","Brown VN":"icons/Brown.png","Bubble":"icons/Bubble.jpg","Bupbes":"icons/Bupbes.png","By Cotno":"icons/By Cotno.jpg","By Fairy":"icons/By Fairy.jpg","By Vee":"icons/By Vee.jpg","caleélilou":"icons/caleelilou.jpg","Calista de Minh Thanh":"icons/Calista de Minh Thanh.png","Cao Minh Saigon":"icons/Cao Minh Saigon.png","CAOSTU":"icons/CAOSTU.jpg","CE CE":"icons/Ce Ce.jpg","CEM — Chị Em Mình":"icons/CEM - Chi Em Minh.jpg","Chan Club":"icons/Chan Club.jpg","CHATS by C.DAM":"icons/Chats by C.Dam.jpg","Chautfifth":"icons/Chautfifth.jpg","Chérieon":"icons/Cherieon.webp","Chou Chou":"icons/Chou Chou.png","Chung Thanh Phong":"icons/Chung Thanh Phong.jpg","Clothes Bar":"icons/Clothes Bar.jpg","Cocosin":"icons/Cocosin.jpg","Curnon":"icons/Curnon.jpg","Daniv Dear":"icons/Daniv Dear.jpg","Daphale Studios":"icons/427607833_358377757122119_2907036623528799797_n.jpg","Dawn Vintage":"icons/Dawn.png","De Pure":"icons/De Pure.jpg","Depass":"icons/Depass.png","Dimo":"icons/Dimo.jpg","Đỗ Long":"icons/Do Long.jpg","Dòng Dòng Sài Gòn":"icons/Dong Dong Sai Gon.jpg","Dune De Label":"icons/Dune De Label.jpg","Duu Stu":"icons/Duu Stu.jpg","Elena NGN":"icons/Elena NGN.jpg","Enuff Studio":"icons/Enuff Studio.jpg","EQL Apparel":"icons/EQL Apparel .jpg","Fancì Club":"icons/Fanci Club.jpg","Feiin Atelier":"icons/Feiin Atelier.jpg","Firefly Studio":"icons/Firefly Studio.jpg","Fitme":"icons/Fitme .jpg","Floralpunk":"icons/Floralpunk.jpg","Gèrme":"icons/Germe.jpg","GIA Studios":"icons/GIA Studios .jpg","Glamdoll":"icons/Glamdoll.png","Goût De Jun":"icons/Gout De Jun.webp","Guvie":"icons/Guvie.webp","Hà Linh Thu":"icons/Ha Linh Thu.jpg","Hangkao Closet":"icons/Hangkao Closet.jpg","Hapas":"icons/Hapas.jpg","Happy Hahaha Studio":"icons/Happy Hahaha Studio.jpg","Hello Weekend Market":"icons/Hello Weekend Market.jpg","Her Day Off":"icons/Her Day Off.jpg","Hoang Studios":"icons/Hoang Studios.jpg","Huelley":"icons/Huelley.jpg","Huelley Rose":"icons/Huelley Rose.jpg","Is Flourish":"icons/Is Flourish.jpg","IVY moda":"icons/IVY moda.jpg","Jenéa by Jenny":"icons/Jenea by Jenny.jpg","Jennie Choo":"icons/Jennie Choo.jpg","Josephine":"icons/Josephine.png","Josephine (Hanoi)":"icons/Josephine (Hanoi).jpg","Joven":"icons/Joven.jpg","Jubin Studio":"icons/Jubin Studio.jpg","Jujubae":"icons/Jujubae.jpg","Jula":"icons/Jula.png","Juno":"icons/Juno.jpg","Kae":"icons/Kae.jpg","Kaiiros":"icons/Kaiiros.jpg","Katherine Studio":"icons/Katherine Studio.jpg","Kathy Atelier":"icons/Kathy Atelier.jpeg","Keira Tong":"icons/Keira Tong.jpg","Kistiny":"icons/Kistiny.jpg","L'Espoir":"icons/L'Espoir.jpg","La Phạm":"icons/La Pham.jpg","La Vierge":"icons/la Vierge.jpg","Lace Lingerie Lover":"icons/Lace Lingerie Lover .webp","LaLune":"icons/LaLune.png","Laneci":"icons/Laneci.jpg","LAVIEM":"icons/Laviem.jpg","Le Thanh Hoa":"icons/Le Thanh Hoa .jpg","Levents":"icons/Levents.png","LI LAM / LAM":"icons/LI LAM LAM.jpg","Libé":"icons/Libe.jpg","Linh Nga Couture":"icons/Linh Nga Couture.jpg","Lovelyn":"icons/Lovelyn.jpg","LSOUL":"icons/LSOUL.jpg","Lụa Là by Diễm":"icons/Lua La by Diem.jpg","Lussera":"icons/Lussera.jpg","Mael Femme":"icons/Mael Femme.jpg","Mangata":"icons/Mangata.jpg","Matemade":"icons/Mate Made.jpg","Metiseko":"icons/Metiseko.jpg","Miah Noir":"icons/miah.noir.jpg","Mimilys":"icons/Mimilys.jpg","Minh Tuan Couture":"icons/Minh Tuan Couture.jpg","Mira Emb":"icons/Mira Emb.jpg","Mood Emode":"icons/Mood Emode.jpg","Moodswings":"icons/Moodswings.jpg","Moon Me":"icons/Moon Me.jpg","Mooris":"icons/Mooris.jpg","Morris":"icons/Morris.jpg","Moulin Rose":"icons/Moulin Rose.jpg","Nguyễn Hoàng Tú":"icons/Nguyen Hoang Tu.jpg","Nosbyn":"icons/Nosbyn.jpg","Nosbyn Studio":"icons/Nosbyn Studio.jpg","OAK — Wear of a Kind":"icons/OAK.jpg","OCÉARA":"icons/OCEARA.jpg","Olaben":"icons/Olaben.jpg","OLV":"icons/OLV.png","OnOnMM ®":"icons/OnOnMM.jpg","ONWAYS":"icons/ONWAYS.jpg","Perpearl":"icons/Per Pearl.png","Phan Đăng Hoàng":"icons/Phan Dang Hoang.jpg","Phan Huy":"icons/Phan Huy .jpg","Pomelo Flower":"icons/Pomelo Flower.jpg","Poppy Babi":"icons/Poppy Babi.jpg","Punch":"icons/Punch.jpg","REBN":"icons/REBN Official.jpg","Rêver":"icons/REVER.jpg","Rid Kid Closet":"icons/Rid Kid Closet.jpg","Rosie":"icons/Rosie.jpg","Rue Des Chats":"icons/Rue Des Chats.jpg","Rue Miche L'Édition":"icons/Rue Miche L'Edition.jpg","Sassy Sis":"icons/Sassy Sis.png","SEESON":"icons/SEESON.jpg","Sensore":"icons/Sensore.jpg","Shimmer Silver":"icons/Shimmer Silver.jpg","Shondo":"icons/Shondo.jpg","Shu Shi":"icons/Shu Shi.jpg","Sister Sister by Min":"icons/Sister Sister by Min.jpg","SIXDO":"icons/SIXDO .jpg","So Dópe Club":"icons/So Dope Club.jpg","Sò Vintage":"icons/So Vintage.jpg","Some Official":"icons/Some Official.jpg","Sonancy Mood":"icons/So Nancy Mood.webp","Stress Mama":"icons/Stress Mama.jpg","Striped T":"icons/Striped T.jpg","Subtle Le Nguyen":"icons/Subtle Le Nguyen.jpg","Sundei":"icons/Sundei.jpg","Swessy":"icons/Swessy.jpg","Szombies":"icons/Szombies.jpg","Tartan Studios":"icons/Tartan Studios.png","Teddy And":"icons/Teddy And.jpg","Thao Bibi":"icons/Thao Bibi .jpg","The Country Boutiques":"icons/The Country Boutiques .jpg","The Fancé":"icons/The Fance.webp","The New Playground":"icons/The New Playground.jpg","The Nicolette House":"icons/The Nicolette House.jpg","The Purists Club":"icons/The Purists Club.jpg","Tiela":"icons/Tiela.png","Trần Hùng":"icons/Tran Hung.jpg","Valenciani":"icons/Valenciani.jpg","Vanila Gals":"icons/Vanila Gals.jpg","Vascara":"icons/Vascara.jpg","Velia Co":"icons/Velia Co.jpg","Velvet Venom":"icons/Velvet Venom.png","Veos":"icons/Veos.jpg","Vintage Angel Tailor":"icons/Vintage Angel.jpg","VUNGOC&SON":"icons/VUNGOC&SON.jpg","Wabitales":"icons/WabiTales.jpg","Wephobia":"icons/Wephobia.png","Whenever Atelier":"icons/Where Atelier.png","Whose Studio":"icons/Whose Studio.webp","Xinh Hà":"icons/Xinh Ha.jpg"};
 
-/* ============ RENDER ============ */
+/* ============ CONFIG ============ */
 const TIERCOL={mid:"var(--lav)",premium:"var(--peri)",luxury:"var(--orchid)",couture:"var(--mauve)",none:"var(--ink-faint)"};
 const STLAB={walk:["Walk-in","walk"],appt:["Appointment","appt"],online:["Online","online"],hub:["In a hub","hub"],popup:["Pop-up","hub"]};
-/* chip tuples: [value, EN label, VI label] — chipbar picks by the active language */
+/* chip / option tuples: [value, EN label, VI label] */
 const CATS=[["all","All","Tất cả"],["women","Womenswear","Thời trang nữ"],["men","Menswear","Thời trang nam"],["luxury","Luxury & Couture","Cao cấp & Couture"],["tailor","Áo dài & Tailors","Áo dài & Nhà may"],["active","Athleisure","Đồ thể thao"],["access","Accessories","Phụ kiện"],["sleep","Sleep & loungewear","Đồ ngủ & mặc nhà"],["market","Markets","Chợ phiên"]];
-const CITIES=[["all","Everywhere","Mọi nơi"],["SGN","Saigon","Sài Gòn"],["HAN","Hanoi","Hà Nội"],["VN","Other VN","VN khác"],["INTL","Overseas","Nước ngoài"]];
+/* Location taxonomy = exactly the map's zones, so filters and card areas finally agree. */
+const LOCS=[
+ ["all","Everywhere","Mọi nơi"],
+ ["SGN","Saigon — all","Sài Gòn — tất cả"],
+ ["z:d1"," District 1"," Quận 1"],
+ ["z:d3"," District 3"," Quận 3"],
+ ["z:pn"," Phú Nhuận"," Phú Nhuận"],
+ ["z:td"," Thảo Điền · Thủ Đức"," Thảo Điền · Thủ Đức"],
+ ["z:bt"," Bình Thạnh"," Bình Thạnh"],
+ ["z:tb"," Tân Bình"," Tân Bình"],
+ ["z:tp"," Tân Phú"," Tân Phú"],
+ ["z:gv"," Gò Vấp"," Gò Vấp"],
+ ["z:q5"," Q5 · Chợ Lớn"," Q5 · Chợ Lớn"],
+ ["z:other"," Online & multi-brand"," Trực tuyến & đa điểm"],
+ ["HAN","Hanoi","Hà Nội"],
+ ["VN","Other Vietnam","VN khác"],
+ ["INTL","Overseas","Nước ngoài"]];
 const TIERS=[["all","All tiers","Mọi phân khúc"],["mid","Mid","Tầm trung"],["premium","Premium","Cao cấp"],["luxury","Luxury","Xa xỉ"],["couture","Couture","Couture"]];
 const VIBES=[["all","All vibes","Mọi phong cách"],["coastal","Coastal","Coastal"],["studio","Studio","Studio"],["performance","Performance","Performance"]];
+const SORTS=[["rec","Curated order","Thứ tự tuyển chọn"],["az","A → Z","A → Z"],["tierup","Price tier: low → high","Phân khúc: thấp → cao"],["tierdn","Price tier: high → low","Phân khúc: cao → thấp"]];
+const TIER_RANK={mid:0,premium:1,luxury:2,couture:3,none:4};
+/* On-now ribbon — every item carries an end date and hides itself the day after. */
+const NOW=[
+ {t:"Vincom Red Sale",d:"up to 70% off, all Vincom malls",dv:"giảm đến 70%, mọi TTTM Vincom",until:"2026-07-20"},
+ {t:"7.7 mid-year mega-sale",d:"Shopee / Lazada / TikTok Shop",dv:"Shopee / Lazada / TikTok Shop",until:"2026-07-07"},
+ {t:"Rue Miche L'Édition",d:"rotating PULSE pop-ups, Union Square",dv:"pop-up PULSE luân phiên, Union Square",until:"2026-08-31"}
+];
 /* dynamic-string i18n (chrome only — store notes/data stay EN by owner precedent) */
 const LTXT={
- en:{houses:"houses",pct:"% of Saigon",count:(a,b)=>a+" of "+b,
+ en:{houses:"houses",pct:"% of Saigon",
+  showAll:n=>`Showing all ${n} houses`,
+  showSome:(a,b)=>`Showing ${a} of ${b} houses`,
   banner:`Planning a trip around these houses? Read <a href="field-guide.html">the field guide</a> — getting around, dressing for the heat, and 1-to-30-day shopping itineraries.`,
   st:{walk:"Walk-in",appt:"Appointment",online:"Online",hub:"In a hub",popup:"Pop-up"},
   tier:{mid:"mid",premium:"premium",luxury:"luxury",couture:"couture"},
-  map:"Map ↗",byAppt:"By appointment",listing:"Directory listing",
+  conf:{ok:"Verified",warn:"Confirm first",stale:"May be outdated"},
+  map:"Map ↗",mapFor:n=>`Open Google Maps for ${n}`,byAppt:"By appointment",listing:"Directory listing",
+  share:"Share",shared:"Link copied ✓",shareFor:n=>`Share a link to ${n}`,moreF:"More filters",
   stat:["houses catalogued","in Saigon","walk-in stores","districts mapped"],
   streetsH:"The retail clusters",
-  streetsSub:"Saigon's fashion isn't spread evenly — these streets and buildings each hold several boutiques, the highest-value stops on any styling route."},
- vi:{houses:"nhà mốt",pct:"% của Sài Gòn",count:(a,b)=>a+" trên "+b,
+  streetsSub:"Saigon's fashion isn't spread evenly — these streets and buildings each hold several boutiques, the highest-value stops on any styling route.",
+  clearAll:"Clear all filters",showAllBtn:n=>`Show all ${n} houses`,
+  removeF:l=>`Remove filter: ${l}`,searchF:q=>`Search: “${q}”`,walkF:"Walk-in only",savedF:"Saved only",
+  one:"Exactly one house matches.",oneBtn:n=>`Show all ${n} houses`,
+  emptyH:"No houses match",emptyP:"Nothing in the directory fits that combination — Saigon's scene moves fast, but not that fast.",
+  actClear:"Clear search",actAll:n=>`Show all ${n} houses`,actWomen:"Browse womenswear",
+  shortlist:"Your shortlist — saved to this browser only",copy:"Copy as text",copied:"Copied ✓",
+  onlineChip:n=>`${n} online & multi-brand →`,
+  qbAll:"The full directory",qbBrowse:"Browse →",
+  nowTag:"On now",to:"to",
+  savedTip:"Saved to this browser — no account needed.",
+  expandFor:n=>`Show details for ${n}`,saveFor:n=>`Save ${n}`,
+  mapNote:(d,o,s)=>`Symbol <b>area</b> is proportional to house count (r = k·√n). The nine districts hold <b>${d}</b> walk-able houses; the chip above adds the <b>${o}</b> online &amp; multi-brand names — together the <b>${s}</b> in Saigon.`},
+ vi:{houses:"nhà mốt",pct:"% của Sài Gòn",
+  showAll:n=>`Đang hiển thị tất cả ${n} nhà mốt`,
+  showSome:(a,b)=>`Hiển thị ${a} trong ${b} nhà mốt`,
   banner:`Lên lộ trình ghé các nhà mốt này? Đọc <a href="field-guide.html">cẩm nang thực địa</a> — cách di chuyển, ăn mặc hợp trời nóng và lịch trình mua sắm 1–30 ngày.`,
   st:{walk:"Ghé trực tiếp",appt:"Hẹn trước",online:"Trực tuyến",hub:"Trong hub",popup:"Pop-up"},
   tier:{mid:"tầm trung",premium:"cao cấp",luxury:"xa xỉ",couture:"couture"},
-  map:"Bản đồ ↗",byAppt:"Theo lịch hẹn",listing:"Có trong danh mục",
+  conf:{ok:"Đã xác minh",warn:"Xác nhận trước",stale:"Có thể đã cũ"},
+  map:"Bản đồ ↗",mapFor:n=>`Mở Google Maps cho ${n}`,byAppt:"Theo lịch hẹn",listing:"Có trong danh mục",
+  share:"Chia sẻ",shared:"Đã chép liên kết ✓",shareFor:n=>`Chia sẻ liên kết đến ${n}`,moreF:"Thêm bộ lọc",
   stat:["nhà mốt trong danh mục","tại Sài Gòn","cửa hàng ghé trực tiếp","quận được lập bản đồ"],
   streetsH:"Các cụm mua sắm",
-  streetsSub:"Thời trang Sài Gòn không rải đều — những con phố và toà nhà này mỗi nơi tụ nhiều cửa hàng, là điểm dừng đáng giá nhất trên mọi lộ trình phối đồ."}
+  streetsSub:"Thời trang Sài Gòn không rải đều — những con phố và toà nhà này mỗi nơi tụ nhiều cửa hàng, là điểm dừng đáng giá nhất trên mọi lộ trình phối đồ.",
+  clearAll:"Xoá mọi bộ lọc",showAllBtn:n=>`Xem tất cả ${n} nhà mốt`,
+  removeF:l=>`Bỏ lọc: ${l}`,searchF:q=>`Tìm: “${q}”`,walkF:"Chỉ ghé trực tiếp",savedF:"Chỉ mục đã lưu",
+  one:"Chỉ có đúng một nhà mốt khớp.",oneBtn:n=>`Xem tất cả ${n} nhà mốt`,
+  emptyH:"Chưa có nhà mốt nào khớp",emptyP:"Danh mục chưa có nhà nào hợp tổ hợp lọc này — thời trang Sài Gòn đổi nhanh, nhưng chưa nhanh vậy.",
+  actClear:"Xoá tìm kiếm",actAll:n=>`Xem tất cả ${n} nhà mốt`,actWomen:"Xem thời trang nữ",
+  shortlist:"Danh sách của bạn — chỉ lưu trên trình duyệt này",copy:"Chép dạng văn bản",copied:"Đã chép ✓",
+  onlineChip:n=>`${n} nhà trực tuyến & đa điểm →`,
+  qbAll:"Toàn bộ danh mục",qbBrowse:"Xem →",
+  nowTag:"Đang diễn ra",to:"đến",
+  savedTip:"Lưu trên trình duyệt này — không cần tài khoản.",
+  expandFor:n=>`Xem chi tiết ${n}`,saveFor:n=>`Lưu ${n}`,
+  mapNote:(d,o,s)=>`<b>Diện tích</b> ký hiệu tỉ lệ với số nhà mốt (r = k·√n). Chín quận nắm <b>${d}</b> nhà có cửa hàng; nút phía trên gom thêm <b>${o}</b> nhà trực tuyến &amp; đa điểm — tổng cộng <b>${s}</b> tại Sài Gòn.`}
 };
 function isVI(){return document.documentElement.getAttribute("lang")==="vi";}
 function LX(){return isVI()?LTXT.vi:LTXT.en;}
+const VI_RE=/[àáảãạăằắẳẵặâầấẩẫậđèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵĐ]/;
+const viAttr=s=>VI_RE.test(s||"")?' lang="vi"':'';
 /* aesthetic vibe for activewear — coastal=California/laid-back-luxe, studio=Pilates/yoga, performance=gym/run */
 const VIBEMAP={Olaben:"coastal","EQL Apparel":"coastal",REBN:"studio","Hibi Sports":"studio",Kydra:"performance",Supersports:"performance",Fitme:"performance","Thế Giới Đồ Tập":"performance",Shamdi:"performance",Coolmate:"performance","I.Sport":"performance"};
 function vibeOf(b){return b.vibe||VIBEMAP[b.n]||"";}
@@ -650,15 +902,31 @@ const GROUPS=[
  ["market","Markets & pop-ups","Where many brands gather at once — highest value per trip. Dates roam; check socials first.","Chợ phiên & pop-up"]
 ];
 
-let fCat="all",fCity="all",fWalk=false,fQ="",fZone="",fTier="all",fVibe="all",fSaved=false;
+/* ============ STATE ============ */
+let fCat="all",fCity="all",fWalk=false,fQ="",fZone="",fTier="all",fVibe="all",fSaved=false,fSort="rec";
 
-/* — Saved shortlist (localStorage) — */
+/* — Saved shortlist (localStorage; hearts never leave this browser) — */
 let SAVED=new Set();
 try{SAVED=new Set(JSON.parse(localStorage.getItem("fd-saved")||"[]"));}catch(e){}
 function bid(b){return b.h||b.n;}
 function isSaved(b){return SAVED.has(bid(b));}
 function persistSaved(){try{localStorage.setItem("fd-saved",JSON.stringify([...SAVED]));}catch(e){}}
-function updateSavedCount(){const el=document.getElementById("savedcount");if(el)el.textContent="("+SAVED.size+")";}
+function updateSavedCount(){
+  const n=SAVED.size;
+  const el=document.getElementById("savedcount");if(el)el.textContent="("+n+")";
+  const tb=document.getElementById("tbsavedn");if(tb){tb.hidden=!n;tb.textContent=n;}
+}
+
+/* — Confidence normalisation: standardised badges instead of inline ⚠️ text — */
+function confOf(b){
+  if(b.conf)return b.conf; /* future data override: "ok"|"warn"|"stale" */
+  if(b.flag)return "warn";
+  const t=(b.no||"")+" "+(b.area||"");
+  if(/⚠️|confirm|verify|unconfirmed|coming soon|opening soon/i.test(t))return "warn";
+  if(b.st==="popup")return "warn";
+  return "ok";
+}
+function cleanNote(s){return (s||"").replace(/⚠️\s*/g,"");}
 
 /* — Shareable URL state (#cat=…&zone=… etc.) — */
 function syncHash(){
@@ -670,6 +938,7 @@ function syncHash(){
   if(fZone)p.set("zone",fZone);
   if(fWalk)p.set("walk","1");
   if(fSaved)p.set("saved","1");
+  if(fSort!=="rec")p.set("sort",fSort);
   if(fQ)p.set("q",fQ);
   const s=p.toString();
   try{history.replaceState(null,"",s?"#"+s:location.pathname+location.search);}catch(e){}
@@ -692,7 +961,19 @@ function statChips(){
 function chipbar(id,arr,cur,cls){
   const vi=isVI();
   document.getElementById(id).innerHTML=arr.map(([v,l,lv])=>
-    `<button class="chip ${cls}" data-v="${v}" aria-pressed="${cur===v}">${vi&&lv?lv:l}</button>`).join("");
+    `<button class="chip ${cls}" data-v="${v}" aria-pressed="${cur===v}">${vi&&lv?lv:l}</button>`).join("")
+   /* mobile only (CSS): the chip row ends in a More-filters chip that opens the sheet */
+   +(id==="catchips"?`<button class="chip fchipbtn" id="fchipbtn" aria-haspopup="dialog" aria-controls="sheet">${LX().moreF}</button>`:"");
+}
+function fillSel(id,arr,cur){
+  const vi=isVI();
+  const el=document.getElementById(id);
+  el.innerHTML=arr.map(([v,l,lv])=>`<option value="${v}"${cur===v?" selected":""}>${vi&&lv?lv:l}</option>`).join("");
+}
+function locValue(){return fZone?("z:"+fZone):fCity;}
+function setLoc(v){
+  if(v.startsWith("z:")){fZone=v.slice(2);fCity="all";}
+  else{fCity=v;fZone="";}
 }
 function match(b){
   if(fCat!=="all"&&b.cat!==fCat)return false;
@@ -706,6 +987,12 @@ function match(b){
     if(!t.includes(fQ))return false;}
   return true;
 }
+function sortList(arr){
+  if(fSort==="az")return [...arr].sort((a,b)=>a.n.localeCompare(b.n,"vi"));
+  if(fSort==="tierup")return [...arr].sort((a,b)=>(TIER_RANK[a.tier]??4)-(TIER_RANK[b.tier]??4));
+  if(fSort==="tierdn")return [...arr].sort((a,b)=>(TIER_RANK[b.tier]??4)-(TIER_RANK[a.tier]??4));
+  return arr; /* rec = curated data order */
+}
 /* Live open/closed status from a store's stated hours (walk-in / hub only) */
 function openState(b){
   if(b.st!=="walk"&&b.st!=="hub")return null;
@@ -713,60 +1000,127 @@ function openState(b){
   if(!m)return null;
   const open=+m[1]*60+ +m[2],close=+m[3]*60+ +m[4];
   const now=new Date(),cur=now.getHours()*60+now.getMinutes();
-  if(cur>=open&&cur<close)return{cls:"open",label:isVI()?"Đang mở":"Open now"};
+  if(cur>=open&&cur<close)return{cls:"ok",label:isVI()?"Đang mở":"Open now"};
   if(cur<open)return{cls:"soon",label:(isVI()?"Mở ":"Opens ")+("0"+m[1]).slice(-2)+":"+m[2]};
-  return{cls:"closed",label:isVI()?"Đã đóng":"Closed"};
+  return{cls:"closed",label:isVI()?"Đã đóng":"Closed now"};
 }
-function card(b){
+function card(b,i){
   const L=LX(),st=STLAB[b.st]||["",""],stl=(L.st[b.st]||st[0]);
-  const ost=openState(b),openbadge=ost?`<span class="opennow ${ost.cls}">${ost.label}</span>`:"";
-  const handle=b.w?`<a class="hd" href="${b.w}" target="_blank" rel="noopener">${new URL(b.w).hostname}</a>`:b.h?`<a class="hd" href="https://instagram.com/${b.h}">@${b.h}</a>`:`<span class="hd" style="color:var(--ink-faint)">${b.area.includes("appointment")||b.st==="appt"?L.byAppt:L.listing}</span>`;
-  const tier=b.tier&&b.tier!=="none"?`<span class="tierlab" style="--tier:${TIERCOL[b.tier]}">${L.tier[b.tier]||b.tier}</span>`:"";
-  const sub=b.sub?`<span class="area">${b.sub}</span>`:"";
+  const ost=openState(b),openbadge=ost?`<span class="badge ${ost.cls}">${ost.label}</span>`:"";
+  const cf=confOf(b);
+  const confbadge=cf!=="ok"?`<span class="badge ${cf}">${L.conf[cf]||cf}</span>`:"";
+  const note=cleanNote(b.no);
+  const handle=b.w?`<a class="hd" href="${b.w}" target="_blank" rel="noopener noreferrer">${new URL(b.w).hostname}</a>`
+    :b.h?`<a class="hd" href="https://instagram.com/${b.h}" target="_blank" rel="noopener noreferrer">@${b.h}</a>`
+    :`<span class="hd" style="color:var(--ink-mute)">${b.area.includes("appointment")||b.st==="appt"?L.byAppt:L.listing}</span>`;
+  const tier=b.tier&&b.tier!=="none"?`<span class="tierchip" style="--tier:${TIERCOL[b.tier]}">${L.tier[b.tier]||b.tier}</span>`:"";
+  const sub=b.sub?`<span class="area"${viAttr(b.sub)}>${b.sub}</span>`:"";
   const vb=vibeOf(b),vibe=vb?`<span class="vibe">${vb}</span>`:"";
-  const flag=b.flag?`<div class="flag">${b.no}</div>`:"";
-  const note=b.flag?"":`<div class="note">${b.no}</div>`;
   const price=b.price?`<span class="price">${b.price}</span>`:"";
   const on=isSaved(b);
-  const sv=`<button class="sv${on?" on":""}" data-id="${bid(b)}" aria-pressed="${on}" aria-label="Save ${b.n}">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21C7 16.5 3 13 3 8.8 3 6.1 5.1 4 7.7 4c1.7 0 3.2.9 4.3 2.4C13.1 4.9 14.6 4 16.3 4 18.9 4 21 6.1 21 8.8c0 4.2-4 7.7-9 12.2Z"/></svg></button>`;
-  const map=hasStreet(b)?`<a class="maplink" target="_blank" rel="noopener" href="${mapsUrl(b)}">${L.map}</a>`:"";
+  const sv=`<button class="sv${on?" on":""}" data-id="${bid(b)}" aria-pressed="${on}" aria-label="${L.saveFor(b.n)}">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21C7 16.5 3 13 3 8.8 3 6.1 5.1 4 7.7 4c1.7 0 3.2.9 4.3 2.4C13.1 4.9 14.6 4 16.3 4 18.9 4 21 6.1 21 8.8c0 4.2-4 7.7-9 12.2Z"/></svg></button>`;
+  const cx=`<button class="cx" aria-expanded="false" aria-controls="cdm-${i}" aria-label="${L.expandFor(b.n)}">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 9 7 7 7-7"/></svg></button>`;
+  const nDis=b.sub?`${b.n} (${b.sub})`:b.n; /* sub disambiguates same-name records (e.g. the two Metiseko doors) */
+  const map=hasStreet(b)?`<a class="maplink" target="_blank" rel="noopener noreferrer" href="${mapsUrl(b)}" aria-label="${L.mapFor(nDis)}">${L.map}</a>`:"";
+  const shr=`<button class="shr" data-n="${b.n}" aria-label="${L.shareFor(nDis)}">${L.share}</button>`;
   const logo=ICONS[b.n]?`<img class="blogo" src="${encodeURI(ICONS[b.n])}" alt="" width="40" height="40" loading="lazy" decoding="async">`:"";
-  return `<article class="card" style="--tier:${TIERCOL[b.tier]||'var(--lav)'}">
-    <div class="top">${logo}<div class="tt"><div class="nm">${b.n}</div>${handle}</div>
-      <div class="tr"><span class="st ${st[1]}">${stl}</span>${sv}</div></div>
-    <div class="addr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg><span>${b.a}</span>${map}</div>
-    ${note}${flag}
-    <div class="foot">${openbadge}${price}${tier}${vibe}${sub}<span class="area">${b.area}</span></div>
+  return `<article class="card" style="--tier:${TIERCOL[b.tier]||'var(--lav)'};--i:${Math.min(i,7)}">
+    <div class="top">${logo}<div class="tt"><div class="nm"${viAttr(b.n)}>${b.n}</div>${handle}</div>
+      <div class="tr"><span class="st ${st[1]}">${stl}</span>${sv}${cx}</div></div>
+    <div class="cd-more" id="cdm-${i}"><div>
+      <div class="addr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg><span${viAttr(b.a)}>${b.a}</span>${shr}${map}</div>
+      <div class="note"${viAttr(note)}>${note}</div>
+      <div class="foot">${openbadge}${confbadge}${price}${tier}${vibe}${sub}<span class="area"${viAttr(b.area)}>${b.area}</span></div>
+    </div></div>
   </article>`;
+}
+/* — Active-filter chips: every narrowed state shows removable chips + one primary escape hatch — */
+function activeFilters(){
+  const L=LX(),vi=isVI(),out=[];
+  const lbl=(arr,v)=>{const t=arr.find(x=>x[0]===v);return t?(vi&&t[2]?t[2]:t[1]):v;};
+  if(fQ){const raw=(document.getElementById("q").value||"").trim();
+    out.push({k:"q",label:L.searchF(raw||fQ)});} /* chip echoes what was typed, not the lowercased match key */
+  if(fCat!=="all")out.push({k:"cat",label:lbl(CATS,fCat)});
+  if(fZone)out.push({k:"loc",label:lbl(LOCS,"z:"+fZone).trim()});
+  else if(fCity!=="all")out.push({k:"loc",label:lbl(LOCS,fCity)});
+  if(fTier!=="all")out.push({k:"tier",label:lbl(TIERS,fTier)});
+  if(fVibe!=="all")out.push({k:"vibe",label:lbl(VIBES,fVibe)});
+  if(fWalk)out.push({k:"walk",label:L.walkF});
+  if(fSaved)out.push({k:"saved",label:L.savedF});
+  return out;
+}
+function removeFilter(k){
+  if(k==="q"){fQ="";const q=document.getElementById("q");q.value="";document.getElementById("qclear").hidden=true;}
+  if(k==="cat")fCat="all";
+  if(k==="loc"){fCity="all";fZone="";}
+  if(k==="tier")fTier="all";
+  if(k==="vibe")fVibe="all";
+  if(k==="walk")fWalk=false;
+  if(k==="saved")fSaved=false;
+  syncHash();syncUI();
+}
+function resetAll(){
+  fCat="all";fCity="all";fTier="all";fVibe="all";fZone="";fWalk=false;fSaved=false;fQ="";
+  const q=document.getElementById("q");q.value="";document.getElementById("qclear").hidden=true;
+  syncHash();syncUI();
+}
+function renderActivebar(){
+  const bar=document.getElementById("activebar"),L=LX(),af=activeFilters();
+  if(!af.length){bar.classList.remove("on");bar.innerHTML="";return;}
+  bar.classList.add("on");
+  bar.innerHTML=af.map(f=>`<span class="fchip"><b>${f.label}</b><button class="x" data-k="${f.k}" aria-label="${L.removeF(f.label)}">✕</button></span>`).join("")
+   +`<button class="showall" data-act="reset">${L.showAllBtn(B.length)}</button>`;
 }
 function render(){
   const main=document.getElementById("main");
   const shown=B.filter(match);
-  document.getElementById("count").textContent=LX().count(shown.length,B.length);
+  const L=LX();
+  document.getElementById("count").textContent=
+    shown.length===B.length?L.showAll(B.length):L.showSome(shown.length,B.length);
+  document.getElementById("qtip").classList.toggle("on",!!fQ);
+  renderActivebar();
   let html="";
+  if(shown.length===1)
+    html+=`<div class="onehit"><span>${L.one}</span><button class="showall" data-act="reset">${L.oneBtn(B.length)}</button></div>`;
   const useGroups=(fCat==="all");
   const order=useGroups?GROUPS:GROUPS.filter(g=>g[0]===fCat);
   for(const [key,title,desc,titleVI] of order){
-    const items=shown.filter(b=>b.cat===key);
+    const items=sortList(shown.filter(b=>b.cat===key));
     if(!items.length)continue;
-    html+=`<section class="group"><h2>${isVI()&&titleVI?titleVI:title} <span class="n">${items.length}</span></h2><p>${desc}</p></section>`;
+    html+=`<section class="group"><div class="ghead"><h2>${isVI()&&titleVI?titleVI:title} <span class="n">${items.length}</span></h2></div><p>${desc}</p>`;
     html+=`<div class="grid">${items.map(card).join("")}</div>`;
-    if(key==="women"&&fCity!=="HAN"&&fCity!=="INTL"&&fCity!=="VN"){
-      html+=streetsPanel();
-    }
+    if(key==="women"&&fCity!=="HAN"&&fCity!=="INTL"&&fCity!=="VN")html+=streetsPanel();
+    html+=`</section>`;
   }
-  if(!shown.length)html=`<div class="grid"><div class="empty">No houses match that filter. Try clearing the search or switching city.</div></div>`;
-  if(fSaved&&shown.length)html=`<div class="savebar">Your shortlist · <button id="copylist">Copy as text</button></div>`+html;
-  html+=`<div class="fg-banner">${LX().banner}</div>`;
+  if(!shown.length)html=emptyState();
+  if(fSaved&&shown.length)html=`<div class="savebar">${L.shortlist} · <button id="copylist">${L.copy}</button></div>`+html;
+  html+=`<div class="fg-banner">${L.banner}</div>`;
   main.innerHTML=html;
+}
+function emptyState(){
+  const L=LX();
+  const acts=[
+    fQ?`<button class="chip" data-act="clearq">${L.actClear}</button>`:"",
+    `<button class="showall" data-act="reset">${L.actAll(B.length)}</button>`,
+    fCat!=="women"?`<button class="chip" data-act="women">${L.actWomen}</button>`:""
+  ].join("");
+  return `<div class="grid"><div class="empty">
+    <svg width="44" height="44" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M22.3,27 C18.4,18 21.6,8.4 31.6,6.6 C38.2,5.4 41,11.4 37.8,18 C35,24.2 28.6,27.4 23,28.6 Z"/>
+      <path d="M22.6,29.4 C26.8,31.2 32.2,33 35,38 C36.6,40.8 36,43.8 33.6,43.4 C29.6,42.7 25,35.6 22.4,30.4 Z"/>
+      <path d="M22.3,27 C19.9,22.2 17.2,18.4 13.4,16.4"/></svg>
+    <h3>${L.emptyH}</h3><p>${L.emptyP}</p>
+    <div class="acts">${acts}</div>
+  </div></div>`;
 }
 function streetsPanel(){
   const L=LX();
   return `<div class="streets"><h3>${L.streetsH}</h3>
     <p class="sub">${L.streetsSub}</p>
     <div class="stgrid">${STREETS.map(s=>`<div class="stcard">
-      <div class="h">${s.h} <b>${s.c}</b></div><div class="d">${s.d}</div><div class="l">${s.l}</div></div>`).join("")}</div></div>`;
+      <div class="h"${viAttr(s.h)}>${s.h} <b>${s.c}</b></div><div class="d">${s.d}</div><div class="l">${s.l}</div></div>`).join("")}</div></div>`;
 }
 
 /* ---- Cluster map: proportional-symbol, area ∝ count (r = k·√n) ---- */
@@ -779,10 +1133,10 @@ const ZONES=[
  {k:"d3",x:332,y:258,n:"District 3"},
  {k:"d1",x:452,y:262,n:"District 1"},
  {k:"td",x:634,y:168,n:"Thảo Điền"},
- {k:"q5",x:256,y:384,n:"Q5 · Chợ Lớn"},
- {k:"other",x:140,y:394,n:"Online & multi-brand"}
+ {k:"q5",x:256,y:384,n:"Q5 · Chợ Lớn"}
 ];
-const DISTRICTS=ZONES.filter(z=>z.k!=="other").length;
+const ZONE_OTHER={k:"other",n:"Online & multi-brand"};
+const DISTRICTS=ZONES.length;
 /* Every Saigon record maps to exactly one node → node counts sum to the "in Saigon" total. */
 function zoneOf(b){
  if(b.city!=="SGN")return null;
@@ -799,6 +1153,7 @@ function zoneOf(b){
  return "other";
 }
 function zoneCounts(){const c={};B.forEach(b=>{const z=zoneOf(b);if(z)c[z]=(c[z]||0)+1;});return c;}
+function zoneName(k){return k==="other"?ZONE_OTHER.n:(ZONES.find(z=>z.k===k)||{}).n||"";}
 function topHouses(zk){return B.filter(b=>zoneOf(b)===zk&&b.st!=="online").slice(0,3).map(b=>b.n);}
 const R_MAX=44;
 function renderMap(){
@@ -806,33 +1161,37 @@ function renderMap(){
  const counts=zoneCounts(),max=Math.max(1,...Object.values(counts)),K=R_MAX/Math.sqrt(max);
  g.innerHTML=ZONES.map(z=>{
    const c=counts[z.k]||0,r=c?Math.max(5,K*Math.sqrt(c)):4,act=fZone===z.k?" active":"";
-   const fs=r>=20?16:r>=10?12:10; /* count text scaled to fit small nodes */
-   return `<g class="fdmap-node${act}${z.k==="other"?" oth":""}" data-z="${z.k}" tabindex="0" role="button" aria-label="${z.n}: ${c} ${LX().houses}">
-     <circle cx="${z.x}" cy="${z.y}" r="${r.toFixed(1)}" fill="url(#nodeg)" opacity="${c?0.9:0.2}"/>
-     <text class="z-n" x="${z.x}" y="${z.y}" font-size="${fs}" dominant-baseline="central">${c||""}</text>
-     <text class="z-l" x="${z.x}" y="${(z.y+r+15).toFixed(1)}">${z.n}</text>
+   const fs=r>=20?16:r>=11?12:0; /* numerals only where they can sit legibly on the cobalt core */
+   return `<g class="fdmap-node${act}" data-z="${z.k}" tabindex="0" role="button" aria-pressed="${fZone===z.k}" aria-label="${z.n}: ${c} ${LX().houses}">
+     <circle cx="${z.x}" cy="${z.y}" r="${r.toFixed(1)}" fill="url(#nodeg)" opacity="${c?0.92:0.2}"/>
+     ${fs?`<text class="z-n" x="${z.x}" y="${z.y}" font-size="${fs}" dominant-baseline="central">${c||""}</text>`:""}
+     <text class="z-l" x="${z.x}" y="${(z.y+r+15).toFixed(1)}"${viAttr(z.n)}>${z.n}</text>
    </g>`;
  }).join("");
+ const oc=document.getElementById("onlinechip");
+ if(oc){oc.textContent=LX().onlineChip(counts.other||0);oc.setAttribute("aria-pressed",String(fZone==="other"));}
 }
 function setZone(z){
  fZone=(!z||fZone===z)?"":z;
- const cl=document.getElementById("fdmapclear");
- if(fZone){fCity="all";chipbar("citychips",CITIES,fCity,"city");
-   document.getElementById("fdmapzone").textContent=(ZONES.find(x=>x.k===fZone)||{}).n||"";cl.hidden=false;}
- else if(cl){cl.hidden=true;}
- syncHash();renderMap();render();
+ if(fZone)fCity="all";
+ updateMapClear();
+ syncHash();renderMap();fillSel("locsel",LOCS,locValue());render();
  if(fZone){const m=document.getElementById("main");if(m)m.scrollIntoView({behavior:"smooth",block:"start"});}
+}
+function updateMapClear(){
+ const cl=document.getElementById("fdmapclear");if(!cl)return;
+ if(fZone){document.getElementById("fdmapzone").textContent=zoneName(fZone);cl.hidden=false;}
+ else cl.hidden=true;
 }
 function fdTip(n){
  const tip=document.getElementById("fdtip");if(!tip||!n)return;
- const zk=n.dataset.z,z=ZONES.find(v=>v.k===zk)||{},sgn=B.filter(b=>b.city==="SGN").length;
+ const zk=n.dataset.z,sgn=B.filter(b=>b.city==="SGN").length;
  const c=B.filter(b=>zoneOf(b)===zk).length,pct=Math.round(c/sgn*100),tops=topHouses(zk);
  const more=c-tops.length,vi=isVI();
- tip.innerHTML=`<b>${z.n}</b><span>${c} ${LX().houses} · ${pct}${LX().pct}</span>`
+ tip.innerHTML=`<b>${zoneName(zk)}</b><span>${c} ${LX().houses} · ${pct}${LX().pct}</span>`
    +(tops.length?`<em>${tops.join(" · ")}${more>0?` +${more} ${vi?"nữa":"more"}`:""}</em>`:"")
    +`<i>${vi?"Chạm để lọc":"Tap to filter"}</i>`;
  tip.hidden=false; /* reveal before measuring */
- /* anchor above the circle centre, with viewport-edge detection + an aligned caret */
  const circle=n.querySelector("circle")||n,r=circle.getBoundingClientRect();
  const cx=r.left+r.width/2,tw=tip.offsetWidth,th=tip.offsetHeight,gap=11,pad=12;
  const left=Math.max(pad,Math.min(cx-tw/2,window.innerWidth-tw-pad));
@@ -844,43 +1203,78 @@ function fdTip(n){
 }
 function fdHideTip(){const t=document.getElementById("fdtip");if(t)t.hidden=true;}
 
-/* ============ HOUSES SHOWCASE ============ */
-(function(){
-  const strip=document.getElementById("housesstrip");if(!strip)return;
-  const keys=Object.keys(ICONS).filter(n=>n!=="Huelley"); /* shares Huelley Rose's icon — one tile */
-  for(let i=keys.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[keys[i],keys[j]]=[keys[j],keys[i]];}
-  const pick=keys.slice(0,24),half=Math.ceil(pick.length/2);
-  const tile=n=>`<button class="hbtn" data-n="${n}" aria-label="${n}"><img src="${encodeURI(ICONS[n])}" alt="" width="52" height="52" loading="lazy" decoding="async"></button>`;
-  const row=(names,rev)=>{
-    const grp=names.map(tile).join("");
-    return `<div class="hrow${rev?" rev":""}"><div class="hgrp">${grp}</div><div class="hgrp" aria-hidden="true">${grp.replace(/<button /g,'<button tabindex="-1" ')}</div></div>`;
-  };
-  strip.innerHTML=row(pick.slice(0,half))+row(pick.slice(half),1);
-  strip.addEventListener("click",e=>{
-    const bt=e.target.closest(".hbtn");if(!bt)return;
-    const q=document.getElementById("q");
-    q.value=bt.dataset.n;q.dispatchEvent(new Event("input"));
-    document.getElementById("main").scrollIntoView({behavior:"smooth",block:"start"});
-  });
-})();
+/* ============ QUICK BROWSE ============ */
+function renderBrowse(){
+  const g=document.getElementById("qbgrid");if(!g)return;
+  const vi=isVI(),L=LX();
+  g.innerHTML=GROUPS.map(([key,title,_d,titleVI])=>{
+    const n=B.filter(b=>b.cat===key).length;
+    return `<button class="qb" data-cat="${key}"><span class="n">${n}</span><span class="t">${vi&&titleVI?titleVI:title}</span><span class="a">${L.qbBrowse}</span></button>`;
+  }).join("")+`<button class="qb all" data-cat="all"><span class="n">${B.length}</span><span class="t">${L.qbAll}</span><span class="a">${L.qbBrowse}</span></button>`;
+}
+
+/* ============ NOW RIBBON (auto-expiring) ============ */
+function renderNow(){
+  const bar=document.getElementById("nowbar"),items=document.getElementById("nowitems");
+  if(!bar)return;
+  const today=new Date().toISOString().slice(0,10);
+  const live=NOW.filter(x=>today<=x.until);
+  if(!live.length){bar.hidden=true;return;}
+  const vi=isVI(),L=LX(),loc=vi?"vi-VN":"en-GB";
+  const mon=new Date().toLocaleDateString(loc,{month:"long",year:"numeric"});
+  document.getElementById("nowtag").textContent=L.nowTag+" · "+mon;
+  items.innerHTML=live.map(x=>{
+    const until=new Date(x.until+"T12:00:00").toLocaleDateString(loc,{day:"numeric",month:"short"});
+    return `<span class="it"><b>${x.t}</b> — ${vi&&x.dv?x.dv:x.d} <span class="til">· ${L.to} ${until}</span></span>`;
+  }).join("");
+  bar.hidden=false;
+}
 
 /* ============ EVENTS ============ */
 document.getElementById("catchips").addEventListener("click",e=>{
-  const b=e.target.closest(".chip");if(!b)return;fCat=b.dataset.v;
+  const b=e.target.closest(".chip");if(!b)return;
+  if(b.id==="fchipbtn"){sheetCtl.open(b);return;}
+  fCat=b.dataset.v;
   chipbar("catchips",CATS,fCat,"cat");syncHash();render();});
-document.getElementById("citychips").addEventListener("click",e=>{
-  const b=e.target.closest(".chip");if(!b)return;fCity=b.dataset.v;
-  chipbar("citychips",CITIES,fCity,"city");syncHash();render();});
-document.getElementById("walkonly").addEventListener("change",e=>{fWalk=e.target.checked;syncHash();render();});
-document.getElementById("savedonly").addEventListener("change",e=>{fSaved=e.target.checked;syncHash();render();});
-document.getElementById("tierchips").addEventListener("click",e=>{
-  const b=e.target.closest(".chip");if(!b)return;fTier=b.dataset.v;
-  chipbar("tierchips",TIERS,fTier,"tier");syncHash();render();});
 document.getElementById("vibechips").addEventListener("click",e=>{
   const b=e.target.closest(".chip");if(!b)return;fVibe=b.dataset.v;
   chipbar("vibechips",VIBES,fVibe,"vibe");syncHash();render();});
-document.getElementById("q").addEventListener("input",e=>{fQ=e.target.value.trim().toLowerCase();syncHash();render();});
-/* Hearts + shortlist copy — delegated so heart clicks never trigger a full re-render */
+document.getElementById("locsel").addEventListener("change",e=>{setLoc(e.target.value);updateMapClear();syncHash();renderMap();render();});
+document.getElementById("tiersel").addEventListener("change",e=>{fTier=e.target.value;syncHash();render();});
+document.getElementById("sortsel").addEventListener("change",e=>{fSort=e.target.value;syncHash();render();});
+document.getElementById("walkonly").addEventListener("change",e=>{fWalk=e.target.checked;syncHash();render();});
+document.getElementById("savedbtn").addEventListener("click",e=>{
+  fSaved=!fSaved;e.currentTarget.setAttribute("aria-pressed",String(fSaved));
+  const tb=document.getElementById("tbsaved");if(tb)tb.setAttribute("aria-pressed",String(fSaved));
+  syncHash();render();});
+document.getElementById("morebtn").addEventListener("click",e=>{
+  const p=document.getElementById("morepanel"),open=!p.classList.contains("open");
+  p.classList.toggle("open",open);e.currentTarget.setAttribute("aria-expanded",String(open));
+  const s=e.currentTarget.querySelector("span");
+  if(s)s.textContent=(isVI()?(open?"Thu gọn bộ lọc":"Bộ lọc nâng cao"):(open?"Fewer filters":"More filters"));
+});
+/* search: 300ms debounce; ✕ clears instantly; UI stays put on focus */
+(function(){
+  const q=document.getElementById("q"),x=document.getElementById("qclear");let t;
+  q.addEventListener("input",()=>{
+    x.hidden=!q.value;
+    clearTimeout(t);t=setTimeout(()=>{fQ=q.value.trim().toLowerCase();syncHash();render();},300);
+  });
+  x.addEventListener("click",()=>{q.value="";x.hidden=true;clearTimeout(t);fQ="";syncHash();render();q.focus();});
+})();
+/* active-chip bar: remove single filters or reset everything */
+document.getElementById("activebar").addEventListener("click",e=>{
+  const x=e.target.closest(".x");if(x){removeFilter(x.dataset.k);return;}
+  const r=e.target.closest("[data-act=reset]");if(r)resetAll();
+});
+/* quick browse */
+document.getElementById("qbgrid").addEventListener("click",e=>{
+  const b=e.target.closest(".qb");if(!b)return;
+  fCat=b.dataset.cat;
+  chipbar("catchips",CATS,fCat,"cat");syncHash();render();
+  document.getElementById("main").scrollIntoView({behavior:"smooth",block:"start"});
+});
+/* results: hearts, expanders, copy, state actions — delegated; heart clicks never re-render */
 document.getElementById("main").addEventListener("click",e=>{
   const sv=e.target.closest(".sv");
   if(sv){
@@ -892,33 +1286,161 @@ document.getElementById("main").addEventListener("click",e=>{
     updateSavedCount();
     return;
   }
+  const cx=e.target.closest(".cx");
+  if(cx){
+    const cd=cx.closest(".card"),open=!cd.classList.contains("open");
+    cd.classList.toggle("open",open);cx.setAttribute("aria-expanded",String(open));
+    return;
+  }
+  const sh=e.target.closest(".shr");
+  if(sh){ /* share a deep link that lands as a pre-filled search + removable chip */
+    const url=location.href.split("#")[0]+"#q="+encodeURIComponent(sh.dataset.n);
+    if(navigator.share)navigator.share({title:sh.dataset.n+" — The Saigon Fashion Directory",url}).catch(()=>{});
+    else if(navigator.clipboard)navigator.clipboard.writeText(url).then(()=>{
+      const L=LX();sh.classList.add("ok");sh.textContent=L.shared;
+      setTimeout(()=>{sh.classList.remove("ok");sh.textContent=LX().share;},1500);
+    });
+    return;
+  }
+  const act=e.target.closest("[data-act]");
+  if(act){
+    const a=act.dataset.act;
+    if(a==="reset")resetAll();
+    if(a==="clearq")removeFilter("q");
+    if(a==="women"){fCat="women";fQ="";document.getElementById("q").value="";syncHash();syncUI();}
+    return;
+  }
   const cp=e.target.closest("#copylist");
   if(cp&&navigator.clipboard){
+    const L=LX();
     const rows=B.filter(match).map(b=>
       b.n+" — "+b.a+" ("+b.area+")"+(hasStreet(b)?" — "+mapsUrl(b):"")+(b.h?" — @"+b.h:""));
     navigator.clipboard.writeText(rows.join("\n")).then(()=>{
-      cp.textContent="Copied ✓";setTimeout(()=>{cp.textContent="Copy as text";},1600);
+      cp.textContent=L.copied;setTimeout(()=>{cp.textContent=L.copy;},1600);
     });
   }
 });
+/* map: click / keyboard filter; hover tips on fine pointers only (they blocked taps on touch) */
 (function(){const fdmap=document.getElementById("fdmap");
  if(fdmap){
   fdmap.addEventListener("click",e=>{const n=e.target.closest(".fdmap-node");if(n){setZone(n.dataset.z);fdHideTip();}});
   fdmap.addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const n=e.target.closest(".fdmap-node");if(n){e.preventDefault();setZone(n.dataset.z);}});
-  fdmap.addEventListener("mousemove",e=>{const n=e.target.closest(".fdmap-node");if(n)fdTip(n);else fdHideTip();});
-  fdmap.addEventListener("mouseleave",fdHideTip);
+  if(matchMedia("(hover:hover) and (pointer:fine)").matches){
+    fdmap.addEventListener("mousemove",e=>{const n=e.target.closest(".fdmap-node");if(n)fdTip(n);else fdHideTip();});
+    fdmap.addEventListener("mouseleave",fdHideTip);
+  }
   fdmap.addEventListener("focusin",e=>{const n=e.target.closest(".fdmap-node");if(n)fdTip(n);});
   fdmap.addEventListener("focusout",fdHideTip);
   addEventListener("keydown",e=>{if(e.key==="Escape")fdHideTip();});
   addEventListener("scroll",fdHideTip,{passive:true});
  }
  const fdc=document.getElementById("fdmapclear");if(fdc)fdc.addEventListener("click",()=>setZone(null));
+ const oc=document.getElementById("onlinechip");if(oc)oc.addEventListener("click",()=>setZone("other"));
 })();
-document.getElementById("theme").addEventListener("click",()=>{
+/* map collapse on mobile */
+(function(){
+  const t=document.getElementById("maptoggle"),body=document.getElementById("mapbody");
+  if(!t||!body)return;
+  function setOpen(open){
+    body.classList.toggle("open",open);
+    t.setAttribute("aria-expanded",String(open));
+    const s=t.querySelector("span");
+    if(s)s.textContent=isVI()?(open?"Ẩn bản đồ":"Hiện bản đồ"):(open?"Hide map":"Show map");
+  }
+  t.addEventListener("click",()=>setOpen(!body.classList.contains("open")));
+  window.__fdMapOpen=setOpen;
+  setOpen(!!fZone); /* deep-linked zone → arrive with the map visible */
+})();
+/* theme */
+document.getElementById("theme").addEventListener("click",function(){
   const d=document.documentElement.getAttribute("data-theme")==="dark";
   const next=d?"light":"dark";
   document.documentElement.setAttribute("data-theme",next);
+  this.setAttribute("aria-pressed",String(next==="dark"));
   try{localStorage.setItem("ss-theme",next);}catch(e){}});
+document.getElementById("theme").setAttribute("aria-pressed",
+  String(document.documentElement.getAttribute("data-theme")==="dark"));
+/* ============ FILTER SHEET (mobile) ============ */
+const sheetCtl=(function(){
+  const sheet=document.getElementById("sheet"),scrim=document.getElementById("scrim"),
+        body=document.getElementById("sheetbody"),row2=document.getElementById("row2"),
+        more=document.getElementById("morepanel"),controls=document.querySelector(".controls .wrap");
+  let opener=null,startY=null,curY=0;
+  const mq=matchMedia("(max-width:720px)");
+  function relocate(){ /* one set of controls, two homes: controls row on desktop, sheet on mobile */
+    if(mq.matches){body.appendChild(row2);body.appendChild(more);more.classList.add("open");}
+    else{const ab=document.getElementById("activebar");controls.insertBefore(row2,ab);controls.insertBefore(more,ab);
+      more.classList.remove("open");
+      const mbn=document.getElementById("morebtn");mbn.setAttribute("aria-expanded","false");
+      const ms=mbn.querySelector("span");if(ms)ms.textContent=isVI()?"Bộ lọc nâng cao":"More filters";}
+  }
+  mq.addEventListener?mq.addEventListener("change",relocate):mq.addListener(relocate);
+  relocate();
+  function open(from){
+    opener=from||null;
+    sheet.hidden=false;scrim.hidden=false;
+    requestAnimationFrame(()=>{sheet.classList.add("open");scrim.classList.add("open");});
+    document.body.style.overflow="hidden";
+    document.getElementById("sheetdone").focus();
+  }
+  function close(){
+    sheet.classList.remove("open");scrim.classList.remove("open");
+    document.body.style.overflow="";
+    setTimeout(()=>{sheet.hidden=true;scrim.hidden=true;},340);
+    if(opener&&opener.focus)opener.focus();
+  }
+  document.getElementById("sheetdone").addEventListener("click",close);
+  scrim.addEventListener("click",close);
+  addEventListener("keydown",e=>{if(e.key==="Escape"&&!sheet.hidden)close();});
+  /* simple focus trap */
+  sheet.addEventListener("keydown",e=>{
+    if(e.key!=="Tab")return;
+    const f=sheet.querySelectorAll("button,select,input,[tabindex]:not([tabindex='-1'])");
+    if(!f.length)return;
+    const first=f[0],last=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+  });
+  /* drag-down to dismiss */
+  const grab=document.getElementById("sheetgrab");
+  grab.addEventListener("touchstart",e=>{startY=e.touches[0].clientY;curY=0;},{passive:true});
+  grab.addEventListener("touchmove",e=>{
+    if(startY==null)return;
+    curY=Math.max(0,e.touches[0].clientY-startY);
+    sheet.style.transform=`translateY(${curY}px)`;
+  },{passive:true});
+  grab.addEventListener("touchend",()=>{
+    sheet.style.transform="";
+    if(curY>70)close();
+    startY=null;
+  });
+  return{open,close};
+})();
+/* ============ BOTTOM TAB BAR ============ */
+document.querySelector(".tabbar").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  const act=b.dataset.act;
+  if(act==="search"){
+    document.querySelector(".controls").scrollIntoView({behavior:"smooth",block:"start"});
+    setTimeout(()=>document.getElementById("q").focus({preventScroll:true}),450);
+  }
+  if(act==="sheet")sheetCtl.open(b);
+  if(act==="map"){
+    if(window.__fdMapOpen)window.__fdMapOpen(true);
+    document.getElementById("map").scrollIntoView({behavior:"smooth",block:"start"});
+  }
+  if(act==="saved"){
+    fSaved=!fSaved;
+    b.setAttribute("aria-pressed",String(fSaved));
+    document.getElementById("savedbtn").setAttribute("aria-pressed",String(fSaved));
+    syncHash();render();
+    document.getElementById("main").scrollIntoView({behavior:"smooth",block:"start"});
+  }
+  if(act==="all"){
+    resetAll();
+    document.getElementById("main").scrollIntoView({behavior:"smooth",block:"start"});
+  }
+});
 
 /* ============ AURORA (the one bold moment) ============ */
 (function(){
@@ -943,61 +1465,78 @@ document.getElementById("theme").addEventListener("click",()=>{
   if(!rm){(function loop(){t+=16;draw();requestAnimationFrame(loop);})();}
 })();
 
-/* — Map-note numbers computed from B/zoneOf (EN element + VI dict), before i18n caches — */
-(function(){
+/* — Map-note numbers computed from B/zoneOf — */
+function renderMapNote(){
   const c=zoneCounts(),o=c.other||0,s=B.filter(b=>b.city==="SGN").length,d=s-o;
-  const el=document.querySelector(".fdmap-note");
-  if(el)el.innerHTML=`Symbol <b>area</b> is proportional to house count (r = k·√n). The nine districts hold <b>${d}</b> houses; <b>${o}</b> more are online or multi-brand — together the <b>${s}</b> in Saigon.`;
-  window.SS_TRANSLATIONS=window.SS_TRANSLATIONS||{};window.SS_TRANSLATIONS.vi=window.SS_TRANSLATIONS.vi||{};
-  window.SS_TRANSLATIONS.vi["fd.mapnote"]=`<b>Diện tích</b> ký hiệu tỉ lệ với số nhà mốt (r = k·√n). Chín quận nắm <b>${d}</b> nhà; <b>${o}</b> nhà khác trực tuyến hoặc đa chi nhánh — tổng cộng <b>${s}</b> tại Sài Gòn.`;
-})();
+  const el=document.getElementById("fdmapnote");
+  if(el)el.innerHTML=LX().mapNote(d,o,s);
+}
 
-/* — Re-localize the dynamic UI whenever the i18n engine switches <html lang> — */
+/* — Re-localize all dynamic UI whenever the i18n engine switches <html lang> — */
 new MutationObserver(()=>{
-  statChips();
-  chipbar("catchips",CATS,fCat,"cat");chipbar("citychips",CITIES,fCity,"city");
-  chipbar("tierchips",TIERS,fTier,"tier");chipbar("vibechips",VIBES,fVibe,"vibe");
+  statChips();renderBrowse();renderNow();renderMapNote();
+  chipbar("catchips",CATS,fCat,"cat");chipbar("vibechips",VIBES,fVibe,"vibe");
+  fillSel("locsel",LOCS,locValue());fillSel("tiersel",TIERS,fTier);fillSel("sortsel",SORTS,fSort);
   render();renderMap();
+  /* stateful labels the data-i18n pass can't know about */
+  const sb=document.getElementById("savedbtn");if(sb)sb.title=LX().savedTip;
+  const mb=document.getElementById("mapbody");
+  if(window.__fdMapOpen&&mb)window.__fdMapOpen(mb.classList.contains("open"));
+  const mp=document.getElementById("morepanel");
+  if(mp&&mp.classList.contains("open")){
+    const s=document.getElementById("morebtn").querySelector("span");
+    if(s)s.textContent=isVI()?"Thu gọn bộ lọc":"Fewer filters";
+  }
 }).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
 
-/* — Hairline shadow on the sticky controls once they stick — */
+/* — Hairline shadow on the sticky controls once they stick; expose height for sticky subheaders — */
 (function(){
   const s=document.getElementById("stickysentinel"),c=document.querySelector(".controls");
-  if(!s||!c||!("IntersectionObserver"in window))return;
-  new IntersectionObserver(es=>c.classList.toggle("stuck",!es[0].isIntersecting),
-    {rootMargin:"30px 0px 0px 0px"}).observe(s);
+  if(!s||!c)return;
+  if("IntersectionObserver"in window)
+    new IntersectionObserver(es=>c.classList.toggle("stuck",!es[0].isIntersecting),
+      {rootMargin:"30px 0px 0px 0px"}).observe(s);
+  function h(){document.documentElement.style.setProperty("--ctrl-h",c.offsetHeight+"px");}
+  if("ResizeObserver"in window)new ResizeObserver(h).observe(c);else addEventListener("resize",h);
+  h();
 })();
 
-/* — Restore state from a shared deep link (#cat=men&tier=mid, #zone=d3, #q=…) — also re-applies on in-page hash navigation — */
+/* — Restore state from a shared deep link (#cat=men&tier=mid, #zone=d3, #q=…) — */
 function applyHash(){
   const h=location.hash.replace(/^#/,"");
-  fCat="all";fCity="all";fTier="all";fVibe="all";fZone="";fWalk=false;fSaved=false;fQ="";
-  document.getElementById("q").value="";
+  fCat="all";fCity="all";fTier="all";fVibe="all";fZone="";fWalk=false;fSaved=false;fQ="";fSort="rec";
+  const q=document.getElementById("q");q.value="";
   if(h){
     const p=new URLSearchParams(h);
     if(p.get("cat"))fCat=p.get("cat");
     if(p.get("city"))fCity=p.get("city");
     if(p.get("tier"))fTier=p.get("tier");
     if(p.get("vibe"))fVibe=p.get("vibe");
+    if(p.get("sort"))fSort=p.get("sort");
     fZone=p.get("zone")||"";
     fWalk=p.get("walk")==="1";
     fSaved=p.get("saved")==="1";
-    const q=p.get("q")||"";
-    if(q){fQ=q.toLowerCase();document.getElementById("q").value=q;}
+    const qs=p.get("q")||"";
+    if(qs){fQ=qs.toLowerCase();q.value=qs;}
   }
+  document.getElementById("qclear").hidden=!fQ;
   document.getElementById("walkonly").checked=fWalk;
-  document.getElementById("savedonly").checked=fSaved;
-  const cl=document.getElementById("fdmapclear");
-  if(fZone){document.getElementById("fdmapzone").textContent=(ZONES.find(x=>x.k===fZone)||{}).n||"";if(cl)cl.hidden=false;}
-  else if(cl){cl.hidden=true;}
+  document.getElementById("savedbtn").setAttribute("aria-pressed",String(fSaved));
+  const tb=document.getElementById("tbsaved");if(tb)tb.setAttribute("aria-pressed",String(fSaved));
+  updateMapClear();
 }
 function syncUI(){
-  chipbar("catchips",CATS,fCat,"cat");chipbar("citychips",CITIES,fCity,"city");
-  chipbar("tierchips",TIERS,fTier,"tier");chipbar("vibechips",VIBES,fVibe,"vibe");
-  statChips();updateSavedCount();render();renderMap();
+  chipbar("catchips",CATS,fCat,"cat");chipbar("vibechips",VIBES,fVibe,"vibe");
+  fillSel("locsel",LOCS,locValue());fillSel("tiersel",TIERS,fTier);fillSel("sortsel",SORTS,fSort);
+  document.getElementById("walkonly").checked=fWalk;
+  document.getElementById("savedbtn").setAttribute("aria-pressed",String(fSaved));
+  const tb=document.getElementById("tbsaved");if(tb)tb.setAttribute("aria-pressed",String(fSaved));
+  statChips();updateSavedCount();updateMapClear();render();renderMap();
 }
 applyHash();
+renderBrowse();renderNow();renderMapNote();
 syncUI();
+if(fZone&&window.__fdMapOpen)window.__fdMapOpen(true);
 addEventListener("hashchange",function(){
   applyHash();syncUI();
   const m=document.getElementById("main");if(m)m.scrollIntoView({behavior:"smooth",block:"start"});

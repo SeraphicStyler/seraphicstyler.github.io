@@ -3,3 +3,6 @@
 Typefaces/
 outfits/
 *.pdf
+
+# internal playbooks — never deploy
+docs/

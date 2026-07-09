@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Design-system proof — Saigon Fashion Directory overhaul</title>
+<link rel="icon" href="../assets/butterfly-side.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&family=Tenor+Sans&display=swap" rel="stylesheet" />
+<script>
+(function(){var t=null;try{t=localStorage.getItem("ss-theme");}catch(e){}
+ var dark=t==="dark"||((!t||t==="auto")&&matchMedia("(prefers-color-scheme: dark)").matches);
+ if(dark)document.documentElement.setAttribute("data-theme","dark");})();
+</script>
+<style>
+/* ============================================================
+   Seraphic Styler V2 "Ethereal Lavender / Aurora"
+   Directory-overhaul token set — THE proof under test.
+   Changes vs. live page (all driven by WCAG-AA failures):
+   · NEW --ink-mute #55638e: text-safe replacement for every
+     *text* use of --ink-faint (2.61:1 → 5.29:1 on ice).
+     --ink-faint survives for decorative strokes only.
+   · Tier labels: colored dot + ink text, never white-on-pastel.
+   · "On now" tag: solid cobalt, gradient retired.
+   · Map node gradient recentered on cobalt-deep so white
+     numerals sit on ≥ #234193 (9.3:1).
+   · Status system: ok / warn / danger / stale token quartet.
+   · 4px spacing scale + shared easing token.
+   ============================================================ */
+:root{
+  --ice:#eef3fb; --mist:#efeaf8; --paper:#ffffff;
+  --ink:#233a72; --ink-soft:#51618f; --ink-mute:#55638e; --ink-faint:#8b97b8;
+  --cobalt:#2e54ad; --cobalt-deep:#234193;
+  --lav:#c9b6e8; --peri:#8a93de; --orchid:#c98fc4; --mauve:#cf9bb4;
+  --ok:#1b6b4a;   --ok-bg:rgba(31,122,84,.10);
+  --warn:#7d541e; --warn-bg:rgba(176,122,31,.12);
+  --danger:#b0451f; --danger-bg:rgba(176,69,31,.09);
+  --stale:#55638e; --stale-bg:rgba(46,71,115,.08);
+  --line:rgba(46,71,115,.14); --line-soft:rgba(46,71,115,.08);
+  --card:rgba(255,255,255,.72); --card-solid:#fff;
+  --accent-soft:rgba(46,84,173,.10);
+  --shadow:0 22px 48px -34px rgba(35,58,114,.45);
+  --shadow-sm:0 8px 22px -16px rgba(35,58,114,.4);
+  --font-display:"Tenor Sans",Cambria,"Hoefler Text",serif;
+  --font-script:"Pinyon Script","Snell Roundhand",cursive;
+  --font-body:"Montserrat","Helvetica Neue","Segoe UI",system-ui,sans-serif;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:20px; --s6:24px; --s8:32px; --s10:40px; --s12:48px;
+  --r:18px; --r-sm:12px; --r-lg:22px; --r-pill:999px;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --node-core:#234193;
+}
+[data-theme=dark]{
+  --ice:#161a26; --mist:#1b2030; --paper:#1f2536;
+  --ink:#f2f0f7; --ink-soft:#aab6cc; --ink-mute:#93a0bd; --ink-faint:#7d8aa6;
+  --cobalt:#a9b8ee; --cobalt-deep:#c2cdf5;
+  --lav:#b9a6dd; --peri:#8f98df; --orchid:#c98fc4; --mauve:#cf9bb4;
+  --ok:#6fc79b;   --ok-bg:rgba(91,189,143,.14);
+  --warn:#e0aa6a; --warn-bg:rgba(217,160,91,.14);
+  --danger:#e79b7c; --danger-bg:rgba(176,69,31,.18);
+  --stale:#93a0bd; --stale-bg:rgba(220,224,240,.08);
+  --line:rgba(220,224,240,.14); --line-soft:rgba(220,224,240,.08);
+  --card:rgba(36,42,60,.62); --card-solid:#232a3d;
+  --accent-soft:rgba(169,184,238,.14);
+  --shadow:0 24px 54px -34px rgba(0,0,0,.7);
+  --shadow-sm:0 10px 24px -18px rgba(0,0,0,.65);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ice);color:var(--ink);font-family:var(--font-body);
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;
+  transition:background .4s ease,color .3s ease;padding-bottom:var(--s12);}
+.wrap{max-width:1080px;margin:0 auto;padding:0 clamp(18px,4vw,44px);}
+h1,h2,h3{font-family:var(--font-display);font-weight:400;line-height:1.15;margin:0;}
+h1{font-size:clamp(1.9rem,4vw,2.7rem);}
+h1 .script{font-family:var(--font-script);color:var(--cobalt);}
+h2{font-size:1.4rem;margin:var(--s10) 0 var(--s2);}
+p{margin:.4em 0;}
+.eyebrow{text-transform:uppercase;letter-spacing:.3em;font-size:.64rem;font-weight:500;color:var(--ink-mute);}
+.note{color:var(--ink-soft);font-size:.88rem;max-width:70ch;}
+header.bar{display:flex;align-items:center;justify-content:space-between;gap:var(--s4);
+  padding:var(--s4) 0;border-bottom:1px solid var(--line);margin-bottom:var(--s6);}
+:focus-visible{outline:2px solid var(--cobalt);outline-offset:2px;border-radius:4px;}
+button{font:inherit;}
+
+/* surface stack */
+.surfaces{display:grid;gap:var(--s3);grid-template-columns:repeat(auto-fit,minmax(180px,1fr));}
+.surf{border:1px solid var(--line);border-radius:var(--r-sm);padding:var(--s4);min-height:96px;}
+.surf b{display:block;font-weight:600;font-size:.8rem;}
+.surf span{font-size:.72rem;color:var(--ink-mute);}
+.s-ice{background:var(--ice);} .s-mist{background:var(--mist);}
+.s-paper{background:var(--paper);} .s-card{background:var(--card);backdrop-filter:blur(8px);}
+
+/* type specimen */
+.spec{display:flex;flex-direction:column;gap:var(--s3);background:var(--card);
+  border:1px solid var(--line);border-radius:var(--r);padding:var(--s6);box-shadow:var(--shadow-sm);}
+.spec .t1{font-family:var(--font-display);font-size:2.2rem;}
+.spec .t2{font-family:var(--font-display);font-size:1.4rem;}
+.spec .t3{font-family:var(--font-script);font-size:1.9rem;color:var(--cobalt);}
+.spec .t4{font-size:.9rem;}
+.spec .t5{font-size:.8rem;color:var(--ink-soft);}
+.spec .t6{font-size:.66rem;text-transform:uppercase;letter-spacing:.2em;color:var(--ink-mute);}
+.spec em{font-style:normal;font-size:.68rem;color:var(--ink-faint);margin-left:var(--s2);}
+
+/* spacing scale */
+.scale{display:flex;align-items:flex-end;gap:var(--s2);}
+.scale div{background:var(--peri);opacity:.7;border-radius:2px;width:22px;}
+.scale span{font-size:.6rem;color:var(--ink-mute);display:block;text-align:center;margin-top:4px;}
+
+/* components */
+.sampler{display:flex;flex-wrap:wrap;gap:var(--s5);align-items:flex-start;}
+.pane{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:var(--s5);box-shadow:var(--shadow-sm);flex:1 1 300px;backdrop-filter:blur(8px);}
+.pane h3{font-size:.72rem;font-family:var(--font-body);text-transform:uppercase;
+  letter-spacing:.22em;color:var(--ink-mute);font-weight:600;margin-bottom:var(--s4);}
+.chips{display:flex;gap:var(--s2);flex-wrap:wrap;align-items:center;}
+.chip{font-size:.78rem;cursor:pointer;border:1px solid var(--line);background:var(--card-solid);
+  color:var(--ink-soft);padding:6px 14px;border-radius:var(--r-pill);transition:.18s var(--ease);}
+.chip:hover{border-color:var(--peri);color:var(--ink);}
+.chip[aria-pressed=true]{background:var(--cobalt);border-color:var(--cobalt);color:#fff;}
+[data-theme=dark] .chip[aria-pressed=true]{color:#161a26;}
+.fchip{display:inline-flex;align-items:center;gap:7px;font-size:.76rem;
+  background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--cobalt) 40%,transparent);
+  color:var(--cobalt);padding:5px 7px 5px 13px;border-radius:var(--r-pill);}
+.fchip b{font-weight:500;}
+.fchip .x{all:unset;cursor:pointer;display:grid;place-items:center;width:20px;height:20px;
+  border-radius:50%;font-size:.8rem;line-height:1;}
+.fchip .x:hover{background:color-mix(in srgb,var(--cobalt) 18%,transparent);}
+.fchip .x:focus-visible{outline:2px solid var(--cobalt);outline-offset:1px;}
+.btn-primary{cursor:pointer;border:1px solid var(--cobalt);background:var(--cobalt);color:#fff;
+  font-size:.8rem;font-weight:500;padding:9px 18px;border-radius:var(--r-pill);transition:.18s var(--ease);}
+[data-theme=dark] .btn-primary{color:#161a26;}
+.btn-primary:hover{background:var(--cobalt-deep);border-color:var(--cobalt-deep);}
+.btn-ghost{cursor:pointer;border:1px solid var(--cobalt);background:var(--accent-soft);
+  color:var(--cobalt);font-size:.78rem;padding:7px 14px;border-radius:var(--r-pill);}
+.sel{font:inherit;font-size:.8rem;color:var(--ink);background:var(--card-solid);
+  border:1px solid var(--line);border-radius:var(--r-pill);padding:7px 13px;cursor:pointer;}
+.switch{display:inline-flex;gap:8px;align-items:center;font-size:.78rem;color:var(--ink-soft);cursor:pointer;}
+.switch input{appearance:none;width:36px;height:20px;border-radius:99px;margin:0;
+  background:color-mix(in srgb,var(--ink) 14%,var(--paper));border:1px solid var(--ink-mute);
+  position:relative;cursor:pointer;transition:.2s;flex:none;}
+.switch input:checked{background:var(--cobalt);border-color:var(--cobalt);}
+.switch input::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;
+  border-radius:50%;background:var(--paper);transition:.2s var(--ease);}
+[data-theme=dark] .switch input::after{background:#f2f0f7;}
+.switch input:checked::after{transform:translateX(15px);background:#fff;}
+[data-theme=dark] .switch input:checked::after{background:#161a26;}
+/* status + confidence badges */
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.62rem;font-weight:600;
+  text-transform:uppercase;letter-spacing:.08em;padding:3px 9px;border-radius:var(--r-pill);}
+.badge::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;}
+.badge.ok{color:var(--ok);background:var(--ok-bg);}
+.badge.warn{color:var(--warn);background:var(--warn-bg);}
+.badge.stale{color:var(--stale);background:var(--stale-bg);}
+.badge.danger{color:var(--danger);background:var(--danger-bg);}
+.tierchip{display:inline-flex;align-items:center;gap:6px;font-size:.62rem;text-transform:uppercase;
+  letter-spacing:.14em;color:var(--ink);border:1px solid var(--line);background:var(--paper);
+  padding:3px 9px;border-radius:var(--r-pill);}
+.tierchip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--t,var(--lav));}
+/* card sample */
+.cardx{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:var(--s4);box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:9px;
+  position:relative;overflow:hidden;max-width:330px;}
+.cardx::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--peri);opacity:.85;}
+.cardx .nm{font-family:var(--font-display);font-size:1.16rem;}
+.cardx .hd{font-size:.72rem;color:var(--cobalt);}
+.cardx .addr{font-size:.82rem;}
+.cardx .note{font-size:.82rem;color:var(--ink-soft);line-height:1.45;}
+.cardx .foot{display:flex;gap:7px;align-items:center;flex-wrap:wrap;font-size:.62rem;
+  text-transform:uppercase;letter-spacing:.14em;color:var(--ink-mute);}
+/* skeleton */
+.sk{border:1px solid var(--line-soft);border-radius:var(--r);padding:var(--s4);max-width:330px;
+  display:flex;flex-direction:column;gap:10px;background:var(--card);}
+.sk i{display:block;border-radius:6px;height:12px;
+  background:linear-gradient(90deg,var(--mist) 25%,var(--paper) 50%,var(--mist) 75%);
+  background-size:200% 100%;animation:shimmer 1.5s ease-in-out infinite;}
+.sk .a{width:46%;height:16px;} .sk .b{width:82%;} .sk .c{width:64%;}
+@keyframes shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
+@media(prefers-reduced-motion:reduce){.sk i{animation:none;background:var(--mist);}}
+/* map node sample */
+.nodeg-demo{display:flex;align-items:center;gap:var(--s4);}
+/* contrast table */
+table{border-collapse:collapse;width:100%;font-size:.8rem;font-variant-numeric:tabular-nums;}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line-soft);}
+th{font-size:.64rem;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-mute);}
+td.pass{color:var(--ok);font-weight:600;} td.fail{color:var(--danger);font-weight:600;}
+.swb{display:inline-block;width:13px;height:13px;border-radius:4px;border:1px solid var(--line);vertical-align:-2px;margin-right:6px;}
+.themebtn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);cursor:pointer;
+  background:var(--card-solid);color:var(--ink);display:grid;place-items:center;box-shadow:var(--shadow-sm);}
+.verdict{font-size:.9rem;font-weight:600;padding:var(--s3) var(--s4);border-radius:var(--r-sm);margin-top:var(--s3);display:inline-block;}
+.verdict.ok{color:var(--ok);background:var(--ok-bg);}
+.verdict.bad{color:var(--danger);background:var(--danger-bg);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <div>
+      <div class="eyebrow">Seraphic Styler · directory overhaul</div>
+      <h1>Design-system <span class="script">proof</span></h1>
+    </div>
+    <button class="themebtn" id="theme" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle light / dark">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+    </button>
+  </header>
+  <p class="note">Gate for the fashion-directory rebuild: surfaces, type, spacing, the new components, and a live
+    WCAG-AA audit of every text/surface pair the page uses. Toggle the moon to verify both themes.
+    The rebuild only proceeds while the verdict below reads <strong>all pass</strong>.</p>
+
+  <h2>Surface layers</h2>
+  <div class="surfaces">
+    <div class="surf s-ice"><b>--ice</b><span>page ground</span></div>
+    <div class="surf s-mist"><b>--mist</b><span>panels, footer</span></div>
+    <div class="surf s-card"><b>--card</b><span>glass cards (blur)</span></div>
+    <div class="surf s-paper"><b>--paper / --card-solid</b><span>inputs, chips</span></div>
+  </div>
+
+  <h2>Type specimen</h2>
+  <div class="spec">
+    <div class="t1">Tenor Sans — The Saigon Fashion Directory <em>display · clamp(2.5–5.1rem) on page</em></div>
+    <div class="t2">Contemporary womenswear <em>section h2</em></div>
+    <div class="t3">Fashion <em>Pinyon Script — accents only</em></div>
+    <div class="t4">Montserrat regular — Every house worth knowing in the city's fashion landscape, curated for clients of Seraphic Styler. <em>body</em></div>
+    <div class="t5">Montserrat .8rem soft — card notes, helper text <em>--ink-soft</em></div>
+    <div class="t6">Uppercase meta labels · updated July 2026 <em>--ink-mute (was --ink-faint — now AA)</em></div>
+  </div>
+
+  <h2>Spacing scale <span style="font-size:.7rem;color:var(--ink-mute);font-family:var(--font-body)">4px system</span></h2>
+  <div class="scale" aria-hidden="true">
+    <div style="height:4px"></div><div style="height:8px"></div><div style="height:12px"></div>
+    <div style="height:16px"></div><div style="height:20px"></div><div style="height:24px"></div>
+    <div style="height:32px"></div><div style="height:40px"></div><div style="height:48px"></div>
+  </div>
+  <p class="note" style="font-size:.72rem">--s1 4 · --s2 8 · --s3 12 · --s4 16 · --s5 20 · --s6 24 · --s8 32 · --s10 40 · --s12 48 — filter rows sit at --s4/--s5 (was ~8px).</p>
+
+  <h2>Component sampler</h2>
+  <div class="sampler">
+    <div class="pane">
+      <h3>Filter pills + active chips</h3>
+      <div class="chips" style="margin-bottom:var(--s3)">
+        <button class="chip" aria-pressed="true">All</button>
+        <button class="chip" aria-pressed="false">Womenswear</button>
+        <button class="chip" aria-pressed="false">Áo dài &amp; Tailors</button>
+      </div>
+      <div class="chips" style="margin-bottom:var(--s3)">
+        <span class="fchip"><b>District 3</b><button class="x" aria-label="Remove filter District 3">✕</button></span>
+        <span class="fchip"><b>“Bad Habits”</b><button class="x" aria-label="Remove search Bad Habits">✕</button></span>
+        <button class="btn-primary">Show all 239 houses</button>
+      </div>
+      <div class="chips">
+        <select class="sel" aria-label="Location"><option>Everywhere</option><option>Saigon — District 1</option></select>
+        <select class="sel" aria-label="Tier"><option>All tiers</option><option>Couture</option></select>
+        <label class="switch"><input type="checkbox" checked> Walk-in only</label>
+        <label class="switch"><input type="checkbox"> Saved</label>
+      </div>
+    </div>
+    <div class="pane">
+      <h3>Status + confidence + tier</h3>
+      <div class="chips" style="margin-bottom:var(--s3)">
+        <span class="badge ok">Open now</span>
+        <span class="badge warn">Confirm first</span>
+        <span class="badge stale">May be outdated</span>
+        <span class="badge danger">Closed down</span>
+      </div>
+      <div class="chips">
+        <span class="tierchip" style="--t:var(--lav)">Mid</span>
+        <span class="tierchip" style="--t:var(--peri)">Premium</span>
+        <span class="tierchip" style="--t:var(--orchid)">Luxury</span>
+        <span class="tierchip" style="--t:var(--mauve)">Couture</span>
+      </div>
+      <p class="note" style="font-size:.74rem;margin-top:var(--s3)">Tier = dot + ink text (white-on-lavender retired at 1.85:1).
+        Confidence dots replace inline ⚠️ warnings.</p>
+      <div class="nodeg-demo" style="margin-top:var(--s3)">
+        <svg width="76" height="76" viewBox="0 0 76 76" role="img" aria-label="Map node sample: District 3, 34 houses">
+          <defs><radialGradient id="ng" cx="46%" cy="42%" r="72%">
+            <stop offset="0" stop-color="#234193"/><stop offset=".55" stop-color="#2e54ad"/><stop offset="1" stop-color="#8a93de"/>
+          </radialGradient></defs>
+          <circle cx="38" cy="38" r="34" fill="url(#ng)" stroke="#fff" stroke-width="1.5"/>
+          <text x="38" y="38" fill="#fff" font-family="Tenor Sans,serif" font-size="17" text-anchor="middle" dominant-baseline="central">34</text>
+        </svg>
+        <span class="note" style="font-size:.74rem">Cluster-map node: numerals now sit on the cobalt-deep core (9.3:1), aurora kept at the rim.</span>
+      </div>
+    </div>
+    <div class="pane" style="max-width:380px">
+      <h3>Directory card</h3>
+      <article class="cardx">
+        <div class="nm">Huelley Rose</div>
+        <a class="hd" href="#0">@huelleyrose</a>
+        <div class="addr" lang="vi">214 Hai Bà Trưng</div>
+        <p class="note">Romantic RTW; worldwide shipping. Shares its building with Huelley &amp; Stress Mama.</p>
+        <div class="foot">
+          <span class="badge ok">Open now</span>
+          <span class="tierchip" style="--t:var(--peri)">Premium</span>
+          <span lang="vi">D1 · Tân Định</span>
+        </div>
+      </article>
+    </div>
+    <div class="pane" style="max-width:380px">
+      <h3>Skeleton loader</h3>
+      <div class="sk" aria-hidden="true"><i class="a"></i><i class="b"></i><i class="c"></i></div>
+      <p class="note" style="font-size:.74rem;margin-top:var(--s3)">Shimmer 1.5s ease-in-out; static under reduced-motion.</p>
+      <h3 style="margin-top:var(--s5)">Buttons</h3>
+      <div class="chips">
+        <button class="btn-primary">Show all 239 houses</button>
+        <button class="btn-ghost">More filters</button>
+      </div>
+    </div>
+  </div>
+
+  <h2>Contrast audit <span id="themelabel" style="font-size:.7rem;color:var(--ink-mute);font-family:var(--font-body)"></span></h2>
+  <p class="note">Computed live from the rendered tokens (WCAG 2.1 relative luminance). Alpha tokens are composited
+    on their real surface first. ΔL(OKLCH) shown as the advisory ≥0.40 heuristic; AA is the gate.</p>
+  <table id="audit"><thead><tr><th>Pair</th><th>Sample</th><th>Ratio</th><th>Needs</th><th>ΔL ok</th><th>AA</th></tr></thead><tbody></tbody></table>
+  <div id="verdict" class="verdict ok" role="status">…</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  /* ---- color math ---- */
+  function parse(c){
+    c=c.trim();
+    if(c[0]==="#"){var h=c.slice(1);if(h.length===3)h=h.split("").map(function(x){return x+x;}).join("");
+      return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16),h.length===8?parseInt(h.slice(6,8),16)/255:1];}
+    var m=c.match(/rgba?\(([^)]+)\)/);if(!m)return [0,0,0,1];
+    var p=m[1].split(",").map(parseFloat);return [p[0],p[1],p[2],p.length>3?p[3]:1];
+  }
+  function comp(fg,bg){ // composite fg over bg -> opaque rgb
+    var a=fg[3];return [0,1,2].map(function(i){return Math.round(fg[i]*a+bg[i]*(1-a));});
+  }
+  function lum(rgb){var f=function(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4);};
+    return 0.2126*f(rgb[0])+0.7152*f(rgb[1])+0.0722*f(rgb[2]);}
+  function ratio(a,b){var l1=lum(a),l2=lum(b),hi=Math.max(l1,l2),lo=Math.min(l1,l2);return (hi+0.05)/(lo+0.05);}
+  function okL(rgb){var f=function(v){v/=255;return v<=0.04045?v/12.92:Math.pow((v+0.055)/1.055,2.4);};
+    var R=f(rgb[0]),G=f(rgb[1]),B=f(rgb[2]);
+    var l=Math.cbrt(0.4122214708*R+0.5363325363*G+0.0514459929*B),
+        m=Math.cbrt(0.2119034982*R+0.6806995451*G+0.1073969566*B),
+        s=Math.cbrt(0.0883024619*R+0.2817188376*G+0.6299787005*B);
+    return 0.2104542553*l+0.7936177850*m-0.0040720468*s;}
+  function v(name){return getComputedStyle(document.documentElement).getPropertyValue(name).trim();}
+  function css(str){ // resolve var() tokens then parse
+    return parse(str.replace(/var\((--[a-z-]+)\)/g,function(_,n){return v(n);}));
+  }
+  var hex=function(rgb){return "#"+rgb.map(function(x){return x.toString(16).padStart(2,"0");}).join("");};
+
+  /* pairs: [label, fgToken, bgToken(s composited left→right on page ground), need] */
+  function pairs(dark){
+    var chipText = dark ? "#161a26" : "#ffffff";
+    return [
+      ["Body ink / page","var(--ink)",["var(--ice)"],4.5],
+      ["Soft ink / page","var(--ink-soft)",["var(--ice)"],4.5],
+      ["Muted labels / page","var(--ink-mute)",["var(--ice)"],4.5],
+      ["Muted labels / mist panel","var(--ink-mute)",["var(--mist)"],4.5],
+      ["Muted labels / card","var(--ink-mute)",["var(--ice)","var(--card)"],4.5],
+      ["Cobalt links / page","var(--cobalt)",["var(--ice)"],4.5],
+      ["Cobalt links / mist","var(--cobalt)",["var(--mist)"],4.5],
+      ["Active chip text / cobalt",chipText,["var(--cobalt)"],4.5],
+      ["Primary button text / cobalt",chipText,["var(--cobalt)"],4.5],
+      ["Open-now / its tint","var(--ok)",["var(--paper)","var(--ok-bg)"],4.5],
+      ["Confirm-first / its tint","var(--warn)",["var(--paper)","var(--warn-bg)"],4.5],
+      ["Outdated / its tint","var(--stale)",["var(--paper)","var(--stale-bg)"],4.5],
+      ["Closed-down / its tint","var(--danger)",["var(--paper)","var(--danger-bg)"],4.5],
+      ["Card note soft ink / card","var(--ink-soft)",["var(--ice)","var(--card)"],4.5],
+      ["Map numeral / node core","#ffffff",["var(--node-core)"],4.5],
+      ["Focus ring / page (non-text)","var(--cobalt)",["var(--ice)"],3]
+    ];
+  }
+  function run(){
+    var dark=document.documentElement.getAttribute("data-theme")==="dark";
+    document.getElementById("themelabel").textContent=dark?"— dark theme":"— light theme";
+    var tb=document.querySelector("#audit tbody");tb.innerHTML="";
+    var allPass=true;
+    pairs(dark).forEach(function(p){
+      var bg=[255,255,255,1];
+      // composite the bg chain over ground
+      var ground=css("var(--ice)").slice(0,3);bg=ground;
+      p[2].forEach(function(layer){bg=comp(css(layer),bg);});
+      var fg=comp(css(p[1]),bg);
+      var r=ratio(fg,bg),need=p[3],pass=r>=need;
+      if(!pass)allPass=false;
+      var dl=Math.abs(okL(fg)-okL(bg));
+      var tr=document.createElement("tr");
+      tr.innerHTML="<td>"+p[0]+"</td>"+
+        "<td><span class='swb' style='background:"+hex(bg)+"'></span><span class='swb' style='background:"+hex(fg)+"'></span>"+
+        "<span style='color:"+hex(fg)+";background:"+hex(bg)+";padding:1px 7px;border-radius:5px;font-size:.72rem'>Aa 24</span></td>"+
+        "<td>"+r.toFixed(2)+"</td><td>"+need+":1</td><td>"+dl.toFixed(2)+(dl>=0.4?" ✓":" ·")+"</td>"+
+        "<td class='"+(pass?"pass'>PASS":"fail'>FAIL")+"</td>";
+      tb.appendChild(tr);
+    });
+    var vd=document.getElementById("verdict");
+    vd.className="verdict "+(allPass?"ok":"bad");
+    vd.textContent=allPass?"All pairs pass WCAG AA in this theme — proof holds.":"FAILURES above — do not build until fixed.";
+  }
+  document.getElementById("theme").addEventListener("click",function(){
+    var d=document.documentElement.getAttribute("data-theme")==="dark";
+    document.documentElement.setAttribute("data-theme",d?"light":"dark");
+    this.setAttribute("aria-pressed",String(!d));
+    try{localStorage.setItem("ss-theme",d?"light":"dark");}catch(e){}
+    run();
+  });
+  run();
+})();
+</script>
+</body>
+</html>

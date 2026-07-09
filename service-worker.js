@@ -2,7 +2,7 @@
    Network-first for pages (so edits show immediately), cache-first for static
    assets. Lets you browse the directory and your saved route on the street with
    no signal. Bump CACHE to invalidate. */
-const CACHE = 'ss-fd-v1';
+const CACHE = 'ss-fd-v2'; /* bumped: directory-data + discover-brand edits must reach cached clients */
 const CORE = [
   './fashion-directory.html',
   './js/directory-data.js',

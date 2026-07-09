@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Paying for Your Order — Seraphic Styler</title>
+  <meta name="description" content="How payment works at Seraphic Styler — photo confirmation first, then a 50% deposit by Wise, PayPal, Payoneer, bank transfer, or USDC. Your personal payment link always arrives inside our own conversation." />
+  <link rel="canonical" href="https://www.seraphicstyler.com/pay" />
+  <link rel="icon" href="assets/butterfly-side.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&family=Tenor+Sans&display=swap" rel="stylesheet" />
+  <script>
+  (function(){var t=null;try{t=localStorage.getItem("ss-theme");}catch(e){}
+   var dark=t==="dark"||((!t||t==="auto")&&matchMedia("(prefers-color-scheme: dark)").matches);
+   if(dark)document.documentElement.setAttribute("data-theme","dark");})();
+  </script>
+  <style>
+:root{
+  --ice:#eef3fb; --mist:#efeaf8; --paper:#ffffff;
+  --ink:#233a72; --ink-soft:#51618f; --ink-mute:#55638e;
+  --cobalt:#2e54ad; --cobalt-deep:#234193;
+  --lav:#c9b6e8; --peri:#8a93de; --orchid:#c98fc4; --mauve:#cf9bb4;
+  --ok:#1b6b4a; --ok-bg:rgba(31,122,84,.10);
+  --line:rgba(46,71,115,.14);
+  --card:rgba(255,255,255,.72); --card-solid:#fff;
+  --shadow:0 22px 48px -34px rgba(35,58,114,.45);
+  --shadow-sm:0 8px 22px -16px rgba(35,58,114,.4);
+  --font-display:"Tenor Sans",Cambria,serif; --font-script:"Pinyon Script",cursive;
+  --font-body:"Montserrat","Helvetica Neue",system-ui,sans-serif;
+  --r:18px; --r-sm:12px; --r-pill:999px; --ease:cubic-bezier(.16,1,.3,1);
+}
+[data-theme=dark]{
+  --ice:#161a26; --mist:#1b2030; --paper:#1f2536;
+  --ink:#f2f0f7; --ink-soft:#aab6cc; --ink-mute:#93a0bd;
+  --cobalt:#a9b8ee; --cobalt-deep:#c2cdf5;
+  --ok:#6fc79b; --ok-bg:rgba(91,189,143,.14);
+  --line:rgba(220,224,240,.14);
+  --card:rgba(36,42,60,.62); --card-solid:#232a3d;
+  --shadow:0 24px 54px -34px rgba(0,0,0,.7);
+  --shadow-sm:0 10px 24px -18px rgba(0,0,0,.65);
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--ice);color:var(--ink);font-family:var(--font-body);
+  font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .5s ease,color .3s ease;}
+h1,h2,h3{font-family:var(--font-display);font-weight:400;line-height:1.14;margin:0;text-wrap:balance;}
+a{color:var(--cobalt);}
+.wrap{max-width:860px;margin:0 auto;padding:0 clamp(18px,5vw,44px);}
+:focus-visible{outline:2px solid var(--cobalt);outline-offset:2px;border-radius:4px;}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:11px clamp(18px,5vw,44px);background:var(--mist);border-bottom:1px solid var(--line);}
+.topbar a{font-size:.82rem;text-decoration:none;letter-spacing:.02em;}
+.topbar a:hover{text-decoration:underline;}
+.topbar .brand{font-family:var(--font-display);letter-spacing:.28em;text-transform:uppercase;font-size:.8rem;color:var(--ink);}
+.head{padding:clamp(38px,7vw,72px) 0 clamp(10px,2vw,18px);}
+.eyebrow{text-transform:uppercase;letter-spacing:.32em;font-size:.66rem;font-weight:500;color:var(--ink-mute);}
+h1{font-size:clamp(2.1rem,6vw,3.4rem);margin:.3em 0 .2em;}
+h1 .script{font-family:var(--font-script);color:var(--cobalt);font-size:1.12em;letter-spacing:0;}
+.lede{max-width:58ch;color:var(--ink-soft);font-size:1rem;margin:.5em 0 0;}
+section{padding:clamp(20px,4vw,34px) 0 0;}
+h2{font-size:clamp(1.3rem,3vw,1.7rem);margin-bottom:10px;}
+.steps{display:grid;gap:10px;margin-top:14px;}
+.step{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r-sm);padding:14px 16px;box-shadow:var(--shadow-sm);backdrop-filter:blur(8px);}
+.step .n{font-family:var(--font-display);font-size:1.15rem;color:var(--cobalt);flex:none;width:1.6em;}
+.step b{font-weight:600;}
+.step p{margin:.15em 0 0;color:var(--ink-soft);font-size:.9rem;}
+.methods{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin-top:14px;}
+.m{background:var(--card-solid);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:14px 16px;box-shadow:var(--shadow-sm);}
+.m h3{font-size:1rem;display:flex;align-items:center;gap:8px;}
+.m h3::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--dot,var(--lav));flex:none;}
+.m p{margin:.4em 0 0;color:var(--ink-soft);font-size:.84rem;}
+.trust{margin-top:clamp(26px,5vw,40px);background:var(--mist);border:1px solid var(--line);
+  border-radius:var(--r);padding:clamp(18px,3.5vw,28px);box-shadow:var(--shadow-sm);}
+.trust h2{display:flex;align-items:center;gap:10px;}
+.trust ul{margin:.7em 0 0;padding-left:1.2em;color:var(--ink-soft);}
+.trust li{margin:.45em 0;}
+.trust li::marker{color:var(--peri);}
+.trust b{color:var(--ink);font-weight:600;}
+.fine{font-size:.8rem;color:var(--ink-mute);margin-top:18px;max-width:64ch;}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;margin:clamp(26px,5vw,40px) 0 0;}
+.btn{display:inline-flex;align-items:center;gap:8px;font-size:.88rem;font-weight:500;text-decoration:none;
+  border-radius:var(--r-pill);padding:11px 22px;border:1px solid var(--cobalt);transition:.18s var(--ease);}
+.btn.primary{background:var(--cobalt);color:#fff;}
+[data-theme=dark] .btn.primary{color:#161a26;}
+.btn.primary:hover{background:var(--cobalt-deep);border-color:var(--cobalt-deep);}
+.btn.ghost{color:var(--cobalt);background:var(--card-solid);}
+.btn.ghost:hover{border-color:var(--peri);}
+footer{margin-top:clamp(36px,7vw,60px);border-top:1px solid var(--line);background:var(--mist);}
+footer .wrap{padding:26px 0 34px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-size:.84rem;color:var(--ink-soft);}
+.sig{font-family:var(--font-script);font-size:1.6rem;color:var(--cobalt);}
+.themebtn{position:fixed;right:1.25rem;bottom:1.25rem;z-index:40;width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--line);background:var(--card-solid);color:var(--ink);cursor:pointer;
+  box-shadow:var(--shadow);display:grid;place-items:center;transition:.2s;}
+.themebtn:hover{transform:scale(1.06);border-color:var(--peri);}
+.themebtn .sun{display:none;}
+[data-theme=dark] .themebtn .sun{display:block;}
+[data-theme=dark] .themebtn .moon{display:none;}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;}}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a href="./">← <span class="brand">Seraphic Styler</span></a>
+    <a href="fashion-directory.html">The directory →</a>
+  </div>
+
+  <div class="head wrap">
+    <div class="eyebrow">Deposits, balances &amp; peace of mind</div>
+    <h1>Paying for <span class="script">your order</span></h1>
+    <p class="lede">Nothing is ever paid blind. You approve real photographs of your actual piece first —
+      then your personal payment link arrives inside the conversation we're already having.</p>
+  </div>
+
+  <section class="wrap" aria-labelledby="whenh">
+    <h2 id="whenh">When you pay</h2>
+    <div class="steps">
+      <div class="step"><span class="n">1</span><div><b>Photo confirmation first.</b>
+        <p>I find your piece in person and send real photographs. Nothing is purchased until you say yes.</p></div></div>
+      <div class="step"><span class="n">2</span><div><b>50% deposit places the order.</b>
+        <p>Once you approve, your deposit secures the piece. Processed within 2–7 days.</p></div></div>
+      <div class="step"><span class="n">3</span><div><b>Remaining 50% + shipping before dispatch.</b>
+        <p>Your exact shipping quote is confirmed before the balance — no surprises at the door.</p></div></div>
+      <div class="step"><span class="n">4</span><div><b>Tracking the moment it ships.</b>
+        <p>Packed with care in Saigon, tracked worldwide, and I check in when it arrives.</p></div></div>
+    </div>
+  </section>
+
+  <section class="wrap" aria-labelledby="methodsh">
+    <h2 id="methodsh">Ways to pay</h2>
+    <div class="methods">
+      <div class="m" style="--dot:var(--peri)"><h3>Wise</h3><p>Usually the best exchange rate and lowest fees for international transfers.</p></div>
+      <div class="m" style="--dot:var(--orchid)"><h3>PayPal</h3><p>Choose <b>Goods &amp; Services</b> for PayPal's buyer protection on your order.</p></div>
+      <div class="m" style="--dot:var(--lav)"><h3>Payoneer</h3><p>A reliable option if you already hold a Payoneer balance.</p></div>
+      <div class="m" style="--dot:var(--mauve)"><h3>Bank transfer</h3><p>Direct transfer details are shared in your order thread.</p></div>
+      <div class="m" style="--dot:var(--peri)"><h3>USDC · on request</h3><p>A regulated stablecoin, for clients whose banks make the above difficult.</p></div>
+    </div>
+    <p class="fine">If none of these reach you easily, tell me your country and I'll suggest a reputable option.
+      Because each order is sourced specifically for you, confirmed purchases are final.</p>
+  </section>
+
+  <section class="wrap" aria-labelledby="trusth">
+    <div class="trust">
+      <h2 id="trusth">How your payment link arrives</h2>
+      <ul>
+        <li>Your link or transfer details always arrive <b>inside our existing conversation</b> — the same
+          Instagram DM or email thread where you approved your photos. Never from a new account.</li>
+        <li>The only places I exist: <b>@seraphicstyler</b> on Instagram &amp; TikTok, and
+          <b>seraphicstyler@gmail.com</b>. Treat anything else as an impostor.</li>
+        <li>I will <b>never ask for card numbers, codes, or passwords</b> in a message — payments run
+          through the providers above, on their own secure pages.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="ctas">
+      <a class="btn primary" href="./#estimate">Start an order →</a>
+      <a class="btn ghost" href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener noreferrer">DM @seraphicstyler</a>
+      <a class="btn ghost" href="mailto:seraphicstyler@gmail.com">Email the atelier</a>
+    </div>
+  </div>
+
+  <footer><div class="wrap">
+    <div>Personal styling &amp; Vietnamese-fashion sourcing, shipping worldwide from Saigon.</div>
+    <div class="sig">Seraphic Styler</div>
+  </div></footer>
+
+  <button class="themebtn" id="theme" aria-label="Toggle dark mode" title="Toggle light / dark">
+    <svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+    <svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M19.1 4.9l-1.9 1.9M6.8 17.2l-1.9 1.9"/></svg>
+  </button>
+  <script>
+  document.getElementById("theme").addEventListener("click",function(){
+    var next=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";
+    document.documentElement.setAttribute("data-theme",next);
+    this.setAttribute("aria-pressed",String(next==="dark"));
+    try{localStorage.setItem("ss-theme",next);}catch(e){}});
+  document.getElementById("theme").setAttribute("aria-pressed",
+    String(document.documentElement.getAttribute("data-theme")==="dark"));
+  </script>
+</body>
+</html>
