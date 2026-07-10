@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-i18n-page="fd">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,7 +17,8 @@
   <link rel="icon" href="assets/butterfly-side.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&family=Tenor+Sans&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&family=Tenor+Sans&family=Noto+Sans+Tifinagh&display=swap" rel="stylesheet" />
+  <style>[lang="zgh"]{font-family:"Noto Sans Tifinagh","Montserrat",sans-serif;}</style>
   <script>
   /* Pre-paint theme: honour the main site's ss-theme (auto|light|dark|mono) before styles apply — no flash. */
   (function(){var t=null;try{t=localStorage.getItem("ss-theme");}catch(e){}
@@ -85,13 +86,18 @@ img{max-width:100%;}
 .vh{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
 :focus-visible{outline:2px solid var(--cobalt);outline-offset:2px;border-radius:4px;}
 
-/* ---------- Skip links ---------- */
-.skiplink{position:absolute;left:-9999px;top:10px;z-index:100;background:var(--card-solid);
-  color:var(--cobalt);border:1px solid var(--cobalt);border-radius:var(--r-pill);
-  padding:8px 16px;font-size:.8rem;box-shadow:var(--shadow);}
-.skiplink:focus{left:12px;}
-.skiplink:nth-of-type(2):focus{left:150px;}
-.skiplink:nth-of-type(3):focus{left:288px;}
+/* ---------- Skip links ----------
+   Hidden by clipping, not by left:-9999px: in an RTL document that negative offset
+   becomes *scrollable* overflow and adds ~10,000px to the page width. Clipping is
+   direction-agnostic, and inset-inline-start puts the focused link on the reading
+   side in both directions. Only one can hold focus, so they share one position. */
+.skiplink{position:absolute;top:10px;inset-inline-start:12px;z-index:100;
+  background:var(--card-solid);color:var(--cobalt);border:0;
+  border-radius:var(--r-pill);font-size:.8rem;box-shadow:var(--shadow);
+  width:1px;height:1px;padding:0;overflow:hidden;white-space:nowrap;
+  clip:rect(0 0 0 0);clip-path:inset(50%);}
+.skiplink:focus{width:auto;height:auto;padding:8px 16px;overflow:visible;
+  border:1px solid var(--cobalt);clip:auto;clip-path:none;}
 
 /* ---------- Top bar + page nav ---------- */
 .fd-topbar{display:flex;justify-content:space-between;align-items:center;gap:var(--s3);
@@ -211,6 +217,7 @@ img{max-width:100%;}
 .fdtip{position:fixed;z-index:80;pointer-events:none;background:color-mix(in srgb,var(--card-solid) 92%,transparent);
   backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:13px;padding:9px 13px;box-shadow:var(--shadow);
   max-width:198px;display:flex;flex-direction:column;gap:2px;}
+.fdtip[hidden]{display:none;} /* hidden must beat the flex display, or the tip never goes away */
 .fdtip b{font-family:var(--font-display);font-size:.98rem;color:var(--ink);line-height:1.1;}
 .fdtip span{font-size:.72rem;color:var(--cobalt);font-variant-numeric:tabular-nums;}
 .fdtip em{font-size:.72rem;color:var(--ink-soft);font-style:normal;margin-top:2px;line-height:1.35;}
@@ -541,10 +548,10 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
   <div class="fd-topbar">
     <a class="fd-back" href="./">← <span class="fd-brand">Seraphic Styler</span></a>
     <div class="fd-tools">
-      <select id="langSelect" aria-label="Language / Ngôn ngữ" title="This page is available in English & Tiếng Việt"></select>
+      <select id="langSelect" aria-label="Language" data-i18n-al="fd.langlabel" title="Choose a language" data-i18n-ti="fd.langtitle"></select>
     </div>
   </div>
-  <nav class="secnav" aria-label="Pages">
+  <nav class="secnav" aria-label="Pages" data-i18n-al="fd.a11y.nav">
     <div class="wrap">
       <a href="./" data-i18n="fd.nav.home">The atelier</a>
       <a href="fashion-directory.html" aria-current="page" data-i18n="fd.nav.dir">Directory</a>
@@ -608,7 +615,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
     </div>
     <div class="mapbody" id="mapbody"><div>
       <div class="fdmap-wrap">
-        <svg id="fdmap" viewBox="0 0 720 470" role="img" aria-label="Stylized map of Saigon fashion districts, sized by number of stores">
+        <svg id="fdmap" viewBox="0 0 720 470" role="img" aria-label="Stylized map of Saigon fashion districts, sized by number of stores" data-i18n-al="fd.a11y.map">
           <defs>
             <linearGradient id="riverg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a93de"/><stop offset="1" stop-color="#c9b6e8"/></linearGradient>
             <radialGradient id="nodeg" cx="46%" cy="42%" r="72%"><stop offset="0" stop-color="#234193"/><stop offset=".55" stop-color="#2e54ad"/><stop offset="1" stop-color="#8a93de"/></radialGradient>
@@ -629,13 +636,13 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
 <div class="fdtip" id="fdtip" hidden></div>
 
 <div id="stickysentinel" aria-hidden="true"></div>
-<div class="controls" id="filters" tabindex="-1" role="region" aria-label="Search and filters">
+<div class="controls" id="filters" tabindex="-1" role="region" aria-label="Search and filters" data-i18n-al="fd.a11y.filters">
   <div class="wrap">
     <div class="searchrow">
       <label class="search">
         <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="M14 14l4 4"/></svg>
-        <input id="q" type="search" placeholder="Search brand, street, or note…" data-i18n-ph="fd.qph" aria-label="Search brands" autocomplete="off" />
-        <button class="qclear" id="qclear" hidden aria-label="Clear search">✕</button>
+        <input id="q" type="search" placeholder="Search brand, street, or note…" data-i18n-ph="fd.qph" aria-label="Search brands" data-i18n-al="fd.a11y.q" autocomplete="off" />
+        <button class="qclear" id="qclear" hidden aria-label="Clear search" data-i18n-al="fd.a11y.qclear">✕</button>
       </label>
       <span class="count" id="count" role="status" aria-live="polite"></span>
       <span class="updated" data-i18n="fd.updated">Updated July 2026</span>
@@ -681,12 +688,12 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
 </main>
 <noscript><div class="wrap" style="padding:30px 0"><p>The directory is interactive and needs JavaScript to filter its 239 houses. Please enable it, or write to seraphicstyler@gmail.com for a copy.</p></div></noscript>
 
-<button class="themebtn" id="theme" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle light / dark">
+<button class="themebtn" id="theme" aria-label="Toggle dark mode" data-i18n-al="fd.a11y.theme" aria-pressed="false" title="Toggle light / dark" data-i18n-ti="fd.a11y.themeTi">
   <svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
   <svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M19.1 4.9l-1.9 1.9M6.8 17.2l-1.9 1.9"/></svg>
 </button>
 
-<nav class="tabbar" aria-label="Directory quick actions">
+<nav class="tabbar" aria-label="Directory quick actions" data-i18n-al="fd.a11y.tabbar">
   <button type="button" data-act="search"><svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="M14 14l4 4"/></svg><span data-i18n="fd.tb.search">Search</span></button>
   <button type="button" data-act="sheet"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg><span data-i18n="fd.tb.filters">Filters</span></button>
   <button type="button" data-act="map"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg><span data-i18n="fd.tb.map">Map</span></button>
@@ -719,7 +726,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
       at the confidence noted above. Saigon boutiques relocate often — message a shop the day
       before you visit. Ward names changed mid-2025; Grab &amp; Google Maps still resolve the older district labels.
       Hearts save to this browser only — no account, nothing leaves your device.</p>
-    <p class="meta" data-i18n="fd.transnote">This page is written in English and Tiếng Việt; house notes stay in their original language.</p>
+    <p class="meta" data-i18n="fd.transnote">The interface is available in the languages listed in the menu above. House notes, addresses, brand names and district names stay in their original language — those are the words you show a driver or a shop assistant.</p>
   </div>
   <div class="contact">
     <h3>Seraphic Styler</h3>
@@ -731,55 +738,13 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
   </div>
 </div></footer>
 
-  <script src="js/translations.js"></script>
-  <script>
-  /* This page ships complete UI strings in EN + VI only. Offering the other 18 site languages here
-     would render a broken English/Vietnamese mix, so the selector is trimmed to what truly works.
-     A site-wide preference for another language is preserved (page shows EN, pref untouched). */
-  (function(){var keep={en:1,vi:1};
-    try{window.__ssPrevLang=localStorage.getItem("ss-lang");}catch(e){window.__ssPrevLang=null;}
-    window.SS_LANGS=(window.SS_LANGS||[{code:"en",name:"English"}]).filter(function(l){return keep[l.code];});
-    var t=window.SS_TRANSLATIONS||{};window.SS_TRANSLATIONS={vi:t.vi||{}};
-  })();
-  </script>
-  <script>window.SS_TRANSLATIONS.vi=Object.assign(window.SS_TRANSLATIONS.vi||{},{
-  "fd.eye":"Cẩm nang tuyển chọn của atelier",
-  "fd.title":"Danh mục <span class=\"script\">Thời trang</span> Sài Gòn",
-  "fd.lede":"Mọi thương hiệu đáng biết trong bản đồ thời trang thành phố — cửa hàng, atelier, nhãn thiết kế và chợ phiên đã được xác minh — tuyển chọn cho khách của Seraphic Styler. Lọc theo nhu cầu, khu vực và mức giá.",
-  "fd.mapeye":"Bản đồ khu vực","fd.maptitle":"Các cụm cửa hàng",
-  "fd.mapsub":"Thời trang Sài Gòn tập trung ở vài quận — thường trên cùng một con phố. Chạm vào một khu vực để lọc danh mục.",
-  "fd.skipsearch":"Bỏ qua, đến ô tìm kiếm","fd.skipfilters":"Bỏ qua, đến bộ lọc","fd.skipresults":"Bỏ qua, đến danh sách",
-  "fd.showing":"Đang xem","fd.clear":"bỏ lọc ✕",
-  "fd.maplegend":"nhà mốt — diện tích vòng tròn ∝ số lượng",
-  "fd.mapshow":"Hiện bản đồ","fd.maphide":"Ẩn bản đồ",
-  "fd.qph":"Tìm thương hiệu, con phố hoặc ghi chú…",
-  "fd.updated":"Cập nhật 7/2026",
-  "fd.searchtip":"Mẹo: xoá ô tìm kiếm để xem lại tất cả các nhà mốt.",
-  "fd.browse.eye":"Bắt đầu tại đây","fd.browse.title":"Chọn theo tủ đồ",
-  "fd.browse.sub":"Chạm một nhóm để đến thẳng các nhà mốt đó — hoặc mở toàn bộ danh mục bên dưới và lọc chi tiết tuỳ ý.",
-  "fd.catlegend":"Lọc theo nhóm","fd.rowlegend":"Khu vực, phân khúc và sắp xếp",
-  "fd.loclabel":"Khu vực","fd.tierlabel":"Phân khúc","fd.sortlabel":"Sắp xếp",
-  "fd.morefilters":"Bộ lọc nâng cao","fd.lessfilters":"Thu gọn bộ lọc",
-  "fd.vibelabel":"Phong cách activewear","fd.availlabel":"Hình thức mua",
-  "fd.walkonly":"Chỉ cửa hàng ghé trực tiếp","fd.savedlab":"Đã lưu","fd.maputil":"Bản đồ",
-  "fd.sheettitle":"Bộ lọc & sắp xếp","fd.done":"Xong",
-  "fd.tb.search":"Tìm","fd.tb.filters":"Lọc","fd.tb.map":"Bản đồ","fd.tb.saved":"Đã lưu","fd.tb.all":"Tất cả",
-  "fd.legendh":"Cách đọc cẩm nang này","fd.legendconf":"Nhãn độ tin cậy",
-  "fd.conf.okl":"Đã xác minh — địa chỉ đối chiếu với kênh chính thức của thương hiệu",
-  "fd.conf.warnl":"Nên xác nhận trước — nhắn cho cửa hàng trước khi ghé (nguồn đơn lẻ, pop-up hoặc đang thay đổi)",
-  "fd.conf.stalel":"Có thể đã cũ — giữ để tham khảo cho đến khi xác minh lại",
-  "fd.legendmeta":"Địa chỉ cập nhật đến tháng 7/2026 từ kênh chính thức của thương hiệu và báo chí 2025–26, kèm mức độ tin cậy như trên. Cửa hàng Sài Gòn dời địa điểm thường xuyên — nên nhắn trước một ngày. Tên phường đổi giữa 2025; Grab & Google Maps vẫn nhận nhãn quận cũ. Trái tim chỉ lưu trên trình duyệt này — không cần tài khoản, không gửi đi đâu.",
-  "fd.transnote":"Trang này có tiếng Anh và tiếng Việt; ghi chú của từng nhà mốt giữ nguyên ngôn ngữ gốc.",
-  "fd.contactp":"Styling cá nhân & săn thời trang Việt, giao toàn cầu. Chúng tôi đi các nhà mốt này thay cho bạn.",
-  "fd.nav.home":"Atelier","fd.nav.dir":"Danh mục","fd.nav.guide":"Cẩm nang","fd.nav.look":"Lookbook","fd.nav.contact":"Liên hệ"});</script>
-  <script src="js/i18n.js"></script>
-  <script>
-  /* Restore a non-EN/VI site-wide language pref that i18n's fallback would otherwise overwrite. */
-  (function(){addEventListener("DOMContentLoaded",function(){
-    var p=window.__ssPrevLang;
-    if(p&&p!=="en"&&p!=="vi"){try{localStorage.setItem("ss-lang",p);}catch(e){}}
-  });})();
-  </script>
+  <!-- Per-page i18n. manifest.js declares which languages actually shipped a
+       validated bundle; the selector offers only those, so no one is ever handed a
+       language that silently renders English. The chosen language then loads exactly
+       one file, js/i18n/fd.<lang>.js — this page uses none of the 341 homepage keys,
+       so the 597KB translations.js is gone. -->
+  <script src="js/i18n/manifest.js"></script>
+  <script src="js/i18n-page.js"></script>
   <script src="js/directory-data.js"></script>
   <script>
 /* ============ DATA ============ */
@@ -803,104 +768,132 @@ const ICONS={"11 Garmentory":"icons/11 Garmentory.jpg","18 Again":"icons/18 Agai
 /* ============ CONFIG ============ */
 const TIERCOL={mid:"var(--lav)",premium:"var(--peri)",luxury:"var(--orchid)",couture:"var(--mauve)",none:"var(--ink-faint)"};
 const STLAB={walk:["Walk-in","walk"],appt:["Appointment","appt"],online:["Online","online"],hub:["In a hub","hub"],popup:["Pop-up","hub"]};
-/* chip / option tuples: [value, EN label, VI label] */
-const CATS=[["all","All","Tất cả"],["women","Womenswear","Thời trang nữ"],["men","Menswear","Thời trang nam"],["luxury","Luxury & Couture","Cao cấp & Couture"],["tailor","Áo dài & Tailors","Áo dài & Nhà may"],["active","Athleisure","Đồ thể thao"],["access","Accessories","Phụ kiện"],["sleep","Sleep & loungewear","Đồ ngủ & mặc nhà"],["market","Markets","Chợ phiên"]];
+/* chip / option tuples: [value, i18n key, English default, indent?]
+   Place names (Phú Nhuận, Thảo Điền, Q5 · Chợ Lớn…) are proper nouns: they stay
+   verbatim in every language — you say them to a driver, you don't translate them.
+   A null key means "never translate this label". */
+const CATS=[["all","fd.cat.all","All"],["women","fd.cat.women","Womenswear"],["men","fd.cat.men","Menswear"],["luxury","fd.cat.luxury","Luxury & Couture"],["tailor","fd.cat.tailor","Áo dài & Tailors"],["active","fd.cat.active","Athleisure"],["access","fd.cat.access","Accessories"],["sleep","fd.cat.sleep","Sleep & loungewear"],["market","fd.cat.market","Markets"]];
 /* Location taxonomy = exactly the map's zones, so filters and card areas finally agree. */
 const LOCS=[
- ["all","Everywhere","Mọi nơi"],
- ["SGN","Saigon — all","Sài Gòn — tất cả"],
- ["z:d1"," District 1"," Quận 1"],
- ["z:d3"," District 3"," Quận 3"],
- ["z:pn"," Phú Nhuận"," Phú Nhuận"],
- ["z:td"," Thảo Điền · Thủ Đức"," Thảo Điền · Thủ Đức"],
- ["z:bt"," Bình Thạnh"," Bình Thạnh"],
- ["z:tb"," Tân Bình"," Tân Bình"],
- ["z:tp"," Tân Phú"," Tân Phú"],
- ["z:gv"," Gò Vấp"," Gò Vấp"],
- ["z:q5"," Q5 · Chợ Lớn"," Q5 · Chợ Lớn"],
- ["z:other"," Online & multi-brand"," Trực tuyến & đa điểm"],
- ["HAN","Hanoi","Hà Nội"],
- ["VN","Other Vietnam","VN khác"],
- ["INTL","Overseas","Nước ngoài"]];
-const TIERS=[["all","All tiers","Mọi phân khúc"],["mid","Mid","Tầm trung"],["premium","Premium","Cao cấp"],["luxury","Luxury","Xa xỉ"],["couture","Couture","Couture"]];
-const VIBES=[["all","All vibes","Mọi phong cách"],["coastal","Coastal","Coastal"],["studio","Studio","Studio"],["performance","Performance","Performance"]];
-const SORTS=[["rec","Curated order","Thứ tự tuyển chọn"],["az","A → Z","A → Z"],["tierup","Price tier: low → high","Phân khúc: thấp → cao"],["tierdn","Price tier: high → low","Phân khúc: cao → thấp"]];
+ ["all","fd.loc.all","Everywhere"],
+ ["SGN","fd.loc.sgn","Saigon — all"],
+ ["z:d1","fd.loc.d1","District 1",1],
+ ["z:d3","fd.loc.d3","District 3",1],
+ ["z:pn",null,"Phú Nhuận",1],
+ ["z:td",null,"Thảo Điền · Thủ Đức",1],
+ ["z:bt",null,"Bình Thạnh",1],
+ ["z:tb",null,"Tân Bình",1],
+ ["z:tp",null,"Tân Phú",1],
+ ["z:gv",null,"Gò Vấp",1],
+ ["z:q5",null,"Q5 · Chợ Lớn",1],
+ ["z:other","fd.loc.other","Online & multi-brand",1],
+ ["HAN","fd.loc.han","Hanoi"],
+ ["VN","fd.loc.vn","Other Vietnam"],
+ ["INTL","fd.loc.intl","Overseas"]];
+const TIERS=[["all","fd.tiersel.all","All tiers"],["mid","fd.tiersel.mid","Mid"],["premium","fd.tiersel.premium","Premium"],["luxury","fd.tiersel.luxury","Luxury"],["couture","fd.tiersel.couture","Couture"]];
+const VIBES=[["all","fd.vibe.all","All vibes"],["coastal","fd.vibe.coastal","Coastal"],["studio","fd.vibe.studio","Studio"],["performance","fd.vibe.performance","Performance"]];
+const SORTS=[["rec","fd.sort.rec","Curated order"],["az",null,"A → Z"],["tierup","fd.sort.tierup","Price tier: low → high"],["tierdn","fd.sort.tierdn","Price tier: high → low"]];
+/* Tuple label: translated when it carries a key, verbatim when it doesn't. */
+const OPT_INDENT=" ";
+function tlabel(t){return t[1]?SS_T(t[1],t[2]):t[2];}
 const TIER_RANK={mid:0,premium:1,luxury:2,couture:3,none:4};
-/* On-now ribbon — every item carries an end date and hides itself the day after. */
+/* On-now ribbon — every item carries an end date and hides itself the day after.
+   These are operational notes (sales, pop-ups), not chrome: like house notes and
+   addresses they stay in their source language. The footer says so plainly. */
 const NOW=[
  {t:"Vincom Red Sale",d:"up to 70% off, all Vincom malls",dv:"giảm đến 70%, mọi TTTM Vincom",until:"2026-07-20"},
  {t:"7.7 mid-year mega-sale",d:"Shopee / Lazada / TikTok Shop",dv:"Shopee / Lazada / TikTok Shop",until:"2026-07-07"},
  {t:"Rue Miche L'Édition",d:"rotating PULSE pop-ups, Union Square",dv:"pop-up PULSE luân phiên, Union Square",until:"2026-08-31"}
 ];
-/* dynamic-string i18n (chrome only — store notes/data stay EN by owner precedent) */
-const LTXT={
- en:{houses:"houses",pct:"% of Saigon",
-  showAll:n=>`Showing all ${n} houses`,
-  showSome:(a,b)=>`Showing ${a} of ${b} houses`,
-  banner:`Planning a trip around these houses? Read <a href="field-guide.html">the field guide</a> — getting around, dressing for the heat, and 1-to-30-day shopping itineraries.`,
-  st:{walk:"Walk-in",appt:"Appointment",online:"Online",hub:"In a hub",popup:"Pop-up"},
-  tier:{mid:"mid",premium:"premium",luxury:"luxury",couture:"couture"},
-  conf:{ok:"Verified",warn:"Confirm first",stale:"May be outdated"},
-  map:"Map ↗",mapFor:n=>`Open Google Maps for ${n}`,byAppt:"By appointment",listing:"Directory listing",
-  share:"Share",shared:"Link copied ✓",shareFor:n=>`Share a link to ${n}`,moreF:"More filters",
-  stat:["houses catalogued","in Saigon","walk-in stores","districts mapped"],
-  streetsH:"The retail clusters",
-  streetsSub:"Saigon's fashion isn't spread evenly — these streets and buildings each hold several boutiques, the highest-value stops on any styling route.",
-  clearAll:"Clear all filters",showAllBtn:n=>`Show all ${n} houses`,
-  removeF:l=>`Remove filter: ${l}`,searchF:q=>`Search: “${q}”`,walkF:"Walk-in only",savedF:"Saved only",
-  one:"Exactly one house matches.",oneBtn:n=>`Show all ${n} houses`,
-  emptyH:"No houses match",emptyP:"Nothing in the directory fits that combination — Saigon's scene moves fast, but not that fast.",
-  actClear:"Clear search",actAll:n=>`Show all ${n} houses`,actWomen:"Browse womenswear",
-  shortlist:"Your shortlist — saved to this browser only",copy:"Copy as text",copied:"Copied ✓",
-  onlineChip:n=>`${n} online & multi-brand →`,
-  qbAll:"The full directory",qbBrowse:"Browse →",
-  nowTag:"On now",to:"to",
-  savedTip:"Saved to this browser — no account needed.",
-  expandFor:n=>`Show details for ${n}`,saveFor:n=>`Save ${n}`,
-  mapNote:(d,o,s)=>`Symbol <b>area</b> is proportional to house count (r = k·√n). The nine districts hold <b>${d}</b> walk-able houses; the chip above adds the <b>${o}</b> online &amp; multi-brand names — together the <b>${s}</b> in Saigon.`},
- vi:{houses:"nhà mốt",pct:"% của Sài Gòn",
-  showAll:n=>`Đang hiển thị tất cả ${n} nhà mốt`,
-  showSome:(a,b)=>`Hiển thị ${a} trong ${b} nhà mốt`,
-  banner:`Lên lộ trình ghé các nhà mốt này? Đọc <a href="field-guide.html">cẩm nang thực địa</a> — cách di chuyển, ăn mặc hợp trời nóng và lịch trình mua sắm 1–30 ngày.`,
-  st:{walk:"Ghé trực tiếp",appt:"Hẹn trước",online:"Trực tuyến",hub:"Trong hub",popup:"Pop-up"},
-  tier:{mid:"tầm trung",premium:"cao cấp",luxury:"xa xỉ",couture:"couture"},
-  conf:{ok:"Đã xác minh",warn:"Xác nhận trước",stale:"Có thể đã cũ"},
-  map:"Bản đồ ↗",mapFor:n=>`Mở Google Maps cho ${n}`,byAppt:"Theo lịch hẹn",listing:"Có trong danh mục",
-  share:"Chia sẻ",shared:"Đã chép liên kết ✓",shareFor:n=>`Chia sẻ liên kết đến ${n}`,moreF:"Thêm bộ lọc",
-  stat:["nhà mốt trong danh mục","tại Sài Gòn","cửa hàng ghé trực tiếp","quận được lập bản đồ"],
-  streetsH:"Các cụm mua sắm",
-  streetsSub:"Thời trang Sài Gòn không rải đều — những con phố và toà nhà này mỗi nơi tụ nhiều cửa hàng, là điểm dừng đáng giá nhất trên mọi lộ trình phối đồ.",
-  clearAll:"Xoá mọi bộ lọc",showAllBtn:n=>`Xem tất cả ${n} nhà mốt`,
-  removeF:l=>`Bỏ lọc: ${l}`,searchF:q=>`Tìm: “${q}”`,walkF:"Chỉ ghé trực tiếp",savedF:"Chỉ mục đã lưu",
-  one:"Chỉ có đúng một nhà mốt khớp.",oneBtn:n=>`Xem tất cả ${n} nhà mốt`,
-  emptyH:"Chưa có nhà mốt nào khớp",emptyP:"Danh mục chưa có nhà nào hợp tổ hợp lọc này — thời trang Sài Gòn đổi nhanh, nhưng chưa nhanh vậy.",
-  actClear:"Xoá tìm kiếm",actAll:n=>`Xem tất cả ${n} nhà mốt`,actWomen:"Xem thời trang nữ",
-  shortlist:"Danh sách của bạn — chỉ lưu trên trình duyệt này",copy:"Chép dạng văn bản",copied:"Đã chép ✓",
-  onlineChip:n=>`${n} nhà trực tuyến & đa điểm →`,
-  qbAll:"Toàn bộ danh mục",qbBrowse:"Xem →",
-  nowTag:"Đang diễn ra",to:"đến",
-  savedTip:"Lưu trên trình duyệt này — không cần tài khoản.",
-  expandFor:n=>`Xem chi tiết ${n}`,saveFor:n=>`Lưu ${n}`,
-  mapNote:(d,o,s)=>`<b>Diện tích</b> ký hiệu tỉ lệ với số nhà mốt (r = k·√n). Chín quận nắm <b>${d}</b> nhà có cửa hàng; nút phía trên gom thêm <b>${o}</b> nhà trực tuyến &amp; đa điểm — tổng cộng <b>${s}</b> tại Sài Gòn.`}
-};
+
+/* ---------- Dynamic-string i18n ----------
+   Strings built in JS (not markup) can't carry a data-i18n attribute, so they
+   resolve through the same per-language bundle at call time:
+     T(key, english)                     → plain lookup
+     TF(key, english, {a:1,b:2})         → lookup + {placeholder} interpolation
+   The English text lives here as the literal fallback, so a missing key in any
+   bundle degrades to English rather than to a blank. Card notes, addresses and
+   brand names are data and are never translated.                                */
+const T=(k,en)=>window.SS_T?window.SS_T(k,en):en;
+const TF=(k,en,v)=>window.SS_TF?window.SS_TF(k,en,v):String(en).replace(/\{(\w+)\}/g,(m,x)=>v&&v[x]!=null?v[x]:m);
 function isVI(){return document.documentElement.getAttribute("lang")==="vi";}
-function LX(){return isVI()?LTXT.vi:LTXT.en;}
+function curLang(){return window.SS_LANG?window.SS_LANG():"en";}
+
+/* Every dynamic string the page can render, as key + English default. */
+const LX=()=>({
+  houses:T("fd.dyn.houses","houses"),
+  pct:T("fd.dyn.pct","% of Saigon"),
+  showAll:n=>TF("fd.dyn.showAll","Showing all {n} houses",{n}),
+  showSome:(a,b)=>TF("fd.dyn.showSome","Showing {a} of {b} houses",{a,b}),
+  banner:T("fd.dyn.banner",`Planning a trip around these houses? Read <a href="field-guide.html">the field guide</a> — getting around, dressing for the heat, and 1-to-30-day shopping itineraries.`),
+  st:{walk:T("fd.dyn.st.walk","Walk-in"),appt:T("fd.dyn.st.appt","Appointment"),online:T("fd.dyn.st.online","Online"),hub:T("fd.dyn.st.hub","In a hub"),popup:T("fd.dyn.st.popup","Pop-up")},
+  tier:{mid:T("fd.dyn.tier.mid","mid"),premium:T("fd.dyn.tier.premium","premium"),luxury:T("fd.dyn.tier.luxury","luxury"),couture:T("fd.dyn.tier.couture","couture")},
+  conf:{ok:T("fd.dyn.conf.ok","Verified"),warn:T("fd.dyn.conf.warn","Confirm first"),stale:T("fd.dyn.conf.stale","May be outdated")},
+  map:T("fd.dyn.map","Map ↗"),
+  mapFor:n=>TF("fd.dyn.mapFor","Open Google Maps for {n}",{n}),
+  byAppt:T("fd.dyn.byAppt","By appointment"),
+  listing:T("fd.dyn.listing","Directory listing"),
+  share:T("fd.dyn.share","Share"),
+  shared:T("fd.dyn.shared","Link copied ✓"),
+  shareFor:n=>TF("fd.dyn.shareFor","Share a link to {n}",{n}),
+  moreF:T("fd.morefilters","More filters"),
+  stat:[T("fd.dyn.stat.1","houses catalogued"),T("fd.dyn.stat.2","in Saigon"),T("fd.dyn.stat.3","walk-in stores"),T("fd.dyn.stat.4","districts mapped")],
+  streetsH:T("fd.dyn.streetsH","The retail clusters"),
+  streetsSub:T("fd.dyn.streetsSub","Saigon's fashion isn't spread evenly — these streets and buildings each hold several boutiques, the highest-value stops on any styling route."),
+  showAllBtn:n=>TF("fd.dyn.showAllBtn","Show all {n} houses",{n}),
+  removeF:l=>TF("fd.dyn.removeF","Remove filter: {l}",{l}),
+  searchF:q=>TF("fd.dyn.searchF","Search: “{q}”",{q}),
+  walkF:T("fd.dyn.walkF","Walk-in only"),
+  savedF:T("fd.dyn.savedF","Saved only"),
+  one:T("fd.dyn.one","Exactly one house matches."),
+  oneBtn:n=>TF("fd.dyn.showAllBtn","Show all {n} houses",{n}),
+  emptyH:T("fd.dyn.emptyH","No houses match"),
+  emptyP:T("fd.dyn.emptyP","Nothing in the directory fits that combination — Saigon's scene moves fast, but not that fast."),
+  actClear:T("fd.dyn.actClear","Clear search"),
+  actAll:n=>TF("fd.dyn.showAllBtn","Show all {n} houses",{n}),
+  actWomen:T("fd.dyn.actWomen","Browse womenswear"),
+  shortlist:T("fd.dyn.shortlist","Your shortlist — saved to this browser only"),
+  copy:T("fd.dyn.copy","Copy as text"),
+  copied:T("fd.dyn.copied","Copied ✓"),
+  onlineChip:n=>TF("fd.dyn.onlineChip","{n} online & multi-brand →",{n}),
+  qbAll:T("fd.dyn.qbAll","The full directory"),
+  qbBrowse:T("fd.dyn.qbBrowse","Browse →"),
+  nowTag:T("fd.dyn.nowTag","On now"),
+  to:T("fd.dyn.to","to"),
+  savedTip:T("fd.dyn.savedTip","Saved to this browser — no account needed."),
+  expandFor:n=>TF("fd.dyn.expandFor","Show details for {n}",{n}),
+  saveFor:n=>TF("fd.dyn.saveFor","Save {n}",{n}),
+  openNow:T("fd.dyn.openNow","Open now"),
+  opensAt:t=>TF("fd.dyn.opensAt","Opens {t}",{t}),
+  closedNow:T("fd.dyn.closedNow","Closed now"),
+  mapShow:T("fd.mapshow","Show map"),
+  mapHide:T("fd.maphide","Hide map"),
+  moreFilters:T("fd.morefilters","More filters"),
+  fewerFilters:T("fd.lessfilters","Fewer filters"),
+  tapFilter:T("fd.dyn.tapFilter","Tap to filter"),
+  more:n=>TF("fd.dyn.more","+{n} more",{n}),
+  mapNote:(d,o,s)=>TF("fd.dyn.mapNote",
+    `Symbol <b>area</b> is proportional to house count (r = k·√n). The nine districts hold <b>{d}</b> walk-able houses; the chip above adds the <b>{o}</b> online &amp; multi-brand names — together the <b>{s}</b> in Saigon.`,{d,o,s})
+});
 const VI_RE=/[àáảãạăằắẳẵặâầấẩẫậđèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵĐ]/;
 const viAttr=s=>VI_RE.test(s||"")?' lang="vi"':'';
 /* aesthetic vibe for activewear — coastal=California/laid-back-luxe, studio=Pilates/yoga, performance=gym/run */
 const VIBEMAP={Olaben:"coastal","EQL Apparel":"coastal",REBN:"studio","Hibi Sports":"studio",Kydra:"performance",Supersports:"performance",Fitme:"performance","Thế Giới Đồ Tập":"performance",Shamdi:"performance",Coolmate:"performance","I.Sport":"performance"};
 function vibeOf(b){return b.vibe||VIBEMAP[b.n]||"";}
 /* group tuples: [key, EN title, EN desc, VI title] — descs stay EN (data precedent) */
+/* group tuples: [key] — title + description resolve from the bundle at render time */
 const GROUPS=[
- ["women","Contemporary womenswear","Local design houses and boutiques — the heart of the Saigon scene, plus a few chains and Hanoi names.","Thời trang nữ đương đại"],
- ["men","Menswear & streetwear","Local menswear labels, streetwear flagships (most unisex-leaning) and made-to-measure suiting.","Thời trang nam & streetwear"],
- ["luxury","Luxury & couture","Designer labels and made-to-order houses. Most work by appointment; several show internationally.","Cao cấp & couture"],
- ["tailor","Áo dài, tailors & craft studios","Bespoke áo dài, made-to-measure ateliers, embroidery and upcycling — what's distinctive to Vietnam.","Áo dài, nhà may & xưởng thủ công"],
- ["active","Premium athleisure","Studio-to-street activewear and functional sun-wear. No official Lululemon or Alo store exists in Vietnam yet.","Đồ thể thao cao cấp"],
- ["access","Eyewear, shoes, bags & jewelry","Vietnamese accessory labels with real HCMC stores.","Kính, giày, túi & trang sức"],
- ["sleep","Sleep & loungewear","Cotton, linen and silk nightwear built for tropical nights — the natural-fibre houses, not the polyester-satin mass market.","Đồ ngủ & mặc nhà"],
- ["market","Markets & pop-ups","Where many brands gather at once — highest value per trip. Dates roam; check socials first.","Chợ phiên & pop-up"]
+ ["women","Contemporary womenswear","Local design houses and boutiques — the heart of the Saigon scene, plus a few chains and Hanoi names."],
+ ["men","Menswear & streetwear","Local menswear labels, streetwear flagships (most unisex-leaning) and made-to-measure suiting."],
+ ["luxury","Luxury & couture","Designer labels and made-to-order houses. Most work by appointment; several show internationally."],
+ ["tailor","Áo dài, tailors & craft studios","Bespoke áo dài, made-to-measure ateliers, embroidery and upcycling — what's distinctive to Vietnam."],
+ ["active","Premium athleisure","Studio-to-street activewear and functional sun-wear. No official Lululemon or Alo store exists in Vietnam yet."],
+ ["access","Eyewear, shoes, bags & jewelry","Vietnamese accessory labels with real HCMC stores."],
+ ["sleep","Sleep & loungewear","Cotton, linen and silk nightwear built for tropical nights — the natural-fibre houses, not the polyester-satin mass market."],
+ ["market","Markets & pop-ups","Where many brands gather at once — highest value per trip. Dates roam; check socials first."]
 ];
+const grpTitle=g=>T("fd.grp."+g[0]+".t",g[1]);
+const grpDesc =g=>T("fd.grp."+g[0]+".d",g[2]);
 
 /* ============ STATE ============ */
 let fCat="all",fCity="all",fWalk=false,fQ="",fZone="",fTier="all",fVibe="all",fSaved=false,fSort="rec";
@@ -959,16 +952,14 @@ function statChips(){
   sl.innerHTML=vals.map((v,i)=>`<div class="stat"><b>${v}</b><span>${lab[i]}</span></div>`).join("");
 }
 function chipbar(id,arr,cur,cls){
-  const vi=isVI();
-  document.getElementById(id).innerHTML=arr.map(([v,l,lv])=>
-    `<button class="chip ${cls}" data-v="${v}" aria-pressed="${cur===v}">${vi&&lv?lv:l}</button>`).join("")
+  document.getElementById(id).innerHTML=arr.map(t=>
+    `<button class="chip ${cls}" data-v="${t[0]}" aria-pressed="${cur===t[0]}">${tlabel(t)}</button>`).join("")
    /* mobile only (CSS): the chip row ends in a More-filters chip that opens the sheet */
    +(id==="catchips"?`<button class="chip fchipbtn" id="fchipbtn" aria-haspopup="dialog" aria-controls="sheet">${LX().moreF}</button>`:"");
 }
 function fillSel(id,arr,cur){
-  const vi=isVI();
   const el=document.getElementById(id);
-  el.innerHTML=arr.map(([v,l,lv])=>`<option value="${v}"${cur===v?" selected":""}>${vi&&lv?lv:l}</option>`).join("");
+  el.innerHTML=arr.map(t=>`<option value="${t[0]}"${cur===t[0]?" selected":""}>${t[3]?OPT_INDENT:""}${tlabel(t)}</option>`).join("");
 }
 function locValue(){return fZone?("z:"+fZone):fCity;}
 function setLoc(v){
@@ -1000,9 +991,10 @@ function openState(b){
   if(!m)return null;
   const open=+m[1]*60+ +m[2],close=+m[3]*60+ +m[4];
   const now=new Date(),cur=now.getHours()*60+now.getMinutes();
-  if(cur>=open&&cur<close)return{cls:"ok",label:isVI()?"Đang mở":"Open now"};
-  if(cur<open)return{cls:"soon",label:(isVI()?"Mở ":"Opens ")+("0"+m[1]).slice(-2)+":"+m[2]};
-  return{cls:"closed",label:isVI()?"Đã đóng":"Closed now"};
+  const L=LX();
+  if(cur>=open&&cur<close)return{cls:"ok",label:L.openNow};
+  if(cur<open)return{cls:"soon",label:L.opensAt(("0"+m[1]).slice(-2)+":"+m[2])};
+  return{cls:"closed",label:L.closedNow};
 }
 function card(b,i){
   const L=LX(),st=STLAB[b.st]||["",""],stl=(L.st[b.st]||st[0]);
@@ -1038,8 +1030,8 @@ function card(b,i){
 }
 /* — Active-filter chips: every narrowed state shows removable chips + one primary escape hatch — */
 function activeFilters(){
-  const L=LX(),vi=isVI(),out=[];
-  const lbl=(arr,v)=>{const t=arr.find(x=>x[0]===v);return t?(vi&&t[2]?t[2]:t[1]):v;};
+  const L=LX(),out=[];
+  const lbl=(arr,v)=>{const t=arr.find(x=>x[0]===v);return t?tlabel(t):v;};
   if(fQ){const raw=(document.getElementById("q").value||"").trim();
     out.push({k:"q",label:L.searchF(raw||fQ)});} /* chip echoes what was typed, not the lowercased match key */
   if(fCat!=="all")out.push({k:"cat",label:lbl(CATS,fCat)});
@@ -1086,10 +1078,11 @@ function render(){
     html+=`<div class="onehit"><span>${L.one}</span><button class="showall" data-act="reset">${L.oneBtn(B.length)}</button></div>`;
   const useGroups=(fCat==="all");
   const order=useGroups?GROUPS:GROUPS.filter(g=>g[0]===fCat);
-  for(const [key,title,desc,titleVI] of order){
+  for(const g of order){
+    const key=g[0];
     const items=sortList(shown.filter(b=>b.cat===key));
     if(!items.length)continue;
-    html+=`<section class="group"><div class="ghead"><h2>${isVI()&&titleVI?titleVI:title} <span class="n">${items.length}</span></h2></div><p>${desc}</p>`;
+    html+=`<section class="group"><div class="ghead"><h2>${grpTitle(g)} <span class="n">${items.length}</span></h2></div><p>${grpDesc(g)}</p>`;
     html+=`<div class="grid">${items.map(card).join("")}</div>`;
     if(key==="women"&&fCity!=="HAN"&&fCity!=="INTL"&&fCity!=="VN")html+=streetsPanel();
     html+=`</section>`;
@@ -1187,10 +1180,10 @@ function fdTip(n){
  const tip=document.getElementById("fdtip");if(!tip||!n)return;
  const zk=n.dataset.z,sgn=B.filter(b=>b.city==="SGN").length;
  const c=B.filter(b=>zoneOf(b)===zk).length,pct=Math.round(c/sgn*100),tops=topHouses(zk);
- const more=c-tops.length,vi=isVI();
+ const more=c-tops.length,L=LX();
  tip.innerHTML=`<b>${zoneName(zk)}</b><span>${c} ${LX().houses} · ${pct}${LX().pct}</span>`
-   +(tops.length?`<em>${tops.join(" · ")}${more>0?` +${more} ${vi?"nữa":"more"}`:""}</em>`:"")
-   +`<i>${vi?"Chạm để lọc":"Tap to filter"}</i>`;
+   +(tops.length?`<em>${tops.join(" · ")}${more>0?" "+L.more(more):""}</em>`:"")
+   +`<i>${L.tapFilter}</i>`;
  tip.hidden=false; /* reveal before measuring */
  const circle=n.querySelector("circle")||n,r=circle.getBoundingClientRect();
  const cx=r.left+r.width/2,tw=tip.offsetWidth,th=tip.offsetHeight,gap=11,pad=12;
@@ -1206,10 +1199,10 @@ function fdHideTip(){const t=document.getElementById("fdtip");if(t)t.hidden=true
 /* ============ QUICK BROWSE ============ */
 function renderBrowse(){
   const g=document.getElementById("qbgrid");if(!g)return;
-  const vi=isVI(),L=LX();
-  g.innerHTML=GROUPS.map(([key,title,_d,titleVI])=>{
-    const n=B.filter(b=>b.cat===key).length;
-    return `<button class="qb" data-cat="${key}"><span class="n">${n}</span><span class="t">${vi&&titleVI?titleVI:title}</span><span class="a">${L.qbBrowse}</span></button>`;
+  const L=LX();
+  g.innerHTML=GROUPS.map(g2=>{
+    const n=B.filter(b=>b.cat===g2[0]).length;
+    return `<button class="qb" data-cat="${g2[0]}"><span class="n">${n}</span><span class="t">${grpTitle(g2)}</span><span class="a">${L.qbBrowse}</span></button>`;
   }).join("")+`<button class="qb all" data-cat="all"><span class="n">${B.length}</span><span class="t">${L.qbAll}</span><span class="a">${L.qbBrowse}</span></button>`;
 }
 
@@ -1220,7 +1213,7 @@ function renderNow(){
   const today=new Date().toISOString().slice(0,10);
   const live=NOW.filter(x=>today<=x.until);
   if(!live.length){bar.hidden=true;return;}
-  const vi=isVI(),L=LX(),loc=vi?"vi-VN":"en-GB";
+  const vi=isVI(),L=LX(),loc=curLang()==="en"?"en-GB":curLang();
   const mon=new Date().toLocaleDateString(loc,{month:"long",year:"numeric"});
   document.getElementById("nowtag").textContent=L.nowTag+" · "+mon;
   items.innerHTML=live.map(x=>{
@@ -1251,7 +1244,7 @@ document.getElementById("morebtn").addEventListener("click",e=>{
   const p=document.getElementById("morepanel"),open=!p.classList.contains("open");
   p.classList.toggle("open",open);e.currentTarget.setAttribute("aria-expanded",String(open));
   const s=e.currentTarget.querySelector("span");
-  if(s)s.textContent=(isVI()?(open?"Thu gọn bộ lọc":"Bộ lọc nâng cao"):(open?"Fewer filters":"More filters"));
+  if(s)s.textContent=open?LX().fewerFilters:LX().moreFilters;
 });
 /* search: 300ms debounce; ✕ clears instantly; UI stays put on focus */
 (function(){
@@ -1324,7 +1317,7 @@ document.getElementById("main").addEventListener("click",e=>{
 (function(){const fdmap=document.getElementById("fdmap");
  if(fdmap){
   fdmap.addEventListener("click",e=>{const n=e.target.closest(".fdmap-node");if(n){setZone(n.dataset.z);fdHideTip();}});
-  fdmap.addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const n=e.target.closest(".fdmap-node");if(n){e.preventDefault();setZone(n.dataset.z);}});
+  fdmap.addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const n=e.target.closest(".fdmap-node");if(n){e.preventDefault();setZone(n.dataset.z);fdHideTip();}});
   if(matchMedia("(hover:hover) and (pointer:fine)").matches){
     fdmap.addEventListener("mousemove",e=>{const n=e.target.closest(".fdmap-node");if(n)fdTip(n);else fdHideTip();});
     fdmap.addEventListener("mouseleave",fdHideTip);
@@ -1332,7 +1325,9 @@ document.getElementById("main").addEventListener("click",e=>{
   fdmap.addEventListener("focusin",e=>{const n=e.target.closest(".fdmap-node");if(n)fdTip(n);});
   fdmap.addEventListener("focusout",fdHideTip);
   addEventListener("keydown",e=>{if(e.key==="Escape")fdHideTip();});
-  addEventListener("scroll",fdHideTip,{passive:true});
+  /* capture: scroll doesn't bubble, and the map sits in an overflow-x container */
+  addEventListener("scroll",fdHideTip,{passive:true,capture:true});
+  addEventListener("resize",fdHideTip,{passive:true});
  }
  const fdc=document.getElementById("fdmapclear");if(fdc)fdc.addEventListener("click",()=>setZone(null));
  const oc=document.getElementById("onlinechip");if(oc)oc.addEventListener("click",()=>setZone("other"));
@@ -1345,7 +1340,7 @@ document.getElementById("main").addEventListener("click",e=>{
     body.classList.toggle("open",open);
     t.setAttribute("aria-expanded",String(open));
     const s=t.querySelector("span");
-    if(s)s.textContent=isVI()?(open?"Ẩn bản đồ":"Hiện bản đồ"):(open?"Hide map":"Show map");
+    if(s)s.textContent=open?LX().mapHide:LX().mapShow;
   }
   t.addEventListener("click",()=>setOpen(!body.classList.contains("open")));
   window.__fdMapOpen=setOpen;
@@ -1372,7 +1367,7 @@ const sheetCtl=(function(){
     else{const ab=document.getElementById("activebar");controls.insertBefore(row2,ab);controls.insertBefore(more,ab);
       more.classList.remove("open");
       const mbn=document.getElementById("morebtn");mbn.setAttribute("aria-expanded","false");
-      const ms=mbn.querySelector("span");if(ms)ms.textContent=isVI()?"Bộ lọc nâng cao":"More filters";}
+      const ms=mbn.querySelector("span");if(ms)ms.textContent=LX().moreFilters;}
   }
   mq.addEventListener?mq.addEventListener("change",relocate):mq.addListener(relocate);
   relocate();
@@ -1485,7 +1480,7 @@ new MutationObserver(()=>{
   const mp=document.getElementById("morepanel");
   if(mp&&mp.classList.contains("open")){
     const s=document.getElementById("morebtn").querySelector("span");
-    if(s)s.textContent=isVI()?"Thu gọn bộ lọc":"Fewer filters";
+    if(s)s.textContent=LX().fewerFilters;
   }
 }).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
 

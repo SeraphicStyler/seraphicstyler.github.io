@@ -8,6 +8,9 @@
     vi:{eyebrow:"Kh\u00e1m ph\u00e1 m\u1ed9t nh\u00e0 m\u1ed1t", link:"Xem trong danh m\u1ee5c \u2192", next:"Xem nh\u00e0 kh\u00e1c"}
   };
   function lang(){ var l=document.documentElement.getAttribute("lang"); return (l==="vi")?"vi":"en"; }
+  /* Prefer the host page's language bundle when it has one (directory + field guide);
+     fall back to the inline en/vi pair on pages using the older i18n engine. */
+  function S(k){ var f=STR[lang()][k]; return window.SS_T ? window.SS_T("db."+k, f) : f; }
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
   function href(n){ return "fashion-directory.html#q=" + encodeURIComponent(n); }
   var reduce = matchMedia("(prefers-reduced-motion:reduce)").matches || document.documentElement.classList.contains("rm");
@@ -18,7 +21,7 @@
     var order = shuffle(BRANDS.map(function(_,i){return i;}));
     var pos = 0, timer = null;
     var s = STR[lang()];
-    el.innerHTML = '<div class="db-card"><div class="db-eyebrow db-t-eyebrow">'+s.eyebrow+'</div><div class="db-inner"></div></div>';
+    el.innerHTML = '<div class="db-card"><div class="db-eyebrow db-t-eyebrow">'+S("eyebrow")+'</div><div class="db-inner"></div></div>';
     var inner = el.querySelector(".db-inner");
     function body(b){
       var logo = b.i ? '<span class="db-logo"><img src="'+encodeURI(b.i)+'" alt="" loading="lazy" decoding="async"></span>' : '<span class="db-logo"><span>'+esc(b.n.charAt(0))+'</span></span>';
@@ -26,7 +29,7 @@
     }
     function paint(){
       var b = BRANDS[order[pos]], L = STR[lang()];
-      inner.innerHTML = body(b) + '<p class="db-note">'+esc(b.no)+'</p><div class="db-actions"><a class="db-link" href="'+href(b.n)+'">'+L.link+'</a><button class="db-next" type="button" aria-label="'+L.next+'">'+L.next+' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v5h-5"/></svg></button></div>';
+      inner.innerHTML = body(b) + '<p class="db-note">'+esc(b.no)+'</p><div class="db-actions"><a class="db-link" href="'+href(b.n)+'">'+S("link")+'</a><button class="db-next" type="button" aria-label="'+S("next")+'">'+S("next")+' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v5h-5"/></svg></button></div>';
       inner.querySelector(".db-next").addEventListener("click", function(){ advance(true); });
       inner.classList.remove("db-out");
     }
@@ -39,7 +42,7 @@
     el.addEventListener("mouseleave", function(){ if(!timer) start(); });
     el.addEventListener("focusin", function(){ if(timer){clearInterval(timer);timer=null;} });
     el.addEventListener("focusout", function(){ if(!timer) start(); });
-    el.__dbRelang = function(){ var ss=STR[lang()]; var eb=el.querySelector(".db-t-eyebrow"); if(eb) eb.textContent=ss.eyebrow; render(false); };
+    el.__dbRelang = function(){ var eb=el.querySelector(".db-t-eyebrow"); if(eb) eb.textContent=S("eyebrow"); render(false); };
   }
 
   function initStrip(el){

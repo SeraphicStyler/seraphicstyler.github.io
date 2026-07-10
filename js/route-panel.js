@@ -12,8 +12,21 @@
     var R = window.SS_ROUTE, DIR = window.SS_DIRECTORY, CO = window.SS_COORDS;
     if (!R || !DIR || !CO) { console.warn('[route-panel] missing deps (SS_ROUTE/SS_DIRECTORY/SS_COORDS)'); return; }
     var FD = window.SS_FD || {};
+
+    /* Labels are baked into the markup at build time, so a language switch has to
+       rebuild the widget. Drop any previous instance before creating a new one. */
+    var prev = document.querySelectorAll('.ssrp-open, .ssrp-ov');
+    for (var i = 0; i < prev.length; i++) prev[i].remove();
     var VI = function () { return document.documentElement.getAttribute('lang') === 'vi'; };
-    var T = function (en, vi) { return VI() && vi ? vi : en; };
+    /* Chrome resolves through the page's language bundle (js/i18n/fd.<lang>.js) when one
+       is loaded; the inline en/vi pair stays as the fallback, so this file still works on
+       pages that use the older i18n engine. Keys are slugged from the English string —
+       tools/i18n derives the same slug when it extracts them, so the two cannot drift. */
+    var slug = function (s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40); };
+    var T = function (en, vi) {
+      var fallback = VI() && vi ? vi : en;
+      return window.SS_T ? window.SS_T('fd.rp.' + slug(en), fallback) : fallback;
+    };
 
     // Popular, easy-to-find start points — the average traveler doesn't begin at Chợ Bà Chiểu
     var START_POINTS = [
@@ -108,6 +121,7 @@
 
     /* ---- styles ---- */
     var css = document.createElement('style');
+    css.id = 'ssrp-css';
     css.textContent = [
       '.ssrp-open{position:fixed;right:1.25rem;bottom:1.25rem;z-index:40;display:inline-flex;gap:.5em;align-items:center;',
       'padding:.62rem 1.1rem;border-radius:999px;border:1px solid rgba(255,255,255,.18);',
@@ -174,7 +188,7 @@
       '.ssrp-empty{color:var(--ink-soft,#51618f);font-size:.85rem;padding:.6em 0}',
       '@media(prefers-color-scheme:dark){.ssrp-ov{background:rgba(4,6,14,.6)}}'
     ].join('');
-    document.head.appendChild(css);
+    if (!document.getElementById('ssrp-css')) document.head.appendChild(css);
 
     /* ---- build trigger + modal ---- */
     var openBtn = document.createElement('button');
@@ -364,15 +378,30 @@
     openBtn.addEventListener('click', open);
     ov.querySelector('.ssrp-x').addEventListener('click', close);
     ov.addEventListener('click', function (e) { if (e.target === ov) close(); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !ov.hidden) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (!document.body.contains(ov)) return;   // a rebuilt widget owns the keyboard now
+      if (e.key === 'Escape' && !ov.hidden) close();
+    });
     ov.querySelector('#ssrp-run').addEventListener('click', run);
 
     // deep-link: open automatically on #route or ?route
-    function maybeAutoOpen() { if (/(^|[#&])route(=|$|&)/.test(location.hash)) open(); }
+    function maybeAutoOpen() {
+      if (!document.body.contains(ov)) return;
+      if (/(^|[#&])route(=|$|&)/.test(location.hash)) open();
+    }
     maybeAutoOpen();
     window.addEventListener('hashchange', maybeAutoOpen);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
+
+  /* The panel's strings are baked in at build time, so re-run boot() whenever the
+     i18n engine swaps <html lang>. Registered once; boot() never touches lang. */
+  if (!window.__ssrpLangObserver && typeof MutationObserver !== 'undefined') {
+    window.__ssrpLangObserver = new MutationObserver(function () {
+      if (document.querySelector('.ssrp-open, .ssrp-ov')) boot();
+    });
+    window.__ssrpLangObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+  }
 })();

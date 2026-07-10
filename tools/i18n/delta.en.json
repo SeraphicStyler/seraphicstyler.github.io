@@ -1,0 +1,16 @@
+{
+ "fd.a11y.nav": "Pages",
+ "fd.a11y.map": "Stylized map of Saigon fashion districts, sized by number of stores",
+ "fd.a11y.filters": "Search and filters",
+ "fd.a11y.q": "Search brands",
+ "fd.a11y.qclear": "Clear search",
+ "fd.a11y.theme": "Toggle dark mode",
+ "fd.a11y.tabbar": "Directory quick actions",
+ "fd.a11y.themeTi": "Toggle light / dark",
+ "fg.a11y.back": "Back to Seraphic Styler home",
+ "fg.a11y.nav": "Sections",
+ "fg.a11y.legend": "Map legend",
+ "fg.a11y.copylink": "Copy link to this itinerary",
+ "fg.a11y.theme": "Toggle dark mode",
+ "fg.a11y.themeTi": "Toggle light / dark"
+}

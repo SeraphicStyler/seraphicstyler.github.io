@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-i18n-page="fg">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -21,7 +21,8 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&family=Tenor+Sans&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&family=Tenor+Sans&family=Noto+Sans+Tifinagh&display=swap" rel="stylesheet" />
+  <style>[lang="zgh"]{font-family:"Noto Sans Tifinagh","Montserrat",sans-serif;}</style>
   <script>
     (function(){try{var t=localStorage.getItem('ss-theme')||'auto';
       var d=t==='dark'||(t==='auto'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);
@@ -200,7 +201,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
   .drow{grid-template-columns:52px 1fr;}
 }
 /* ---------- Skip link ---------- */
-.skip{position:fixed;left:12px;top:-64px;z-index:60;background:var(--cobalt-solid);color:#fff;
+.skip{position:fixed;inset-inline-start:12px;top:-64px;z-index:60;background:var(--cobalt-solid);color:#fff;
   font-family:var(--font-body);font-size:.82rem;font-weight:500;padding:9px 16px;border-radius:var(--r-pill);
   box-shadow:var(--shadow);transition:top .18s ease;}
 .skip:focus{top:12px;}
@@ -375,13 +376,13 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
 </script>
 </head>
 <body>
-  <a class="skip" href="#main">Skip to the guide</a>
+  <a class="skip" href="#main" data-i18n="fg.body.1">Skip to the guide</a>
   <div class="progress" aria-hidden="true"><i></i></div>
   <header class="fd-topbar">
-    <a class="fd-back" href="./" aria-label="Back to Seraphic Styler home">← <span class="fd-brand">Seraphic Styler</span></a>
+    <a class="fd-back" href="./" aria-label="Back to Seraphic Styler home" data-i18n-al="fg.a11y.back" data-i18n="fg.top.1">← <span class="fd-brand">Seraphic Styler</span></a>
     <div class="fd-right">
-      <a class="fd-back" href="fashion-directory.html">Directory →</a>
-      <select id="langSelect" aria-label="Language / Ngôn ngữ"></select>
+      <a class="fd-back" href="fashion-directory.html" data-i18n="fg.top.2">Directory →</a>
+      <select id="langSelect" aria-label="Language" data-i18n-al="fg.langlabel" title="Choose a language" data-i18n-ti="fg.langtitle"></select>
     </div>
   </header>
 
@@ -407,17 +408,17 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
       you can honestly shop in one to thirty days — the practical companion to our
       <a href="fashion-directory.html" style="color:var(--cobalt)">fashion directory</a>.</p>
     <div class="statline">
-      <div class="stat"><b>9</b><span>districts mapped</span></div>
-      <div class="stat"><b>110+</b><span>walk-in doors</span></div>
-      <div class="stat"><b>21:30</b><span>typical closing</span></div>
-      <div class="stat"><b>1–30</b><span>day plans</span></div>
+      <div class="stat"><b>9</b><span data-i18n="fg.body.2">districts mapped</span></div>
+      <div class="stat"><b>110+</b><span data-i18n="fg.body.3">walk-in doors</span></div>
+      <div class="stat"><b>21:30</b><span data-i18n="fg.body.4">typical closing</span></div>
+      <div class="stat"><b>1–30</b><span data-i18n="fg.body.5">day plans</span></div>
     </div>
     <p class="dateline" data-i18n="fg.updated">Field notes · updated July 2026 · Saigon (HCMC)</p>
   </div>
 </div>
 
 <div class="fg-shell">
-<nav class="secnav" aria-label="Sections">
+<nav class="secnav" aria-label="Sections" data-i18n-al="fg.a11y.nav">
   <div class="wrap">
     <span class="secnav-h" data-i18n="fg.onpage">In this guide</span>
     <a href="#moving" data-i18n="fg.nav1">Getting around</a>
@@ -431,95 +432,95 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
 <!-- ============ §1 GETTING AROUND ============ -->
 <section class="sect" id="moving">
   <div class="wrap">
-    <div class="eyebrow">Part one · Moving</div>
+    <div class="eyebrow" data-i18n="fg.moving.1">Part one · Moving</div>
     <h2 data-i18n="fg.h1">Getting around: the xe ôm briefing</h2>
     <div class="prose">
-      <p>Saigon runs on two wheels — roughly 8.5 million motorbikes for nine million residents — and so does
+      <p data-i18n="fg.moving.2">Saigon runs on two wheels — roughly 8.5 million motorbikes for nine million residents — and so does
         serious shopping here. You walk within a cluster and ride between them; ten minutes on a bike stitches
         District 1 to District 3. The craft is in the details: which app, which hour, and what to do with three
         boutique bags and one incoming storm.</p>
 
       <div class="discover-brand" style="max-width:470px;margin:6px 0 22px;"></div>
 
-      <h3>The three apps</h3>
-      <p>Three matter: <b>Grab</b>, <b>Be</b>, and <b>Xanh SM</b>, Vingroup's all-electric VinFast fleet. For a
+      <h3 data-i18n="fg.moving.3">The three apps</h3>
+      <p data-i18n="fg.moving.4">Three matter: <b>Grab</b>, <b>Be</b>, and <b>Xanh SM</b>, Vingroup's all-electric VinFast fleet. For a
         visitor the deciding question is not price but whether the app works at all with a foreign card and a
         foreign number — and there, one answer dominates.</p>
     </div>
     <div class="tblwrap"><table class="ftab">
-      <caption>Ride-hailing apps compared for foreign visitors</caption>
-      <thead><tr><th scope="col">App</th><th scope="col">What it is</th><th scope="col">D1 ↔ D3 hop (bike)</th><th scope="col">D1 ↔ Thảo Điền (bike)</th><th scope="col">Why you'd choose it</th></tr></thead>
+      <caption data-i18n="fg.moving.5">Ride-hailing apps compared for foreign visitors</caption>
+      <thead><tr><th scope="col" data-i18n="fg.moving.6">App</th><th scope="col" data-i18n="fg.moving.7">What it is</th><th scope="col" data-i18n="fg.moving.8">D1 ↔ D3 hop (bike)</th><th scope="col" data-i18n="fg.moving.9">D1 ↔ Thảo Điền (bike)</th><th scope="col" data-i18n="fg.moving.10">Why you'd choose it</th></tr></thead>
       <tbody>
-        <tr><td class="bn">Grab</td>
-          <td>The regional default — the only app that reliably works end-to-end for visitors: international
+        <tr><td class="bn" data-i18n="fg.moving.11">Grab</td>
+          <td data-i18n="fg.moving.12">The regional default — the only app that reliably works end-to-end for visitors: international
             phone numbers, foreign Visa/Mastercard in-app, full English.</td>
-          <td class="num">~15–30k₫</td><td class="num">~45–85k₫ <b>*</b></td>
-          <td>Set it up before you land. Receipts, trip-sharing, dispute protection.</td></tr>
-        <tr><td class="bn">Xanh SM</td>
-          <td>Electric VinFast bikes and cars with salaried drivers, often cited as the most vetted fleet.
+          <td class="num" data-i18n="fg.moving.13">~15–30k₫</td><td class="num" data-i18n="fg.moving.14">~45–85k₫ <b>*</b></td>
+          <td data-i18n="fg.moving.15">Set it up before you land. Receipts, trip-sharing, dispute protection.</td></tr>
+        <tr><td class="bn" data-i18n="fg.moving.16">Xanh SM</td>
+          <td data-i18n="fg.moving.17">Electric VinFast bikes and cars with salaried drivers, often cited as the most vetted fleet.
             Foreign-card support is still patchy — carry cash for it.</td>
-          <td class="num" colspan="2">Fixed fares — no peak-hour surge</td>
-          <td>When Grab surges (rain, rush hour), Xanh's fixed fare quietly wins.</td></tr>
-        <tr><td class="bn">Be</td>
-          <td>The local's choice, typically 5–10% under Grab — but it effectively needs a Vietnamese phone
+          <td class="num" colspan="2" data-i18n="fg.moving.18">Fixed fares — no peak-hour surge</td>
+          <td data-i18n="fg.moving.19">When Grab surges (rain, rush hour), Xanh's fixed fare quietly wins.</td></tr>
+        <tr><td class="bn" data-i18n="fg.moving.20">Be</td>
+          <td data-i18n="fg.moving.21">The local's choice, typically 5–10% under Grab — but it effectively needs a Vietnamese phone
             number, and cash is the practical payment.</td>
-          <td class="num">just under Grab</td><td class="num">—</td>
-          <td>Worth adopting once you have a local SIM; not before.</td></tr>
+          <td class="num" data-i18n="fg.moving.22">just under Grab</td><td class="num">—</td>
+          <td data-i18n="fg.moving.23">Worth adopting once you have a local SIM; not before.</td></tr>
       </tbody>
     </table></div>
-    <p class="tbnote">Fares are ranges, as of mid-2026. * The D1 ↔ Thảo Điền figure is our extrapolation from
+    <p class="tbnote" data-i18n="fg.moving.24">Fares are ranges, as of mid-2026. * The D1 ↔ Thảo Điền figure is our extrapolation from
       published per-km bands — check the app before you ride. The working setup: Grab as primary, Xanh SM as the
       cash-paid understudy.</p>
     <div class="prose">
-      <p>From <b>Tân Sơn Nhất airport</b>: GrabBike runs ~90–140k₫ and GrabCar ~120–280k₫ into District 1
+      <p data-i18n="fg.moving.25">From <b>Tân Sơn Nhất airport</b>: GrabBike runs ~90–140k₫ and GrabCar ~120–280k₫ into District 1
         depending on the hour, and late-night surcharges can double it. At the international terminal, Grab
         pickup is pushed to a designated zone — book first, then walk, and ignore anyone soliciting on the way.</p>
 
-      <h3>The street xe ôm, honestly</h3>
-      <p>The apps have largely retired the street negotiation, but not entirely. A fair street price is roughly
+      <h3 data-i18n="fg.moving.26">The street xe ôm, honestly</h3>
+      <p data-i18n="fg.moving.27">The apps have largely retired the street negotiation, but not entirely. A fair street price is roughly
         10–15k₫ per kilometre; opening quotes to foreigners typically start at double a local's. Agree the number
         <b>before</b> you sit down — type it into your phone and show the screen. The two classic flips are
         “you misunderstood, that was dollars” and a multiplied fare on arrival; both dissolve when the agreed
         figure sits in writing between you. Street still makes sense exactly three times: your phone is dead, a
         storm has the apps surging at 2.5×, or the hop is a one-minute formality.</p>
 
-      <h3>Riding with purchases</h3>
-      <p>Small bags ride between your feet, on the hook, or in the under-seat box. Past two boutique bags, stop
+      <h3 data-i18n="fg.moving.28">Riding with purchases</h3>
+      <p data-i18n="fg.moving.29">Small bags ride between your feet, on the hook, or in the under-seat box. Past two boutique bags, stop
         pretending: switch to GrabCar — short central hops run only 30–70k₫ — or send purchases ahead.
         <b>GrabExpress</b> Same-Day delivers to your hotel within 2–6 hours from about 20k₫ flat, and Xanh SM
         runs an equivalent. A garment bag you can't crush always rides in a car.</p>
-      <p>The unglamorous truth about phones: drive-by snatching is the most-reported crime against visitors here,
+      <p data-i18n="fg.moving.30">The unglamorous truth about phones: drive-by snatching is the most-reported crime against visitors here,
         and the hotspots — Bến Thành, Nguyễn Huệ, Đồng Khởi, Bùi Viện — are precisely the shopping streets. Don't
         stand at the kerb staring at the Grab map; step back from the road to book, wear the crossbody on the
         building side (a sun jacket over it hides it entirely), and keep the phone away in moving traffic.</p>
-      <p>Drivers carry a passenger helmet by law — legally compliant rather than luxurious, fine for short hops.
+      <p data-i18n="fg.moving.31">Drivers carry a passenger helmet by law — legally compliant rather than luxurious, fine for short hops.
         As of mid-2026 no platform offers a bookable women-driver option that we could verify; the practical
         mitigations are the in-app trip-share, matching plate and face before you mount, and Xanh SM's salaried
         fleet.</p>
 
-      <h3>The rain playbook</h3>
-      <p>May to November, the sky falls most afternoons — suddenly, heavily, briefly. Drivers routinely carry a
+      <h3 data-i18n="fg.moving.32">The rain playbook</h3>
+      <p data-i18n="fg.moving.33">May to November, the sky falls most afternoons — suddenly, heavily, briefly. Drivers routinely carry a
         spare passenger poncho and will pull over to hand it to you; accept it. Fares surge to around 2.5× during
         a storm, so the elegant move is the local one: step into a café and let the 30–60 minute dump pass over a
         coffee. It is almost always cheaper than riding through it, and considerably drier.</p>
 
-      <h3>When to ride, when to hide</h3>
-      <p>Rush runs roughly 7–9 in the morning and 5–7 in the evening, with surge pricing to match. But traffic
+      <h3 data-i18n="fg.moving.34">When to ride, when to hide</h3>
+      <p data-i18n="fg.moving.35">Rush runs roughly 7–9 in the morning and 5–7 in the evening, with surge pricing to match. But traffic
         is not really your enemy — heat is. The UV index peaks between 11:00 and 13:00 year-round, and the
         boutiques stay open to 21:30, so the day plans itself: clusters on foot in the morning, air-conditioning
         through the early afternoon, and the long stretch from 16:00 onwards, which is where Saigon shopping
         actually lives.</p>
 
-      <h3>Walking truths</h3>
-      <p>The Đồng Khởi–Nguyễn Huệ–Lê Lợi core of District 1 genuinely walks — Nguyễn Huệ is a full pedestrian
+      <h3 data-i18n="fg.moving.36">Walking truths</h3>
+      <p data-i18n="fg.moving.37">The Đồng Khởi–Nguyễn Huệ–Lê Lợi core of District 1 genuinely walks — Nguyễn Huệ is a full pedestrian
         boulevard — and central D1/D3 goes block by block. Beyond that, sidewalks belong to parked motorbikes,
         vendor carts and the occasional bike using the pavement as a shortcut; expect to step into the road and
         back. Thảo Điền's shopping lanes are short-walk clusters between rides, not a continuous stroll. Crossing
         is its own small ceremony: walk out slowly, hold one steady pace, no stops, no sprints — the stream reads
         you and flows around. Lights are advisory at best.</p>
 
-      <h3>The metro, and when a car wins</h3>
-      <p><b>Metro Line 1</b> (open since December 2024) is the quiet answer to the D1 ↔ Thảo Điền run: Bến Thành
+      <h3 data-i18n="fg.moving.38">The metro, and when a car wins</h3>
+      <p data-i18n="fg.moving.39"><b>Metro Line 1</b> (open since December 2024) is the quiet answer to the D1 ↔ Thảo Điền run: Bến Thành
         to Thảo Điền or An Phú in 10–12 minutes, 7–20k₫ a trip, a 40k₫ day pass, trains every 8–12 minutes until
         around 22:00. Air-conditioned, zero snatch-risk, entirely happy with shopping bags — the only tax is a
         hot few-hundred-metre walk from the elevated stations. A <b>car</b> beats a bike whenever there are
@@ -534,16 +535,16 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
 <!-- ============ §2 WARDROBE ============ -->
 <section class="sect" id="wardrobe">
   <div class="wrap">
-    <div class="eyebrow">Part two · Wearing</div>
+    <div class="eyebrow" data-i18n="fg.wardrobe.1">Part two · Wearing</div>
     <h2 data-i18n="fg.h2">Dress for the city: sun, smog &amp; sudden rain</h2>
     <div class="prose">
-      <p>Here is the quietly radical thing about Saigon style: the most functional wardrobe in the city is also
+      <p data-i18n="fg.wardrobe.2">Here is the quietly radical thing about Saigon style: the most functional wardrobe in the city is also
         one of its most distinctive. The riders you'll share every intersection with are dressed head-to-toe
         against the sun — and the garments they do it with are inexpensive here, excellent here, and nearly
         unbuyable at home. This section is half briefing, half shopping list.</p>
 
-      <h3>The sun, plainly</h3>
-      <p>There is no low-UV season in Saigon. The index runs high-to-extreme all year — monthly peaks of 13–15
+      <h3 data-i18n="fg.wardrobe.3">The sun, plainly</h3>
+      <p data-i18n="fg.wardrobe.4">There is no low-UV season in Saigon. The index runs high-to-extreme all year — monthly peaks of 13–15
         from roughly February to November, and even December–January sits near 10, where unprotected skin colours
         in about fifteen minutes. The daily peak is 11:00–13:00. Which is why, for a shopping day, cover beats
         cream: <b>UPF</b> is the clothing counterpart of SPF, but stricter — it rates a fabric's blockage of both
@@ -552,8 +553,8 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
         bodies use. Two honest caveats: protection drops when fabric is wet or stretched, and a tight weave in a
         darker colour does more than any slogan.</p>
 
-      <h3>The áo chống nắng wardrobe</h3>
-      <p>What locals actually wear has its own vocabulary. The <b>áo chống nắng</b> is the anti-sun jacket —
+      <h3 data-i18n="fg.wardrobe.5">The áo chống nắng wardrobe</h3>
+      <p data-i18n="fg.wardrobe.6">What locals actually wear has its own vocabulary. The <b>áo chống nắng</b> is the anti-sun jacket —
         oversized hood projecting past the face, thumb-holes, sleeves cut long over the hands, designed for a
         motorbike seat. The <b>váy chống nắng</b> is a wrap skirt worn over your clothes to cover the legs while
         riding (from ~299k₫; even MUJI Vietnam sells one as a “bike skirt”). <b>Găng tay chống nắng</b> are
@@ -564,69 +565,69 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
         UV claims exactly as verifiable as you'd expect. All of it is sold everywhere: brand stores, Shopee and
         Lazada, and street stalls.</p>
 
-      <h3>Where the claims are real</h3>
-      <p>The lines below either publish certification or are established names for sun-wear in the city, as of
+      <h3 data-i18n="fg.wardrobe.7">Where the claims are real</h3>
+      <p data-i18n="fg.wardrobe.8">The lines below either publish certification or are established names for sun-wear in the city, as of
         mid-2026. Where an address reached us from a single source, we've marked it — message before you ride.
         In our directory, the sun-protection lines sit under
         <a href="fashion-directory.html#cat=active">activewear in the directory</a>.</p>
     </div>
     <div class="tblwrap"><table class="ftab">
-      <caption>Saigon sun-protection brands, their certifications, and where to find them</caption>
-      <thead><tr><th scope="col">Brand</th><th scope="col">Origin</th><th scope="col">Certification / claim</th><th scope="col">Where in Saigon</th></tr></thead>
+      <caption data-i18n="fg.wardrobe.9">Saigon sun-protection brands, their certifications, and where to find them</caption>
+      <thead><tr><th scope="col" data-i18n="fg.wardrobe.10">Brand</th><th scope="col" data-i18n="fg.wardrobe.11">Origin</th><th scope="col" data-i18n="fg.wardrobe.12">Certification / claim</th><th scope="col" data-i18n="fg.wardrobe.13">Where in Saigon</th></tr></thead>
       <tbody>
-        <tr><td class="bn">UV100</td><td>Taiwan, est. 2004 · 11+ yrs in VN</td>
-          <td><b>ARPANSA-certified UPF 50+</b> (Australian government body — the gold standard); blocks ~97–99%+.
+        <tr><td class="bn" data-i18n="fg.wardrobe.14">UV100</td><td data-i18n="fg.wardrobe.15">Taiwan, est. 2004 · 11+ yrs in VN</td>
+          <td data-i18n="fg.wardrobe.16"><b>ARPANSA-certified UPF 50+</b> (Australian government body — the gold standard); blocks ~97–99%+.
             Jackets, masks, gloves, sleeves, skirts, hats.</td>
-          <td><a href="https://maps.google.com/?q=46+Nguyễn+Bỉnh+Khiêm,+District+1,+Ho+Chi+Minh+City" target="_blank" rel="noopener">46 Nguyễn Bỉnh Khiêm, D1</a> ·
+          <td data-i18n="fg.wardrobe.17"><a href="https://maps.google.com/?q=46+Nguyễn+Bỉnh+Khiêm,+District+1,+Ho+Chi+Minh+City" target="_blank" rel="noopener">46 Nguyễn Bỉnh Khiêm, D1</a> ·
             <a href="https://maps.google.com/?q=645+Nguyễn+Đình+Chiểu,+District+3,+Ho+Chi+Minh+City" target="_blank" rel="noopener">645 Nguyễn Đình Chiểu, D3</a>
             <span class="cfm">confirm before visiting</span><br>Distributed by Smarttex (Bình Thạnh HQ) · uv100.vn</td></tr>
-        <tr><td class="bn">Coolmate</td><td>Vietnam · online-first</td>
-          <td>UPF 50+ across its UV Protection collection, tested by <b>Intertek Vietnam</b> (AATCC 183 standard);
+        <tr><td class="bn" data-i18n="fg.wardrobe.18">Coolmate</td><td data-i18n="fg.wardrobe.19">Vietnam · online-first</td>
+          <td data-i18n="fg.wardrobe.20">UPF 50+ across its UV Protection collection, tested by <b>Intertek Vietnam</b> (AATCC 183 standard);
             knit UV jacket ~399k₫.</td>
-          <td>Online only — coolmate.me / Shopee. No HCMC retail store as of mid-2026.</td></tr>
-        <tr><td class="bn">Cardina</td><td>Vietnam</td>
-          <td>UPF 50+ certified by the <b>Vietnam Textile Research Institute</b>; claims 99.9% block; “Ice Text”
+          <td data-i18n="fg.wardrobe.21">Online only — coolmate.me / Shopee. No HCMC retail store as of mid-2026.</td></tr>
+        <tr><td class="bn" data-i18n="fg.wardrobe.22">Cardina</td><td data-i18n="fg.wardrobe.23">Vietnam</td>
+          <td data-i18n="fg.wardrobe.24">UPF 50+ certified by the <b>Vietnam Textile Research Institute</b>; claims 99.9% block; “Ice Text”
             cooling fibre. Most pieces 299–690k₫.</td>
-          <td>Online — cardina.vn / Shopee / Lazada.</td></tr>
-        <tr><td class="bn">UNIQLO</td><td>Japan</td>
-          <td>UV Protection line with <b>on-tag UPF that varies by garment — 25 / 40 / 50+</b>. Check each tag;
+          <td data-i18n="fg.wardrobe.25">Online — cardina.vn / Shopee / Lazada.</td></tr>
+        <tr><td class="bn" data-i18n="fg.wardrobe.26">UNIQLO</td><td data-i18n="fg.wardrobe.27">Japan</td>
+          <td data-i18n="fg.wardrobe.28">UV Protection line with <b>on-tag UPF that varies by garment — 25 / 40 / 50+</b>. Check each tag;
             “blocks 90% of UV” marks the lower-rated pieces. ~230–900k₫.</td>
-          <td><a href="https://maps.google.com/?q=UNIQLO+Đồng+Khởi,+Ho+Chi+Minh+City" target="_blank" rel="noopener">Đồng Khởi flagship</a>
+          <td data-i18n="fg.wardrobe.29"><a href="https://maps.google.com/?q=UNIQLO+Đồng+Khởi,+Ho+Chi+Minh+City" target="_blank" rel="noopener">Đồng Khởi flagship</a>
             (SE Asia's second-largest) + citywide stores.</td></tr>
-        <tr><td class="bn">Decathlon</td><td>France</td>
-          <td>Anti-UV jacket category from ~299k₫; UPF printed per item under international labelling — item
+        <tr><td class="bn" data-i18n="fg.wardrobe.30">Decathlon</td><td data-i18n="fg.wardrobe.31">France</td>
+          <td data-i18n="fg.wardrobe.32">Anti-UV jacket category from ~299k₫; UPF printed per item under international labelling — item
             ratings vary.</td>
-          <td>decathlon.vn — store locator.</td></tr>
-        <tr><td class="bn">TokyoLife</td><td>Vietnam × Japan</td>
-          <td>“SunStop” UPF 50+ line, 390–650k₫. The rating is branded on-range; the certifying body isn't
+          <td data-i18n="fg.wardrobe.33">decathlon.vn — store locator.</td></tr>
+        <tr><td class="bn" data-i18n="fg.wardrobe.34">TokyoLife</td><td data-i18n="fg.wardrobe.35">Vietnam × Japan</td>
+          <td data-i18n="fg.wardrobe.36">“SunStop” UPF 50+ line, 390–650k₫. The rating is branded on-range; the certifying body isn't
             published.</td>
-          <td><a href="https://maps.google.com/?q=683A+Âu+Cơ,+Tân+Phú,+Ho+Chi+Minh+City" target="_blank" rel="noopener">683A Âu Cơ, Tân Phú</a> ·
+          <td data-i18n="fg.wardrobe.37"><a href="https://maps.google.com/?q=683A+Âu+Cơ,+Tân+Phú,+Ho+Chi+Minh+City" target="_blank" rel="noopener">683A Âu Cơ, Tân Phú</a> ·
             <a href="https://maps.google.com/?q=73/4b+Lê+Văn+Khương,+District+12,+Ho+Chi+Minh+City" target="_blank" rel="noopener">73/4b Lê Văn Khương, D12</a>
             <span class="cfm">confirm before visiting</span></td></tr>
-        <tr><td class="bn">Hinlet</td><td>Vietnam, since 2016</td>
-          <td>Sun-resistant fashion label; no published UPF certification we could verify.</td>
-          <td><a href="https://maps.google.com/?q=340D+Hoàng+Văn+Thụ,+Tân+Bình,+Ho+Chi+Minh+City" target="_blank" rel="noopener">340D Hoàng Văn Thụ, Tân Bình</a>
+        <tr><td class="bn" data-i18n="fg.wardrobe.38">Hinlet</td><td data-i18n="fg.wardrobe.39">Vietnam, since 2016</td>
+          <td data-i18n="fg.wardrobe.40">Sun-resistant fashion label; no published UPF certification we could verify.</td>
+          <td data-i18n="fg.wardrobe.41"><a href="https://maps.google.com/?q=340D+Hoàng+Văn+Thụ,+Tân+Bình,+Ho+Chi+Minh+City" target="_blank" rel="noopener">340D Hoàng Văn Thụ, Tân Bình</a>
             <span class="cfm">confirm before visiting</span></td></tr>
-        <tr><td class="bn">MOMIU</td><td>Saigon</td>
-          <td>Well-known local sun-jacket name; claims rather than published ratings.</td>
-          <td><a href="https://maps.google.com/?q=299+Thoại+Ngọc+Hầu,+Tân+Phú,+Ho+Chi+Minh+City" target="_blank" rel="noopener">299 Thoại Ngọc Hầu, Tân Phú</a>
+        <tr><td class="bn" data-i18n="fg.wardrobe.42">MOMIU</td><td data-i18n="fg.wardrobe.43">Saigon</td>
+          <td data-i18n="fg.wardrobe.44">Well-known local sun-jacket name; claims rather than published ratings.</td>
+          <td data-i18n="fg.wardrobe.45"><a href="https://maps.google.com/?q=299+Thoại+Ngọc+Hầu,+Tân+Phú,+Ho+Chi+Minh+City" target="_blank" rel="noopener">299 Thoại Ngọc Hầu, Tân Phú</a>
             <span class="cfm">confirm before visiting</span></td></tr>
-        <tr><td class="bn">Non Branded</td><td>Saigon (“Saigon Urban-ism”)</td>
-          <td>Anti-UV™ Parka with a UPF 50+ claim — two-layer fabric against UV and dust, finger-hole sleeves; the
+        <tr><td class="bn" data-i18n="fg.wardrobe.46">Non Branded</td><td data-i18n="fg.wardrobe.47">Saigon (“Saigon Urban-ism”)</td>
+          <td data-i18n="fg.wardrobe.48">Anti-UV™ Parka with a UPF 50+ claim — two-layer fabric against UV and dust, finger-hole sleeves; the
             streetwear take on the category.</td>
-          <td>Via the label's own channels <span class="cfm">no storefront verified</span></td></tr>
+          <td data-i18n="fg.wardrobe.49">Via the label's own channels <span class="cfm">no storefront verified</span></td></tr>
       </tbody>
     </table></div>
     <div class="prose">
-      <p>A note on the fine print, because this is where we're paid to be unromantic: <b>“chống nắng” on a label
+      <p data-i18n="fg.wardrobe.50">A note on the fine print, because this is where we're paid to be unromantic: <b>“chống nắng” on a label
         is a category, not a rating.</b> Anything can be marketed as anti-sun; a published UPF figure from a named
         laboratory is a different animal, and ARPANSA-style government certification — UV100's route — is the gold
         standard. Several popular local lines (including one advertising “UPF50+++,” a scale that does not exist)
         sell on claims alone. They may be perfectly good jackets. But if the number matters to you, buy where the
         number is published.</p>
 
-      <h3>Air, and masks</h3>
-      <p>The air is at its worst November through January — dry-season stagnation before the rains return to
+      <h3 data-i18n="fg.wardrobe.51">Air, and masks</h3>
+      <p data-i18n="fg.wardrobe.52">The air is at its worst November through January — dry-season stagnation before the rains return to
         wash it. One January 2026 day put the city seventh among the world's major cities at AQI 166, and the
         2024 average ran about four times the WHO annual guideline; mid-year, rainy-season readings are usually
         moderate. Masks long predate any pandemic here — they're standard riding equipment against exhaust and
@@ -634,8 +635,8 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
         29k₫ apiece, frequently discounted. And note: the pretty fabric khẩu trang chống UV from the sun-wear
         brands protect against sun, not particulates. Different tools.</p>
 
-      <h3>Rain, and the poncho hierarchy</h3>
-      <p>The season runs May–November: mornings usually dry, then a 2–5pm downpour lasting one to three hours,
+      <h3 data-i18n="fg.wardrobe.53">Rain, and the poncho hierarchy</h3>
+      <p data-i18n="fg.wardrobe.54">The season runs May–November: mornings usually dry, then a 2–5pm downpour lasting one to three hours,
         heaviest August–October. The local answer is the <b>áo mưa</b> — the motorbike poncho, cut to cover rider
         and handlebars, often with a clear panel so the headlight shines through; there are two-person versions.
         The hierarchy: single-use plastic ponchos from any convenience store for a few tens of thousands of đồng;
@@ -644,29 +645,29 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
         fake “Givi Rando” at 100–200k₫ — buy from a proper shop. What lives in our tote from May onward: one
         folded poncho, and the address of the nearest good café.</p>
 
-      <h3>Bring it home</h3>
-      <p>The atelier's honest souvenir advice: the best things to carry out of Saigon are the ones the city wears
+      <h3 data-i18n="fg.wardrobe.55">Bring it home</h3>
+      <p data-i18n="fg.wardrobe.56">The atelier's honest souvenir advice: the best things to carry out of Saigon are the ones the city wears
         every day.</p>
     </div>
     <div class="tblwrap"><table class="ftab">
-      <caption>Sun-and-rain wear: Saigon prices versus the United States</caption>
-      <thead><tr><th scope="col">The item</th><th scope="col">In Saigon</th><th scope="col">In the US</th><th scope="col">The verdict</th></tr></thead>
+      <caption data-i18n="fg.wardrobe.57">Sun-and-rain wear: Saigon prices versus the United States</caption>
+      <thead><tr><th scope="col" data-i18n="fg.wardrobe.58">The item</th><th scope="col" data-i18n="fg.wardrobe.59">In Saigon</th><th scope="col" data-i18n="fg.wardrobe.60">In the US</th><th scope="col" data-i18n="fg.wardrobe.61">The verdict</th></tr></thead>
       <tbody>
-        <tr><td><b>Lab-certified UPF 50+ sun jacket</b></td><td class="num">~299–690k₫ ($12–28)</td>
-          <td class="num">Coolibar $79–99</td>
-          <td>Three to six times cheaper here — the single best functional souvenir.</td></tr>
-        <tr><td><b>Sun gloves, sleeves &amp; UV face masks</b></td><td class="num">tens of thousands ₫ each</td>
-          <td>Barely exists outside golf and fishing retail</td>
-          <td>Cheap, packable, near-absent in the US mainstream.</td></tr>
-        <tr><td><b>Váy chống nắng riding skirt</b></td><td class="num">from ~299k₫</td>
-          <td>No equivalent at all</td>
-          <td>Genuinely only-in-Asia; brilliant for cyclists and scooter riders.</td></tr>
-        <tr><td><b>Motorbike poncho, headlight window</b></td><td class="num">180–307k₫ premium</td>
-          <td class="num">Frogg Toggs ~$12–15 — no visor-window cut</td>
-          <td>Similar price, but this design doesn't exist in US retail.</td></tr>
-        <tr><td><b>UNIQLO UV parkas</b></td><td class="num">~230–900k₫</td>
-          <td>Same lines, similar or higher USD</td>
-          <td>No arbitrage — buy for convenience only.</td></tr>
+        <tr><td data-i18n="fg.wardrobe.62"><b>Lab-certified UPF 50+ sun jacket</b></td><td class="num" data-i18n="fg.wardrobe.63">~299–690k₫ ($12–28)</td>
+          <td class="num" data-i18n="fg.wardrobe.64">Coolibar $79–99</td>
+          <td data-i18n="fg.wardrobe.65">Three to six times cheaper here — the single best functional souvenir.</td></tr>
+        <tr><td data-i18n="fg.wardrobe.66"><b>Sun gloves, sleeves &amp; UV face masks</b></td><td class="num" data-i18n="fg.wardrobe.67">tens of thousands ₫ each</td>
+          <td data-i18n="fg.wardrobe.68">Barely exists outside golf and fishing retail</td>
+          <td data-i18n="fg.wardrobe.69">Cheap, packable, near-absent in the US mainstream.</td></tr>
+        <tr><td data-i18n="fg.wardrobe.70"><b>Váy chống nắng riding skirt</b></td><td class="num" data-i18n="fg.wardrobe.71">from ~299k₫</td>
+          <td data-i18n="fg.wardrobe.72">No equivalent at all</td>
+          <td data-i18n="fg.wardrobe.73">Genuinely only-in-Asia; brilliant for cyclists and scooter riders.</td></tr>
+        <tr><td data-i18n="fg.wardrobe.74"><b>Motorbike poncho, headlight window</b></td><td class="num" data-i18n="fg.wardrobe.75">180–307k₫ premium</td>
+          <td class="num" data-i18n="fg.wardrobe.76">Frogg Toggs ~$12–15 — no visor-window cut</td>
+          <td data-i18n="fg.wardrobe.77">Similar price, but this design doesn't exist in US retail.</td></tr>
+        <tr><td data-i18n="fg.wardrobe.78"><b>UNIQLO UV parkas</b></td><td class="num" data-i18n="fg.wardrobe.79">~230–900k₫</td>
+          <td data-i18n="fg.wardrobe.80">Same lines, similar or higher USD</td>
+          <td data-i18n="fg.wardrobe.81">No arbitrage — buy for convenience only.</td></tr>
       </tbody>
     </table></div>
   </div>
@@ -675,10 +676,10 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
 <!-- ============ §3 ITINERARIES ============ -->
 <section class="sect" id="itineraries">
   <div class="wrap">
-    <div class="eyebrow">Part three · Planning</div>
+    <div class="eyebrow" data-i18n="fg.itineraries.1">Part three · Planning</div>
     <h2 data-i18n="fg.h3">The itineraries</h2>
     <div class="prose">
-      <p><b>How these plans were built.</b> We treated the city the way its geography asks to be treated: as nine
+      <p data-i18n="fg.itineraries.2"><b>How these plans were built.</b> We treated the city the way its geography asks to be treated: as nine
         districts of very unequal density, each drained on foot before a single ride is spent. Every day gets one
         or two clusters, never three; anchors are set first and the smaller doors attach to the walk between
         them. Mornings belong to whichever cluster opens earliest, the hours between roughly 11:30 and 15:00 to
@@ -748,7 +749,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
           <text class="cm-t-sub cm-halo" x="585" y="388" text-anchor="middle">D7</text>
         </svg>
       </div>
-      <ul class="cm-legend-row" aria-label="Map legend">
+      <ul class="cm-legend-row" aria-label="Map legend" data-i18n-al="fg.a11y.legend">
         <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle class="cm-anchor" cx="8" cy="8" r="6"/><circle class="cm-anchor-hub" cx="8" cy="8" r="2.2"/></svg><span data-i18n="fg.lg.anchor">Anchor cluster</span></li>
         <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle class="cm-walk" cx="8" cy="8" r="5.6"/></svg><span data-i18n="fg.lg.walk">Walkable cluster</span></li>
         <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle class="cm-outdot" cx="8" cy="8" r="4"/></svg><span data-i18n="fg.lg.outer">Outer district</span></li>
@@ -758,56 +759,56 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
     </figure>
 
     <details class="plan" id="plan-1day" open>
-      <summary><span class="pl-days">1 day</span><span class="pl-t">The essence — the District 1 core, then the D3 design strip</span><span class="pl-mark" aria-hidden="true">＋</span></summary>
+      <summary data-i18n="fg.itineraries.3"><span class="pl-days">1 day</span><span class="pl-t">The essence — the District 1 core, then the D3 design strip</span><span class="pl-mark" aria-hidden="true">＋</span></summary>
       <div class="pl-body">
-        <div class="pl-actions"><button class="pl-copy" type="button" aria-label="Copy link to this itinerary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 15l6-6"/><path d="M11 6l1-1a4 4 0 0 1 6 6l-1 1"/><path d="M13 18l-1 1a4 4 0 0 1-6-6l1-1"/></svg><span>Copy link</span></button></div>
-        <p><b>Who it's for:</b> a layover, a single free day, a first taste. <b>What it honestly covers:</b> ten
+        <div class="pl-actions"><button class="pl-copy" type="button" aria-label="Copy link to this itinerary" data-i18n-al="fg.a11y.copylink" data-i18n="fg.itineraries.4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 15l6-6"/><path d="M11 6l1-1a4 4 0 0 1 6 6l-1 1"/><path d="M13 18l-1 1a4 4 0 0 1-6-6l1-1"/></svg><span>Copy link</span></button></div>
+        <p data-i18n="fg.itineraries.5"><b>Who it's for:</b> a layover, a single free day, a first taste. <b>What it honestly covers:</b> ten
           to twelve of the city's ~110 walk-in doors — about one in ten. Chosen well, it's the right ten.</p>
         <ol class="sched">
-        <li class="drow"><b>09:00</b><span>Coffee on Đồng Khởi. <b>Metiseko</b> (8:30) opens the luxury spine
+        <li class="drow" data-i18n="fg.itineraries.6"><b>09:00</b><span>Coffee on Đồng Khởi. <b>Metiseko</b> (8:30) opens the luxury spine
           first; walk the ~600 m core past the SIXDO flagship and GIA Studios
           (<a href="fashion-directory.html#zone=d1">the District 1 houses</a>).</span></li>
-        <li class="drow"><b>10:00</b><span><b>Rue Miche L'Édition</b>, Union Square B3 — 4,728 m², 120+
+        <li class="drow" data-i18n="fg.itineraries.7"><b>10:00</b><span><b>Rue Miche L'Édition</b>, Union Square B3 — 4,728 m², 120+
           Vietnamese brands under one roof. The single highest-value stop in the city; give it ninety
           minutes.</span></li>
-        <li class="drow"><b>12:00</b><span>Heat block. Lunch, then <b>Vincom Đồng Khởi</b> across Lê Thánh Tôn —
+        <li class="drow" data-i18n="fg.itineraries.8"><b>12:00</b><span>Heat block. Lunch, then <b>Vincom Đồng Khởi</b> across Lê Thánh Tôn —
           Daphale and CAOSTU on B1, Stress Mama on B2, all air-conditioned.</span></li>
-        <li class="drow"><b>14:30</b><span><b>42 Tôn Thất Thiệp</b>: four shops in one building, zero walking
+        <li class="drow" data-i18n="fg.itineraries.9"><b>14:30</b><span><b>42 Tôn Thất Thiệp</b>: four shops in one building, zero walking
           (Dawna Vintage, 1998 Before The Dawn, Depass, Daspace) — plus a Bad Habits door for
           <a href="fashion-directory.html#cat=men">the menswear rack</a>. Then Lý Tự Trọng: The New Playground at
           №26, Thuy Design House at №44B, Wephobia at №98.</span></li>
-        <li class="drow"><b>17:00</b><span>Grab-bike to the <b>Trần Quang Diệu strip</b>, District 3 — 10–15 min,
+        <li class="drow" data-i18n="fg.itineraries.10"><b>17:00</b><span>Grab-bike to the <b>Trần Quang Diệu strip</b>, District 3 — 10–15 min,
           15–30k₫ as of mid-2026. Fourteen shops on 800 m of one street
           (<a href="fashion-directory.html#zone=d3">the District 3 houses</a>): Kathy Atelier anchors, Laneci holds the
           door until 22:00.</span></li>
-        <li class="drow"><b>20:30</b><span>Dinner near the strip; last looks until close.</span></li>
+        <li class="drow" data-i18n="fg.itineraries.11"><b>20:30</b><span>Dinner near the strip; last looks until close.</span></li>
         </ol>
-        <p><b>Running late?</b> Cut Lý Tự Trọng, not the strip — the strip's late hours are the day's second
+        <p data-i18n="fg.itineraries.12"><b>Running late?</b> Cut Lý Tự Trọng, not the strip — the strip's late hours are the day's second
           wind. Whatever falls off rolls, cleanly, to a next visit.</p>
       </div>
     </details>
 
     <details class="plan" id="plan-2day">
-      <summary><span class="pl-days">2 days</span><span class="pl-t">Adds District 3 in full, and Phú Nhuận's late evening</span><span class="pl-mark" aria-hidden="true">＋</span></summary>
+      <summary data-i18n="fg.itineraries.13"><span class="pl-days">2 days</span><span class="pl-t">Adds District 3 in full, and Phú Nhuận's late evening</span><span class="pl-mark" aria-hidden="true">＋</span></summary>
       <div class="pl-body">
-        <div class="pl-actions"><button class="pl-copy" type="button" aria-label="Copy link to this itinerary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 15l6-6"/><path d="M11 6l1-1a4 4 0 0 1 6 6l-1 1"/><path d="M13 18l-1 1a4 4 0 0 1-6-6l1-1"/></svg><span>Copy link</span></button></div>
-        <p><b>Who it's for:</b> a weekend visitor who wants the two densest districts done properly.
+        <div class="pl-actions"><button class="pl-copy" type="button" aria-label="Copy link to this itinerary" data-i18n-al="fg.a11y.copylink" data-i18n="fg.itineraries.14"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 15l6-6"/><path d="M11 6l1-1a4 4 0 0 1 6 6l-1 1"/><path d="M13 18l-1 1a4 4 0 0 1-6-6l1-1"/></svg><span>Copy link</span></button></div>
+        <p data-i18n="fg.itineraries.15"><b>Who it's for:</b> a weekend visitor who wants the two densest districts done properly.
           <b>What it honestly covers:</b> ~20–22 doors — about a fifth of the city's walk-ins, and its two best
           streets.</p>
-        <div class="dayh">Day one</div>
-        <p>The one-day plan, unchanged. Every longer trip here begins with the same core — a shorter stay is a
+        <div class="dayh" data-i18n="fg.itineraries.16">Day one</div>
+        <p data-i18n="fg.itineraries.17">The one-day plan, unchanged. Every longer trip here begins with the same core — a shorter stay is a
           prefix of a longer one, never a different route.</p>
-        <div class="dayh">Day two</div>
+        <div class="dayh" data-i18n="fg.itineraries.18">Day two</div>
         <ol class="sched">
-        <li class="drow"><b>09:30</b><span><b>Võ Văn Tần</b>, District 3 — Cocosin opens at 9:00; seven doors
+        <li class="drow" data-i18n="fg.itineraries.19"><b>09:30</b><span><b>Võ Văn Tần</b>, District 3 — Cocosin opens at 9:00; seven doors
           over a walkable kilometre: Mooris, Résel Studio, LAVIEM, So Dópe Club, Đỗ Long at the Bàn Cờ end
           (<a href="fashion-directory.html#zone=d3">District 3 listings</a>). Menswear: HADES keeps a D3 door at 152 Trần
           Quang Diệu (<a href="fashion-directory.html#cat=men">menswear in the directory</a>).</span></li>
-        <li class="drow"><b>11:30</b><span><b>SEESON</b> on Điện Biên Phủ — the eyewear flagship with in-house
+        <li class="drow" data-i18n="fg.itineraries.20"><b>11:30</b><span><b>SEESON</b> on Điện Biên Phủ — the eyewear flagship with in-house
           optometry and a café. A heat-block stop that still shops.</span></li>
-        <li class="drow"><b>14:30</b><span><b>Nguyễn Đình Chiểu</b> by ride-and-hop: the Vascara flagship, Sassy
+        <li class="drow" data-i18n="fg.itineraries.21"><b>14:30</b><span><b>Nguyễn Đình Chiểu</b> by ride-and-hop: the Vascara flagship, Sassy
           Sis (closes 20:30), Daniv Dear up its four flights.</span></li>
-        <li class="drow"><b>17:30</b><span><b>Phú Nhuận</b> for the evening
+        <li class="drow" data-i18n="fg.itineraries.22"><b>17:30</b><span><b>Phú Nhuận</b> for the evening
           (<a href="fashion-directory.html#zone=pn">Phú Nhuận listings</a>): the 11 Garmentory hub — four-plus brands and a
           café under one roof, until 21:30 — then the Trần Huy Liệu pair, Tiela and By Vee, both open to 22:00.
           The city's best late-evening cluster, and its best value one.</span></li>
@@ -816,74 +817,74 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
     </details>
 
     <details class="plan" id="plan-3day">
-      <summary><span class="pl-days">3–4 days</span><span class="pl-t">Adds Thảo Điền, Tân Định, markets — and a tailor's errand</span><span class="pl-mark" aria-hidden="true">＋</span></summary>
+      <summary data-i18n="fg.itineraries.23"><span class="pl-days">3–4 days</span><span class="pl-t">Adds Thảo Điền, Tân Định, markets — and a tailor's errand</span><span class="pl-mark" aria-hidden="true">＋</span></summary>
       <div class="pl-body">
-        <div class="pl-actions"><button class="pl-copy" type="button" aria-label="Copy link to this itinerary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 15l6-6"/><path d="M11 6l1-1a4 4 0 0 1 6 6l-1 1"/><path d="M13 18l-1 1a4 4 0 0 1-6-6l1-1"/></svg><span>Copy link</span></button></div>
-        <p><b>Who it's for:</b> the long-weekend trip that wants the whole shape of the city.
+        <div class="pl-actions"><button class="pl-copy" type="button" aria-label="Copy link to this itinerary" data-i18n-al="fg.a11y.copylink" data-i18n="fg.itineraries.24"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 15l6-6"/><path d="M11 6l1-1a4 4 0 0 1 6 6l-1 1"/><path d="M13 18l-1 1a4 4 0 0 1-6-6l1-1"/></svg><span>Copy link</span></button></div>
+        <p data-i18n="fg.itineraries.25"><b>Who it's for:</b> the long-weekend trip that wants the whole shape of the city.
           <b>What it honestly covers:</b> ~30–38 doors — a third of the walk-ins, and all four headline
           clusters.</p>
-        <p><b>The tailor's errand, first:</b> if made-to-measure tempts you at all, walk a beloved garment into
+        <p data-i18n="fg.itineraries.26"><b>The tailor's errand, first:</b> if made-to-measure tempts you at all, walk a beloved garment into
           <b>Dung Tailor</b> (221 Lê Thánh Tôn, 9:00–19:00) on day one — the classic copy-this-exactly shop can
           finish in under three days, so it's ready before you fly
           (<a href="fashion-directory.html#cat=tailor">the tailors in the directory</a>).</p>
-        <div class="dayh">Days one &amp; two</div>
-        <p>As above.</p>
-        <div class="dayh">Day three</div>
+        <div class="dayh" data-i18n="fg.itineraries.27">Days one &amp; two</div>
+        <p data-i18n="fg.itineraries.28">As above.</p>
+        <div class="dayh" data-i18n="fg.itineraries.29">Day three</div>
         <ol class="sched">
-        <li class="drow"><b>09:40</b><span>Metro Line 1, Bến Thành → Thảo Điền — 10–12 minutes, 7–20k₫, no
+        <li class="drow" data-i18n="fg.itineraries.30"><b>09:40</b><span>Metro Line 1, Bến Thành → Thảo Điền — 10–12 minutes, 7–20k₫, no
           traffic, no helmet hair. The stations are elevated; the last few hundred metres are hot ones.</span></li>
-        <li class="drow"><b>10:00</b><span><b>Fancì Club</b> at opening (the cult Y2K house worn by Bella Hadid
+        <li class="drow" data-i18n="fg.itineraries.31"><b>10:00</b><span><b>Fancì Club</b> at opening (the cult Y2K house worn by Bella Hadid
           and BLACKPINK), then Nosbyn Studio (closes 20:00 — see it in daylight), Stress Mama, and Olaben's
           flagship with its own Reformer studio
           (<a href="fashion-directory.html#zone=td&amp;tier=premium">Thảo Điền premium listings</a>). Short Grab hops
           between lanes — Thảo Điền clusters, it doesn't stroll.</span></li>
-        <li class="drow"><b>15:30</b><span>Back across the river to <b>Tân Định</b>: the 214 Hai Bà Trưng
+        <li class="drow" data-i18n="fg.itineraries.32"><b>15:30</b><span>Back across the river to <b>Tân Định</b>: the 214 Hai Bà Trưng
           building — three labels, one address (Huelley Rose, Huelley, Stress Mama) — then Moodswings on Đặng
           Dung and Floralpunk on Thạch Thị Thanh.</span></li>
         </ol>
-        <div class="dayh">Day four — if you have it</div>
+        <div class="dayh" data-i18n="fg.itineraries.33">Day four — if you have it</div>
         <ol class="sched">
-        <li class="drow"><b>08:30</b><span>Weekend? <b>The Box Market</b> at 125 Hai Bà Trưng opens at 8:00 —
+        <li class="drow" data-i18n="fg.itineraries.34"><b>08:30</b><span>Weekend? <b>The Box Market</b> at 125 Hai Bà Trưng opens at 8:00 —
           the earliest fashion in the city — and <b>Hello Weekend Market</b> runs most weekends, usually at Hoa Lư
           Stadium; the venue roams, so check its Instagram the same week
           (<a href="fashion-directory.html#cat=market">the markets in the directory</a>).</span></li>
-        <li class="drow"><b>14:00</b><span><b>Nguyễn Trãi</b> ride-and-hop — LSOUL, Libé, the OLV flagship,
+        <li class="drow" data-i18n="fg.itineraries.35"><b>14:00</b><span><b>Nguyễn Trãi</b> ride-and-hop — LSOUL, Libé, the OLV flagship,
           Levents; menswear adds ICONDENIM's flagship at №261
           (<a href="fashion-directory.html#cat=men&amp;tier=mid">menswear, mid-tier</a>).</span></li>
-        <li class="drow"><b>17:00</b><span>Collect the tailoring, then return to whichever strip deserves a
+        <li class="drow" data-i18n="fg.itineraries.36"><b>17:00</b><span>Collect the tailoring, then return to whichever strip deserves a
           second look. It will be Trần Quang Diệu.</span></li>
         </ol>
       </div>
     </details>
 
     <details class="plan" id="plan-7day">
-      <summary><span class="pl-days">7 days</span><span class="pl-t">A weekly rhythm: every central cluster, two made-to-measure loops, one honest rest day</span><span class="pl-mark" aria-hidden="true">＋</span></summary>
+      <summary data-i18n="fg.itineraries.37"><span class="pl-days">7 days</span><span class="pl-t">A weekly rhythm: every central cluster, two made-to-measure loops, one honest rest day</span><span class="pl-mark" aria-hidden="true">＋</span></summary>
       <div class="pl-body">
-        <div class="pl-actions"><button class="pl-copy" type="button" aria-label="Copy link to this itinerary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 15l6-6"/><path d="M11 6l1-1a4 4 0 0 1 6 6l-1 1"/><path d="M13 18l-1 1a4 4 0 0 1-6-6l1-1"/></svg><span>Copy link</span></button></div>
-        <p><b>Who it's for:</b> the dedicated week — a wardrobe-building trip rather than a sampler.
+        <div class="pl-actions"><button class="pl-copy" type="button" aria-label="Copy link to this itinerary" data-i18n-al="fg.a11y.copylink" data-i18n="fg.itineraries.38"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 15l6-6"/><path d="M11 6l1-1a4 4 0 0 1 6 6l-1 1"/><path d="M13 18l-1 1a4 4 0 0 1-6-6l1-1"/></svg><span>Copy link</span></button></div>
+        <p data-i18n="fg.itineraries.39"><b>Who it's for:</b> the dedicated week — a wardrobe-building trip rather than a sampler.
           <b>What it honestly covers:</b> ~55–65 doors, over half the city's walk-ins, with two made-to-measure
           loops closed before departure.</p>
-        <p><b>Before you land:</b> the appointment houses — Résel Bridal, Caleelilou, Hacchic and their peers —
+        <p data-i18n="fg.itineraries.40"><b>Before you land:</b> the appointment houses — Résel Bridal, Caleelilou, Hacchic and their peers —
           book by Instagram DM and carry week-scale lead times, so the messages go out before the flight, not
           after (<a href="fashion-directory.html#cat=luxury">luxury &amp; couture</a>). Full made-to-measure áo
           dài at KINZU runs 2–3 weeks — on a seven-day trip, commission it only if you'll ship or return.</p>
         <ol class="sched">
-        <li class="drow"><b>Day 1</b><span>The D1 core: Đồng Khởi spine, Rue Miche L'Édition, Vincom, 42 Tôn
+        <li class="drow" data-i18n="fg.itineraries.41"><b>Day 1</b><span>The D1 core: Đồng Khởi spine, Rue Miche L'Édition, Vincom, 42 Tôn
           Thất Thiệp, Lý Tự Trọng. Drop a garment at Dung Tailor in the morning.</span></li>
-        <li class="drow"><b>Day 2</b><span>District 3 twice over — the Trần Quang Diệu strip, then Võ Văn Tần.
+        <li class="drow" data-i18n="fg.itineraries.42"><b>Day 2</b><span>District 3 twice over — the Trần Quang Diệu strip, then Võ Văn Tần.
           Leave measurements at <b>Duan Tailor</b> (465A Điện Biên Phủ) if suiting calls: its express bespoke line
           runs 24–48 hours.</span></li>
-        <li class="drow"><b>Day 3</b><span>Thảo Điền half-day by metro; evening deliberately free. Lighter on
+        <li class="drow" data-i18n="fg.itineraries.43"><b>Day 3</b><span>Thảo Điền half-day by metro; evening deliberately free. Lighter on
           purpose — the fatigue curve is real.</span></li>
-        <li class="drow"><b>Day 4</b><span>Appointments, weekday-calm: couture consults, the Lê Thánh Tôn
+        <li class="drow" data-i18n="fg.itineraries.44"><b>Day 4</b><span>Appointments, weekday-calm: couture consults, the Lê Thánh Tôn
           made-to-measure row (Dung Tailor, ManGii custom shoes — ~800k–3M₫ a pair), Đa Kao's Rue Miche boutique.
           Collect Duan's express work.</span></li>
-        <li class="drow"><b>Day 5</b><span><b>Rest day, plainly.</b> One market if the weekend allows; otherwise
+        <li class="drow" data-i18n="fg.itineraries.45"><b>Day 5</b><span><b>Rest day, plainly.</b> One market if the weekend allows; otherwise
           none of this works without a day the plan doesn't own.</span></li>
-        <li class="drow"><b>Day 6</b><span>Phú Nhuận value day — 11 Garmentory, the Trần Huy Liệu pair,
+        <li class="drow" data-i18n="fg.itineraries.46"><b>Day 6</b><span>Phú Nhuận value day — 11 Garmentory, the Trần Huy Liệu pair,
           L'Espoir — then second-pass returns to shortlisted D1/D3 doors. Revisits are cheap once a cluster is
           known; decisions are what they're for.</span></li>
-        <li class="drow"><b>Day 7</b><span>Bến Thành block and Nguyễn Trãi, final fittings and collections, and
+        <li class="drow" data-i18n="fg.itineraries.47"><b>Day 7</b><span>Bến Thành block and Nguyễn Trãi, final fittings and collections, and
           the consolidation hour: GrabExpress everything to the hotel, or hand us the list — the atelier
           <a href="./#estimate">ships worldwide</a>.</span></li>
         </ol>
@@ -891,29 +892,29 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
     </details>
 
     <details class="plan" id="plan-14day">
-      <summary><span class="pl-days">14 days</span><span class="pl-t">Week one broad, week two deep — plus the outer districts that earn their ride</span><span class="pl-mark" aria-hidden="true">＋</span></summary>
+      <summary data-i18n="fg.itineraries.48"><span class="pl-days">14 days</span><span class="pl-t">Week one broad, week two deep — plus the outer districts that earn their ride</span><span class="pl-mark" aria-hidden="true">＋</span></summary>
       <div class="pl-body">
-        <div class="pl-actions"><button class="pl-copy" type="button" aria-label="Copy link to this itinerary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 15l6-6"/><path d="M11 6l1-1a4 4 0 0 1 6 6l-1 1"/><path d="M13 18l-1 1a4 4 0 0 1-6-6l1-1"/></svg><span>Copy link</span></button></div>
-        <p><b>Who it's for:</b> a fortnight resident — enough time for the outer bands and a proper fitting loop.
+        <div class="pl-actions"><button class="pl-copy" type="button" aria-label="Copy link to this itinerary" data-i18n-al="fg.a11y.copylink" data-i18n="fg.itineraries.49"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 15l6-6"/><path d="M11 6l1-1a4 4 0 0 1 6 6l-1 1"/><path d="M13 18l-1 1a4 4 0 0 1-6-6l1-1"/></svg><span>Copy link</span></button></div>
+        <p data-i18n="fg.itineraries.50"><b>Who it's for:</b> a fortnight resident — enough time for the outer bands and a proper fitting loop.
           <b>What it honestly covers:</b> ~85 doors, three-quarters of the city's walk-ins, including every
           single-shop detour that justifies itself.</p>
-        <p><b>Week one</b> is the seven-day plan at a gentler pace — same clusters, more air. Commission the slow
+        <p data-i18n="fg.itineraries.51"><b>Week one</b> is the seven-day plan at a gentler pace — same clusters, more air. Commission the slow
           things immediately: <b>KINZU's</b> made-to-measure áo dài (3.7–20M₫, 2–3 weeks) only closes its loop if
           it starts on day one or two.</p>
-        <p><b>Week two</b> adds the bands the short trips prune, one ride each, drained completely:</p>
+        <p data-i18n="fg.itineraries.52"><b>Week two</b> adds the bands the short trips prune, one ride each, drained completely:</p>
         <ol class="sched">
-        <li class="drow"><b>Q10</b><span>The Sư Vạn Hạnh pair — Levents at №842 and the Ananas concept store at
+        <li class="drow" data-i18n="fg.itineraries.53"><b>Q10</b><span>The Sư Vạn Hạnh pair — Levents at №842 and the Ananas concept store at
           №427, one street, one stop.</span></li>
-        <li class="drow"><b>Tân Phú</b><span><b>Feng</b> at 11B Thoại Ngọc Hầu — a top-four pick and the only
+        <li class="drow" data-i18n="fg.itineraries.54"><b>Tân Phú</b><span><b>Feng</b> at 11B Thoại Ngọc Hầu — a top-four pick and the only
           single-shop detour we'll defend unprompted (<a href="fashion-directory.html#zone=tp">Tân Phú listings</a>).</span></li>
-        <li class="drow"><b>Q5</b><span>Thao Bibi and The Country Boutiques, plus Chợ Lớn itself
+        <li class="drow" data-i18n="fg.itineraries.55"><b>Q5</b><span>Thao Bibi and The Country Boutiques, plus Chợ Lớn itself
           (<a href="fashion-directory.html#zone=q5">District 5 listings</a>).</span></li>
-        <li class="drow"><b>D7</b><span>LI LAM at Crescent Mall; time it to a 1st-or-3rd Sunday and add the
+        <li class="drow" data-i18n="fg.itineraries.56"><b>D7</b><span>LI LAM at Crescent Mall; time it to a 1st-or-3rd Sunday and add the
           Saigon Flea Market.</span></li>
-        <li class="drow"><b>Bình Thạnh</b><span>Fitme on Xô Viết Nghệ Tĩnh; Hà Linh Thu's silk couture by
+        <li class="drow" data-i18n="fg.itineraries.57"><b>Bình Thạnh</b><span>Fitme on Xô Viết Nghệ Tĩnh; Hà Linh Thu's silk couture by
           appointment (<a href="fashion-directory.html#zone=bt">Bình Thạnh listings</a>).</span></li>
         </ol>
-        <p>Two full <b>non-shopping days</b> in week two, stated here so you don't negotiate with them later. The
+        <p data-i18n="fg.itineraries.58">Two full <b>non-shopping days</b> in week two, stated here so you don't negotiate with them later. The
           back half of the week is second passes and fittings — by design lighter than the front, because day
           twelve should not look like day one. Ship as you go: a GrabExpress run to the hotel each evening keeps
           every ride light.</p>
@@ -921,30 +922,30 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
     </details>
 
     <details class="plan" id="plan-30day">
-      <summary><span class="pl-days">30 days</span><span class="pl-t">The residency: first pass broad, second pass deep, every commission closed</span><span class="pl-mark" aria-hidden="true">＋</span></summary>
+      <summary data-i18n="fg.itineraries.59"><span class="pl-days">30 days</span><span class="pl-t">The residency: first pass broad, second pass deep, every commission closed</span><span class="pl-mark" aria-hidden="true">＋</span></summary>
       <div class="pl-body">
-        <div class="pl-actions"><button class="pl-copy" type="button" aria-label="Copy link to this itinerary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 15l6-6"/><path d="M11 6l1-1a4 4 0 0 1 6 6l-1 1"/><path d="M13 18l-1 1a4 4 0 0 1-6-6l1-1"/></svg><span>Copy link</span></button></div>
-        <p><b>Who it's for:</b> a month in the city — the trip where made-to-measure stops being a gamble and
+        <div class="pl-actions"><button class="pl-copy" type="button" aria-label="Copy link to this itinerary" data-i18n-al="fg.a11y.copylink" data-i18n="fg.itineraries.60"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 15l6-6"/><path d="M11 6l1-1a4 4 0 0 1 6 6l-1 1"/><path d="M13 18l-1 1a4 4 0 0 1-6-6l1-1"/></svg><span>Copy link</span></button></div>
+        <p data-i18n="fg.itineraries.61"><b>Who it's for:</b> a month in the city — the trip where made-to-measure stops being a gamble and
           becomes the point. <b>What it honestly covers:</b> all ~110 walk-ins if you insist, plus the
           appointment tier day-trippers never touch — though by week three the second pass matters far more than
           the count.</p>
         <ol class="sched">
-        <li class="drow"><b>Week 1</b><span><b>Open every commission.</b> The central broad pass (D1 twice, D3
+        <li class="drow" data-i18n="fg.itineraries.62"><b>Week 1</b><span><b>Open every commission.</b> The central broad pass (D1 twice, D3
           twice, Phú Nhuận evenings) while the slow work starts: KINZU áo dài (2–3 weeks), couture consults by DM
           and phone (Résel Bridal, Linh Nga, Le Thanh Hoa), ManGii shoes — and a full-canvas suit, which at
           <b>SIR Tailor</b> quotes 21–30 days with a minimum of two fittings. Only this horizon fits it
           comfortably (<a href="fashion-directory.html#cat=tailor">the tailors in the directory</a>).</span></li>
-        <li class="drow"><b>Week 2</b><span>The outer bands — Thảo Điền and deep Thủ Đức, Q10, Q5, Tân Phú,
+        <li class="drow" data-i18n="fg.itineraries.63"><b>Week 2</b><span>The outer bands — Thảo Điền and deep Thủ Đức, Q10, Q5, Tân Phú,
           Bình Thạnh, D7 with its flea-market Sunday — at one cluster a day, four to five shopping days in the
           week, never more.</span></li>
-        <li class="drow"><b>Week 3</b><span><b>The second pass.</b> Fittings, revisits to shortlisted houses,
+        <li class="drow" data-i18n="fg.itineraries.64"><b>Week 3</b><span><b>The second pass.</b> Fittings, revisits to shortlisted houses,
           weekday appointment ateliers, and the markets for sport rather than need. Anything still unvisited now
           needs a reason to be.</span></li>
-        <li class="drow"><b>Week 4</b><span>Final fittings and collections — the áo dài lands, the suit's last
+        <li class="drow" data-i18n="fg.itineraries.65"><b>Week 4</b><span>Final fittings and collections — the áo dài lands, the suit's last
           fitting closes — a farewell round of the two great strips, then consolidation: one shipment out, not
           twenty. We do this professionally, worldwide — <a href="./#estimate">start with an estimate</a>.</span></li>
         </ol>
-        <p><b>The seasonal caveat:</b> if your month brushes Tết, the Lunar New Year (late January–February),
+        <p data-i18n="fg.itineraries.66"><b>The seasonal caveat:</b> if your month brushes Tết, the Lunar New Year (late January–February),
           assume the independent boutiques go quiet for a week or more — every house posts its own closure dates
           on Instagram. Plan the pause; don't fight it. And in any month, keep the weekly rest days. A residency
           that shops daily stops seeing by day ten.</p>
@@ -956,37 +957,37 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
 <!-- ============ §4 RHYTHMS ============ -->
 <section class="sect" id="rhythms">
   <div class="wrap">
-    <div class="eyebrow">Part four · Timing</div>
+    <div class="eyebrow" data-i18n="fg.rhythms.1">Part four · Timing</div>
     <h2 data-i18n="fg.h4">Rhythms &amp; reality</h2>
     <div class="prose">
-      <h3>The hours</h3>
-      <p>The modal Saigon boutique opens between 9:30 and 10:00, closes between 21:00 and 21:30, and does it
+      <h3 data-i18n="fg.rhythms.2">The hours</h3>
+      <p data-i18n="fg.rhythms.3">The modal Saigon boutique opens between 9:30 and 10:00, closes between 21:00 and 21:30, and does it
         seven days a week — a window most cities' retail would envy. Plan inside <b>10:30–20:00</b> and
         essentially every walk-in with published hours is open. Boutique mornings are dead time; spend them on
         markets, appointment houses, or the ride out to Thảo Điền. The exceptions are worth designing around:</p>
     </div>
     <div class="tblwrap"><table class="ftab">
-      <caption>Boutiques with unusual opening hours to design around</caption>
-      <thead><tr><th scope="col">House</th><th scope="col">Hours</th><th scope="col">Design around it</th></tr></thead>
+      <caption data-i18n="fg.rhythms.4">Boutiques with unusual opening hours to design around</caption>
+      <thead><tr><th scope="col" data-i18n="fg.rhythms.5">House</th><th scope="col" data-i18n="fg.rhythms.6">Hours</th><th scope="col" data-i18n="fg.rhythms.7">Design around it</th></tr></thead>
       <tbody>
-        <tr><td class="bn">Metiseko</td><td class="num">8:30–21:30</td><td>The luxury spine's earliest door — start Đồng Khởi here.</td></tr>
-        <tr><td class="bn">Huelley</td><td class="num">8:30–21:40</td><td>Opens the 214 Hai Bà Trưng building early.</td></tr>
-        <tr><td class="bn">Dung Tailor</td><td class="num">9:00–19:00 daily</td><td>Closes before dinner — drop garments in the morning.</td></tr>
-        <tr><td class="bn">Tiela · By Vee</td><td class="num">9:00–22:00</td><td>Phú Nhuận's late-evening pair, two doors apart.</td></tr>
-        <tr><td class="bn">SEESON</td><td class="num">9:00–22:00</td><td>Eyewear, optometry and a café — a natural midday stop.</td></tr>
-        <tr><td class="bn">L'Espoir</td><td class="num">9:30–22:00</td><td>Phú Nhuận's third 22:00 closer.</td></tr>
-        <tr><td class="bn">Nosbyn / Nosbyn Studio</td><td class="num">10:00–20:00 daily</td><td>Thảo Điền's early closer — go in daylight.</td></tr>
-        <tr><td class="bn">Tsafari</td><td class="num">10:00–20:00</td><td>Same rule, on Nguyễn Huệ.</td></tr>
-        <tr><td class="bn">Sassy Sis</td><td class="num">10:00–20:30 daily</td><td>Nguyễn Đình Chiểu — before evening.</td></tr>
-        <tr><td class="bn">Firefly Studio</td><td class="num">10:30–21:30</td><td>The late riser — never first on a morning route.</td></tr>
-        <tr><td class="bn">BaaBeeBoo</td><td class="num">13:30–21:00</td><td>Afternoon-only, one floor above Kathy Atelier.</td></tr>
-        <tr><td class="bn">Laneci</td><td class="num">10:00–22:00</td><td>The latest close on the Trần Quang Diệu strip — end there.</td></tr>
-        <tr><td class="bn">The Box Market</td><td class="num">8:00–20:00 (HBT) · 10:00–22:00 (Lê Lai)</td><td>The earliest and latest market doors in D1.</td></tr>
+        <tr><td class="bn" data-i18n="fg.rhythms.8">Metiseko</td><td class="num" data-i18n="fg.rhythms.9">8:30–21:30</td><td data-i18n="fg.rhythms.10">The luxury spine's earliest door — start Đồng Khởi here.</td></tr>
+        <tr><td class="bn" data-i18n="fg.rhythms.11">Huelley</td><td class="num" data-i18n="fg.rhythms.12">8:30–21:40</td><td data-i18n="fg.rhythms.13">Opens the 214 Hai Bà Trưng building early.</td></tr>
+        <tr><td class="bn" data-i18n="fg.rhythms.14">Dung Tailor</td><td class="num" data-i18n="fg.rhythms.15">9:00–19:00 daily</td><td data-i18n="fg.rhythms.16">Closes before dinner — drop garments in the morning.</td></tr>
+        <tr><td class="bn" data-i18n="fg.rhythms.17">Tiela · By Vee</td><td class="num" data-i18n="fg.rhythms.18">9:00–22:00</td><td data-i18n="fg.rhythms.19">Phú Nhuận's late-evening pair, two doors apart.</td></tr>
+        <tr><td class="bn" data-i18n="fg.rhythms.20">SEESON</td><td class="num" data-i18n="fg.rhythms.21">9:00–22:00</td><td data-i18n="fg.rhythms.22">Eyewear, optometry and a café — a natural midday stop.</td></tr>
+        <tr><td class="bn" data-i18n="fg.rhythms.23">L'Espoir</td><td class="num" data-i18n="fg.rhythms.24">9:30–22:00</td><td data-i18n="fg.rhythms.25">Phú Nhuận's third 22:00 closer.</td></tr>
+        <tr><td class="bn" data-i18n="fg.rhythms.26">Nosbyn / Nosbyn Studio</td><td class="num" data-i18n="fg.rhythms.27">10:00–20:00 daily</td><td data-i18n="fg.rhythms.28">Thảo Điền's early closer — go in daylight.</td></tr>
+        <tr><td class="bn" data-i18n="fg.rhythms.29">Tsafari</td><td class="num" data-i18n="fg.rhythms.30">10:00–20:00</td><td data-i18n="fg.rhythms.31">Same rule, on Nguyễn Huệ.</td></tr>
+        <tr><td class="bn" data-i18n="fg.rhythms.32">Sassy Sis</td><td class="num" data-i18n="fg.rhythms.33">10:00–20:30 daily</td><td data-i18n="fg.rhythms.34">Nguyễn Đình Chiểu — before evening.</td></tr>
+        <tr><td class="bn" data-i18n="fg.rhythms.35">Firefly Studio</td><td class="num" data-i18n="fg.rhythms.36">10:30–21:30</td><td data-i18n="fg.rhythms.37">The late riser — never first on a morning route.</td></tr>
+        <tr><td class="bn" data-i18n="fg.rhythms.38">BaaBeeBoo</td><td class="num" data-i18n="fg.rhythms.39">13:30–21:00</td><td data-i18n="fg.rhythms.40">Afternoon-only, one floor above Kathy Atelier.</td></tr>
+        <tr><td class="bn" data-i18n="fg.rhythms.41">Laneci</td><td class="num" data-i18n="fg.rhythms.42">10:00–22:00</td><td data-i18n="fg.rhythms.43">The latest close on the Trần Quang Diệu strip — end there.</td></tr>
+        <tr><td class="bn" data-i18n="fg.rhythms.44">The Box Market</td><td class="num" data-i18n="fg.rhythms.45">8:00–20:00 (HBT) · 10:00–22:00 (Lê Lai)</td><td data-i18n="fg.rhythms.46">The earliest and latest market doors in D1.</td></tr>
       </tbody>
     </table></div>
     <div class="prose">
-      <h3>The week</h3>
-      <p>Weekends are for markets: <b>Hello Weekend</b> — the city's biggest youth fashion fair — runs most
+      <h3 data-i18n="fg.rhythms.47">The week</h3>
+      <p data-i18n="fg.rhythms.48">Weekends are for markets: <b>Hello Weekend</b> — the city's biggest youth fashion fair — runs most
         weekends, usually at Hoa Lư Stadium, but the venue roams; check its Instagram the same week.
         <b>Saigon Flea</b> holds the first and third Sunday in D7, and <b>Urban Flea</b> recurs at Saigon Outcast
         in Thảo Điền on its own calendar. Weekdays are when the appointment ateliers are calmest. And one honest
@@ -994,23 +995,23 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
         Instagram-run boutiques — shops close ad hoc, which is why the day-before message is not a nicety but a
         system.</p>
 
-      <h3>The year</h3>
-      <p>Rain owns the afternoons May through November, heaviest August–October; the dry months,
+      <h3 data-i18n="fg.rhythms.49">The year</h3>
+      <p data-i18n="fg.rhythms.50">Rain owns the afternoons May through November, heaviest August–October; the dry months,
         November–January, bring the year's worst air instead. There is no perfect season — only different
         accessories. The sale moments worth knowing: the <b>7.7 mid-year online mega-sale</b> (Shopee, Lazada,
         TikTok Shop — many local brands discount inside Shopee Mall rather than in-store), and <b>Vincom's Red
         Sale</b> across its malls, this summer up to 70% through 20 July. And if your dates brush <b>Tết</b>,
         assume the independents close for a week or more, each on its own schedule.</p>
 
-      <h3>The pacing math</h3>
-      <p>Stated plainly, because optimism is not a plan: a boutique takes <b>20–35 minutes</b> once you're
+      <h3 data-i18n="fg.rhythms.51">The pacing math</h3>
+      <p data-i18n="fg.rhythms.52">Stated plainly, because optimism is not a plan: a boutique takes <b>20–35 minutes</b> once you're
         actually looking. A cluster switch costs <b>20–30 minutes door-to-door</b> even when the ride itself is
         ten — booking, waiting, helmets, re-orienting. The middle of the day surrenders two to three hours to
         heat and lunch. Take the 10:00–21:30 window, subtract all that, divide by the dwell, and you get
         <b>eight to ten boutiques</b> — a full, good day. Plans promising twenty are describing a jog past
         windows.</p>
 
-      <p style="font-size:.8rem;color:var(--ink-soft)">The caveat that underwrites everything above: Saigon
+      <p style="font-size:.8rem;color:var(--ink-soft)" data-i18n="fg.rhythms.53">The caveat that underwrites everything above: Saigon
         boutiques relocate often, hours shift without notice, and roughly a third of the city's walk-ins publish
         no hours at all — assume the 10:00–21:00 pattern, and message the shop the day before, every time. Ward
         names changed in the mid-2025 administrative reform; Grab and Google Maps still resolve the older
@@ -1036,36 +1037,39 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
 </main>
 </div><!-- /fg-shell -->
 
-<button class="themebtn" id="theme" aria-label="Toggle dark mode" title="Toggle light / dark">
+<button class="themebtn" id="theme" aria-label="Toggle dark mode" data-i18n-al="fg.a11y.theme" title="Toggle light / dark" data-i18n-ti="fg.a11y.themeTi">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
 </button>
 
 <footer><div class="wrap">
   <div class="legend">
-    <h3>How to use this guide</h3>
-    <div class="row"><a href="fashion-directory.html">The Saigon Fashion Directory →</a></div>
-    <div class="row"><a href="lookbook.html">Lookbook →</a></div>
-    <div class="row"><a href="./#estimate">Get an estimate →</a></div>
-    <div class="row"><a href="./#contact">Contact Seraphic Styler →</a></div>
-    <p class="meta">Read this page once before a trip, then live out of the directory while you're here — the
+    <h3 data-i18n="fg.foot.1">How to use this guide</h3>
+    <div class="row"><a href="fashion-directory.html" data-i18n="fg.foot.2">The Saigon Fashion Directory →</a></div>
+    <div class="row"><a href="lookbook.html" data-i18n="fg.foot.3">Lookbook →</a></div>
+    <div class="row"><a href="./#estimate" data-i18n="fg.foot.4">Get an estimate →</a></div>
+    <div class="row"><a href="./#contact" data-i18n="fg.foot.5">Contact Seraphic Styler →</a></div>
+    <p class="meta" data-i18n="fg.foot.6">Read this page once before a trip, then live out of the directory while you're here — the
       itineraries deep-link straight into its filters. Addresses and prices are current to mid-2026 from brands'
       own channels, 2025–26 press and our own walking; boutiques relocate often — message a shop the day before
       you visit. Ward names changed mid-2025; Grab &amp; Google Maps still resolve the older district labels.</p>
     <p class="report" data-i18n="fg.report">Spot something out of date? <a href="mailto:seraphicstyler@gmail.com?subject=Field%20Guide%20update">Tell us →</a></p>
   </div>
   <div class="contact">
-    <h3>Seraphic Styler</h3>
-    <p style="color:var(--ink-soft);font-size:.85rem;line-height:1.6;margin:.2em 0 .6em">Personal styling &amp;
+    <h3 data-i18n="fg.foot.7">Seraphic Styler</h3>
+    <p style="color:var(--ink-soft);font-size:.85rem;line-height:1.6;margin:.2em 0 .6em" data-i18n="fg.foot.8">Personal styling &amp;
       Vietnamese-fashion sourcing, shipping worldwide. We walk these streets so you don't have to.</p>
-    <p style="font-size:.85rem"><a href="mailto:seraphicstyler@gmail.com">seraphicstyler@gmail.com</a><br>
+    <p style="font-size:.85rem" data-i18n="fg.foot.9"><a href="mailto:seraphicstyler@gmail.com">seraphicstyler@gmail.com</a><br>
       <a href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener">@seraphicstyler</a></p>
     <div class="sig">Seraphic Styler</div>
   </div>
 </div></footer>
 
-  <script src="js/translations.js"></script>
-  <script>window.SS_LANGS=[{code:"en",name:"English"},{code:"vi",name:"Tiếng Việt"}];try{var _sl=localStorage.getItem("ss-lang");if(_sl&&_sl!=="en"&&_sl!=="vi")localStorage.setItem("ss-lang","en");}catch(e){}window.SS_TRANSLATIONS=window.SS_TRANSLATIONS||{};window.SS_TRANSLATIONS.vi=Object.assign(window.SS_TRANSLATIONS.vi||{},{"fg.eye":"Cẩm nang thực địa của atelier","fg.title":"Mua sắm Sài Gòn, <span class=\"script\">thật đẹp</span>","fg.lede":"Cách di chuyển trong thành phố, mặc gì giữa thời tiết nơi đây, và bạn có thể thật sự mua sắm được bao nhiêu trong một đến ba mươi ngày — cẩm nang thực hành đi kèm <a href=\"fashion-directory.html\" style=\"color:var(--cobalt)\">danh mục thời trang</a> của chúng tôi.","fg.nav1":"Di chuyển","fg.nav2":"Trang phục","fg.nav3":"Lịch trình","fg.nav4":"Nhịp điệu & thực tế","fg.onpage":"Trong cẩm nang","fg.h1":"Di chuyển: cẩm nang xe ôm","fg.h2":"Mặc cho thành phố: nắng, khói bụi & mưa rào","fg.h3":"Các lịch trình","fg.h4":"Nhịp điệu & thực tế","fg.updated":"Ghi chép thực địa · cập nhật tháng 7/2026 · Sài Gòn (TP.HCM)","fg.maptitle":"Các cụm boutique ở Sài Gòn","fg.mapsub":"Sơ đồ, không theo tỉ lệ — mỗi đường là một chặng xe khoảng mười phút giữa các cụm đi bộ được; nét đứt là Metro tuyến 1, lối băng sông sang Thảo Điền.","fg.lg.anchor":"Cụm trọng điểm","fg.lg.walk":"Cụm đi bộ được","fg.lg.outer":"Quận vòng ngoài","fg.lg.ride":"≈ 10 phút xe","fg.lg.metro":"Metro tuyến 1 · ~11 phút","fg.cta.h":"Không muốn tự mình rong ruổi?","fg.cta.p":"Đây là cẩm nang miễn phí. Khi bạn muốn được chọn sẵn từng cửa hiệu, đặt lịch hẹn, canh giờ thử đồ và gói tất cả gửi về nhà trong một kiện — đó là việc của atelier.","fg.cta.b1":"Nhận báo giá →","fg.cta.b2":"Trò chuyện với Seraphic Styler","fg.report":"Thấy thông tin đã cũ? <a href=\"mailto:seraphicstyler@gmail.com?subject=Field%20Guide%20update\">Báo cho chúng tôi →</a>"});</script>
-  <script src="js/i18n.js"></script>
+  <!-- Per-page i18n. manifest.js declares which languages actually shipped a
+       validated bundle; the selector offers only those. The chosen language loads
+       exactly one file, js/i18n/fg.<lang>.js — this page uses none of the 341
+       homepage keys, so the 597KB translations.js is gone. -->
+  <script src="js/i18n/manifest.js"></script>
+  <script src="js/i18n-page.js"></script>
   <script>
 /* ============ THEME ============ */
 document.getElementById("theme").addEventListener("click",()=>{

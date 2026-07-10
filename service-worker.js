@@ -2,19 +2,22 @@
    Network-first for pages (so edits show immediately), cache-first for static
    assets. Lets you browse the directory and your saved route on the street with
    no signal. Bump CACHE to invalidate. */
-const CACHE = 'ss-fd-v2'; /* bumped: directory-data + discover-brand edits must reach cached clients */
+const CACHE = 'ss-fd-v3'; /* bumped: per-page i18n replaces the 597KB translations.js bundle */
 const CORE = [
   './fashion-directory.html',
+  './field-guide.html',
   './js/directory-data.js',
   './js/route-solver.js',
   './js/store-coords.js',
   './js/route-panel.js',
   './js/discover-brand.js',
-  './js/translations.js',
-  './js/i18n.js',
+  './js/i18n-page.js',
   './assets/butterfly-side.svg',
   './manifest.webmanifest'
 ];
+/* Language bundles (js/i18n/<page>.<lang>.js) are deliberately NOT precached:
+   there are 38 of them and a reader wants one. The cache-first fetch handler
+   below stores whichever one they actually choose, so it works offline after. */
 
 self.addEventListener('install', function (e) {
   // resilient precache — one missing URL must not fail the whole install
