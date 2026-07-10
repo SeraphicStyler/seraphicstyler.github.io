@@ -568,8 +568,8 @@ html.rm .a11y-panel.open { animation: none; }
 .a11y-eyebrow { font-family: var(--font-accent); font-weight: 600; font-size: 0.64rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--text-secondary); }
 .a11y-close { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 999px; border: 1px solid var(--surface-border); background: transparent; color: var(--text-secondary); cursor: pointer; font-size: 0.8rem; line-height: 1; transition: background 0.2s ease, color 0.2s ease; }
 .a11y-close:hover { background: var(--accent-soft); color: var(--text-primary); }
-.a11y-panel h4 { font-family: var(--font-accent); font-weight: 500; font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-secondary); margin: 0; flex: 0 0 auto; }
-.a11y-row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.78rem 0; }
+.a11y-panel h4 { font-family: var(--font-accent); font-weight: 500; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); margin: 0; flex: 0 0 auto; }
+.a11y-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; row-gap: 0.55rem; padding: 0.78rem 0; }
 .a11y-row + .a11y-row { border-top: 1px solid var(--surface-border); }
 .a11y-panel select, .seg button, .switch {
   font-family: var(--font-accent); font-size: 0.78rem; color: var(--text-primary);
@@ -581,8 +581,15 @@ html.rm .a11y-panel.open { animation: none; }
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235a6b8c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: right 0.6rem center;
 }
-.seg { display: flex; flex: 1 1 auto; min-width: 0; border: 1px solid var(--surface-border); border-radius: var(--btn-radius); overflow: hidden; background: var(--surface-soft); }
-.seg button { flex: 1 1 0; min-width: 0; border: none; border-radius: 0; padding: 0.42rem 0.5rem; background: transparent; white-space: nowrap; }
+/* The segmented control takes its own full-width line rather than sharing one
+   with the label. Sitting side by side, four options only fit in English:
+   Vietnamese ("Tự động", "Đơn sắc") overflowed and .seg{overflow:hidden}
+   clipped them silently. flex-basis:100% inside the wrapping .a11y-row drops
+   it to the next line in every browser, with no :has() dependency. */
+.seg { display: flex; flex: 1 1 100%; min-width: 0; border: 1px solid var(--surface-border); border-radius: var(--btn-radius); overflow: hidden; background: var(--surface-soft); }
+/* flex-basis auto, not 0: equal cells force long labels ("Maliwanag") to
+   overflow into the neighbouring button. Sizing to content keeps the gutters. */
+.seg button { flex: 1 1 auto; min-width: 0; border: none; border-radius: 0; padding: 0.45rem 0.5rem; font-size: 0.74rem; background: transparent; white-space: nowrap; }
 .seg button + button { border-left: 1px solid var(--surface-border); }
 .seg button.on { background: var(--accent); color: var(--cta-text); }
 .switch { min-width: 3.3rem; text-align: center; letter-spacing: 0.08em; transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease; }

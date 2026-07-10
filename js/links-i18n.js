@@ -17,7 +17,7 @@
       'lp.order_t': 'Đặt bất kỳ thương hiệu Việt nào',
       'lp.order_s': 'Kể cả món chưa đăng — gửi mình wishlist của bạn',
       'lp.dir_t': 'Danh mục Thời trang Sài Gòn',
-      'lp.dir_s': 'Hơn 230 thương hiệu đã xác minh, sắp xếp theo quận',
+      'lp.dir_s': '239 thương hiệu đã xác minh, sắp xếp theo quận',
       'lp.fg_t': 'Cẩm nang mua sắm Sài Gòn',
       'lp.fg_s': 'Di chuyển, ăn mặc hợp thời tiết nóng, và lịch trình từ 1 đến 30 ngày',
       'lp.houses_t': 'Khám phá các nhà mốt',

@@ -6,3 +6,6 @@ outfits/
 
 # internal playbooks — never deploy
 docs/
+
+# carousel build output — 28MB of PNGs, not part of the site
+social/
