@@ -402,11 +402,18 @@ From: a small per-board fee, fully credited if you order.</div></div>
   <style>
   #directory .dir-preview{display:grid;grid-template-columns:1.25fr .85fr;gap:clamp(1.2rem,3.5vw,2.6rem);align-items:center;margin-top:1.8rem;}
   #directory .dir-map{background:radial-gradient(120% 100% at 70% 20%,var(--bg-secondary),var(--surface-solid));border:1px solid var(--surface-border);border-radius:1.25rem;padding:1rem 1.1rem 1.2rem;box-shadow:var(--frame-halo);}
+  /* Geometry, gradients and type mirror the full map in fashion-directory.html — same
+     projection at 720×470, same r = k·√n. Keep the two in step if either changes. */
   #directory .dir-map svg{width:100%;height:auto;display:block;}
+  #directory .dnode{stroke:#fff;stroke-width:1.5;}
+  [data-theme=dark] #directory .dnode{stroke:rgba(255,255,255,.22);}
   #directory .dn{fill:#fff;font-family:var(--font-display);text-anchor:middle;dominant-baseline:central;}
-  #directory .dl{fill:var(--text-primary);font-family:var(--font-body);text-anchor:middle;dominant-baseline:middle;font-size:9.5px;font-weight:500;}
-  #directory .dm{fill:var(--text-secondary);font-size:8.5px;}
-  #directory .dr{fill:var(--periwinkle);font-family:var(--font-body);text-anchor:middle;font-size:8px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;}
+  #directory .dl{fill:var(--text-secondary);font-family:var(--font-body);text-anchor:middle;font-size:11.5px;font-weight:500;letter-spacing:.02em;}
+  #directory .dr{fill:var(--periwinkle);font-family:var(--font-body);text-anchor:middle;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.65;}
+  #directory .dir-legend{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin:.55rem .25rem 0;
+    font-size:.72rem;color:var(--text-secondary);font-variant-numeric:tabular-nums;}
+  #directory .dir-legend .lgd{display:inline-block;width:var(--d);height:var(--d);border-radius:50%;
+    border:1px solid var(--surface-border);opacity:.7;flex:none;}
   #directory .dir-stats{list-style:none;display:flex;gap:1.6rem;padding:0;margin:0 0 1.7rem;flex-wrap:wrap;}
   #directory .dir-stats b{font-family:var(--font-display);font-weight:400;font-size:1.95rem;color:var(--text-primary);display:block;line-height:1;}
   #directory .dir-stats span{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-secondary);}
@@ -442,37 +449,42 @@ From: a small per-board fee, fully credited if you order.</div></div>
       <p class="lead reveal" data-i18n="dir.lead">A living map of the city's fashion houses — 239 verified boutiques, ateliers, designer labels and markets, filterable by district, tier and category. It's the groundwork behind every sourcing request.</p>
       <div class="dir-preview reveal">
         <div class="dir-map">
-          <!-- Proportional-symbol map: circle area ∝ house count (r = k·√n, k≈2.35). District positions projected from real centroids; counts are the live directory totals. Regenerate via scratchpad/mapgen.js if counts change. -->
-          <svg viewBox="0 0 320 226" role="img" aria-label="Map of Saigon's fashion houses by district: District 1 has 72, District 3 has 36, Phú Nhuận 11, Thảo Điền 6, and four districts with 2 to 4 each; circle area is proportional to the number of houses.">
+          <!-- Proportional-symbol map: circle area ∝ house count (r = k·√n, k = 44/√73). Same
+               720×470 projection and node coordinates as the interactive map in fashion-directory.html;
+               counts are the live directory totals (js/directory-data.js). Update both together. -->
+          <svg viewBox="0 0 720 470" role="img" aria-label="Map of Saigon's fashion houses by district: District 1 has 73, District 3 has 36, Phú Nhuận 11, Thảo Điền 7, Bình Thạnh 5, Gò Vấp 4, Tân Bình 4, Tân Phú 2 and Q5 · Chợ Lớn 2; circle area is proportional to the number of houses.">
             <defs>
-              <radialGradient id="dnode" cx="42%" cy="38%" r="70%"><stop offset="0" stop-color="#c98fc4"/><stop offset=".55" stop-color="#8a93de"/><stop offset="1" stop-color="#2e54ad"/></radialGradient>
+              <radialGradient id="dnode" cx="46%" cy="42%" r="72%"><stop offset="0" stop-color="#234193"/><stop offset=".55" stop-color="#2e54ad"/><stop offset="1" stop-color="#8a93de"/></radialGradient>
               <linearGradient id="driver" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a93de"/><stop offset="1" stop-color="#c9b6e8"/></linearGradient>
             </defs>
-            <path d="M236,18 C226,70 244,120 230,150 C222,168 214,190 214,208" fill="none" stroke="url(#driver)" stroke-width="11" stroke-linecap="round" opacity=".34"/>
-            <text class="dr" x="228" y="196" transform="rotate(74 228 196)">Saigon River</text>
-            <circle cx="191.2" cy="143.0" r="19.9" fill="url(#dnode)"/>
-            <circle cx="161.0" cy="132.3" r="14.1" fill="url(#dnode)"/>
-            <circle cx="157.5" cy="107.7" r="7.8" fill="url(#dnode)"/>
-            <circle cx="250.0" cy="104.9" r="5.8" fill="url(#dnode)"/>
-            <circle cx="206.3" cy="94.4" r="4.7" fill="url(#dnode)"/>
-            <circle cx="103.0" cy="107.6" r="4.7" fill="url(#dnode)"/>
-            <circle cx="126.6" cy="54.0" r="4.7" fill="url(#dnode)"/>
-            <circle cx="122.4" cy="176.0" r="3.3" fill="url(#dnode)"/>
-            <circle cx="58.0" cy="122.8" r="3.3" fill="url(#dnode)"/>
-            <text class="dn" x="191.2" y="143.0" font-size="16">72</text>
-            <text class="dn" x="161.0" y="132.3" font-size="13">36</text>
-            <text class="dn" x="157.5" y="107.7" font-size="9">11</text>
-            <text class="dl" x="191.2" y="175.9">District 1</text>
-            <text class="dl" x="140.9" y="126.8" style="text-anchor:end">District 3</text>
-            <text class="dl" x="165.5" y="93.9">Phú Nhuận</text>
-            <text class="dl" x="250.0" y="123.7">Thảo Điền · 6</text>
-            <text class="dl dm" x="217.0" y="91.9" style="text-anchor:start">Bình Thạnh · 4</text>
-            <text class="dl dm" x="103.0" y="96.9">Tân Bình · 4</text>
-            <text class="dl dm" x="126.6" y="43.3">Gò Vấp · 4</text>
-            <text class="dl dm" x="122.4" y="192.3">Q5 · Chợ Lớn · 2</text>
-            <text class="dl dm" x="58.0" y="139.1">Tân Phú · 2</text>
+            <path d="M556,8 C534,120 496,196 520,272 C542,344 582,404 604,466" fill="none" stroke="url(#driver)" stroke-width="30" stroke-linecap="round" opacity=".42"/>
+            <text class="dr" x="612" y="330" transform="rotate(74 612 330)">Saigon River</text>
+            <circle class="dnode" cx="452" cy="262" r="44.0" fill="url(#dnode)" opacity=".92"/>
+            <circle class="dnode" cx="332" cy="258" r="30.9" fill="url(#dnode)" opacity=".92"/>
+            <circle class="dnode" cx="262" cy="172" r="17.1" fill="url(#dnode)" opacity=".92"/>
+            <circle class="dnode" cx="634" cy="168" r="13.6" fill="url(#dnode)" opacity=".92"/>
+            <circle class="dnode" cx="430" cy="112" r="11.5" fill="url(#dnode)" opacity=".92"/>
+            <circle class="dnode" cx="120" cy="58"  r="10.3" fill="url(#dnode)" opacity=".92"/>
+            <circle class="dnode" cx="214" cy="86"  r="10.3" fill="url(#dnode)" opacity=".92"/>
+            <circle class="dnode" cx="118" cy="150" r="7.3"  fill="url(#dnode)" opacity=".92"/>
+            <circle class="dnode" cx="256" cy="384" r="7.3"  fill="url(#dnode)" opacity=".92"/>
+            <text class="dn" x="452" y="262" font-size="16">73</text>
+            <text class="dn" x="332" y="258" font-size="16">36</text>
+            <text class="dn" x="262" y="172" font-size="12">11</text>
+            <text class="dn" x="634" y="168" font-size="12">7</text>
+            <text class="dn" x="430" y="112" font-size="12">5</text>
+            <text class="dl" x="452" y="321.0">District 1</text>
+            <text class="dl" x="332" y="303.9">District 3</text>
+            <text class="dl" x="262" y="204.1">Phú Nhuận</text>
+            <text class="dl" x="634" y="196.6">Thảo Điền</text>
+            <text class="dl" x="430" y="138.5">Bình Thạnh</text>
+            <text class="dl" x="120" y="83.3">Gò Vấp</text>
+            <text class="dl" x="214" y="111.3">Tân Bình</text>
+            <text class="dl" x="118" y="172.3">Tân Phú</text>
+            <text class="dl" x="256" y="406.3">Q5 · Chợ Lớn</text>
           </svg>
-          <p class="dir-cap" data-i18n="dir.cap">Circle area ∝ house count. The 9 districts hold 141; 36 more are online or multi-brand — 177 in Saigon.</p>
+          <p class="dir-legend" aria-hidden="true"><span class="lgd" style="--d:8px"></span>5 <span class="lgd" style="--d:16px"></span>20 <span class="lgd" style="--d:28px"></span>60 <span data-i18n="dir.legend">houses — circle area ∝ house count</span></p>
+          <p class="dir-cap" data-i18n="dir.cap">The nine districts hold 144 walk-able houses; 33 more are online or multi-brand — 177 in Saigon.</p>
         </div>
         <div class="dir-copy">
           <ul class="dir-stats reveal">
