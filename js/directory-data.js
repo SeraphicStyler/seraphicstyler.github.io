@@ -1,5 +1,5 @@
 /* ============ DATA — Saigon Fashion Directory ============
-   Single source of truth for the businesses listed on fashion-directory.html
+   Single source of truth for the businesses listed on fashion-directory
    and routed by the planner (js/route-panel.js). Edit here, nowhere else.
    st: walk|appt|online|hub|popup  · tier: mid|premium|luxury|couture|none
    city: SGN|HAN|VN|INTL · cat: women|men|luxury|tailor|active|access|sleep|market */

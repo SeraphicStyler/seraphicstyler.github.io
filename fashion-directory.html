@@ -18,7 +18,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&family=Tenor+Sans&family=Noto+Sans+Tifinagh&display=swap" rel="stylesheet" />
-  <style>[lang="zgh"]{font-family:"Noto Sans Tifinagh","Montserrat",sans-serif;}</style>
+  <style>
+    /* Tifinagh glyphs aren't in the brand fonts, so redeclaring font-family on [lang="zgh"]
+       alone does nothing — body/h1/etc. each set their own font-family from these same
+       custom properties, which wins over an inherited value. Overriding the properties
+       here cascades correctly into every rule that references var(--font-*). */
+    html[lang="zgh"]{
+      --font-display:"Noto Sans Tifinagh","Montserrat",sans-serif;
+      --font-script:"Noto Sans Tifinagh","Montserrat",sans-serif;
+      --font-body:"Noto Sans Tifinagh","Montserrat","Helvetica Neue",sans-serif;
+    }
+  </style>
   <script>
   /* Pre-paint theme: honour the main site's ss-theme (auto|light|dark|mono) before styles apply — no flash. */
   (function(){var t=null;try{t=localStorage.getItem("ss-theme");}catch(e){}
@@ -554,9 +564,9 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
   <nav class="secnav" aria-label="Pages" data-i18n-al="fd.a11y.nav">
     <div class="wrap">
       <a href="./" data-i18n="fd.nav.home">The atelier</a>
-      <a href="fashion-directory.html" aria-current="page" data-i18n="fd.nav.dir">Directory</a>
-      <a href="field-guide.html" data-i18n="fd.nav.guide">Field guide</a>
-      <a href="lookbook.html" data-i18n="fd.nav.look">Lookbook</a>
+      <a href="fashion-directory" aria-current="page" data-i18n="fd.nav.dir">Directory</a>
+      <a href="field-guide" data-i18n="fd.nav.guide">Field guide</a>
+      <a href="lookbook" data-i18n="fd.nav.look">Lookbook</a>
       <a href="./#contact" data-i18n="fd.nav.contact">Contact</a>
     </div>
   </nav>
@@ -825,7 +835,7 @@ const LX=()=>({
   pct:T("fd.dyn.pct","% of Saigon"),
   showAll:n=>TF("fd.dyn.showAll","Showing all {n} houses",{n}),
   showSome:(a,b)=>TF("fd.dyn.showSome","Showing {a} of {b} houses",{a,b}),
-  banner:T("fd.dyn.banner",`Planning a trip around these houses? Read <a href="field-guide.html">the field guide</a> — getting around, dressing for the heat, and 1-to-30-day shopping itineraries.`),
+  banner:T("fd.dyn.banner",`Planning a trip around these houses? Read <a href="field-guide">the field guide</a> — getting around, dressing for the heat, and 1-to-30-day shopping itineraries.`),
   st:{walk:T("fd.dyn.st.walk","Walk-in"),appt:T("fd.dyn.st.appt","Appointment"),online:T("fd.dyn.st.online","Online"),hub:T("fd.dyn.st.hub","In a hub"),popup:T("fd.dyn.st.popup","Pop-up")},
   tier:{mid:T("fd.dyn.tier.mid","mid"),premium:T("fd.dyn.tier.premium","premium"),luxury:T("fd.dyn.tier.luxury","luxury"),couture:T("fd.dyn.tier.couture","couture")},
   conf:{ok:T("fd.dyn.conf.ok","Verified"),warn:T("fd.dyn.conf.warn","Confirm first"),stale:T("fd.dyn.conf.stale","May be outdated")},

@@ -55,7 +55,7 @@
  "fd.dyn.pct": "사이공 대비 %",
  "fd.dyn.showAll": "전체 {n}개 브랜드 표시 중",
  "fd.dyn.showSome": "{b}개 중 {a}개 브랜드 표시 중",
- "fd.dyn.banner": "이 브랜드들을 중심으로 여행을 계획 중이신가요? <a href=\"field-guide.html\">필드 가이드</a>를 읽어보세요 — 이동하기, 더위에 맞춰 입기, 그리고 1일부터 30일까지의 쇼핑 일정.",
+ "fd.dyn.banner": "이 브랜드들을 중심으로 여행을 계획 중이신가요? <a href=\"field-guide\">필드 가이드</a>를 읽어보세요 — 이동하기, 더위에 맞춰 입기, 그리고 1일부터 30일까지의 쇼핑 일정.",
  "fd.dyn.st.walk": "워크인",
  "fd.dyn.st.appt": "예약제",
  "fd.dyn.st.online": "온라인",

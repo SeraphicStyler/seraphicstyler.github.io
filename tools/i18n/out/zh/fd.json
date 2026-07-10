@@ -55,7 +55,7 @@
  "fd.dyn.pct": "西贡占比",
  "fd.dyn.showAll": "显示全部 {n} 家店家",
  "fd.dyn.showSome": "显示 {b} 家店家中的 {a} 家",
- "fd.dyn.banner": "打算围绕这些店家安排一趟行程？请读<a href=\"field-guide.html\">实地指南</a>——出行方式、应对炎热的穿着，以及 1 到 30 天的购物路线。",
+ "fd.dyn.banner": "打算围绕这些店家安排一趟行程？请读<a href=\"field-guide\">实地指南</a>——出行方式、应对炎热的穿着，以及 1 到 30 天的购物路线。",
  "fd.dyn.st.walk": "可到店",
  "fd.dyn.st.appt": "需预约",
  "fd.dyn.st.online": "线上",

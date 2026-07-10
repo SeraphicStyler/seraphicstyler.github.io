@@ -55,7 +55,7 @@
  "fd.dyn.pct": "% ng Saigon",
  "fd.dyn.showAll": "Ipinapakita ang lahat ng {n} house",
  "fd.dyn.showSome": "Ipinapakita ang {a} sa {b} house",
- "fd.dyn.banner": "Nagpaplano ng biyahe sa mga house na ito? Basahin ang <a href=\"field-guide.html\">field guide</a> — pag-ikot, pananamit sa init, at 1-hanggang-30-araw na shopping itinerary.",
+ "fd.dyn.banner": "Nagpaplano ng biyahe sa mga house na ito? Basahin ang <a href=\"field-guide\">field guide</a> — pag-ikot, pananamit sa init, at 1-hanggang-30-araw na shopping itinerary.",
  "fd.dyn.st.walk": "Walk-in",
  "fd.dyn.st.appt": "Appointment",
  "fd.dyn.st.online": "Online",

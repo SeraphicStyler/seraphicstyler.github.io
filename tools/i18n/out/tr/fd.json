@@ -55,7 +55,7 @@
  "fd.dyn.pct": "Saigon'un %'si",
  "fd.dyn.showAll": "{n} evin tümü gösteriliyor",
  "fd.dyn.showSome": "{b} evden {a} tanesi gösteriliyor",
- "fd.dyn.banner": "Bu evler etrafında bir gezi mi planlıyorsunuz? <a href=\"field-guide.html\">Saha rehberini</a> okuyun — ulaşım, sıcağa göre giyinme ve 1–30 günlük alışveriş güzergâhları.",
+ "fd.dyn.banner": "Bu evler etrafında bir gezi mi planlıyorsunuz? <a href=\"field-guide\">Saha rehberini</a> okuyun — ulaşım, sıcağa göre giyinme ve 1–30 günlük alışveriş güzergâhları.",
  "fd.dyn.st.walk": "Mağaza",
  "fd.dyn.st.appt": "Randevu",
  "fd.dyn.st.online": "Online",

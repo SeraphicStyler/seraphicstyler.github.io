@@ -66,7 +66,7 @@
         <div class="nav-links nav-links-r">
           <a href="#estimate" data-i18n="nav.estimate">Estimate</a>
           <a href="#lookbook" data-i18n="nav.lookbook">Lookbook</a>
-          <a href="fashion-directory.html" data-i18n="nav.directory">Directory</a>
+          <a href="fashion-directory" data-i18n="nav.directory">Directory</a>
           <a href="#details" data-i18n="nav.details">Details</a>
           <a href="#contact" data-i18n="nav.contact">Contact</a>
         </div>
@@ -385,7 +385,7 @@ From: a small per-board fee, fully credited if you order.</div></div>
       <div class="gallery reveal" id="lb-gallery" data-limit="6"></div>
       
       <div class="reveal center" style="margin-top: 3rem; display: flex; flex-direction: column; align-items: center; gap: 1.5rem;">
-        <a href="lookbook.html" class="btn btn-primary btn-lg" style="min-width: 240px; display: inline-flex; align-items: center; justify-content: center;">View Full Lookbook</a>
+        <a href="lookbook" class="btn btn-primary btn-lg" style="min-width: 240px; display: inline-flex; align-items: center; justify-content: center;">View Full Lookbook</a>
         <div style="display: flex; gap: 1.5rem; justify-content: center; align-items: center;">
           <a class="link-btn" href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; font-family: var(--font-accent); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;">
             <svg viewBox="0 0 24 24" aria-hidden="true" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> Instagram
@@ -402,7 +402,7 @@ From: a small per-board fee, fully credited if you order.</div></div>
   <style>
   #directory .dir-preview{display:grid;grid-template-columns:1.25fr .85fr;gap:clamp(1.2rem,3.5vw,2.6rem);align-items:center;margin-top:1.8rem;}
   #directory .dir-map{background:radial-gradient(120% 100% at 70% 20%,var(--bg-secondary),var(--surface-solid));border:1px solid var(--surface-border);border-radius:1.25rem;padding:1rem 1.1rem 1.2rem;box-shadow:var(--frame-halo);}
-  /* Geometry, gradients and type mirror the full map in fashion-directory.html — same
+  /* Geometry, gradients and type mirror the full map in fashion-directory — same
      projection at 720×470, same r = k·√n. Keep the two in step if either changes. */
   #directory .dir-map svg{width:100%;height:auto;display:block;}
   #directory .dnode{stroke:#fff;stroke-width:1.5;}
@@ -450,7 +450,7 @@ From: a small per-board fee, fully credited if you order.</div></div>
       <div class="dir-preview reveal">
         <div class="dir-map">
           <!-- Proportional-symbol map: circle area ∝ house count (r = k·√n, k = 44/√73). Same
-               720×470 projection and node coordinates as the interactive map in fashion-directory.html;
+               720×470 projection and node coordinates as the interactive map in fashion-directory;
                counts are the live directory totals (js/directory-data.js). Update both together. -->
           <svg viewBox="0 0 720 470" role="img" aria-label="Map of Saigon's fashion houses by district: District 1 has 73, District 3 has 36, Phú Nhuận 11, Thảo Điền 7, Bình Thạnh 5, Gò Vấp 4, Tân Bình 4, Tân Phú 2 and Q5 · Chợ Lớn 2; circle area is proportional to the number of houses.">
             <defs>
@@ -492,8 +492,8 @@ From: a small per-board fee, fully credited if you order.</div></div>
             <li><b>177</b><span data-i18n="dir.s2">in Saigon</span></li>
             <li><b>9</b><span data-i18n="dir.s3">districts</span></li>
           </ul>
-          <a class="btn btn-primary btn-lg" href="fashion-directory.html" data-i18n="dir.cta">Explore all 239 houses</a><br>
-          <a class="dir-cta2" href="field-guide.html" data-i18n="dir.cta2">Read the field guide →</a>
+          <a class="btn btn-primary btn-lg" href="fashion-directory" data-i18n="dir.cta">Explore all 239 houses</a><br>
+          <a class="dir-cta2" href="field-guide" data-i18n="dir.cta2">Read the field guide →</a>
         </div>
       </div>
       <div class="houses reveal" aria-label="A rotating selection of the houses in the directory">
@@ -881,7 +881,7 @@ International shipping — courier cost from Saigon to you (at cost)</div>
             <a class="soc soc-icon" href="https://tiktok.com/@seraphicstyler" target="_blank" rel="noopener" aria-label="TikTok — @seraphicstyler" title="TikTok — @seraphicstyler"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 12.5a3.5 3.5 0 1 0 3.5 3.5V4.5c.6 2.6 2.6 4.2 5 4.3"/></svg></a>
           </div>
           <a class="soc soc-mail" href="mailto:seraphicstyler@gmail.com"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg>seraphicstyler@gmail.com</a>
-          <a href="links.html" data-i18n="foot.linkhub">Link hub</a>
+          <a href="links" data-i18n="foot.linkhub">Link hub</a>
           <span class="biz" style="display:block;margin-top:0.4rem" data-i18n="foot.chat">WhatsApp &amp; Zalo on request</span>
         </div>
       </div>
@@ -910,7 +910,7 @@ const ICONS={"11 Garmentory":"icons/11 Garmentory.jpg","18 Again":"icons/18 Agai
     const keys=Object.keys(ICONS).filter(n=>n!=="Huelley");
     for(let i=keys.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[keys[i],keys[j]]=[keys[j],keys[i]];}
     const pick=keys.slice(0,24),half=Math.ceil(pick.length/2);
-    const tile=n=>`<a class="hbtn" href="fashion-directory.html#q=${encodeURIComponent(n)}" aria-label="${n}"><img src="${encodeURI(ICONS[n])}" alt="" width="52" height="52" loading="lazy" decoding="async"></a>`;
+    const tile=n=>`<a class="hbtn" href="fashion-directory#q=${encodeURIComponent(n)}" aria-label="${n}"><img src="${encodeURI(ICONS[n])}" alt="" width="52" height="52" loading="lazy" decoding="async"></a>`;
     const row=(names,rev)=>{const grp=names.map(tile).join("");return `<div class="hrow${rev?" rev":""}"><div class="hgrp">${grp}</div><div class="hgrp" aria-hidden="true">${grp.replace(/<a /g,'<a tabindex="-1" ')}</div></div>`;};
     strip.innerHTML=row(pick.slice(0,half))+row(pick.slice(half),1);
   })();

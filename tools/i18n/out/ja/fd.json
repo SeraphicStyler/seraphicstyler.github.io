@@ -55,7 +55,7 @@
  "fd.dyn.pct": "サイゴンの%",
  "fd.dyn.showAll": "{n}軒すべてを表示",
  "fd.dyn.showSome": "{b}軒中{a}軒を表示",
- "fd.dyn.banner": "これらの名店を巡る旅を計画中ですか？<a href=\"field-guide.html\">フィールドガイド</a>をお読みください — 移動手段、暑さ対策の服装、1〜30日のショッピング行程をご紹介します。",
+ "fd.dyn.banner": "これらの名店を巡る旅を計画中ですか？<a href=\"field-guide\">フィールドガイド</a>をお読みください — 移動手段、暑さ対策の服装、1〜30日のショッピング行程をご紹介します。",
  "fd.dyn.st.walk": "予約不要",
  "fd.dyn.st.appt": "予約制",
  "fd.dyn.st.online": "オンライン",

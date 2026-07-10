@@ -55,7 +55,7 @@
  "fd.dyn.pct": "% de Saïgon",
  "fd.dyn.showAll": "Affichage des {n} maisons",
  "fd.dyn.showSome": "Affichage de {a} sur {b} maisons",
- "fd.dyn.banner": "Vous préparez un voyage autour de ces maisons ? Lisez <a href=\"field-guide.html\">le guide de terrain</a> — se déplacer, s'habiller pour la chaleur, et des itinéraires de shopping de 1 à 30 jours.",
+ "fd.dyn.banner": "Vous préparez un voyage autour de ces maisons ? Lisez <a href=\"field-guide\">le guide de terrain</a> — se déplacer, s'habiller pour la chaleur, et des itinéraires de shopping de 1 à 30 jours.",
  "fd.dyn.st.walk": "Sans rendez-vous",
  "fd.dyn.st.appt": "Sur rendez-vous",
  "fd.dyn.st.online": "En ligne",

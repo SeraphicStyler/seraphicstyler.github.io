@@ -22,7 +22,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&family=Tenor+Sans&family=Noto+Sans+Tifinagh&display=swap" rel="stylesheet" />
-  <style>[lang="zgh"]{font-family:"Noto Sans Tifinagh","Montserrat",sans-serif;}</style>
+  <style>
+    /* Tifinagh glyphs aren't in the brand fonts, so redeclaring font-family on [lang="zgh"]
+       alone does nothing — body/h1/etc. each set their own font-family from these same
+       custom properties, which wins over an inherited value. Overriding the properties
+       here cascades correctly into every rule that references var(--font-*). */
+    html[lang="zgh"]{
+      --font-display:"Noto Sans Tifinagh","Montserrat",sans-serif;
+      --font-script:"Noto Sans Tifinagh","Montserrat",sans-serif;
+      --font-body:"Noto Sans Tifinagh","Montserrat","Helvetica Neue",sans-serif;
+    }
+  </style>
   <script>
     (function(){try{var t=localStorage.getItem('ss-theme')||'auto';
       var d=t==='dark'||(t==='auto'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);
@@ -381,7 +391,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
   <header class="fd-topbar">
     <a class="fd-back" href="./" aria-label="Back to Seraphic Styler home" data-i18n-al="fg.a11y.back" data-i18n="fg.top.1">← <span class="fd-brand">Seraphic Styler</span></a>
     <div class="fd-right">
-      <a class="fd-back" href="fashion-directory.html" data-i18n="fg.top.2">Directory →</a>
+      <a class="fd-back" href="fashion-directory" data-i18n="fg.top.2">Directory →</a>
       <select id="langSelect" aria-label="Language" data-i18n-al="fg.langlabel" title="Choose a language" data-i18n-ti="fg.langtitle"></select>
     </div>
   </header>
@@ -406,7 +416,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
     <h1 class="title" data-i18n="fg.title">Shopping Saigon, <span class="script">beautifully</span></h1>
     <p class="lede" data-i18n="fg.lede">How to move through the city, what to wear against its weather, and how much of it
       you can honestly shop in one to thirty days — the practical companion to our
-      <a href="fashion-directory.html" style="color:var(--cobalt)">fashion directory</a>.</p>
+      <a href="fashion-directory" style="color:var(--cobalt)">fashion directory</a>.</p>
     <div class="statline">
       <div class="stat"><b>9</b><span data-i18n="fg.body.2">districts mapped</span></div>
       <div class="stat"><b>110+</b><span data-i18n="fg.body.3">walk-in doors</span></div>
@@ -569,7 +579,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
       <p data-i18n="fg.wardrobe.8">The lines below either publish certification or are established names for sun-wear in the city, as of
         mid-2026. Where an address reached us from a single source, we've marked it — message before you ride.
         In our directory, the sun-protection lines sit under
-        <a href="fashion-directory.html#cat=active">activewear in the directory</a>.</p>
+        <a href="fashion-directory#cat=active">activewear in the directory</a>.</p>
     </div>
     <div class="tblwrap"><table class="ftab">
       <caption data-i18n="fg.wardrobe.9">Saigon sun-protection brands, their certifications, and where to find them</caption>
@@ -767,7 +777,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
         <ol class="sched">
         <li class="drow" data-i18n="fg.itineraries.6"><b>09:00</b><span>Coffee on Đồng Khởi. <b>Metiseko</b> (8:30) opens the luxury spine
           first; walk the ~600 m core past the SIXDO flagship and GIA Studios
-          (<a href="fashion-directory.html#zone=d1">the District 1 houses</a>).</span></li>
+          (<a href="fashion-directory#zone=d1">the District 1 houses</a>).</span></li>
         <li class="drow" data-i18n="fg.itineraries.7"><b>10:00</b><span><b>Rue Miche L'Édition</b>, Union Square B3 — 4,728 m², 120+
           Vietnamese brands under one roof. The single highest-value stop in the city; give it ninety
           minutes.</span></li>
@@ -775,11 +785,11 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
           Daphale and CAOSTU on B1, Stress Mama on B2, all air-conditioned.</span></li>
         <li class="drow" data-i18n="fg.itineraries.9"><b>14:30</b><span><b>42 Tôn Thất Thiệp</b>: four shops in one building, zero walking
           (Dawna Vintage, 1998 Before The Dawn, Depass, Daspace) — plus a Bad Habits door for
-          <a href="fashion-directory.html#cat=men">the menswear rack</a>. Then Lý Tự Trọng: The New Playground at
+          <a href="fashion-directory#cat=men">the menswear rack</a>. Then Lý Tự Trọng: The New Playground at
           №26, Thuy Design House at №44B, Wephobia at №98.</span></li>
         <li class="drow" data-i18n="fg.itineraries.10"><b>17:00</b><span>Grab-bike to the <b>Trần Quang Diệu strip</b>, District 3 — 10–15 min,
           15–30k₫ as of mid-2026. Fourteen shops on 800 m of one street
-          (<a href="fashion-directory.html#zone=d3">the District 3 houses</a>): Kathy Atelier anchors, Laneci holds the
+          (<a href="fashion-directory#zone=d3">the District 3 houses</a>): Kathy Atelier anchors, Laneci holds the
           door until 22:00.</span></li>
         <li class="drow" data-i18n="fg.itineraries.11"><b>20:30</b><span>Dinner near the strip; last looks until close.</span></li>
         </ol>
@@ -802,14 +812,14 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
         <ol class="sched">
         <li class="drow" data-i18n="fg.itineraries.19"><b>09:30</b><span><b>Võ Văn Tần</b>, District 3 — Cocosin opens at 9:00; seven doors
           over a walkable kilometre: Mooris, Résel Studio, LAVIEM, So Dópe Club, Đỗ Long at the Bàn Cờ end
-          (<a href="fashion-directory.html#zone=d3">District 3 listings</a>). Menswear: HADES keeps a D3 door at 152 Trần
-          Quang Diệu (<a href="fashion-directory.html#cat=men">menswear in the directory</a>).</span></li>
+          (<a href="fashion-directory#zone=d3">District 3 listings</a>). Menswear: HADES keeps a D3 door at 152 Trần
+          Quang Diệu (<a href="fashion-directory#cat=men">menswear in the directory</a>).</span></li>
         <li class="drow" data-i18n="fg.itineraries.20"><b>11:30</b><span><b>SEESON</b> on Điện Biên Phủ — the eyewear flagship with in-house
           optometry and a café. A heat-block stop that still shops.</span></li>
         <li class="drow" data-i18n="fg.itineraries.21"><b>14:30</b><span><b>Nguyễn Đình Chiểu</b> by ride-and-hop: the Vascara flagship, Sassy
           Sis (closes 20:30), Daniv Dear up its four flights.</span></li>
         <li class="drow" data-i18n="fg.itineraries.22"><b>17:30</b><span><b>Phú Nhuận</b> for the evening
-          (<a href="fashion-directory.html#zone=pn">Phú Nhuận listings</a>): the 11 Garmentory hub — four-plus brands and a
+          (<a href="fashion-directory#zone=pn">Phú Nhuận listings</a>): the 11 Garmentory hub — four-plus brands and a
           café under one roof, until 21:30 — then the Trần Huy Liệu pair, Tiela and By Vee, both open to 22:00.
           The city's best late-evening cluster, and its best value one.</span></li>
         </ol>
@@ -826,7 +836,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
         <p data-i18n="fg.itineraries.26"><b>The tailor's errand, first:</b> if made-to-measure tempts you at all, walk a beloved garment into
           <b>Dung Tailor</b> (221 Lê Thánh Tôn, 9:00–19:00) on day one — the classic copy-this-exactly shop can
           finish in under three days, so it's ready before you fly
-          (<a href="fashion-directory.html#cat=tailor">the tailors in the directory</a>).</p>
+          (<a href="fashion-directory#cat=tailor">the tailors in the directory</a>).</p>
         <div class="dayh" data-i18n="fg.itineraries.27">Days one &amp; two</div>
         <p data-i18n="fg.itineraries.28">As above.</p>
         <div class="dayh" data-i18n="fg.itineraries.29">Day three</div>
@@ -836,7 +846,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
         <li class="drow" data-i18n="fg.itineraries.31"><b>10:00</b><span><b>Fancì Club</b> at opening (the cult Y2K house worn by Bella Hadid
           and BLACKPINK), then Nosbyn Studio (closes 20:00 — see it in daylight), Stress Mama, and Olaben's
           flagship with its own Reformer studio
-          (<a href="fashion-directory.html#zone=td&amp;tier=premium">Thảo Điền premium listings</a>). Short Grab hops
+          (<a href="fashion-directory#zone=td&amp;tier=premium">Thảo Điền premium listings</a>). Short Grab hops
           between lanes — Thảo Điền clusters, it doesn't stroll.</span></li>
         <li class="drow" data-i18n="fg.itineraries.32"><b>15:30</b><span>Back across the river to <b>Tân Định</b>: the 214 Hai Bà Trưng
           building — three labels, one address (Huelley Rose, Huelley, Stress Mama) — then Moodswings on Đặng
@@ -847,10 +857,10 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
         <li class="drow" data-i18n="fg.itineraries.34"><b>08:30</b><span>Weekend? <b>The Box Market</b> at 125 Hai Bà Trưng opens at 8:00 —
           the earliest fashion in the city — and <b>Hello Weekend Market</b> runs most weekends, usually at Hoa Lư
           Stadium; the venue roams, so check its Instagram the same week
-          (<a href="fashion-directory.html#cat=market">the markets in the directory</a>).</span></li>
+          (<a href="fashion-directory#cat=market">the markets in the directory</a>).</span></li>
         <li class="drow" data-i18n="fg.itineraries.35"><b>14:00</b><span><b>Nguyễn Trãi</b> ride-and-hop — LSOUL, Libé, the OLV flagship,
           Levents; menswear adds ICONDENIM's flagship at №261
-          (<a href="fashion-directory.html#cat=men&amp;tier=mid">menswear, mid-tier</a>).</span></li>
+          (<a href="fashion-directory#cat=men&amp;tier=mid">menswear, mid-tier</a>).</span></li>
         <li class="drow" data-i18n="fg.itineraries.36"><b>17:00</b><span>Collect the tailoring, then return to whichever strip deserves a
           second look. It will be Trần Quang Diệu.</span></li>
         </ol>
@@ -866,7 +876,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
           loops closed before departure.</p>
         <p data-i18n="fg.itineraries.40"><b>Before you land:</b> the appointment houses — Résel Bridal, Caleelilou, Hacchic and their peers —
           book by Instagram DM and carry week-scale lead times, so the messages go out before the flight, not
-          after (<a href="fashion-directory.html#cat=luxury">luxury &amp; couture</a>). Full made-to-measure áo
+          after (<a href="fashion-directory#cat=luxury">luxury &amp; couture</a>). Full made-to-measure áo
           dài at KINZU runs 2–3 weeks — on a seven-day trip, commission it only if you'll ship or return.</p>
         <ol class="sched">
         <li class="drow" data-i18n="fg.itineraries.41"><b>Day 1</b><span>The D1 core: Đồng Khởi spine, Rue Miche L'Édition, Vincom, 42 Tôn
@@ -906,13 +916,13 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
         <li class="drow" data-i18n="fg.itineraries.53"><b>Q10</b><span>The Sư Vạn Hạnh pair — Levents at №842 and the Ananas concept store at
           №427, one street, one stop.</span></li>
         <li class="drow" data-i18n="fg.itineraries.54"><b>Tân Phú</b><span><b>Feng</b> at 11B Thoại Ngọc Hầu — a top-four pick and the only
-          single-shop detour we'll defend unprompted (<a href="fashion-directory.html#zone=tp">Tân Phú listings</a>).</span></li>
+          single-shop detour we'll defend unprompted (<a href="fashion-directory#zone=tp">Tân Phú listings</a>).</span></li>
         <li class="drow" data-i18n="fg.itineraries.55"><b>Q5</b><span>Thao Bibi and The Country Boutiques, plus Chợ Lớn itself
-          (<a href="fashion-directory.html#zone=q5">District 5 listings</a>).</span></li>
+          (<a href="fashion-directory#zone=q5">District 5 listings</a>).</span></li>
         <li class="drow" data-i18n="fg.itineraries.56"><b>D7</b><span>LI LAM at Crescent Mall; time it to a 1st-or-3rd Sunday and add the
           Saigon Flea Market.</span></li>
         <li class="drow" data-i18n="fg.itineraries.57"><b>Bình Thạnh</b><span>Fitme on Xô Viết Nghệ Tĩnh; Hà Linh Thu's silk couture by
-          appointment (<a href="fashion-directory.html#zone=bt">Bình Thạnh listings</a>).</span></li>
+          appointment (<a href="fashion-directory#zone=bt">Bình Thạnh listings</a>).</span></li>
         </ol>
         <p data-i18n="fg.itineraries.58">Two full <b>non-shopping days</b> in week two, stated here so you don't negotiate with them later. The
           back half of the week is second passes and fittings — by design lighter than the front, because day
@@ -934,7 +944,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
           twice, Phú Nhuận evenings) while the slow work starts: KINZU áo dài (2–3 weeks), couture consults by DM
           and phone (Résel Bridal, Linh Nga, Le Thanh Hoa), ManGii shoes — and a full-canvas suit, which at
           <b>SIR Tailor</b> quotes 21–30 days with a minimum of two fittings. Only this horizon fits it
-          comfortably (<a href="fashion-directory.html#cat=tailor">the tailors in the directory</a>).</span></li>
+          comfortably (<a href="fashion-directory#cat=tailor">the tailors in the directory</a>).</span></li>
         <li class="drow" data-i18n="fg.itineraries.63"><b>Week 2</b><span>The outer bands — Thảo Điền and deep Thủ Đức, Q10, Q5, Tân Phú,
           Bình Thạnh, D7 with its flea-market Sunday — at one cluster a day, four to five shopping days in the
           week, never more.</span></li>
@@ -1015,7 +1025,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
         boutiques relocate often, hours shift without notice, and roughly a third of the city's walk-ins publish
         no hours at all — assume the 10:00–21:00 pattern, and message the shop the day before, every time. Ward
         names changed in the mid-2025 administrative reform; Grab and Google Maps still resolve the older
-        district labels, and so does our <a href="fashion-directory.html">directory</a>. Prices here are ranges,
+        district labels, and so does our <a href="fashion-directory">directory</a>. Prices here are ranges,
         current as of mid-2026, and will drift.</p>
     </div>
   </div>
@@ -1044,8 +1054,8 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
 <footer><div class="wrap">
   <div class="legend">
     <h3 data-i18n="fg.foot.1">How to use this guide</h3>
-    <div class="row"><a href="fashion-directory.html" data-i18n="fg.foot.2">The Saigon Fashion Directory →</a></div>
-    <div class="row"><a href="lookbook.html" data-i18n="fg.foot.3">Lookbook →</a></div>
+    <div class="row"><a href="fashion-directory" data-i18n="fg.foot.2">The Saigon Fashion Directory →</a></div>
+    <div class="row"><a href="lookbook" data-i18n="fg.foot.3">Lookbook →</a></div>
     <div class="row"><a href="./#estimate" data-i18n="fg.foot.4">Get an estimate →</a></div>
     <div class="row"><a href="./#contact" data-i18n="fg.foot.5">Contact Seraphic Styler →</a></div>
     <p class="meta" data-i18n="fg.foot.6">Read this page once before a trip, then live out of the directory while you're here — the

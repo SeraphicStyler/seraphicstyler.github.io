@@ -3,7 +3,7 @@
    Self-bootstrapping: injects its own styles + trigger + modal, reads the shared
    globals (SS_DIRECTORY, SS_COORDS, SS_ROUTE) and the saved shortlist from
    localStorage, and reuses the page's real zoneOf()/match() via window.SS_FD.
-   The only edits to fashion-directory.html are the two <script> includes and the
+   The only edits to fashion-directory are the two <script> includes and the
    one-line SS_FD hook. Themes automatically via the page's CSS variables.
    ========================================================================== */
 (function () {

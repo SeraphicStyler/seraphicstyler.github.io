@@ -55,7 +55,7 @@
  "fd.dyn.pct": "% Sajgonu",
  "fd.dyn.showAll": "Wyświetlanie wszystkich {n} domów",
  "fd.dyn.showSome": "Wyświetlanie {a} z {b} domów",
- "fd.dyn.banner": "Planuje Pan/Pani podróż wokół tych domów? Proszę przeczytać <a href=\"field-guide.html\">przewodnik terenowy</a> — poruszanie się, ubiór na upał oraz plany zakupów od 1 do 30 dni.",
+ "fd.dyn.banner": "Planuje Pan/Pani podróż wokół tych domów? Proszę przeczytać <a href=\"field-guide\">przewodnik terenowy</a> — poruszanie się, ubiór na upał oraz plany zakupów od 1 do 30 dni.",
  "fd.dyn.st.walk": "Stacjonarnie",
  "fd.dyn.st.appt": "Wizyta",
  "fd.dyn.st.online": "Online",

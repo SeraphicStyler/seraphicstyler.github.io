@@ -2,10 +2,10 @@
    Network-first for pages (so edits show immediately), cache-first for static
    assets. Lets you browse the directory and your saved route on the street with
    no signal. Bump CACHE to invalidate. */
-const CACHE = 'ss-fd-v3'; /* bumped: per-page i18n replaces the 597KB translations.js bundle */
+const CACHE = 'ss-fd-v4'; /* bumped: extensionless internal URLs sitewide */
 const CORE = [
-  './fashion-directory.html',
-  './field-guide.html',
+  './fashion-directory',
+  './field-guide',
   './js/directory-data.js',
   './js/route-solver.js',
   './js/store-coords.js',
@@ -45,7 +45,7 @@ self.addEventListener('fetch', function (e) {
       const cp = r.clone(); caches.open(CACHE).then(function (c) { c.put(req, cp); });
       return r;
     }).catch(function () {
-      return caches.match(req).then(function (m) { return m || caches.match('./fashion-directory.html'); });
+      return caches.match(req).then(function (m) { return m || caches.match('./fashion-directory'); });
     }));
   } else {
     // cache-first for static assets (JS, svg, icons)

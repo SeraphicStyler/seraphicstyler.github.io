@@ -1,4 +1,4 @@
-/* Seraphic Styler — link-page (links.html) translations.
+/* Seraphic Styler — link-page (links) translations.
    Merges the link-page-only strings into window.SS_TRANSLATIONS so the
    language toggle translates the whole page. Kept separate from the big
    translations.js to stay easy to edit. English is the source (in the HTML),
