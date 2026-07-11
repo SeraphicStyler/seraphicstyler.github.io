@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<title>Directory layout studies — Seraphic Styler</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&family=Tenor+Sans&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --ice:#eef3fb; --mist:#efeaf8; --paper:#ffffff;
+  --ink:#233a72; --ink-soft:#51618f; --ink-mute:#55638e; --ink-faint:#8b97b8;
+  --cobalt:#2e54ad; --cobalt-deep:#234193;
+  --lav:#c9b6e8; --peri:#8a93de; --orchid:#c98fc4; --mauve:#cf9bb4;
+  --peri-text:#5560b5;
+  --ok:#1b6b4a;   --ok-bg:rgba(31,122,84,.10);
+  --warn:#7d541e; --warn-bg:rgba(176,122,31,.12);
+  --stale:#55638e; --stale-bg:rgba(46,71,115,.08);
+  --line:rgba(46,71,115,.14); --line-soft:rgba(46,71,115,.08);
+  --card:rgba(255,255,255,.72); --card-solid:#fff;
+  --shadow:0 22px 48px -34px rgba(35,58,114,.45);
+  --shadow-sm:0 8px 22px -16px rgba(35,58,114,.4);
+  --font-display:"Tenor Sans",Cambria,"Hoefler Text",serif;
+  --font-script:"Pinyon Script","Snell Roundhand",cursive;
+  --font-body:"Montserrat","Helvetica Neue","Segoe UI",system-ui,sans-serif;
+  --r:14px; --r-sm:10px; --r-pill:999px;
+  --ease:cubic-bezier(.22,.9,.3,1);
+  --maxw:1240px;
+}
+[data-theme=dark]{
+  --ice:#161a26; --mist:#1b2030; --paper:#1f2536;
+  --ink:#f2f0f7; --ink-soft:#aab6cc; --ink-mute:#93a0bd; --ink-faint:#7d8aa6;
+  --cobalt:#a9b8ee; --cobalt-deep:#c2cdf5;
+  --lav:#b9a6dd; --peri:#8f98df; --orchid:#c98fc4; --mauve:#cf9bb4;
+  --peri-text:#8f98df;
+  --ok:#6fc79b;   --ok-bg:rgba(91,189,143,.14);
+  --warn:#e0aa6a; --warn-bg:rgba(217,160,91,.14);
+  --stale:#9caac8; --stale-bg:rgba(220,224,240,.08);
+  --line:rgba(220,224,240,.14); --line-soft:rgba(220,224,240,.08);
+  --card:rgba(36,42,60,.62); --card-solid:#232a3d;
+  --shadow:0 24px 54px -34px rgba(0,0,0,.7);
+  --shadow-sm:0 10px 24px -18px rgba(0,0,0,.65);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--ice);color:var(--ink);font-family:var(--font-body);
+  -webkit-font-smoothing:antialiased;line-height:1.5;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+
+/* ---------- Studio chrome (not part of the design; just the switcher) ---------- */
+.bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--ice) 88%,transparent);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:12px 0;}
+.bar .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.bmark{font-family:var(--font-display);letter-spacing:.16em;font-size:.72rem;text-transform:uppercase;color:var(--ink-soft);}
+.seg{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-pill);padding:4px;}
+.seg button{font:inherit;font-size:.78rem;font-weight:500;border:0;background:none;color:var(--ink-soft);
+  padding:7px 15px;border-radius:var(--r-pill);cursor:pointer;transition:.18s var(--ease);white-space:nowrap;}
+.seg button:hover{color:var(--ink);}
+.seg button[aria-pressed=true]{background:var(--cobalt);color:#fff;}
+[data-theme=dark] .seg button[aria-pressed=true]{color:#161a26;}
+.spacer{flex:1;}
+.tbtn{font:inherit;font-size:.75rem;border:1px solid var(--line);background:var(--card);color:var(--ink-soft);
+  padding:7px 13px;border-radius:var(--r-pill);cursor:pointer;}
+.note{font-size:.76rem;color:var(--ink-mute);}
+
+header.hd{padding:40px 0 8px;}
+header.hd .eye{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--peri-text);}
+header.hd h1{font-family:var(--font-display);font-weight:400;font-size:clamp(1.7rem,3.6vw,2.5rem);
+  line-height:1.15;margin:.25em 0 .3em;letter-spacing:.01em;}
+header.hd h1 em{font-family:var(--font-script);font-style:normal;color:var(--peri-text);font-size:1.3em;}
+header.hd p{color:var(--ink-soft);max-width:66ch;font-size:.92rem;}
+.lead-note{margin-top:14px;padding:12px 16px;border-left:2px solid var(--lav);background:var(--card);
+  border-radius:0 var(--r-sm) var(--r-sm) 0;font-size:.82rem;color:var(--ink-soft);max-width:74ch;}
+
+section.pane{padding:26px 0 70px;display:none;}
+section.pane.on{display:block;}
+.ghead{display:flex;align-items:baseline;gap:12px;margin:26px 0 4px;}
+.ghead h2{font-family:var(--font-display);font-weight:400;font-size:1.32rem;letter-spacing:.01em;}
+.ghead .n{font-size:.72rem;color:var(--ink-mute);font-variant-numeric:tabular-nums;
+  border:1px solid var(--line);border-radius:var(--r-pill);padding:2px 9px;}
+.gsub{color:var(--ink-mute);font-size:.84rem;max-width:70ch;margin-bottom:14px;}
+
+/* shared bits */
+.pill{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;
+  padding:3px 9px;border-radius:var(--r-pill);white-space:nowrap;}
+.pill.walk{background:var(--ok-bg);color:var(--ok);}
+.pill.appt{background:var(--warn-bg);color:var(--warn);}
+.pill.online,.pill.hub,.pill.popup{background:var(--stale-bg);color:var(--stale);}
+.tierdot{width:7px;height:7px;border-radius:50%;flex:none;background:var(--tier,var(--lav));}
+.logo{flex:none;border-radius:9px;object-fit:cover;border:1px solid var(--line);background:var(--paper);}
+.nologo{display:grid;place-items:center;font-family:var(--font-display);color:var(--ink-faint);
+  background:linear-gradient(150deg,var(--mist),var(--paper));}
+
+/* entrance: same wave as the live site */
+.cellwrap>*{opacity:0;}
+.cellwrap.in>*{opacity:1;animation:swingin .46s var(--ease) backwards;animation-delay:calc(var(--i,0)*38ms);}
+@keyframes swingin{from{opacity:0;transform:translateY(12px) rotate(-1.6deg);}to{opacity:1;transform:none;}}
+@media(prefers-reduced-motion:reduce){.cellwrap>*,.cellwrap.in>*{opacity:1;animation:none;}}
+
+/* =======================================================================
+   A · ATLAS MOSAIC — editorial grid; couture/luxury houses get feature tiles
+   ======================================================================= */
+.mos{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:16px;
+  grid-auto-flow:dense;}
+.mtile{position:relative;overflow:hidden;border-radius:var(--r);border:1px solid var(--line);
+  background:var(--card);backdrop-filter:blur(8px);box-shadow:var(--shadow-sm);
+  padding:16px;display:flex;flex-direction:column;gap:10px;min-height:172px;
+  transition:transform .2s var(--ease),box-shadow .2s,border-color .2s;cursor:pointer;}
+.mtile:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--lav);}
+.mtile::after{content:"";position:absolute;inset:auto 0 0 0;height:3px;background:var(--tier,var(--lav));opacity:.9;}
+/* feature: couture & luxury span two columns and carry a tinted logo plate */
+.mtile.feat{grid-column:span 2;min-height:212px;padding:20px;}
+@media(max-width:640px){.mtile.feat{grid-column:span 1;min-height:190px;}}
+/* the house's own logo, bled off the corner as texture — never legible enough to read as a second logo */
+.mtile.feat .plate{position:absolute;right:-44px;top:-44px;width:210px;height:210px;border-radius:50%;
+  filter:grayscale(1) contrast(.7) blur(6px);opacity:.14;background-size:cover;background-position:center;
+  pointer-events:none;
+  -webkit-mask-image:radial-gradient(circle at 50% 50%,#000 40%,transparent 72%);
+  mask-image:radial-gradient(circle at 50% 50%,#000 40%,transparent 72%);}
+[data-theme=dark] .mtile.feat .plate{opacity:.16;}
+.mtile.feat .nm{font-size:1.42rem;}
+.mtile.feat .no{font-size:.88rem;-webkit-line-clamp:3;}
+.mtile .row1{display:flex;align-items:flex-start;gap:11px;}
+.mtile .logo,.mtile .nologo{width:38px;height:38px;border-radius:9px;font-size:.9rem;}
+.mtile .nm{font-family:var(--font-display);font-size:1.04rem;line-height:1.2;letter-spacing:.01em;
+  word-break:break-word;}
+.mtile .no{color:var(--ink-soft);font-size:.79rem;line-height:1.42;display:-webkit-box;
+  -webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.mtile .foot{margin-top:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  font-size:.7rem;color:var(--ink-mute);}
+.mtile .area{display:flex;align-items:center;gap:6px;letter-spacing:.02em;}
+.mtile .tierlbl{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);
+  margin-left:auto;}
+/* the pick line is the only place the atelier's voice shows — so it gets the script face */
+.mtile .pick{display:block;font-family:var(--font-script);font-size:1.18rem;line-height:1;
+  color:var(--peri-text);margin-bottom:2px;}
+
+/* =======================================================================
+   B · ROUTE CARDS — the city as walking strips, houses as chips inside
+   ======================================================================= */
+.routes{display:flex;flex-direction:column;gap:14px;}
+.route{border:1px solid var(--line);border-radius:var(--r);background:var(--card);
+  backdrop-filter:blur(8px);box-shadow:var(--shadow-sm);overflow:hidden;
+  display:grid;grid-template-columns:118px minmax(0,1fr);transition:border-color .2s,box-shadow .2s;}
+.route:hover{border-color:var(--lav);box-shadow:var(--shadow);}
+@media(max-width:620px){.route{grid-template-columns:1fr;}.route .mini{display:none;}}
+.route .mini{border-right:1px solid var(--line-soft);background:linear-gradient(160deg,var(--mist),transparent);
+  display:grid;place-items:center;padding:14px 0;}
+.route .mini svg{display:block;}
+.route .body{padding:16px 18px 15px;min-width:0;}
+.route .rhead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+.route h3{font-family:var(--font-display);font-weight:400;font-size:1.12rem;letter-spacing:.01em;}
+.route .cnt{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--peri-text);
+  border:1px solid var(--line);border-radius:var(--r-pill);padding:2px 9px;}
+.route .dist{font-size:.78rem;color:var(--ink-mute);margin-top:3px;}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px;}
+.chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);
+  background:var(--paper);border-radius:var(--r-pill);padding:5px 11px 5px 6px;font-size:.76rem;
+  color:var(--ink);cursor:pointer;transition:.16s var(--ease);max-width:100%;}
+.chip:hover{border-color:var(--peri);transform:translateY(-1px);}
+.chip img,.chip .nologo{width:20px;height:20px;border-radius:50%;flex:none;font-size:.6rem;}
+.chip .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.chip .tierdot{margin-left:2px;}
+.route .also{margin-top:11px;font-size:.72rem;color:var(--ink-mute);}
+.route .also b{font-weight:500;color:var(--ink-soft);}
+
+/* =======================================================================
+   C · INDEX CARDS — identity | logistics, two up, high density
+   ======================================================================= */
+.idx{display:grid;grid-template-columns:repeat(auto-fill,minmax(408px,1fr));gap:0 22px;}
+@media(max-width:900px){.idx{grid-template-columns:1fr;}}
+.icard{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.85fr);gap:14px;
+  align-items:start;padding:13px 14px;border-bottom:1px solid var(--line-soft);
+  border-left:2px solid transparent;transition:.16s var(--ease);cursor:pointer;}
+.icard:nth-child(4n+1),.icard:nth-child(4n+2){background:var(--line-soft);}
+.icard:hover{border-left-color:var(--tier,var(--lav));background:var(--card-solid);}
+@media(max-width:560px){.icard{grid-template-columns:1fr;gap:8px;}}
+.icard .who{min-width:0;display:flex;gap:10px;}
+.icard .logo,.icard .nologo{width:34px;height:34px;border-radius:8px;font-size:.82rem;}
+.icard .nm{font-family:var(--font-display);font-size:.98rem;line-height:1.2;}
+.icard .h{font-size:.7rem;color:var(--peri-text);}
+.icard .no{font-size:.76rem;color:var(--ink-soft);line-height:1.4;margin-top:4px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.icard .log{min-width:0;display:flex;flex-direction:column;gap:5px;align-items:flex-start;}
+.icard .addr{font-size:.75rem;color:var(--ink-soft);display:flex;gap:6px;align-items:baseline;}
+.icard .addr b{font-weight:500;color:var(--ink);}
+.icard .meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:.68rem;color:var(--ink-mute);}
+/* 239 rows of buttons is noise; the actions surface on hover (and stay put on touch,
+   where there is no hover to reveal them) */
+.icard .acts{display:flex;gap:6px;margin-top:2px;}
+@media(hover:hover){
+  .icard .acts{opacity:0;transition:opacity .16s var(--ease);}
+  .icard:hover .acts,.icard:focus-within .acts{opacity:1;}
+}
+.icard .acts button{font:inherit;font-size:.68rem;border:1px solid var(--line);background:var(--paper);
+  color:var(--ink-soft);border-radius:var(--r-pill);padding:3px 10px;cursor:pointer;transition:.15s;}
+.icard .acts button:hover{border-color:var(--peri);color:var(--ink);}
+
+footer{border-top:1px solid var(--line);padding:26px 0 60px;color:var(--ink-mute);font-size:.76rem;}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="wrap">
+    <span class="bmark">Seraphic Styler · layout studies</span>
+    <div class="seg" role="group" aria-label="Layout">
+      <button data-pane="mosaic" aria-pressed="true">A · Atlas mosaic</button>
+      <button data-pane="routes" aria-pressed="false">B · Route cards</button>
+      <button data-pane="index" aria-pressed="false">C · Index cards</button>
+    </div>
+    <span class="spacer"></span>
+    <span class="note" id="cat-note"></span>
+    <button class="tbtn" id="theme">Dark</button>
+  </div>
+</div>
+
+<header class="hd">
+  <div class="wrap">
+    <span class="eye">Three ways to hold 239 houses</span>
+    <h1>The Sài Gòn <em>Fashion</em> Directory — layout studies</h1>
+    <p>Same data, same tokens, same wave-reveal. Only the shape of the page changes. Each study is rendered from the live 239 records, not placeholder text, so what you see is what it would actually look like.</p>
+    <div class="lead-note" id="honesty"></div>
+  </div>
+</header>
+
+<section class="pane on" id="pane-mosaic"><div class="wrap"><div id="mosaic"></div></div></section>
+<section class="pane" id="pane-routes"><div class="wrap"><div id="routes"></div></div></section>
+<section class="pane" id="pane-index"><div class="wrap"><div id="index"></div></div></section>
+
+<footer><div class="wrap">Study file — not linked from the site. Real data via <code>js/directory-data.js</code>.</div></footer>
+
+<script src="../js/directory-data.js"></script>
+<script src="icons.js"></script>
+<script>
+const B=window.SS_DIRECTORY;
+const TIERCOL={mid:"var(--lav)",premium:"var(--peri)",luxury:"var(--orchid)",couture:"var(--mauve)",none:"var(--ink-faint)"};
+const TIERLBL={mid:"Mid",premium:"Premium",luxury:"Luxury",couture:"Couture",none:""};
+const STLAB={walk:"Walk-in",appt:"Appointment",online:"Online",hub:"In a hub",popup:"Pop-up"};
+const GROUPS=[
+ ["women","Contemporary womenswear","Local design houses and boutiques — the heart of the Sài Gòn scene."],
+ ["men","Menswear & streetwear","Local menswear labels, streetwear flagships and made-to-measure suiting."],
+ ["luxury","Luxury & couture","Designer labels and made-to-order houses. Most work by appointment."],
+ ["tailor","Áo dài, tailors & craft studios","Bespoke áo dài, embroidery and upcycling — what's distinctive to Vietnam."],
+ ["active","Premium athleisure","Studio-to-street activewear and functional sun-wear."],
+ ["access","Eyewear, shoes, bags & jewelry","Vietnamese accessory labels with real HCMC stores."],
+ ["sleep","Sleep & loungewear","Cotton, linen and silk nightwear built for tropical nights."],
+ ["market","Markets & pop-ups","Where many brands gather at once — highest value per trip."]
+];
+const STREETS=[
+ {h:"Trần Quang Diệu",d:"District 3 · the design strip",c:"13 shops",best:"Contemporary womenswear, lingerie, streetwear",
+  names:["Goût De Jun","Kathy Atelier","BaaBeeBoo","Laneci","Moulin Rose","Lace Lingerie Lover","18 Again","Tartan Studios","Chérieon","Rêver","So Dópe Club","caleélilou","Chan Club"]},
+ {h:"Võ Văn Tần",d:"District 3",c:"5 shops",best:"Womenswear, bridal",
+  names:["Mooris","Résel","LAVIEM","So Dópe Club","Cocosin"]},
+ {h:"Lý Tự Trọng",d:"District 1",c:"4 shops",best:"Streetwear, concept stores",
+  names:["The New Playground","Wephobia","Enuff Studio","Calista de Minh Thanh"]},
+ {h:"Lê Thánh Tôn",d:"District 1 · the tailor & shoe strip",c:"MTM row",best:"Made-to-measure, shoes, silver",
+  names:["Dung Tailor","ManGii","Shimmer Silver"]},
+ {h:"214 Hai Bà Trưng",d:"District 1 · Tân Định",c:"3 labels · one door",best:"Romantic RTW",
+  names:["Huelley Rose","Huelley","Stress Mama"]},
+ {h:"Hai Bà Trưng · Tân Định",d:"District 1 · the sleepwear corridor",c:"3 doors · ~300 m",best:"Sleep & loungewear",
+  names:["VINCY Homewear","Wacoal","ONOFF"]},
+ {h:"42 Tôn Thất Thiệp",d:"District 1 · Bến Nghé",c:"3 in one building",best:"Vintage, archive",
+  names:["Dawn Vintage","1998 Before The Dawn","Depass"]},
+ {h:"11 Garmentory",d:"Phú Nhuận · 117B Nguyễn Đình Chính",c:"Multi-brand hub",best:"Local creatives, café",
+  names:["Duu Stu","Babie Club","Badchoices","The Fancé"]}
+];
+const ICONS=window.SS_ICONS||{};
+
+/* logo lookup: reuse the live icons/ folder by name, fall back to an initial */
+function logoFor(name,cls){
+  const src=ICONS[name];
+  if(src)return `<img class="logo ${cls||""}" src="../${encodeURI(src)}" alt="" loading="lazy" decoding="async">`;
+  return `<span class="logo nologo ${cls||""}" aria-hidden="true">${(name||"?").trim()[0]}</span>`;
+}
+const byName=n=>B.find(b=>b.n===n||b.n.startsWith(n));
+const esc=s=>(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------------- A · Atlas mosaic ----------------
+   Tier CANNOT drive the feature tiles: 136 of 239 houses are womenswear and that
+   category holds zero luxury/couture, so tier-scaling would leave the biggest
+   section flat and make "Luxury & couture" nothing but feature tiles.
+   What varies inside every category is TASTE. So a feature tile = an editor's
+   pick (a `pick:true` flag you'd curate) plus every couture house.
+   The picks below are seeded so the layout is honest to look at — you'd choose them. */
+const PICKS=new Set();
+GROUPS.forEach(g=>{
+  B.filter(b=>b.cat===g[0]&&ICONS[b.n]&&b.no)
+   .sort((a,b)=>b.no.length-a.no.length)
+   .slice(0,2).forEach(b=>PICKS.add(b.n));
+});
+const isFeat=b=>PICKS.has(b.n)||b.tier==="couture";
+function mosaic(){
+  const root=document.getElementById("mosaic");
+  root.innerHTML=GROUPS.map(g=>{
+    const items=B.filter(b=>b.cat===g[0]);
+    if(!items.length)return "";
+    /* features first so `grid-auto-flow: dense` packs the rest around them */
+    const sorted=[...items].sort((a,b)=>(isFeat(b)?1:0)-(isFeat(a)?1:0));
+    return `<div class="ghead"><h2>${esc(g[1])}</h2><span class="n">${items.length}</span></div>
+      <p class="gsub">${esc(g[2])}</p>
+      <div class="mos cellwrap">${sorted.map(mtile).join("")}</div>`;
+  }).join("");
+}
+function mtile(b){
+  const feat=isFeat(b);
+  const plate=(feat&&ICONS[b.n])?`<span class="plate" style="background-image:url('../${encodeURI(ICONS[b.n])}')"></span>`:"";
+  const eyebrow=feat
+    ? `<span class="pick">${PICKS.has(b.n)?"Editor's pick":"Couture"}</span>`
+    : "";
+  return `<article class="mtile ${feat?"feat":""}" style="--tier:${TIERCOL[b.tier]||"var(--lav)"}">
+    ${plate}
+    <div class="row1">${logoFor(b.n)}
+      <div style="min-width:0">${eyebrow}<div class="nm">${esc(b.n)}</div></div></div>
+    <p class="no">${esc(b.no)}</p>
+    <div class="foot">
+      <span class="area"><i class="tierdot"></i>${esc(b.area||"—")}</span>
+      <span class="pill ${b.st}">${STLAB[b.st]||""}</span>
+      ${feat?`<span class="tierlbl">${TIERLBL[b.tier]||""}</span>`:""}
+    </div>
+  </article>`;
+}
+
+/* ---------------- B · Route cards ---------------- */
+function routes(){
+  const root=document.getElementById("routes");
+  /* The street itself: a road running down the panel with a door on each side for
+     every house on it. Read at a glance = "how long is this walk, how dense is it". */
+  const miniMap=n=>{
+    const w=96,h=104,doors=Math.min(n,13);
+    const top=14,bot=h-14,span=bot-top;
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true">
+      <line x1="${w/2}" y1="6" x2="${w/2}" y2="${h-6}" stroke="var(--line)" stroke-width="7"
+        stroke-linecap="round" opacity=".55"/>
+      <line x1="${w/2}" y1="10" x2="${w/2}" y2="${h-10}" stroke="var(--peri)" stroke-width="1"
+        stroke-dasharray="3 5" opacity=".5"/>
+      ${Array.from({length:doors},(_,i)=>{
+        const y=top+(span/(doors-1||1))*i, left=i%2===0;
+        const x=left?w/2-13:w/2+13;
+        return `<circle cx="${x}" cy="${y.toFixed(1)}" r="3.4" fill="var(--peri)" opacity=".85"/>
+                <line x1="${left?x+4:x-4}" y1="${y.toFixed(1)}" x2="${w/2}" y2="${y.toFixed(1)}"
+                  stroke="var(--peri)" stroke-width="1" opacity=".35"/>`;
+      }).join("")}
+    </svg>`;
+  };
+  root.innerHTML=`<div class="routes cellwrap">${STREETS.map(s=>{
+    const chips=s.names.map(n=>{
+      const b=byName(n);
+      return `<button class="chip" title="${esc(b?b.no:n)}">${logoFor(n)}<span class="nm">${esc(n)}</span>
+        <i class="tierdot" style="--tier:${b?TIERCOL[b.tier]:"var(--lav)"}"></i></button>`;
+    }).join("");
+    return `<article class="route">
+      <div class="mini">${miniMap(s.names.length)}</div>
+      <div class="body">
+        <div class="rhead"><h3>${esc(s.h)}</h3><span class="cnt">${esc(s.c)}</span></div>
+        <div class="dist">${esc(s.d)}</div>
+        <div class="chips">${chips}</div>
+        <div class="also"><b>Best for:</b> ${esc(s.best)}</div>
+      </div>
+    </article>`;
+  }).join("")}</div>
+  <p class="gsub" style="margin-top:18px">Everything not on a strip stays in the standard grid below — a route view never hides a house.</p>`;
+}
+
+/* ---------------- C · Index cards ---------------- */
+function indexCards(){
+  const root=document.getElementById("index");
+  root.innerHTML=GROUPS.map(g=>{
+    const items=B.filter(b=>b.cat===g[0]);
+    if(!items.length)return "";
+    return `<div class="ghead"><h2>${esc(g[1])}</h2><span class="n">${items.length}</span></div>
+      <p class="gsub">${esc(g[2])}</p>
+      <div class="idx cellwrap">${items.map(icard).join("")}</div>`;
+  }).join("");
+}
+function icard(b){
+  const handle=b.h?`<div class="h">@${esc(b.h)}</div>`:"";
+  return `<article class="icard" style="--tier:${TIERCOL[b.tier]||"var(--lav)"}">
+    <div class="who">${logoFor(b.n)}
+      <div style="min-width:0">
+        <div class="nm">${esc(b.n)}</div>${handle}
+        <p class="no">${esc(b.no)}</p>
+      </div>
+    </div>
+    <div class="log">
+      <div class="addr"><b>${esc(b.a||"—")}</b></div>
+      <div class="meta"><i class="tierdot"></i>${esc(b.area||"")} · ${TIERLBL[b.tier]||"—"}</div>
+      <span class="pill ${b.st}">${STLAB[b.st]||""}</span>
+      <div class="acts"><button>Save</button><button>Map</button><button>Details</button></div>
+    </div>
+  </article>`;
+}
+
+/* ---------------- wave reveal (same behaviour as the live directory) ---------------- */
+const io=("IntersectionObserver"in window)?new IntersectionObserver(es=>{
+  es.forEach(e=>{if(!e.isIntersecting)return;wave(e.target);e.target.classList.add("in");io.unobserve(e.target);});
+},{threshold:.04,rootMargin:"0px 0px -40px 0px"}):null;
+function wave(g){
+  const t=getComputedStyle(g).gridTemplateColumns;
+  const cols=(t&&t!=="none")?t.split(" ").filter(Boolean).length:1;
+  const mid=(cols-1)/2;
+  [...g.children].forEach((c,i)=>{
+    const d=Math.floor(i/cols)*1.15+Math.abs((i%cols)-mid)*1.3;
+    c.style.setProperty("--i",Math.min(d,7).toFixed(2));
+  });
+}
+function arm(){
+  document.querySelectorAll(".cellwrap").forEach(g=>{
+    if(!g.children.length)return;
+    if(io){g.classList.remove("in");io.observe(g);}else{wave(g);g.classList.add("in");}
+  });
+}
+
+/* ---------------- studio chrome ---------------- */
+document.querySelectorAll(".seg button").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".seg button").forEach(b=>b.setAttribute("aria-pressed",String(b===btn)));
+    document.querySelectorAll(".pane").forEach(p=>p.classList.toggle("on",p.id==="pane-"+btn.dataset.pane));
+    window.scrollTo({top:0,behavior:"instant"});
+    arm();
+  });
+});
+document.getElementById("theme").addEventListener("click",e=>{
+  const dark=document.documentElement.getAttribute("data-theme")==="dark";
+  document.documentElement.setAttribute("data-theme",dark?"light":"dark");
+  e.target.textContent=dark?"Dark":"Light";
+});
+
+const withLogo=B.filter(b=>ICONS[b.n]).length;
+document.getElementById("cat-note").textContent=`${B.length} houses · ${withLogo} with a logo`;
+document.getElementById("honesty").innerHTML=
+ `<b>What the data can actually carry:</b> every house has a one-line note (median 42 characters) — but only
+  <b>10 of 239</b> have a price, <b>7</b> have a vibe tag, and there are <b>no product photographs anywhere</b>,
+  only ${withLogo} square logos. So a "magazine spread" here has to be built from type, tier colour and white
+  space — not imagery. Each study below is designed against that constraint rather than around it.`;
+
+mosaic();routes();indexCards();arm();
+</script>
+</body>
+</html>
