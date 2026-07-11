@@ -129,10 +129,36 @@
     }
 
     /* ---- Scroll reveal ---- */
+    /* Grid cascade: instead of a whole grid fading in as one slab, each cell
+       swings in with a delay that grows outward from the center cell. Only
+       containers already animated (reveal on the grid or its cells) opt in. */
+    document.querySelectorAll('.grid, .steps, .rows').forEach(function (box) {
+      var kids = Array.prototype.slice.call(box.children);
+      if (kids.length < 2) return;
+      var animated = box.classList.contains('reveal') || kids.some(function (k) { return k.classList.contains('reveal'); });
+      if (!animated) return;
+      box.classList.remove('reveal');
+      var mid = (kids.length - 1) / 2;
+      kids.forEach(function (k, i) {
+        k.classList.add('reveal', 'swing');
+        k.style.transitionDelay = (Math.abs(i - mid) * 0.06).toFixed(2) + 's';
+      });
+    });
+
     var items = document.querySelectorAll('.reveal');
     if ('IntersectionObserver' in window && items.length) {
       var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+          if (e.target.style.transitionDelay) {
+            e.target.addEventListener('transitionend', function h() {
+              e.target.style.transitionDelay = '';
+              e.target.removeEventListener('transitionend', h);
+            });
+          }
+        });
       }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
       items.forEach(function (el) { io.observe(el); });
     } else { items.forEach(function (el) { el.classList.add('in'); }); }
