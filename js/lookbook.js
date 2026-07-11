@@ -166,6 +166,12 @@
     }
     gal.innerHTML = '';
     looks.forEach(function (lk) { gal.appendChild(tile(lk)); });
+    /* tiles exist only now, so they cascade themselves rather than the whole
+       gallery fading in as one block (SS_cascade lives in main.js) */
+    if (typeof window.SS_cascade === 'function') {
+      gal.classList.remove('reveal');
+      window.SS_cascade(gal);
+    }
     initLazyObserver(gal);
     if (looks.some(function (l) { return l.type === 'tiktok'; })) ensureScript('https://www.tiktok.com/embed.js', 'tt-embed');
     if (looks.some(function (l) { return l.type === 'instagram'; })) ensureScript('https://www.instagram.com/embed.js', 'ig-embed');

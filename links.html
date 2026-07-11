@@ -91,6 +91,9 @@
       background: var(--surface-solid); border: 1px solid var(--surface-border); text-decoration: none; color: var(--text-primary);
       box-shadow: 0 6px 20px -14px rgba(35,58,114,0.5); transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; cursor: pointer; text-align: left; width: 100%; font: inherit; }
     .lp-card:hover { transform: translateY(-2px); border-color: rgba(46,84,173,0.4); box-shadow: 0 14px 30px -16px rgba(35,58,114,0.55); }
+    /* while a card is arriving (main.js cascades them), it needs the slow entrance
+       easing; main.js strips .reveal once it lands, restoring the snappy hover above */
+    .lp-card.reveal { transition: opacity .7s cubic-bezier(0.33,1,0.68,1), transform .7s cubic-bezier(0.33,1,0.68,1); }
     html.rm .lp-card { transition: none; }
     .lp-card .ic { flex: 0 0 auto; width: 24px; height: 24px; color: var(--accent); }
     .lp-card .ic svg { width: 100%; height: 100%; display: block; }
@@ -246,7 +249,7 @@
     <div class="discover-brand" style="margin:1.7rem 0 0.2rem;"></div>
 
     <!-- ===== Block-based links (a destination, not a plain list) ===== -->
-    <nav class="lp-links" aria-label="Seraphic Styler links">
+    <nav class="lp-links reveal" aria-label="Seraphic Styler links">
 
       <a class="lp-card lp-card-feature" href="./#contact" data-track="order">
         <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></span>

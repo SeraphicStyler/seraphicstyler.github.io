@@ -129,39 +129,63 @@
     }
 
     /* ---- Scroll reveal ---- */
-    /* Grid cascade: instead of a whole grid fading in as one slab, each cell
-       swings in with a delay that grows outward from the center cell. Only
-       containers already animated (reveal on the grid or its cells) opt in. */
-    document.querySelectorAll('.grid, .steps, .rows').forEach(function (box) {
-      var kids = Array.prototype.slice.call(box.children);
-      if (kids.length < 2) return;
-      var animated = box.classList.contains('reveal') || kids.some(function (k) { return k.classList.contains('reveal'); });
-      if (!animated) return;
-      box.classList.remove('reveal');
-      var mid = (kids.length - 1) / 2;
-      kids.forEach(function (k, i) {
-        k.classList.add('reveal', 'swing');
-        k.style.transitionDelay = (Math.abs(i - mid) * 0.06).toFixed(2) + 's';
+    var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+        /* Once a cascaded cell has landed, take the entrance off it entirely:
+           the delay must not leak into later transitions (theme, text size), and
+           cards with their own hover transition get it back. Final state is
+           identical with or without the classes, so removing them is invisible. */
+        if (e.target.style.transitionDelay) {
+          e.target.addEventListener('transitionend', function h() {
+            e.target.style.transitionDelay = '';
+            e.target.classList.remove('reveal', 'swing', 'in');
+            e.target.removeEventListener('transitionend', h);
+          });
+        }
       });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' }) : null;
+
+    function watch(nodes) {
+      Array.prototype.forEach.call(nodes, function (el) {
+        if (io) io.observe(el); else el.classList.add('in');
+      });
+    }
+
+    /* A grid should arrive as a wave, not a slab: the middle of each row leads,
+       the outer columns follow, and each row trails the one above it. Delay is
+       capped so a long grid never keeps the reader waiting. */
+    function cascade(box) {
+      var kids = Array.prototype.slice.call(box.children);
+      if (kids.length < 2) return kids;
+      var tracks = getComputedStyle(box).gridTemplateColumns;
+      var cols = (tracks && tracks !== 'none') ? tracks.split(' ').filter(Boolean).length : 1;
+      var midCol = (cols - 1) / 2, midItem = (kids.length - 1) / 2;
+      kids.forEach(function (k, i) {
+        var d = (cols > 1)
+          ? Math.floor(i / cols) * 0.05 + Math.abs((i % cols) - midCol) * 0.055
+          : Math.abs(i - midItem) * 0.05;
+        k.classList.add('reveal', 'swing');
+        k.style.transitionDelay = Math.min(d, 0.4).toFixed(3) + 's';
+      });
+      return kids;
+    }
+
+    /* Opt a grid in only if it was already being revealed — either as a whole
+       (.reveal on the container) or cell by cell. */
+    document.querySelectorAll('.grid, .steps, .rows, .lp-links, .gift-grid').forEach(function (box) {
+      var kids = Array.prototype.slice.call(box.children);
+      if (!box.classList.contains('reveal') && !kids.some(function (k) { return k.classList.contains('reveal'); })) return;
+      box.classList.remove('reveal');
+      cascade(box);
     });
 
-    var items = document.querySelectorAll('.reveal');
-    if ('IntersectionObserver' in window && items.length) {
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (!e.isIntersecting) return;
-          e.target.classList.add('in');
-          io.unobserve(e.target);
-          if (e.target.style.transitionDelay) {
-            e.target.addEventListener('transitionend', function h() {
-              e.target.style.transitionDelay = '';
-              e.target.removeEventListener('transitionend', h);
-            });
-          }
-        });
-      }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
-      items.forEach(function (el) { io.observe(el); });
-    } else { items.forEach(function (el) { el.classList.add('in'); }); }
+    watch(document.querySelectorAll('.reveal'));
+
+    /* Content rendered after this point (lookbook tiles) can cascade too. */
+    window.SS_cascade = function (box) { if (box) watch(cascade(box)); };
 
     /* ---- Quick language toggle (EN / VN) above the settings gear ---- */
     var langFab = document.getElementById('langFab');
