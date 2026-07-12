@@ -154,5 +154,14 @@
  "fd.grp.sleep.t": "Sleep & loungewear",
  "fd.grp.sleep.d": "Cotton, linen and silk nightwear built for tropical nights — the natural-fibre houses, not the polyester-satin mass market.",
  "fd.grp.market.t": "Markets & pop-ups",
- "fd.grp.market.d": "Where many brands gather at once — highest value per trip. Dates roam; check socials first."
+ "fd.grp.market.d": "Where many brands gather at once — highest value per trip. Dates roam; check socials first.",
+ "fd.fiblabel": "Fabric",
+ "fd.fib.all": "All fabrics",
+ "fd.fib.natural": "Natural fibre",
+ "fd.fib.linen": "Linen",
+ "fd.fib.cotton": "Cotton",
+ "fd.fib.silk": "Silk",
+ "fd.fib.hemp": "Hemp",
+ "fd.fib.tencel": "TENCEL & modal",
+ "fd.fib.circular": "Upcycled & secondhand"
 }

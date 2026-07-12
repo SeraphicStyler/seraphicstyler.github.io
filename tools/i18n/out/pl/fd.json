@@ -154,5 +154,14 @@
  "fd.grp.sleep.t": "Piżamy & loungewear",
  "fd.grp.sleep.d": "Bawełniana, lniana i jedwabna bielizna nocna stworzona na tropikalne noce — domy z włókien naturalnych, nie masowy rynek poliestrowego satynu.",
  "fd.grp.market.t": "Targi & pop-upy",
- "fd.grp.market.d": "Gdzie wiele marek gromadzi się naraz — najwyższa wartość na wyprawę. Terminy się zmieniają; najpierw proszę sprawdzić social media."
+ "fd.grp.market.d": "Gdzie wiele marek gromadzi się naraz — najwyższa wartość na wyprawę. Terminy się zmieniają; najpierw proszę sprawdzić social media.",
+ "fd.fiblabel": "Tkanina",
+ "fd.fib.all": "Wszystkie tkaniny",
+ "fd.fib.natural": "Włókno naturalne",
+ "fd.fib.linen": "Len",
+ "fd.fib.cotton": "Bawełna",
+ "fd.fib.silk": "Jedwab",
+ "fd.fib.hemp": "Konopie",
+ "fd.fib.tencel": "TENCEL i modal",
+ "fd.fib.circular": "Upcykling i z drugiej ręki"
 }

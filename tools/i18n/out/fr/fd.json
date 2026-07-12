@@ -154,5 +154,14 @@
  "fd.grp.sleep.t": "Vêtements de nuit et de détente",
  "fd.grp.sleep.d": "Vêtements de nuit en coton, lin et soie, pensés pour les nuits tropicales — les maisons de fibres naturelles, pas le marché de masse du satin polyester.",
  "fd.grp.market.t": "Marchés et pop-ups",
- "fd.grp.market.d": "Là où de nombreuses marques se réunissent en même temps — le meilleur rapport valeur/déplacement. Les dates changent ; consultez d'abord les réseaux sociaux."
+ "fd.grp.market.d": "Là où de nombreuses marques se réunissent en même temps — le meilleur rapport valeur/déplacement. Les dates changent ; consultez d'abord les réseaux sociaux.",
+ "fd.fiblabel": "Matière",
+ "fd.fib.all": "Toutes les matières",
+ "fd.fib.natural": "Fibre naturelle",
+ "fd.fib.linen": "Lin",
+ "fd.fib.cotton": "Coton",
+ "fd.fib.silk": "Soie",
+ "fd.fib.hemp": "Chanvre",
+ "fd.fib.tencel": "TENCEL et modal",
+ "fd.fib.circular": "Upcyclé et seconde main"
 }

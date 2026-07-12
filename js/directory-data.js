@@ -8,8 +8,8 @@ window.SS_DIRECTORY=[
 {n:"Huelley Rose",h:"huelleyrose",cat:"women",city:"SGN",area:"D1 · Tân Định",tier:"premium",st:"walk",a:"214 Hai Bà Trưng",no:"Romantic RTW; worldwide shipping. Shares its building with Huelley & Stress Mama."},
 {n:"Huelley",h:"",w:"https://huelley.com/",cat:"women",city:"SGN",area:"D1 · Tân Định",tier:"premium",st:"walk",a:"214 Hai Bà Trưng",no:"Sister label to Huelley Rose. 8:30–21:40."},
 {n:"Stress Mama",h:"stress.mama",cat:"women",city:"SGN",area:"D1 · Tân Định",tier:"mid",st:"walk",a:"214 Hai Bà Trưng · Vincom Đồng Khởi · Thảo Điền",a2:1,no:"Playful streetwear; 3 locations across the city."},
-{n:"Dawn Vintage",h:"dawnavintage",cat:"women",city:"SGN",area:"D1 · Bến Nghé",tier:"mid",st:"walk",a:"2F, 42 Tôn Thất Thiệp",no:"Curated vintage inside the 42 TTT multi-brand building."},
-{n:"1998 Before The Dawn",h:"1998beforethedawn",cat:"women",city:"SGN",area:"D1 · Bến Nghé",tier:"mid",st:"walk",a:"2F, 42 Tôn Thất Thiệp",no:"Vintage; pairs with Dawn Vintage. 10:00–21:00."},
+{n:"Dawn Vintage",h:"dawnavintage",cat:"women",city:"SGN",area:"D1 · Bến Nghé",tier:"mid",st:"walk",a:"2F, 42 Tôn Thất Thiệp",no:"Curated vintage inside the 42 TTT multi-brand building.",fib:["circular"]},
+{n:"1998 Before The Dawn",h:"1998beforethedawn",cat:"women",city:"SGN",area:"D1 · Bến Nghé",tier:"mid",st:"walk",a:"2F, 42 Tôn Thất Thiệp",no:"Vintage; pairs with Dawn Vintage. 10:00–21:00.",fib:["circular"]},
 {n:"Depass",h:"depass.store",cat:"women",city:"SGN",area:"D1 · Bến Nghé",tier:"mid",st:"walk",a:"Rm 38E, 1F, 42 Tôn Thất Thiệp",no:"Local label in the 42 TTT building."},
 {n:"Mangata",h:"mangata.vn",cat:"women",city:"SGN",area:"D1",tier:"premium",st:"walk",a:"1F, 40E Ngô Đức Kế",no:"Founder-run; has a sister coffee brand, Blubean."},
 {n:"Josephine",h:"josephineofficial.vn",cat:"women",city:"SGN",area:"D1 · Bến Thành",tier:"premium",st:"walk",a:"106A Lê Thị Riêng",no:"Feminine RTW; also a Hanoi branch on Phố Huế."},
@@ -52,7 +52,7 @@ window.SS_DIRECTORY=[
 {n:"11 Garmentory",h:"11garmentory",cat:"women",city:"SGN",area:"Phú Nhuận",tier:"premium",st:"hub",a:"117B Nguyễn Đình Chính, P. Cầu Kiệu, Phú Nhuận",no:"Multi-brand creative hub + café. 10:00–21:30."},
 {n:"Duu Stu",h:"duu.stu",cat:"women",city:"SGN",area:"Phú Nhuận",tier:"premium",st:"hub",a:"117B Nguyễn Đình Chính, P. Cầu Kiệu, Phú Nhuận",no:"“Lazy but chic” flagship — ground floor, 11 Garmentory."},
 {n:"Badchoices",h:"badchoices.vn",cat:"women",city:"SGN",area:"Phú Nhuận",tier:"mid",st:"hub",a:"117B Nguyễn Đình Chính, P. Cầu Kiệu, Phú Nhuận",no:"Booth @ 11 Garmentory. “Bad choices make good stories.”"},
-{n:"Moon Me",h:"moon_me.studio",cat:"women",city:"SGN",area:"Phú Nhuận",tier:"mid",st:"walk",a:"330/1D Phan Đình Phùng",no:"Upcycled/custom 2nd-hand; opened May 2026."},
+{n:"Moon Me",h:"moon_me.studio",cat:"women",city:"SGN",area:"Phú Nhuận",tier:"mid",st:"walk",a:"330/1D Phan Đình Phùng",no:"Upcycled/custom 2nd-hand; opened May 2026.",fib:["circular"]},
 {n:"L'Espoir",h:"lespoir.com.vn",cat:"women",city:"SGN",area:"Phú Nhuận",tier:"premium",st:"walk",a:"489A/4 Huỳnh Văn Bánh",no:"9:30–22:00; nationwide COD."},
 {n:"By Vee",h:"byvee.style",cat:"women",city:"SGN",area:"Phú Nhuận",tier:"mid",st:"walk",a:"50 Trần Huy Liệu",no:"9:00–22:00; cheaper in-store than Shopee."},
 {n:"Tiela",h:"tiela.official",cat:"women",city:"SGN",area:"Phú Nhuận",tier:"premium",st:"walk",a:"42 Trần Huy Liệu",no:"“Made for your inner muse.” 9:00–22:00."},
@@ -77,7 +77,7 @@ window.SS_DIRECTORY=[
 {n:"HADES Studio",h:"hades.studio",cat:"men",city:"SGN",area:"D1 / D3",tier:"mid",st:"walk",a:"B1 Vincom Đồng Khởi + 152 Trần Quang Diệu",a2:1,no:"First-wave VN streetwear — darker, grunge-leaning design language. (Older lists citing Gò Vấp/Phạm Ngũ Lão branches are stale.)"},
 {n:"Routine",h:"routine_official",cat:"men",city:"SGN",area:"Gò Vấp",tier:"mid",st:"walk",a:"523A Quang Trung",a2:1,price:"400–800k₫",no:"Menswear-rooted, now VN's benchmark for office-to-weekend basics; 1,000 m² keystone store (May 2025) + Aeon Bình Tân & Tân Phú Celadon malls. 9:00–22:00 daily.",flag:1},
 {n:"Aristino",h:"aristino_official",cat:"men",city:"SGN",area:"D1 · Đồng Khởi",tier:"premium",st:"walk",a:"L2-17, Vincom Đồng Khởi, 72 Lê Thánh Tôn",a2:1,price:"shirts 700k–1.5M₫",no:"K&G's premium men's brand — sharp shirts, polos & suiting-adjacent smart-casual; 30+ HCMC showrooms (Crescent Mall, Vincom Gò Vấp, D3/D5/Tân Bình). Mall showrooms 9:00–22:00."},
-{n:"Môi Điên",h:"moidienstudio",cat:"men",city:"SGN",area:"D1 · Bến Nghé",tier:"premium",st:"walk",a:"28 Tôn Thất Thiệp",price:"~1–3M₫",no:"Tom Trandt's cult experimental label — deconstructed tailoring, upcycling, unisex statement pieces. Call ahead ☎ 090 395 12 12.",flag:1},
+{n:"Môi Điên",h:"moidienstudio",cat:"men",city:"SGN",area:"D1 · Bến Nghé",tier:"premium",st:"walk",a:"28 Tôn Thất Thiệp",price:"~1–3M₫",no:"Tom Trandt's cult experimental label — deconstructed tailoring, upcycling, unisex statement pieces. Call ahead ☎ 090 395 12 12.",flag:1,fib:["circular"]},
 {n:"Cao Minh Saigon",h:"caominh1948",cat:"men",city:"SGN",area:"D1",tier:"luxury",st:"appt",a:"74/6 Hai Bà Trưng",a2:1,price:"from ~14M₫",no:"Vietnam's oldest tailoring house (est. 1948) — the prestige choice; heritage atelier villa at 193/13 Điện Biên Phủ, Bình Thạnh by appointment. ~9:00–18:00, reservations recommended."},
 {n:"SIR Tailor",h:"sirtailorvn",cat:"men",city:"SGN",area:"D1 · Đa Kao",tier:"premium",st:"appt",a:"207F Nguyễn Văn Thủ",price:"from 7.9M₫",no:"Modern gentleman's atelier since 2013 — full-canvas suits from 7.9M₫ (Asian cloth) / 16.9M₫ (Italian). Fittings by appointment; 21–30 day turnaround, minimum two fittings."},
 {n:"H&D Tailor",h:"",cat:"men",city:"SGN",area:"D1 · Bến Thành",tier:"premium",st:"walk",a:"Store No. 5, New World Saigon Hotel arcade, 76 Lê Lai",price:"from ~6.5M₫",no:"Third-generation master tailor Tạ Quốc Hưng — an expat & business-traveler standby for 20 years; tropical-weight wools a specialty. Mon–Sat ~9:00–19:00.",flag:1},
@@ -96,19 +96,19 @@ window.SS_DIRECTORY=[
 {n:"Fancì Club",h:"fanci.club",cat:"luxury",city:"SGN",area:"Thủ Đức · Thảo Điền",tier:"luxury",st:"walk",a:"186 Nguyễn Văn Hưởng",no:"Cult Y2K corsetry & rosette dresses; worn by Bella Hadid, Hailey Bieber, BLACKPINK. 10:00–21:00."},
 {n:"Minh Tuan Couture",h:"ntk_minhtuan.nguyen",cat:"luxury",city:"SGN",area:"Gò Vấp",tier:"couture",st:"appt",a:"416/39/13 Dương Quảng Hàm",no:"The beauty-queens' designer — hand-beaded gowns & national costumes (H'Hen Niê)."},
 {n:"Nguyễn Hoàng Tú",h:"nguyenhoangtuofficial",cat:"luxury",city:"SGN",area:"By appointment",tier:"luxury",st:"appt",a:"Appointment / DM — no public address",no:"Conceptual artisanal womenswear, sculptural hand-sewing; relaunched May 2026. Confirm address by DM."},
-{n:"Metiseko",h:"metiseko",cat:"luxury",city:"SGN",area:"D1 · Sài Gòn ward",tier:"premium",st:"walk",a:"157 Đồng Khởi",no:"Sustainable print-driven organic-cotton & natural-silk resort wear; controls its whole supply chain. Also Hội An & Hanoi. 8:30–21:30."},
+{n:"Metiseko",h:"metiseko",cat:"luxury",city:"SGN",area:"D1 · Sài Gòn ward",tier:"premium",st:"walk",a:"157 Đồng Khởi",no:"Sustainable print-driven organic-cotton & natural-silk resort wear; controls its whole supply chain. Also Hội An & Hanoi. 8:30–21:30.",fib:["cotton","silk"]},
 {n:"CAOSTU",h:"caostu.official",cat:"luxury",city:"SGN",area:"D3 · Nhiêu Lộc",tier:"premium",st:"walk",a:"7/5 Kỳ Đồng + Vincom Đồng Khởi B1",no:"Sculptural layered construction, signature metal eyelets; gender-neutral."},
 {n:"Subtle Le Nguyen",h:"subtlelenguyen",cat:"luxury",city:"SGN",area:"D1 · via Rue Miche",tier:"premium",st:"hub",a:"Stocked at Rue Miche + L'Édition",no:"Minimalist contemporary womenswear; own showroom in Hanoi. HCMC = stockist only."},
-{n:"La Phạm",h:"laphamdesign",cat:"luxury",city:"HAN",area:"Hanoi",tier:"luxury",st:"walk",a:"3F, 125D Lò Đúc",no:"Indigenous-fibre luxury — hemp, pandan, hand-dyed brocade + ethnic-minority craft; Paris/London FW. Online/appt for Saigon."},
+{n:"La Phạm",h:"laphamdesign",cat:"luxury",city:"HAN",area:"Hanoi",tier:"luxury",st:"walk",a:"3F, 125D Lò Đúc",no:"Indigenous-fibre luxury — hemp, pandan, hand-dyed brocade + ethnic-minority craft; Paris/London FW. Online/appt for Saigon.",fib:["hemp"]},
 {n:"Rue Des Chats",h:"ruedeschats",cat:"luxury",city:"HAN",area:"Hanoi · Hoàn Kiếm",tier:"premium",st:"walk",a:"2 Cổ Tân, Tràng Tiền",no:"Romantic Eurasian RTW with an upstairs tea salon (designer Anhuong Tran)."},
 
 /* — Áo dài, tailors & craft (Saigon) — */
-{n:"Áo Dài Võ Việt Chung",h:"",cat:"tailor",city:"SGN",area:"D3 · Bàn Cờ",tier:"luxury",st:"walk",a:"241–243 Nguyễn Đình Chiểu",no:"30-year veteran couturier; luxury áo dài & silk gala wear for celebrities and queens."},
+{n:"Áo Dài Võ Việt Chung",h:"",cat:"tailor",city:"SGN",area:"D3 · Bàn Cờ",tier:"luxury",st:"walk",a:"241–243 Nguyễn Đình Chiểu",no:"30-year veteran couturier; luxury áo dài & silk gala wear for celebrities and queens.",fib:["silk"]},
 {n:"Thuy Design House",h:"thuydesignhouse",cat:"tailor",city:"SGN",area:"D1",tier:"luxury",st:"walk",a:"44B Lý Tự Trọng",no:"VN's most famous artistic áo dài designer; painterly brocades."},
 {n:"KINZU (Áo Dài Song Toàn)",h:"",cat:"tailor",city:"SGN",area:"D3 · P.14",tier:"premium",st:"appt",a:"460 Lê Văn Sỹ",no:"Fully made-to-measure áo dài; ~3.7–20M₫, 2–3 wks. ☎ 0933 848 943."},
 {n:"Le Saigonais",h:"",cat:"tailor",city:"SGN",area:"D1",tier:"premium",st:"walk",a:"1F, 77–79 Lý Tự Trọng",no:"Modern áo dài + concept store with café (dieuANH)."},
-{n:"Thai Tuấn (silk)",h:"",cat:"tailor",city:"SGN",area:"D3",tier:"mid",st:"walk",a:"419–419A Hai Bà Trưng",no:"Silk & jacquard by the metre — bring it to a tailor."},
-{n:"Dòng Dòng Sài Gòn",h:"dongdongsg",cat:"tailor",city:"SGN",area:"Bình Thạnh",tier:"premium",st:"appt",a:"Workshop, Nguyễn Hữu Cảnh",no:"One-of-one bags from salvaged truck tarps — a great client gift."},
+{n:"Thai Tuấn (silk)",h:"",cat:"tailor",city:"SGN",area:"D3",tier:"mid",st:"walk",a:"419–419A Hai Bà Trưng",no:"Silk & jacquard by the metre — bring it to a tailor.",fib:["silk"]},
+{n:"Dòng Dòng Sài Gòn",h:"dongdongsg",cat:"tailor",city:"SGN",area:"Bình Thạnh",tier:"premium",st:"appt",a:"Workshop, Nguyễn Hữu Cảnh",no:"One-of-one bags from salvaged truck tarps — a great client gift.",fib:["circular"]},
 {n:"SH Silk Embroidery",h:"",cat:"tailor",city:"SGN",area:"D3",tier:"premium",st:"appt",a:"114A/12 Trần Quốc Toản",no:"True hand-embroidered (thêu tay) áo dài & dresses."},
 {n:"ManGii Custom Shoes",h:"",cat:"tailor",city:"SGN",area:"D1",tier:"premium",st:"walk",a:"228 Lê Thánh Tôn",no:"Handmade custom leather shoes incl. women's; ~800k–3M/pair."},
 {n:"Dung Tailor",h:"",cat:"tailor",city:"SGN",area:"D1",tier:"mid",st:"walk",a:"221 Lê Thánh Tôn",no:"The classic “copy this garment exactly” shop; can finish in <3 days."},
@@ -146,13 +146,13 @@ window.SS_DIRECTORY=[
 {n:"Floralpunk",h:"floralpunk",cat:"access",sub:"Jewelry",city:"SGN",area:"D1 · Tân Định",tier:"premium",st:"walk",a:"31–33 Thạch Thị Thanh",no:"Julia Đoàn's cult accessories label — jewelry, bags, eyewear."},
 
 /* — Sleep & loungewear · natural fibres first (market research, Jul 2026) — */
-{n:"VINCY Homewear",h:"",w:"https://vincy.com.vn/",cat:"sleep",city:"SGN",area:"D1 · Tân Định",tier:"mid",st:"walk",a:"248 Hai Bà Trưng, P. Tân Định, Q.1",price:"sets ~240–740k₫",no:"Cotton/kate/tole homewear chain, 6 HCMC stores — skip the satin lines, buy the cotton. Hotline 7:00–21:30."},
-{n:"ONOFF",h:"",w:"https://onoff.vn/",cat:"sleep",city:"SGN",area:"D1 · Tân Định",tier:"mid",st:"walk",a:"366 Hai Bà Trưng",no:"Cotton-first underwear & homewear chain (est. 2005) — sleepwear for women and men; 8 HCMC-area stores, live locator at onoff.vn.",flag:1},
-{n:"Mialala",h:"",w:"https://mialala.vn/",cat:"sleep",city:"SGN",area:"D3",tier:"premium",st:"walk",a:"192 Cách Mạng Tháng 8, P.10, Q.3",no:"Lingerie + sleepwear house, 54 stores nationwide — ask for the cotton and đũi pieces; the “lụa” sets are synthetic satin.",flag:1},
-{n:"Metiseko",h:"",w:"https://metiseko.com/",cat:"sleep",sub:"Silk & lounge line",city:"SGN",area:"D1 · Bến Nghé",tier:"luxury",st:"walk",a:"157 Đồng Khởi, P. Bến Nghé, Q.1",no:"Mulberry silk + organic cotton, printed in-house — kimonos, robes and silk camisoles for tropical lounging. Same Đồng Khởi door as the resort-wear boutique. Daily 8:30–21:30."},
-{n:"Catherine Denoual Maison",h:"",w:"https://www.catherinedenoual.com/",cat:"sleep",city:"SGN",area:"D1 · Bến Nghé",tier:"luxury",st:"walk",a:"38 Lý Tự Trọng, Q.1",price:"linen 1.25–3.13M₫ · silk 1.95–5.73M₫",no:"Saigon linen house — stone-washed linen & silk pyjamas, kimonos, nightdresses; the city's best sleep fabrics. +84 28 3823 9394."},
+{n:"VINCY Homewear",h:"",w:"https://vincy.com.vn/",cat:"sleep",city:"SGN",area:"D1 · Tân Định",tier:"mid",st:"walk",a:"248 Hai Bà Trưng, P. Tân Định, Q.1",price:"sets ~240–740k₫",no:"Cotton/kate/tole homewear chain, 6 HCMC stores — skip the satin lines, buy the cotton. Hotline 7:00–21:30.",fib:["cotton"]},
+{n:"ONOFF",h:"",w:"https://onoff.vn/",cat:"sleep",city:"SGN",area:"D1 · Tân Định",tier:"mid",st:"walk",a:"366 Hai Bà Trưng",no:"Cotton-first underwear & homewear chain (est. 2005) — sleepwear for women and men; 8 HCMC-area stores, live locator at onoff.vn.",flag:1,fib:["cotton"]},
+{n:"Mialala",h:"",w:"https://mialala.vn/",cat:"sleep",city:"SGN",area:"D3",tier:"premium",st:"walk",a:"192 Cách Mạng Tháng 8, P.10, Q.3",no:"Lingerie + sleepwear house, 54 stores nationwide — ask for the cotton and đũi pieces; the “lụa” sets are synthetic satin.",flag:1,fib:["cotton"]},
+{n:"Metiseko",h:"",w:"https://metiseko.com/",cat:"sleep",sub:"Silk & lounge line",city:"SGN",area:"D1 · Bến Nghé",tier:"luxury",st:"walk",a:"157 Đồng Khởi, P. Bến Nghé, Q.1",no:"Mulberry silk + organic cotton, printed in-house — kimonos, robes and silk camisoles for tropical lounging. Same Đồng Khởi door as the resort-wear boutique. Daily 8:30–21:30.",fib:["cotton","silk"]},
+{n:"Catherine Denoual Maison",h:"",w:"https://www.catherinedenoual.com/",cat:"sleep",city:"SGN",area:"D1 · Bến Nghé",tier:"luxury",st:"walk",a:"38 Lý Tự Trọng, Q.1",price:"linen 1.25–3.13M₫ · silk 1.95–5.73M₫",no:"Saigon linen house — stone-washed linen & silk pyjamas, kimonos, nightdresses; the city's best sleep fabrics. +84 28 3823 9394.",fib:["linen","silk"]},
 {n:"Wacoal (Takashimaya)",h:"",w:"https://wacoal.com.vn/",cat:"sleep",city:"SGN",area:"D1 · Bến Nghé",tier:"luxury",st:"walk",a:"L2 Takashimaya, 65 Lê Lợi, Q.1",no:"Japanese fitting service — nightdresses + sleep sets alongside the lingerie core; 8 HCMC-area stores incl. 232 Hai Bà Trưng (Tân Định)."},
-{n:"Tricia & Verona",h:"",w:"https://triciaandverona.com/",cat:"sleep",city:"SGN",area:"D1 · Đông Du",tier:"couture",st:"appt",a:"37 Đông Du, Q.1",no:"Family bespoke house opposite the Sheraton — made-to-measure silk/cotton PJ sets in your fabric; email sales@triciaandverona.com first."},
+{n:"Tricia & Verona",h:"",w:"https://triciaandverona.com/",cat:"sleep",city:"SGN",area:"D1 · Đông Du",tier:"couture",st:"appt",a:"37 Đông Du, Q.1",no:"Family bespoke house opposite the Sheraton — made-to-measure silk/cotton PJ sets in your fabric; email sales@triciaandverona.com first.",fib:["silk","cotton"]},
 {n:"Thomas Nguyen Tailor",h:"",w:"https://thomasnguyentailor.com/",cat:"sleep",city:"SGN",area:"Gò Vấp",tier:"couture",st:"appt",a:"445/2/2G Quang Trung, P.10, Gò Vấp",no:"Bespoke house since 2012 — treat pyjamas as a custom shirt-and-trouser commission in your fabric; alterations up to 3 years.",flag:1},
 
 /* — Hanoi — */
@@ -163,28 +163,28 @@ window.SS_DIRECTORY=[
 {n:"Striped T",h:"striped.t",cat:"women",city:"HAN",area:"Hanoi",tier:"mid",st:"walk",a:"105B Thanh Bình, Hà Nội",no:"Worldwide shipping; confirm district."},
 {n:"Josephine (Hanoi)",h:"josephineofficial.vn",cat:"women",city:"HAN",area:"Hanoi · Hai Bà Trưng",tier:"premium",st:"walk",a:"275 Phố Huế",no:"Hanoi branch of the D1 label."},
 {n:"Lan Hương Fashion House",h:"",cat:"tailor",city:"HAN",area:"Hanoi · Tây Hồ",tier:"couture",st:"appt",a:"18 Âu Cơ",no:"Áo dài haute couture in a 1,300 m² colonial villa; state-event pieces."},
-{n:"Tan My Design",h:"",cat:"tailor",city:"HAN",area:"Hanoi · Hoàn Kiếm",tier:"premium",st:"walk",a:"61 Hàng Gai",no:"4-generation hand embroidery + silk tailoring since 1969."},
-{n:"Kilomet109",h:"kilomet109",cat:"luxury",city:"HAN",area:"Hanoi · appt",tier:"couture",st:"appt",a:"Studio, appointment only",no:"Seed-to-garment eco couture; VN's most internationally cited slow-fashion designer."},
+{n:"Tan My Design",h:"",cat:"tailor",city:"HAN",area:"Hanoi · Hoàn Kiếm",tier:"premium",st:"walk",a:"61 Hàng Gai",no:"4-generation hand embroidery + silk tailoring since 1969.",fib:["silk"]},
+{n:"Kilomet109",h:"kilomet109",cat:"luxury",city:"HAN",area:"Hanoi · appt",tier:"couture",st:"appt",a:"Studio, appointment only",no:"Seed-to-garment eco couture; VN's most internationally cited slow-fashion designer.",fib:["hemp","cotton"]},
 {n:"CHATS by C.DAM",h:"chatsbycdam",cat:"luxury",city:"HAN",area:"Hanoi · Hai Bà Trưng",tier:"couture",st:"walk",a:"47 Mai Hắc Đế",no:"Architectural couture; dressed Esther Yu at Cannes 2026."},
 {n:"Hoàng Minh Hà",h:"hoangminhha__",cat:"luxury",city:"HAN",area:"Hanoi · appt",tier:"couture",st:"appt",a:"Atelier by appointment",no:"Haute-couture incl. áo dài; opened Aquafina VIFW FW2022."},
 
 /* — Hà Linh Thu / Trần Hùng straddle Hanoi + a Saigon door — */
-{n:"Hà Linh Thu",h:"halinhthu",cat:"luxury",city:"SGN",area:"Bình Thạnh + Hanoi",tier:"couture",st:"appt",a:"59 Ngô Tất Tố, Bình Thạnh (HCMC) + Hanoi atelier",no:"Hand-crafted silk “wearable art”; one of Hanoi's longest-running couture houses."},
+{n:"Hà Linh Thu",h:"halinhthu",cat:"luxury",city:"SGN",area:"Bình Thạnh + Hanoi",tier:"couture",st:"appt",a:"59 Ngô Tất Tố, Bình Thạnh (HCMC) + Hanoi atelier",no:"Hand-crafted silk “wearable art”; one of Hanoi's longest-running couture houses.",fib:["silk"]},
 {n:"Trần Hùng",h:"tranhungofficial",cat:"luxury",city:"SGN",area:"Thủ Đức + Hanoi",tier:"luxury",st:"walk",a:"383 Nguyễn Duy Trinh, Thủ Đức (HCMC) + Hanoi",no:"First Vietnamese London Fashion Week member; 12+ LFW collections."},
 {n:"Phan Đăng Hoàng",h:"_phandanghoang_",cat:"luxury",city:"SGN",area:"D1 · Milan (verify)",tier:"couture",st:"appt",a:"36 Đặng Thị Nhu, D1 — single-source",no:"First Vietnamese brand on the Milan Fashion Week runway; Forbes 30U30."},
 
 /* — Other Vietnam — */
 {n:"Dimo",h:"dimo.foru",cat:"women",city:"VN",area:"Đà Nẵng",tier:"mid",st:"online",a:"Home atelier, online",no:"“Tiệm may nhà làm.”"},
-{n:"Shu Shi",h:"shushi_clothing",cat:"women",city:"VN",area:"Buôn Ma Thuột",tier:"mid",st:"walk",a:"60 Nguyễn Thị Minh Khai",no:"Linen; IG ~35% below Shopee."},
+{n:"Shu Shi",h:"shushi_clothing",cat:"women",city:"VN",area:"Buôn Ma Thuột",tier:"mid",st:"walk",a:"60 Nguyễn Thị Minh Khai",no:"Linen; IG ~35% below Shopee.",fib:["linen"]},
 
 /* — Markets & pop-ups — */
 {n:"Rue Miche L'Édition",h:"ruemiche",cat:"market",city:"SGN",area:"D1 · Đồng Khởi",tier:"none",st:"walk",a:"Union Square B3, 171 Đồng Khởi",no:"SE Asia's largest multi-brand local-fashion store: 4,728 m², 120+ VN brands + rotating pop-ups. 10:00–21:30."},
 {n:"The New Playground",h:"thenewplayground",cat:"market",city:"SGN",area:"D1 · Bến Nghé",tier:"none",st:"walk",a:"26 Lý Tự Trọng",no:"Underground concept mall — 50+ local streetwear brands; seasonal events."},
 {n:"Hello Weekend Market",h:"helloweekendmarket",cat:"market",city:"SGN",area:"D1 · roams",tier:"none",st:"popup",a:"Usually Hoa Lư Stadium, 2–4 Đinh Tiên Hoàng",no:"HCMC's biggest youth fashion fair since 2013; check IG for the weekend venue."},
-{n:"The Box Market",h:"",cat:"market",city:"SGN",area:"D1",tier:"none",st:"popup",a:"125 Hai Bà Trưng + Lê Lai",no:"Curated indie: young fashion, handmade accessories, vintage."},
-{n:"Saigon Flea Market",h:"",cat:"market",city:"SGN",area:"D7 · Phú Mỹ Hưng",tier:"none",st:"popup",a:"Boomerang Bistro",no:"1st & 3rd Sunday; handmade + vintage pioneer market."},
-{n:"Saigon Vintage Market",h:"",cat:"market",city:"SGN",area:"Roams",tier:"none",st:"popup",a:"Recent: Bloq Saigon",no:"Curated vintage/preloved — a stylist favourite."},
-{n:"Saigon Urban Flea",h:"",cat:"market",city:"SGN",area:"Thảo Điền",tier:"none",st:"popup",a:"Saigon Outcast, 188/1 Nguyễn Văn Hưởng",no:"Vintage/secondhand + artisan craft + workshops."},
+{n:"The Box Market",h:"",cat:"market",city:"SGN",area:"D1",tier:"none",st:"popup",a:"125 Hai Bà Trưng + Lê Lai",no:"Curated indie: young fashion, handmade accessories, vintage.",fib:["circular"]},
+{n:"Saigon Flea Market",h:"",cat:"market",city:"SGN",area:"D7 · Phú Mỹ Hưng",tier:"none",st:"popup",a:"Boomerang Bistro",no:"1st & 3rd Sunday; handmade + vintage pioneer market.",fib:["circular"]},
+{n:"Saigon Vintage Market",h:"",cat:"market",city:"SGN",area:"Roams",tier:"none",st:"popup",a:"Recent: Bloq Saigon",no:"Curated vintage/preloved — a stylist favourite.",fib:["circular"]},
+{n:"Saigon Urban Flea",h:"",cat:"market",city:"SGN",area:"Thảo Điền",tier:"none",st:"popup",a:"Saigon Outcast, 188/1 Nguyễn Văn Hưởng",no:"Vintage/secondhand + artisan craft + workshops.",fib:["circular"]},
 {n:"Thiso Mall pop-ups",h:"",cat:"market",city:"SGN",area:"Thủ Thiêm",tier:"none",st:"popup",a:"10 Mai Chí Thọ",no:"Rotating short brand pop-ups; check the current lineup."},
 
 /* — Established Saigon walk-ins (June-verified) — */
@@ -197,7 +197,7 @@ window.SS_DIRECTORY=[
 {n:"Whenever Atelier",h:"whenever.atelier",cat:"women",city:"SGN",area:"D3",tier:"premium",st:"walk",a:"141/8 Bàn Cờ + Vincom 26 Lý Tự Trọng",no:"Tailoring-led womenswear. 10:00–21:00."},
 {n:"Kathy Atelier",h:"kathy.atelier.vn",cat:"women",city:"SGN",area:"D3 · P.14",tier:"premium",st:"walk",a:"6 Trần Quang Diệu",no:"Anchors the Trần Quang Diệu design strip. 10:00–21:00."},
 {n:"Laneci",h:"laneci.stu",cat:"women",city:"SGN",area:"D3 · P.14",tier:"premium",st:"walk",a:"27 Trần Quang Diệu",no:"Refined feminine RTW on the TQD strip. 10:00–22:00."},
-{n:"Sò Vintage",h:"sovintage_house",cat:"women",city:"SGN",area:"D3 · Võ Thị Sáu",tier:"mid",st:"walk",a:"200 Nguyễn Thị Minh Khai, Phường Võ Thị Sáu, Quận 3",no:"Curated vintage."},
+{n:"Sò Vintage",h:"sovintage_house",cat:"women",city:"SGN",area:"D3 · Võ Thị Sáu",tier:"mid",st:"walk",a:"200 Nguyễn Thị Minh Khai, Phường Võ Thị Sáu, Quận 3",no:"Curated vintage.",fib:["circular"]},
 {n:"Anna Clothes",h:"annaclothing.vn",cat:"women",city:"SGN",area:"D3 / D1 / Gò Vấp",tier:"mid",st:"walk",a:"292/26 CMT8 + 73 Nguyễn Cư Trinh + Gò Vấp",no:"Cute, affordable RTW; several branches."},
 {n:"Levents",h:"leventsbrand",cat:"women",city:"SGN",area:"D1 / Q10",tier:"mid",st:"walk",a:"325 Hoàng Sa + 139E Nguyễn Trãi + 842 Sư Vạn Hạnh",no:"Cult local streetwear. 10:00–21:30."},
 {n:"Hangkao Closet",h:"hangkao_closet",cat:"women",city:"SGN",area:"D3 · P.14",tier:"mid",st:"walk",a:"448/9 Lê Văn Sỹ",no:"Trend-led local closet."},
@@ -226,7 +226,7 @@ window.SS_DIRECTORY=[
 {n:"Perpearl",h:"perpearlofficial",cat:"women",city:"VN",area:"Online · VN",tier:"mid",st:"online",a:"perpearl.com",no:"Girls are Pearls."},
 {n:"Katherine Studio",h:"katherine_studios",cat:"women",city:"VN",area:"Online · VN",tier:"mid",st:"online",a:"Shopee · linkbio",no:"Made in VN; ships worldwide."},
 {n:"Jujubae",h:"jujubae.official",cat:"women",city:"VN",area:"Online · VN",tier:"mid",st:"online",a:"shopee.vn/jujubae.official",no:"Since 2021; coquette dresses."},
-{n:"Lụa Là by Diễm",h:"lualabydiem",cat:"women",city:"VN",area:"Online · VN",tier:"mid",st:"online",a:"vn.shp.ee/APdvJoh",no:"Silk."},
+{n:"Lụa Là by Diễm",h:"lualabydiem",cat:"women",city:"VN",area:"Online · VN",tier:"mid",st:"online",a:"vn.shp.ee/APdvJoh",no:"Silk.",fib:["silk"]},
 {n:"OCÉARA",h:"oceara.official",cat:"women",city:"VN",area:"Online · VN",tier:"mid",st:"online",a:"Shopee",no:"Vietnam-based online shop."},
 {n:"Some Official",h:"someofficial.vn",cat:"women",city:"VN",area:"Online · VN",tier:"premium",st:"online",a:"beacons.ai/someofficial",no:"Minimal chic; no COD."},
 {n:"Brown VN",h:"brown.vn",cat:"women",city:"VN",area:"Online · VN",tier:"mid",st:"online",a:"brownvn.com",no:"Online exclusive, no Shopee."},
@@ -264,7 +264,7 @@ window.SS_DIRECTORY=[
 {n:"Mood Emode",h:"mood.emode",cat:"women",city:"HAN",area:"Hanoi · online",tier:"premium",st:"online",a:"DM · FB moodemode2019",no:"Tailor house / atelier."},
 {n:"Kistiny",h:"kistiny.ig",cat:"women",city:"HAN",area:"Hanoi · online",tier:"mid",st:"online",a:"DM · 0888040309",no:"Ships 10–14 days."},
 {n:"By Fairy",h:"byfairy.vn",cat:"women",city:"HAN",area:"Hanoi · online",tier:"mid",st:"online",a:"shopee.vn/byfair.vn",no:"Online store."},
-{n:"Poppy Babi",h:"poppybabi.couture",cat:"tailor",city:"HAN",area:"Hanoi · online",tier:"premium",st:"online",a:"DM / FB",no:"Silk made-to-measure tailor."},
+{n:"Poppy Babi",h:"poppybabi.couture",cat:"tailor",city:"HAN",area:"Hanoi · online",tier:"premium",st:"online",a:"DM / FB",no:"Silk made-to-measure tailor.",fib:["silk"]},
 
 /* — Remaining athleisure — */
 {n:"I.Sport",h:"",cat:"active",city:"SGN",area:"Bình Thạnh",tier:"premium",st:"walk",a:"549/43 Xô Viết Nghệ Tĩnh",no:"Gray-import boutique (Alo / Lorna Jane / Lululemon) — verify each piece.",flag:1},
@@ -275,7 +275,7 @@ window.SS_DIRECTORY=[
 /* — Vietnamese-owned athleisure (aeyo & coastal/studio kin) — */
 {n:"aeyo",h:"aeyo.fit",cat:"active",city:"SGN",area:"Online",tier:"premium",st:"online",a:"shopee.vn/aeyo.fit · IG",vibe:"studio",no:"Studio-to-street, made in VN; flattering, shoots well. @aeyo.fit is the active account (@aeyogirlsclub is login-walled)."},
 {n:"Augety",h:"augety.st",cat:"active",city:"SGN",area:"Online",tier:"mid",st:"online",a:"augetystudio.com · Shopee",vibe:"studio",no:"HCMC-based feminine gym-to-café sets; figure-flattering."},
-{n:"ONWAYS",h:"onway.sportswear",cat:"active",city:"SGN",area:"Thủ Đức · An Khánh",tier:"mid",st:"walk",a:"62 Hoàng Thế Thiện",vibe:"studio",no:"Eco coffee-yarn fabric + CloudTek quick-dry; minimalist, light-performance."},
+{n:"ONWAYS",h:"onway.sportswear",cat:"active",city:"SGN",area:"Thủ Đức · An Khánh",tier:"mid",st:"walk",a:"62 Hoàng Thế Thiện",vibe:"studio",no:"Coffee-yarn (S.Café) is recycled PET — polyester, not a natural fibre. Light-performance basics."},
 {n:"Alva Activewear",h:"",cat:"active",city:"SGN",area:"D6",tier:"mid",st:"walk",a:"96 Bà Hom (Chi Sport)",vibe:"studio",no:"Budget export-surplus (VNXK) yoga/crop sets; flattering. IG unconfirmed."},
 
 /* — California / coastal athleisure canon (overseas; ships-to-VN noted) — */
@@ -284,6 +284,33 @@ window.SS_DIRECTORY=[
 {n:"Aviator Nation",h:"",cat:"active",city:"INTL",area:"Venice, California",tier:"premium",st:"online",a:"aviatornation.com — likely ships VN",vibe:"coastal",no:"1970s CA surf/vintage; signature stitched stripes on brushed fleece."},
 
 /* — Asian fashion outside Vietnam — */
-{n:"Mimilys",h:"mimilysshop",cat:"women",city:"INTL",area:"Thailand",tier:"mid",st:"online",a:"Worldwide; Wise/Remitly",no:"Vintage secondhand."},
-{n:"Jula",h:"julalinekw",cat:"women",city:"INTL",area:"Kuwait",tier:"premium",st:"walk",a:"The Avenues Phase 3 + Shuwaikh",no:"Occasion dresses, designed in Kuwait."}
+{n:"Mimilys",h:"mimilysshop",cat:"women",city:"INTL",area:"Thailand",tier:"mid",st:"online",a:"Worldwide; Wise/Remitly",no:"Vintage secondhand.",fib:["circular"]},
+{n:"Jula",h:"julalinekw",cat:"women",city:"INTL",area:"Kuwait",tier:"premium",st:"walk",a:"The Avenues Phase 3 + Shuwaikh",no:"Occasion dresses, designed in Kuwait."},
+/* — Natural fibre, certified cotton & circular · added July 2026 —
+   Clients are increasingly polyester-averse. Every house below states its own fibre;
+   `fib` records what THEY say, not what a listicle says. `flag:1` = the address or the
+   fibre claim rests on a single source — phone before you send a client. — */
+{n:"The 31",h:"the31_vn",w:"https://the31.vn/",cat:"women",city:"SGN",area:"Thảo Điền",tier:"premium",st:"walk",a:"16 Quốc Hương",no:"Plant-based only: linen from France & Holland, organic cotton from India. Men & women.",fib:["linen","cotton"]},
+{n:"Ginkgo T-shirts",h:"ginkgotshirts",w:"https://ginkgotshirts.com/",cat:"women",city:"SGN",area:"D1 · Bến Nghé",tier:"mid",st:"walk",a:"10 Lê Lợi (+ 3 more D1 doors)",no:"GOTS organic-cotton tees, polos & shirts — some styles blend elastane. Men & women.",fib:["cotton"]},
+{n:"Cuddle",h:"cuddle.linenclothing",w:"https://cuddle.vn/",cat:"women",city:"SGN",area:"Thảo Điền",tier:"premium",st:"walk",a:"7 Đường số 1",no:"100% pure linen since 2017; linen bedding too. Menswear line = emdash, same door.",fib:["linen"]},
+{n:"emdash",h:"emdash_saigon",w:"https://cuddle.vn/collections/emdash-linen-for-men",cat:"men",city:"SGN",area:"Thảo Điền",tier:"premium",st:"walk",a:"7 Đường số 1",no:"Cuddle's menswear line (2023) — linen shirts, trousers, sets. Same Thảo Điền door.",fib:["linen"]},
+{n:"TimTay",h:"timtayofficial",w:"https://timtay.me/",cat:"women",city:"SGN",area:"D7 · Tân Hưng",tier:"premium",st:"walk",a:"20/9 Nguyễn Bính (+ Phú Mỹ Hưng concept store)",no:"Zero-waste cutting since 2014 — linen, cotton & mulberry silk. 10:00–19:00 daily.",fib:["linen","cotton","silk"]},
+{n:"Rustea",h:"rustea.vn",w:"https://rustea.vn/",cat:"women",city:"SGN",area:"Thủ Đức · Thảo Điền",tier:"mid",st:"walk",a:"23A Đường số 54, Thảo Điền",no:"Unisex linen, cotton & silk since 2017. A second Thảo Điền door is listed — call 0899 899 767.",fib:["linen","cotton","silk"],flag:1},
+{n:"Mêman",h:"meman.saigon",cat:"men",city:"SGN",area:"D1 · Bến Nghé",tier:"premium",st:"walk",a:"26B–C Lê Lợi",no:"Minimalist menswear & modern áo dài in Japanese linen. 11:00–20:00.",fib:["linen"]},
+{n:"Moriko Saigon",h:"linenbymoriko",w:"https://morikosaigon.vn/",cat:"women",city:"SGN",area:"Phú Nhuận",tier:"premium",st:"walk",a:"158/37 Trần Huy Liệu",no:"Linen & hand-embroidery house since 2018; linen áo dài and silk. 9:00–20:00.",fib:["linen","silk"]},
+{n:"Leinné",h:"leinne.brand",w:"https://leinne.com/",cat:"access",sub:"Hats & bags",city:"SGN",area:"D1 · Cầu Ông Lãnh",tier:"premium",st:"appt",a:"135/43 Trần Hưng Đạo",no:"Madagascar raffia hats & bags, organic silk; private showroom — book on Zalo first.",fib:["silk","linen"]},
+{n:"Xéo Xọ",h:"xeoxo",w:"https://xeoxo.com/",cat:"women",city:"SGN",area:"D1 · Bến Nghé",tier:"premium",st:"walk",a:"43 Đặng Thị Nhu",no:"Hanoi-born silk label with a D1 door; fibre % not published — ask. 10:00–21:00.",fib:["silk"],flag:1},
+{n:"Canary Linen",h:"canary.linen",w:"https://canarylinen.vn/",cat:"women",city:"SGN",area:"D1 · Bến Thành",tier:"mid",st:"walk",a:"89B Cách Mạng Tháng 8",no:"Linen-look daily wear; 100% cotton tees confirmed, linen % not published — ask.",fib:["cotton"],flag:1},
+{n:"Bảo Lộc Silk",cat:"tailor",city:"SGN",area:"D1 · Đa Kao",tier:"premium",st:"walk",a:"12 Mạc Đĩnh Chi",no:"100% silk by the metre from the Bảo Lộc silk capital — bring it to a tailor.",fib:["silk"],flag:1},
+{n:"Toàn Thịnh Silk",w:"https://toanthinhsilk.com/",cat:"tailor",city:"SGN",area:"D1 · Bến Thành",tier:"mid",st:"walk",a:"258 Lê Thánh Tôn",no:"Silk by the metre, 9:00–21:00. They also sell satin — check it is silk satin, not poly.",fib:["silk"],flag:1},
+{n:"Mui The Label",h:"muithelabel",w:"https://muithelabel.com/",cat:"women",city:"VN",area:"Hội An",tier:"mid",st:"walk",a:"15B Lê Lợi, Hội An",no:"Hội An boho boutique since 2016 — hand-made small batches, linen. 9:30–22:30.",fib:["linen"],flag:1},
+{n:"Saigon Concepts",h:"saigon_concepts",w:"https://shop.saigonconcepts.com/",cat:"sleep",city:"SGN",area:"Bình Thạnh · by appointment",tier:"premium",st:"online",a:"Online; studio by appointment",no:"Deadstock 100% cotton, linen & TENCEL pyjamas cut in a Saigon studio. No published address.",fib:["cotton","linen","tencel","circular"]},
+{n:"Lơ Silk",h:"losilkvietnam",w:"https://www.losilkvietnam.com/",cat:"sleep",city:"SGN",area:"D1 · Bến Nghé",tier:"luxury",st:"walk",a:"87B Pasteur",no:"100% Bảo Lộc silk, plant-dyed, OEKO-TEX. The slips are the lounge pieces. 10:00–20:00.",fib:["silk"]},
+{n:"BYFAS",w:"https://byfas.com/",cat:"sleep",city:"SGN",area:"D1 · Bến Nghé",tier:"premium",st:"appt",a:"40 Ngô Đức Kế",no:"Bespoke pyjamas in natural silk, linen or poplin — from ~$250/set. ☎ 090 583 6118.",fib:["silk","linen"]},
+{n:"Bon Bon Underwear",w:"https://bonbonunderwear.com.vn/",cat:"sleep",city:"SGN",area:"D1 · Tân Định",tier:"mid",st:"walk",a:"432 Hai Bà Trưng",no:"Lingerie chain with a real cotton line; fibre % not published — ask. On the HBT strip.",fib:["cotton"],flag:1},
+{n:"CHOI — Organic Cotton",w:"https://organiccotton.vn/",cat:"sleep",city:"SGN",area:"Tân Bình · online",tier:"mid",st:"online",a:"Online only — no shop",no:"IVN-certified organic-cotton briefs, bras & basics. They state plainly: online only.",fib:["cotton"]},
+{n:"Voga Underwear",w:"https://voga.com.vn/",cat:"sleep",city:"SGN",area:"Thủ Đức · online",tier:"mid",st:"online",a:"Online (Shopee Mall + own site)",no:"Men's briefs, vests & tanks in 90% Lenzing Modal. Modal is regenerated cellulose, not cotton.",fib:["tencel"],flag:1},
+{n:"Decathlon (Kimjaly)",w:"https://www.decathlon.vn/",cat:"active",city:"SGN",area:"Thủ Đức · Thảo Điền",tier:"mid",st:"walk",a:"L1, Vincom Mega Mall Thảo Điền, 161 Xa Lộ Hà Nội",vibe:"studio",no:"The only walk-in organic-cotton yoga bottoms in the city. Every local activewear label is polyester.",fib:["cotton"]},
+{n:"In The Mood Saigon",h:"inthemoodsaigonstore",cat:"market",city:"SGN",area:"Thảo Điền",tier:"none",st:"walk",a:"32 Trần Ngọc Diện",no:"Multi-brand concept store — stocks Nora Linen and local linen labels. 10:00–18:00.",fib:["linen"],flag:1},
+{n:"Chợ Bà Chiểu",cat:"market",city:"SGN",area:"Bình Thạnh · P.1",tier:"none",st:"walk",a:"Bùi Hữu Nghĩa & Diên Hồng, P.1",no:"Old-Saigon market; đồ si (secondhand) racks, fabric & shoes in the west wing. Kiosks shut ~19:00.",fib:["circular"]}
 ];

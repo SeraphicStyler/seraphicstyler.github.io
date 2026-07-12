@@ -154,5 +154,14 @@
  "fd.grp.sleep.t": "Đồ ngủ & mặc nhà",
  "fd.grp.sleep.d": "Đồ ngủ cotton, linen và lụa cho đêm nhiệt đới — những nhà dùng sợi tự nhiên, không phải hàng chợ satin polyester.",
  "fd.grp.market.t": "Chợ phiên & pop-up",
- "fd.grp.market.d": "Nơi nhiều thương hiệu tụ về cùng lúc — đáng giá nhất cho mỗi chuyến đi. Lịch hay thay đổi; xem mạng xã hội trước."
+ "fd.grp.market.d": "Nơi nhiều thương hiệu tụ về cùng lúc — đáng giá nhất cho mỗi chuyến đi. Lịch hay thay đổi; xem mạng xã hội trước.",
+ "fd.fiblabel": "Chất liệu",
+ "fd.fib.all": "Tất cả chất liệu",
+ "fd.fib.natural": "Sợi tự nhiên",
+ "fd.fib.linen": "Linen (lanh)",
+ "fd.fib.cotton": "Cotton",
+ "fd.fib.silk": "Lụa",
+ "fd.fib.hemp": "Gai (hemp)",
+ "fd.fib.tencel": "TENCEL & modal",
+ "fd.fib.circular": "Tái chế & đồ si"
 }

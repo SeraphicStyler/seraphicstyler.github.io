@@ -154,5 +154,14 @@
  "fd.grp.sleep.t": "Baju tidur & santai",
  "fd.grp.sleep.d": "Busana tidur katun, linen, dan sutra yang dirancang untuk malam tropis — rumah mode serat alami, bukan pasar massal satin poliester.",
  "fd.grp.market.t": "Pasar & pop-up",
- "fd.grp.market.d": "Tempat banyak merek berkumpul sekaligus — nilai tertinggi per kunjungan. Tanggalnya berubah-ubah; cek media sosial dulu."
+ "fd.grp.market.d": "Tempat banyak merek berkumpul sekaligus — nilai tertinggi per kunjungan. Tanggalnya berubah-ubah; cek media sosial dulu.",
+ "fd.fiblabel": "Bahan",
+ "fd.fib.all": "Semua bahan",
+ "fd.fib.natural": "Serat alami",
+ "fd.fib.linen": "Linen",
+ "fd.fib.cotton": "Katun",
+ "fd.fib.silk": "Sutra",
+ "fd.fib.hemp": "Rami hemp",
+ "fd.fib.tencel": "TENCEL & modal",
+ "fd.fib.circular": "Upcycle & bekas"
 }

@@ -154,5 +154,14 @@
  "fd.grp.sleep.t": "잠옷 & 라운지웨어",
  "fd.grp.sleep.d": "열대의 밤을 위한 면, 린넨, 실크 잠옷 — 폴리에스터 새틴 대량 생산품이 아닌, 천연 섬유 하우스.",
  "fd.grp.market.t": "마켓 & 팝업",
- "fd.grp.market.d": "여러 브랜드가 한자리에 모이는 곳 — 한 번의 방문으로 가장 큰 가치. 날짜는 유동적이니, 먼저 SNS를 확인하세요."
+ "fd.grp.market.d": "여러 브랜드가 한자리에 모이는 곳 — 한 번의 방문으로 가장 큰 가치. 날짜는 유동적이니, 먼저 SNS를 확인하세요.",
+ "fd.fiblabel": "소재",
+ "fd.fib.all": "모든 소재",
+ "fd.fib.natural": "천연 섬유",
+ "fd.fib.linen": "린넨",
+ "fd.fib.cotton": "면",
+ "fd.fib.silk": "실크",
+ "fd.fib.hemp": "헴프",
+ "fd.fib.tencel": "텐셀 & 모달",
+ "fd.fib.circular": "업사이클 & 중고"
 }

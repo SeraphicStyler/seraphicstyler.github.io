@@ -154,5 +154,14 @@
  "fd.grp.sleep.t": "Ropa de dormir y de estar",
  "fd.grp.sleep.d": "Ropa de noche en algodón, lino y seda, pensada para las noches tropicales — las casas de fibras naturales, no el mercado de masas de satén de poliéster.",
  "fd.grp.market.t": "Mercados y pop-ups",
- "fd.grp.market.d": "Donde muchas marcas se reúnen a la vez — el mayor valor por salida. Las fechas cambian; consulte antes las redes sociales."
+ "fd.grp.market.d": "Donde muchas marcas se reúnen a la vez — el mayor valor por salida. Las fechas cambian; consulte antes las redes sociales.",
+ "fd.fiblabel": "Tejido",
+ "fd.fib.all": "Todos los tejidos",
+ "fd.fib.natural": "Fibra natural",
+ "fd.fib.linen": "Lino",
+ "fd.fib.cotton": "Algodón",
+ "fd.fib.silk": "Seda",
+ "fd.fib.hemp": "Cáñamo",
+ "fd.fib.tencel": "TENCEL y modal",
+ "fd.fib.circular": "Upcycling y segunda mano"
 }

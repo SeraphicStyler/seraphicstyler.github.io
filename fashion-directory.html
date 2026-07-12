@@ -8,10 +8,10 @@
   <meta name="theme-color" content="#2e54ad" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#161a26" media="(prefers-color-scheme: dark)" />
   <script>if('serviceWorker' in navigator && location.protocol==='https:'){addEventListener('load',function(){navigator.serviceWorker.register('service-worker.js').catch(function(){});});}</script>
-  <meta name="description" content="A curated, filterable directory of 239 Vietnamese fashion houses — boutiques, ateliers, designer labels and markets across Saigon and beyond, mapped by Seraphic Styler." />
+  <meta name="description" content="A curated, filterable directory of 262 Vietnamese fashion houses — boutiques, ateliers, designer labels and markets across Saigon and beyond, mapped by Seraphic Styler." />
   <link rel="canonical" href="https://www.seraphicstyler.com/fashion-directory" />
   <meta property="og:title" content="The Saigon Fashion Directory — Seraphic Styler" />
-  <meta property="og:description" content="239 Vietnamese fashion houses, filterable by district, tier and category, with a Saigon cluster map." />
+  <meta property="og:description" content="262 Vietnamese fashion houses, filterable by district, tier and category, with a Saigon cluster map." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://www.seraphicstyler.com/assets/social/og-image.png" />
   <link rel="icon" href="assets/butterfly-side.svg" type="image/svg+xml" />
@@ -446,6 +446,11 @@ main>.group:not(:first-child){border-top:1px solid var(--line-soft);margin-top:2
 .tierchip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--tier,var(--lav));}
 .card .vibe{font-size:.58rem;text-transform:uppercase;letter-spacing:.13em;color:var(--peri-text);
   border:1px solid color-mix(in srgb,var(--peri) 45%,transparent);border-radius:var(--r-pill);padding:3px 8px;}
+/* the fibre the house itself names — the one chip a polyester-averse client reads first */
+.card .fib{display:inline-flex;align-items:center;gap:5px;font-size:.58rem;text-transform:uppercase;
+  letter-spacing:.11em;color:var(--ok);background:var(--ok-bg);border-radius:var(--r-pill);padding:3px 9px;
+  white-space:nowrap;}
+.card .fib::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;flex:none;}
 .badge{display:inline-flex;align-items:center;gap:6px;font-size:.6rem;font-weight:600;
   text-transform:uppercase;letter-spacing:.08em;padding:3px 9px;border-radius:var(--r-pill);white-space:nowrap;}
 .badge::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;flex:none;}
@@ -742,6 +747,8 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
         <select class="sel" id="locsel"></select></label>
       <label class="selwrap"><span data-i18n="fd.tierlabel">Tier</span>
         <select class="sel" id="tiersel"></select></label>
+      <label class="selwrap"><span data-i18n="fd.fiblabel">Fabric</span>
+        <select class="sel" id="fibsel"></select></label>
       <label class="selwrap"><span data-i18n="fd.sortlabel">Sort</span>
         <select class="sel" id="sortsel"></select></label>
       <button class="morebtn" id="morebtn" aria-expanded="false" aria-controls="morepanel"><span data-i18n="fd.morefilters">More filters</span></button>
@@ -766,7 +773,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
     <div class="skcard"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></div>
   </div>
 </main>
-<noscript><div class="wrap" style="padding:30px 0"><p>The directory is interactive and needs JavaScript to filter its 239 houses. Please enable it, or write to seraphicstyler@gmail.com for a copy.</p></div></noscript>
+<noscript><div class="wrap" style="padding:30px 0"><p>The directory is interactive and needs JavaScript to filter its 262 houses. Please enable it, or write to seraphicstyler@gmail.com for a copy.</p></div></noscript>
 
 <button class="themebtn" id="theme" aria-label="Toggle dark mode" data-i18n-al="fd.a11y.theme" aria-pressed="false" title="Toggle light / dark" data-i18n-ti="fd.a11y.themeTi">
   <svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
@@ -871,6 +878,25 @@ const LOCS=[
  ["VN","fd.loc.vn","Other Vietnam"],
  ["INTL","fd.loc.intl","Overseas"]];
 const TIERS=[["all","fd.tiersel.all","All tiers"],["mid","fd.tiersel.mid","Mid"],["premium","fd.tiersel.premium","Premium"],["luxury","fd.tiersel.luxury","Luxury"],["couture","fd.tiersel.couture","Couture"]];
+/* — Fabric. The question clients now ask first: "is it polyester?"
+   A house is tagged only where the fibre is stated by the house itself (`fib` in
+   directory-data.js). No tag is not an accusation — it means unstated, and unstated
+   is exactly what you have to ask about in the shop. `natural` is the union of the
+   plant/animal fibres; `circular` is upcycled, deadstock and secondhand. — */
+const FIBERS=[["all","fd.fib.all","All fabrics"],["natural","fd.fib.natural","Natural fibre"],
+  ["linen","fd.fib.linen","Linen"],["cotton","fd.fib.cotton","Cotton"],["silk","fd.fib.silk","Silk"],
+  ["hemp","fd.fib.hemp","Hemp"],["tencel","fd.fib.tencel","TENCEL & modal"],
+  ["circular","fd.fib.circular","Upcycled & secondhand"]];
+/* TENCEL/modal/lyocell is regenerated cellulose — not polyester, and it breathes, but it is not
+   a natural fibre either. It gets its own tag rather than being smuggled into `natural`. */
+const NATURAL=["linen","cotton","silk","hemp"];
+const fibOf=b=>Array.isArray(b.fib)?b.fib:(b.fib?[b.fib]:[]);
+const fibMatch=(b,f)=>{
+  const t=fibOf(b);
+  if(!t.length)return false;
+  return f==="natural"?t.some(x=>NATURAL.includes(x)):t.includes(f);
+};
+const fibLabel=b=>fibOf(b).map(k=>{const t=FIBERS.find(x=>x[0]===k);return t?tlabel(t):k;}).join(" · ");
 const VIBES=[["all","fd.vibe.all","All vibes"],["coastal","fd.vibe.coastal","Coastal"],["studio","fd.vibe.studio","Studio"],["performance","fd.vibe.performance","Performance"]];
 const SORTS=[["rec","fd.sort.rec","Curated order"],["az",null,"A → Z"],["tierup","fd.sort.tierup","Price tier: low → high"],["tierdn","fd.sort.tierdn","Price tier: high → low"]];
 /* Tuple label: translated when it carries a key, verbatim when it doesn't. */
@@ -976,7 +1002,7 @@ const grpTitle=g=>T("fd.grp."+g[0]+".t",g[1]);
 const grpDesc =g=>T("fd.grp."+g[0]+".d",g[2]);
 
 /* ============ STATE ============ */
-let fCat="all",fCity="all",fWalk=false,fQ="",fZone="",fTier="all",fVibe="all",fSaved=false,fSort="rec";
+let fCat="all",fCity="all",fWalk=false,fQ="",fZone="",fTier="all",fVibe="all",fFib="all",fSaved=false,fSort="rec";
 
 /* — Saved shortlist (localStorage; hearts never leave this browser) — */
 let SAVED=new Set();
@@ -1008,6 +1034,7 @@ function syncHash(){
   if(fCity!=="all")p.set("city",fCity);
   if(fTier!=="all")p.set("tier",fTier);
   if(fVibe!=="all")p.set("vibe",fVibe);
+  if(fFib!=="all")p.set("fib",fFib);
   if(fZone)p.set("zone",fZone);
   if(fWalk)p.set("walk","1");
   if(fSaved)p.set("saved","1");
@@ -1052,6 +1079,7 @@ function match(b){
   if(fWalk&&b.st!=="walk")return false;
   if(fTier!=="all"&&b.tier!==fTier)return false;
   if(fVibe!=="all"&&vibeOf(b)!==fVibe)return false;
+  if(fFib!=="all"&&!fibMatch(b,fFib))return false;
   if(fSaved&&!isSaved(b))return false;
   if(fZone&&zoneOf(b)!==fZone)return false;
   if(fQ){const t=(b.n+" "+(b.h||"")+" "+(b.a||"")+" "+(b.no||"")+" "+b.area).toLowerCase();
@@ -1112,6 +1140,7 @@ function card(b,i){
   const tier=b.tier&&b.tier!=="none"?`<span class="tierchip" style="--tier:${TIERCOL[b.tier]}">${L.tier[b.tier]||b.tier}</span>`:"";
   const sub=b.sub?`<span class="area"${viAttr(b.sub)}>${b.sub}</span>`:"";
   const vb=vibeOf(b),vibe=vb?`<span class="vibe">${vb}</span>`:"";
+  const fl=fibLabel(b),fib=fl?`<span class="fib">${fl}</span>`:"";  /* what the house says its cloth is */
   const price=b.price?`<span class="price">${b.price}</span>`:"";
   const on=isSaved(b);
   const sv=`<button class="sv${on?" on":""}" data-id="${bid(b)}" aria-pressed="${on}" aria-label="${L.saveFor(b.n)}">
@@ -1132,7 +1161,7 @@ function card(b,i){
     <div class="cd-more">
       <div class="note"${viAttr(note)}>${note}</div>
       <div class="addr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg><span${viAttr(b.a)}>${b.a}</span><span class="acts">${shr}${map}</span></div>
-      <div class="foot"><span class="st ${st[1]}">${stl}</span>${openbadge}${confbadge}${price}${tier}${vibe}${sub}<span class="area"${viAttr(b.area)}>${b.area}</span>${stripChip}</div>
+      <div class="foot"><span class="st ${st[1]}">${stl}</span>${openbadge}${confbadge}${price}${tier}${fib}${vibe}${sub}<span class="area"${viAttr(b.area)}>${b.area}</span>${stripChip}</div>
     </div>
     <span class="credit" aria-hidden="true">seraphicstyler.com</span>
   </article>`;
@@ -1148,6 +1177,7 @@ function activeFilters(){
   else if(fCity!=="all")out.push({k:"loc",label:lbl(LOCS,fCity)});
   if(fTier!=="all")out.push({k:"tier",label:lbl(TIERS,fTier)});
   if(fVibe!=="all")out.push({k:"vibe",label:lbl(VIBES,fVibe)});
+  if(fFib!=="all")out.push({k:"fib",label:lbl(FIBERS,fFib)});
   if(fWalk)out.push({k:"walk",label:L.walkF});
   if(fSaved)out.push({k:"saved",label:L.savedF});
   return out;
@@ -1158,12 +1188,13 @@ function removeFilter(k){
   if(k==="loc"){fCity="all";fZone="";}
   if(k==="tier")fTier="all";
   if(k==="vibe")fVibe="all";
+  if(k==="fib")fFib="all";
   if(k==="walk")fWalk=false;
   if(k==="saved")fSaved=false;
   syncHash();syncUI();
 }
 function resetAll(){
-  fCat="all";fCity="all";fTier="all";fVibe="all";fZone="";fWalk=false;fSaved=false;fQ="";
+  fCat="all";fCity="all";fTier="all";fVibe="all";fFib="all";fZone="";fWalk=false;fSaved=false;fQ="";
   const q=document.getElementById("q");q.value="";document.getElementById("qclear").hidden=true;
   syncHash();syncUI();
 }
@@ -1174,7 +1205,7 @@ function renderActivebar(){
   bar.innerHTML=af.map(f=>`<span class="fchip"><b>${f.label}</b><button class="x" data-k="${f.k}" aria-label="${L.removeF(f.label)}">✕</button></span>`).join("")
    +`<button class="showall" data-act="reset">${L.showAllBtn(B.length)}</button>`;
 }
-/* — Wave reveal: a group of cards enters when it scrolls into view, not all 239 at load — */
+/* — Wave reveal: a group of cards enters when it scrolls into view, not all 262 at load — */
 /* Cards reveal one by one as they scroll in, not a whole group at a time: the womenswear
    grid is ~30,000px tall on a phone, and no viewport can ever intersect enough of that for
    a group-level trigger to fire. Watching each card also means a row's cards land together,
@@ -1379,6 +1410,7 @@ document.getElementById("vibechips").addEventListener("click",e=>{
   chipbar("vibechips",VIBES,fVibe,"vibe");syncHash();render();});
 document.getElementById("locsel").addEventListener("change",e=>{setLoc(e.target.value);updateMapClear();syncHash();renderMap();render();});
 document.getElementById("tiersel").addEventListener("change",e=>{fTier=e.target.value;syncHash();render();});
+document.getElementById("fibsel").addEventListener("change",e=>{fFib=e.target.value;syncHash();render();});
 document.getElementById("sortsel").addEventListener("change",e=>{fSort=e.target.value;syncHash();render();});
 document.getElementById("walkonly").addEventListener("change",e=>{fWalk=e.target.checked;syncHash();render();});
 document.getElementById("savedbtn").addEventListener("click",e=>{
@@ -1618,7 +1650,7 @@ function renderMapNote(){
 new MutationObserver(()=>{
   statChips();renderBrowse();renderNow();renderMapNote();
   chipbar("catchips",CATS,fCat,"cat");chipbar("vibechips",VIBES,fVibe,"vibe");
-  fillSel("locsel",LOCS,locValue());fillSel("tiersel",TIERS,fTier);fillSel("sortsel",SORTS,fSort);
+  fillSel("locsel",LOCS,locValue());fillSel("tiersel",TIERS,fTier);fillSel("fibsel",FIBERS,fFib);fillSel("sortsel",SORTS,fSort);
   render();renderMap();
   /* stateful labels the data-i18n pass can't know about */
   const sb=document.getElementById("savedbtn");if(sb)sb.title=LX().savedTip;
@@ -1654,6 +1686,7 @@ function applyHash(){
     if(p.get("city"))fCity=p.get("city");
     if(p.get("tier"))fTier=p.get("tier");
     if(p.get("vibe"))fVibe=p.get("vibe");
+    if(p.get("fib"))fFib=p.get("fib");
     if(p.get("sort"))fSort=p.get("sort");
     fZone=p.get("zone")||"";
     fWalk=p.get("walk")==="1";
@@ -1669,7 +1702,7 @@ function applyHash(){
 }
 function syncUI(){
   chipbar("catchips",CATS,fCat,"cat");chipbar("vibechips",VIBES,fVibe,"vibe");
-  fillSel("locsel",LOCS,locValue());fillSel("tiersel",TIERS,fTier);fillSel("sortsel",SORTS,fSort);
+  fillSel("locsel",LOCS,locValue());fillSel("tiersel",TIERS,fTier);fillSel("fibsel",FIBERS,fFib);fillSel("sortsel",SORTS,fSort);
   document.getElementById("walkonly").checked=fWalk;
   document.getElementById("savedbtn").setAttribute("aria-pressed",String(fSaved));
   const tb=document.getElementById("tbsaved");if(tb)tb.setAttribute("aria-pressed",String(fSaved));

@@ -154,5 +154,14 @@
  "fd.grp.sleep.t": "Nacht- & loungewear",
  "fd.grp.sleep.d": "Nachtkleding van katoen, linnen en zijde, gemaakt voor tropische nachten — de huizen van natuurlijke vezels, niet de massamarkt van polyestersatijn.",
  "fd.grp.market.t": "Markten & pop-ups",
- "fd.grp.market.d": "Waar veel merken tegelijk samenkomen — de hoogste waarde per uitstapje. Data wisselen; check eerst de socials."
+ "fd.grp.market.d": "Waar veel merken tegelijk samenkomen — de hoogste waarde per uitstapje. Data wisselen; check eerst de socials.",
+ "fd.fiblabel": "Stof",
+ "fd.fib.all": "Alle stoffen",
+ "fd.fib.natural": "Natuurlijke vezel",
+ "fd.fib.linen": "Linnen",
+ "fd.fib.cotton": "Katoen",
+ "fd.fib.silk": "Zijde",
+ "fd.fib.hemp": "Hennep",
+ "fd.fib.tencel": "TENCEL & modal",
+ "fd.fib.circular": "Upcycled & tweedehands"
 }

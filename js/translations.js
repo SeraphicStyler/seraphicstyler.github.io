@@ -106,7 +106,7 @@ window.SS_TRANSLATIONS = {
     "dir.s1": "thương hiệu",
     "dir.s2": "tại Sài Gòn",
     "dir.s3": "quận",
-    "dir.cta": "Khám phá 239 thương hiệu",
+    "dir.cta": "Khám phá 262 thương hiệu",
     "dir.cta2": "Đọc cẩm nang mua sắm →",
     "dir.legend": "nhà mốt — diện tích vòng tròn tỉ lệ với số lượng",
     "dir.cap": "Chín quận có 144 nhà mốt ghé được tận nơi; 33 nhà mốt khác bán trực tuyến hoặc đa chi nhánh — tổng 177 tại Sài Gòn.",

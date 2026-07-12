@@ -154,5 +154,14 @@
  "fd.grp.sleep.t": "睡衣与家居服",
  "fd.grp.sleep.d": "为热带夜晚打造的棉、麻与真丝睡衣——主打天然纤维的店家，而非涤纶缎面的大众货。",
  "fd.grp.market.t": "市集与快闪",
- "fd.grp.market.d": "众多品牌一次集结之处——单次到访最超值。日期不固定，请先查看社交媒体。"
+ "fd.grp.market.d": "众多品牌一次集结之处——单次到访最超值。日期不固定，请先查看社交媒体。",
+ "fd.fiblabel": "面料",
+ "fd.fib.all": "所有面料",
+ "fd.fib.natural": "天然纤维",
+ "fd.fib.linen": "亚麻",
+ "fd.fib.cotton": "棉",
+ "fd.fib.silk": "真丝",
+ "fd.fib.hemp": "大麻纤维",
+ "fd.fib.tencel": "天丝与莫代尔",
+ "fd.fib.circular": "升级再造与二手"
 }

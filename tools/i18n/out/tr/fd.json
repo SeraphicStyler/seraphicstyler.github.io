@@ -154,5 +154,14 @@
  "fd.grp.sleep.t": "Gecelik & ev giyimi",
  "fd.grp.sleep.d": "Tropik geceler için pamuk, keten ve ipek gecelikler — polyester-saten seri üretim değil, doğal lif evleri.",
  "fd.grp.market.t": "Pazarlar & pop-up'lar",
- "fd.grp.market.d": "Birçok markanın bir arada toplandığı yerler — gezi başına en yüksek değer. Tarihler değişir; önce sosyal medyaya bakın."
+ "fd.grp.market.d": "Birçok markanın bir arada toplandığı yerler — gezi başına en yüksek değer. Tarihler değişir; önce sosyal medyaya bakın.",
+ "fd.fiblabel": "Kumaş",
+ "fd.fib.all": "Tüm kumaşlar",
+ "fd.fib.natural": "Doğal lif",
+ "fd.fib.linen": "Keten",
+ "fd.fib.cotton": "Pamuk",
+ "fd.fib.silk": "İpek",
+ "fd.fib.hemp": "Kenevir",
+ "fd.fib.tencel": "TENCEL ve modal",
+ "fd.fib.circular": "Yeniden değerlendirme & ikinci el"
 }

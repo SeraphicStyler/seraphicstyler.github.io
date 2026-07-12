@@ -154,5 +154,14 @@
  "fd.grp.sleep.t": "Notte & loungewear",
  "fd.grp.sleep.d": "Abbigliamento notte in cotone, lino e seta pensato per le notti tropicali — le maison delle fibre naturali, non il mercato di massa in raso di poliestere.",
  "fd.grp.market.t": "Mercati & pop-up",
- "fd.grp.market.d": "Dove molti marchi si riuniscono in una volta — il massimo valore per uscita. Le date cambiano; controlli prima i social."
+ "fd.grp.market.d": "Dove molti marchi si riuniscono in una volta — il massimo valore per uscita. Le date cambiano; controlli prima i social.",
+ "fd.fiblabel": "Tessuto",
+ "fd.fib.all": "Tutti i tessuti",
+ "fd.fib.natural": "Fibra naturale",
+ "fd.fib.linen": "Lino",
+ "fd.fib.cotton": "Cotone",
+ "fd.fib.silk": "Seta",
+ "fd.fib.hemp": "Canapa",
+ "fd.fib.tencel": "TENCEL e modal",
+ "fd.fib.circular": "Upcycling e usato"
 }

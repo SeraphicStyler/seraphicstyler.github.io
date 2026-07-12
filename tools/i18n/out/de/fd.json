@@ -154,5 +154,14 @@
  "fd.grp.sleep.t": "Nachtwäsche & Loungewear",
  "fd.grp.sleep.d": "Nachtwäsche aus Baumwolle, Leinen und Seide für tropische Nächte — die Häuser mit Naturfasern, nicht der Massenmarkt aus Polyester-Satin.",
  "fd.grp.market.t": "Märkte & Pop-ups",
- "fd.grp.market.d": "Wo viele Marken auf einmal zusammenkommen — der höchste Wert pro Weg. Die Termine wechseln; prüfen Sie zuerst die sozialen Medien."
+ "fd.grp.market.d": "Wo viele Marken auf einmal zusammenkommen — der höchste Wert pro Weg. Die Termine wechseln; prüfen Sie zuerst die sozialen Medien.",
+ "fd.fiblabel": "Stoff",
+ "fd.fib.all": "Alle Stoffe",
+ "fd.fib.natural": "Naturfaser",
+ "fd.fib.linen": "Leinen",
+ "fd.fib.cotton": "Baumwolle",
+ "fd.fib.silk": "Seide",
+ "fd.fib.hemp": "Hanf",
+ "fd.fib.tencel": "TENCEL & Modal",
+ "fd.fib.circular": "Upcycling & Secondhand"
 }
