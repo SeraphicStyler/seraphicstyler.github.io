@@ -54,6 +54,10 @@
   --maxw: 1200px; --maxw-prose: 65ch; --maxw-narrow: 760px;
   --nav-h: clamp(80px, 8vh, 100px);
   --btn-radius: 999px; --card-radius: 1.25rem; --tile-radius: 1rem;
+  /* form fields — derived from the theme's own ink, so every theme inherits a visible field */
+  --field-bg: var(--surface-solid);
+  --field-border: color-mix(in srgb, var(--text-primary) 36%, transparent);
+  --field-ph: color-mix(in srgb, var(--text-secondary) 92%, transparent);
   --space-xs:.75rem; --space-sm:1rem; --space-md:1.5rem; --space-lg:2rem;
   --space-xl:3rem; --space-2xl:4.5rem; --space-3xl:6.5rem; --space-4xl:9rem;
 
@@ -99,6 +103,7 @@ html.dark {
 html.hc {
   --text-secondary: #102a44;
   --surface-border: #21384f;
+  --field-border: var(--text-primary);   /* high contrast means the box is drawn, not implied */
   --grain-opacity: 0;
   --frame-border: var(--text-primary);
   --frame-fill: var(--surface-solid);
@@ -385,7 +390,7 @@ html.hc section:not(#hero) > .wrap { backdrop-filter: none; -webkit-backdrop-fil
 .vn-seg button { font-family: var(--font-accent); font-size: 0.76rem; letter-spacing: 0.04em; padding: 0.4rem 0.85rem; border: none; background: transparent; color: var(--text-secondary); border-radius: 999px; cursor: pointer; transition: background 0.25s ease, color 0.25s ease; }
 .vn-seg button[aria-pressed="true"] { background: var(--accent); color: #fff; }
 .vn-quiz-field { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-accent); font-size: 0.82rem; color: var(--text-secondary); }
-.vn-quiz-field select { font-family: var(--font-body); font-size: 0.92rem; padding: 0.45rem 0.7rem; border-radius: 0.6rem; border: 1px solid var(--surface-border); background: var(--surface-solid); color: var(--text-primary); cursor: pointer; }
+.vn-quiz-field select { font-family: var(--font-body); font-size: 0.92rem; padding: 0.45rem 0.7rem; border-radius: 0.6rem; border: 1px solid var(--field-border); background: var(--field-bg); color: var(--text-primary); cursor: pointer; }
 .vn-quiz-result { margin-top: 1.4rem; }
 .vq-line { font-family: var(--font-display); font-size: clamp(1.15rem, 2.6vw, 1.45rem); color: var(--text-primary); line-height: 1.3; }
 .vq-line strong { color: var(--accent-deep); }
@@ -716,16 +721,41 @@ html.dark .glass { border-color: rgba(255,255,255,0.12); box-shadow: 0 20px 50px
 .table tr:last-child td { border-bottom: none; }
 
 /* ---- Estimator ---- */
-.field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
-.field label { font-family: var(--font-accent); font-weight: 500; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); }
-.field input, .field select, textarea {
-  font-family: var(--font-body); font-size: 1rem; padding: 0.75rem 0.9rem; border-radius: var(--btn-radius);
-  background: var(--surface-soft); border: 1px solid var(--surface-border); color: var(--text-primary);
+/* Hidden to the eye, present for a screen reader — for a label whose text the heading
+   already carries visually, but which the field still needs as its accessible name. */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
 }
+
+/* ---- Form fields ----
+   A field has to look like a field. These were a 16%-opacity border over a 44%-opaque
+   surface — the box all but vanished into the page, and the hint inside it was browser-grey.
+   Now: a solid bed, a hairline you can actually see, and a label at full ink. The tokens are
+   mixed from each theme's own text colours, so dark / mono / high-contrast follow for free. */
+.field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+.field label { font-family: var(--font-accent); font-weight: 600; font-size: 0.71rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary); }
+/* A hint belongs above the box, in ink — not inside it in grey, where it is faint and then
+   vanishes the moment you start typing. */
+.field .hint { font-size: 0.82rem; line-height: 1.45; color: var(--text-secondary); margin-top: -0.15rem; }
+.field input, .field select, textarea {
+  font-family: var(--font-body); font-size: 1rem; padding: 0.82rem 1.1rem; border-radius: var(--btn-radius);
+  background: var(--field-bg); border: 1px solid var(--field-border); color: var(--text-primary);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+/* A pill is right for one line of text. On a tall box the same radius curves straight through
+   the first and last lines — so a textarea gets corners, not ends. */
+textarea { border-radius: 1rem; padding: 0.9rem 1.05rem; }
+.field input:hover, .field select:hover, textarea:hover { border-color: color-mix(in srgb, var(--text-primary) 52%, transparent); }
+.field input:focus, .field select:focus, textarea:focus {
+  outline: none; border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+::placeholder { color: var(--field-ph); opacity: 1; }
 .line-items { display: grid; gap: 0.6rem; margin-bottom: 0.5rem; }
 .line-item { display: grid; grid-template-columns: 1fr auto; gap: 0.6rem; align-items: start; }
 .li-fields { display: grid; gap: 0.4rem; min-width: 0; }
-.li-fields input { width: 100%; font-family: var(--font-body); font-size: 0.95rem; color: var(--text-primary); background: var(--surface-solid); border: 1px solid var(--surface-border); border-radius: 0.6rem; padding: 0.7rem 0.8rem; }
+.li-fields input { width: 100%; font-family: var(--font-body); font-size: 0.95rem; color: var(--text-primary); background: var(--field-bg); border: 1px solid var(--field-border); border-radius: 0.6rem; padding: 0.7rem 0.8rem; }
 .li-fields .item-link { font-size: 0.84rem; }
 .remove-item { background: none; border: none; cursor: pointer; color: var(--text-secondary); font-size: 1.05rem; padding: 0.55rem 0.5rem; align-self: center; }
 .result-row { display: flex; justify-content: space-between; gap: 1rem; padding: 0.55rem 0; border-bottom: 1px dashed var(--surface-border); }
@@ -736,7 +766,7 @@ html.dark .glass { border-color: rgba(255,255,255,0.12); box-shadow: 0 20px 50px
 .estimate-note { font-size: 0.8rem; line-height: 1.55; color: var(--text-secondary); margin-top: 0.6rem; }
 .estimate-note a { color: var(--accent-deep); border-bottom: 1px solid var(--accent-deep); font-weight: 500; }
 .fx-status { font-family: var(--font-accent); font-size: 0.7rem; letter-spacing: 0.04em; color: var(--text-secondary); }
-.cur-select { font-family: var(--font-body); font-size: 0.85rem; padding: 0.1rem 0.35rem; border-radius: 4px; border: 1px solid var(--surface-border); background: var(--surface-soft); color: var(--text-primary); cursor: pointer; }
+.cur-select { font-family: var(--font-body); font-size: 0.85rem; padding: 0.1rem 0.35rem; border-radius: 4px; border: 1px solid var(--field-border); background: var(--surface-soft); color: var(--text-primary); cursor: pointer; }
 
 /* ---- Fine-print tooltips ---- */
 .tip { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 1.15em; height: 1.15em; font-family: var(--font-accent); font-size: 0.72em; font-style: italic; color: var(--text-secondary); border: 1px solid var(--surface-border); border-radius: 999px; cursor: help; line-height: 1; vertical-align: middle; }
@@ -886,7 +916,7 @@ html.rm .hero .reveal { transition-delay: 0s; }
 .gift-support__actions a { border-bottom: 1px solid var(--accent-deep); white-space: nowrap; }
 .gift-support__dot { opacity: 0.5; }
 .gift-currency { display: flex; align-items: center; justify-content: center; gap: 0.6rem; margin: 0 auto 1.75rem; font-family: var(--font-accent); font-size: 0.8rem; color: var(--text-secondary); }
-.gift-currency select { font-family: var(--font-accent); font-size: 0.8rem; color: var(--text-primary); background: var(--surface-soft); border: 1px solid var(--surface-border); border-radius: var(--btn-radius); padding: 0.4rem 0.7rem; cursor: pointer; }
+.gift-currency select { font-family: var(--font-accent); font-size: 0.8rem; color: var(--text-primary); background: var(--surface-soft); border: 1px solid var(--field-border); border-radius: var(--btn-radius); padding: 0.4rem 0.7rem; cursor: pointer; }
 .gift-price .gift-amt { font: inherit; color: inherit; }
 @media (max-width: 640px) { .gift-support__actions { flex-direction: column; } .gift-support__dot { display: none; } }
 .gift-card .btn { margin-top: 1.1rem; }
@@ -986,7 +1016,7 @@ html.dark .cc-opt { background: rgba(255,255,255,0.06); }
 .cc-art-a a { color: var(--accent); }
 .cc-field { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 0.6rem; }
 .cc-field label { font-family: var(--font-accent); font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-secondary); }
-.cc-field input, .cc-field select, .cc-field textarea { font-family: var(--font-body); font-size: 0.9rem; padding: 0.55rem 0.65rem; border-radius: 0.5rem; border: 1px solid var(--surface-border); background: var(--surface-solid); color: var(--text-primary); }
+.cc-field input, .cc-field select, .cc-field textarea { font-family: var(--font-body); font-size: 0.9rem; padding: 0.55rem 0.65rem; border-radius: 0.5rem; border: 1px solid var(--field-border); background: var(--surface-solid); color: var(--text-primary); }
 .cc-field textarea { min-height: 84px; resize: vertical; }
 .cc-card { border: 1px solid var(--surface-border); background: rgba(255,255,255,0.5); border-radius: 0.7rem; padding: 0.65rem 0.8rem; margin-bottom: 0.4rem; }
 html.dark .cc-card { background: rgba(255,255,255,0.06); }
@@ -1041,7 +1071,7 @@ html.rm .quiz-step.is-active { animation: none; }
 .quiz-q { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.35rem, 4vw, 1.9rem); color: var(--text-primary); margin: 0 0 0.3rem; display: block; }
 .quiz-q:focus { outline: none; }
 .quiz-help { margin: 0 0 1.3rem; }
-.quiz-step select:not(.cur-select) { width: 100%; font-family: var(--font-body); font-size: 1rem; color: var(--text-primary); background: var(--surface-solid); border: 1px solid var(--surface-border); border-radius: var(--btn-radius); padding: 0.9rem 1rem; cursor: pointer; }
+.quiz-step select:not(.cur-select) { width: 100%; font-family: var(--font-body); font-size: 1rem; color: var(--text-primary); background: var(--surface-solid); border: 1px solid var(--field-border); border-radius: var(--btn-radius); padding: 0.9rem 1rem; cursor: pointer; }
 .quiz-check { display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-size: 0.95rem; color: var(--text-primary); margin-top: 1.2rem; }
 .quiz-nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.9rem; }
 .quiz-nav .btn-primary { min-width: 11rem; }

@@ -800,7 +800,15 @@ International shipping — courier cost from Saigon to you (at cost)</div>
           <div class="quiz-step is-active" data-iqstep="1">
             <p class="quiz-q" data-i18n="inq.step1">What you're looking for</p>
             <div class="form-grid">
-              <div class="field full"><label for="inqLooking" data-i18n="inq.looking">What you're looking for</label><textarea id="inqLooking" data-i18n-ph="inq.looking.ph" placeholder="A link, a brand, or just the vibe — coquette, áo dài-modern, vintage, beauty…"></textarea></div>
+              <div class="field full">
+                <!-- the step heading above already says "What you're looking for"; repeating it
+                     as a visible label was noise. Kept for screen readers, which don't see the heading
+                     as this field's name. The example moves out of the placeholder and into a hint,
+                     where it stays put and is legible. -->
+                <label class="sr-only" for="inqLooking" data-i18n="inq.looking">What you're looking for</label>
+                <span class="hint" id="inqLookingHint" data-i18n="inq.looking.ph">A link, a brand, or just the vibe — coquette, áo dài-modern, vintage, beauty…</span>
+                <textarea id="inqLooking" aria-describedby="inqLookingHint"></textarea>
+              </div>
               <div class="field"><label for="inqBudget" data-i18n="inq.budget">Budget</label><input id="inqBudget" type="text" placeholder="e.g. $150" data-i18n-ph="inq.budget.ph" /></div>
               <div class="field"><label for="inqInspo" data-i18n="inq.inspo">Inspiration links (optional)</label><input id="inqInspo" type="text" /></div>
             </div>
