@@ -329,29 +329,67 @@ main>.group:not(:first-child){border-top:1px solid var(--line-soft);margin-top:2
   border:1px solid var(--line);padding:3px 10px;border-radius:var(--r-pill);flex:none;}
 .group p{color:var(--ink-soft);margin:.4em 0 0;max-width:70ch;font-size:.9rem;}
 
-/* ---------- Card grid ---------- */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));
-  gap:var(--s4);padding:18px 0 8px;}
+/* ---------- Card grid ----------
+   Every card is a self-contained unit: name, handle, note, ADDRESS and district are
+   all on the face, at every width. That is deliberate — the directory is screenshotted
+   and sent, so a card must survive being cropped out of the page. Nothing hides behind
+   a tap. `dense` lets the wide cards slot in without leaving holes. */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));
+  gap:var(--s4);padding:18px 0 8px;grid-auto-flow:dense;}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
-  padding:var(--s4) var(--s4) 15px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;
-  display:flex;flex-direction:column;gap:9px;transition:.2s var(--ease);backdrop-filter:blur(8px);
-  opacity:0;}
+  padding:var(--s4) var(--s4) 13px var(--s5);position:relative;overflow:hidden;
+  display:flex;flex-direction:column;gap:9px;backdrop-filter:blur(8px);opacity:0;
+  box-shadow:0 1px 2px rgba(35,58,114,.05),0 10px 26px -20px rgba(35,58,114,.42);
+  transition:transform .22s var(--ease),box-shadow .22s var(--ease),border-color .22s var(--ease);}
 /* Each group arrives as a wave when it scrolls into view — the middle of a row leads,
    the outer columns trail, and every row follows the one above (--i is set in JS).
    Fill is `backwards`, not `both`: once the card lands it releases transform back to :hover. */
-.grid.in .card,.qbgrid.in .qb{opacity:1;
+.card.in,.qb.in{opacity:1;
   animation:cardin .46s var(--ease) backwards;animation-delay:calc(var(--i,0)*38ms);}
 @keyframes cardin{from{opacity:0;transform:translateY(12px) rotate(-1.6deg);}to{opacity:1;transform:none;}}
-.card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--lav);}
-.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--tier,var(--lav));opacity:.85;}
-.card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+.card:hover{transform:translateY(-3px);
+  border-color:color-mix(in srgb,var(--tier,var(--lav)) 50%,var(--line));
+  box-shadow:0 2px 4px rgba(35,58,114,.06),0 26px 50px -28px rgba(35,58,114,.5);}
+/* depth: the tier spine falls away down the card, and lights the corner it starts in */
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;z-index:1;
+  background:linear-gradient(180deg,var(--tier,var(--lav)),
+    color-mix(in srgb,var(--tier,var(--lav)) 22%,transparent) 72%,transparent);}
+.card::after{content:"";position:absolute;inset:0;pointer-events:none;transition:opacity .22s var(--ease);
+  background:radial-gradient(150px 120px at 0% 0%,color-mix(in srgb,var(--tier,var(--lav)) 30%,transparent),transparent 68%);
+  opacity:.5;}
+.card:hover::after{opacity:.85;}
+
+/* The wide card — the page's punctuation. Earned, never decorative: couture and luxury
+   houses, anything you have marked `pick:true`, and houses whose story needs the room. */
+.card.wide{grid-column:span 2;}
+.card.wide .nm{font-size:1.34rem;}
+.card.wide .note{-webkit-line-clamp:3;}
+/* the house's own logo, bled off the corner as texture — blurred past legibility so it
+   never reads as a second logo */
+.card .plate{position:absolute;right:-46px;top:-46px;width:208px;height:208px;border-radius:50%;
+  background-size:cover;background-position:center;pointer-events:none;
+  filter:grayscale(1) contrast(.7) blur(6px);opacity:.13;
+  -webkit-mask-image:radial-gradient(circle at 50% 50%,#000 42%,transparent 72%);
+  mask-image:radial-gradient(circle at 50% 50%,#000 42%,transparent 72%);}
+[data-theme=dark] .card .plate{opacity:.16;}
+/* an editor's pick — the only place the atelier speaks in its own hand */
+.card .pick{display:block;font-family:var(--font-script);font-size:1.2rem;line-height:1;
+  color:var(--peri-text);margin-bottom:1px;}
+.card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;position:relative;z-index:1;}
 .card .tt{flex:1;min-width:0;}
-.blogo{flex:none;width:40px;height:40px;border-radius:10px;object-fit:cover;
-  border:1px solid var(--line);box-shadow:var(--shadow-sm);background:var(--paper);}
-.card .nm{font-family:var(--font-display);font-size:1.18rem;line-height:1.14;color:var(--ink);}
-.card .hd{font-size:.72rem;color:var(--cobalt);letter-spacing:.01em;margin-top:3px;
-  display:inline-flex;align-items:center;gap:4px;overflow-wrap:anywhere;text-decoration:none;max-width:100%;}
+.blogo{flex:none;width:44px;height:44px;border-radius:11px;object-fit:cover;
+  border:1px solid var(--line);box-shadow:0 2px 6px -2px rgba(35,58,114,.28);background:var(--paper);}
+/* The name gets the whole line. The status pill used to sit beside it and, on a house with
+   a long name and an "Appointment" pill, squeezed the title into a one-letter-per-line
+   column — so the pill now lives in the foot with the other chips, where it reads anyway. */
+.card .nm{font-family:var(--font-display);font-size:1.18rem;line-height:1.14;color:var(--ink);
+  overflow-wrap:break-word;}
+/* the handle is a real link to the house's Instagram — the first thing anyone wants */
+.card .hd{font-size:.74rem;color:var(--cobalt);letter-spacing:.01em;margin-top:2px;
+  display:inline-flex;align-items:center;gap:4px;overflow-wrap:anywhere;text-decoration:none;max-width:100%;
+  padding:4px 0;}                                  /* 24px tall: a thumb can hit it (WCAG 2.5.8) */
 .card a.hd:hover{text-decoration:underline;text-underline-offset:2px;}
+.card .hd svg{flex:none;opacity:.75;}
 .card .st{flex:none;font-size:.58rem;text-transform:uppercase;letter-spacing:.13em;
   padding:4px 8px;border-radius:var(--r-pill);white-space:nowrap;
   border:1px solid var(--line);color:var(--ink-soft);background:var(--paper);}
@@ -360,26 +398,46 @@ main>.group:not(:first-child){border-top:1px solid var(--line-soft);margin-top:2
 .card .st.online{color:var(--ink-mute);}
 .card .st.hub{color:var(--cobalt);border-color:color-mix(in srgb,var(--cobalt) 30%,transparent);background:rgba(46,84,173,.08);}
 [data-theme=dark] .card .st.hub{background:rgba(169,184,238,.12);}
-.card .tr{display:flex;gap:4px;align-items:center;flex:none;}
-.card .sv{font:inherit;background:none;border:0;cursor:pointer;padding:8px;color:var(--ink-mute);
+.card .sv{flex:none;font:inherit;background:none;border:0;cursor:pointer;padding:8px;color:var(--ink-mute);
   display:grid;place-items:center;transition:.18s var(--ease);border-radius:50%;}
 .card .sv:hover{color:var(--orchid);transform:scale(1.1);}
 .card .sv.on{color:var(--orchid);}
 .card .sv.on svg{fill:var(--orchid);}
-.cx{display:none;font:inherit;background:none;border:0;cursor:pointer;padding:8px;color:var(--ink-mute);border-radius:50%;}
-.cx svg{transition:transform .3s var(--ease);display:block;}
-.card.open .cx svg{transform:rotate(180deg);}
-.cd-more{display:grid;grid-template-rows:1fr;}
-.cd-more>div{min-height:0;display:flex;flex-direction:column;gap:9px;}
-.card .addr{font-size:.82rem;color:var(--ink);display:flex;gap:6px;align-items:flex-start;}
-.card .addr svg{flex:none;margin-top:2px;opacity:.55;}
+.cd-more{display:flex;flex-direction:column;gap:9px;position:relative;z-index:1;}
+/* The address is the point of the whole page — it is what gets screenshotted and
+   handed to a driver. Full weight, full contrast, never truncated, never hidden. */
+.card .addr{font-size:.84rem;color:var(--ink);font-weight:500;display:flex;gap:6px;align-items:flex-start;
+  flex-wrap:wrap;row-gap:8px;}
+/* the address takes the line it needs and the actions drop beneath it — a 272px column is
+   too narrow to hold "214 Hai Bà Trưng · Vincom Đồng Khởi · Thảo Điền" AND two buttons.
+   Share and Map travel together so they never split across two lines. */
+.card .addr>span{flex:1 1 11rem;}
+.card .acts{display:flex;gap:6px;flex:0 0 auto;margin-left:auto;}
+.card .acts .shr{margin-left:0;}
+.card .addr svg{flex:none;margin-top:3px;opacity:.55;}
 .maplink,.shr{font-size:.66rem;font-weight:500;color:var(--cobalt);white-space:nowrap;text-decoration:none;
   border:1px solid var(--line);padding:2px 9px;border-radius:var(--r-pill);transition:background .15s,border-color .15s,color .15s;}
 .maplink:hover,.shr:hover{background:rgba(46,84,173,.09);border-color:var(--cobalt);text-decoration:none;}
 .shr{font-family:inherit;cursor:pointer;background:none;margin-left:auto;flex:none;}
 .shr.ok{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 45%,transparent);background:var(--ok-bg);}
-.card .note{font-size:.82rem;color:var(--ink-soft);line-height:1.45;}
-.card .foot{margin-top:auto;padding-top:4px;display:flex;gap:7px;align-items:center;flex-wrap:wrap;}
+.card .note{font-size:.82rem;color:var(--ink-soft);line-height:1.45;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.card .foot{margin-top:auto;padding-top:4px;display:flex;gap:7px;align-items:center;flex-wrap:wrap;
+  position:relative;z-index:1;}
+/* A house that shares its street with others is a walk, not a stop. Tapping the strip
+   searches the street — the route view, folded into the grid instead of bolted beside it. */
+.strip{display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:.66rem;
+  letter-spacing:.06em;color:var(--peri-text);cursor:pointer;
+  border:1px dashed color-mix(in srgb,var(--peri) 50%,transparent);background:none;
+  padding:3px 9px;border-radius:var(--r-pill);transition:.16s var(--ease);white-space:nowrap;
+  max-width:100%;overflow:hidden;text-overflow:ellipsis;}
+.strip:hover{border-style:solid;background:color-mix(in srgb,var(--peri) 12%,transparent);}
+.strip svg{flex:none;opacity:.8;}
+/* The card travels: cropped out of the page and sent in a chat, it should still say
+   where it came from. Decorative — the real attribution is in the page itself. */
+.card .credit{display:none;position:absolute;right:12px;bottom:9px;z-index:1;
+  font-size:.52rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-faint);
+  opacity:.62;pointer-events:none;}
 .card .area{font-size:.62rem;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-mute);}
 .card .price{font-size:.62rem;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-soft);}
 .tierchip{display:inline-flex;align-items:center;gap:6px;font-size:.6rem;text-transform:uppercase;
@@ -513,7 +571,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
   #aurora{animation:none;}
   /* cards/tiles start at opacity:0 for the entrance — with motion off they must
      simply be there, animation or not */
-  .card,.qb,.grid.in .card,.qbgrid.in .qb{animation:none;opacity:1;}
+  .card,.qb,.card.in,.qb.in{animation:none;opacity:1;}
   .card:hover{transform:none;}
   .fchip{animation:none;}
   .skcard i{animation:none;background:var(--mist);}
@@ -542,11 +600,17 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
   .row2,.morepanel{display:none!important;} /* they live in the sheet on mobile */
   .sheet-body .row2{display:flex!important;}
   .sheet-body .morepanel{display:flex!important;}
-  /* compact cards: header visible, details expand */
-  .cx{display:grid;}
-  .cd-more{grid-template-rows:0fr;transition:grid-template-rows .3s var(--ease);}
-  .card.open .cd-more{grid-template-rows:1fr;}
-  .card{gap:7px;}
+  /* Phone: the card IS the deliverable. Nothing collapses — a screenshot has to carry
+     the name, the handle, the address and the district on its own. One column, so every
+     card is the same width and the page screenshots square. */
+  .grid{grid-template-columns:1fr;gap:12px;}
+  .card{gap:8px;padding-bottom:22px;}       /* room under the foot for the credit */
+  .card.wide{grid-column:span 1;}           /* no spans to break the rhythm on a phone */
+  .card.wide .nm{font-size:1.24rem;}
+  .card .credit{display:block;}
+  .card .note{-webkit-line-clamp:3;}
+  .card .addr{font-size:.86rem;}                    /* legible in a screenshot, always */
+  .maplink,.shr{padding:7px 13px;font-size:.7rem;}  /* thumb-sized, not mouse-sized */
   /* map collapsed behind a toggle */
   .maptoggle{display:inline-flex;}
   .mapbody:not(.open){grid-template-rows:0fr;}
@@ -554,7 +618,6 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
 }
 @media(min-width:721px){
   .mapbody{grid-template-rows:1fr!important;}
-  .cd-more{grid-template-rows:1fr!important;}
 }
   </style>
 </head>
@@ -1013,14 +1076,38 @@ function openState(b){
   if(cur<open)return{cls:"soon",label:L.opensAt(("0"+m[1]).slice(-2)+":"+m[2])};
   return{cls:"closed",label:L.closedNow};
 }
+/* — Strips: streets that hold three or more houses. Read straight off the addresses, so
+     it can never drift from the data. A strip is a walk you can do in one go, which is how
+     a stylist actually moves through the city — so the card says so, and tapping it searches
+     the street. This is the route view folded into the grid. — */
+const STRIP_STREETS=["Trần Quang Diệu","Võ Văn Tần","Lý Tự Trọng","Lê Thánh Tôn","Tôn Thất Thiệp",
+  "Hai Bà Trưng","Nguyễn Trãi","Đồng Khởi","Nguyễn Đình Chính","Lê Thị Riêng"];
+const STRIPS=(()=>{
+  const m=new Map();
+  for(const s of STRIP_STREETS){
+    const n=B.filter(b=>(b.a||"").includes(s)).length;
+    if(n>=3)m.set(s,n);
+  }
+  return m;
+})();
+const stripOf=b=>{
+  for(const [s,n] of STRIPS) if((b.a||"").includes(s)) return {street:s,n};
+  return null;
+};
+/* A wide card is punctuation, and it has to be earned: a couture or luxury house, a house
+   you have marked `pick:true` in js/directory-data.js, or one whose note needs the room.
+   Nothing is featured for decoration — a fake "editor's pick" would be a lie on the page. */
+const isWide=b=>b.pick===true||b.tier==="couture"||b.tier==="luxury"||(b.no||"").length>=100;
+
 function card(b,i){
   const L=LX(),st=STLAB[b.st]||["",""],stl=(L.st[b.st]||st[0]);
   const ost=openState(b),openbadge=ost?`<span class="badge ${ost.cls}">${ost.label}</span>`:"";
   const cf=confOf(b);
   const confbadge=cf!=="ok"?`<span class="badge ${cf}">${L.conf[cf]||cf}</span>`:"";
   const note=cleanNote(b.no);
+  const ig=`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>`;
   const handle=b.w?`<a class="hd" href="${b.w}" target="_blank" rel="noopener noreferrer">${new URL(b.w).hostname}</a>`
-    :b.h?`<a class="hd" href="https://instagram.com/${b.h}" target="_blank" rel="noopener noreferrer">@${b.h}</a>`
+    :b.h?`<a class="hd" href="https://instagram.com/${b.h}" target="_blank" rel="noopener noreferrer">${ig}@${b.h}</a>`
     :`<span class="hd" style="color:var(--ink-mute)">${b.area.includes("appointment")||b.st==="appt"?L.byAppt:L.listing}</span>`;
   const tier=b.tier&&b.tier!=="none"?`<span class="tierchip" style="--tier:${TIERCOL[b.tier]}">${L.tier[b.tier]||b.tier}</span>`:"";
   const sub=b.sub?`<span class="area"${viAttr(b.sub)}>${b.sub}</span>`:"";
@@ -1029,20 +1116,25 @@ function card(b,i){
   const on=isSaved(b);
   const sv=`<button class="sv${on?" on":""}" data-id="${bid(b)}" aria-pressed="${on}" aria-label="${L.saveFor(b.n)}">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21C7 16.5 3 13 3 8.8 3 6.1 5.1 4 7.7 4c1.7 0 3.2.9 4.3 2.4C13.1 4.9 14.6 4 16.3 4 18.9 4 21 6.1 21 8.8c0 4.2-4 7.7-9 12.2Z"/></svg></button>`;
-  const cx=`<button class="cx" aria-expanded="false" aria-controls="cdm-${i}" aria-label="${L.expandFor(b.n)}">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 9 7 7 7-7"/></svg></button>`;
   const nDis=b.sub?`${b.n} (${b.sub})`:b.n; /* sub disambiguates same-name records (e.g. the two Metiseko doors) */
   const map=hasStreet(b)?`<a class="maplink" target="_blank" rel="noopener noreferrer" href="${mapsUrl(b)}" aria-label="${L.mapFor(nDis)}">${L.map}</a>`:"";
   const shr=`<button class="shr" data-n="${b.n}" aria-label="${L.shareFor(nDis)}">${L.share}</button>`;
-  const logo=ICONS[b.n]?`<img class="blogo" src="${encodeURI(ICONS[b.n])}" alt="" width="40" height="40" loading="lazy" decoding="async">`:"";
-  return `<article class="card" style="--tier:${TIERCOL[b.tier]||'var(--lav)'}">
-    <div class="top">${logo}<div class="tt"><div class="nm"${viAttr(b.n)}>${b.n}</div>${handle}</div>
-      <div class="tr"><span class="st ${st[1]}">${stl}</span>${sv}${cx}</div></div>
-    <div class="cd-more" id="cdm-${i}"><div>
-      <div class="addr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg><span${viAttr(b.a)}>${b.a}</span>${shr}${map}</div>
+  const logo=ICONS[b.n]?`<img class="blogo" src="${encodeURI(ICONS[b.n])}" alt="" width="44" height="44" loading="lazy" decoding="async">`:"";
+  const wide=isWide(b);
+  const plate=(wide&&ICONS[b.n])?`<span class="plate" style="background-image:url('${encodeURI(ICONS[b.n])}')" aria-hidden="true"></span>`:"";
+  const pick=b.pick===true?`<span class="pick">${L.pick||"Editor's pick"}</span>`:"";
+  const walkIcon=`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
+  const strip=stripOf(b);
+  const stripChip=strip?`<button class="strip" data-street="${strip.street}" aria-label="${L.searchF(strip.street)}">${walkIcon}${strip.street} · ${strip.n}</button>`:"";
+  return `<article class="card${wide?" wide":""}" style="--tier:${TIERCOL[b.tier]||'var(--lav)'}">
+    ${plate}
+    <div class="top">${logo}<div class="tt">${pick}<div class="nm"${viAttr(b.n)}>${b.n}</div>${handle}</div>${sv}</div>
+    <div class="cd-more">
       <div class="note"${viAttr(note)}>${note}</div>
-      <div class="foot">${openbadge}${confbadge}${price}${tier}${vibe}${sub}<span class="area"${viAttr(b.area)}>${b.area}</span></div>
-    </div></div>
+      <div class="addr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg><span${viAttr(b.a)}>${b.a}</span><span class="acts">${shr}${map}</span></div>
+      <div class="foot"><span class="st ${st[1]}">${stl}</span>${openbadge}${confbadge}${price}${tier}${vibe}${sub}<span class="area"${viAttr(b.area)}>${b.area}</span>${stripChip}</div>
+    </div>
+    <span class="credit" aria-hidden="true">seraphicstyler.com</span>
   </article>`;
 }
 /* — Active-filter chips: every narrowed state shows removable chips + one primary escape hatch — */
@@ -1083,25 +1175,37 @@ function renderActivebar(){
    +`<button class="showall" data-act="reset">${L.showAllBtn(B.length)}</button>`;
 }
 /* — Wave reveal: a group of cards enters when it scrolls into view, not all 239 at load — */
+/* Cards reveal one by one as they scroll in, not a whole group at a time: the womenswear
+   grid is ~30,000px tall on a phone, and no viewport can ever intersect enough of that for
+   a group-level trigger to fire. Watching each card also means a row's cards land together,
+   which is what makes the wave read.
+   The delay is the card's distance from the centre COLUMN, measured from where it actually
+   sits — wide cards span two columns and `dense` reorders the flow, so index maths would
+   scatter it. */
 function waveIndex(g){
   const t=getComputedStyle(g).gridTemplateColumns;
-  const cols=(t&&t!=="none")?t.split(" ").filter(Boolean).length:1;
-  const mid=(cols-1)/2;
-  [...g.children].forEach((c,i)=>{
-    const d=Math.floor(i/cols)*1.15+Math.abs((i%cols)-mid)*1.3; /* rows cascade, columns open from the middle */
-    c.style.setProperty("--i",Math.min(d,7).toFixed(2));        /* capped: a long group never keeps you waiting */
-  });
+  const tracks=(t&&t!=="none")?t.split(" ").filter(Boolean).map(parseFloat):[];
+  const colW=(tracks.length&&tracks[0]>0)?tracks[0]:g.clientWidth;
+  const mid=g.offsetLeft+g.clientWidth/2;
+  for(const c of g.children){
+    const x=c.offsetLeft+c.offsetWidth/2;
+    const cols=Math.min(Math.abs(x-mid)/Math.max(colW,1),3); /* columns out from the centre */
+    c.style.setProperty("--i",(cols*1.3).toFixed(2));
+  }
 }
 const waveIO=("IntersectionObserver"in window)?new IntersectionObserver(es=>{
-  es.forEach(e=>{if(!e.isIntersecting)return;waveIndex(e.target);e.target.classList.add("in");waveIO.unobserve(e.target);});
-},{threshold:.04,rootMargin:"0px 0px -40px 0px"}):null;
+  es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add("in");waveIO.unobserve(e.target);});
+},{threshold:0,rootMargin:"0px 0px -40px 0px"}):null;
 function cascade(root){
   const grids=[...root.querySelectorAll(".grid,.qbgrid")];
   if(root.matches&&root.matches(".grid,.qbgrid"))grids.unshift(root);
   grids.forEach(g=>{
     if(!g.children.length)return;
-    if(waveIO){g.classList.remove("in");waveIO.observe(g);}
-    else{waveIndex(g);g.classList.add("in");} /* no IO: show them, no cascade */
+    waveIndex(g);
+    for(const c of g.children){
+      c.classList.remove("in");
+      if(waveIO)waveIO.observe(c); else c.classList.add("in"); /* no IO: just show them */
+    }
   });
 }
 function render(){
@@ -1320,10 +1424,12 @@ document.getElementById("main").addEventListener("click",e=>{
     updateSavedCount();
     return;
   }
-  const cx=e.target.closest(".cx");
-  if(cx){
-    const cd=cx.closest(".card"),open=!cd.classList.contains("open");
-    cd.classList.toggle("open",open);cx.setAttribute("aria-expanded",String(open));
+  const strip=e.target.closest(".strip");
+  if(strip){ /* the whole walk, in one tap: search the street the house stands on */
+    const q=document.getElementById("q");
+    q.value=strip.dataset.street;
+    q.dispatchEvent(new Event("input",{bubbles:true}));
+    document.querySelector(".controls")?.scrollIntoView({block:"start"});
     return;
   }
   const sh=e.target.closest(".shr");
