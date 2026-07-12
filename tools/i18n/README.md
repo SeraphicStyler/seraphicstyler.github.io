@@ -4,10 +4,10 @@ Everything needed to finish (or redo) the 19-language translation of
 `fashion-directory.html` and `field-guide.html`. English is the source of truth and
 lives inline in those two HTML files; these JSON files are extracted from them.
 
-## Status (10 Jul 2026, later session)
+## Status (11 Jul 2026) — DONE
 
-Infrastructure is **complete and verified**. The directory is done in all 20 languages.
-The field guide has 14 of 20; six remain.
+Both pages ship all **20 languages** — the directory and the field guide, key-for-key,
+validated and built. Nothing outstanding.
 
 **Shipping now** (validated + browser-verified — 44 checks green in the latest pass, 0 page
 errors, on top of the 305 checks green from the previous pass):
@@ -51,21 +51,24 @@ Also done and shipping in every language including zgh:
 
 Nothing misleading can ship: `manifest.js` is generated from validated bundles only.
 
-## To finish
+## If you add a language later
 
-The directory is done. Only the field guide has gaps — produce `out/<lang>/fg.json` with
-**exactly** the key set of `fg.en.json` (280 keys) for each of:
+Give a translator `TRANSLATION_RULES.md` + `brands.txt` + `fd.en.json`/`fg.en.json`, and
+have them skim an already-shipped `fg.json` (e.g. `out/fr/fg.json`) for house terminology
+and how the SVG copy-link blocks / HTML were handled. Have them build the object
+incrementally (several `Object.assign` passes with a key-count check) rather than one giant
+write — several earlier attempts across languages were lost to mid-response truncation on
+the field guide specifically, since it's 280 keys / ~5,000 words.
 
-- `hi` `th` `tl` `pl` `nl` `fa` — 6 languages, `out/<lang>/fd.json` already exists for all six
+Run translators in small batches (four or five at a time) — a run of 19 concurrent agents
+exhausted the session API limit more than once during this build. Do `fd` before `fg`;
+it's 5× smaller and unblocks the language sooner.
 
-Give a translator `TRANSLATION_RULES.md` + `brands.txt` + `fg.en.json`, and have them skim
-an already-shipped `fg.json` (e.g. `out/fr/fg.json`) for house terminology and how the SVG
-copy-link blocks / HTML were handled. Have them build the object incrementally (several
-`Object.assign` passes with a key-count check) rather than one giant write — several earlier
-attempts were lost to mid-response truncation on this exact file.
-
-Run these in small batches — 19 concurrent agents exhausted the session API limit. Four or
-five at a time, `fd` before `fg` (it is 5× smaller and unblocks a language sooner).
+Add the new code to `LANGS` in **both** `js/i18n-page.js` (site engine) and
+`validate-build.js` (this directory) before building — a bundle the validator doesn't know
+about won't ship even if the JSON is correct. If the script isn't Latin, right-to-left, or
+otherwise unusual, check whether the page's fonts cover it (see the Amazigh/Tifinagh case
+below) and whether it belongs in the `RTL` map in `js/i18n-page.js`.
 
 Then:
 
