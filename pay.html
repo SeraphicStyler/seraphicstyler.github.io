@@ -159,7 +159,7 @@ footer .wrap{padding:26px 0 34px;display:flex;justify-content:space-between;gap:
     <div class="ctas">
       <a class="btn primary" href="./#estimate">Start an order →</a>
       <a class="btn ghost" href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener noreferrer">DM @seraphicstyler</a>
-      <a class="btn ghost" href="mailto:seraphicstyler@gmail.com">Email the atelier</a>
+      <a class="btn ghost" href="https://tally.so/r/gD10Kl?about=An%20inquiry%20%E2%80%94%20I%27m%20looking%20for%20something&amp;source=pay" target="_blank" rel="noopener">Message the atelier</a>
     </div>
   </div>
 
@@ -172,7 +172,20 @@ footer .wrap{padding:26px 0 34px;display:flex;justify-content:space-between;gap:
     <svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
     <svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M19.1 4.9l-1.9 1.9M6.8 17.2l-1.9 1.9"/></svg>
   </button>
+  <script async src="https://tally.so/widgets/embed.js"></script>
   <script>
+  /* Tally links open as an on-site popup; the href stays as the no-JS fallback */
+  document.addEventListener("click",function(e){
+    var a=e.target.closest&&e.target.closest('a[href^="https://tally.so/r/"]');
+    if(!a||!window.Tally)return;
+    e.preventDefault();
+    var q=a.href.split("?"),fields={};
+    (q[1]||"").split("&").forEach(function(p){
+      if(!p)return;var kv=p.split("=");
+      fields[decodeURIComponent(kv[0])]=decodeURIComponent((kv[1]||"").replace(/\+/g," "));
+    });
+    window.Tally.openPopup(q[0].split("/").pop(),{layout:"modal",width:700,hideTitle:true,autoClose:4000,hiddenFields:fields});
+  });
   document.getElementById("theme").addEventListener("click",function(){
     var next=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";
     document.documentElement.setAttribute("data-theme",next);

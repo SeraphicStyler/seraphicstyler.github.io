@@ -39,6 +39,7 @@ var CONFIG = {
     instagram: 'https://instagram.com/seraphicstyler',
     tiktok: 'https://tiktok.com/@seraphicstyler',
     email: 'seraphicstyler@gmail.com',
+    tally: 'https://tally.so/r/gD10Kl', // inquiry form — estimates prefill the "Your estimate" question
     whatsapp: '' // your WhatsApp number, digits only incl. country code, e.g. '84901234567' (84 = Vietnam). Leave '' to hide WhatsApp.
   }
 };
@@ -196,21 +197,37 @@ var CONFIG = {
     return lines.join('\n');
   }
 
+  function estimateParam(text) {
+    if (text.length < 5000) return text; // keep well under browser URL limits for huge baskets
+    return '(full estimate copied to clipboard — paste here)\n\n' + text.split('\n').slice(-6).join('\n');
+  }
+
+  function tallyUrl(text) {
+    return CONFIG.contact.tally + '?about=' + encodeURIComponent('Confirming my estimate') +
+      '&estimate=' + encodeURIComponent(estimateParam(text)) + '&source=home-estimator';
+  }
+
   function send() {
     var text = summary();
     var enc = encodeURIComponent(text);
     if (navigator.clipboard) navigator.clipboard.writeText(text).catch(function () {});
-    var parts = [];
+    var form = tallyUrl(text);
+    var parts = ['<a href="' + form + '" target="_blank" rel="noopener">the form</a>'];
     if (CONFIG.contact.whatsapp) parts.push('<a href="https://wa.me/' + CONFIG.contact.whatsapp + '?text=' + enc + '" target="_blank" rel="noopener">WhatsApp</a>');
-    parts.push('<a href="mailto:' + CONFIG.contact.email + '?subject=' + encodeURIComponent('Seraphic Styler — my estimate') + '&body=' + enc + '">Email</a>');
     parts.push('<a href="' + CONFIG.contact.instagram + '" target="_blank" rel="noopener">Instagram</a>');
     if (el.copiedMsg) {
-      el.copiedMsg.innerHTML = '✓ Estimate copied. Send it pre-filled via ' + parts.join(' · ') +
+      el.copiedMsg.innerHTML = '✓ Estimate copied &amp; opened pre-filled in ' + parts.join(' · ') +
         '. <span style="opacity:.75">Instagram can\'t pre-fill messages — just paste (it\'s already copied).</span>';
       el.copiedMsg.style.display = 'block';
     }
-    // auto-open the best pre-fill channel: WhatsApp if set, otherwise Instagram
-    window.open(CONFIG.contact.whatsapp ? ('https://wa.me/' + CONFIG.contact.whatsapp + '?text=' + enc) : CONFIG.contact.instagram, '_blank', 'noopener');
+    // the form is the system of record: it always arrives (mailto/DM often don't)
+    if (window.Tally) {
+      window.Tally.openPopup('gD10Kl', { layout: 'modal', width: 700, hideTitle: true, autoClose: 4000, hiddenFields: {
+        about: 'Confirming my estimate', estimate: estimateParam(text), source: 'home-estimator'
+      } });
+    } else {
+      window.open(form, '_blank', 'noopener');
+    }
   }
 
   function loadFx() {

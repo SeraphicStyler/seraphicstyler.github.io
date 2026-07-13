@@ -271,56 +271,22 @@
       qShow(0, true);
     }
 
-    /* ---- Inquiry wizard (3 steps: You -> Request -> Send) ---- */
-    var iq = document.getElementById('inquiryForm');
-    if (iq && iq.querySelector('[data-iqstep]')) {
-      var iqSteps = iq.querySelectorAll('.quiz-step');
-      var iqFill = document.getElementById('iqBarFill');
-      var iqNum = document.getElementById('iqStepNum');
-      var iqTotal = iqSteps.length, iqCur = 0;
-      var iqShow = function (i, noScroll) {
-        iqCur = Math.max(0, Math.min(iqTotal - 1, i));
-        iqSteps.forEach(function (s, idx) { s.classList.toggle('is-active', idx === iqCur); });
-        if (iqFill) iqFill.style.width = ((iqCur + 1) / iqTotal * 100) + '%';
-        if (iqNum) iqNum.textContent = (iqCur + 1);
-        var h = iqSteps[iqCur].querySelector('.quiz-q'); if (h) { h.setAttribute('tabindex', '-1'); try { h.focus({ preventScroll: true }); } catch (e) {} }
-        if (!noScroll) iq.scrollIntoView({ behavior: root.classList.contains('rm') ? 'auto' : 'smooth', block: 'start' });
-      };
-      iq.addEventListener('click', function (e) {
-        var nx = e.target.closest('[data-iqnext]'), bk = e.target.closest('[data-iqback]');
-        if (nx) {
-          var ok = true;
-          iqSteps[iqCur].querySelectorAll('input, textarea').forEach(function (f) { if (ok && !f.checkValidity()) { f.reportValidity(); ok = false; } });
-          if (ok) iqShow(iqCur + 1);
-        } else if (bk) { iqShow(iqCur - 1); }
+    /* ---- Inquiry form: a Tally embed (see index.html #inquiryEmbed) ----
+       Tally links open as an on-site popup; the href stays as the no-JS /
+       script-blocked fallback. Query params become Tally hidden fields
+       (about / tier / estimate / source), which pre-fill the form. */
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="https://tally.so/r/"]');
+      if (!a || !window.Tally) return;
+      e.preventDefault();
+      var q = a.href.split('?'), fields = {};
+      (q[1] || '').split('&').forEach(function (p) {
+        if (!p) return;
+        var kv = p.split('=');
+        fields[decodeURIComponent(kv[0])] = decodeURIComponent((kv[1] || '').replace(/\+/g, ' '));
       });
-      iqShow(0, true);
-    }
-
-    /* ---- Inquiry form -> mailto ---- */
-    var form = document.getElementById('inquiryForm');
-    if (form) {
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var f = function (id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
-        var lines = [
-          'Name: ' + f('inqName'),
-          'Email: ' + f('inqEmail'),
-          'Country / destination: ' + f('inqCountry'),
-          'Looking for: ' + f('inqLooking'),
-          'Size & measurements: ' + f('inqSize'),
-          'Budget: ' + f('inqBudget'),
-          'Inspiration links: ' + f('inqInspo'),
-          'Timeline: ' + f('inqTimeline'),
-          '', (f('inqNotes') || '')
-        ];
-        var subject = 'Seraphic Styler inquiry — ' + (f('inqName') || 'new client');
-        var body = encodeURIComponent(lines.join('\n'));
-        window.location.href = 'mailto:seraphicstyler@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + body;
-        var ok = document.getElementById('inqSent');
-        if (ok) ok.style.display = 'block';
-      });
-    }
+      window.Tally.openPopup(q[0].split('/').pop(), { layout: 'modal', width: 700, hideTitle: true, autoClose: 4000, hiddenFields: fields });
+    });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready);

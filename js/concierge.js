@@ -4,11 +4,12 @@
    tabs: Shop (style quiz, brand directory, dictionary) and Help (searchable
    FAQ + contact). Navigation uses an iOS-style push/pop slide — a chevron
    "back", a hairline close, no heavy chips. Brand/term/quiz data lives in
-   js/assistant-data.js. No backend; the contact form composes a mailto.
+   js/assistant-data.js. No backend; "Contact me" opens the Tally inquiry
+   form (submissions always arrive — mailto often failed silently on mobile).
    Replaces the old help.js + assistant.js widgets. EN + VI chrome. */
 (function () {
   'use strict';
-  var EMAIL = 'seraphicstyler@gmail.com';
+  var TALLY = 'https://tally.so/r/gD10Kl';
 
   var L = {
     en: {
@@ -24,6 +25,7 @@
       termsIntro: 'Tap a term to see what it means.', related: 'You might like',
       search: 'Search for help', suggested: 'Suggested articles', contact: 'Contact me',
       none: 'No articles matched — try contacting me below.', back: 'Back', close: 'Close',
+      contactBlurb: 'One short form — I read everything personally and reply within 12 business hours.',
       name: 'Your name', email: 'Email address', topic: 'What can I help with?',
       subject: 'Subject', message: 'Your message', send: 'Send',
       sent: '✓ Opening your email app with your message ready to send.',
@@ -44,6 +46,7 @@
       termsIntro: 'Chạm vào một từ để xem nghĩa.', related: 'Có thể bạn thích',
       search: 'Tìm trợ giúp', suggested: 'Bài viết gợi ý', contact: 'Liên hệ với mình',
       none: 'Không có bài viết phù hợp — hãy liên hệ với mình bên dưới.', back: 'Quay lại', close: 'Đóng',
+      contactBlurb: 'Một biểu mẫu ngắn — mình đọc từng lời nhắn và phản hồi trong 12 giờ làm việc.',
       name: 'Tên của bạn', email: 'Địa chỉ email', topic: 'Mình giúp gì được?',
       subject: 'Tiêu đề', message: 'Lời nhắn của bạn', send: 'Gửi',
       sent: '✓ Đang mở ứng dụng email với nội dung soạn sẵn cho bạn.',
@@ -341,25 +344,11 @@
 
   function contactScreen() {
     return { title: t('contact'), build: function (v) {
-      var opts = t('topics').map(function (o) { return '<option>' + esc(o) + '</option>'; }).join('');
       v.innerHTML =
-        '<form class="cc-form">' +
-          '<div class="cc-field"><label>' + esc(t('topic')) + '</label><select id="ccTopic">' + opts + '</select></div>' +
-          '<div class="cc-field"><label>' + esc(t('name')) + '</label><input id="ccName" type="text"></div>' +
-          '<div class="cc-field"><label>' + esc(t('email')) + '</label><input id="ccEmail" type="email"></div>' +
-          '<div class="cc-field"><label>' + esc(t('subject')) + '</label><input id="ccSubject" type="text"></div>' +
-          '<div class="cc-field"><label>' + esc(t('message')) + '</label><textarea id="ccMsg"></textarea></div>' +
-          '<button class="btn btn-primary cc-cta" type="submit">' + esc(t('send')) + '</button>' +
-          '<p class="cc-art-a" id="ccSent" style="display:none;color:var(--accent-deep);margin-top:0.6rem"></p>' +
-        '</form>';
-      v.querySelector('.cc-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-        var val = function (id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
-        var subj = '[Seraphic Styler] ' + (val('ccTopic') || '') + (val('ccSubject') ? ' — ' + val('ccSubject') : '');
-        var bodyTxt = ['Topic: ' + val('ccTopic'), 'Name: ' + val('ccName'), 'Email: ' + val('ccEmail'), '', val('ccMsg')].join('\n');
-        window.location.href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(bodyTxt);
-        var s = document.getElementById('ccSent'); if (s) { s.textContent = t('sent'); s.style.display = 'block'; }
-      });
+        '<p class="cc-art-a">' + esc(t('contactBlurb')) + '</p>' +
+        '<a class="btn btn-primary cc-cta" href="' + TALLY +
+          '?about=' + encodeURIComponent('An inquiry — I\'m looking for something') +
+          '&source=concierge" target="_blank" rel="noopener">' + esc(t('contact')) + '</a>';
     } };
   }
 

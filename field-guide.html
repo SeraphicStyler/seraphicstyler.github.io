@@ -1062,7 +1062,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
       itineraries deep-link straight into its filters. Addresses and prices are current to mid-2026 from brands'
       own channels, 2025–26 press and our own walking; boutiques relocate often — message a shop the day before
       you visit. Ward names changed mid-2025; Grab &amp; Google Maps still resolve the older district labels.</p>
-    <p class="report" data-i18n="fg.report">Spot something out of date? <a href="mailto:seraphicstyler@gmail.com?subject=Field%20Guide%20update">Tell us →</a></p>
+    <p class="report" data-i18n="fg.report">Spot something out of date? <a href="https://tally.so/r/gD10Kl?about=Something%20on%20the%20site%20looks%20off&amp;source=field-guide" target="_blank" rel="noopener">Tell us →</a></p>
   </div>
   <div class="contact">
     <h3 data-i18n="fg.foot.7">Seraphic Styler</h3>
@@ -1080,7 +1080,25 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
        homepage keys, so the 597KB translations.js is gone. -->
   <script src="js/i18n/manifest.js"></script>
   <script src="js/i18n-page.js"></script>
+  <script async src="https://tally.so/widgets/embed.js"></script>
   <script>
+/* ============ REPORT LINK -> TALLY ============
+   The translated fg.report strings in js/i18n/fg.*.js still embed the old
+   mailto link; this delegated handler reroutes those clicks to the Tally
+   form as an on-site popup (survives i18n's innerHTML swaps; the mailto /
+   direct link stays as the no-JS fallback). */
+document.addEventListener("click",function(e){
+  const a=e.target.closest&&e.target.closest('.report a');
+  if(!a)return;
+  if(window.Tally){
+    e.preventDefault();
+    window.Tally.openPopup("gD10Kl",{layout:"modal",width:700,hideTitle:true,autoClose:4000,hiddenFields:{about:"Something on the site looks off",source:"field-guide"}});
+  }else if(a.href.indexOf("mailto:")===0){
+    e.preventDefault();
+    window.open("https://tally.so/r/gD10Kl?about="+encodeURIComponent("Something on the site looks off")+"&source=field-guide","_blank","noopener");
+  }
+});
+
 /* ============ THEME ============ */
 document.getElementById("theme").addEventListener("click",()=>{
   const d=document.documentElement.getAttribute("data-theme")==="dark";
