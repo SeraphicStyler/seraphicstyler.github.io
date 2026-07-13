@@ -122,6 +122,16 @@
             document.querySelectorAll('.nav-links a').forEach(function (a) {
               a.classList.toggle('active', a.getAttribute('href') === '#' + id);
             });
+            /* The rail only carries eight of the sections; the ones it skips
+               keep the nearest dot above them lit rather than blanking the rail. */
+            var rl = document.querySelectorAll('.rail a');
+            var hit = false;
+            rl.forEach(function (a) { if (a.getAttribute('href') === '#' + id) hit = true; });
+            if (hit) rl.forEach(function (a) {
+              var on = a.getAttribute('href') === '#' + id;
+              a.classList.toggle('active', on);
+              if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+            });
           }
         });
       }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
