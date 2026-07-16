@@ -211,5 +211,31 @@
       show(0, true);
     })();
   </script>
+
+  <!-- Safety net: this page is served network-fresh, but js/i18n.js is cached (cache-first).
+       If a returning visitor's cached i18n engine is older than the .ss-lang-select support,
+       the selector renders empty ("No Options"). Populate it ourselves from SS_LANGS if so. -->
+  <script>
+    (function () {
+      function fillLang() {
+        var sel = document.getElementById('estLangSelect');
+        if (!sel || sel.options.length) return; // i18n.js already filled it — nothing to do
+        var langs = (window.SS_LANGS && window.SS_LANGS.length) ? window.SS_LANGS : [{ code: 'en', name: 'English' }];
+        var frag = document.createDocumentFragment();
+        langs.forEach(function (l) {
+          var o = document.createElement('option');
+          o.value = l.code; o.textContent = l.name; frag.appendChild(o);
+        });
+        sel.appendChild(frag);
+        var cur = 'en';
+        try { cur = (window.SS_LANG && window.SS_LANG()) || localStorage.getItem('ss-lang') || 'en'; } catch (e) {}
+        if (Array.prototype.some.call(sel.options, function (o) { return o.value === cur; })) sel.value = cur;
+        sel.addEventListener('change', function () { if (window.SS_setLang) window.SS_setLang(sel.value); });
+      }
+      // run after i18n.js's own DOMContentLoaded init has had its turn
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(fillLang, 0); });
+      else setTimeout(fillLang, 0);
+    })();
+  </script>
 </body>
 </html>
