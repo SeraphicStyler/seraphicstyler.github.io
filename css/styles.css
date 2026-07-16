@@ -603,29 +603,33 @@ html.rm .nav-links a { transform: none !important; filter: none !important; tran
   html.rm .rail, html.rm .rail-label, html.rm .rail-dot { transition: none; }
 }
 
+/* ---- Theme FAB — cycles light → dark → mono; the panel keeps Auto ----
+   The icon shows the theme you are IN, not the one you'd get next. */
+.theme-fab .ti { display: none; width: 20px; height: 20px; }
+.theme-fab[data-mode="light"] .ti-light,
+.theme-fab[data-mode="dark"]  .ti-dark,
+.theme-fab[data-mode="mono"]  .ti-mono { display: block; }
+
 /* ---- Accessibility panel ---- */
 .a11y-wrap { position: fixed; left: 1.25rem; bottom: 1.25rem; z-index: 300; display: flex; flex-direction: column; align-items: center; gap: 0.6rem; }
 /* Utility controls stay quiet on first paint — they settle in after the hero is readable, so they don't pull the eye early */
 .a11y-wrap { animation: util-in 0.7s ease 0.95s both; }
 @keyframes util-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 html.rm .a11y-wrap { animation: none; opacity: 1; }
-.a11y-fab {
-  width: 52px; height: 52px; border-radius: 999px; font-size: 1.3rem;
-  background: var(--surface-solid); border: 1px solid var(--surface-border); color: var(--text-primary);
-  box-shadow: 0 14px 34px -10px rgba(60,90,140,0.45); transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.a11y-fab:hover { transform: translateY(-2px); box-shadow: 0 18px 40px -10px rgba(46,71,115,0.5); }
-.a11y-fab:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 3px; }
-
-/* Quick EN/VN language toggle — stacks above the settings gear */
-.lang-fab {
+/* The three floating discs — theme, language, settings — are one family: same
+   size, same fill, same shadow. Keep the shared shape in one rule so a new disc
+   can never drift out of step with its neighbours. */
+.a11y-fab, .lang-fab, .theme-fab {
   width: 52px; height: 52px; border-radius: 999px; display: grid; place-items: center;
-  font-family: var(--font-brand); font-weight: 500; font-size: 0.92rem; letter-spacing: 0.05em;
   background: var(--surface-solid); border: 1px solid var(--surface-border); color: var(--text-primary);
   box-shadow: 0 14px 34px -10px rgba(60,90,140,0.45); transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-.lang-fab:hover { transform: translateY(-2px); box-shadow: 0 18px 40px -10px rgba(46,71,115,0.5); }
-.lang-fab:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 3px; }
+.a11y-fab:hover, .lang-fab:hover, .theme-fab:hover { transform: translateY(-2px); box-shadow: 0 18px 40px -10px rgba(46,71,115,0.5); }
+.a11y-fab:focus-visible, .lang-fab:focus-visible, .theme-fab:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 3px; }
+
+.a11y-fab { font-size: 1.3rem; }
+/* Quick EN/VN language toggle — stacks above the settings gear */
+.lang-fab { font-family: var(--font-brand); font-weight: 500; font-size: 0.92rem; letter-spacing: 0.05em; }
 
 /* ---- Gallery Plaque settings panel ---- */
 .a11y-panel {
@@ -1014,12 +1018,13 @@ html.dark .green-check:hover, html.dark .green-check:focus-within, html.dark .gr
 /* ============================================================================
    Floating fabs — one consistent, premium-but-simple hover: soft lift + slight scale
    ============================================================================ */
-.a11y-fab, .lang-fab {
+.a11y-fab, .lang-fab, .theme-fab {
   transition: transform 0.32s cubic-bezier(0.22,1,0.36,1), box-shadow 0.32s ease, background 0.3s ease;
 }
-.a11y-fab:hover, .a11y-fab:focus-visible, .lang-fab:hover, .lang-fab:focus-visible { transform: translateY(-2px) scale(1.05); }
+.a11y-fab:hover, .a11y-fab:focus-visible, .lang-fab:hover, .lang-fab:focus-visible,
+.theme-fab:hover, .theme-fab:focus-visible { transform: translateY(-2px) scale(1.05); }
 /* Respect reduced-motion: no transforms */
-html.rm .a11y-fab:hover, html.rm .lang-fab:hover { transform: none; }
+html.rm .a11y-fab:hover, html.rm .lang-fab:hover, html.rm .theme-fab:hover { transform: none; }
 
 /* ============================================================================
    Concierge — unified Shop + Help widget (frosted glass, push/pop navigation)
@@ -1141,6 +1146,21 @@ section, .wrap, .grid, [class*="grid-"], .tiers, .row, .rows, form, .footer-grid
    Estimate quiz — guided, mobile-first wizard (one streamlined card)
    ===================================================================== */
 .quiz { max-width: 640px; margin: 0 auto; padding: clamp(1.5rem, 5vw, 2.5rem); }
+.quiz-toolbar { display: flex; justify-content: flex-end; margin-bottom: 0.9rem; }
+.quiz-lang { display: inline-flex; align-items: center; gap: 0.35rem; color: var(--text-secondary, var(--text-primary)); }
+.quiz-lang svg { opacity: 0.7; flex: none; }
+.quiz-lang .cur-select { font-size: 0.8rem; }
+.est-accuracy { margin-top: 1rem; border: 1px solid var(--field-border); border-radius: var(--card-radius); background: var(--surface-soft); overflow: hidden; }
+.est-accuracy > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 0.55rem; padding: 0.7rem 0.9rem; font-family: var(--font-body); font-weight: 600; font-size: 0.92rem; color: var(--text-primary); }
+.est-accuracy > summary::-webkit-details-marker { display: none; }
+.est-accuracy > summary > span:first-child { flex: 1; }
+.est-accuracy > summary::after { content: "＋"; font-weight: 400; opacity: 0.55; transition: transform 0.2s ease; }
+.est-accuracy[open] > summary::after { content: "－"; }
+.est-acc-badge { font-variant-numeric: tabular-nums; font-size: 0.78rem; padding: 0.08rem 0.5rem; border-radius: 999px; background: var(--accent-soft, rgba(46,84,173,0.12)); color: var(--accent-deep); }
+.est-acc-body { padding: 0.1rem 0.9rem 0.9rem; border-top: 1px solid var(--field-border); }
+.est-acc-body p { font-size: 0.88rem; line-height: 1.55; margin: 0.7rem 0 0; color: var(--text-secondary, var(--text-primary)); }
+.est-acc-body strong { color: var(--text-primary); }
+.est-acc-foot { font-style: italic; opacity: 0.85; }
 .quiz-progress { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1.6rem; }
 .quiz-bar { flex: 1; height: 4px; border-radius: 999px; background: var(--surface-soft); overflow: hidden; }
 .quiz-bar-fill { display: block; height: 100%; width: 25%; border-radius: 999px; background: var(--accent); transition: width 0.45s cubic-bezier(0.25,1,0.5,1); }

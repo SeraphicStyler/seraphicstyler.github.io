@@ -2,17 +2,214 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Your Estimate — Seraphic Styler</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Build a rough estimate — Seraphic Styler</title>
+  <meta name="description" content="A grounded ballpark for your Seraphic Styler basket — add items, pick a destination, and I confirm the exact quote by direct message." />
   <meta name="robots" content="noindex" />
-  <script>location.replace("./#estimate");</script>
-  <meta http-equiv="refresh" content="0;url=./#estimate" />
+  <meta name="theme-color" content="#eef3fb" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1d29" media="(prefers-color-scheme: dark)" />
+
+  <link rel="icon" href="assets/butterfly-side.svg" type="image/svg+xml" />
+  <link rel="icon" href="assets/favicon-48.png" type="image/png" sizes="48x48" />
+  <link rel="icon" href="assets/favicon-192.png" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Tenor+Sans&family=Merriweather+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css?v=2026-07-13c" />
+
+  <!-- Respect the same theme / accessibility prefs the main site stores -->
+  <script>
+    (function () { var d = document.documentElement, s = window.localStorage;
+      try {
+        var th = s.getItem('ss-theme') || 'auto'; var pcs = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; if (th === 'dark' || (th === 'auto' && pcs)) d.classList.add('dark'); else if (th === 'mono') d.classList.add('mono');
+        if (s.getItem('ss-contrast') === '1') d.classList.add('hc');
+        var ts = s.getItem('ss-textsize'); if (ts === 'lg') d.classList.add('ts-lg'); if (ts === 'xl') d.classList.add('ts-xl');
+        if (s.getItem('ss-motion') === '1') d.classList.add('rm');
+      } catch (e) {}
+    })();
+  </script>
+
   <style>
-    body{margin:0;min-height:100vh;display:grid;place-items:center;background:#eef3fb;color:#233a72;
-      font:15px/1.6 "Montserrat","Helvetica Neue",system-ui,sans-serif;}
-    @media(prefers-color-scheme:dark){body{background:#161a26;color:#f2f0f7;}}
-    a{color:#2e54ad;} @media(prefers-color-scheme:dark){a{color:#a9b8ee;}}
+    /* Page-scoped layout — keeps just the estimator, centered and mobile-first.
+       All visual tokens come from css/styles.css so brand stays in sync. */
+    .est-page { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
+    .est-top {
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem; text-align: center;
+      padding: calc(env(safe-area-inset-top) + clamp(1.5rem, 6vw, 2.6rem)) 1.25rem 0.3rem;
+    }
+    .est-top .brand-mark { width: 40px; height: 40px; color: var(--accent-deep); }
+    .est-top .brand-lockup { line-height: 0.9; }
+    .est-page section#estimate { padding-top: clamp(1rem, 4vw, 1.6rem); }
+    .est-main { flex: 1 0 auto; }
+    .est-foot {
+      flex-shrink: 0; text-align: center; font-family: var(--font-accent);
+      font-size: 0.78rem; color: var(--text-secondary); line-height: 1.9;
+      padding: 1.6rem 1.25rem calc(env(safe-area-inset-bottom) + 2.2rem);
+    }
+    .est-foot a { color: var(--accent-deep); text-decoration: none; }
+    .est-foot a:hover { text-decoration: underline; }
+    .est-foot .dot { opacity: 0.4; margin: 0 0.55rem; }
+    .est-foot .home-link {
+      display: inline-block; margin-top: 0.15rem; font-size: 0.72rem;
+      letter-spacing: 0.16em; text-transform: uppercase;
+    }
+    /* Slightly tighter card gutters on the narrowest phones */
+    @media (max-width: 380px) { .est-page .quiz { padding: 1.35rem 1.1rem; } }
   </style>
 </head>
-<body><p>Taking you to Your Estimate… <a href="./#estimate">Continue →</a></p></body>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="est-page">
+    <header class="est-top">
+      <svg class="brand-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.3,27.0 C18.4,18.0 21.6,8.4 31.6,6.6 C38.2,5.4 41.0,11.4 37.8,18.0 C35.0,24.2 28.6,27.4 23.0,28.6 Z"/><path d="M22.6,29.4 C26.8,31.2 32.2,33.0 35.0,38.0 C36.6,40.8 36.0,43.8 33.6,43.4 C29.6,42.7 25.0,35.6 22.4,30.4 Z"/><path d="M22.3,27.0 C21.5,28.8 21.5,30.6 22.6,32.2"/><path d="M22.3,27.0 C19.9,22.2 17.2,18.4 13.4,16.4"/><path d="M22.3,27.0 C20.6,21.8 18.8,17.2 16.0,13.8"/><circle cx="13.4" cy="16.4" r="1.2" fill="currentColor" stroke="none"/><circle cx="16.0" cy="13.8" r="1.2" fill="currentColor" stroke="none"/></svg>
+      <a class="brand-lockup" href="./" aria-label="Seraphic Styler home" style="text-decoration:none">
+        <span class="brand-seraphic">Seraphic</span>
+        <span class="brand-styler">Styler</span>
+      </a>
+    </header>
+
+    <main class="est-main">
+      <!-- ===== ESTIMATE ===== -->
+      <section id="estimate">
+        <div class="wrap">
+          <div class="section-head center">
+            <span class="badge-pill" data-i18n="est.badge">Estimate only</span>
+            <h2 style="margin-top:0.8rem" data-i18n="est.h2">Build a rough estimate</h2>
+            <p class="lead narrow" data-i18n="est.intro">A grounded ballpark — not a checkout. Add your items, select a destination, and I will confirm the exact quote by direct message. Styling and in-shop try-on are booked separately.</p>
+          </div>
+          <div class="quiz glass" id="estQuiz">
+            <div class="quiz-toolbar">
+              <label class="quiz-lang">
+                <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c3.5 4.5 3.5 13.5 0 18M12 3c-3.5 4.5-3.5 13.5 0 18"/></svg>
+                <select id="estLangSelect" class="cur-select ss-lang-select" aria-label="Language / 言語"></select>
+              </label>
+            </div>
+            <div class="quiz-progress" aria-hidden="true">
+              <span class="quiz-bar"><i class="quiz-bar-fill" id="quizBarFill"></i></span>
+              <span class="quiz-count"><span id="quizStepNum">1</span> / 4</span>
+            </div>
+
+            <!-- Step 1 — items -->
+            <div class="quiz-step is-active" data-step="1">
+              <p class="quiz-q" data-i18n="est.items.h">Your items</p>
+              <p class="quiz-help small muted" data-i18n="est.items.note">Enter each item's store price in VND.</p>
+              <div class="line-items" id="lineItems"></div>
+              <button class="btn btn-ghost" id="addItem" type="button" style="margin-top:0.4rem">+ <span data-i18n="est.add">Add item</span></button>
+              <div class="quiz-nav"><span class="quiz-spacer"></span><button class="btn btn-primary quiz-next" type="button" data-next data-i18n="est.next">Continue</button></div>
+            </div>
+
+            <!-- Step 2 — destination -->
+            <div class="quiz-step" data-step="2">
+              <label class="quiz-q" for="region" data-i18n="est.shipto">Choose your destination</label>
+              <p class="quiz-help small muted" data-i18n="est.q.dest">Pick the region closest to home — I ship worldwide.</p>
+              <select id="region">
+                <option value="us" data-i18n="ship.r3">US &amp; Canada</option>
+                <option value="latam" data-i18n="ship.r6">Latin America</option>
+                <option value="eu" data-i18n="ship.r4">Europe &amp; UK</option>
+                <option value="oceania" data-i18n="ship.r2">Australia &amp; New Zealand</option>
+                <option value="asia" data-i18n="ship.r1">East &amp; SE Asia</option>
+                <option value="sca" data-i18n="ship.r7">South &amp; Central Asia</option>
+                <option value="mena" data-i18n="ship.r5">Middle East &amp; North Africa</option>
+                <option value="africa" data-i18n="ship.r8">Africa</option>
+              </select>
+              <div class="quiz-nav"><button class="quiz-back" type="button" data-back data-i18n="est.back">Back</button><button class="btn btn-primary quiz-next" type="button" data-next data-i18n="est.next">Continue</button></div>
+            </div>
+
+            <!-- Step 3 — weight + complexity -->
+            <div class="quiz-step" data-step="3">
+              <label class="quiz-q" for="weight" data-i18n="est.weight">Estimated parcel weight</label>
+              <p class="quiz-help small muted" data-i18n="est.q.weight">A rough size is fine — I confirm exact weight before shipping.</p>
+              <select id="weight">
+                <option value="light" selected data-i18n="est.w.light">Light — 0.5–3 kg / 1–6.6 lb</option>
+                <option value="standard" data-i18n="est.w.standard">Standard — 3–10 kg / 6.6–22 lb</option>
+                <option value="heavy" data-i18n="est.w.heavy">Heavy — 10–20 kg / 22–44 lb (custom quote)</option>
+                <option value="haul" data-i18n="est.w.haul">Large haul — 20 kg+ / 44 lb+ (custom quote)</option>
+              </select>
+              <label class="quiz-check"><input type="checkbox" id="complex" style="width:auto" /> <span data-i18n="est.complex">Rare / complex sourcing (+200,000₫)</span> <span class="tip" tabindex="0" role="note" aria-label="What counts as rare or complex sourcing?">i<span class="tip-box" data-i18n="est.complex.tip">Added only for rare or limited drops, multi-store hunts across the city, tight deadlines, or many changes after sourcing has begun — always agreed with you in advance, never a surprise.</span></span></label>
+              <label class="quiz-check green-check"><input type="checkbox" id="green" style="width:auto" /> <svg class="leaf-ic" viewBox="0 0 24 24" aria-hidden="true" width="15" height="15"><path d="M20 4c0 8-5.5 13-13 13H4c0-7 5-13 12-13h4Z"/><path d="M4 20c3.5-5.5 7.5-8.5 12-10"/></svg><span data-i18n="est.green">Green shopping — choose a sustainable brand (−10% service fee)</span> <span class="tip" tabindex="0" role="note" aria-label="Why shop green">🌳<span class="tip-box" data-i18n="est.green.tip">Shopping green matters: choosing low-impact, locally made, and circular pieces cuts waste, saves water, and supports Vietnam's artisan makers. Pick a verified sustainable brand and I'll take 10% off my service fee. More on green living at treehugger.com.</span></span></label>
+              <div class="quiz-nav"><button class="quiz-back" type="button" data-back data-i18n="est.back">Back</button><button class="btn btn-primary quiz-next" type="button" data-next data-i18n="est.see">See my estimate</button></div>
+            </div>
+
+            <!-- Step 4 — result -->
+            <div class="quiz-step" data-step="4">
+              <p class="quiz-q" data-i18n="est.result.h">Estimated total</p>
+              <p class="quiz-help small muted" data-i18n="est.q.result">A high-level ballpark — screenshot it or compare it with your final quote.</p>
+              <div class="result-card">
+                <div class="result-row"><span data-i18n="est.sub">Items subtotal</span><span class="v" id="rSubtotal">0₫</span></div>
+                <div class="result-row"><span><span data-i18n="est.fee">Service fees</span> <span class="tip" tabindex="0" role="note" aria-label="About service fees">i<span class="tip-box" data-i18n="est.fee.tip">My sourcing fee per item: 150,000₫ for items under 2,000,000₫, 8% for 2–5,000,000₫, 7% above. Domestic shipping inside Vietnam is included.</span></span> <span class="muted small" id="rFeeNote">—</span></span><span class="v" id="rFee">0₫</span></div>
+                <div class="result-row"><span><span data-i18n="est.base">Base fee</span> <span class="tip" tabindex="0" role="note" aria-label="About the base fee">i<span class="tip-box" data-i18n="est.base.tip">A flat 100,000₫ per order covering coordination, messaging, and careful packing. Shipping is passed through at cost.</span></span></span><span class="v" id="rBase">0₫</span></div>
+                <div class="result-row" id="rComplexRow" style="display:none"><span data-i18n="est.complexline">Complex sourcing</span><span class="v" id="rComplex">0₫</span></div>
+                <div class="result-row" id="rGreenRow" style="display:none"><span data-i18n="est.greenline">Green shopping discount</span><span class="v green-v" id="rGreen">0₫</span></div>
+                <div class="result-row"><span data-i18n="est.shiplbl">Est. shipping</span><span class="v" id="rShip">—</span></div>
+                <div class="result-row total"><span data-i18n="est.total">Total (VND)</span><span class="v" id="rTotal">—</span></div>
+                <div class="result-row" style="border:none"><span class="muted"><span data-i18n="est.usd">Approx. in</span> <select id="estCurrency" class="cur-select" aria-label="Currency"><option>USD</option><option>EUR</option><option>GBP</option><option>AUD</option><option>CAD</option><option>SGD</option><option>JPY</option><option>KRW</option><option>CNY</option><option>THB</option><option>AED</option><option>INR</option></select></span><span class="v usd" id="rUsd">—</span></div>
+                <p class="fx-status" id="fxStatus" style="margin-top:0.5rem">Loading live rate…</p>
+              </div>
+              <details class="est-accuracy">
+                <summary><span data-i18n="est.acc.sum">How accurate is this estimate?</span><span class="est-acc-badge">~95%</span></summary>
+                <div class="est-acc-body">
+                  <p data-i18n="est.acc.p1"><strong>~95% is solid.</strong> Your item prices, my service fee, and the flat base fee follow fixed formulas — the math on what you enter is exact, and shipping inside Vietnam is already included.</p>
+                  <p data-i18n="est.acc.complex"><strong>One possible add-on:</strong> a flat 200,000₫ for rare or multi-store sourcing — hard-to-find drops, hunts across several shops, or a tight deadline. It's always agreed with you in advance, never a surprise on your final quote.</p>
+                  <p data-i18n="est.acc.p2"><strong>The last ~5% I confirm before you pay:</strong> the real store price on the day, exact international shipping (weight and courier), the live exchange rate, current stock, and any customs or duty in your country.</p>
+                  <p class="est-acc-foot" data-i18n="est.acc.p3">Nothing is charged until you approve the final quote.</p>
+                </div>
+              </details>
+              <button class="btn btn-primary btn-lg" id="sendBasket" type="button" style="width:100%;margin-top:1rem"><span data-i18n="est.send">Send this estimate for confirmation</span></button>
+              <p class="estimate-note" id="copiedMsg" style="display:none;color:var(--accent-deep)" data-i18n="est.copied">✓ Basket summary copied — paste it into your DM to me.</p>
+              <p class="estimate-note" data-i18n="est.note">This is an estimate. Your final quote (exact shipping, current stock, store price) is confirmed by me before any payment.</p>
+              <div class="quiz-nav"><button class="quiz-back" type="button" data-back data-i18n="est.back">Back</button><button class="quiz-back" id="quizRestart" type="button" data-i18n="est.restart">Start over</button></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="est-foot">
+      <span><a href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener">Instagram</a></span>
+      <span class="dot">·</span>
+      <span><a href="mailto:seraphicstyler@gmail.com">seraphicstyler@gmail.com</a></span>
+      <br />
+      <a class="home-link" href="./">← Full site</a>
+    </footer>
+  </div>
+
+  <!-- Tally embed powers the pre-filled confirmation popup; estimator falls back to a new tab if it's blocked. -->
+  <script async src="https://tally.so/widgets/embed.js"></script>
+  <!-- i18n: shares the language the visitor picked on the main site (localStorage ss-lang), and powers the toggle above. -->
+  <script src="js/translations.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/estimator.js"></script>
+
+  <!-- Minimal 4-step navigator (self-contained port of the homepage stepper) -->
+  <script>
+    (function () {
+      var quiz = document.getElementById('estQuiz'); if (!quiz) return;
+      var steps = quiz.querySelectorAll('.quiz-step');
+      var fill = document.getElementById('quizBarFill');
+      var num = document.getElementById('quizStepNum');
+      var total = steps.length, cur = 0;
+      var rm = document.documentElement.classList.contains('rm');
+      function show(i, noScroll) {
+        cur = Math.max(0, Math.min(total - 1, i));
+        steps.forEach(function (s, idx) { s.classList.toggle('is-active', idx === cur); });
+        if (fill) fill.style.width = ((cur + 1) / total * 100) + '%';
+        if (num) num.textContent = (cur + 1);
+        var head = steps[cur].querySelector('.quiz-q');
+        if (head) { head.setAttribute('tabindex', '-1'); try { head.focus({ preventScroll: true }); } catch (e) { head.focus(); } }
+        if (!noScroll) quiz.scrollIntoView({ behavior: rm ? 'auto' : 'smooth', block: 'start' });
+      }
+      quiz.addEventListener('click', function (e) {
+        var t = e.target.closest('[data-next],[data-back],#quizRestart');
+        if (!t || !quiz.contains(t)) return;
+        if (t.id === 'quizRestart') show(0);
+        else if (t.hasAttribute('data-back')) show(cur - 1);
+        else if (t.hasAttribute('data-next')) show(cur + 1);
+      });
+      show(0, true);
+    })();
+  </script>
+</body>
 </html>

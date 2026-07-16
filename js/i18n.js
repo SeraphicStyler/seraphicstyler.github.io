@@ -16,6 +16,7 @@
   var RTL = { ar: 1, he: 1, fa: 1, ur: 1 }; // right-to-left languages
   var cache = { html: {}, ph: {} };
   var cached = false;
+  var cur = 'en';
 
   function cacheEnglish() {
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
@@ -29,6 +30,7 @@
 
   function apply(code) {
     if (!cached) cacheEnglish();
+    cur = code;
     var t = (code === 'en') ? null : (DICT[code] || null);
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
       var k = el.getAttribute('data-i18n');
@@ -43,17 +45,31 @@
     root.setAttribute('lang', code);
     root.setAttribute('dir', RTL[code] ? 'rtl' : 'ltr');
     try { localStorage.setItem('ss-lang', code); } catch (e) {}
-    var sel = document.getElementById('langSelect');
-    if (sel && sel.value !== code) sel.value = code;
+    document.querySelectorAll('#langSelect, .ss-lang-select').forEach(function (s) {
+      if (s.value !== code) s.value = code;
+    });
+    document.dispatchEvent(new CustomEvent('ss:lang', { detail: { lang: code } }));
   }
 
   // Public API
   window.SS_setLang = apply;
+  window.SS_LANG = function () { return cur; };
+  /* Dynamic-string lookup (English default carried at the call site), with {placeholder} interpolation. */
+  window.SS_T = function (key, en) {
+    var t = (cur === 'en') ? null : (DICT[cur] || null);
+    var v = t && t[key];
+    return (v == null || v === '') ? en : v;
+  };
+  window.SS_TF = function (key, en, vars) {
+    return String(window.SS_T(key, en)).replace(/\{(\w+)\}/g, function (m, k) {
+      return (vars && vars[k] != null) ? vars[k] : m;
+    });
+  };
 
   function init() {
     cacheEnglish();
-    var sel = document.getElementById('langSelect');
-    if (sel) {
+    function fillSelect(sel) {
+      if (!sel) return;
       sel.innerHTML = '';
       LANGS.forEach(function (l) {
         var o = document.createElement('option');
@@ -61,6 +77,8 @@
       });
       sel.addEventListener('change', function () { apply(sel.value); });
     }
+    fillSelect(document.getElementById('langSelect'));
+    document.querySelectorAll('.ss-lang-select').forEach(fillSelect);
     var saved = 'en';
     try { saved = localStorage.getItem('ss-lang') || 'en'; } catch (e) {}
     if (!DICT[saved] && saved !== 'en') saved = 'en';

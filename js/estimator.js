@@ -60,6 +60,8 @@ var CONFIG = {
   if (!el.lineItems) return; // not on a page with the estimator
 
   function curCode() { return (el.estCurrency && el.estCurrency.value) || 'USD'; }
+  function t(key, en) { return window.SS_T ? window.SS_T(key, en) : en; }
+  function tf(key, en, vars) { return window.SS_TF ? window.SS_TF(key, en, vars) : en; }
   function fmtVnd(n) { return Math.round(n).toLocaleString('en-US') + '₫'; }
   function fmtCur(n) {
     var c = curCode();
@@ -146,7 +148,7 @@ var CONFIG = {
     var c = compute();
     el.rSubtotal.textContent = fmtVnd(c.subtotal);
     el.rFee.textContent = fmtVnd(c.fees);
-    el.rFeeNote.textContent = c.nItems ? '(' + c.nItems + (c.nItems === 1 ? ' item' : ' items') + ')' : '';
+    el.rFeeNote.textContent = c.nItems ? tf('est.itemcount', '(' + c.nItems + (c.nItems === 1 ? ' item' : ' items') + ')', { n: c.nItems }) : '';
     el.rBase.textContent = fmtVnd(c.base);
     if (c.complex > 0) { el.rComplexRow.style.display = ''; el.rComplex.textContent = fmtVnd(c.complex); }
     else { el.rComplexRow.style.display = 'none'; }
@@ -156,9 +158,9 @@ var CONFIG = {
     }
     var nonShip = c.subtotal + c.fees + c.base + c.complex - c.green;
     if (c.custom) {
-      el.rShip.textContent = 'Custom quote';
-      el.rTotal.textContent = fmtVnd(nonShip) + ' + shipping';
-      el.rUsd.textContent = '≈ ' + fmtCur(toCur(nonShip)) + ' + shipping (custom quote, 10kg+)';
+      el.rShip.textContent = t('est.customquote', 'Custom quote');
+      el.rTotal.textContent = fmtVnd(nonShip) + t('est.plusship', ' + shipping');
+      el.rUsd.textContent = '≈ ' + fmtCur(toCur(nonShip)) + t('est.customhaul', ' + shipping (custom quote, 10kg+)');
     } else {
       el.rShip.textContent = fmtVnd(c.ship[0]) + ' – ' + fmtVnd(c.ship[1]);
       el.rTotal.textContent = fmtVnd(nonShip + c.ship[0]) + ' – ' + fmtVnd(nonShip + c.ship[1]);
@@ -254,6 +256,7 @@ var CONFIG = {
   if (el.green) el.green.addEventListener('change', recalc);
   if (el.estCurrency) el.estCurrency.addEventListener('change', recalc);
   el.sendBasket.addEventListener('click', send);
+  document.addEventListener('ss:lang', recalc);  // re-render computed strings (item count, custom-quote) in the new language
 
   var saved = null;
   try { saved = JSON.parse(localStorage.getItem('ss-basket')); } catch (e) {}

@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Tenor+Sans&family=Merriweather+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=2026-07-13b" />
+  <link rel="stylesheet" href="css/styles.css?v=2026-07-13c" />
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"ProfessionalService","name":"Seraphic Styler","description":"A Saigon styling & sourcing atelier — rare Vietnamese fashion and beauty, verified in person and shipped worldwide.","url":"https://www.seraphicstyler.com/","email":"seraphicstyler@gmail.com","areaServed":"Worldwide","address":{"@type":"PostalAddress","addressLocality":"Ho Chi Minh City","addressCountry":"VN"},"sameAs":["https://instagram.com/seraphicstyler","https://tiktok.com/@seraphicstyler"]}
   </script>
@@ -90,6 +90,11 @@
 
   <!-- Floating settings — follows the page on scroll, like the help widget -->
   <div class="a11y-wrap">
+    <button class="icon-btn theme-fab" id="themeFab" type="button" aria-label="Theme" title="Theme">
+      <svg class="ti ti-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.6v2M12 19.4v2M2.6 12h2M19.4 12h2M5.4 5.4l1.4 1.4M17.2 17.2l1.4 1.4M18.6 5.4l-1.4 1.4M6.8 17.2l-1.4 1.4"/></svg>
+      <svg class="ti ti-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1Z"/></svg>
+      <svg class="ti ti-mono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="8.2"/><path d="M12 3.8a8.2 8.2 0 0 1 0 16.4Z" fill="currentColor" stroke="none"/></svg>
+    </button>
     <button class="icon-btn lang-fab" id="langFab" type="button" aria-label="Switch to Vietnamese" title="Tiếng Việt">VN</button>
     <button class="icon-btn a11y-fab" id="a11yBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Language & accessibility settings">⚙</button>
     <div class="a11y-panel" id="a11yPanel" role="dialog" aria-label="Language and accessibility">
@@ -318,6 +323,12 @@ From: a small per-board fee, fully credited if you order.</div></div>
         <p class="lead narrow" data-i18n="est.intro">A grounded ballpark — not a checkout. Add your items, select a destination, and I will confirm the exact quote by direct message. Styling and in-shop try-on are booked separately.</p>
       </div>
       <div class="quiz glass reveal" id="estQuiz">
+        <div class="quiz-toolbar">
+          <label class="quiz-lang">
+            <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c3.5 4.5 3.5 13.5 0 18M12 3c-3.5 4.5-3.5 13.5 0 18"/></svg>
+            <select id="estLangSelect" class="cur-select ss-lang-select" aria-label="Language / 言語"></select>
+          </label>
+        </div>
         <div class="quiz-progress" aria-hidden="true">
           <span class="quiz-bar"><i class="quiz-bar-fill" id="quizBarFill"></i></span>
           <span class="quiz-count"><span id="quizStepNum">1</span> / 4</span>
@@ -379,6 +390,15 @@ From: a small per-board fee, fully credited if you order.</div></div>
             <div class="result-row" style="border:none"><span class="muted"><span data-i18n="est.usd">Approx. in</span> <select id="estCurrency" class="cur-select" aria-label="Currency"><option>USD</option><option>EUR</option><option>GBP</option><option>AUD</option><option>CAD</option><option>SGD</option><option>JPY</option><option>KRW</option><option>CNY</option><option>THB</option><option>AED</option><option>INR</option></select></span><span class="v usd" id="rUsd">—</span></div>
             <p class="fx-status" id="fxStatus" style="margin-top:0.5rem">Loading live rate…</p>
           </div>
+          <details class="est-accuracy">
+            <summary><span data-i18n="est.acc.sum">How accurate is this estimate?</span><span class="est-acc-badge">~95%</span></summary>
+            <div class="est-acc-body">
+              <p data-i18n="est.acc.p1"><strong>~95% is solid.</strong> Your item prices, my service fee, and the flat base fee follow fixed formulas — the math on what you enter is exact, and shipping inside Vietnam is already included.</p>
+              <p data-i18n="est.acc.complex"><strong>One possible add-on:</strong> a flat 200,000₫ for rare or multi-store sourcing — hard-to-find drops, hunts across several shops, or a tight deadline. It's always agreed with you in advance, never a surprise on your final quote.</p>
+              <p data-i18n="est.acc.p2"><strong>The last ~5% I confirm before you pay:</strong> the real store price on the day, exact international shipping (weight and courier), the live exchange rate, current stock, and any customs or duty in your country.</p>
+              <p class="est-acc-foot" data-i18n="est.acc.p3">Nothing is charged until you approve the final quote.</p>
+            </div>
+          </details>
           <button class="btn btn-primary btn-lg" id="sendBasket" type="button" style="width:100%;margin-top:1rem"><span data-i18n="est.send">Send this estimate for confirmation</span></button>
           <p class="estimate-note" id="copiedMsg" style="display:none;color:var(--accent-deep)" data-i18n="est.copied">✓ Basket summary copied — paste it into your DM to me.</p>
           <p class="estimate-note" data-i18n="est.note">This is an estimate. Your final quote (exact shipping, current stock, store price) is confirmed by me before any payment.</p>
