@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>The Style Quiz — Seraphic Styler</title>
+  <meta name="description" content="Eight quick questions to read your personal style as a blend — then matched to the Saigon fashion houses that fit, ready to source." />
+  <meta name="theme-color" content="#eef3fb" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1d29" media="(prefers-color-scheme: dark)" />
+
+  <!-- Social share -->
+  <meta property="og:title" content="What's your style? — Seraphic Styler" />
+  <meta property="og:description" content="Take the style quiz: get your style blend and the Saigon houses that match, ready to source worldwide." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.seraphicstyler.com/style-quiz" />
+  <meta property="og:image" content="https://www.seraphicstyler.com/apple-touch-icon.png" />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="icon" href="assets/butterfly-side.svg" type="image/svg+xml" />
+  <link rel="icon" href="assets/favicon-48.png" type="image/png" sizes="48x48" />
+  <link rel="icon" href="assets/favicon-192.png" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Tenor+Sans&family=Merriweather+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css?v=2026-07-13c" />
+
+  <!-- Respect the same theme / accessibility prefs the main site stores -->
+  <script>
+    (function () { var d = document.documentElement, s = window.localStorage;
+      try {
+        var th = s.getItem('ss-theme') || 'auto'; var pcs = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; if (th === 'dark' || (th === 'auto' && pcs)) d.classList.add('dark'); else if (th === 'mono') d.classList.add('mono');
+        if (s.getItem('ss-contrast') === '1') d.classList.add('hc');
+        var ts = s.getItem('ss-textsize'); if (ts === 'lg') d.classList.add('ts-lg'); if (ts === 'xl') d.classList.add('ts-xl');
+        if (s.getItem('ss-motion') === '1') d.classList.add('rm');
+      } catch (e) {}
+    })();
+  </script>
+
+  <style>
+    /* Page-scoped — brand tokens all come from css/styles.css. */
+    .sq-page { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
+    .sq-top { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; text-align: center; padding: calc(env(safe-area-inset-top) + clamp(1.5rem, 6vw, 2.6rem)) 1.25rem 0.3rem; }
+    .sq-top .brand-mark { width: 40px; height: 40px; color: var(--accent-deep); }
+    .sq-top .brand-lockup { line-height: 0.9; }
+    .sq-main { flex: 1 0 auto; width: 100%; max-width: 760px; margin: 0 auto; padding: clamp(1rem, 4vw, 1.8rem) 1.25rem 0; }
+
+    .sq-intro { text-align: center; margin-bottom: clamp(1.2rem, 4vw, 2rem); }
+    .sq-intro .eyebrow { font-family: var(--font-accent); letter-spacing: 0.22em; text-transform: uppercase; font-size: 0.72rem; color: var(--accent-deep); }
+    .sq-intro h1 { font-family: var(--font-display); font-weight: 500; font-size: clamp(1.7rem, 6vw, 2.6rem); margin: 0.5rem 0 0.6rem; line-height: 1.08; }
+    .sq-intro p { color: var(--text-secondary); max-width: 46ch; margin: 0 auto; line-height: 1.6; }
+
+    /* Question card */
+    .sq-card { background: var(--surface-solid); border: 1px solid var(--field-border); border-radius: var(--card-radius, 18px); padding: clamp(1.4rem, 5vw, 2.2rem); box-shadow: 0 18px 50px -30px rgba(35,58,114,0.5); }
+    .sq-progress { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1.5rem; }
+    .sq-bar { flex: 1; height: 4px; border-radius: 999px; background: var(--surface-soft); overflow: hidden; }
+    .sq-bar i { display: block; height: 100%; border-radius: 999px; background: var(--accent); transition: width 0.4s cubic-bezier(0.25,1,0.5,1); }
+    .sq-count { font-family: var(--font-accent); font-size: 0.78rem; letter-spacing: 0.1em; color: var(--text-secondary); white-space: nowrap; }
+    .sq-q { font-family: var(--font-display); font-weight: 500; font-size: clamp(1.3rem, 4.5vw, 1.75rem); line-height: 1.2; margin: 0 0 1.2rem; }
+    .sq-opts { display: grid; gap: 0.6rem; }
+    .sq-opt { text-align: left; width: 100%; font-family: var(--font-body); font-size: 1rem; color: var(--text-primary); background: var(--surface-soft); border: 1px solid var(--field-border); border-radius: 12px; padding: 0.95rem 1.1rem; cursor: pointer; transition: border-color 0.15s, background 0.15s, transform 0.06s; }
+    .sq-opt:hover { border-color: var(--accent); background: var(--surface-solid); }
+    .sq-opt:active { transform: scale(0.99); }
+    .sq-back { margin-top: 1.2rem; background: none; border: none; color: var(--text-secondary); font-family: var(--font-accent); letter-spacing: 0.06em; font-size: 0.85rem; cursor: pointer; padding: 0.3rem 0; }
+    .sq-back:hover { color: var(--accent-deep); }
+
+    /* Result */
+    .sq-result { --sq-accent: var(--accent); }
+    .sq-eyebrow { font-family: var(--font-accent); letter-spacing: 0.22em; text-transform: uppercase; font-size: 0.72rem; color: var(--sq-accent); text-align: center; margin: 0; }
+    .sq-blend { font-family: var(--font-display); font-weight: 500; text-align: center; font-size: clamp(2rem, 8vw, 3.1rem); line-height: 1.05; margin: 0.35rem 0 0.4rem; }
+    .sq-tag { text-align: center; font-style: italic; color: var(--text-secondary); margin: 0 0 1.4rem; }
+    .sq-desc { max-width: 54ch; margin: 0 auto 1.8rem; text-align: center; line-height: 1.65; }
+
+    .sq-spectrum { background: var(--surface-soft); border: 1px solid var(--field-border); border-radius: 16px; padding: 1.2rem 1.3rem; margin-bottom: 1.6rem; }
+    .sq-spec-h { font-family: var(--font-accent); font-size: 0.8rem; letter-spacing: 0.08em; color: var(--text-secondary); margin: 0 0 0.9rem; text-align: center; }
+    .sq-spec-row { display: flex; align-items: center; gap: 0.8rem; margin: 0.55rem 0; }
+    .sq-spec-lab { flex: 0 0 34%; font-size: 0.9rem; }
+    .sq-spec-track { flex: 1; height: 8px; border-radius: 999px; background: rgba(128,128,150,0.16); overflow: hidden; }
+    .sq-spec-track i { display: block; height: 100%; border-radius: 999px; transition: width 0.6s cubic-bezier(0.25,1,0.5,1); }
+    .sq-spec-pct { flex: 0 0 2.6rem; text-align: right; font-variant-numeric: tabular-nums; font-size: 0.85rem; color: var(--text-secondary); }
+
+    .sq-cues { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 2rem; }
+    .sq-cues h4 { font-family: var(--font-accent); letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.72rem; color: var(--sq-accent); margin: 0 0 0.5rem; }
+    .sq-cues ul { margin: 0; padding-left: 1.1rem; line-height: 1.6; font-size: 0.94rem; }
+    .sq-cues p { margin: 0; line-height: 1.6; font-size: 0.94rem; color: var(--text-secondary); }
+    @media (max-width: 520px) { .sq-cues { grid-template-columns: 1fr; gap: 0.9rem; } }
+
+    .sq-board-head { text-align: center; margin-bottom: 0.9rem; }
+    .sq-board-head h3 { font-family: var(--font-accent); font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; font-size: 0.82rem; color: var(--accent-deep); margin: 0 0 0.35rem; }
+    .sq-muted { color: var(--text-secondary); font-size: 0.82rem; line-height: 1.45; margin: 0; max-width: 40ch; margin-inline: auto; }
+    .sq-board { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.8rem; margin-bottom: 2rem; }
+    .sq-brand { display: flex; flex-direction: column; gap: 0.35rem; background: var(--surface-solid); border: 1px solid var(--field-border); border-radius: 14px; padding: 1rem 1.05rem; text-decoration: none; color: inherit; transition: border-color 0.15s, transform 0.08s, box-shadow 0.15s; }
+    a.sq-brand:hover { border-color: var(--sq-accent); transform: translateY(-2px); box-shadow: 0 14px 34px -22px rgba(35,58,114,0.55); }
+    .sq-brand-top { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
+    .sq-brand-name { font-family: var(--font-display); font-size: 1.12rem; font-weight: 500; }
+    .sq-tier { flex: none; font-family: var(--font-accent); font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.1rem 0.45rem; border-radius: 999px; background: var(--surface-soft); color: var(--text-secondary); }
+    .sq-brand-area { font-size: 0.82rem; color: var(--sq-accent); }
+    .sq-brand-note { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+    .sq-brand-go { margin-top: 0.15rem; font-family: var(--font-accent); font-size: 0.78rem; letter-spacing: 0.04em; color: var(--accent-deep); }
+
+    .sq-cta { text-align: center; padding-bottom: 0.5rem; }
+    .sq-cta .btn { display: inline-block; }
+    .sq-cta-row { display: flex; gap: 1.4rem; justify-content: center; margin-top: 0.9rem; }
+
+    .sq-foot { flex-shrink: 0; text-align: center; font-family: var(--font-accent); font-size: 0.78rem; color: var(--text-secondary); line-height: 1.9; padding: 2rem 1.25rem calc(env(safe-area-inset-bottom) + 2.2rem); }
+    .sq-foot a { color: var(--accent-deep); text-decoration: none; }
+    .sq-foot a:hover { text-decoration: underline; }
+    .sq-foot .dot { opacity: 0.4; margin: 0 0.55rem; }
+    .sq-foot .home-link { display: inline-block; margin-top: 0.15rem; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="sq-page">
+    <header class="sq-top">
+      <svg class="brand-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.3,27.0 C18.4,18.0 21.6,8.4 31.6,6.6 C38.2,5.4 41.0,11.4 37.8,18.0 C35.0,24.2 28.6,27.4 23.0,28.6 Z"/><path d="M22.6,29.4 C26.8,31.2 32.2,33.0 35.0,38.0 C36.6,40.8 36.0,43.8 33.6,43.4 C29.6,42.7 25.0,35.6 22.4,30.4 Z"/><path d="M22.3,27.0 C21.5,28.8 21.5,30.6 22.6,32.2"/><path d="M22.3,27.0 C19.9,22.2 17.2,18.4 13.4,16.4"/><path d="M22.3,27.0 C20.6,21.8 18.8,17.2 16.0,13.8"/><circle cx="13.4" cy="16.4" r="1.2" fill="currentColor" stroke="none"/><circle cx="16.0" cy="13.8" r="1.2" fill="currentColor" stroke="none"/></svg>
+      <a class="brand-lockup" href="./" aria-label="Seraphic Styler home" style="text-decoration:none">
+        <span class="brand-seraphic">Seraphic</span>
+        <span class="brand-styler">Styler</span>
+      </a>
+    </header>
+
+    <main class="sq-main">
+      <div class="sq-intro">
+        <span class="eyebrow">The Style Quiz</span>
+        <h1>Find your style. Then find the pieces.</h1>
+        <p>Eight quick questions. I read your style as a blend — not a box — and match you to the Saigon houses that fit, ready to source worldwide.</p>
+      </div>
+      <div id="sqRoot"><!-- quiz + result render here --></div>
+    </main>
+
+    <footer class="sq-foot">
+      <span><a href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener">Instagram</a></span>
+      <span class="dot">·</span>
+      <span><a href="mailto:seraphicstyler@gmail.com">seraphicstyler@gmail.com</a></span>
+      <br />
+      <a class="home-link" href="./">← Full site</a>
+    </footer>
+  </div>
+
+  <!-- Tally powers the "source this" inquiry pop-up (same form the rest of the site uses). -->
+  <script async src="https://tally.so/widgets/embed.js"></script>
+  <script src="js/directory-data.js"></script>
+  <script src="js/style-quiz.js"></script>
+</body>
+</html>
