@@ -364,14 +364,6 @@ main>.group:not(:first-child){border-top:1px solid var(--line-soft);margin-top:2
 .card.wide{grid-column:span 2;}
 .card.wide .nm{font-size:1.34rem;}
 .card.wide .note{-webkit-line-clamp:3;}
-/* the house's own logo, bled off the corner as texture — blurred past legibility so it
-   never reads as a second logo */
-.card .plate{position:absolute;right:-46px;top:-46px;width:208px;height:208px;border-radius:50%;
-  background-size:cover;background-position:center;pointer-events:none;
-  filter:grayscale(1) contrast(.7) blur(6px);opacity:.13;
-  -webkit-mask-image:radial-gradient(circle at 50% 50%,#000 42%,transparent 72%);
-  mask-image:radial-gradient(circle at 50% 50%,#000 42%,transparent 72%);}
-[data-theme=dark] .card .plate{opacity:.16;}
 /* an editor's pick — the only place the atelier speaks in its own hand */
 .card .pick{display:block;font-family:var(--font-script);font-size:1.2rem;line-height:1;
   color:var(--peri-text);margin-bottom:1px;}
@@ -403,6 +395,12 @@ main>.group:not(:first-child){border-top:1px solid var(--line-soft);margin-top:2
 .card .sv:hover{color:var(--orchid);transform:scale(1.1);}
 .card .sv.on{color:var(--orchid);}
 .card .sv.on svg{fill:var(--orchid);}
+/* the basket bag sits beside the heart — same quiet button, cobalt when it's in */
+.card .bk{flex:none;font:inherit;background:none;border:0;cursor:pointer;padding:8px;color:var(--ink-mute);
+  display:grid;place-items:center;transition:.18s var(--ease);border-radius:50%;}
+.card .bk:hover{color:var(--cobalt);transform:scale(1.1);}
+.card .bk.on{color:var(--cobalt);}
+.card .bk.on svg{fill:color-mix(in srgb,var(--cobalt) 25%,transparent);}
 .cd-more{display:flex;flex-direction:column;gap:9px;position:relative;z-index:1;}
 /* The address is the point of the whole page — it is what gets screenshotted and
    handed to a driver. Full weight, full contrast, never truncated, never hidden. */
@@ -590,7 +588,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
   :root{--tabbar-h:calc(58px + env(safe-area-inset-bottom));}
   footer .wrap{grid-template-columns:1fr;}
   .title{font-size:clamp(2.2rem,10vw,3rem);}
-  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);}
+  .tabbar{display:grid;grid-template-columns:repeat(6,1fr);}
   .themebtn{bottom:calc(var(--tabbar-h) + 12px)!important;}
   .ssrp-open{bottom:calc(var(--tabbar-h) + 66px)!important;}
   /* condensed controls: search row + one scrollable chip row */
@@ -640,6 +638,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
     <div class="wrap">
       <a href="./" data-i18n="fd.nav.home">The atelier</a>
       <a href="fashion-directory" aria-current="page" data-i18n="fd.nav.dir">Directory</a>
+      <a href="find" data-i18n="fd.nav.find">Find it</a>
       <a href="field-guide" data-i18n="fd.nav.guide">Field guide</a>
       <a href="lookbook" data-i18n="fd.nav.look">Lookbook</a>
       <a href="./#contact" data-i18n="fd.nav.contact">Contact</a>
@@ -736,6 +735,10 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21C7 16.5 3 13 3 8.8 3 6.1 5.1 4 7.7 4c1.7 0 3.2.9 4.3 2.4C13.1 4.9 14.6 4 16.3 4 18.9 4 21 6.1 21 8.8c0 4.2-4 7.7-9 12.2Z"/></svg>
           <span data-i18n="fd.savedlab">Saved</span> <b id="savedcount"></b>
         </button>
+        <button class="utilbtn" id="basketbtn" title="Your basket — saved in this browser.">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          <span data-i18n="fd.basketlab">Basket</span> <b id="basketcount"></b>
+        </button>
         <a class="utilbtn" href="#map" data-i18n="fd.maputil">Map</a>
       </div>
     </div>
@@ -785,6 +788,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
   <button type="button" data-act="sheet"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg><span data-i18n="fd.tb.filters">Filters</span></button>
   <button type="button" data-act="map"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg><span data-i18n="fd.tb.map">Map</span></button>
   <button type="button" data-act="saved" id="tbsaved"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21C7 16.5 3 13 3 8.8 3 6.1 5.1 4 7.7 4c1.7 0 3.2.9 4.3 2.4C13.1 4.9 14.6 4 16.3 4 18.9 4 21 6.1 21 8.8c0 4.2-4 7.7-9 12.2Z"/></svg><span data-i18n="fd.tb.saved">Saved</span><span class="bub" id="tbsavedn" hidden></span></button>
+  <button type="button" data-act="basket" id="tbbasket"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span data-i18n="fd.tb.basket">Basket</span><span class="bub" id="tbbasketn" hidden></span></button>
   <button type="button" data-act="all"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg><span data-i18n="fd.tb.all">All</span></button>
 </nav>
 
@@ -1145,19 +1149,20 @@ function card(b,i){
   const on=isSaved(b);
   const sv=`<button class="sv${on?" on":""}" data-id="${bid(b)}" aria-pressed="${on}" aria-label="${L.saveFor(b.n)}">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21C7 16.5 3 13 3 8.8 3 6.1 5.1 4 7.7 4c1.7 0 3.2.9 4.3 2.4C13.1 4.9 14.6 4 16.3 4 18.9 4 21 6.1 21 8.8c0 4.2-4 7.7-9 12.2Z"/></svg></button>`;
+  const inBk=window.SS_BASKET?SS_BASKET.has(bid(b)):false; /* fd-basket.js re-syncs after boot */
+  const bk=`<button class="bk${inBk?" on":""}" data-id="${bid(b)}" aria-pressed="${inBk}" aria-label="Add ${b.n} to basket">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></button>`;
   const nDis=b.sub?`${b.n} (${b.sub})`:b.n; /* sub disambiguates same-name records (e.g. the two Metiseko doors) */
   const map=hasStreet(b)?`<a class="maplink" target="_blank" rel="noopener noreferrer" href="${mapsUrl(b)}" aria-label="${L.mapFor(nDis)}">${L.map}</a>`:"";
   const shr=`<button class="shr" data-n="${b.n}" aria-label="${L.shareFor(nDis)}">${L.share}</button>`;
   const logo=ICONS[b.n]?`<img class="blogo" src="${encodeURI(ICONS[b.n])}" alt="" width="44" height="44" loading="lazy" decoding="async">`:"";
   const wide=isWide(b);
-  const plate=(wide&&ICONS[b.n])?`<span class="plate" style="background-image:url('${encodeURI(ICONS[b.n])}')" aria-hidden="true"></span>`:"";
   const pick=b.pick===true?`<span class="pick">${L.pick||"Editor's pick"}</span>`:"";
   const walkIcon=`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
   const strip=stripOf(b);
   const stripChip=strip?`<button class="strip" data-street="${strip.street}" aria-label="${L.searchF(strip.street)}">${walkIcon}${strip.street} · ${strip.n}</button>`:"";
   return `<article class="card${wide?" wide":""}" style="--tier:${TIERCOL[b.tier]||'var(--lav)'}">
-    ${plate}
-    <div class="top">${logo}<div class="tt">${pick}<div class="nm"${viAttr(b.n)}>${b.n}</div>${handle}</div>${sv}</div>
+    <div class="top">${logo}<div class="tt">${pick}<div class="nm"${viAttr(b.n)}>${b.n}</div>${handle}</div>${bk}${sv}</div>
     <div class="cd-more">
       <div class="note"${viAttr(note)}>${note}</div>
       <div class="addr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg><span${viAttr(b.a)}>${b.a}</span><span class="acts">${shr}${map}</span></div>
@@ -1456,6 +1461,14 @@ document.getElementById("main").addEventListener("click",e=>{
     updateSavedCount();
     return;
   }
+  const bk=e.target.closest(".bk");
+  if(bk){ /* basket: fd-basket.js owns the state; the card button just relays */
+    if(window.SS_BASKET){
+      const on=SS_BASKET.addOrOpen(bk.dataset.id);
+      bk.classList.toggle("on",on);bk.setAttribute("aria-pressed",String(on));
+    }
+    return;
+  }
   const strip=e.target.closest(".strip");
   if(strip){ /* the whole walk, in one tap: search the street the house stands on */
     const q=document.getElementById("q");
@@ -1599,6 +1612,7 @@ document.querySelector(".tabbar").addEventListener("click",e=>{
     setTimeout(()=>document.getElementById("q").focus({preventScroll:true}),450);
   }
   if(act==="sheet")sheetCtl.open(b);
+  if(act==="basket"&&window.SS_BASKET)SS_BASKET.open(b);
   if(act==="map"){
     if(window.__fdMapOpen)window.__fdMapOpen(true);
     document.getElementById("map").scrollIntoView({behavior:"smooth",block:"start"});
@@ -1725,6 +1739,9 @@ window.SS_FD={zoneOf:zoneOf,match:match,mapsUrl:mapsUrl};
   <script src="js/store-coords.js"></script>
   <script src="js/route-panel.js"></script>
   <script src="js/discover-brand.js"></script>
+  <script src="js/estimator.js"></script><!-- loaded for window.CONFIG (fees + FX); its estimator UI self-disables on this page -->
+  <script src="js/fd-basket.js"></script>
+  <script src="js/fd-atelier.js"></script>
   <script>if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("rm");</script>
   <!-- Concierge widget intentionally not loaded on the directory page -->
 

@@ -88,6 +88,11 @@
     function seedSaved() { var s = savedIds(); return routeable(DIR.filter(function (b) { return s.has(bid(b)); })); }
     function seedFilter() { var m = FD.match || null; return routeable(DIR.filter(function (b) { return b.city === 'SGN' && (m ? m(b) : b.st === 'walk'); })); }
     function seedZone(z) { return routeable(DIR.filter(function (b) { return zoneOf(b) === z; })); }
+    function seedBasket() { // the shopping basket (js/fd-basket.js) — route its stores
+      var ids = {};
+      try { (JSON.parse(localStorage.getItem('fd-basket') || '{}').items || []).forEach(function (it) { if (it.brandId) ids[it.brandId] = 1; }); } catch (e) {}
+      return routeable(DIR.filter(function (b) { return ids[bid(b)]; }));
+    }
     function zoneCounts() { var c = {}; DIR.forEach(function (b) { if (b.st === 'online' || !coordFor(b)) return; var z = zoneOf(b); if (z) c[z] = (c[z] || 0) + 1; }); return c; }
 
     /* ---- Google Maps multi-stop deep link (chunked past 10 stops) ---- */
@@ -224,6 +229,7 @@
     function currentStops() {
       if (state.seed === 'saved') return seedSaved();
       if (state.seed === 'filter') return seedFilter();
+      if (state.seed === 'basket') return seedBasket();
       return seedZone(state.zone);
     }
     function chip(label, pressed, on, dis) {
@@ -262,6 +268,8 @@
       var nSaved = seedSaved().length, nFilter = seedFilter().length;
       seedWrap.appendChild(chip(T('Saved shortlist', 'Đã lưu') + ' (' + nSaved + ')', state.seed === 'saved', function () { state.seed = 'saved'; syncSeed(); }, nSaved === 0));
       seedWrap.appendChild(chip(T('Current filter', 'Bộ lọc hiện tại') + ' (' + nFilter + ')', state.seed === 'filter', function () { state.seed = 'filter'; syncSeed(); }));
+      var nBasket = seedBasket().length;
+      seedWrap.appendChild(chip(T('Basket', 'Giỏ hàng') + ' (' + nBasket + ')', state.seed === 'basket', function () { state.seed = 'basket'; syncSeed(); }, nBasket === 0));
       var zoneSel = document.createElement('select');
       var counts = zoneCounts();
       Object.keys(ZONELABEL).forEach(function (z) { if (!counts[z]) return; var o = document.createElement('option'); o.value = z; o.textContent = ZONELABEL[z] + ' (' + counts[z] + ')'; if (z === state.zone) o.selected = true; zoneSel.appendChild(o); });
@@ -387,7 +395,9 @@
     // deep-link: open automatically on #route or ?route
     function maybeAutoOpen() {
       if (!document.body.contains(ov)) return;
-      if (/(^|[#&])route(=|$|&)/.test(location.hash)) open();
+      if (!/(^|[#&])route(=|$|&)/.test(location.hash)) return;
+      if (/(^|[#&])route=basket(&|$)/.test(location.hash)) { state.seed = 'basket'; syncSeed(); }
+      open();
     }
     maybeAutoOpen();
     window.addEventListener('hashchange', maybeAutoOpen);

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Find it in Saigon — Seraphic Styler</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#2e54ad" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#161a26" media="(prefers-color-scheme: dark)" />
+  <script>if('serviceWorker' in navigator && location.protocol==='https:'){addEventListener('load',function(){navigator.serviceWorker.register('service-worker.js').catch(function(){});});}</script>
+  <meta name="description" content="Upload a photo of Vietnamese fashion — an Instagram screenshot or a street photo — and match it against 262 Vietnamese fashion houses in the Seraphic Styler directory." />
+  <link rel="canonical" href="https://www.seraphicstyler.com/find" />
+  <meta property="og:title" content="Find it in Saigon — Seraphic Styler" />
+  <meta property="og:description" content="Upload a photo of Vietnamese fashion — an Instagram screenshot or a street photo — and match it against 262 Vietnamese fashion houses in the Seraphic Styler directory." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://www.seraphicstyler.com/assets/social/og-image.png" />
+  <link rel="icon" href="assets/butterfly-side.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&family=Tenor+Sans&display=swap" rel="stylesheet" />
+  <script>
+  /* Pre-paint theme: honour the main site's ss-theme (auto|light|dark|mono) before styles apply — no flash. */
+  (function(){var t=null;try{t=localStorage.getItem("ss-theme");}catch(e){}
+   var dark=t==="dark"||((!t||t==="auto")&&matchMedia("(prefers-color-scheme: dark)").matches);
+   if(dark)document.documentElement.setAttribute("data-theme","dark");})();
+  </script>
+  <style>
+
+:root{
+  /* Seraphic V2 "Ethereal Lavender / Aurora" — directory token set.
+     Proof + WCAG-AA audit for every pair: tools/design-test.html */
+  --ice:#eef3fb; --mist:#efeaf8; --paper:#ffffff;
+  --ink:#233a72; --ink-soft:#51618f; --ink-mute:#55638e; --ink-faint:#8b97b8; /* faint = decorative only, never text */
+  --cobalt:#2e54ad; --cobalt-deep:#234193;
+  --lav:#c9b6e8; --peri:#8a93de; --orchid:#c98fc4; --mauve:#cf9bb4;
+  --peri-text:#5560b5; /* AA-safe periwinkle for small text; --peri itself is decorative */
+  --ok:#1b6b4a;   --ok-bg:rgba(31,122,84,.10);
+  --warn:#7d541e; --warn-bg:rgba(176,122,31,.12);
+  --danger:#b0451f; --danger-bg:rgba(176,69,31,.09);
+  --stale:#55638e; --stale-bg:rgba(46,71,115,.08);
+  --line:rgba(46,71,115,.14); --line-soft:rgba(46,71,115,.08);
+  --card:rgba(255,255,255,.72); --card-solid:#fff;
+  --shadow:0 22px 48px -34px rgba(35,58,114,.45);
+  --shadow-sm:0 8px 22px -16px rgba(35,58,114,.4);
+  --halo:0 0 22px rgba(201,182,232,.5),0 0 54px rgba(46,84,173,.14);
+  --font-display:"Tenor Sans",Cambria,"Hoefler Text",serif;
+  --font-script:"Pinyon Script","Snell Roundhand",cursive;
+  --font-body:"Montserrat","Helvetica Neue","Segoe UI",system-ui,sans-serif;
+  --maxw:1240px;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:20px; --s6:24px; --s8:32px; --s10:40px; --s12:48px;
+  --r:18px; --r-sm:12px; --r-lg:22px; --r-pill:999px;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --ctrl-h:64px; --tabbar-h:0px;
+}
+[data-theme=dark]{
+  --ice:#161a26; --mist:#1b2030; --paper:#1f2536;
+  --ink:#f2f0f7; --ink-soft:#aab6cc; --ink-mute:#93a0bd; --ink-faint:#7d8aa6;
+  --cobalt:#a9b8ee; --cobalt-deep:#c2cdf5;
+  --lav:#b9a6dd; --peri:#8f98df; --orchid:#c98fc4; --mauve:#cf9bb4;
+  --peri-text:#8f98df;
+  --ok:#6fc79b;   --ok-bg:rgba(91,189,143,.14);
+  --warn:#e0aa6a; --warn-bg:rgba(217,160,91,.14);
+  --danger:#e79b7c; --danger-bg:rgba(176,69,31,.18);
+  --stale:#9caac8; --stale-bg:rgba(220,224,240,.08);
+  --line:rgba(220,224,240,.14); --line-soft:rgba(220,224,240,.08);
+  --card:rgba(36,42,60,.62); --card-solid:#232a3d;
+  --shadow:0 24px 54px -34px rgba(0,0,0,.7);
+  --shadow-sm:0 10px 24px -18px rgba(0,0,0,.65);
+  --halo:0 0 24px rgba(169,184,238,.22),0 0 56px rgba(180,168,215,.14);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--ice);color:var(--ink);
+  font-family:var(--font-body);font-weight:400;line-height:1.55;
+  font-size:15px;-webkit-font-smoothing:antialiased;letter-spacing:.005em;
+  transition:background .5s ease,color .3s ease;
+}
+h1,h2,h3{font-family:var(--font-display);font-weight:400;line-height:1.12;
+  text-wrap:balance;letter-spacing:.01em;margin:0;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(18px,4vw,44px);}
+.vh{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+:focus-visible{outline:2px solid var(--cobalt);outline-offset:2px;border-radius:4px;}
+
+/* ---------- Skip links ----------
+   Hidden by clipping, not by left:-9999px: in an RTL document that negative offset
+   becomes *scrollable* overflow and adds ~10,000px to the page width. Clipping is
+   direction-agnostic, and inset-inline-start puts the focused link on the reading
+   side in both directions. Only one can hold focus, so they share one position. */
+.skiplink{position:absolute;top:10px;inset-inline-start:12px;z-index:100;
+  background:var(--card-solid);color:var(--cobalt);border:0;
+  border-radius:var(--r-pill);font-size:.8rem;box-shadow:var(--shadow);
+  width:1px;height:1px;padding:0;overflow:hidden;white-space:nowrap;
+  clip:rect(0 0 0 0);clip-path:inset(50%);}
+.skiplink:focus{width:auto;height:auto;padding:8px 16px;overflow:visible;
+  border:1px solid var(--cobalt);clip:auto;clip-path:none;}
+
+/* ---------- Top bar + page nav ---------- */
+.fd-topbar{display:flex;justify-content:space-between;align-items:center;gap:var(--s3);
+  padding:11px clamp(18px,4vw,44px);background:var(--mist);border-bottom:1px solid var(--line);}
+.fd-back{font-family:var(--font-body);font-size:.82rem;color:var(--cobalt);text-decoration:none;letter-spacing:.02em;}
+.fd-back:hover{color:var(--cobalt-deep);text-decoration:underline;}
+.fd-topbar .fd-brand{font-family:var(--font-display);letter-spacing:.28em;text-transform:uppercase;font-size:.8rem;color:var(--ink);}
+.secnav{background:color-mix(in srgb,var(--ice) 92%,transparent);border-bottom:1px solid var(--line);padding:10px 0;}
+.secnav .wrap{display:flex;gap:var(--s2);flex-wrap:wrap;align-items:center;}
+.secnav a{font-family:var(--font-body);font-size:.78rem;border:1px solid var(--line);
+  background:var(--card-solid);color:var(--ink-soft);padding:6px 15px;border-radius:var(--r-pill);
+  transition:.18s var(--ease);letter-spacing:.01em;white-space:nowrap;}
+.secnav a:hover{border-color:var(--peri);color:var(--ink);}
+.secnav a[aria-current="page"]{background:var(--cobalt);border-color:var(--cobalt);color:#fff;}
+[data-theme=dark] .secnav a[aria-current="page"]{color:#161a26;}
+
+/* ---------- Floating controls ---------- */
+.themebtn{position:fixed;right:1.25rem;bottom:4.6rem;z-index:40;width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--line);background:var(--card-solid);color:var(--ink);cursor:pointer;
+  box-shadow:var(--shadow);display:grid;place-items:center;transition:.2s;}
+.themebtn:hover{transform:scale(1.06);border-color:var(--peri);}
+.themebtn .sun{display:none;}
+[data-theme=dark] .themebtn .sun{display:block;}
+[data-theme=dark] .themebtn .moon{display:none;}
+
+/* ---------- Find-page components (new; tokens only) ---------- */
+[hidden]{display:none !important;}
+.mut{color:var(--ink-mute);font-size:.8rem;}
+
+.masthead-lite{background:var(--mist);border-bottom:1px solid var(--line);
+  padding:clamp(34px,7vw,72px) 0 clamp(26px,5vw,52px);}
+.masthead-lite .script-accent{font-family:var(--font-script);font-size:clamp(1.5rem,3.4vw,2.2rem);
+  color:var(--peri-text);margin:0 0 6px;}
+.masthead-lite h1{font-size:clamp(1.9rem,4.6vw,3rem);}
+.masthead-lite .sub{color:var(--ink-soft);max-width:62ch;margin:14px 0 0;font-size:.92rem;}
+
+.fd-tools{display:flex;gap:var(--s2);align-items:center;}
+.utilbtn{font:inherit;font-family:var(--font-body);font-size:.78rem;color:var(--ink-soft);
+  background:var(--card-solid);border:1px solid var(--line);border-radius:var(--r-pill);
+  padding:6px 14px;cursor:pointer;transition:.18s var(--ease);letter-spacing:.01em;white-space:nowrap;}
+.utilbtn:hover{border-color:var(--peri);color:var(--ink);}
+.utilbtn[aria-expanded="true"]{background:var(--cobalt);border-color:var(--cobalt);color:#fff;}
+[data-theme=dark] .utilbtn[aria-expanded="true"]{color:#161a26;}
+
+.btn-primary{display:inline-block;font:inherit;font-family:var(--font-body);font-size:.82rem;
+  letter-spacing:.02em;background:var(--cobalt);color:#fff;border:1px solid var(--cobalt);
+  border-radius:var(--r-pill);padding:10px 22px;cursor:pointer;transition:.18s var(--ease);text-align:center;}
+.btn-primary:hover{background:var(--cobalt-deep);border-color:var(--cobalt-deep);}
+[data-theme=dark] .btn-primary{color:#161a26;}
+.btn-primary:disabled{background:var(--ink-faint);border-color:var(--ink-faint);color:#fff;cursor:not-allowed;}
+.btn-ghost{display:inline-block;font:inherit;font-family:var(--font-body);font-size:.82rem;
+  background:var(--card-solid);color:var(--cobalt);border:1px solid var(--line);
+  border-radius:var(--r-pill);padding:10px 20px;cursor:pointer;transition:.18s var(--ease);text-align:center;}
+.btn-ghost:hover{border-color:var(--peri);color:var(--cobalt-deep);}
+
+.txt{font:inherit;font-family:var(--font-body);font-size:.86rem;color:var(--ink);
+  background:var(--card-solid);border:1px solid var(--line);border-radius:var(--r-pill);
+  padding:10px 16px;}
+.txt::placeholder{color:var(--ink-mute);}
+.txt:focus{outline:2px solid var(--cobalt);outline-offset:1px;}
+
+/* Key drawer */
+#keydrawer .keydrawer{background:var(--card-solid);border:1px solid var(--line);border-radius:var(--r);
+  padding:var(--s6);margin:var(--s6) 0;box-shadow:var(--shadow-sm);}
+#keydrawer h2{font-size:1.05rem;margin-bottom:var(--s3);}
+#keydrawer label{display:block;font-size:.78rem;color:var(--ink-soft);margin-bottom:6px;}
+.keyrow{display:flex;gap:var(--s2);flex-wrap:wrap;align-items:center;}
+.keyrow input{flex:1 1 240px;min-width:0;}
+.costbox{background:var(--ice);border-radius:var(--r-sm);padding:var(--s3) var(--s4);margin-top:var(--s3);}
+.costbox .mut{margin:0;}
+
+/* Main sections */
+#main>section{margin:var(--s10) 0;}
+#main h2{font-size:1.25rem;margin-bottom:var(--s3);}
+
+/* Uploader */
+.up-zone{border:2px dashed var(--line);border-radius:var(--r-lg);min-height:180px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--s3);
+  text-align:center;cursor:pointer;padding:var(--s6);background:var(--card);
+  transition:border-color .18s var(--ease),background .18s var(--ease);}
+.up-zone.drag{border-color:var(--cobalt);background:var(--mist);}
+.up-zone p{margin:0;color:var(--ink-soft);font-size:.9rem;}
+#preview{position:relative;margin:var(--s4) 0 0;display:inline-block;}
+#preview img{display:block;max-height:340px;max-width:100%;object-fit:contain;
+  border-radius:var(--r-sm);border:1px solid var(--line);background:var(--card-solid);}
+#clearimg{position:absolute;top:8px;inset-inline-end:8px;width:30px;height:30px;border-radius:50%;
+  border:1px solid var(--line);background:var(--card-solid);color:var(--ink);cursor:pointer;
+  box-shadow:var(--shadow-sm);font-size:.85rem;line-height:1;}
+#clearimg:hover{border-color:var(--danger);color:var(--danger);}
+.hintrow{display:flex;gap:var(--s2);margin-top:var(--s4);}
+.hintrow input{flex:1;min-width:0;}
+#visitor-note{margin-top:var(--s3);}
+
+/* Results */
+.res-item{background:var(--card-solid);border:1px solid var(--line);border-radius:var(--r);
+  padding:var(--s5);margin-top:var(--s4);box-shadow:var(--shadow-sm);}
+.res-item h3{font-size:1.05rem;}
+.res-item .vi{font-family:var(--font-body);font-size:.9rem;color:var(--peri-text);}
+.res-item p{margin:6px 0;}
+.chiprow{display:flex;flex-wrap:wrap;gap:6px;margin:var(--s2) 0;}
+.chip{font-size:.72rem;border:1px solid var(--line);border-radius:var(--r-pill);
+  padding:3px 10px;color:var(--ink-soft);background:var(--ice);}
+.match-card{border:1px solid var(--line-soft);border-radius:var(--r-sm);
+  padding:var(--s3) var(--s4);margin:var(--s3) 0 0 var(--s4);background:var(--card);}
+.match-card .mname{font-weight:500;margin:0;}
+.match-card .reason{font-size:.85rem;margin:4px 0;}
+.match-card .flagnote{color:var(--warn);font-size:.78rem;margin:4px 0;}
+.conf-bar{height:5px;border-radius:var(--r-pill);background:var(--line);overflow:hidden;margin:6px 0;}
+.conf-bar span{display:block;height:100%;background:var(--cobalt);border-radius:var(--r-pill);}
+.viewbtn{display:inline-block;font-size:.76rem;color:var(--cobalt);border:1px solid var(--line);
+  border-radius:var(--r-pill);padding:5px 13px;background:var(--card-solid);transition:.18s var(--ease);}
+.viewbtn:hover{border-color:var(--cobalt);}
+.qrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:var(--s3);align-items:center;}
+.qpill{font-size:.74rem;border:1px solid var(--line);border-radius:var(--r-pill);
+  padding:5px 13px;color:var(--ink-soft);background:var(--card-solid);cursor:pointer;
+  font-family:var(--font-body);transition:.18s var(--ease);}
+.qpill:hover{border-color:var(--cobalt);color:var(--cobalt);}
+#results .resend{margin-top:var(--s5);}
+
+/* Concierge */
+.concierge-card{border:1px solid color-mix(in srgb,var(--cobalt) 35%,var(--line));
+  border-radius:var(--r);background:var(--card-solid);padding:var(--s6);box-shadow:var(--shadow-sm);}
+.concierge-card .btns{display:flex;gap:var(--s3);flex-wrap:wrap;margin-top:var(--s4);}
+.concierge-card p{margin:var(--s2) 0 0;}
+body:not(.haskey) .concierge-card{border-color:color-mix(in srgb,var(--cobalt) 60%,var(--line));}
+
+/* Quick find */
+#quickfind input{width:100%;max-width:460px;}
+#qfresults{margin-top:var(--s3);}
+.qfrow{display:flex;justify-content:space-between;gap:var(--s3);padding:9px 12px;
+  border-radius:var(--r-sm);border:1px solid transparent;transition:.15s var(--ease);}
+.qfrow:hover{background:var(--ice);border-color:var(--line-soft);}
+
+/* History */
+.hist-strip{display:flex;gap:var(--s3);overflow-x:auto;padding:var(--s2) 0;}
+.hist-strip button{border:1px solid var(--line);background:var(--card-solid);border-radius:var(--r-sm);
+  padding:6px;cursor:pointer;flex:none;display:flex;flex-direction:column;gap:4px;align-items:center;
+  transition:.15s var(--ease);}
+.hist-strip button:hover{border-color:var(--peri);}
+.hist-strip img{display:block;width:64px;height:64px;object-fit:cover;border-radius:8px;}
+#histclear{margin-top:var(--s2);}
+
+/* Errors */
+.err-card{border:1px solid var(--danger);background:var(--danger-bg);color:var(--ink);
+  border-radius:var(--r);padding:var(--s5);margin-top:var(--s4);}
+.err-card p{margin:0 0 var(--s2);}
+.err-card details{margin:var(--s2) 0;font-size:.78rem;}
+.err-card summary{cursor:pointer;color:var(--ink-soft);}
+.err-card pre{white-space:pre-wrap;word-break:break-word;font-size:.72rem;overflow-x:auto;
+  background:var(--card-solid);border-radius:var(--r-sm);padding:var(--s3);}
+
+/* Footer */
+.findfoot{border-top:1px solid var(--line);margin-top:var(--s12);padding:var(--s8) 0;}
+.findfoot a{color:var(--cobalt);}
+
+@media (max-width:720px){
+  .hintrow{flex-direction:column;}
+  .hintrow .btn-primary{width:100%;}
+  .keyrow{flex-direction:column;align-items:stretch;}
+  .keyrow input{flex:1 1 auto;}
+  .concierge-card .btns{flex-direction:column;}
+  .concierge-card .btns a{width:100%;}
+  .match-card{margin-inline-start:0;}
+}
+  </style>
+</head>
+<body>
+<a class="skiplink" href="#main" data-i18n="find.skip">Skip to content</a>
+
+<header class="fd-topbar">
+  <a class="fd-back" href="./" data-i18n="find.top.back">&larr; Seraphic Styler</a>
+  <div class="fd-tools">
+    <button type="button" id="keybtn" class="utilbtn" aria-expanded="false" aria-controls="keydrawer" data-i18n="find.top.settings">AI settings</button>
+  </div>
+</header>
+
+<nav class="secnav" aria-label="Site pages">
+  <div class="wrap">
+    <a href="./" data-i18n="find.nav.atelier">The atelier</a>
+    <a href="fashion-directory" data-i18n="find.nav.directory">Directory</a>
+    <a href="find" aria-current="page" data-i18n="find.nav.find">Find it</a>
+    <a href="field-guide" data-i18n="find.nav.guide">Field guide</a>
+    <a href="lookbook" data-i18n="find.nav.lookbook">Lookbook</a>
+    <a href="./#contact" data-i18n="find.nav.contact">Contact</a>
+  </div>
+</nav>
+
+<header class="masthead-lite">
+  <div class="wrap">
+    <p class="script-accent" data-i18n="find.accent">seen it, want it, found it</p>
+    <h1 data-i18n="find.h1">Find it in Saigon</h1>
+    <p class="sub" data-i18n="find.sub">Upload a photo of a piece you've spotted — an Instagram screenshot or a street photo — and I'll look for its maker among 262 Vietnamese houses.</p>
+  </div>
+</header>
+
+<aside id="keydrawer" hidden>
+  <div class="wrap">
+    <div class="keydrawer">
+      <h2 data-i18n="find.keys.h">AI settings</h2>
+      <label for="keyinput" data-i18n="find.keys.label">Anthropic API key</label>
+      <div class="keyrow">
+        <input id="keyinput" class="txt" type="password" autocomplete="off" spellcheck="false" />
+        <button type="button" id="keysave" class="btn-primary" data-i18n="find.keys.save">Save</button>
+        <button type="button" id="keytest" class="btn-ghost" data-i18n="find.keys.test">Test key</button>
+        <button type="button" id="keyclear" class="btn-ghost" data-i18n="find.keys.clear">Clear</button>
+      </div>
+      <p id="keystatus" class="mut" aria-live="polite"></p>
+      <p class="mut" data-i18n="find.keys.privacy">It stays in this browser only (localStorage). It is sent exclusively to api.anthropic.com when you run a search — never to this site's host or anywhere else. Don't save it on a shared computer — use Clear when you're done.</p>
+      <div class="costbox">
+        <p class="mut" data-i18n="find.keys.cost">Each search sends your photo plus the 262-brand index to Anthropic. On the default model (Claude Opus 4.8) that's roughly <strong>6–15¢ per search</strong> — repeats within 5 minutes sit at the low end thanks to caching. Cheaper models can be set at the top of js/find.js: Claude Sonnet 5 ≈ 3–7¢, Claude Haiku 4.5 ≈ 1–3¢.</p>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<main id="main" class="wrap">
+
+  <section id="uploader">
+    <div id="dropzone" class="up-zone" role="button" tabindex="0" aria-label="Upload a photo">
+      <p data-i18n="find.up.prompt">Drop a photo here, paste a screenshot (Cmd/Ctrl&#8202;+&#8202;V), or</p>
+      <button type="button" id="pickbtn" class="btn-ghost" data-i18n="find.up.choose">Choose a photo</button>
+      <p class="mut" data-i18n="find.up.formats">JPG, PNG or WebP — HEIC works best in Safari.</p>
+      <input id="file" type="file" accept="image/*" hidden />
+    </div>
+    <figure id="preview" hidden>
+      <img id="previmg" alt="Your photo" />
+      <button type="button" id="clearimg" aria-label="Remove photo">✕</button>
+    </figure>
+    <div class="hintrow">
+      <input id="hint" class="txt" type="text" placeholder="Optional hint — a brand guess, where you saw it…" />
+      <button type="button" id="analyze" class="btn-primary" disabled data-i18n="find.up.go">Identify it</button>
+    </div>
+    <p id="visitor-note" class="mut" hidden data-i18n="find.up.visitor">AI analysis is switched off on this browser — the two options below work for everyone.</p>
+  </section>
+
+  <section id="results" hidden aria-live="polite"></section>
+
+  <section id="concierge" class="concierge-card">
+    <h2 data-i18n="find.cc.h">Or just send it to me</h2>
+    <p data-i18n="find.cc.p">Finding pieces is literally my job. Send the photo and I'll identify it, price it, and source it.</p>
+    <div class="btns">
+      <a class="btn-primary" href="https://tally.so/r/gD10Kl?about=Find%20this%20piece&amp;source=find" target="_blank" rel="noopener" data-i18n="find.cc.send">Send a sourcing request &rarr;</a>
+      <a class="btn-ghost" href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener noreferrer" data-i18n="find.cc.dm">DM the photo to @seraphicstyler</a>
+    </div>
+    <p class="mut" data-i18n="find.cc.note">Attach the photo in the form, or send it in the DM.</p>
+  </section>
+
+  <section id="quickfind">
+    <h2 data-i18n="find.qf.h">Know a name? Search the directory</h2>
+    <input id="qf" class="txt" type="search" placeholder="Brand, @handle, district, fabric…" autocomplete="off" />
+    <div id="qfresults"></div>
+  </section>
+
+  <section id="history" hidden>
+    <h2 data-i18n="find.hist.h">Recent searches</h2>
+    <div id="histstrip" class="hist-strip"></div>
+    <button type="button" id="histclear" class="btn-ghost" data-i18n="find.hist.clear">Clear history</button>
+  </section>
+
+</main>
+
+<footer class="findfoot">
+  <div class="wrap">
+    <p class="mut"><span data-i18n="find.foot.part">Part of</span> <a href="fashion-directory" data-i18n="find.foot.dir">The Saigon Fashion Directory</a></p>
+  </div>
+</footer>
+
+<button class="themebtn" id="theme" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle light / dark">
+  <svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+  <svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M19.1 4.9l-1.9 1.9M6.8 17.2l-1.9 1.9"/></svg>
+</button>
+
+<script src="js/directory-data.js" defer></script>
+<script src="js/find.js" defer></script>
+</body>
+</html>

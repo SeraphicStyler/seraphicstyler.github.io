@@ -2,16 +2,21 @@
    Network-first for pages (so edits show immediately), cache-first for static
    assets. Lets you browse the directory and your saved route on the street with
    no signal. Bump CACHE to invalidate. */
-const CACHE = 'ss-fd-v13'; /* bumped: theme toggle FAB (light/dark/mono) */
+const CACHE = 'ss-fd-v15'; /* bumped: atelier layer (preview, moods, boards, quick-add tray) */
 const CORE = [
   './fashion-directory',
   './field-guide',
+  './find',
   './js/directory-data.js',
   './js/route-solver.js',
   './js/store-coords.js',
   './js/route-panel.js',
   './js/discover-brand.js',
   './js/i18n-page.js',
+  './js/find.js',
+  './js/fd-basket.js',
+  './js/fd-atelier.js',
+  './js/estimator.js',
   './assets/butterfly-side.svg',
   './manifest.webmanifest'
 ];
