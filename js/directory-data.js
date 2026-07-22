@@ -14,7 +14,7 @@ window.SS_DIRECTORY=[
 {n:"Mangata",h:"mangata.vn",cat:"women",city:"SGN",area:"D1",tier:"premium",st:"walk",a:"1F, 40E Ngô Đức Kế",no:"Founder-run; has a sister coffee brand, Blubean."},
 {n:"Josephine",h:"josephineofficial.vn",cat:"women",city:"SGN",area:"D1 · Bến Thành",tier:"premium",st:"walk",a:"106A Lê Thị Riêng",no:"Feminine RTW; also a Hanoi branch on Phố Huế."},
 {n:"LSOUL",h:"lsoul.officiel",cat:"women",city:"SGN",area:"D1",tier:"premium",st:"walk",a:"257B Nguyễn Trãi",no:"Well-known minimalist label. 9:30–21:30."},
-{n:"Jubin Studio",h:"jubinstudio",cat:"women",city:"SGN",area:"D1 · Đa Kao",tier:"mid",st:"walk",a:"4B Phan Kế Bính",no:"“The perfect wardrobe for petite girls.”"},
+{n:"Jubin Studio",h:"jubinstudio",cat:"women",city:"SGN",area:"D1 · Đa Kao",tier:"mid",st:"walk",a:"4B Phan Kế Bính",w:"https://global.jubinstudio.com/",no:"“The perfect wardrobe for petite girls.”"},
 {n:"Moodswings",h:"moodswingsvn",cat:"women",city:"SGN",area:"D1 · Tân Định",tier:"mid",st:"walk",a:"75E Đặng Dung",no:"10:00–21:30; worldwide shipping."},
 {n:"CEM — Chị Em Mình",h:"cem_club",cat:"women",city:"SGN",area:"D1 · Bến Thành",tier:"mid",st:"walk",a:"26 Ký Con",no:"Vietnam-based; worldwide shipping."},
 {n:"Pomelo Flower",h:"pomelo.flower",cat:"women",city:"SGN",area:"D1",tier:"premium",st:"walk",a:"245/43 Nguyễn Trãi",no:"“Timeless fashion for ladies,” made in Saigon."},
