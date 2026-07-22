@@ -90,7 +90,7 @@
     function seedZone(z) { return routeable(DIR.filter(function (b) { return zoneOf(b) === z; })); }
     function seedBasket() { // the shopping basket (js/fd-basket.js) — route its stores
       var ids = {};
-      try { (JSON.parse(localStorage.getItem('fd-basket') || '{}').items || []).forEach(function (it) { if (it.brandId) ids[it.brandId] = 1; }); } catch (e) {}
+      try { (JSON.parse(localStorage.getItem('fd-basket') || '{}').items || []).forEach(function (it) { if (it.brandId && it.state !== 'saved') ids[it.brandId] = 1; }); } catch (e) {} /* saved-state rows are ideas, not stops */
       return routeable(DIR.filter(function (b) { return ids[bid(b)]; }));
     }
     function zoneCounts() { var c = {}; DIR.forEach(function (b) { if (b.st === 'online' || !coordFor(b)) return; var z = zoneOf(b); if (z) c[z] = (c[z] || 0) + 1; }); return c; }

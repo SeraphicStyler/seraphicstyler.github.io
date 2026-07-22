@@ -1,15 +1,23 @@
-/* Seraphic Styler — directory shopping basket (fd-basket.js)
+/* Seraphic Styler — the unified tray (fd-basket.js)
    ----------------------------------------------------------------------
-   Customers collect pieces while browsing the directory: each entry is a
-   link + the store it comes from + a price they type themselves (prices
-   aren't in the data and can't be scraped). The basket tallies VND + USD,
-   previews the service fee using the estimator's own CONFIG, and runs the
-   route solver over the basket's stores to call the trip "a simple run"
-   or "a proper hunt" — the hunt is what the +200,000₫ complex-sourcing
-   fee covers, so the verdict auto-applies it and says why.
+   One working surface for everything a client collects while browsing:
+   every row has a state that graduates — 'saved' (a hearted house, just
+   an idea) → 'shortlist' (a piece with a link and a typed price) →
+   'ready' (priced and estimate-bound). Hearts and the bag feed the same
+   tray; nothing asks the client to decide "save or basket?" up front.
+   The tray tallies VND + USD over shortlist+ready, previews the service
+   fee via the estimator's CONFIG, and runs the route solver over those
+   stores to call the trip "a simple run" or "a proper hunt" — the hunt
+   is what the +200,000₫ complex-sourcing fee covers.
+   Storage: localStorage 'fd-basket' {v:2, items:[{…, state}]}. v1 baskets
+   migrate to state:'ready' (their estimate CTA was live and must stay so);
+   pre-tray hearts in 'fd-saved' fold in as state:'saved' rows, and
+   'fd-saved' is kept written as a mirror of the saved rows so the page's
+   heart filter, saved=1 deep link and route-panel's seedSaved keep working.
    Self-injecting widget in the route-panel.js mold: own <style>, own DOM,
    themed entirely off the page's CSS variables (dark mode for free).
-   Exposes window.SS_BASKET = { has, addOrOpen, open, close, count }.
+   Exposes window.SS_BASKET = { has, addOrOpen, addStructured, open, close,
+   count } (unchanged contract) + window.SS_TRAY for the state model.
    ---------------------------------------------------------------------- */
 (function () {
   'use strict';
@@ -45,15 +53,43 @@
   DIR.forEach(function (b) { var k = bid(b); if (!(k in byId)) byId[k] = b; }); /* same-name twins keep the first door */
 
   /* ---------- state ---------- */
+  var STATES = ['saved', 'shortlist', 'ready'];
   var items = load();
   function load() {
+    var arr = [];
     try {
       var d = JSON.parse(localStorage.getItem(BK.LS) || 'null');
-      if (d && d.v === 1 && Array.isArray(d.items)) return d.items;
+      if (d && Array.isArray(d.items)) {
+        arr = d.items;
+        if (d.v === 1) arr.forEach(function (it) { it.state = 'ready'; });   /* v1 baskets had a live estimate CTA — keep it live */
+        else arr.forEach(function (it) { if (STATES.indexOf(it.state) < 0) it.state = 'shortlist'; });
+      }
     } catch (e) {}
-    return [];
+    /* hearts from before the tray existed (or set while this module wasn't loaded)
+       fold in as saved-state rows — lossless, idempotent */
+    try {
+      (JSON.parse(localStorage.getItem('fd-saved') || '[]') || []).forEach(function (id) {
+        if (!arr.some(function (it) { return it.brandId === id; })) {
+          arr.push({ id: uid(), brandId: id, brandName: byId[id] ? byId[id].n : id, link: '', priceVnd: null, title: '', addedAt: Date.now(), state: 'saved' });
+        }
+      });
+    } catch (e2) {}
+    return arr;
   }
-  function save() { try { localStorage.setItem(BK.LS, JSON.stringify({ v: 1, items: items })); } catch (e) {} }
+  function save() {
+    try { localStorage.setItem(BK.LS, JSON.stringify({ v: 2, items: items })); } catch (e) {}
+    /* mirror: the page's heart filter, saved=1 deep link and route-panel's
+       seedSaved all read 'fd-saved' — keep it equal to the saved-state rows */
+    try {
+      var hearts = [];
+      items.forEach(function (it) { if (it.state === 'saved' && it.brandId && hearts.indexOf(it.brandId) < 0) hearts.push(it.brandId); });
+      localStorage.setItem('fd-saved', JSON.stringify(hearts));
+    } catch (e3) {}
+    try { document.dispatchEvent(new CustomEvent('ss:tray')); } catch (e4) {}
+  }
+  /* the "actionable" rows — everything the fees, trip and estimate care about */
+  function active() { return items.filter(function (it) { return it.state !== 'saved'; }); }
+  function readyItems() { return items.filter(function (it) { return it.state === 'ready'; }); }
 
   /* ---------- price parsing (VND-first, shorthand-friendly) ---------- */
   function parsePrice(raw) {
@@ -107,8 +143,9 @@
 
   var tripCache = { sig: null, plan: null };
   function classify() {
+    /* saved-state rows are ideas, not stops — they must not trip the complex-sourcing fee */
     var seen = {}, brands = [], customs = {};
-    items.forEach(function (it) {
+    active().forEach(function (it) {
       if (it.brandId) { if (!seen[it.brandId]) { seen[it.brandId] = 1; if (byId[it.brandId]) brands.push(byId[it.brandId]); } }
       else if (it.brandName) customs[it.brandName] = 1;
     });
@@ -162,7 +199,9 @@
     '.bk-body{flex:1;overflow-y:auto;padding:12px 16px;display:flex;flex-direction:column;gap:14px;}' +
     '.bk-empty{color:var(--ink-mute);font-size:.9rem;padding:18px 4px;line-height:1.55;}' +
     '.bk-group{border:1px solid var(--line);border-radius:14px;background:var(--card-solid);padding:10px 12px;display:flex;flex-direction:column;gap:8px;}' +
-    '.bk-ghead{display:flex;align-items:baseline;gap:8px;}' +
+    '.bk-ghead{display:flex;align-items:center;gap:9px;}' +
+    '.bk-glogo{flex:none;width:34px;height:34px;border-radius:9px;object-fit:cover;background:#fff;border:1px solid var(--line);}' +
+    '.bk-gi{display:grid;place-items:center;font-family:var(--font-display);font-size:1rem;color:var(--cobalt);background:var(--ice);}' +
     '.bk-ghead a,.bk-ghead b{font-size:.95rem;color:var(--ink);text-decoration:none;font-weight:600;flex:1;min-width:0;overflow-wrap:break-word;}' +
     '.bk-ghead a:hover{color:var(--cobalt);}' +
     '.bk-gadd{font:inherit;font-size:.72rem;background:none;border:1px solid var(--line);border-radius:999px;padding:2px 9px;cursor:pointer;color:var(--ink-soft);}' +
@@ -176,10 +215,31 @@
     '.bk-parsed.bad{color:var(--warn,#b4762a);}' +
     '.bk-del{font:inherit;background:none;border:0;cursor:pointer;color:var(--ink-mute);padding:5px 8px;border-radius:50%;}' +
     '.bk-del:hover{color:var(--orchid);}' +
-    '.bk-custom summary{cursor:pointer;font-size:.85rem;color:var(--cobalt);}' +
-    '.bk-custom .bk-cform{display:flex;flex-direction:column;gap:6px;margin-top:8px;}' +
-    '.bk-custom input{font:inherit;font-size:.83rem;border:1px solid var(--line);border-radius:9px;padding:6px 9px;background:var(--paper);color:var(--ink);}' +
+    /* paste-a-link — always visible at the top of the tray, first-class ingestion */
+    '.tr-paste{border:1px dashed var(--line);border-radius:14px;padding:10px 12px;background:var(--ice);}' +
+    '.tr-plbl{margin:0 0 7px;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute);}' +
+    '.tr-paste .bk-cform{display:flex;flex-direction:column;gap:6px;}' +
+    '.tr-paste .bk-crow{display:flex;gap:6px;}' +
+    '.tr-paste .bk-crow input{flex:1;min-width:0;}' +
+    '.tr-paste input{font:inherit;font-size:.83rem;border:1px solid var(--line);border-radius:9px;padding:6px 9px;background:var(--paper);color:var(--ink);}' +
     '.bk-c-add{font:inherit;font-size:.8rem;align-self:flex-start;border:1px solid var(--cobalt);color:var(--cobalt);background:none;border-radius:999px;padding:4px 14px;cursor:pointer;}' +
+    /* tray state sections */
+    '.tr-sec{display:flex;flex-direction:column;gap:8px;}' +
+    '.tr-sec h3{margin:0 0 1px;font-family:var(--font-display);font-size:.92rem;color:var(--ink);letter-spacing:.03em;}' +
+    '.tr-sec[data-state=ready] h3{color:var(--cobalt);}' +
+    '.tr-n{color:var(--ink-mute);font-weight:400;font-size:.78rem;}' +
+    '.tr-savedrow{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:12px;padding:7px 9px;background:var(--card-solid);}' +
+    '.tr-savedrow .tr-sv-t{flex:1;min-width:0;display:flex;flex-direction:column;}' +
+    '.tr-savedrow b{font-size:.86rem;color:var(--ink);overflow-wrap:break-word;}' +
+    '.tr-savedrow i{font-style:normal;font-size:.68rem;color:var(--ink-mute);}' +
+    '.tr-promote{font:inherit;font-size:.68rem;border:1px solid var(--cobalt);color:var(--cobalt);background:none;border-radius:999px;padding:3px 9px;cursor:pointer;white-space:nowrap;flex:none;}' +
+    '.tr-promote:hover{background:var(--cobalt);color:#fff;}' +
+    '[data-theme=dark] .tr-promote:hover{color:#161a26;}' +
+    /* per-row stage pills: Saved | Shortlist | Ready */
+    '.tr-seg{grid-column:1 / -1;display:flex;gap:4px;}' +
+    '.tr-st{font:inherit;font-size:.64rem;letter-spacing:.02em;border:1px solid var(--line);background:none;color:var(--ink-mute);border-radius:999px;padding:3px 9px;cursor:pointer;}' +
+    '.tr-st[aria-pressed=true]{background:var(--cobalt);border-color:var(--cobalt);color:#fff;}' +
+    '[data-theme=dark] .tr-st[aria-pressed=true]{color:#161a26;}' +
     '.bk-trip{border:1px solid var(--line);border-radius:14px;padding:11px 13px;background:var(--ice);display:flex;flex-direction:column;gap:6px;}' +
     '.bk-trip h3{margin:0;font-size:.95rem;color:var(--ink);font-family:var(--font-display);}' +
     '.bk-trip.hunt h3{color:var(--cobalt);}' +
@@ -196,14 +256,37 @@
     '.bk-foot{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--line);}' +
     '.bk-foot .bk-est{grid-column:1 / -1;text-align:center;background:var(--cobalt);color:#fff;border-radius:999px;padding:10px 14px;text-decoration:none;font-size:.9rem;font-weight:600;}' +
     '.bk-foot .bk-est:hover{background:var(--accent-hover,#234193);}' +
+    '.bk-foot .bk-est.off{opacity:.45;cursor:not-allowed;}' +
+    '.bk-foot .bk-est.off:hover{background:var(--cobalt);}' +
+    '.tr-esthint{grid-column:1 / -1;margin:0;font-size:.72rem;color:var(--ink-mute);text-align:center;}' +
+    '.tr-esthint[hidden]{display:none;}' +
     '.bk-foot button{font:inherit;font-size:.8rem;border:1px solid var(--line);background:none;border-radius:999px;padding:7px 10px;cursor:pointer;color:var(--ink-soft);}' +
     '.bk-foot button:hover{color:var(--cobalt);border-color:var(--cobalt);}' +
+    '.bk-foot button:disabled{opacity:.45;cursor:not-allowed;color:var(--ink-soft);border-color:var(--line);}' +
     '.bk-foot .bk-send{grid-column:1 / -1;border-color:var(--cobalt);color:var(--cobalt);font-weight:600;}' +
     '.bk-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:70;background:var(--ink);color:var(--paper);' +
       'font-size:.83rem;padding:9px 16px;border-radius:999px;box-shadow:var(--shadow);opacity:0;transition:opacity .25s;pointer-events:none;max-width:88vw;text-align:center;}' +
     '.bk-toast.show{opacity:1;}' +
+    '.bk-toast.act{pointer-events:auto;}' +
+    '.bk-undo{font:inherit;font-size:.78rem;font-weight:600;margin-left:10px;background:none;border:0;color:var(--lav);cursor:pointer;text-decoration:underline;}' +
+    /* the added piece flies to the tray (skipped entirely under reduced motion) */
+    '.bk-fly{position:fixed;z-index:400;pointer-events:none;border-radius:11px;' +
+      'transition:transform .55s var(--ease),opacity .55s ease;will-change:transform,opacity;}' +
     '@keyframes bkPulse{0%{transform:scale(1)}45%{transform:scale(1.35)}100%{transform:scale(1)}}' +
-    '#basketcount.pulse,#tbbasketn.pulse{animation:bkPulse .5s var(--ease);display:inline-block;}' +
+    '#basketcount.pulse,#tbtrayn.pulse{animation:bkPulse .5s var(--ease);display:inline-block;}' +
+    '.bk-foot[hidden]{display:none!important;}' +
+    /* display:flex on these beats the UA [hidden] rule — force-hide, like the footer */
+    '.bk-trip[hidden],.bk-fees[hidden]{display:none!important;}' +
+    '.bk-tab{display:none;}' +
+    /* desktop ≥1100px: the basket is a persistent right sidebar, not a modal */
+    '@media(min-width:1100px){' +
+      '.bk-scrim{display:none!important;}' +
+      '.bk-panel{width:340px;box-shadow:none;}' +
+      'body.bk-dock{padding-right:340px;}' +
+      '.bk-tab{display:block;position:fixed;right:0;top:42%;z-index:61;writing-mode:vertical-rl;font:inherit;font-size:.8rem;font-weight:600;letter-spacing:.06em;' +
+        'background:var(--cobalt);color:#fff;border:0;border-radius:12px 0 0 12px;padding:16px 8px;cursor:pointer;box-shadow:var(--shadow);}' +
+      '.bk-tab[hidden]{display:none;}' +
+    '}' +
     '@media(max-width:720px){' +
       '.bk-panel{top:auto;left:0;right:0;bottom:0;width:auto;max-height:82vh;border-left:0;border-top:1px solid var(--line);' +
         'border-radius:18px 18px 0 0;transform:translateY(103%);}' +
@@ -228,23 +311,27 @@
   function skeleton() {
     panel.innerHTML =
       '<div class="bk-grab" aria-hidden="true"><span></span></div>' +
-      '<div class="bk-head"><h2 id="bktitle">' + esc(t('fd.bk.title', 'Basket')) + ' <span class="bk-n"></span></h2>' +
-      '<button class="bk-close" aria-label="' + esc(t('fd.bk.close', 'Close basket')) + '">✕</button></div>' +
+      '<div class="bk-head"><h2 id="bktitle">' + esc(t('fd.tr.title', 'Your tray')) + ' <span class="bk-n"></span></h2>' +
+      '<button class="bk-close" aria-label="' + esc(t('fd.tr.close', 'Close tray')) + '">✕</button></div>' +
       '<div class="bk-body">' +
-        '<div class="bk-empty" hidden>' + esc(t('fd.bk.empty', 'Nothing in the basket yet — tap the bag on any house, or add a link from anywhere below.')) + '</div>' +
-        '<div class="bk-groups"></div>' +
-        '<details class="bk-custom"><summary>' + esc(t('fd.bk.custom', '+ Add from another store')) + '</summary>' +
+        '<div class="bk-empty" hidden>' + esc(t('fd.tr.empty', 'Nothing here yet — tap the heart to save a house for later, the bag to shortlist a piece, or paste a link below.')) + '</div>' +
+        '<div class="tr-paste">' +
+          '<p class="tr-plbl">' + esc(t('fd.tr.paste', 'Paste a link from anywhere')) + '</p>' +
           '<div class="bk-cform">' +
-            '<input class="bk-c-store" placeholder="' + esc(t('fd.bk.cStore', 'Store or brand')) + '">' +
-            '<input class="bk-c-link" type="url" placeholder="' + esc(t('fd.bk.cLink', 'Link (optional)')) + '">' +
-            '<input class="bk-c-price" inputmode="numeric" placeholder="' + esc(t('fd.bk.cPrice', 'Price — 350k, 1.2m…')) + '">' +
+            '<input class="bk-c-link" type="url" placeholder="' + esc(t('fd.tr.cLink', 'https:// — product or Instagram link')) + '">' +
+            '<div class="bk-crow">' +
+              '<input class="bk-c-store" placeholder="' + esc(t('fd.bk.cStore', 'Store or brand')) + '">' +
+              '<input class="bk-c-price" inputmode="numeric" placeholder="' + esc(t('fd.bk.cPrice', 'Price — 350k, 1.2m…')) + '">' +
+            '</div>' +
             '<button class="bk-c-add" type="button">' + esc(t('fd.bk.cAdd', 'Add')) + '</button>' +
-          '</div></details>' +
+          '</div></div>' +
+        '<div class="bk-groups"></div>' +
         '<div class="bk-trip" hidden></div>' +
         '<div class="bk-fees" hidden></div>' +
       '</div>' +
       '<div class="bk-foot">' +
         '<a class="bk-est" href="estimate">' + esc(t('fd.bk.est', 'Get the full estimate →')) + '</a>' +
+        '<p class="tr-esthint" hidden>' + esc(t('fd.tr.readyHint', 'Mark at least one piece “Ready” to unlock the estimate.')) + '</p>' +
         '<button class="bk-send" type="button">' + esc(t('fd.bk.send', 'Send this list to Seraphic Styler')) + '</button>' +
         '<button class="bk-copy" type="button">' + esc(t('fd.bk.copy', 'Copy')) + '</button>' +
         '<button class="bk-clear" type="button">' + esc(t('fd.bk.clear', 'Clear')) + '</button>' +
@@ -252,9 +339,9 @@
     bindPanel();
   }
 
-  function groupItems() {
+  function groupItems(list) {
     var order = [], map = {};
-    items.forEach(function (it) {
+    (list || items).forEach(function (it) {
       var key = it.brandId || '~' + it.brandName;
       if (!map[key]) { map[key] = { key: key, brandId: it.brandId, name: it.brandName, rows: [] }; order.push(map[key]); }
       map[key].rows.push(it);
@@ -262,31 +349,74 @@
     return order;
   }
 
+  function stateLabel(s) {
+    return s === 'saved' ? t('fd.tr.saved', 'Saved')
+      : s === 'ready' ? t('fd.tr.ready', 'Ready for estimate')
+      : t('fd.tr.short', 'Shortlist');
+  }
+  /* the per-row stage control — how a piece graduates saved → shortlist → ready */
+  function segCtl(it) {
+    return '<div class="tr-seg" role="group" aria-label="' + esc(t('fd.tr.stage', 'Stage')) + '">' +
+      STATES.map(function (s) {
+        var lb = s === 'saved' ? t('fd.tr.segSaved', 'Saved') : s === 'ready' ? t('fd.tr.segReady', 'Ready') : t('fd.tr.segShort', 'Shortlist');
+        return '<button type="button" class="tr-st" data-id="' + esc(it.id) + '" data-state="' + s + '" aria-pressed="' + String(it.state === s) + '">' + esc(lb) + '</button>';
+      }).join('') + '</div>';
+  }
+
   function renderGroups() {
     var wrap = panel.querySelector('.bk-groups');
-    var groups = groupItems();
     panel.querySelector('.bk-empty').hidden = items.length > 0;
-    wrap.innerHTML = groups.map(function (g) {
-      var head = g.brandId && byId[g.brandId]
-        ? '<a href="#q=' + encodeURIComponent(g.name) + '">' + esc(g.name) + '</a>'
-        : '<b>' + esc(g.name) + '</b>';
-      return '<section class="bk-group" data-key="' + esc(g.key) + '">' +
-        '<div class="bk-ghead">' + head +
-          '<button class="bk-gadd" type="button" data-key="' + esc(g.key) + '">' + esc(t('fd.bk.addItem', '+ item')) + '</button>' +
-          '<span class="bk-gsub" data-key="' + esc(g.key) + '"></span></div>' +
-        g.rows.map(function (it) {
-          return '<div class="bk-item" data-id="' + esc(it.id) + '">' +
-            '<input class="bk-title" value="' + esc(it.title) + '" placeholder="' + esc(t('fd.bk.what', 'What is it? (optional)')) + '">' +
-            '<input class="bk-link" type="url" value="' + esc(it.link) + '" placeholder="' + esc(t('fd.bk.link', 'Product link')) + '">' +
-            '<div style="display:flex;gap:6px;align-items:center;grid-column:1 / -1;">' +
-              '<input class="bk-price" inputmode="numeric" value="' + (it.priceVnd ? esc(String(it.priceVnd)) : '') + '" placeholder="' + esc(t('fd.bk.price', 'Price — 350k, 1.2m, 1,200,000')) + '" style="flex:1">' +
-              '<button class="bk-del" type="button" aria-label="' + esc(t('fd.bk.remove', 'Remove')) + '" data-id="' + esc(it.id) + '">✕</button>' +
-            '</div>' +
-            '<span class="bk-parsed"></span>' +
-          '</div>';
-        }).join('') +
-      '</section>';
-    }).join('');
+    var iconMap = (typeof ICONS !== 'undefined' && ICONS) || {};
+    function logoOf(name) {
+      return iconMap[name]
+        ? '<img class="bk-glogo" src="' + encodeURI(iconMap[name]) + '" alt="" width="34" height="34" loading="lazy">'
+        : '<span class="bk-glogo bk-gi">' + esc((name || '?').charAt(0)) + '</span>';
+    }
+    var html = '';
+
+    /* Saved — hearted houses: an idea, not yet a piece. One tap forward. */
+    var savedRows = items.filter(function (it) { return it.state === 'saved'; });
+    if (savedRows.length) {
+      html += '<section class="tr-sec" data-state="saved"><h3>' + esc(t('fd.tr.saved', 'Saved')) + ' <span class="tr-n">(' + savedRows.length + ')</span></h3>' +
+        savedRows.map(function (it) {
+          var b = it.brandId && byId[it.brandId];
+          var meta = b ? [b.tier && b.tier !== 'none' ? b.tier : null, b.area].filter(Boolean).join(' · ') : '';
+          return '<div class="tr-savedrow" data-id="' + esc(it.id) + '">' + logoOf(it.brandName) +
+            '<span class="tr-sv-t"><b>' + esc(it.brandName) + '</b>' + (meta ? '<i>' + esc(meta) + '</i>' : '') + '</span>' +
+            '<button type="button" class="tr-promote" data-id="' + esc(it.id) + '">' + esc(t('fd.tr.toShort', '→ Shortlist')) + '</button>' +
+            '<button type="button" class="bk-del" data-id="' + esc(it.id) + '" aria-label="' + esc(t('fd.bk.remove', 'Remove')) + '">✕</button></div>';
+        }).join('') + '</section>';
+    }
+
+    /* Shortlist & Ready — full rows: link, typed price, stage pills */
+    ['shortlist', 'ready'].forEach(function (state) {
+      var list = items.filter(function (it) { return it.state === state; });
+      if (!list.length) return;
+      html += '<section class="tr-sec" data-state="' + state + '"><h3>' + esc(stateLabel(state)) + ' <span class="tr-n">(' + list.length + ')</span></h3>' +
+        groupItems(list).map(function (g) {
+          var head = g.brandId && byId[g.brandId]
+            ? '<a href="#q=' + encodeURIComponent(g.name) + '">' + esc(g.name) + '</a>'
+            : '<b>' + esc(g.name) + '</b>';
+          return '<section class="bk-group" data-key="' + esc(g.key) + '">' +
+            '<div class="bk-ghead">' + logoOf(g.name) + head +
+              '<button class="bk-gadd" type="button" data-key="' + esc(g.key) + '">' + esc(t('fd.bk.addItem', '+ item')) + '</button>' +
+              '<span class="bk-gsub"></span></div>' +
+            g.rows.map(function (it) {
+              return '<div class="bk-item" data-id="' + esc(it.id) + '">' +
+                '<input class="bk-title" value="' + esc(it.title) + '" placeholder="' + esc(t('fd.bk.what', 'What is it? (optional)')) + '">' +
+                '<input class="bk-link" type="url" value="' + esc(it.link) + '" placeholder="' + esc(t('fd.bk.link', 'Product link')) + '">' +
+                '<div style="display:flex;gap:6px;align-items:center;grid-column:1 / -1;">' +
+                  '<input class="bk-price" inputmode="numeric" value="' + (it.priceVnd ? esc(String(it.priceVnd)) : '') + '" placeholder="' + esc(t('fd.bk.price', 'Price — 350k, 1.2m, 1,200,000')) + '" style="flex:1">' +
+                  '<button class="bk-del" type="button" aria-label="' + esc(t('fd.bk.remove', 'Remove')) + '" data-id="' + esc(it.id) + '">✕</button>' +
+                '</div>' + segCtl(it) +
+                '<span class="bk-parsed"></span>' +
+              '</div>';
+            }).join('') +
+          '</section>';
+        }).join('') + '</section>';
+    });
+
+    wrap.innerHTML = html;
     /* seed the parsed echoes */
     wrap.querySelectorAll('.bk-item').forEach(function (row) { echoParsed(row, false); });
   }
@@ -306,15 +436,19 @@
 
   function renderTotals() {
     if (!panel.firstChild) return;
-    var priced = items.filter(function (it) { return it.priceVnd > 0; });
-    var unpriced = items.length - priced.length;
+    var act = active();
+    var priced = act.filter(function (it) { return it.priceVnd > 0; });
+    var unpriced = act.length - priced.length;
     var subtotal = priced.reduce(function (a, it) { return a + it.priceVnd; }, 0);
 
-    /* per-store subtotals */
-    groupItems().forEach(function (g) {
-      var el = panel.querySelector('.bk-gsub[data-key="' + CSS.escape(g.key) + '"]');
-      if (!el) return;
-      var s = g.rows.reduce(function (a, it) { return a + (it.priceVnd || 0); }, 0);
+    /* per-store subtotals — walked off the DOM, since a brand can now sit in
+       both the Shortlist and Ready sections with its own group in each */
+    panel.querySelectorAll('.bk-group').forEach(function (gsec) {
+      var el = gsec.querySelector('.bk-gsub'); if (!el) return;
+      var s = 0;
+      gsec.querySelectorAll('.bk-item').forEach(function (row) {
+        var it = itemById(row.dataset.id); if (it && it.priceVnd > 0) s += it.priceVnd;
+      });
       el.textContent = s ? fmtVnd(s) : '';
     });
 
@@ -323,7 +457,7 @@
     /* trip card */
     var trip = panel.querySelector('.bk-trip');
     var stores = v.phys.length + v.nonR;
-    if (!items.length || stores === 0) { trip.hidden = true; }
+    if (!act.length || stores === 0) { trip.hidden = true; }
     else {
       trip.hidden = false;
       trip.classList.toggle('hunt', v.complicated);
@@ -364,7 +498,7 @@
 
     /* fee rows */
     var fees = panel.querySelector('.bk-fees');
-    if (!items.length) { fees.hidden = true; }
+    if (!act.length) { fees.hidden = true; }
     else {
       fees.hidden = false;
       var C = cfg();
@@ -385,20 +519,41 @@
       fees.innerHTML = rows;
     }
 
+    /* progressive footer: nothing at all when empty; estimate unlocks only once
+       a piece is marked Ready; send/copy need at least one shortlist/ready row */
+    var foot = panel.querySelector('.bk-foot');
+    if (foot) {
+      foot.hidden = !items.length;
+      var nReady = readyItems().length;
+      var est = foot.querySelector('.bk-est');
+      if (est) {
+        est.classList.toggle('off', !nReady);
+        est.setAttribute('aria-disabled', String(!nReady));
+      }
+      var hint = foot.querySelector('.tr-esthint');
+      if (hint) hint.hidden = nReady > 0;
+      var sendable = act.length > 0;
+      var sb = foot.querySelector('.bk-send'); if (sb) sb.disabled = !sendable;
+      var cb = foot.querySelector('.bk-copy'); if (cb) cb.disabled = !sendable;
+    }
+
     renderCounts();
   }
 
-  /* counts + card-bag sync — safe to run even before the panel ever opens */
+  /* counts + card-button sync — safe to run even before the panel ever opens.
+     The badge counts the actionable rows (shortlist+ready); saved rows show as
+     lit hearts on the cards and in the Saved section, not in the number. */
   function renderCounts() {
-    var n = items.length;
+    var n = active().length;
     var bn = panel.querySelector('.bk-n'); if (bn) bn.textContent = n ? '(' + n + ')' : '';
     var uc = document.getElementById('basketcount'); if (uc) uc.textContent = n ? '(' + n + ')' : '';
-    var tb = document.getElementById('tbbasketn'); if (tb) { tb.hidden = !n; tb.textContent = n; }
+    var tb = document.getElementById('tbtrayn'); if (tb) { tb.hidden = !n; tb.textContent = n; }
+    if (typeof tab !== 'undefined' && !tab.hidden) tabLabel();
     syncCardButtons();
   }
 
   function pulseCounts() {
-    ['basketcount', 'tbbasketn'].forEach(function (id) {
+    ['basketcount', 'tbtrayn'].forEach(function (id) {
       var el = document.getElementById(id); if (!el) return;
       el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse');
     });
@@ -409,20 +564,24 @@
       var on = has(btn.dataset.id);
       btn.classList.toggle('on', on); btn.setAttribute('aria-pressed', String(on));
     });
+    document.querySelectorAll('.card .sv').forEach(function (btn) {
+      var on = isSavedBrand(btn.dataset.id);
+      btn.classList.toggle('on', on); btn.setAttribute('aria-pressed', String(on));
+    });
   }
 
   function renderAll() { skeleton(); renderGroups(); renderTotals(); }
 
-  /* ---------- summary text ---------- */
+  /* ---------- summary text (shortlist+ready — saved rows are ideas, not asks) ---------- */
   function summaryText() {
     var lines = [t('fd.bk.sumHead', 'Seraphic Styler — basket sourcing request')], i = 1;
-    groupItems().forEach(function (g) {
+    groupItems(active()).forEach(function (g) {
       g.rows.forEach(function (it) {
         lines.push(i + '. ' + g.name + (it.title ? ' — ' + it.title : '') + (it.priceVnd ? ' — ' + fmtVnd(it.priceVnd) : ' — (no price yet)') + (httpUrl(it.link) ? ' — ' + it.link : ''));
         i++;
       });
     });
-    var priced = items.filter(function (it) { return it.priceVnd > 0; });
+    var priced = active().filter(function (it) { return it.priceVnd > 0; });
     var subtotal = priced.reduce(function (a, it) { return a + it.priceVnd; }, 0);
     var v = classify(), C = cfg();
     lines.push('');
@@ -438,17 +597,62 @@
   }
 
   /* ---------- actions ---------- */
-  function has(id) { return items.some(function (it) { return it.brandId === id; }); }
-  function count() { return items.length; }
+  /* the bag is lit when the brand has an actionable (shortlist/ready) row */
+  function has(id) { return items.some(function (it) { return it.brandId === id && it.state !== 'saved'; }); }
+  function isSavedBrand(id) { return items.some(function (it) { return it.brandId === id && it.state === 'saved'; }); }
+  function count() { return active().length; }
+
+  /* ---------- fly-to-tray: the added piece visibly lands where it went ---------- */
+  function motionOff() {
+    if (document.documentElement.classList.contains('rm')) return true;
+    try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
+  }
+  function cardSourceEl(id, sel) {
+    var esc2 = (window.CSS && CSS.escape) ? CSS.escape(id) : id;
+    var btn = document.querySelector('.card ' + sel + '[data-id="' + esc2 + '"]');
+    var card = btn && btn.closest('.card');
+    return (card && card.querySelector('.blogo')) || btn;
+  }
+  function flyTarget() {
+    if (!panel.hidden && panel.classList.contains('open')) {
+      var h = panel.querySelector('.bk-head'); if (h) return h;
+    }
+    var els = [document.getElementById('basketbtn'), document.getElementById('tbtray')];
+    for (var i = 0; i < els.length; i++) if (els[i] && els[i].offsetParent) return els[i];
+    return null;
+  }
+  function flyToTray(fromEl) {
+    if (!fromEl || motionOff()) return;                      /* reduced motion: the badge pulse is the signal */
+    var target = flyTarget(); if (!target) return;
+    var a = fromEl.getBoundingClientRect(), z = target.getBoundingClientRect();
+    if (!a.width || !z.width) return;
+    var ghost = fromEl.cloneNode(true);
+    ghost.className = 'bk-fly';
+    ghost.style.cssText += ';left:' + a.left + 'px;top:' + a.top + 'px;width:' + a.width + 'px;height:' + a.height + 'px;margin:0;opacity:.95;';
+    document.body.appendChild(ghost);
+    var dx = (z.left + z.width / 2) - (a.left + a.width / 2);
+    var dy = (z.top + z.height / 2) - (a.top + a.height / 2);
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        ghost.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(.18)';
+        ghost.style.opacity = '.15';
+      });
+    });
+    var gone = false;
+    function rm() { if (!gone) { gone = true; ghost.remove(); } }
+    ghost.addEventListener('transitionend', rm);
+    setTimeout(rm, 800);
+  }
 
   function addOrOpen(id) {
     if (!has(id)) {
       var b = byId[id];
-      items.push({ id: uid(), brandId: id, brandName: b ? b.n : id, link: '', priceVnd: null, title: '', addedAt: Date.now() });
+      items.push({ id: uid(), brandId: id, brandName: b ? b.n : id, link: '', priceVnd: null, title: '', addedAt: Date.now(), state: 'shortlist' });
       save();
       if (!panel.hidden) { renderGroups(); }
       renderTotals(); renderCounts(); pulseCounts();
-      showToast(t('fd.bk.added', 'Added — set the price in the basket'));
+      flyToTray(cardSourceEl(id, '.bk'));
+      showToast(t('fd.tr.added', 'Shortlisted — set the price in your tray'));
     } else {
       open(null, id);
     }
@@ -456,25 +660,80 @@
   }
 
   /* Structured add for the quick-add tray (fd-atelier.js): category + tier-median
-     price land as a normal basket row, no blank form. Toast confirms; panel stays shut. */
+     price land as a normal shortlist row, no blank form. Toast confirms; panel stays shut. */
   function addStructured(id, title, priceVnd) {
     var b = byId[id];
-    items.push({ id: uid(), brandId: id, brandName: b ? b.n : id, link: '', priceVnd: priceVnd || null, title: title || '', addedAt: Date.now() });
+    items.push({ id: uid(), brandId: id, brandName: b ? b.n : id, link: '', priceVnd: priceVnd || null, title: title || '', addedAt: Date.now(), state: 'shortlist' });
     save();
     if (!panel.hidden) { renderGroups(); }
     renderTotals(); renderCounts(); pulseCounts();
-    showToast(t('fd.bk.brief', 'Added to your brief ✓'));
+    flyToTray(cardSourceEl(id, '.bk'));
+    showToast(t('fd.tr.brief', 'Added to your shortlist ✓'));
     return true;
   }
+
+  /* ---------- the saved state (hearts) + stage moves — the SS_TRAY surface ---------- */
+  function addSaved(id) {
+    if (isSavedBrand(id)) return true;
+    var b = byId[id];
+    items.push({ id: uid(), brandId: id, brandName: b ? b.n : id, link: '', priceVnd: null, title: '', addedAt: Date.now(), state: 'saved' });
+    save();
+    if (!panel.hidden) { renderGroups(); }
+    renderTotals();
+    flyToTray(cardSourceEl(id, '.sv'));
+    return true;
+  }
+  function removeSaved(id) {
+    if (!isSavedBrand(id)) return false;
+    var prev = items.slice();
+    items = items.filter(function (it) { return !(it.brandId === id && it.state === 'saved'); });
+    save();
+    if (!panel.hidden) { renderGroups(); }
+    renderTotals();
+    showToast(t('fd.tr.unsaved', 'Removed from saved'), function () {
+      items = prev; save(); if (!panel.hidden) renderGroups(); renderTotals();
+    });
+    return true;
+  }
+  function setState(itemId, state) {
+    var it = itemById(itemId); if (!it || STATES.indexOf(state) < 0 || it.state === state) return;
+    it.state = state;
+    save(); renderGroups(); renderTotals(); pulseCounts();
+  }
+  function countByState() {
+    var c = { saved: 0, shortlist: 0, ready: 0 };
+    items.forEach(function (it) { if (c[it.state] != null) c[it.state]++; });
+    return c;
+  }
+
+  /* ---------- desktop dock (persistent sidebar) ---------- */
+  var DESK = matchMedia('(min-width:1100px)');
+  var tab = document.createElement('button');
+  tab.className = 'bk-tab'; tab.type = 'button'; tab.hidden = true;
+  document.body.appendChild(tab);
+  tab.addEventListener('click', function () { open(tab); });
+  function dockPref() { try { return localStorage.getItem('fd-basket-dock') !== '0'; } catch (e) { return true; } }
+  function setDockPref(v) { try { localStorage.setItem('fd-basket-dock', v ? '1' : '0'); } catch (e) {} }
+  function tabLabel() { tab.textContent = t('fd.tr.title', 'Your tray') + (active().length ? ' (' + active().length + ')' : ''); }
 
   var lastTrigger = null;
   function open(trigger, scrollToBrand) {
     lastTrigger = trigger || null;
     renderAll();
-    scrim.hidden = false; panel.hidden = false;
-    requestAnimationFrame(function () { scrim.classList.add('open'); panel.classList.add('open'); });
+    panel.hidden = false;
+    if (DESK.matches) {
+      /* sidebar mode: no scrim, no focus trap — browsing continues beside it */
+      setDockPref(true);
+      panel.setAttribute('aria-modal', 'false');
+      scrim.hidden = true; tab.hidden = true;
+      requestAnimationFrame(function () { panel.classList.add('open'); document.body.classList.add('bk-dock'); });
+    } else {
+      panel.setAttribute('aria-modal', 'true');
+      scrim.hidden = false;
+      requestAnimationFrame(function () { scrim.classList.add('open'); panel.classList.add('open'); });
+      var c = panel.querySelector('.bk-close'); if (c) c.focus({ preventScroll: true });
+    }
     loadFx();
-    var c = panel.querySelector('.bk-close'); if (c) c.focus({ preventScroll: true });
     if (scrollToBrand) {
       var g = panel.querySelector('.bk-group[data-key="' + CSS.escape(scrollToBrand) + '"]');
       if (g) g.scrollIntoView({ block: 'start', behavior: 'smooth' });
@@ -482,17 +741,39 @@
   }
   function close() {
     scrim.classList.remove('open'); panel.classList.remove('open');
+    if (DESK.matches) { setDockPref(false); document.body.classList.remove('bk-dock'); tabLabel(); tab.hidden = false; }
     setTimeout(function () { scrim.hidden = true; panel.hidden = true; }, 330);
     if (lastTrigger && lastTrigger.focus) { try { lastTrigger.focus(); } catch (e) {} }
     lastTrigger = null;
   }
+  DESK.addEventListener && DESK.addEventListener('change', function () {
+    /* crossing the breakpoint: collapse everything to a sane state */
+    scrim.classList.remove('open'); panel.classList.remove('open');
+    scrim.hidden = true; panel.hidden = true;
+    document.body.classList.remove('bk-dock');
+    if (DESK.matches) { tabLabel(); tab.hidden = false; } else { tab.hidden = true; }
+  });
 
   var toastTimer = null;
-  function showToast(msg) {
-    toast.textContent = msg; toast.hidden = false;
+  function hideToast() {
+    toast.classList.remove('show');
+    setTimeout(function () { toast.hidden = true; }, 260);
+  }
+  /* with an undoFn the toast turns interactive and lingers long enough to hit */
+  function showToast(msg, undoFn) {
+    toast.textContent = msg;
+    if (undoFn) {
+      var u = document.createElement('button');
+      u.type = 'button'; u.className = 'bk-undo';
+      u.textContent = t('fd.tr.undo', 'Undo');
+      u.addEventListener('click', function () { clearTimeout(toastTimer); hideToast(); undoFn(); });
+      toast.appendChild(u);
+    }
+    toast.classList.toggle('act', !!undoFn);
+    toast.hidden = false;
     requestAnimationFrame(function () { toast.classList.add('show'); });
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { toast.classList.remove('show'); setTimeout(function () { toast.hidden = true; }, 260); }, BK.TOAST_MS);
+    toastTimer = setTimeout(hideToast, undoFn ? 6000 : BK.TOAST_MS);
   }
 
   /* ---------- panel events ---------- */
@@ -513,26 +794,39 @@
     panel.addEventListener('click', function (e) {
       var del = e.target.closest('.bk-del');
       if (del) {
+        var prevDel = items.slice();
         items = items.filter(function (it) { return it.id !== del.dataset.id; });
         save(); renderGroups(); renderTotals();
+        showToast(t('fd.tr.removed', 'Removed'), function () {
+          items = prevDel; save(); renderGroups(); renderTotals();
+        });
         return;
       }
+      var pro = e.target.closest('.tr-promote');
+      if (pro) { setState(pro.dataset.id, 'shortlist'); return; }
+      var seg = e.target.closest('.tr-st');
+      if (seg) { setState(seg.dataset.id, seg.dataset.state); return; }
       var gadd = e.target.closest('.bk-gadd');
       if (gadd) {
-        var g = groupItems().filter(function (x) { return x.key === gadd.dataset.key; })[0];
+        var sec = gadd.closest('.tr-sec');
+        var gState = (sec && sec.dataset.state) || 'shortlist';   /* the new row joins the section it was added from */
+        var g = groupItems(active()).filter(function (x) { return x.key === gadd.dataset.key; })[0];
         if (g) {
-          items.push({ id: uid(), brandId: g.brandId, brandName: g.name, link: '', priceVnd: null, title: '', addedAt: Date.now() });
+          items.push({ id: uid(), brandId: g.brandId, brandName: g.name, link: '', priceVnd: null, title: '', addedAt: Date.now(), state: gState });
           save(); renderGroups(); renderTotals();
-          var ng = panel.querySelector('.bk-group[data-key="' + CSS.escape(g.key) + '"] .bk-item:last-of-type .bk-title');
+          var ng = panel.querySelector('.tr-sec[data-state="' + gState + '"] .bk-group[data-key="' + CSS.escape(g.key) + '"] .bk-item:last-of-type .bk-title');
           if (ng) ng.focus();
         }
         return;
       }
       if (e.target.closest('.bk-c-add')) {
         var st = panel.querySelector('.bk-c-store'), ln = panel.querySelector('.bk-c-link'), pr = panel.querySelector('.bk-c-price');
-        var name = (st.value || '').trim();
+        var name = (st.value || '').trim(), link = (ln.value || '').trim();
+        if (!name && httpUrl(link)) {                       /* pasted a link, skipped the name → the hostname will do */
+          try { name = new URL(link).hostname.replace(/^www\./, ''); } catch (e5) {}
+        }
         if (!name) { st.focus(); return; }
-        items.push({ id: uid(), brandId: null, brandName: name, link: (ln.value || '').trim(), priceVnd: parsePrice(pr.value), title: '', addedAt: Date.now() });
+        items.push({ id: uid(), brandId: null, brandName: name, link: link, priceVnd: parsePrice(pr.value), title: '', addedAt: Date.now(), state: 'shortlist' });
         st.value = ''; ln.value = ''; pr.value = '';
         save(); renderGroups(); renderTotals(); pulseCounts();
         return;
@@ -561,20 +855,30 @@
           clearArmed = true; clr.textContent = t('fd.bk.sure', 'Really clear ') + items.length + '?';
           setTimeout(function () { clearArmed = false; try { clr.textContent = t('fd.bk.clear', 'Clear'); } catch (e2) {} }, 3000);
         } else {
-          clearArmed = false; items = []; save(); renderAll();
+          clearArmed = false;
+          var prevAll = items.slice();
+          items = []; save(); renderAll();
+          showToast(t('fd.tr.cleared', 'Tray cleared'), function () {
+            items = prevAll; save(); renderAll();
+          });
         }
         return;
       }
       var est = e.target.closest('.bk-est');
       if (est) {
-        /* hand the basket to the estimate page in its own ss-basket shape;
+        if (est.classList.contains('off')) {                /* locked until something is Ready */
+          e.preventDefault();
+          showToast(t('fd.tr.readyHint', 'Mark at least one piece “Ready” to unlock the estimate.'));
+          return;
+        }
+        /* hand the READY rows to the estimate page in its own ss-basket shape;
            the classifier's verdict arrives as the pre-ticked complex box */
-        var v = classify(), prev = {};
+        var v = classify(), prev = {}, rd = readyItems();
         try { prev = JSON.parse(localStorage.getItem('ss-basket')) || {}; } catch (e3) {}
         try {
           localStorage.setItem('ss-basket', JSON.stringify({
-            items: items.map(function (x) { return x.priceVnd || ''; }),
-            links: items.map(function (x) { return x.link || ''; }),
+            items: rd.map(function (x) { return x.priceVnd || ''; }),
+            links: rd.map(function (x) { return x.link || ''; }),
             region: prev.region || '', weight: prev.weight || '',
             complex: v.complicated, green: !!prev.green, cur: prev.cur || ''
           }));
@@ -585,7 +889,31 @@
   }
 
   scrim.addEventListener('click', close);
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) close(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' || panel.hidden) return;
+    if (document.querySelector('.cm-pop:not([hidden])')) return; /* Esc closes the open card menu first, not the tray */
+    close();
+  });
+
+  /* mobile sheet: drag the handle (or header) down to dismiss */
+  var swY = null;
+  panel.addEventListener('touchstart', function (e) {
+    if (DESK.matches) return;
+    if (!e.target.closest('.bk-grab') && !e.target.closest('.bk-head')) return;
+    swY = e.touches[0].clientY;
+  }, { passive: true });
+  panel.addEventListener('touchmove', function (e) {
+    if (swY == null) return;
+    var dy = e.touches[0].clientY - swY;
+    if (dy > 0) { panel.style.transition = 'none'; panel.style.transform = 'translateY(' + dy + 'px)'; }
+  }, { passive: true });
+  panel.addEventListener('touchend', function (e) {
+    if (swY == null) return;
+    var dy = e.changedTouches[0].clientY - swY;
+    panel.style.transition = ''; panel.style.transform = '';
+    if (dy > 90) close();
+    swY = null;
+  });
 
   /* ---------- boot ---------- */
   var ub = document.getElementById('basketbtn');
@@ -599,7 +927,14 @@
   document.addEventListener('ss:lang', function () { if (!panel.hidden) renderAll(); else renderTotals(); });
 
   window.SS_BASKET = { has: has, addOrOpen: addOrOpen, addStructured: addStructured, open: open, close: close, count: count };
+  window.SS_TRAY = {
+    addSaved: addSaved, removeSaved: removeSaved, isSaved: isSavedBrand,
+    setState: setState, countByState: countByState, open: open, close: close
+  };
 
+  save();              /* persist the v2 migration (and the fd-saved mirror) right away */
   renderCounts();      /* counts + card-bag sync on load (panel renders on open) */
+  /* desktop: restore the docked sidebar (or its edge tab) on load */
+  if (DESK.matches) { if (dockPref()) open(); else { tabLabel(); tab.hidden = false; } }
   maybeAutoOpen();
 })();

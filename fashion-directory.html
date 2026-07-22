@@ -568,6 +568,57 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
 .sheet-body .morebtn{display:none;}
 .sheet-body .morepanel{display:flex;border:0;padding:0;background:none;backdrop-filter:none;}
 
+/* ---------- Card overflow menu (⋯) ----------
+   Share / Map / street-strip live behind one quiet button at the end of the
+   address line — exactly where the Share/Map pair used to sit — so the card
+   face keeps its screenshot job: name, handle, note, address, district. */
+.card .cm-btn{flex:none;font:inherit;font-size:1rem;line-height:1;background:none;border:1px solid var(--line);
+  cursor:pointer;padding:2px 10px;color:var(--ink-mute);display:grid;place-items:center;
+  transition:.18s var(--ease);border-radius:var(--r-pill);}
+.card .cm-btn:hover{color:var(--cobalt);border-color:var(--cobalt);}
+.card .cm-btn[aria-expanded=true]{color:var(--cobalt);border-color:var(--cobalt);background:var(--mist);}
+/* the card clips its overflow, so the menu opens *inside* the card, beside the
+   button (top set by JS; flips above when it would clip the card's bottom) */
+.card .cm-pop{position:absolute;top:52px;right:12px;z-index:6;display:flex;flex-direction:column;
+  gap:6px;align-items:stretch;background:var(--card-solid);border:1px solid var(--line);
+  border-radius:var(--r-sm);box-shadow:var(--shadow-sm);padding:8px;min-width:150px;max-width:calc(100% - 24px);}
+.card .cm-pop[hidden]{display:none;}
+.card .cm-pop .shr,.card .cm-pop .maplink,.card .cm-pop .strip{margin:0;width:100%;justify-content:flex-start;
+  text-align:left;font-size:.72rem;padding:7px 11px;}
+
+/* ---------- Side rail (desktop section dots — same pattern as index.html) ---------- */
+.fd-rail{display:none;}
+@media(min-width:1400px) and (min-height:640px){
+  .fd-rail{display:flex;align-items:center;position:fixed;right:2.6rem;top:76px;bottom:8.5rem;z-index:45;
+    pointer-events:none;opacity:.72;transition:opacity .4s ease,right .32s var(--ease);
+    animation:fdRailIn .7s ease .95s backwards;}
+  @keyframes fdRailIn{from{opacity:0;transform:translateX(8px);}to{opacity:.72;transform:none;}}
+  .fd-rail:hover,.fd-rail:focus-within{opacity:1;}
+  .fd-rail ul{list-style:none;margin:0;padding:0;pointer-events:auto;}
+  .fd-rail li{position:relative;}
+  .fd-rail li:not(:last-child)::after{content:"";position:absolute;right:3.5px;top:calc(50% + 8px);
+    width:1px;height:calc(100% - 16px);background:var(--line);}
+  .fd-rail a{display:flex;align-items:center;justify-content:flex-end;gap:.95rem;padding:.7rem 0;
+    text-decoration:none;color:var(--ink-soft);}
+  .fd-rail .rail-label{font-family:var(--font-body);font-weight:500;font-size:.66rem;letter-spacing:.25em;
+    text-transform:uppercase;white-space:nowrap;opacity:0;transform:translateX(5px);
+    transition:opacity .3s ease,transform .3s ease,color .3s ease;}
+  .fd-rail .rail-dot{flex:none;width:8px;height:8px;border-radius:50%;border:1px solid currentColor;
+    background:transparent;opacity:.4;
+    transition:background .3s ease,opacity .3s ease,box-shadow .3s ease,transform .3s ease;}
+  .fd-rail a:hover .rail-label,.fd-rail a:focus-visible .rail-label,.fd-rail a.active .rail-label{opacity:1;transform:none;}
+  .fd-rail a:hover .rail-dot,.fd-rail a:focus-visible .rail-dot{opacity:.8;transform:scale(1.15);}
+  .fd-rail a.active{color:var(--cobalt);}
+  .fd-rail a.active .rail-label{color:var(--ink);}
+  .fd-rail a.active .rail-dot{background:currentColor;opacity:.78;
+    box-shadow:0 0 0 4px color-mix(in srgb,var(--lav) 45%,transparent),0 0 10px rgba(201,182,232,.4);}
+  .fd-rail a:focus-visible{outline:1px solid var(--cobalt);outline-offset:4px;border-radius:6px;}
+  /* the docked tray owns the right edge — the rail steps left of it */
+  body.bk-dock .fd-rail{right:calc(340px + 1.5rem);}
+  html.rm .fd-rail{animation:none;}
+  html.rm .fd-rail,html.rm .fd-rail .rail-label,html.rm .fd-rail .rail-dot{transition:none;}
+}
+
 /* ---------- Motion & responsive ---------- */
 @media(prefers-reduced-motion:reduce){
   *{scroll-behavior:auto;}
@@ -580,6 +631,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
   .skcard i{animation:none;background:var(--mist);}
   .empty svg{animation:none;}
   .mapbody,.sheet,.scrim,.cd-more{transition:none;}
+  .fd-rail{animation:none;transition:none;}
 }
 @media(max-width:1024px){
   .browse-grid-wrap{grid-template-columns:1fr;}
@@ -588,7 +640,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
   :root{--tabbar-h:calc(58px + env(safe-area-inset-bottom));}
   footer .wrap{grid-template-columns:1fr;}
   .title{font-size:clamp(2.2rem,10vw,3rem);}
-  .tabbar{display:grid;grid-template-columns:repeat(6,1fr);}
+  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);}
   .themebtn{bottom:calc(var(--tabbar-h) + 12px)!important;}
   .ssrp-open{bottom:calc(var(--tabbar-h) + 66px)!important;}
   /* condensed controls: search row + one scrollable chip row */
@@ -645,6 +697,16 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
     </div>
   </nav>
 
+  <!-- ===== SIDE RAIL — desktop section dots (index.html pattern) ===== -->
+  <nav class="fd-rail" id="fdrail" aria-label="Sections" data-i18n-al="fd.rail.a11y">
+    <ul>
+      <li><a href="#browse"><span class="rail-label" data-i18n="fd.rail.browse">Browse</span><span class="rail-dot" aria-hidden="true"></span></a></li>
+      <li><a href="#map"><span class="rail-label" data-i18n="fd.rail.map">Map</span><span class="rail-dot" aria-hidden="true"></span></a></li>
+      <li><a href="#filters"><span class="rail-label" data-i18n="fd.rail.filters">Filters</span><span class="rail-dot" aria-hidden="true"></span></a></li>
+      <li><a href="#main"><span class="rail-label" data-i18n="fd.rail.houses">Houses</span><span class="rail-dot" aria-hidden="true"></span></a></li>
+    </ul>
+  </nav>
+
 <div class="masthead">
   <canvas id="aurora" aria-hidden="true"></canvas>
   <div class="wrap">
@@ -674,7 +736,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
   </div>
 </div>
 
-<section class="browse" aria-labelledby="browseh">
+<section class="browse" id="browse" aria-labelledby="browseh">
   <div class="wrap">
     <div class="eyebrow" data-i18n="fd.browse.eye">Start here</div>
     <h2 id="browseh" data-i18n="fd.browse.title">Browse by wardrobe</h2>
@@ -735,9 +797,9 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21C7 16.5 3 13 3 8.8 3 6.1 5.1 4 7.7 4c1.7 0 3.2.9 4.3 2.4C13.1 4.9 14.6 4 16.3 4 18.9 4 21 6.1 21 8.8c0 4.2-4 7.7-9 12.2Z"/></svg>
           <span data-i18n="fd.savedlab">Saved</span> <b id="savedcount"></b>
         </button>
-        <button class="utilbtn" id="basketbtn" title="Your basket — saved in this browser.">
+        <button class="utilbtn" id="basketbtn" title="Your tray — saved in this browser.">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
-          <span data-i18n="fd.basketlab">Basket</span> <b id="basketcount"></b>
+          <span data-i18n="fd.basketlab">Tray</span> <b id="basketcount"></b>
         </button>
         <a class="utilbtn" href="#map" data-i18n="fd.maputil">Map</a>
       </div>
@@ -787,8 +849,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
   <button type="button" data-act="search"><svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="M14 14l4 4"/></svg><span data-i18n="fd.tb.search">Search</span></button>
   <button type="button" data-act="sheet"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg><span data-i18n="fd.tb.filters">Filters</span></button>
   <button type="button" data-act="map"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg><span data-i18n="fd.tb.map">Map</span></button>
-  <button type="button" data-act="saved" id="tbsaved"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21C7 16.5 3 13 3 8.8 3 6.1 5.1 4 7.7 4c1.7 0 3.2.9 4.3 2.4C13.1 4.9 14.6 4 16.3 4 18.9 4 21 6.1 21 8.8c0 4.2-4 7.7-9 12.2Z"/></svg><span data-i18n="fd.tb.saved">Saved</span><span class="bub" id="tbsavedn" hidden></span></button>
-  <button type="button" data-act="basket" id="tbbasket"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span data-i18n="fd.tb.basket">Basket</span><span class="bub" id="tbbasketn" hidden></span></button>
+  <button type="button" data-act="tray" id="tbtray"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/><path d="M12 17.2c-1.7-1.5-3-2.6-3-4 0-.9.7-1.7 1.6-1.7.6 0 1.1.3 1.4.8.3-.5.8-.8 1.4-.8.9 0 1.6.8 1.6 1.7 0 1.4-1.3 2.5-3 4Z" fill="currentColor" stroke="none"/></svg><span data-i18n="fd.tb.tray">Tray</span><span class="bub" id="tbtrayn" hidden></span></button>
   <button type="button" data-act="all"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg><span data-i18n="fd.tb.all">All</span></button>
 </nav>
 
@@ -1017,8 +1078,14 @@ function persistSaved(){try{localStorage.setItem("fd-saved",JSON.stringify([...S
 function updateSavedCount(){
   const n=SAVED.size;
   const el=document.getElementById("savedcount");if(el)el.textContent="("+n+")";
-  const tb=document.getElementById("tbsavedn");if(tb){tb.hidden=!n;tb.textContent=n;}
 }
+/* the tray (js/fd-basket.js) rewrites fd-saved on every change — including undo —
+   so the page's SAVED set follows the tray, never the other way round */
+document.addEventListener("ss:tray",()=>{
+  try{SAVED=new Set(JSON.parse(localStorage.getItem("fd-saved")||"[]"));}catch(e){}
+  updateSavedCount();
+  if(fSaved)render(); /* the saved-only lens must reflect the new set */
+});
 
 /* — Confidence normalisation: standardised badges instead of inline ⚠️ text — */
 function confOf(b){
@@ -1161,13 +1228,17 @@ function card(b,i){
   const walkIcon=`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
   const strip=stripOf(b);
   const stripChip=strip?`<button class="strip" data-street="${strip.street}" aria-label="${L.searchF(strip.street)}">${walkIcon}${strip.street} · ${strip.n}</button>`:"";
+  /* one primary action (bag) + the heart; share/map/street fold into a quiet ⋯ menu */
+  const cm=`<button class="cm-btn" aria-haspopup="true" aria-expanded="false" aria-label="${T("fd.cd.more","More actions")} — ${nDis}">⋯</button>`;
+  const cmPop=`<div class="cm-pop" hidden>${shr}${map}${stripChip}</div>`;
   return `<article class="card${wide?" wide":""}" style="--tier:${TIERCOL[b.tier]||'var(--lav)'}">
     <div class="top">${logo}<div class="tt">${pick}<div class="nm"${viAttr(b.n)}>${b.n}</div>${handle}</div>${bk}${sv}</div>
     <div class="cd-more">
       <div class="note"${viAttr(note)}>${note}</div>
-      <div class="addr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg><span${viAttr(b.a)}>${b.a}</span><span class="acts">${shr}${map}</span></div>
-      <div class="foot"><span class="st ${st[1]}">${stl}</span>${openbadge}${confbadge}${price}${tier}${fib}${vibe}${sub}<span class="area"${viAttr(b.area)}>${b.area}</span>${stripChip}</div>
+      <div class="addr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg><span${viAttr(b.a)}>${b.a}</span><span class="acts">${cm}</span></div>
+      <div class="foot"><span class="st ${st[1]}">${stl}</span>${openbadge}${confbadge}${price}${tier}${fib}${vibe}${sub}<span class="area"${viAttr(b.area)}>${b.area}</span></div>
     </div>
+    ${cmPop}
     <span class="credit" aria-hidden="true">seraphicstyler.com</span>
   </article>`;
 }
@@ -1420,7 +1491,6 @@ document.getElementById("sortsel").addEventListener("change",e=>{fSort=e.target.
 document.getElementById("walkonly").addEventListener("change",e=>{fWalk=e.target.checked;syncHash();render();});
 document.getElementById("savedbtn").addEventListener("click",e=>{
   fSaved=!fSaved;e.currentTarget.setAttribute("aria-pressed",String(fSaved));
-  const tb=document.getElementById("tbsaved");if(tb)tb.setAttribute("aria-pressed",String(fSaved));
   syncHash();render();});
 document.getElementById("morebtn").addEventListener("click",e=>{
   const p=document.getElementById("morepanel"),open=!p.classList.contains("open");
@@ -1449,16 +1519,48 @@ document.getElementById("qbgrid").addEventListener("click",e=>{
   chipbar("catchips",CATS,fCat,"cat");syncHash();render();
   document.getElementById("main").scrollIntoView({behavior:"smooth",block:"start"});
 });
+/* card ⋯ menus: one open at a time; outside click and Esc close */
+function closeAllPops(){
+  document.querySelectorAll(".cm-pop:not([hidden])").forEach(p=>{
+    p.hidden=true;
+    const b=p.closest(".card")?.querySelector(".cm-btn");
+    if(b)b.setAttribute("aria-expanded","false");
+  });
+}
+document.addEventListener("click",e=>{
+  if(!e.target.closest(".cm-btn")&&!e.target.closest(".cm-pop"))closeAllPops();
+});
+addEventListener("keydown",e=>{if(e.key==="Escape")closeAllPops();});
 /* results: hearts, expanders, copy, state actions — delegated; heart clicks never re-render */
 document.getElementById("main").addEventListener("click",e=>{
   const sv=e.target.closest(".sv");
   if(sv){
     const id=sv.dataset.id;
-    if(SAVED.has(id))SAVED.delete(id);else SAVED.add(id);
-    persistSaved();
+    if(window.SS_TRAY){ /* the tray owns saved-state; fd-saved stays written as its mirror */
+      if(SS_TRAY.isSaved(id))SS_TRAY.removeSaved(id);else SS_TRAY.addSaved(id);
+      try{SAVED=new Set(JSON.parse(localStorage.getItem("fd-saved")||"[]"));}catch(err){}
+    }else{ /* module failed to load — plain localStorage hearts still work */
+      if(SAVED.has(id))SAVED.delete(id);else SAVED.add(id);
+      persistSaved();
+    }
     const on=SAVED.has(id);
     sv.classList.toggle("on",on);sv.setAttribute("aria-pressed",on);
     updateSavedCount();
+    return;
+  }
+  const cmb=e.target.closest(".cm-btn");
+  if(cmb){
+    const card=cmb.closest(".card"),pop=card.querySelector(".cm-pop");
+    const wasOpen=pop&&!pop.hidden;
+    closeAllPops();
+    if(pop&&!wasOpen){
+      pop.hidden=false;cmb.setAttribute("aria-expanded","true");
+      /* sit just under the ⋯; flip above it when the card's clipped bottom is too close */
+      const below=cmb.offsetTop+cmb.offsetHeight+4;
+      if(below+pop.offsetHeight>card.clientHeight-6){
+        pop.style.top="auto";pop.style.bottom=(card.clientHeight-cmb.offsetTop+4)+"px";
+      }else{pop.style.bottom="auto";pop.style.top=below+"px";}
+    }
     return;
   }
   const bk=e.target.closest(".bk");
@@ -1612,17 +1714,10 @@ document.querySelector(".tabbar").addEventListener("click",e=>{
     setTimeout(()=>document.getElementById("q").focus({preventScroll:true}),450);
   }
   if(act==="sheet")sheetCtl.open(b);
-  if(act==="basket"&&window.SS_BASKET)SS_BASKET.open(b);
+  if(act==="tray"&&window.SS_BASKET)SS_BASKET.open(b);
   if(act==="map"){
     if(window.__fdMapOpen)window.__fdMapOpen(true);
     document.getElementById("map").scrollIntoView({behavior:"smooth",block:"start"});
-  }
-  if(act==="saved"){
-    fSaved=!fSaved;
-    b.setAttribute("aria-pressed",String(fSaved));
-    document.getElementById("savedbtn").setAttribute("aria-pressed",String(fSaved));
-    syncHash();render();
-    document.getElementById("main").scrollIntoView({behavior:"smooth",block:"start"});
   }
   if(act==="all"){
     resetAll();
@@ -1689,6 +1784,27 @@ new MutationObserver(()=>{
   h();
 })();
 
+/* — Side-rail scroll-spy: same IntersectionObserver recipe as index.html, but over an
+     explicit id list (#filters is a div and #main is <main>, so section[id] would miss them) — */
+(function(){
+  const rail=document.querySelectorAll(".fd-rail a");
+  if(!rail.length||!("IntersectionObserver"in window))return;
+  const spy=new IntersectionObserver(es=>{
+    es.forEach(en=>{
+      if(!en.isIntersecting)return;
+      const id=en.target.getAttribute("id");
+      rail.forEach(a=>{
+        const on=a.getAttribute("href")==="#"+id;
+        a.classList.toggle("active",on);
+        if(on)a.setAttribute("aria-current","true");else a.removeAttribute("aria-current");
+      });
+    });
+  },{rootMargin:"-45% 0px -50% 0px",threshold:0});
+  ["browse","map","filters","main"].forEach(id=>{
+    const el=document.getElementById(id);if(el)spy.observe(el);
+  });
+})();
+
 /* — Restore state from a shared deep link (#cat=men&tier=mid, #zone=d3, #q=…) — */
 function applyHash(){
   const h=location.hash.replace(/^#/,"");
@@ -1711,7 +1827,6 @@ function applyHash(){
   document.getElementById("qclear").hidden=!fQ;
   document.getElementById("walkonly").checked=fWalk;
   document.getElementById("savedbtn").setAttribute("aria-pressed",String(fSaved));
-  const tb=document.getElementById("tbsaved");if(tb)tb.setAttribute("aria-pressed",String(fSaved));
   updateMapClear();
 }
 function syncUI(){
@@ -1719,7 +1834,6 @@ function syncUI(){
   fillSel("locsel",LOCS,locValue());fillSel("tiersel",TIERS,fTier);fillSel("fibsel",FIBERS,fFib);fillSel("sortsel",SORTS,fSort);
   document.getElementById("walkonly").checked=fWalk;
   document.getElementById("savedbtn").setAttribute("aria-pressed",String(fSaved));
-  const tb=document.getElementById("tbsaved");if(tb)tb.setAttribute("aria-pressed",String(fSaved));
   statChips();updateSavedCount();updateMapClear();render();renderMap();
 }
 applyHash();
