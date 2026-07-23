@@ -353,6 +353,7 @@
       <div class="qe-result" id="qeResult" hidden>
         <span class="qe-range" id="qeRange">—</span>
         <span class="qe-rnote" data-i18n="qe.rnote">all-in estimate · items + service fee + shipping</span>
+        <span class="qe-rnote" data-i18n="qe.cardnote">card payments add ~3.3% (Stripe) · bank transfer, Wise &amp; Zelle are fee-free</span>
       </div>
 
       <div class="qe-cta">
@@ -393,7 +394,7 @@
       var regionLabels = {};
       Array.prototype.forEach.call(region.options, function (o) { regionLabels[o.value] = o.textContent; });
 
-      function itemFee(vnd) { var f = C.fee; if (vnd <= 0) return 0; if (vnd < f.flatThreshold) return f.flatFee; if (vnd <= f.midThreshold) return vnd * f.midRate; return vnd * f.highRate; }
+      function itemFee(vnd) { var f = C.fee; if (vnd <= 0) return 0; return Math.max(f.minFee, vnd <= f.midThreshold ? vnd * f.midRate : vnd * f.highRate); }
       function vndToUsd(vnd) { return vnd / (VND_PER_USD * (1 - SPREAD)); }
       function fmt(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
 

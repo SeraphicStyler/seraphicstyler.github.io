@@ -9,8 +9,8 @@
 var CONFIG = {
   /* Per-ITEM service fee tiers (VND). Includes domestic VN shipping. */
   fee: {
-    flatThreshold: 2000000, flatFee: 150000,   // item < 2M -> 150,000₫ flat
-    midThreshold: 5000000,  midRate: 0.08,      // 2M–5M -> 8%
+    minFee: 250000,                             // every item pays at least 250,000₫
+    midThreshold: 5000000,  midRate: 0.08,      // item ≤ 5M -> 8%
     highRate: 0.07                              // > 5M -> 7%
   },
   baseFee: 100000,        // flat per-order coordination & packing fee
@@ -18,6 +18,10 @@ var CONFIG = {
   greenDiscount: 0.10,    // modest discount on the SERVICE FEE for green/eco shopping (0.10 = 10% off fees)
 
   fx: { fallbackVndPerUsd: 26300, spread: 0.015 },
+
+  /* Card (Stripe) processing pass-through: charged = (total + fixedUsd*fx) / (1 - rate).
+     Bank transfer / Wise / Zelle carry no fee. */
+  card: { rate: 0.029, fixedUsd: 0.30 },
 
   /* Shipping estimate ranges in VND [economy low, express high].
      Two estimable classes: light (0.5-3kg) & standard (3-10kg). ROUGH ballparks
@@ -54,8 +58,8 @@ var CONFIG = {
   var FALLBACK_RATES = { USD:1, EUR:0.92, GBP:0.79, AUD:1.5, CAD:1.36, SGD:1.34, JPY:155, KRW:1350, CNY:7.2, THB:36, AED:3.67, INR:83 };
 
   var el = {};
-  ['lineItems','addItem','region','weight','complex','green','estCurrency','rSubtotal','rFee','rFeeNote','rBase',
-   'rComplexRow','rComplex','rGreenRow','rGreen','rShip','rTotal','rUsd','fxStatus','sendBasket','copiedMsg']
+  ['lineItems','addItem','region','weight','complex','green','payMethod','estCurrency','rSubtotal','rFee','rFeeNote','rBase',
+   'rComplexRow','rComplex','rGreenRow','rGreen','rCardRow','rCard','rShip','rTotal','rUsd','fxStatus','sendBasket','copiedMsg']
     .forEach(function (id) { el[id] = document.getElementById(id); });
   if (!el.lineItems) return; // not on a page with the estimator
 
@@ -84,9 +88,15 @@ var CONFIG = {
   function itemFee(p) {
     var f = CONFIG.fee;
     if (p <= 0) return 0;
-    if (p < f.flatThreshold) return f.flatFee;
-    if (p <= f.midThreshold) return p * f.midRate;
-    return p * f.highRate;
+    var pct = p <= f.midThreshold ? p * f.midRate : p * f.highRate;
+    return Math.max(f.minFee, pct);
+  }
+
+  /* Exact Stripe pass-through: what must be added so the charged amount nets totalVnd. */
+  function cardFee(totalVnd) {
+    var cc = CONFIG.card;
+    if (!cc || !(totalVnd > 0)) return 0;
+    return (totalVnd + cc.fixedUsd * fxRate) / (1 - cc.rate) - totalVnd;
   }
 
   function readItems() {
@@ -125,7 +135,7 @@ var CONFIG = {
   function save() {
     try {
       localStorage.setItem('ss-basket', JSON.stringify({
-        items: readItems(), links: readLinks(), region: el.region.value, weight: el.weight.value, complex: el.complex.checked, green: !!(el.green && el.green.checked), cur: curCode()
+        items: readItems(), links: readLinks(), region: el.region.value, weight: el.weight.value, complex: el.complex.checked, green: !!(el.green && el.green.checked), pay: (el.payMethod && el.payMethod.value) || 'bank', cur: curCode()
       }));
     } catch (e) {}
   }
@@ -141,7 +151,8 @@ var CONFIG = {
     var zone = CONFIG.shipping[el.region.value] || CONFIG.shipping.us;
     var ship = custom ? null : (zone[el.weight.value] || zone.light);
     var nItems = items.filter(function (v) { return v > 0; }).length;
-    return { items: items, subtotal: subtotal, fees: fees, base: base, complex: complex, green: green, ship: ship, custom: custom, nItems: nItems };
+    var card = !!(el.payMethod && el.payMethod.value === 'card');
+    return { items: items, subtotal: subtotal, fees: fees, base: base, complex: complex, green: green, ship: ship, custom: custom, nItems: nItems, card: card };
   }
 
   function recalc() {
@@ -158,13 +169,24 @@ var CONFIG = {
     }
     var nonShip = c.subtotal + c.fees + c.base + c.complex - c.green;
     if (c.custom) {
+      var cf = c.card ? cardFee(nonShip) : 0;
+      if (el.rCardRow) {
+        if (cf > 0) { el.rCardRow.style.display = ''; el.rCard.textContent = fmtVnd(cf) + t('est.card.plusship', ' (+ card fee on shipping at invoice)'); }
+        else { el.rCardRow.style.display = 'none'; }
+      }
       el.rShip.textContent = t('est.customquote', 'Custom quote');
-      el.rTotal.textContent = fmtVnd(nonShip) + t('est.plusship', ' + shipping');
-      el.rUsd.textContent = '≈ ' + fmtCur(toCur(nonShip)) + t('est.customhaul', ' + shipping (custom quote, 10kg+)');
+      el.rTotal.textContent = fmtVnd(nonShip + cf) + t('est.plusship', ' + shipping');
+      el.rUsd.textContent = '≈ ' + fmtCur(toCur(nonShip + cf)) + t('est.customhaul', ' + shipping (custom quote, 10kg+)');
     } else {
+      var cfLo = c.card ? cardFee(nonShip + c.ship[0]) : 0;
+      var cfHi = c.card ? cardFee(nonShip + c.ship[1]) : 0;
+      if (el.rCardRow) {
+        if (cfLo > 0) { el.rCardRow.style.display = ''; el.rCard.textContent = fmtVnd(cfLo) + ' – ' + fmtVnd(cfHi); }
+        else { el.rCardRow.style.display = 'none'; }
+      }
       el.rShip.textContent = fmtVnd(c.ship[0]) + ' – ' + fmtVnd(c.ship[1]);
-      el.rTotal.textContent = fmtVnd(nonShip + c.ship[0]) + ' – ' + fmtVnd(nonShip + c.ship[1]);
-      el.rUsd.textContent = '≈ ' + fmtCur(toCur(nonShip + c.ship[0])) + ' – ' + fmtCur(toCur(nonShip + c.ship[1]));
+      el.rTotal.textContent = fmtVnd(nonShip + c.ship[0] + cfLo) + ' – ' + fmtVnd(nonShip + c.ship[1] + cfHi);
+      el.rUsd.textContent = '≈ ' + fmtCur(toCur(nonShip + c.ship[0] + cfLo)) + ' – ' + fmtCur(toCur(nonShip + c.ship[1] + cfHi));
     }
     updateFxStatus();
     save();
@@ -187,13 +209,19 @@ var CONFIG = {
     if (c.complex > 0) lines.push('Complex sourcing: ' + fmtVnd(c.complex));
     if (c.green > 0) lines.push('Green shopping discount: −' + fmtVnd(c.green) + ' (sustainable brand)');
     lines.push('Ship to: ' + region + ' (' + el.weight.value + ')');
+    lines.push('Payment: ' + (c.card ? 'Card via Stripe (processing fee below)' : 'Bank transfer / Wise / Zelle (fee-free)'));
     if (c.custom) {
-      lines.push('Est. before shipping: ' + fmtVnd(nonShip) + ' (≈ ' + fmtCur(toCur(nonShip)) + ')',
+      var cf = c.card ? cardFee(nonShip) : 0;
+      if (cf > 0) lines.push('Card processing (Stripe 2.9% + $0.30, at cost): ' + fmtVnd(cf) + ' + card fee on shipping at invoice');
+      lines.push('Est. before shipping: ' + fmtVnd(nonShip + cf) + ' (≈ ' + fmtCur(toCur(nonShip + cf)) + ')',
         'Shipping: CUSTOM QUOTE — heavy haul (10kg+), to confirm after packing plan');
     } else {
+      var cfLo = c.card ? cardFee(nonShip + c.ship[0]) : 0;
+      var cfHi = c.card ? cardFee(nonShip + c.ship[1]) : 0;
+      if (cfLo > 0) lines.push('Card processing (Stripe 2.9% + $0.30, at cost): ' + fmtVnd(cfLo) + ' – ' + fmtVnd(cfHi));
       lines.push('Est. shipping: ' + fmtVnd(c.ship[0]) + ' – ' + fmtVnd(c.ship[1]),
-        'ESTIMATED TOTAL: ' + fmtVnd(nonShip + c.ship[0]) + ' – ' + fmtVnd(nonShip + c.ship[1]),
-        '≈ ' + fmtCur(toCur(nonShip + c.ship[0])) + ' – ' + fmtCur(toCur(nonShip + c.ship[1])));
+        'ESTIMATED TOTAL: ' + fmtVnd(nonShip + c.ship[0] + cfLo) + ' – ' + fmtVnd(nonShip + c.ship[1] + cfHi),
+        '≈ ' + fmtCur(toCur(nonShip + c.ship[0] + cfLo)) + ' – ' + fmtCur(toCur(nonShip + c.ship[1] + cfHi)));
     }
     lines.push('', 'Please confirm my final quote — thank you! 🎀');
     return lines.join('\n');
@@ -254,6 +282,7 @@ var CONFIG = {
   el.weight.addEventListener('change', recalc);
   el.complex.addEventListener('change', recalc);
   if (el.green) el.green.addEventListener('change', recalc);
+  if (el.payMethod) el.payMethod.addEventListener('change', recalc);
   if (el.estCurrency) el.estCurrency.addEventListener('change', recalc);
   el.sendBasket.addEventListener('click', send);
   document.addEventListener('ss:lang', recalc);  // re-render computed strings (item count, custom-quote) in the new language
@@ -266,6 +295,7 @@ var CONFIG = {
     if (saved.weight) el.weight.value = saved.weight;
     if (saved.complex) el.complex.checked = true;
     if (saved.green && el.green) el.green.checked = true;
+    if (saved.pay && el.payMethod) el.payMethod.value = saved.pay; // absent (old baskets, tray handoff) → default 'bank'
     if (saved.cur && el.estCurrency) el.estCurrency.value = saved.cur;
   } else { addItem(''); }
   loadFx();

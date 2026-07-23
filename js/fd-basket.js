@@ -132,9 +132,8 @@
   function itemFee(p) {
     var C = cfg(); if (!C || !C.fee || !(p > 0)) return 0;
     var f = C.fee;
-    if (p < f.flatThreshold) return f.flatFee;
-    if (p <= f.midThreshold) return p * f.midRate;
-    return p * f.highRate;
+    var pct = p <= f.midThreshold ? p * f.midRate : p * f.highRate;
+    return Math.max(f.minFee, pct);
   }
 
   /* ---------- trip classification ---------- */
@@ -513,7 +512,8 @@
             (complexFee ? '+' + fmtVnd(complexFee) + ' <em style="font-weight:400">(' + esc(t('fd.bk.auto', 'auto')) + ': ' + esc(v.reasons.join(' / ')) + ')</em>'
                         : '0₫ — ' + esc(t('fd.bk.notNeeded', 'not needed for a simple run'))) + '</b></div>' +
           '<div class="r total"><span>' + esc(t('fd.bk.total', 'Total before shipping')) + '</span><b>' + fmtVnd(total) + '</b></div>' +
-          '<div class="r usd"><span>' + (fxLive ? esc(t('fd.bk.live', 'Live rate')) : esc(t('fd.bk.offline', 'Offline estimate'))) + '</span><b>≈ ' + fmtUsd(toUsd(total)) + '</b></div>';
+          '<div class="r usd"><span>' + (fxLive ? esc(t('fd.bk.live', 'Live rate')) : esc(t('fd.bk.offline', 'Offline estimate'))) + '</span><b>≈ ' + fmtUsd(toUsd(total)) + '</b></div>' +
+          '<div class="r note">' + esc(t('fd.bk.cardnote', 'Card payments add ~3.3% (Stripe) — bank transfer, Wise & Zelle are fee-free.')) + '</div>';
       }
       rows += '<div class="r note">' + esc(t('fd.bk.honest', 'An estimate, not a quote — shipping and the final number live on the estimate page.')) + '</div>';
       fees.innerHTML = rows;

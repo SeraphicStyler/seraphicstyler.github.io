@@ -388,7 +388,7 @@ From: a small per-board fee, fully credited if you order.</div></div>
           <p class="quiz-help small muted" data-i18n="est.q.result">A high-level ballpark — screenshot it or compare it with your final quote.</p>
           <div class="result-card">
             <div class="result-row"><span data-i18n="est.sub">Items subtotal</span><span class="v" id="rSubtotal">0₫</span></div>
-            <div class="result-row"><span><span data-i18n="est.fee">Service fees</span> <span class="tip" tabindex="0" role="note" aria-label="About service fees">i<span class="tip-box" data-i18n="est.fee.tip">My sourcing fee per item: 150,000₫ for items under 2,000,000₫, 8% for 2–5,000,000₫, 7% above. Domestic shipping inside Vietnam is included.</span></span> <span class="muted small" id="rFeeNote">—</span></span><span class="v" id="rFee">0₫</span></div>
+            <div class="result-row"><span><span data-i18n="est.fee">Service fees</span> <span class="tip" tabindex="0" role="note" aria-label="About service fees">i<span class="tip-box" data-i18n="est.fee.tip2">My sourcing fee per item: 8% of the item price (7% above 5,000,000₫), with a minimum of 250,000₫ per item. Domestic shipping inside Vietnam is included.</span></span> <span class="muted small" id="rFeeNote">—</span></span><span class="v" id="rFee">0₫</span></div>
             <div class="result-row"><span><span data-i18n="est.base">Base fee</span> <span class="tip" tabindex="0" role="note" aria-label="About the base fee">i<span class="tip-box" data-i18n="est.base.tip">A flat 100,000₫ per order covering coordination, messaging, and careful packing. Shipping is passed through at cost.</span></span></span><span class="v" id="rBase">0₫</span></div>
             <div class="result-row" id="rComplexRow" style="display:none"><span data-i18n="est.complexline">Complex sourcing</span><span class="v" id="rComplex">0₫</span></div>
             <div class="result-row" id="rGreenRow" style="display:none"><span data-i18n="est.greenline">Green shopping discount</span><span class="v green-v" id="rGreen">0₫</span></div>
@@ -630,9 +630,17 @@ Service fee — sourcing &amp; domestic shipping inside Vietnam (per item, below
 International shipping — courier cost from Saigon to you (at cost)</div>
             </div>
             <div class="tiers">
-              <div class="tier"><p class="range" data-i18n="tier.1r">Item under 2,000,000₫</p><div class="fee">150,000₫</div><p class="muted" data-i18n="tier.1s">flat, per item</p></div>
-              <div class="tier"><p class="range" data-i18n="tier.2r">Item 2–5,000,000₫</p><div class="fee">8%</div><p class="muted" data-i18n="tier.2s">per item</p></div>
-              <div class="tier"><p class="range" data-i18n="tier.3r">Item over 5,000,000₫</p><div class="fee">7%</div><p class="muted" data-i18n="tier.3s">per item</p></div>
+              <div class="tier"><p class="range" data-i18n="tier.b1r">Every item</p><div class="fee">8%</div><p class="muted" data-i18n="tier.b1s">of the item price</p></div>
+              <div class="tier"><p class="range" data-i18n="tier.b2r">Item over 5,000,000₫</p><div class="fee">7%</div><p class="muted" data-i18n="tier.b2s">of the item price</p></div>
+              <div class="tier"><p class="range" data-i18n="tier.b3r">Minimum per item</p><div class="fee">250,000₫</div><p class="muted" data-i18n="tier.b3s">small pieces take the same care</p></div>
+            </div>
+            <div class="glass card">
+              <h3 style="margin-top:0" data-i18n="price.incl.h">What the service fee includes</h3>
+              <div class="body" style="white-space:pre-line;color:var(--text-secondary);font-size:0.92rem" data-i18n="price.incl.b">Stock checks and ordering with the boutique — in person or direct
+A condition check of your actual piece when it reaches me
+Photographs of your item before it ships, so you approve what you see
+Domestic shipping inside Vietnam
+Tissue-wrapped presentation packing, one consolidated parcel, full tracking</div>
             </div>
             <div class="grid grid-2">
               <div class="service"><h3 data-i18n="price.base.h">Base fee · 100,000₫ / order</h3><div class="body" data-i18n="price.base.b">A flat per-order fee covering messaging, coordination, and careful packing. Shipping is passed through at cost — no hidden margin.</div></div>
