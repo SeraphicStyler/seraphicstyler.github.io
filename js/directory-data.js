@@ -8,8 +8,8 @@ window.SS_DIRECTORY=[
 {n:"Huelley Rose",h:"huelleyrose",cat:"women",city:"SGN",area:"D1 · Tân Định",tier:"premium",st:"walk",a:"214 Hai Bà Trưng",no:"Romantic RTW; worldwide shipping. Shares its building with Huelley & Stress Mama."},
 {n:"Huelley",h:"",w:"https://huelley.com/",cat:"women",city:"SGN",area:"D1 · Tân Định",tier:"premium",st:"walk",a:"214 Hai Bà Trưng",no:"Sister label to Huelley Rose. 8:30–21:40."},
 {n:"Stress Mama",h:"stress.mama",cat:"women",city:"SGN",area:"D1 · Tân Định",tier:"mid",st:"walk",a:"214 Hai Bà Trưng · Vincom Đồng Khởi · Thảo Điền",a2:1,no:"Playful streetwear; 3 locations across the city."},
-{n:"Dawn Vintage",h:"dawnavintage",cat:"women",city:"SGN",area:"D1 · Bến Nghé",tier:"mid",st:"walk",a:"2F, 42 Tôn Thất Thiệp",no:"Curated vintage inside the 42 TTT multi-brand building.",fib:["circular"]},
-{n:"1998 Before The Dawn",h:"1998beforethedawn",cat:"women",city:"SGN",area:"D1 · Bến Nghé",tier:"mid",st:"walk",a:"2F, 42 Tôn Thất Thiệp",no:"Vintage; pairs with Dawn Vintage. 10:00–21:00.",fib:["circular"]},
+{n:"Dawn Vintage",h:"dawnavintage",cat:"vintage",city:"SGN",area:"D1 · Bến Nghé",tier:"mid",st:"walk",a:"2F, 42 Tôn Thất Thiệp",no:"Curated vintage inside the 42 TTT multi-brand building.",fib:["circular"]},
+{n:"1998 Before The Dawn",h:"1998beforethedawn",cat:"vintage",city:"SGN",area:"D1 · Bến Nghé",tier:"mid",st:"walk",a:"2F, 42 Tôn Thất Thiệp",no:"Vintage; pairs with Dawn Vintage. 10:00–21:00.",fib:["circular"]},
 {n:"Depass",h:"depass.store",cat:"women",city:"SGN",area:"D1 · Bến Nghé",tier:"mid",st:"walk",a:"Rm 38E, 1F, 42 Tôn Thất Thiệp",no:"Local label in the 42 TTT building."},
 {n:"Mangata",h:"mangata.vn",cat:"women",city:"SGN",area:"D1",tier:"premium",st:"walk",a:"1F, 40E Ngô Đức Kế",no:"Founder-run; has a sister coffee brand, Blubean."},
 {n:"Josephine",h:"josephineofficial.vn",cat:"women",city:"SGN",area:"D1 · Bến Thành",tier:"premium",st:"walk",a:"106A Lê Thị Riêng",no:"Feminine RTW; also a Hanoi branch on Phố Huế."},
@@ -178,6 +178,14 @@ window.SS_DIRECTORY=[
 {n:"Shu Shi",h:"shushi_clothing",cat:"women",city:"VN",area:"Buôn Ma Thuột",tier:"mid",st:"walk",a:"60 Nguyễn Thị Minh Khai",no:"Linen; IG ~35% below Shopee.",fib:["linen"]},
 
 /* — Markets & pop-ups — */
+/* — Vintage & preloved: curated secondhand houses + đồ si hunting grounds — */
+{n:"Mayhem",h:"mayhem.saigon",cat:"vintage",city:"SGN",area:"D1 · Bến Thành",tier:"mid",st:"walk",a:"136/1 Lê Thánh Tôn",no:"Saigon's vintage pioneer — Japan-sourced racks, strong tailoring-era pieces. 10:00–21:00.",fib:["circular"]},
+{n:"Maintwo",h:"maintwosg",cat:"vintage",city:"SGN",area:"D1 · Bến Thành",tier:"mid",st:"walk",a:"156/4B Lý Tự Trọng",no:"Y2K & '90s streetwear vintage since 2016 — hidden-alley shop. 10:00–21:00; worldwide shipping.",fib:["circular"]},
+{n:"Hebe Vintage",h:"hebevintage",cat:"vintage",city:"SGN",area:"D1 · Bến Nghé",tier:"mid",st:"walk",a:"2F backstairs, 42 Tôn Thất Thiệp",no:"Handpicked one-offs — denim maxis, Y2K; inside the 42 TTT thrift mall.",fib:["circular"]},
+{n:"The Normal",h:"thenormal_thriftshop",cat:"vintage",city:"SGN",area:"Thảo Điền",tier:"mid",st:"walk",a:"52 Nguyễn Bá Huân",no:"Curated women's thrift — casual, feminine, retro; shoes-off fitting room. 10:00–20:00 daily.",fib:["circular"]},
+{n:"2.abnormal",h:"2.abnormal",cat:"vintage",city:"SGN",area:"D3 · Lê Văn Sỹ",tier:"mid",st:"walk",a:"407/8 Lê Văn Sỹ, P.12",no:"Reworked vintage + handmade accessories; worldwide shipping.",fib:["circular"]},
+{n:"Chợ Bàn Cờ đồ si",cat:"vintage",city:"SGN",area:"D3 · Bàn Cờ",tier:"none",st:"walk",a:"Bàn Cờ & hẻm 664 Nguyễn Đình Chiểu, P.3",no:"Classic đồ si alley market — dig-for-it secondhand piles. Go morning, bargain gently.",fib:["circular"],flag:1},
+{n:"Nhật Tảo secondhand shops",cat:"vintage",city:"SGN",area:"Q10 · Nhật Tảo",tier:"none",st:"walk",a:"Nhật Tảo street, P.7",no:"A strip of đồ si houses; quality varies rack to rack — a hunting ground, not a boutique.",fib:["circular"],flag:1},
 {n:"Rue Miche L'Édition",h:"ruemiche",cat:"market",city:"SGN",area:"D1 · Đồng Khởi",tier:"none",st:"walk",a:"Union Square B3, 171 Đồng Khởi",no:"SE Asia's largest multi-brand local-fashion store: 4,728 m², 120+ VN brands + rotating pop-ups. 10:00–21:30."},
 {n:"The New Playground",h:"thenewplayground",cat:"market",city:"SGN",area:"D1 · Bến Nghé",tier:"none",st:"walk",a:"26 Lý Tự Trọng",no:"Underground concept mall — 50+ local streetwear brands; seasonal events."},
 {n:"Hello Weekend Market",h:"helloweekendmarket",cat:"market",city:"SGN",area:"D1 · roams",tier:"none",st:"popup",a:"Usually Hoa Lư Stadium, 2–4 Đinh Tiên Hoàng",no:"HCMC's biggest youth fashion fair since 2013; check IG for the weekend venue."},
@@ -197,7 +205,7 @@ window.SS_DIRECTORY=[
 {n:"Whenever Atelier",h:"whenever.atelier",cat:"women",city:"SGN",area:"D3",tier:"premium",st:"walk",a:"141/8 Bàn Cờ + Vincom 26 Lý Tự Trọng",no:"Tailoring-led womenswear. 10:00–21:00."},
 {n:"Kathy Atelier",h:"kathy.atelier.vn",cat:"women",city:"SGN",area:"D3 · P.14",tier:"premium",st:"walk",a:"6 Trần Quang Diệu",no:"Anchors the Trần Quang Diệu design strip. 10:00–21:00."},
 {n:"Laneci",h:"laneci.stu",cat:"women",city:"SGN",area:"D3 · P.14",tier:"premium",st:"walk",a:"27 Trần Quang Diệu",no:"Refined feminine RTW on the TQD strip. 10:00–22:00."},
-{n:"Sò Vintage",h:"sovintage_house",cat:"women",city:"SGN",area:"D3 · Võ Thị Sáu",tier:"mid",st:"walk",a:"200 Nguyễn Thị Minh Khai, Phường Võ Thị Sáu, Quận 3",no:"Curated vintage.",fib:["circular"]},
+{n:"Sò Vintage",h:"sovintage_house",cat:"vintage",city:"SGN",area:"D3 · Võ Thị Sáu",tier:"mid",st:"walk",a:"200 Nguyễn Thị Minh Khai, Phường Võ Thị Sáu, Quận 3",no:"Curated vintage.",fib:["circular"]},
 {n:"Anna Clothes",h:"annaclothing.vn",cat:"women",city:"SGN",area:"D3 / D1 / Gò Vấp",tier:"mid",st:"walk",a:"292/26 CMT8 + 73 Nguyễn Cư Trinh + Gò Vấp",no:"Cute, affordable RTW; several branches."},
 {n:"Levents",h:"leventsbrand",cat:"women",city:"SGN",area:"D1 / Q10",tier:"mid",st:"walk",a:"325 Hoàng Sa + 139E Nguyễn Trãi + 842 Sư Vạn Hạnh",no:"Cult local streetwear. 10:00–21:30."},
 {n:"Hangkao Closet",h:"hangkao_closet",cat:"women",city:"SGN",area:"D3 · P.14",tier:"mid",st:"walk",a:"448/9 Lê Văn Sỹ",no:"Trend-led local closet."},
@@ -235,7 +243,7 @@ window.SS_DIRECTORY=[
 {n:"By Cotno",h:"bycotno",cat:"women",city:"VN",area:"Online · VN",tier:"mid",st:"online",a:"DM · cotno.loveu@gmail.com",no:"Worldwide shipping."},
 {n:"Velvet Venom",h:"velvetvenomofficial",cat:"women",city:"VN",area:"Online · VN",tier:"premium",st:"online",a:"velvetvenom.co",no:"Slow fashion, handcrafted."},
 {n:"Rid Kid Closet",h:"ridkidcloset",cat:"women",city:"VN",area:"Online · VN",tier:"mid",st:"online",a:"DM",no:"Handmade custom couture."},
-{n:"Vintage Angel Tailor",h:"vintage.angel.tailor",cat:"women",city:"VN",area:"Online · VN",tier:"mid",st:"online",a:"DM",no:"Made-to-measure, handmade limited."},
+{n:"Vintage Angel Tailor",h:"vintage.angel.tailor",cat:"vintage",city:"VN",area:"Online · VN",tier:"mid",st:"online",a:"DM",no:"Made-to-measure, handmade limited."},
 {n:"Feiin Atelier",h:"feiin.atelier",cat:"women",city:"VN",area:"Online · VN",tier:"mid",st:"online",a:"shopee.vn/feiin_atelier",no:"Lingerie sister label too."},
 {n:"Dune De Label",h:"dune.delabel",cat:"women",city:"VN",area:"Online · VN",tier:"premium",st:"online",a:"Shopee VN/TH/SG",no:"Bikini, resort & RTW."},
 {n:"Aoi Zone",h:"aoi_zone",cat:"women",city:"VN",area:"Online · VN",tier:"mid",st:"online",a:"Shopee",no:"Dolls of apocalypse."},
@@ -284,7 +292,7 @@ window.SS_DIRECTORY=[
 {n:"Aviator Nation",h:"",cat:"active",city:"INTL",area:"Venice, California",tier:"premium",st:"online",a:"aviatornation.com — likely ships VN",vibe:"coastal",no:"1970s CA surf/vintage; signature stitched stripes on brushed fleece."},
 
 /* — Asian fashion outside Vietnam — */
-{n:"Mimilys",h:"mimilysshop",cat:"women",city:"INTL",area:"Thailand",tier:"mid",st:"online",a:"Worldwide; Wise/Remitly",no:"Vintage secondhand.",fib:["circular"]},
+{n:"Mimilys",h:"mimilysshop",cat:"vintage",city:"INTL",area:"Thailand",tier:"mid",st:"online",a:"Worldwide; Wise/Remitly",no:"Vintage secondhand.",fib:["circular"]},
 {n:"Jula",h:"julalinekw",cat:"women",city:"INTL",area:"Kuwait",tier:"premium",st:"walk",a:"The Avenues Phase 3 + Shuwaikh",no:"Occasion dresses, designed in Kuwait."},
 /* — Natural fibre, certified cotton & circular · added July 2026 —
    Clients are increasingly polyester-averse. Every house below states its own fibre;

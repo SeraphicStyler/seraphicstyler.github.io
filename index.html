@@ -373,6 +373,12 @@ From: a small per-board fee, fully credited if you order.</div></div>
           </select>
           <label class="quiz-check"><input type="checkbox" id="complex" style="width:auto" /> <span data-i18n="est.complex">Rare / complex sourcing (+200,000₫)</span> <span class="tip" tabindex="0" role="note" aria-label="What counts as rare or complex sourcing?">i<span class="tip-box" data-i18n="est.complex.tip">Added only for rare or limited drops, multi-store hunts across the city, tight deadlines, or many changes after sourcing has begun — always agreed with you in advance, never a surprise.</span></span></label>
           <label class="quiz-check green-check"><input type="checkbox" id="green" style="width:auto" /> <svg class="leaf-ic" viewBox="0 0 24 24" aria-hidden="true" width="15" height="15"><path d="M20 4c0 8-5.5 13-13 13H4c0-7 5-13 12-13h4Z"/><path d="M4 20c3.5-5.5 7.5-8.5 12-10"/></svg><span data-i18n="est.green">Green shopping — choose a sustainable brand (−10% service fee)</span> <span class="tip" tabindex="0" role="note" aria-label="Why shop green">🌳<span class="tip-box" data-i18n="est.green.tip">Shopping green matters: choosing low-impact, locally made, and circular pieces cuts waste, saves water, and supports Vietnam's artisan makers. Pick a verified sustainable brand and I'll take 10% off my service fee. More on green living at treehugger.com.</span></span></label>
+          <label class="quiz-q" for="payMethod" style="margin-top:0.8rem" data-i18n="est.pay">How will you pay?</label>
+          <p class="quiz-help small muted" data-i18n="est.pay.help">Bank transfer, Wise &amp; Zelle are fee-free. Card (via Stripe) adds a processing fee — shown as its own line, never hidden in prices.</p>
+          <select id="payMethod">
+            <option value="bank" selected data-i18n="est.pay.bank">Bank transfer / Wise / Zelle — no extra fee</option>
+            <option value="card" data-i18n="est.pay.card">Card via Stripe — adds ~3.3% processing</option>
+          </select>
           <div class="quiz-nav"><button class="quiz-back" type="button" data-back data-i18n="est.back">Back</button><button class="btn btn-primary quiz-next" type="button" data-next data-i18n="est.see">See my estimate</button></div>
         </div>
 
@@ -387,6 +393,7 @@ From: a small per-board fee, fully credited if you order.</div></div>
             <div class="result-row" id="rComplexRow" style="display:none"><span data-i18n="est.complexline">Complex sourcing</span><span class="v" id="rComplex">0₫</span></div>
             <div class="result-row" id="rGreenRow" style="display:none"><span data-i18n="est.greenline">Green shopping discount</span><span class="v green-v" id="rGreen">0₫</span></div>
             <div class="result-row"><span data-i18n="est.shiplbl">Est. shipping</span><span class="v" id="rShip">—</span></div>
+            <div class="result-row" id="rCardRow" style="display:none"><span><span data-i18n="est.cardline">Card processing (Stripe)</span> <span class="tip" tabindex="0" role="note" aria-label="About the card processing fee">i<span class="tip-box" data-i18n="est.card.tip">Stripe charges 2.9% + $0.30 of the amount charged. Choosing card passes that through exactly — no markup. Bank transfer, Wise &amp; Zelle skip it entirely.</span></span></span><span class="v" id="rCard">0₫</span></div>
             <div class="result-row total"><span data-i18n="est.total">Total (VND)</span><span class="v" id="rTotal">—</span></div>
             <div class="result-row" style="border:none"><span class="muted"><span data-i18n="est.usd">Approx. in</span> <select id="estCurrency" class="cur-select" aria-label="Currency"><option>USD</option><option>EUR</option><option>GBP</option><option>AUD</option><option>CAD</option><option>SGD</option><option>JPY</option><option>KRW</option><option>CNY</option><option>THB</option><option>AED</option><option>INR</option></select></span><span class="v usd" id="rUsd">—</span></div>
             <p class="fx-status" id="fxStatus" style="margin-top:0.5rem">Loading live rate…</p>
@@ -481,7 +488,7 @@ From: a small per-board fee, fully credited if you order.</div></div>
         <span class="eyebrow" data-i18n="dir.eyebrow">The Directory</span>
         <h2 data-i18n="dir.h2">The Saigon Fashion Directory</h2>
       </div>
-      <p class="lead reveal" data-i18n="dir.lead">A living map of the city's fashion houses — 262 verified boutiques, ateliers, designer labels and markets, filterable by district, tier and category. It's the groundwork behind every sourcing request.</p>
+      <p class="lead reveal" data-i18n="dir.lead">A living map of the city's fashion houses — 269 verified boutiques, ateliers, designer labels and markets, filterable by district, tier and category. It's the groundwork behind every sourcing request.</p>
       <div class="dir-preview reveal">
         <div class="dir-map">
           <!-- Proportional-symbol map: circle area ∝ house count (r = k·√n, k = 44/√73). Same
@@ -630,6 +637,7 @@ International shipping — courier cost from Saigon to you (at cost)</div>
             <div class="grid grid-2">
               <div class="service"><h3 data-i18n="price.base.h">Base fee · 100,000₫ / order</h3><div class="body" data-i18n="price.base.b">A flat per-order fee covering messaging, coordination, and careful packing. Shipping is passed through at cost — no hidden margin.</div></div>
               <div class="service"><h3 data-i18n="price.complex.h">Complex sourcing · + from 200,000₫</h3><div class="body" data-i18n="price.complex.b">Added only for rare or limited drops, multi-store hunts, tight deadlines, or many changes after sourcing begins. Agreed with you in advance.</div></div>
+              <div class="service"><h3 data-i18n="price.card.h">Card payments · + ~3.3%</h3><div class="body" data-i18n="price.card.b">Prefer a card? Stripe's processing fee (2.9% + $0.30) is passed through at cost and always shown as its own line in your estimate and payment link — never folded into prices. Bank transfer, Wise &amp; Zelle are fee-free.</div></div>
             </div>
             <p class="assure" data-i18n="price.min">A soft minimum: most orders are around 100–150 USD+ (or several items) so the experience remains worthwhile for both of us. You will always see a clear breakdown before anything is purchased.</p>
             <div class="grid grid-3">

@@ -8,10 +8,10 @@
   <meta name="theme-color" content="#2e54ad" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#161a26" media="(prefers-color-scheme: dark)" />
   <script>if('serviceWorker' in navigator && location.protocol==='https:'){addEventListener('load',function(){navigator.serviceWorker.register('service-worker.js').catch(function(){});});}</script>
-  <meta name="description" content="A curated, filterable directory of 262 Vietnamese fashion houses — boutiques, ateliers, designer labels and markets across Saigon and beyond, mapped by Seraphic Styler." />
+  <meta name="description" content="A curated, filterable directory of 269 Vietnamese fashion houses — boutiques, ateliers, designer labels and markets across Saigon and beyond, mapped by Seraphic Styler." />
   <link rel="canonical" href="https://www.seraphicstyler.com/fashion-directory" />
   <meta property="og:title" content="The Saigon Fashion Directory — Seraphic Styler" />
-  <meta property="og:description" content="262 Vietnamese fashion houses, filterable by district, tier and category, with a Saigon cluster map." />
+  <meta property="og:description" content="269 Vietnamese fashion houses, filterable by district, tier and category, with a Saigon cluster map." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://www.seraphicstyler.com/assets/social/og-image.png" />
   <link rel="icon" href="assets/butterfly-side.svg" type="image/svg+xml" />
@@ -838,7 +838,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
     <div class="skcard"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></div>
   </div>
 </main>
-<noscript><div class="wrap" style="padding:30px 0"><p>The directory is interactive and needs JavaScript to filter its 262 houses. Please enable it, or write to seraphicstyler@gmail.com for a copy.</p></div></noscript>
+<noscript><div class="wrap" style="padding:30px 0"><p>The directory is interactive and needs JavaScript to filter its 269 houses. Please enable it, or write to seraphicstyler@gmail.com for a copy.</p></div></noscript>
 
 <button class="themebtn" id="theme" aria-label="Toggle dark mode" data-i18n-al="fd.a11y.theme" aria-pressed="false" title="Toggle light / dark" data-i18n-ti="fd.a11y.themeTi">
   <svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
@@ -924,7 +924,7 @@ const STLAB={walk:["Walk-in","walk"],appt:["Appointment","appt"],online:["Online
    Place names (Phú Nhuận, Thảo Điền, Q5 · Chợ Lớn…) are proper nouns: they stay
    verbatim in every language — you say them to a driver, you don't translate them.
    A null key means "never translate this label". */
-const CATS=[["all","fd.cat.all","All"],["women","fd.cat.women","Womenswear"],["men","fd.cat.men","Menswear"],["luxury","fd.cat.luxury","Luxury & Couture"],["tailor","fd.cat.tailor","Áo dài & Tailors"],["active","fd.cat.active","Athleisure"],["access","fd.cat.access","Accessories"],["sleep","fd.cat.sleep","Sleep & loungewear"],["market","fd.cat.market","Markets"]];
+const CATS=[["all","fd.cat.all","All"],["women","fd.cat.women","Womenswear"],["men","fd.cat.men","Menswear"],["luxury","fd.cat.luxury","Luxury & Couture"],["tailor","fd.cat.tailor","Áo dài & Tailors"],["active","fd.cat.active","Athleisure"],["access","fd.cat.access","Accessories"],["sleep","fd.cat.sleep","Sleep & loungewear"],["vintage","fd.cat.vintage","Vintage & preloved"],["market","fd.cat.market","Markets"]];
 /* Location taxonomy = exactly the map's zones, so filters and card areas finally agree. */
 const LOCS=[
  ["all","fd.loc.all","Everywhere"],
@@ -1061,6 +1061,7 @@ const GROUPS=[
  ["active","Premium athleisure","Studio-to-street activewear and functional sun-wear. No official Lululemon or Alo store exists in Vietnam yet."],
  ["access","Eyewear, shoes, bags & jewelry","Vietnamese accessory labels with real HCMC stores."],
  ["sleep","Sleep & loungewear","Cotton, linen and silk nightwear built for tropical nights — the natural-fibre houses, not the polyester-satin mass market."],
+ ["vintage","Vintage & preloved","Curated secondhand houses, reworked one-offs and đồ si hunting grounds — Saigon's circular wardrobe. I can pair finds with a trusted tailor for repairs and resizing."],
  ["market","Markets & pop-ups","Where many brands gather at once — highest value per trip. Dates roam; check socials first."]
 ];
 const grpTitle=g=>T("fd.grp."+g[0]+".t",g[1]);
