@@ -2,7 +2,7 @@
    Network-first for pages (so edits show immediately), cache-first for static
    assets. Lets you browse the directory and your saved route on the street with
    no signal. Bump CACHE to invalidate. */
-const CACHE = 'ss-fd-v23'; /* bumped: service-fee floor 250k min/item + explicit services copy */
+const CACHE = 'ss-fd-v24'; /* bumped: scripts now network-first — deploys show on the next load */
 const CORE = [
   './fashion-directory',
   './field-guide',
@@ -52,8 +52,16 @@ self.addEventListener('fetch', function (e) {
     }).catch(function () {
       return caches.match(req).then(function (m) { return m || caches.match('./fashion-directory'); });
     }));
+  } else if (url.pathname.endsWith('.js')) {
+    // network-first for scripts: a deploy shows on the NEXT load, not two loads
+    // later — cache-first here made new directory data invisible until visitors
+    // reloaded twice. Cache stays as the offline fallback.
+    e.respondWith(fetch(req).then(function (r) {
+      const cp = r.clone(); caches.open(CACHE).then(function (c) { c.put(req, cp); });
+      return r;
+    }).catch(function () { return caches.match(req); }));
   } else {
-    // cache-first for static assets (JS, svg, icons)
+    // cache-first for the rest (logos, svg, icons) — speed on the street
     e.respondWith(caches.match(req).then(function (m) {
       return m || fetch(req).then(function (r) {
         const cp = r.clone(); caches.open(CACHE).then(function (c) { c.put(req, cp); });
