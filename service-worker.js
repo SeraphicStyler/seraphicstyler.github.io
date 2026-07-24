@@ -2,7 +2,7 @@
    Network-first for pages (so edits show immediately), cache-first for static
    assets. Lets you browse the directory and your saved route on the street with
    no signal. Bump CACHE to invalidate. */
-const CACHE = 'ss-fd-v24'; /* bumped: scripts now network-first — deploys show on the next load */
+const CACHE = 'ss-fd-v26'; /* bumped: gift-tier fee/credit split + estimator styling-fee prices + gift redemption calculator (2026-07-24) */
 const CORE = [
   './fashion-directory',
   './field-guide',
@@ -17,6 +17,7 @@ const CORE = [
   './js/fd-basket.js',
   './js/fd-atelier.js',
   './js/estimator.js',
+  './js/gift-redeem.js',
   './assets/butterfly-side.svg',
   './manifest.webmanifest'
 ];

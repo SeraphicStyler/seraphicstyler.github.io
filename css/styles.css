@@ -736,8 +736,11 @@ html.rm .a11y-panel.open { animation: none; }
 .grid { display: grid; gap: 1.25rem; }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
+.gift-grid-4 { grid-template-columns: repeat(4, 1fr); }
 @media (max-width: 860px) { .grid-3 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 1000px) { .gift-grid-4 { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 600px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .gift-grid-4 { grid-template-columns: 1fr; } }
 .service { padding: 1.4rem 0 0.4rem; border-top: 1px solid var(--surface-border); }
 .service h3 { margin-bottom: 0.6rem; }
 .service .body { white-space: pre-line; font-size: 0.92rem; color: var(--text-secondary); }
@@ -1001,6 +1004,27 @@ html.rm .hero .reveal { transition-delay: 0s; }
 .gift-price .gift-amt { font: inherit; color: inherit; }
 @media (max-width: 640px) { .gift-support__actions { flex-direction: column; } .gift-support__dot { display: none; } }
 .gift-card .btn { margin-top: 1.1rem; }
+.gift-card .gift-split { font-family: var(--font-accent); font-size: 0.72rem; letter-spacing: 0.05em; color: var(--text-secondary); margin: -0.2rem 0 0.75rem; }
+/* Gift price transparency — the three parts of every gift: service, pieces, shipping. */
+.gift-breakdown { list-style: none; padding: 0; margin: 0.3rem 0 0.2rem; width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem; text-align: left; }
+.gift-breakdown li { background: var(--surface-soft); border: 1px solid var(--surface-border); border-radius: var(--card-radius); padding: 1.05rem 1.1rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.gift-breakdown .gb-h { font-family: var(--font-accent); font-size: 0.72rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--accent-deep); }
+.gift-breakdown .gb-tag { font-family: var(--font-body); font-size: 0.7rem; letter-spacing: 0.02em; color: var(--accent); opacity: 0.9; }
+.gift-breakdown .gb-b { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.55; }
+@media (max-width: 640px) { .gift-breakdown { grid-template-columns: 1fr; gap: 0.6rem; } }
+/* "What the gift covers" — a scannable comparison table (replaces the 3-card list) */
+.gift-covers-h { text-align: center; font-size: 1.15rem; margin: 0.4rem 0 0.5rem; }
+.gift-covers { width: 100%; max-width: 52rem; margin: 0.6rem auto 0.2rem; border-collapse: collapse; text-align: left; }
+.gift-covers th { font-family: var(--font-accent); font-size: 0.7rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--accent-deep); font-weight: 500; vertical-align: top; white-space: nowrap; width: 1%; padding: 1rem 1.4rem 1rem 0; border-top: 1px solid var(--surface-border); }
+.gift-covers td { font-size: 0.86rem; color: var(--text-secondary); line-height: 1.6; padding: 1rem 0; border-top: 1px solid var(--surface-border); }
+.gift-covers .gc-tag { display: block; color: var(--text-primary); font-weight: 500; margin-bottom: 0.15rem; }
+.gift-covers tr:first-child th, .gift-covers tr:first-child td { border-top: 0; }
+@media (max-width: 560px) {
+  .gift-covers, .gift-covers tbody, .gift-covers tr, .gift-covers th, .gift-covers td { display: block; width: auto; }
+  .gift-covers th { white-space: normal; padding: 0.9rem 0 0.15rem; }
+  .gift-covers td { padding: 0 0 0.2rem; border-top: 0; }
+  .gift-covers tr:first-child th { border-top: 0; }
+}
 .gift-tag { position: absolute; top: -0.7rem; left: 1.5rem; font-family: var(--font-accent); font-size: 0.6rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; background: var(--accent); color: var(--cta-text); padding: 0.3rem 0.75rem; border-radius: 999px; }
 
 /* ---- Green / eco shopping toggle + discount ---- */

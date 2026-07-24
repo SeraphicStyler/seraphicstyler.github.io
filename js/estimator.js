@@ -17,6 +17,19 @@ var CONFIG = {
   complexFee: 200000,     // optional surcharge for rare/complex sourcing
   greenDiscount: 0.10,    // modest discount on the SERVICE FEE for green/eco shopping (0.10 = 10% off fees)
 
+  /* Optional styling-service add-ons (VND) — the SAME prices as the gift tiers
+     ($49 / $149 / $349 ≈ 1.3M / 3.9M / 9.2M₫), and like the gifts each includes a
+     piece CREDIT ($34 / $104 / $239 ≈ 900k / 2.7M / 6.3M₫) applied against the
+     itemized pieces in the estimate (capped at the items subtotal, never negative;
+     with no items yet, it applies once pieces are added). The remainder is my
+     styling TIME. Keep prices, credits and the gift-card split lines in step. */
+  styling: {
+    discovery: { vnd: 1300000, credit: 900000,  label: 'The Discovery' },
+    edit:      { vnd: 3900000, credit: 2700000, label: 'The Edit' },
+    capsule:   { vnd: 6500000, credit: 4600000, label: 'The Capsule' },
+    atelier:   { vnd: 9200000, credit: 6300000, label: 'The Atelier' }
+  },
+
   fx: { fallbackVndPerUsd: 26300, spread: 0.015 },
 
   /* Card (Stripe) processing pass-through: charged = (total + fixedUsd*fx) / (1 - rate).
@@ -24,18 +37,20 @@ var CONFIG = {
   card: { rate: 0.029, fixedUsd: 0.30 },
 
   /* Shipping estimate ranges in VND [economy low, express high].
-     Two estimable classes: light (0.5-3kg) & standard (3-10kg). ROUGH ballparks
-     for a fashion parcel — edit freely. heavy (10-20kg) & haul (20kg+) are
-     custom-quoted after consolidation, so they show "custom quote" not a number. */
+     Two estimable classes: light (0.5-3kg) & standard (3-10kg). Anchored to a REAL
+     shipment (Jul 2026): 0.5-1 kg international parcel = 1,950,000₫ — courier rates
+     for clothes are genuinely expensive, so lows are honest floors, not teasers.
+     heavy (10-20kg) & haul (20kg+) are custom-quoted after consolidation, so they
+     show "custom quote" not a number. */
   shipping: {
-    asia:    { light: [300000, 1400000], standard: [900000, 3500000] },   // East & SE Asia
-    oceania: { light: [500000, 2000000], standard: [1600000, 5500000] },  // Australia & New Zealand
-    us:      { light: [650000, 2800000], standard: [2200000, 7500000] },  // US & Canada
-    eu:      { light: [650000, 2700000], standard: [2200000, 7200000] },  // Europe & UK
-    mena:    { light: [650000, 2700000], standard: [2100000, 7000000] },  // Middle East & North Africa
-    sca:     { light: [600000, 2600000], standard: [2000000, 7000000] },  // South & Central Asia
-    latam:   { light: [800000, 3200000], standard: [2800000, 9000000] },  // Latin America
-    africa:  { light: [850000, 3300000], standard: [2900000, 9200000] }   // Africa
+    asia:    { light: [900000, 2200000],  standard: [1800000, 5000000] },   // East & SE Asia
+    oceania: { light: [1500000, 3300000], standard: [2800000, 7500000] },   // Australia & New Zealand
+    us:      { light: [1900000, 4500000], standard: [3800000, 10000000] },  // US & Canada
+    eu:      { light: [1800000, 4300000], standard: [3600000, 9500000] },   // Europe & UK
+    mena:    { light: [1800000, 4300000], standard: [3500000, 9300000] },   // Middle East & North Africa
+    sca:     { light: [1700000, 4100000], standard: [3400000, 9200000] },   // South & Central Asia
+    latam:   { light: [2200000, 5100000], standard: [4500000, 11500000] },  // Latin America
+    africa:  { light: [2300000, 5300000], standard: [4600000, 12000000] }   // Africa
   },
   customWeights: ['heavy', 'haul'],
 
@@ -58,8 +73,8 @@ var CONFIG = {
   var FALLBACK_RATES = { USD:1, EUR:0.92, GBP:0.79, AUD:1.5, CAD:1.36, SGD:1.34, JPY:155, KRW:1350, CNY:7.2, THB:36, AED:3.67, INR:83 };
 
   var el = {};
-  ['lineItems','addItem','region','weight','complex','green','payMethod','estCurrency','rSubtotal','rFee','rFeeNote','rBase',
-   'rComplexRow','rComplex','rGreenRow','rGreen','rCardRow','rCard','rShip','rTotal','rUsd','fxStatus','sendBasket','copiedMsg']
+  ['lineItems','addItem','region','weight','complex','green','styling','payMethod','estCurrency','rSubtotal','rFee','rFeeNote','rBase',
+   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rComplexRow','rComplex','rGreenRow','rGreen','rCardRow','rCard','rShip','rTotal','rUsd','fxStatus','sendBasket','copiedMsg']
     .forEach(function (id) { el[id] = document.getElementById(id); });
   if (!el.lineItems) return; // not on a page with the estimator
 
@@ -135,7 +150,7 @@ var CONFIG = {
   function save() {
     try {
       localStorage.setItem('ss-basket', JSON.stringify({
-        items: readItems(), links: readLinks(), region: el.region.value, weight: el.weight.value, complex: el.complex.checked, green: !!(el.green && el.green.checked), pay: (el.payMethod && el.payMethod.value) || 'bank', cur: curCode()
+        items: readItems(), links: readLinks(), region: el.region.value, weight: el.weight.value, complex: el.complex.checked, green: !!(el.green && el.green.checked), styling: (el.styling && el.styling.value) || 'none', pay: (el.payMethod && el.payMethod.value) || 'bank', cur: curCode()
       }));
     } catch (e) {}
   }
@@ -147,12 +162,15 @@ var CONFIG = {
     var base = subtotal > 0 ? CONFIG.baseFee : 0;
     var complex = el.complex.checked ? CONFIG.complexFee : 0;
     var green = (el.green && el.green.checked) ? fees * CONFIG.greenDiscount : 0; // modest service-fee discount
+    var styleCfg = (el.styling && CONFIG.styling[el.styling.value]) || null;
+    var styling = styleCfg ? styleCfg.vnd : 0;
+    var credit = styleCfg ? Math.min(styleCfg.credit || 0, subtotal) : 0; // piece credit, capped at items
     var custom = CONFIG.customWeights.indexOf(el.weight.value) !== -1;
     var zone = CONFIG.shipping[el.region.value] || CONFIG.shipping.us;
     var ship = custom ? null : (zone[el.weight.value] || zone.light);
     var nItems = items.filter(function (v) { return v > 0; }).length;
     var card = !!(el.payMethod && el.payMethod.value === 'card');
-    return { items: items, subtotal: subtotal, fees: fees, base: base, complex: complex, green: green, ship: ship, custom: custom, nItems: nItems, card: card };
+    return { items: items, subtotal: subtotal, fees: fees, base: base, complex: complex, green: green, styling: styling, credit: credit, styleCfg: styleCfg, ship: ship, custom: custom, nItems: nItems, card: card };
   }
 
   function recalc() {
@@ -167,7 +185,29 @@ var CONFIG = {
       if (c.green > 0) { el.rGreenRow.style.display = ''; el.rGreen.textContent = '−' + fmtVnd(c.green); }
       else { el.rGreenRow.style.display = 'none'; }
     }
-    var nonShip = c.subtotal + c.fees + c.base + c.complex - c.green;
+    if (el.rStyleRow) {
+      if (c.styling > 0) {
+        el.rStyleRow.style.display = ''; el.rStyle.textContent = fmtVnd(c.styling);
+        if (el.rStyleNote) el.rStyleNote.textContent = c.styleCfg ? c.styleCfg.label : '';
+      } else { el.rStyleRow.style.display = 'none'; if (el.rStyleNote) el.rStyleNote.textContent = ''; }
+    }
+    if (el.rCreditRow) {
+      if (c.credit > 0) { el.rCreditRow.style.display = ''; el.rCredit.textContent = '−' + fmtVnd(c.credit); }
+      else { el.rCreditRow.style.display = 'none'; }
+    }
+    var nonShip = c.subtotal + c.fees + c.base + c.complex - c.green + c.styling - c.credit;
+    if (c.nItems === 0 && c.styling > 0) {
+      // A styling service (consultation / edit) with no pieces sourced yet — nothing to ship.
+      var cfS = c.card ? cardFee(nonShip) : 0;
+      if (el.rCardRow) {
+        if (cfS > 0) { el.rCardRow.style.display = ''; el.rCard.textContent = fmtVnd(cfS); }
+        else { el.rCardRow.style.display = 'none'; }
+      }
+      el.rShip.textContent = t('est.ship.later', 'Added with your pieces');
+      el.rTotal.textContent = fmtVnd(nonShip + cfS);
+      el.rUsd.textContent = '≈ ' + fmtCur(toCur(nonShip + cfS));
+      updateFxStatus(); save(); return;
+    }
     if (c.custom) {
       var cf = c.card ? cardFee(nonShip) : 0;
       if (el.rCardRow) {
@@ -194,7 +234,7 @@ var CONFIG = {
 
   function summary() {
     var c = compute();
-    var nonShip = c.subtotal + c.fees + c.base + c.complex - c.green;
+    var nonShip = c.subtotal + c.fees + c.base + c.complex - c.green + c.styling - c.credit;
     var region = el.region.options[el.region.selectedIndex].text;
     var links = readLinks();
     var lines = ['Hi! Here is my Seraphic Styler basket estimate:', ''];
@@ -206,11 +246,19 @@ var CONFIG = {
       'Items subtotal: ' + fmtVnd(c.subtotal),
       'Service fees (per item): ' + fmtVnd(c.fees),
       'Base fee: ' + fmtVnd(c.base));
+    if (c.styling > 0) lines.push('Styling service (' + (c.styleCfg ? c.styleCfg.label : '') + '): ' + fmtVnd(c.styling));
+    if (c.credit > 0) lines.push('Piece credit applied (included in the tier): −' + fmtVnd(c.credit));
+    else if (c.styling > 0 && c.nItems === 0) lines.push('(Tier includes a ' + fmtVnd(c.styleCfg.credit) + ' piece credit — applied once pieces are added)');
     if (c.complex > 0) lines.push('Complex sourcing: ' + fmtVnd(c.complex));
     if (c.green > 0) lines.push('Green shopping discount: −' + fmtVnd(c.green) + ' (sustainable brand)');
     lines.push('Ship to: ' + region + ' (' + el.weight.value + ')');
     lines.push('Payment: ' + (c.card ? 'Card via Stripe (processing fee below)' : 'Bank transfer / Wise / Zelle (fee-free)'));
-    if (c.custom) {
+    if (c.nItems === 0 && c.styling > 0) {
+      var cfS = c.card ? cardFee(nonShip) : 0;
+      if (cfS > 0) lines.push('Card processing (Stripe 2.9% + $0.30, at cost): ' + fmtVnd(cfS));
+      lines.push('Shipping: added once your pieces are sourced',
+        'ESTIMATED TOTAL (styling only): ' + fmtVnd(nonShip + cfS) + ' (≈ ' + fmtCur(toCur(nonShip + cfS)) + ')');
+    } else if (c.custom) {
       var cf = c.card ? cardFee(nonShip) : 0;
       if (cf > 0) lines.push('Card processing (Stripe 2.9% + $0.30, at cost): ' + fmtVnd(cf) + ' + card fee on shipping at invoice');
       lines.push('Est. before shipping: ' + fmtVnd(nonShip + cf) + ' (≈ ' + fmtCur(toCur(nonShip + cf)) + ')',
@@ -282,6 +330,7 @@ var CONFIG = {
   el.weight.addEventListener('change', recalc);
   el.complex.addEventListener('change', recalc);
   if (el.green) el.green.addEventListener('change', recalc);
+  if (el.styling) el.styling.addEventListener('change', recalc);
   if (el.payMethod) el.payMethod.addEventListener('change', recalc);
   if (el.estCurrency) el.estCurrency.addEventListener('change', recalc);
   el.sendBasket.addEventListener('click', send);
@@ -295,6 +344,7 @@ var CONFIG = {
     if (saved.weight) el.weight.value = saved.weight;
     if (saved.complex) el.complex.checked = true;
     if (saved.green && el.green) el.green.checked = true;
+    if (saved.styling && el.styling) el.styling.value = saved.styling; // absent (old baskets) → default 'none'
     if (saved.pay && el.payMethod) el.payMethod.value = saved.pay; // absent (old baskets, tray handoff) → default 'bank'
     if (saved.cur && el.estCurrency) el.estCurrency.value = saved.cur;
   } else { addItem(''); }

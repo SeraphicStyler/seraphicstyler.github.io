@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Tenor+Sans&family=Merriweather+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=2026-07-13c" />
+  <link rel="stylesheet" href="css/styles.css?v=2026-07-24" />
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"ProfessionalService","name":"Seraphic Styler","description":"A Saigon styling & sourcing atelier — rare Vietnamese fashion and beauty, verified in person and shipped worldwide.","url":"https://www.seraphicstyler.com/","email":"seraphicstyler@gmail.com","areaServed":"Worldwide","address":{"@type":"PostalAddress","addressLocality":"Ho Chi Minh City","addressCountry":"VN"},"sameAs":["https://instagram.com/seraphicstyler","https://tiktok.com/@seraphicstyler"]}
   </script>
@@ -364,7 +364,7 @@ From: a small per-board fee, fully credited if you order.</div></div>
         <!-- Step 3 — weight + complexity -->
         <div class="quiz-step" data-step="3">
           <label class="quiz-q" for="weight" data-i18n="est.weight">Estimated parcel weight</label>
-          <p class="quiz-help small muted" data-i18n="est.q.weight">A rough size is fine — I confirm exact weight before shipping.</p>
+          <p class="quiz-help small muted" data-i18n="est.q.weight">A rough size is fine — I confirm exact weight before shipping. Couriers charge real money for clothes: a recent 0.5–1 kg parcel ran 1,950,000₫, and thicker fabrics weigh more than they look.</p>
           <select id="weight">
             <option value="light" selected data-i18n="est.w.light">Light — 0.5–3 kg / 1–6.6 lb</option>
             <option value="standard" data-i18n="est.w.standard">Standard — 3–10 kg / 6.6–22 lb</option>
@@ -373,6 +373,15 @@ From: a small per-board fee, fully credited if you order.</div></div>
           </select>
           <label class="quiz-check"><input type="checkbox" id="complex" style="width:auto" /> <span data-i18n="est.complex">Rare / complex sourcing (+200,000₫)</span> <span class="tip" tabindex="0" role="note" aria-label="What counts as rare or complex sourcing?">i<span class="tip-box" data-i18n="est.complex.tip">Added only for rare or limited drops, multi-store hunts across the city, tight deadlines, or many changes after sourcing has begun — always agreed with you in advance, never a surprise.</span></span></label>
           <label class="quiz-check green-check"><input type="checkbox" id="green" style="width:auto" /> <svg class="leaf-ic" viewBox="0 0 24 24" aria-hidden="true" width="15" height="15"><path d="M20 4c0 8-5.5 13-13 13H4c0-7 5-13 12-13h4Z"/><path d="M4 20c3.5-5.5 7.5-8.5 12-10"/></svg><span data-i18n="est.green">Green shopping — choose a sustainable brand (−10% service fee)</span> <span class="tip" tabindex="0" role="note" aria-label="Why shop green">🌳<span class="tip-box" data-i18n="est.green.tip">Shopping green matters: choosing low-impact, locally made, and circular pieces cuts waste, saves water, and supports Vietnam's artisan makers. Pick a verified sustainable brand and I'll take 10% off my service fee. More on green living at treehugger.com.</span></span></label>
+          <label class="quiz-q" for="styling" style="margin-top:1rem" data-i18n="est.styling">Add a styling service? (optional)</label>
+          <p class="quiz-help small muted" data-i18n="est.styling.help">Sourcing a piece you already found is just my sourcing fee. If you'd also like a consultation or a curated edit, add a styling tier here — the same prices as the gift tiers, and each includes a piece credit that comes straight off your items below. This only adds it to your estimate; we still book and confirm it together over DM.</p>
+          <select id="styling">
+            <option value="none" selected data-i18n="est.styling.none">No styling — just source my pieces</option>
+            <option value="discovery" data-i18n="est.styling.discovery">The Discovery — one piece, found for you (+$49, incl. 900,000₫ piece credit)</option>
+            <option value="edit" data-i18n="est.styling.edit">The Edit — consultation + a curated edit (+$149, incl. 2,700,000₫ credit)</option>
+            <option value="capsule" data-i18n="est.styling.capsule">The Capsule — style profile + capsule edit (+$249, incl. 4,600,000₫ credit)</option>
+            <option value="atelier" data-i18n="est.styling.atelier">The Atelier — full styling, in person or by video (+$349, incl. 6,300,000₫ credit)</option>
+          </select>
           <label class="quiz-q" for="payMethod" style="margin-top:0.8rem" data-i18n="est.pay">How will you pay?</label>
           <p class="quiz-help small muted" data-i18n="est.pay.help">Bank transfer, Wise &amp; Zelle are fee-free. Card (via Stripe) adds a processing fee — shown as its own line, never hidden in prices.</p>
           <select id="payMethod">
@@ -390,6 +399,8 @@ From: a small per-board fee, fully credited if you order.</div></div>
             <div class="result-row"><span data-i18n="est.sub">Items subtotal</span><span class="v" id="rSubtotal">0₫</span></div>
             <div class="result-row"><span><span data-i18n="est.fee">Service fees</span> <span class="tip" tabindex="0" role="note" aria-label="About service fees">i<span class="tip-box" data-i18n="est.fee.tip2">My sourcing fee per item: 8% of the item price (7% above 5,000,000₫), with a minimum of 250,000₫ per item. Domestic shipping inside Vietnam is included.</span></span> <span class="muted small" id="rFeeNote">—</span></span><span class="v" id="rFee">0₫</span></div>
             <div class="result-row"><span><span data-i18n="est.base">Base fee</span> <span class="tip" tabindex="0" role="note" aria-label="About the base fee">i<span class="tip-box" data-i18n="est.base.tip">A flat 100,000₫ per order covering coordination, messaging, and careful packing. Shipping is passed through at cost.</span></span></span><span class="v" id="rBase">0₫</span></div>
+            <div class="result-row" id="rStyleRow" style="display:none"><span><span data-i18n="est.styleline">Styling service</span> <span class="tip" tabindex="0" role="note" aria-label="About the styling service">i<span class="tip-box" data-i18n="est.style.tip">An optional consultation or curated edit — the same tiers and prices as the gifts (Discovery $49, Edit $149, Capsule $249, Atelier $349), each with a built-in credit toward your pieces ($34 / $104 / $174 / $239), shown as its own line below. The pieces stay at cost and shipping is separate.</span></span> <span class="muted small" id="rStyleNote">—</span></span><span class="v" id="rStyle">0₫</span></div>
+            <div class="result-row" id="rCreditRow" style="display:none"><span><span data-i18n="est.creditline">Piece credit applied</span> <span class="tip" tabindex="0" role="note" aria-label="About the piece credit">i<span class="tip-box" data-i18n="est.credit.tip">Each styling tier includes a fixed credit toward your pieces — the same credit inside the gift tiers ($34 / $104 / $174 / $239). It is subtracted here, up to the value of your items.</span></span></span><span class="v green-v" id="rCredit">0₫</span></div>
             <div class="result-row" id="rComplexRow" style="display:none"><span data-i18n="est.complexline">Complex sourcing</span><span class="v" id="rComplex">0₫</span></div>
             <div class="result-row" id="rGreenRow" style="display:none"><span data-i18n="est.greenline">Green shopping discount</span><span class="v green-v" id="rGreen">0₫</span></div>
             <div class="result-row"><span data-i18n="est.shiplbl">Est. shipping</span><span class="v" id="rShip">—</span></div>
@@ -568,6 +579,7 @@ From: a small per-board fee, fully credited if you order.</div></div>
         <span class="eyebrow" data-i18n="gift.eyebrow">Gift styling</span>
         <h2 data-i18n="gift.h2">Give the gift of a Saigon wardrobe</h2>
         <p class="lead narrow" data-i18n="gift.intro">For a birthday, a wedding, or simply because — choose a tier or name your own amount, and I'll look after your recipient personally, then send a note and a code to redeem.</p>
+        <p class="small muted" style="font-style:italic;max-width:52ch;margin:0.6rem auto 0" data-i18n="gift.unsure">Not sure what they'd want? That's what the style profile is for — a short intake about their days and what they're drawn to, and I propose a direction before a single piece is bought.</p>
       </div>
       <div class="gift-currency reveal">
         <label for="giftCurrency" data-i18n="gift.cur">Show prices in</label>
@@ -575,13 +587,31 @@ From: a small per-board fee, fully credited if you order.</div></div>
           <option value="USD">USD $</option><option value="EUR">EUR €</option><option value="GBP">GBP £</option><option value="AUD">AUD $</option><option value="CAD">CAD $</option><option value="SGD">SGD $</option><option value="JPY">JPY ¥</option><option value="KRW">KRW ₩</option><option value="CNY">CNY ¥</option><option value="THB">THB ฿</option><option value="AED">AED</option><option value="INR">INR ₹</option><option value="VND">VND ₫</option>
         </select>
       </div>
-      <div class="grid grid-3 reveal">
-        <div class="gift-card"><h3 data-i18n="gift.1h">The Discovery</h3><div class="gift-price" data-usd="49"><span class="gift-amt">$49</span><span class="vnd">≈ 1,300,000₫</span></div><div class="body" data-i18n="gift.1b">A credit toward one piece your recipient chooses, which I find and send. A small, quietly luxurious gesture.</div><a class="btn btn-primary" href="https://tally.so/r/gD10Kl?about=Gifting%20a%20styling%20experience&amp;tier=The%20Discovery%20(%2449)&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
-        <div class="gift-card featured"><span class="gift-tag" data-i18n="gift.tag">Most Requested</span><h3 data-i18n="gift.2h">The Edit</h3><div class="gift-price" data-usd="149"><span class="gift-amt">$149</span><span class="vnd">≈ 3,900,000₫</span></div><div class="body" data-i18n="gift.2b">We begin with a consultation, then I assemble a small edit of three to five pieces in their size — sent wherever they are.</div><a class="btn btn-primary" href="https://tally.so/r/gD10Kl?about=Gifting%20a%20styling%20experience&amp;tier=The%20Edit%20(%24149)&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
-        <div class="gift-card"><h3 data-i18n="gift.3h">The Atelier</h3><div class="gift-price" data-usd="349"><span class="gift-amt">$349</span><span class="vnd">≈ 9,200,000₫</span></div><div class="body" data-i18n="gift.3b">The full experience, in person: styling, sourcing, and an in-shop try-on, for an occasion that calls for a little ceremony.</div><a class="btn btn-primary" href="https://tally.so/r/gD10Kl?about=Gifting%20a%20styling%20experience&amp;tier=The%20Atelier%20(%24349)&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
+      <div class="grid gift-grid-4 reveal">
+        <div class="gift-card"><h3 data-i18n="gift.1h">The Discovery</h3><div class="gift-price" data-usd="49"><span class="gift-amt">$49</span><span class="vnd">≈ 1,300,000₫</span></div><div class="gift-split" data-i18n="gift.1s">$15 styling fee · $34 piece credit ≈ 900,000₫</div><div class="body" data-i18n="gift.1b2">A short style intake, then I find one piece they will love — verified in person, photographed for their approval, then sent. A small, quietly luxurious gesture.</div><a class="btn btn-primary" href="https://tally.so/r/gD10Kl?about=Gifting%20a%20styling%20experience&amp;tier=The%20Discovery%20(%2449)&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
+        <div class="gift-card"><h3 data-i18n="gift.2h">The Edit</h3><div class="gift-price" data-usd="149"><span class="gift-amt">$149</span><span class="vnd">≈ 3,900,000₫</span></div><div class="gift-split" data-i18n="gift.2s">$45 styling fee · $104 piece credit ≈ 2,700,000₫</div><div class="body" data-i18n="gift.2b2">We begin with a consultation, then I assemble an edit in their size to the value of the credit — typically three to five pieces with Saigon's local designers, fewer if they fall for something rarer.</div><a class="btn btn-primary" href="https://tally.so/r/gD10Kl?about=Gifting%20a%20styling%20experience&amp;tier=The%20Edit%20(%24149)&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
+        <div class="gift-card featured"><span class="gift-tag" data-i18n="gift.tag">Most Requested</span><h3 data-i18n="gift.4h">The Capsule</h3><div class="gift-price" data-usd="249"><span class="gift-amt">$249</span><span class="vnd">≈ 6,500,000₫</span></div><div class="gift-split" data-i18n="gift.4s">$75 styling fee · $174 piece credit ≈ 4,600,000₫</div><div class="body" data-i18n="gift.4b2">A full style profile, then a capsule assembled in their size to the value of the credit — eight to twelve pieces chosen to mix and match, with a lookbook showing how to wear them together. Styled remotely and sent wherever they are.</div><a class="btn btn-primary" href="https://tally.so/r/gD10Kl?about=Gifting%20a%20styling%20experience&amp;tier=The%20Capsule%20(%24249)&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
+        <div class="gift-card"><h3 data-i18n="gift.3h">The Atelier</h3><div class="gift-price" data-usd="349"><span class="gift-amt">$349</span><span class="vnd">≈ 9,200,000₫</span></div><div class="gift-split" data-i18n="gift.3s">$110 styling fee · $239 piece credit ≈ 6,300,000₫</div><div class="body" data-i18n="gift.3b2">The full experience — in person or by video. In Saigon: a consultation, sourcing, and a two-hour in-shop try-on, pieces often going home the same day, no shipping at all. From abroad: I shop live on video, then send a polished, itemized itinerary to approve before everything is styled and shipped worldwide.</div><a class="btn btn-primary" href="https://tally.so/r/gD10Kl?about=Gifting%20a%20styling%20experience&amp;tier=The%20Atelier%20(%24349)&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
       </div>
       <div class="gift-support reveal">
-        <p class="gift-support__intro small muted" data-i18n="gift.included">Each gift covers my styling and sourcing, with a credit toward the pieces themselves. Shipping is quoted when your recipient redeems.</p>
+        <h3 class="gift-covers-h" data-i18n="gift.coversh">What the gift covers</h3>
+        <p class="gift-support__intro small muted" data-i18n="gift.included2">Every gift splits openly, in the spirit of honest pricing: a flat styling &amp; sourcing fee for my time, and a fixed credit toward the pieces themselves. Here is exactly where it goes.</p>
+        <table class="gift-covers">
+          <tbody>
+            <tr>
+              <th scope="row" data-i18n="gift.bd1h">Styling &amp; sourcing</th>
+              <td><b class="gc-tag" data-i18n="gift.bd1t">Flat fee by tier — $15 / $45 / $75 / $110.</b> <span data-i18n="gift.bd1b">Covers the consultation, the hunt through Saigon's boutiques, photographing the real pieces, and careful packing — my time and eye, whatever the pieces cost.</span></td>
+            </tr>
+            <tr>
+              <th scope="row" data-i18n="gift.bd2h">The pieces</th>
+              <td><b class="gc-tag" data-i18n="gift.bd2t">Credit — $34 / $104 / $174 / $239.</b> <span data-i18n="gift.bd2b">The clothes themselves, always at their real store price (Discovery 900,000₫, Edit 2,700,000₫, Capsule 4,600,000₫, Atelier 6,300,000₫). Anything beyond the credit is your recipient's to approve, at cost, never marked up.</span></td>
+            </tr>
+            <tr>
+              <th scope="row" data-i18n="gift.bd3h">Shipping</th>
+              <td><b class="gc-tag" data-i18n="gift.bd3t">At cost, on redemption.</b> <span data-i18n="gift.bd3b">Delivery inside Vietnam is included. International courier for clothes typically runs $70–170 by weight and destination — passed through at exact cost when your recipient redeems. Prefer all-inclusive? Ask when you gift and I'll quote it upfront so you can prepay it.</span></td>
+            </tr>
+          </tbody>
+        </table>
         <!-- <p class="gift-support__note assure" data-i18n="gift.pay">Prefer to spread the cost? PayPal Pay Later lets you pay in installments, where it is offered.</p> -->
         <div class="gift-support__actions">
           <a href="https://tally.so/r/gD10Kl?about=Gifting%20a%20styling%20experience&amp;tier=A%20custom%20amount&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.any">Or gift any amount →</a>
@@ -589,6 +619,7 @@ From: a small per-board fee, fully credited if you order.</div></div>
           <a href="https://tally.so/r/gD10Kl?about=Redeeming%20a%20gift%20code&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.redeem">Have a gift code? Redeem it →</a>
         </div>
         <p class="gift-support__meta small muted" data-i18n="gift.note">Gifts are arranged over email or direct message, with secure payment by bank transfer, Wise, PayPal, or Payoneer — USDC on request. Each one includes a digital note.</p>
+        <p class="gift-support__meta small muted" data-i18n="gift.terms">Your code arrives within 24 hours of payment and is redeemed over email or DM, at whatever pace suits your recipient.</p>
       </div>
     </div>
   </section>
@@ -926,6 +957,7 @@ Tissue-wrapped presentation packing, one consolidated parcel, full tracking</div
   <script src="js/service-cards.js"></script>
   <script src="js/estimator.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/gift-redeem.js"></script><!-- reads CONFIG.styling/shipping; self-injects into #gift -->
   <script src="js/lookbook.js"></script>
   <script src="js/sizequiz.js"></script>
   <script src="js/contact-hub.js"></script>
