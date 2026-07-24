@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Redeem a gift — Seraphic Styler</title>
+  <meta name="description" content="Redeeming a Seraphic Styler gift — see exactly what you'd pay. Your gift covers styling, sourcing and packing; add the pieces beyond your credit at cost, plus shipping." />
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#eef3fb" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1d29" media="(prefers-color-scheme: dark)" />
+
+  <link rel="icon" href="assets/butterfly-side.svg" type="image/svg+xml" />
+  <link rel="icon" href="assets/favicon-48.png" type="image/png" sizes="48x48" />
+  <link rel="icon" href="assets/favicon-192.png" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Tenor+Sans&family=Merriweather+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css?v=2026-07-24" />
+
+  <!-- Respect the same theme / accessibility prefs the main site stores -->
+  <script>
+    (function () { var d = document.documentElement, s = window.localStorage;
+      try {
+        var th = s.getItem('ss-theme') || 'auto'; var pcs = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; if (th === 'dark' || (th === 'auto' && pcs)) d.classList.add('dark'); else if (th === 'mono') d.classList.add('mono');
+        if (s.getItem('ss-contrast') === '1') d.classList.add('hc');
+        var ts = s.getItem('ss-textsize'); if (ts === 'lg') d.classList.add('ts-lg'); if (ts === 'xl') d.classList.add('ts-xl');
+        if (s.getItem('ss-motion') === '1') d.classList.add('rm');
+      } catch (e) {}
+    })();
+  </script>
+
+  <style>
+    /* Page-scoped layout — mirrors estimate.html so the standalone pages match.
+       All visual tokens come from css/styles.css; the calculator (gift-redeem.js)
+       injects itself into #gift and themes off the same variables. */
+    .est-page { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
+    .est-top {
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem; text-align: center;
+      padding: calc(env(safe-area-inset-top) + clamp(1.5rem, 6vw, 2.6rem)) 1.25rem 0.3rem;
+    }
+    .est-top .brand-mark { width: 40px; height: 40px; color: var(--accent-deep); }
+    .est-top .brand-lockup { line-height: 0.9; }
+    .est-page section#gift { padding-top: clamp(1rem, 4vw, 1.6rem); }
+    .est-main { flex: 1 0 auto; }
+    .est-foot {
+      flex-shrink: 0; text-align: center; font-family: var(--font-accent);
+      font-size: 0.78rem; color: var(--text-secondary); line-height: 1.9;
+      padding: 1.6rem 1.25rem calc(env(safe-area-inset-bottom) + 2.2rem);
+    }
+    .est-foot a { color: var(--accent-deep); text-decoration: none; }
+    .est-foot a:hover { text-decoration: underline; }
+    .est-foot .dot { opacity: 0.4; margin: 0 0.55rem; }
+    .est-foot .home-link {
+      display: inline-block; margin-top: 0.15rem; font-size: 0.72rem;
+      letter-spacing: 0.16em; text-transform: uppercase;
+    }
+    /* The calculator sits directly under the intro on its own page — trim its top margin. */
+    #giftRedeem { margin-top: 1.5rem; }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="est-page">
+    <header class="est-top">
+      <svg class="brand-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.3,27.0 C18.4,18.0 21.6,8.4 31.6,6.6 C38.2,5.4 41.0,11.4 37.8,18.0 C35.0,24.2 28.6,27.4 23.0,28.6 Z"/><path d="M22.6,29.4 C26.8,31.2 32.2,33.0 35.0,38.0 C36.6,40.8 36.0,43.8 33.6,43.4 C29.6,42.7 25.0,35.6 22.4,30.4 Z"/><path d="M22.3,27.0 C21.5,28.8 21.5,30.6 22.6,32.2"/><path d="M22.3,27.0 C19.9,22.2 17.2,18.4 13.4,16.4"/><path d="M22.3,27.0 C20.6,21.8 18.8,17.2 16.0,13.8"/><circle cx="13.4" cy="16.4" r="1.2" fill="currentColor" stroke="none"/><circle cx="16.0" cy="13.8" r="1.2" fill="currentColor" stroke="none"/></svg>
+      <a class="brand-lockup" href="./" aria-label="Seraphic Styler home" style="text-decoration:none">
+        <span class="brand-seraphic">Seraphic</span>
+        <span class="brand-styler">Styler</span>
+      </a>
+    </header>
+
+    <main class="est-main">
+      <!-- ===== GIFT REDEMPTION ===== -->
+      <!-- gift-redeem.js requires an element with id="gift" and a .wrap inside; it
+           injects the #giftRedeem calculator here. window.CONFIG (tier credits +
+           shipping) comes from js/estimator.js, whose IIFE no-ops without its own
+           DOM but still defines CONFIG globally. -->
+      <section id="gift">
+        <div class="wrap">
+          <div class="section-head center">
+            <span class="badge-pill" data-i18n="gr.badge">Gift redemption</span>
+            <h2 style="margin-top:0.8rem" data-i18n="gr.pageh">Redeem your gift</h2>
+            <p class="lead narrow" data-i18n="gr.pagesub">Someone treated you to a Seraphic Styler gift — lovely. Here you can see exactly what redeeming costs, with the pieces you have in mind. When you're ready, send it over and I'll take it from there.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="est-foot">
+      <span><a href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener">Instagram</a></span>
+      <span class="dot">·</span>
+      <span><a href="mailto:seraphicstyler@gmail.com">seraphicstyler@gmail.com</a></span>
+      <br />
+      <a class="home-link" href="./">← Full site</a>
+    </footer>
+  </div>
+
+  <!-- i18n: shares the language the visitor picked on the main site (localStorage ss-lang). -->
+  <script src="js/translations.js"></script>
+  <script src="js/i18n.js"></script>
+  <!-- estimator.js defines window.CONFIG (tier credits + shipping); its own UI no-ops here. -->
+  <script src="js/estimator.js"></script>
+  <!-- the calculator itself; self-injects into #gift, reads window.CONFIG. -->
+  <script src="js/gift-redeem.js"></script>
+</body>
+</html>

@@ -993,6 +993,10 @@ html.rm .hero .reveal { transition-delay: 0s; }
 .gift-card .gift-price { font-family: var(--font-display); font-weight: 300; font-size: 2rem; color: var(--accent); margin: 0.1rem 0 0.7rem; font-variant-numeric: tabular-nums; line-height: 1.1; }
 .gift-card .gift-price .vnd { display: block; font-family: var(--font-accent); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: none; color: var(--text-secondary); margin-top: 0.2rem; }
 .gift-card .body { color: var(--text-secondary); font-size: 0.92rem; flex: 1; }
+.gift-card .gift-lead { font-weight: 600; color: var(--text-primary); margin: 0 0 0.55rem; font-size: 0.92rem; line-height: 1.4; }
+.gift-card .gift-points { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.42rem; }
+.gift-card .gift-points li { position: relative; padding-left: 1rem; font-size: 0.86rem; line-height: 1.45; }
+.gift-card .gift-points li::before { content: ""; position: absolute; left: 0.1rem; top: 0.55em; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
 /* Gift support copy — one center axis, separated content groups */
 .gift-support { display: grid; justify-items: center; row-gap: 1rem; max-width: 46rem; margin: 1.75rem auto 0; text-align: center; }
 .gift-support > p { max-width: 56ch; margin: 0; }
