@@ -54,6 +54,7 @@ window.SS_DIRECTORY=[
 {n:"Badchoices",h:"badchoices.vn",cat:"women",city:"SGN",area:"Phú Nhuận",tier:"mid",st:"hub",a:"117B Nguyễn Đình Chính, P. Cầu Kiệu, Phú Nhuận",no:"Booth @ 11 Garmentory. “Bad choices make good stories.”"},
 {n:"Moon Me",h:"moon_me.studio",cat:"women",city:"SGN",area:"Phú Nhuận",tier:"mid",st:"walk",a:"330/1D Phan Đình Phùng",no:"Upcycled/custom 2nd-hand; opened May 2026.",fib:["circular"]},
 {n:"L'Espoir",h:"lespoir.com.vn",cat:"women",city:"SGN",area:"Phú Nhuận",tier:"premium",st:"walk",a:"489A/4 Huỳnh Văn Bánh",no:"9:30–22:00; nationwide COD."},
+{n:"Liniss",h:"liniss.official",w:"https://liniss.com/",cat:"women",city:"SGN",area:"Phú Nhuận",tier:"premium",st:"walk",a:"254 Huỳnh Văn Bánh",no:"Since 2018 — modern feminine RTW on sensuality, feminism & independence."},
 {n:"By Vee",h:"byvee.style",cat:"women",city:"SGN",area:"Phú Nhuận",tier:"mid",st:"walk",a:"50 Trần Huy Liệu",no:"9:00–22:00; cheaper in-store than Shopee."},
 {n:"Tiela",h:"tiela.official",cat:"women",city:"SGN",area:"Phú Nhuận",tier:"premium",st:"walk",a:"42 Trần Huy Liệu",no:"“Made for your inner muse.” 9:00–22:00."},
 {n:"Chou Chou",h:"__chouchou.official",cat:"women",city:"SGN",area:"Phú Nhuận",tier:"mid",st:"walk",a:"100A5 Thích Quảng Đức + 324 Huỳnh Văn Bánh",no:"Two Phú Nhuận branches."},
