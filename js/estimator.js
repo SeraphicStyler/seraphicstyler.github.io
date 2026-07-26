@@ -133,13 +133,18 @@ var CONFIG = {
     row.className = 'line-item';
     row.innerHTML =
       '<div class="li-fields">' +
-        '<input class="item-price" type="text" inputmode="numeric" placeholder="e.g. 850000" aria-label="Item price in VND">' +
+        '<input class="item-price" type="text" inputmode="numeric" placeholder="e.g. 850000" aria-label="Item price in VND" aria-describedby="estItemsNote">' +
         '<input class="item-link" type="url" placeholder="URL / link (optional)" aria-label="Item link (optional)">' +
       '</div>' +
       '<button class="remove-item" type="button" aria-label="Remove item">✕</button>';
     var pIn = row.querySelector('.item-price'); pIn.value = value || '';
     var lIn = row.querySelector('.item-link'); lIn.value = link || '';
-    pIn.addEventListener('input', recalc);
+    pIn.addEventListener('input', function () {
+      var raw = pIn.value.trim();
+      var n = parseFloat(raw.replace(/[^0-9.]/g, ''));
+      pIn.setAttribute('aria-invalid', (raw !== '' && !(n > 0)) ? 'true' : 'false');
+      recalc();
+    });
     lIn.addEventListener('input', save);
     row.querySelector('.remove-item').addEventListener('click', function () {
       row.remove(); if (!el.lineItems.children.length) addItem(''); recalc();

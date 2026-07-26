@@ -31,6 +31,27 @@
       });
     }
 
+    /* ---- Desktop nav cue: pin the hover-revealed links open for touch/click/keyboard ---- */
+    var navEl = document.querySelector('.nav');
+    var cue = document.querySelector('.nav-cue');
+    if (navEl && cue) {
+      function unpin() { navEl.classList.remove('nav-pinned'); cue.setAttribute('aria-expanded', 'false'); }
+      cue.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var pinned = navEl.classList.toggle('nav-pinned');
+        cue.setAttribute('aria-expanded', pinned ? 'true' : 'false');
+      });
+      document.addEventListener('click', function (e) {
+        if (navEl.classList.contains('nav-pinned') && !navEl.contains(e.target)) unpin();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && navEl.classList.contains('nav-pinned')) { unpin(); cue.focus(); }
+      });
+      navEl.querySelectorAll('.nav-links a').forEach(function (a) {
+        a.addEventListener('click', unpin);
+      });
+    }
+
     /* ---- Accessibility panel ---- */
     var aBtn = document.getElementById('a11yBtn');
     var aPanel = document.getElementById('a11yPanel');
@@ -160,7 +181,9 @@
           if (e.isIntersecting) {
             var id = e.target.getAttribute('id');
             document.querySelectorAll('.nav-links a').forEach(function (a) {
-              a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+              var on = a.getAttribute('href') === '#' + id;
+              a.classList.toggle('active', on);
+              if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
             });
             /* The rail only carries eight of the sections; the ones it skips
                keep the nearest dot above them lit rather than blanking the rail. */

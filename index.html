@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Tenor+Sans&family=Merriweather+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=2026-07-25" />
+  <link rel="stylesheet" href="css/styles.css?v=2026-07-26a" />
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"ProfessionalService","name":"Seraphic Styler","description":"A Saigon styling & sourcing atelier — rare Vietnamese fashion and beauty, verified in person and shipped worldwide.","url":"https://www.seraphicstyler.com/","email":"seraphicstyler@gmail.com","areaServed":"Worldwide","address":{"@type":"PostalAddress","addressLocality":"Ho Chi Minh City","addressCountry":"VN"},"sameAs":["https://instagram.com/seraphicstyler","https://tiktok.com/@seraphicstyler"]}
   </script>
@@ -72,6 +72,10 @@
           <a href="#contact" data-i18n="nav.contact">Contact</a>
         </div>
       </nav>
+      <button class="nav-cue" type="button" aria-controls="navMenu" aria-expanded="false" title="Show navigation">
+        <span data-i18n="nav.menu">Menu</span>
+        <svg class="nav-cue-caret" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
     </div>
   </header>
 
@@ -104,11 +108,11 @@
         <button class="a11y-close" type="button" aria-label="Close settings">✕</button>
       </div>
       <div class="a11y-row">
-        <h4 id="langLbl" data-i18n="a11y.language">Language</h4>
+        <p class="a11y-h" id="langLbl" data-i18n="a11y.language">Language</p>
         <select id="langSelect" aria-labelledby="langLbl"></select>
       </div>
       <div class="a11y-row">
-        <h4 data-i18n="a11y.textsize">Text size</h4>
+        <p class="a11y-h" data-i18n="a11y.textsize">Text size</p>
         <div class="seg" role="group" aria-label="Text size">
           <button type="button" data-size="md" aria-label="Default text size" aria-pressed="true" style="font-size:0.75rem">A</button>
           <button type="button" data-size="lg" aria-label="Large text size" aria-pressed="false" style="font-size:0.9rem">A</button>
@@ -116,7 +120,7 @@
         </div>
       </div>
       <div class="a11y-row">
-        <h4 data-i18n="a11y.theme">Theme</h4>
+        <p class="a11y-h" data-i18n="a11y.theme">Theme</p>
         <div class="seg" role="group" aria-label="Theme">
           <button type="button" data-theme="auto" aria-pressed="true" data-i18n="theme.auto">Auto</button><button type="button" data-theme="light" aria-pressed="false" data-i18n="theme.light">Light</button>
           <button type="button" data-theme="dark" aria-pressed="false" data-i18n="theme.dark">Dark</button>
@@ -124,11 +128,11 @@
         </div>
       </div>
       <div class="a11y-row">
-        <h4 data-i18n="a11y.contrast">High contrast</h4>
+        <p class="a11y-h" data-i18n="a11y.contrast">High contrast</p>
         <button class="switch" id="contrastBtn" type="button" aria-pressed="false" aria-label="High contrast">Off</button>
       </div>
       <div class="a11y-row">
-        <h4 data-i18n="a11y.motion">Reduce motion</h4>
+        <p class="a11y-h" data-i18n="a11y.motion">Reduce motion</p>
         <button class="switch" id="motionBtn" type="button" aria-pressed="false" aria-label="Reduce motion">Off</button>
       </div>
     </div>
@@ -252,7 +256,7 @@ From: a small per-board fee, fully credited if you order.</div></div>
         <h3 id="vqTitle"></h3>
         <p class="vn-quiz-sub" id="vqSub"></p>
         <div class="vn-quiz-controls">
-          <div class="vn-seg" role="group" id="vqSys">
+          <div class="vn-seg" role="group" id="vqSys" aria-label="Your size system">
             <button type="button" data-sys="us" aria-pressed="true">US</button>
             <button type="button" data-sys="uk" aria-pressed="false">UK</button>
             <button type="button" data-sys="eu" aria-pressed="false">EU</button>
@@ -346,7 +350,7 @@ From: a small per-board fee, fully credited if you order.</div></div>
         <!-- Step 1 — items -->
         <div class="quiz-step is-active" data-step="1">
           <p class="quiz-q" data-i18n="est.items.h">Your items</p>
-          <p class="quiz-help small muted" data-i18n="est.items.note">Enter each item's store price in VND.</p>
+          <p class="quiz-help small muted" id="estItemsNote" data-i18n="est.items.note">Enter each item's store price in VND.</p>
           <div class="line-items" id="lineItems"></div>
           <button class="btn btn-ghost" id="addItem" type="button" style="margin-top:0.4rem">+ <span data-i18n="est.add">Add item</span></button>
           <div class="quiz-nav"><span class="quiz-spacer"></span><button class="btn btn-primary quiz-next" type="button" data-next data-i18n="est.next">Continue</button></div>
@@ -415,10 +419,10 @@ From: a small per-board fee, fully credited if you order.</div></div>
             <div class="result-row" id="rCardRow" style="display:none"><span><span data-i18n="est.cardline">Card processing (Stripe)</span> <span class="tip" tabindex="0" role="note" aria-label="About the card processing fee">i<span class="tip-box" data-i18n="est.card.tip">Stripe charges 2.9% + $0.30 of the amount charged. Choosing card passes that through exactly — no markup. Bank transfer, Wise &amp; Zelle skip it entirely.</span></span></span><span class="v" id="rCard">0₫</span></div>
             <div class="result-row total"><span data-i18n="est.total">Total (VND)</span><span class="v" id="rTotal">—</span></div>
             <div class="result-row" style="border:none"><span class="muted"><span data-i18n="est.usd">Approx. in</span> <select id="estCurrency" class="cur-select" aria-label="Currency"><option>USD</option><option>EUR</option><option>GBP</option><option>AUD</option><option>CAD</option><option>SGD</option><option>JPY</option><option>KRW</option><option>CNY</option><option>THB</option><option>AED</option><option>INR</option></select></span><span class="v usd" id="rUsd">—</span></div>
-            <p class="fx-status" id="fxStatus" style="margin-top:0.5rem">Loading live rate…</p>
+            <p class="fx-status" id="fxStatus" role="status" aria-live="polite" style="margin-top:0.5rem">Loading live rate…</p>
           </div>
           <details class="est-accuracy">
-            <summary><span data-i18n="est.acc.sum">How accurate is this estimate?</span><span class="est-acc-badge">~95%</span></summary>
+            <summary><span data-i18n="est.acc.sum">How accurate is this estimate?</span><span class="est-acc-badge">~95%</h3></summary>
             <div class="est-acc-body">
               <p data-i18n="est.acc.p1"><strong>~95% is solid.</strong> Your item prices, my service fee, and the flat base fee follow fixed formulas — the math on what you enter is exact, and shipping inside Vietnam is already included.</p>
               <p data-i18n="est.acc.complex"><strong>One possible add-on:</strong> a flat 200,000₫ for rare or multi-store sourcing — hard-to-find drops, hunts across several shops, or a tight deadline. It's always agreed with you in advance, never a surprise on your final quote.</p>
@@ -659,7 +663,7 @@ From: a small per-board fee, fully credited if you order.</div></div>
       <div class="reveal">
 
         <details class="acc">
-          <summary><span class="ov" data-i18n="acc.pricing">Pricing &amp; fees</span></summary>
+          <summary><h3 class="ov" data-i18n="acc.pricing">Pricing &amp; fees</h3></summary>
           <div class="acc-body">
             <div class="glass card">
               <p style="font-family:var(--font-display);font-weight:300;font-size:clamp(1.1rem,3vw,1.6rem);max-width:none" data-i18n="price.formula">Item price = Store price + Base fee + Service fee + International shipping</p>
@@ -696,7 +700,7 @@ Tissue-wrapped presentation packing, one consolidated parcel, full tracking</div
         </details>
 
         <details class="acc">
-          <summary><span class="ov" data-i18n="acc.shipping">Shipping &amp; customs</span></summary>
+          <summary><h3 class="ov" data-i18n="acc.shipping">Shipping &amp; customs</h3></summary>
           <div class="acc-body">
             <p class="muted" data-i18n="ship.intro">Small parcels can be estimated from the guide below. For larger consolidated orders, final shipping depends on packed weight, dimensions, and destination. For heavy hauls — 10kg+ / 22lb+ — I confirm the best packing plan and courier quote before dispatch, and may split a shipment into multiple boxes when that is safer or more economical.</p>
             <div class="glass table-wrap">
@@ -737,7 +741,7 @@ Tissue-wrapped presentation packing, one consolidated parcel, full tracking</div
         </details>
 
         <details class="acc">
-          <summary><span class="ov" data-i18n="acc.faq">FAQ</span></summary>
+          <summary><h3 class="ov" data-i18n="acc.faq">FAQ</h3></summary>
           <div class="acc-body">
             <div class="faq">
               <details><summary data-i18n="faq.q1">How do I get the sizing right?</summary><div class="a" data-i18n="faq.a1">Tell me your usual measurements and I'll check each brand's size chart for you. Vietnamese sizing often runs small, so I'll flag it honestly. The final choice is yours, but I'll give you my best read before we order.</div></details>
@@ -755,7 +759,7 @@ Tissue-wrapped presentation packing, one consolidated parcel, full tracking</div
         </details>
 
         <details class="acc">
-          <summary><span class="ov" data-i18n="acc.policies">Policies &amp; deposits</span></summary>
+          <summary><h3 class="ov" data-i18n="acc.policies">Policies &amp; deposits</h3></summary>
           <div class="acc-body">
             <div class="policies">
               <div class="policy"><h3 data-i18n="pol.1h">Payment &amp; deposit</h3><div class="body" data-i18n="pol.1b">Bank transfer, Wise, PayPal, or Payoneer; USDC available on request. 50% deposit to place your order; 50% balance + shipping before it ships. Processed within 2–7 days of deposit. Because each order is sourced specifically for you, confirmed purchases are final.</div></div>
@@ -775,7 +779,7 @@ Tissue-wrapped presentation packing, one consolidated parcel, full tracking</div
         </details>
 
         <details class="acc">
-          <summary><span class="ov" data-i18n="acc.notes">Style notes</span></summary>
+          <summary><h3 class="ov" data-i18n="acc.notes">Style notes</h3></summary>
           <div class="acc-body">
             <div class="grid grid-2">
               <div class="service"><h3 data-i18n="ed.1h">Why Vietnam brands</h3><div class="body" data-i18n="ed.1b">A point of view you rarely find elsewhere: fit cut for real bodies, fair prices close to the source, and quiet craft — clean seams, soft natural fabrics. Modern áo dài, soft coquette, linen minimal, Saigon vintage. Most sell only inside Vietnam, in VND — that gap is what I close.</div></div>
@@ -788,7 +792,7 @@ Tissue-wrapped presentation packing, one consolidated parcel, full tracking</div
         </details>
 
         <details class="acc">
-          <summary><span class="ov" data-i18n="acc.legal">Privacy &amp; terms</span></summary>
+          <summary><h3 class="ov" data-i18n="acc.legal">Privacy &amp; terms</h3></summary>
           <div class="acc-body">
             <div class="grid grid-2">
               <div class="policy"><h3 data-i18n="legal.privacy.h">Privacy</h3><div class="body" data-i18n="legal.privacy.b">The details you share — name, email, measurements, photographs, address — are used only to source your order and reply to you. They are never shared or sold. Ask me anytime to delete your information.</div></div>
@@ -798,7 +802,7 @@ Tissue-wrapped presentation packing, one consolidated parcel, full tracking</div
         </details>
 
         <details class="acc">
-          <summary><span class="ov" data-i18n="acc.eco">Sustainability &amp; ethics</span></summary>
+          <summary><h3 class="ov" data-i18n="acc.eco">Sustainability &amp; ethics</h3></summary>
           <div class="acc-body">
             <div class="policy"><h3 data-i18n="eco.ethics.h">Ethics &amp; modern-slavery commitment</h3><div class="body" data-i18n="eco.ethics.b">I source only from legitimate brands, official stores, and trusted boutiques — never counterfeits, and never from suppliers known for forced or exploitative labour. I prefer makers with transparent supply chains and fair treatment of their artisans. A fuller written statement is available on request.</div></div>
             <h3 data-i18n="eco.brands.h" style="margin-top:1.5rem">Conscious Vietnamese brands I can source</h3>
