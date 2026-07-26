@@ -626,6 +626,10 @@ html.rm .a11y-wrap { animation: none; opacity: 1; }
 }
 .a11y-fab:hover, .lang-fab:hover, .theme-fab:hover { transform: translateY(-2px); box-shadow: 0 18px 40px -10px rgba(46,71,115,0.5); }
 .a11y-fab:focus-visible, .lang-fab:focus-visible, .theme-fab:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 3px; }
+/* Phones: keep only the ⚙ settings disc bottom-left. Theme + language already live
+   inside its menu, so the standalone toggles were duplicates that stacked up the left
+   edge and covered the body text. One disc = less clutter, no overlap. */
+@media (max-width: 600px) { .a11y-wrap .theme-fab, .a11y-wrap .lang-fab { display: none; } }
 
 .a11y-fab { font-size: 1.3rem; }
 /* Quick EN/VN language toggle — stacks above the settings gear */
