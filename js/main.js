@@ -334,12 +334,24 @@
         if (head) { head.setAttribute('tabindex', '-1'); try { head.focus({ preventScroll: true }); } catch (e) { head.focus(); } }
         if (!noScroll) quiz.scrollIntoView({ behavior: root.classList.contains('rm') ? 'auto' : 'smooth', block: 'start' });
       };
+      var qWarned = false;
       quiz.addEventListener('click', function (e) {
         var t = e.target.closest('[data-next],[data-back],#quizRestart');
         if (!t || !quiz.contains(t)) return;
         if (t.id === 'quizRestart') qShow(0);
         else if (t.hasAttribute('data-back')) qShow(qCur - 1);
-        else if (t.hasAttribute('data-next')) qShow(qCur + 1);
+        else if (t.hasAttribute('data-next')) {
+          // Gentle pause, not a wall: an empty basket gets one hint (a styling
+          // tier can still be added on step 3), then Continue works as normal.
+          var hint = document.getElementById('estStepHint');
+          if (qCur === 0 && hint) {
+            var any = false;
+            quiz.querySelectorAll('.item-price').forEach(function (i) { if (/\d/.test(i.value)) any = true; });
+            if (!any && !qWarned) { qWarned = true; hint.hidden = false; return; }
+            hint.hidden = true;
+          }
+          qShow(qCur + 1);
+        }
       });
       qShow(0, true);
     }

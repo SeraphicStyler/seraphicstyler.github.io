@@ -17,14 +17,13 @@
   <meta name="twitter:description" content="Saigon styling & sourcing for clients who notice the details. Shipped worldwide." />
   <meta name="twitter:image" content="https://www.seraphicstyler.com/assets/social/og-image.png" />
   <link rel="canonical" href="https://www.seraphicstyler.com/" />
-  <link rel="icon" href="assets/butterfly-side.svg" type="image/svg+xml" />
   <link rel="icon" href="assets/favicon-48.png" type="image/png" sizes="48x48" />
   <link rel="icon" href="assets/favicon-192.png" type="image/png" sizes="192x192" />
-  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="apple-touch-icon" href="assets/favicon-192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Tenor+Sans&family=Merriweather+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=2026-07-26a" />
+  <link rel="stylesheet" href="css/styles.css?v=2026-07-27a" />
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"ProfessionalService","name":"Seraphic Styler","description":"A Saigon styling & sourcing atelier — rare Vietnamese fashion and beauty, verified in person and shipped worldwide.","url":"https://www.seraphicstyler.com/","email":"seraphicstyler@gmail.com","areaServed":"Worldwide","address":{"@type":"PostalAddress","addressLocality":"Ho Chi Minh City","addressCountry":"VN"},"sameAs":["https://instagram.com/seraphicstyler","https://tiktok.com/@seraphicstyler"]}
   </script>
@@ -216,27 +215,39 @@
         <div class="service reveal"><h3 data-i18n="svc.1h">Vietnam Brand Sourcing</h3><div class="body" data-i18n="svc.1b">For a specific local-brand piece already on your mind.
 I verify the exact piece, price, and availability, then arrange purchase and international delivery.
 Turnaround: 1–3 days.
-You send: link or screenshot, size, destination.</div></div>
+You send: link or screenshot, size, destination.
+You receive: photographs of your actual piece in hand before purchase, then a tracking number once it ships.
+Included: an in-store authenticity check and delivery inside Vietnam.</div></div>
         <div class="service reveal"><h3 data-i18n="svc.2h">Remote Personal Shopping</h3><div class="body" data-i18n="svc.2b">For when you know the sensibility, not the exact piece.
 I prepare a curated edit with real photographs and prices, then buy your choice and ship it.
 Turnaround: edit in 2–5 days.
-You send: inspiration, measurements, budget, destination.</div></div>
+You send: inspiration, measurements, budget, destination.
+You receive: a photo edit of real, in-stock options with prices — then your chosen piece, verified and shipped.
+Included: a sizing read against each brand's own chart before we buy.</div></div>
         <div class="service reveal"><h3 data-i18n="svc.7h">Vietnamese Beauty Sourcing</h3><div class="body" data-i18n="svc.7b">For Vietnam-made skincare, cosmetics, and herbal beauty — rice, lotus, turmeric, coffee.
 Authentic local beauty, rarely sold abroad, sourced and shipped.
 Turnaround: 1–3 days.
-You send: product name or photo, destination. (Liquid and customs rules vary by country.)</div></div>
+You send: product name or photo, destination. (Liquid and customs rules vary by country.)
+You receive: originals photographed before purchase, batch and seal checked, with tracking.
+Good to know: I flag liquid limits and customs rules for your country before anything is bought.</div></div>
         <div class="service reveal"><h3 data-i18n="svc.3h">Occasion &amp; Event Styling</h3><div class="body" data-i18n="svc.3b">For a wedding, áo dài occasion, party, or photoshoot.
 A complete head-to-toe look (1–2 options) sourced to your occasion.
 Turnaround: concept in 3–5 days — enquire early.
-From: a flat styling fee (quoted on request), credited toward your order.</div></div>
+From: a flat styling fee (quoted on request), credited toward your order.
+You receive: one to two complete looks with real prices and photographs, and a timeline that respects your date.
+You choose: approve the full look or swap any piece — nothing is bought until you say yes.</div></div>
         <div class="service reveal"><h3 data-i18n="svc.4h">Everyday Wardrobe Styling</h3><div class="body" data-i18n="svc.4b">For a versatile, mix-and-match Saigon wardrobe.
 A capsule chosen to layer together, with styling notes, sourced in stages.
 Turnaround: plan in 5–7 days.
-From: a capsule styling fee (quoted on request).</div></div>
+From: a capsule styling fee (quoted on request).
+You receive: a capsule plan first, then pieces sourced in stages — photographs at every step.
+Included: styling notes on how everything layers together.</div></div>
         <div class="service reveal"><h3 data-i18n="svc.5h">Lookbook / Outfit Board</h3><div class="body" data-i18n="svc.5b">For a visual plan before you commit.
 A digital board pairing real, available pieces with prices and links.
 Turnaround: 3–5 days.
-From: a small per-board fee, fully credited if you order.</div></div>
+From: a small per-board fee, fully credited if you order.
+You receive: a digital board of real, available pieces — prices and links included, nothing imaginary.
+You choose: order everything, a few pieces, or nothing at all — the board is yours to keep.</div></div>
       </div>
       <p class="center muted reveal" style="margin-top:1.5rem"><a class="svc-cta" href="#contact" data-i18n="services.cta">Not certain which suits you? Send a note and I will guide you to the right place to begin.</a></p>
     </div>
@@ -255,7 +266,11 @@ From: a small per-board fee, fully credited if you order.</div></div>
         <span class="eyebrow" id="vqEyebrow"></span>
         <h3 id="vqTitle"></h3>
         <p class="vn-quiz-sub" id="vqSub"></p>
-        <div class="vn-quiz-controls">
+        <div class="vn-seg vq-mode" role="group" id="vqMode" aria-label="How would you like to check?">
+          <button type="button" data-mode="size" aria-pressed="true">I know my size</button>
+          <button type="button" data-mode="meas" aria-pressed="false">Start from measurements</button>
+        </div>
+        <div class="vn-quiz-controls" id="vqSizePanel">
           <div class="vn-seg" role="group" id="vqSys" aria-label="Your size system">
             <button type="button" data-sys="us" aria-pressed="true">US</button>
             <button type="button" data-sys="uk" aria-pressed="false">UK</button>
@@ -265,6 +280,24 @@ From: a small per-board fee, fully credited if you order.</div></div>
           <label class="vn-quiz-field"><span id="vqUsually"></span>
             <select id="vqSize" aria-label="Your usual size"></select>
           </label>
+        </div>
+        <!-- Measurements mode — client-side only: nothing typed here is saved or sent. -->
+        <div class="vq-measure" id="vqMeasure" hidden>
+          <div class="vn-seg vq-unit" role="group" id="vqUnit" aria-label="Units">
+            <button type="button" data-unit="cm" aria-pressed="true">cm</button>
+            <button type="button" data-unit="in" aria-pressed="false">in</button>
+          </div>
+          <div class="vq-meas-grid">
+            <label class="vq-meas-field"><span id="vqLblBust">Bust</span><input id="vqBust" type="text" inputmode="decimal" autocomplete="off"></label>
+            <label class="vq-meas-field"><span id="vqLblWaist">Waist</span><input id="vqWaist" type="text" inputmode="decimal" autocomplete="off"></label>
+            <label class="vq-meas-field"><span id="vqLblHip">Hips</span><input id="vqHip" type="text" inputmode="decimal" autocomplete="off"></label>
+            <label class="vq-meas-field"><span id="vqLblHeight">Height (optional)</span><input id="vqHeight" type="text" inputmode="decimal" autocomplete="off"></label>
+          </div>
+          <p class="vq-privacy small muted" id="vqPrivacy"></p>
+          <details class="vq-howto">
+            <summary id="vqHowSum">How to measure at home</summary>
+            <div class="a" id="vqHowBody"></div>
+          </details>
         </div>
         <div class="vn-quiz-result" id="vqResult" aria-live="polite"></div>
       </div>
@@ -342,8 +375,8 @@ From: a small per-board fee, fully credited if you order.</div></div>
             <select id="estLangSelect" class="cur-select ss-lang-select" aria-label="Language / 言語"></select>
           </label>
         </div>
-        <div class="quiz-progress" aria-hidden="true">
-          <span class="quiz-bar"><i class="quiz-bar-fill" id="quizBarFill"></i></span>
+        <div class="quiz-progress">
+          <span class="quiz-bar" aria-hidden="true"><i class="quiz-bar-fill" id="quizBarFill"></i></span>
           <span class="quiz-count"><span id="quizStepNum">1</span> / 4</span>
         </div>
 
@@ -353,6 +386,7 @@ From: a small per-board fee, fully credited if you order.</div></div>
           <p class="quiz-help small muted" id="estItemsNote" data-i18n="est.items.note">Enter each item's store price in VND.</p>
           <div class="line-items" id="lineItems"></div>
           <button class="btn btn-ghost" id="addItem" type="button" style="margin-top:0.4rem">+ <span data-i18n="est.add">Add item</span></button>
+          <p class="quiz-help small muted" id="estStepHint" hidden data-i18n="est.items.hint">No items yet — you can still add a styling tier on step 3.</p>
           <div class="quiz-nav"><span class="quiz-spacer"></span><button class="btn btn-primary quiz-next" type="button" data-next data-i18n="est.next">Continue</button></div>
         </div>
 
@@ -417,12 +451,13 @@ From: a small per-board fee, fully credited if you order.</div></div>
             <div class="result-row" id="rGreenRow" style="display:none"><span data-i18n="est.greenline">Green shopping discount</span><span class="v green-v" id="rGreen">0₫</span></div>
             <div class="result-row"><span data-i18n="est.shiplbl">Est. shipping</span><span class="v" id="rShip">—</span></div>
             <div class="result-row" id="rCardRow" style="display:none"><span><span data-i18n="est.cardline">Card processing (Stripe)</span> <span class="tip" tabindex="0" role="note" aria-label="About the card processing fee">i<span class="tip-box" data-i18n="est.card.tip">Stripe charges 2.9% + $0.30 of the amount charged. Choosing card passes that through exactly — no markup. Bank transfer, Wise &amp; Zelle skip it entirely.</span></span></span><span class="v" id="rCard">0₫</span></div>
-            <div class="result-row total"><span data-i18n="est.total">Total (VND)</span><span class="v" id="rTotal">—</span></div>
+            <div class="result-row total" role="status" aria-live="polite"><span data-i18n="est.total">Total (VND)</span><span class="v" id="rTotal">—</span></div>
             <div class="result-row" style="border:none"><span class="muted"><span data-i18n="est.usd">Approx. in</span> <select id="estCurrency" class="cur-select" aria-label="Currency"><option>USD</option><option>EUR</option><option>GBP</option><option>AUD</option><option>CAD</option><option>SGD</option><option>JPY</option><option>KRW</option><option>CNY</option><option>THB</option><option>AED</option><option>INR</option></select></span><span class="v usd" id="rUsd">—</span></div>
             <p class="fx-status" id="fxStatus" role="status" aria-live="polite" style="margin-top:0.5rem">Loading live rate…</p>
+            <p class="estimate-note" id="estEmptyMsg" style="display:none" data-i18n="est.empty">Nothing to estimate yet — add an item price, or choose a styling tier.</p>
           </div>
           <details class="est-accuracy">
-            <summary><span data-i18n="est.acc.sum">How accurate is this estimate?</span><span class="est-acc-badge">~95%</h3></summary>
+            <summary><span data-i18n="est.acc.sum">How accurate is this estimate?</span><span class="est-acc-badge">~95%</span></summary>
             <div class="est-acc-body">
               <p data-i18n="est.acc.p1"><strong>~95% is solid.</strong> Your item prices, my service fee, and the flat base fee follow fixed formulas — the math on what you enter is exact, and shipping inside Vietnam is already included.</p>
               <p data-i18n="est.acc.complex"><strong>One possible add-on:</strong> a flat 200,000₫ for rare or multi-store sourcing — hard-to-find drops, hunts across several shops, or a tight deadline. It's always agreed with you in advance, never a surprise on your final quote.</p>
@@ -431,7 +466,7 @@ From: a small per-board fee, fully credited if you order.</div></div>
             </div>
           </details>
           <button class="btn btn-primary btn-lg" id="sendBasket" type="button" style="width:100%;margin-top:1rem"><span data-i18n="est.send">Send this estimate for confirmation</span></button>
-          <p class="estimate-note" id="copiedMsg" style="display:none;color:var(--accent-deep)" data-i18n="est.copied">✓ Basket summary copied — paste it into your DM to me.</p>
+          <p class="estimate-note" id="copiedMsg" style="display:none;color:var(--accent-deep)">✓ Basket summary copied — paste it into your DM to me.</p>
           <p class="estimate-note" data-i18n="est.note">This is an estimate. Your final quote (exact shipping, current stock, store price) is confirmed by me before any payment.</p>
           <div class="quiz-nav"><button class="quiz-back" type="button" data-back data-i18n="est.back">Back</button><button class="quiz-back" id="quizRestart" type="button" data-i18n="est.restart">Start over</button></div>
         </div>
@@ -471,7 +506,7 @@ From: a small per-board fee, fully credited if you order.</div></div>
      projection at 720×470, same r = k·√n. Keep the two in step if either changes. */
   #directory .dir-map svg{width:100%;height:auto;display:block;}
   #directory .dnode{stroke:#fff;stroke-width:1.5;}
-  [data-theme=dark] #directory .dnode{stroke:rgba(255,255,255,.22);}
+  html.dark #directory .dnode{stroke:rgba(255,255,255,.22);}
   #directory .dn{fill:#fff;font-family:var(--font-display);text-anchor:middle;dominant-baseline:central;}
   #directory .dl{fill:var(--text-secondary);font-family:var(--font-body);text-anchor:middle;font-size:11.5px;font-weight:500;letter-spacing:.02em;}
   #directory .dr{fill:var(--periwinkle);font-family:var(--font-body);text-anchor:middle;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.65;}
@@ -511,13 +546,13 @@ From: a small per-board fee, fully credited if you order.</div></div>
         <span class="eyebrow" data-i18n="dir.eyebrow">The Directory</span>
         <h2 data-i18n="dir.h2">The Saigon Fashion Directory</h2>
       </div>
-      <p class="lead reveal" data-i18n="dir.lead">A living map of the city's fashion houses — 269 verified boutiques, ateliers, designer labels and markets, filterable by district, tier and category. It's the groundwork behind every sourcing request.</p>
+      <p class="lead reveal" data-i18n="dir.lead">A living map of the city's fashion houses — 270 verified boutiques, ateliers, designer labels and markets, filterable by district, tier and category. It's the groundwork behind every sourcing request.</p>
       <div class="dir-preview reveal">
         <div class="dir-map">
-          <!-- Proportional-symbol map: circle area ∝ house count (r = k·√n, k = 44/√73). Same
+          <!-- Proportional-symbol map: circle area ∝ house count (r = k·√n, k = 44/√86). Same
                720×470 projection and node coordinates as the interactive map in fashion-directory;
                counts are the live directory totals (js/directory-data.js). Update both together. -->
-          <svg viewBox="0 0 720 470" role="img" aria-label="Map of Saigon's fashion houses by district: District 1 has 73, District 3 has 36, Phú Nhuận 11, Thảo Điền 7, Bình Thạnh 5, Gò Vấp 4, Tân Bình 4, Tân Phú 2 and Q5 · Chợ Lớn 2; circle area is proportional to the number of houses.">
+          <svg viewBox="0 0 720 470" role="img" aria-label="Map of Saigon's fashion houses by district: District 1 has 86, District 3 has 38, Thảo Điền 15, Phú Nhuận 13, Bình Thạnh 7, Tân Bình 5, Gò Vấp 4, Tân Phú 2 and Q5 · Chợ Lớn 2; circle area is proportional to the number of houses.">
             <defs>
               <radialGradient id="dnode" cx="46%" cy="42%" r="72%"><stop offset="0" stop-color="#234193"/><stop offset=".55" stop-color="#2e54ad"/><stop offset="1" stop-color="#8a93de"/></radialGradient>
               <linearGradient id="driver" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a93de"/><stop offset="1" stop-color="#c9b6e8"/></linearGradient>
@@ -525,39 +560,39 @@ From: a small per-board fee, fully credited if you order.</div></div>
             <path d="M556,8 C534,120 496,196 520,272 C542,344 582,404 604,466" fill="none" stroke="url(#driver)" stroke-width="30" stroke-linecap="round" opacity=".42"/>
             <text class="dr" x="612" y="330" transform="rotate(74 612 330)">Saigon River</text>
             <circle class="dnode" cx="452" cy="262" r="44.0" fill="url(#dnode)" opacity=".92"/>
-            <circle class="dnode" cx="332" cy="258" r="30.9" fill="url(#dnode)" opacity=".92"/>
+            <circle class="dnode" cx="332" cy="258" r="29.2" fill="url(#dnode)" opacity=".92"/>
             <circle class="dnode" cx="262" cy="172" r="17.1" fill="url(#dnode)" opacity=".92"/>
-            <circle class="dnode" cx="634" cy="168" r="13.6" fill="url(#dnode)" opacity=".92"/>
-            <circle class="dnode" cx="430" cy="112" r="11.5" fill="url(#dnode)" opacity=".92"/>
-            <circle class="dnode" cx="120" cy="58"  r="10.3" fill="url(#dnode)" opacity=".92"/>
-            <circle class="dnode" cx="214" cy="86"  r="10.3" fill="url(#dnode)" opacity=".92"/>
-            <circle class="dnode" cx="118" cy="150" r="7.3"  fill="url(#dnode)" opacity=".92"/>
-            <circle class="dnode" cx="256" cy="384" r="7.3"  fill="url(#dnode)" opacity=".92"/>
-            <text class="dn" x="452" y="262" font-size="16">73</text>
-            <text class="dn" x="332" y="258" font-size="16">36</text>
-            <text class="dn" x="262" y="172" font-size="12">11</text>
-            <text class="dn" x="634" y="168" font-size="12">7</text>
-            <text class="dn" x="430" y="112" font-size="12">5</text>
+            <circle class="dnode" cx="634" cy="168" r="18.4" fill="url(#dnode)" opacity=".92"/>
+            <circle class="dnode" cx="430" cy="112" r="12.6" fill="url(#dnode)" opacity=".92"/>
+            <circle class="dnode" cx="120" cy="58"  r="9.5"  fill="url(#dnode)" opacity=".92"/>
+            <circle class="dnode" cx="214" cy="86"  r="10.6" fill="url(#dnode)" opacity=".92"/>
+            <circle class="dnode" cx="118" cy="150" r="6.7"  fill="url(#dnode)" opacity=".92"/>
+            <circle class="dnode" cx="256" cy="384" r="6.7"  fill="url(#dnode)" opacity=".92"/>
+            <text class="dn" x="452" y="262" font-size="16">86</text>
+            <text class="dn" x="332" y="258" font-size="16">38</text>
+            <text class="dn" x="262" y="172" font-size="12">13</text>
+            <text class="dn" x="634" y="168" font-size="12">15</text>
+            <text class="dn" x="430" y="112" font-size="12">7</text>
             <text class="dl" x="452" y="321.0">District 1</text>
-            <text class="dl" x="332" y="303.9">District 3</text>
+            <text class="dl" x="332" y="302.2">District 3</text>
             <text class="dl" x="262" y="204.1">Phú Nhuận</text>
-            <text class="dl" x="634" y="196.6">Thảo Điền</text>
-            <text class="dl" x="430" y="138.5">Bình Thạnh</text>
-            <text class="dl" x="120" y="83.3">Gò Vấp</text>
-            <text class="dl" x="214" y="111.3">Tân Bình</text>
-            <text class="dl" x="118" y="172.3">Tân Phú</text>
-            <text class="dl" x="256" y="406.3">Q5 · Chợ Lớn</text>
+            <text class="dl" x="634" y="201.4">Thảo Điền</text>
+            <text class="dl" x="430" y="139.6">Bình Thạnh</text>
+            <text class="dl" x="120" y="82.5">Gò Vấp</text>
+            <text class="dl" x="214" y="111.6">Tân Bình</text>
+            <text class="dl" x="118" y="171.7">Tân Phú</text>
+            <text class="dl" x="256" y="405.7">Q5 · Chợ Lớn</text>
           </svg>
           <p class="dir-legend" aria-hidden="true"><span class="lgd" style="--d:8px"></span>5 <span class="lgd" style="--d:16px"></span>20 <span class="lgd" style="--d:28px"></span>60 <span data-i18n="dir.legend">houses — circle area ∝ house count</span></p>
-          <p class="dir-cap" data-i18n="dir.cap">The nine districts hold 144 walk-able houses; 33 more are online or multi-brand — 177 in Saigon.</p>
+          <p class="dir-cap" data-i18n="dir.cap">The nine districts hold 172 walk-able houses; 35 more are online or multi-brand — 207 in Saigon.</p>
         </div>
         <div class="dir-copy">
           <ul class="dir-stats reveal">
-            <li><b>262</b><span data-i18n="dir.s1">houses catalogued</span></li>
-            <li><b>177</b><span data-i18n="dir.s2">in Saigon</span></li>
+            <li><b>270</b><span data-i18n="dir.s1">houses catalogued</span></li>
+            <li><b>207</b><span data-i18n="dir.s2">in Saigon</span></li>
             <li><b>9</b><span data-i18n="dir.s3">districts</span></li>
           </ul>
-          <a class="btn btn-primary btn-lg" href="fashion-directory" data-i18n="dir.cta">Explore all 262 houses</a><br>
+          <a class="btn btn-primary btn-lg" href="fashion-directory" data-i18n="dir.cta">Explore all 270 houses</a><br>
           <a class="dir-cta2" href="field-guide" data-i18n="dir.cta2">Read the field guide →</a>
         </div>
       </div>
@@ -604,6 +639,11 @@ From: a small per-board fee, fully credited if you order.</div></div>
         <div class="gift-card"><h3 data-i18n="gift.2h">The Edit</h3><div class="gift-price" data-usd="149"><span class="gift-amt">$149</span><span class="vnd">≈ 3,900,000₫</span></div><div class="gift-split" data-i18n="gift.2s">$45 styling fee · $104 piece credit ≈ 2,700,000₫</div><div class="body" data-i18n="gift.2b2"><p class="gift-lead">A curated edit in their size.</p><ul class="gift-points"><li>Begins with a consultation</li><li>Three to five pieces to the value of the credit, from Saigon's local designers</li><li>Fewer if they fall for something rarer</li></ul></div><a class="btn btn-primary" href="https://tally.so/r/gD10Kl?about=Gifting%20a%20styling%20experience&amp;tier=The%20Edit%20(%24149)&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
         <div class="gift-card featured"><span class="gift-tag" data-i18n="gift.tag">Most Requested</span><h3 data-i18n="gift.4h">The Capsule</h3><div class="gift-price" data-usd="249"><span class="gift-amt">$249</span><span class="vnd">≈ 6,500,000₫</span></div><div class="gift-split" data-i18n="gift.4s">$75 styling fee · $174 piece credit ≈ 4,600,000₫</div><div class="body" data-i18n="gift.4b2"><p class="gift-lead">A full capsule, styled to mix and match.</p><ul class="gift-points"><li>A full style profile first</li><li>Eight to twelve coordinated pieces, to the value of the credit</li><li>A lookbook showing how to wear them together</li><li>Styled remotely, sent worldwide</li></ul></div><a class="btn btn-primary" href="https://tally.so/r/gD10Kl?about=Gifting%20a%20styling%20experience&amp;tier=The%20Capsule%20(%24249)&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
         <div class="gift-card"><h3 data-i18n="gift.3h">The Atelier</h3><div class="gift-price" data-usd="349"><span class="gift-amt">$349</span><span class="vnd">≈ 9,200,000₫</span></div><div class="gift-split" data-i18n="gift.3s">$110 styling fee · $239 piece credit ≈ 6,300,000₫</div><div class="body" data-i18n="gift.3b2"><p class="gift-lead">The full experience — in person or by video.</p><ul class="gift-points"><li>In Saigon: consultation, sourcing &amp; a two-hour in-shop try-on — often no shipping at all</li><li>From abroad: I shop live on video</li><li>A polished, itemized itinerary to approve before anything ships</li></ul></div><a class="btn btn-primary" href="https://tally.so/r/gD10Kl?about=Gifting%20a%20styling%20experience&amp;tier=The%20Atelier%20(%24349)&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
+      </div>
+      <!-- Gift finder — three questions that route to the right tier, honestly.
+           JS-rendered (outside data-i18n nodes); the line below is the no-JS fallback. -->
+      <div class="gift-quiz glass reveal" id="giftQuiz">
+        <p class="vq-bucket" style="margin:0 auto">Not sure which tier? <a href="#contact" style="color:var(--accent-deep);text-decoration:underline">Write to me</a>, describe them, and I'll tell you honestly which fits.</p>
       </div>
       <div class="gift-support reveal">
         <h3 class="gift-covers-h" data-i18n="gift.coversh">What the gift covers</h3>
@@ -884,7 +924,7 @@ Tissue-wrapped presentation packing, one consolidated parcel, full tracking</div
         </div>
         <div class="reveal">
           <div class="linkhub">
-            <div class="avatar"><img src="assets/butterfly-side.svg" alt="" width="84" height="84"></div>
+            <div class="avatar"><img src="assets/social/avatar.svg" alt="" width="84" height="84"></div>
             <p class="center muted small" data-i18n="inq.or">Prefer to reach out directly? Instagram, TikTok, and email are all open.</p>
             <div class="linkhub-links">
               <a class="link-btn" href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>Instagram — @seraphicstyler</a>
@@ -954,6 +994,7 @@ Tissue-wrapped presentation packing, one consolidated parcel, full tracking</div
   <script src="js/main.js"></script>
   <script src="js/lookbook.js"></script>
   <script src="js/sizequiz.js"></script>
+  <script src="js/gift-quiz.js"></script>
   <script src="js/contact-hub.js"></script>
   <!-- Ambient whimsy (each self-contained · reduced-motion aware · delete any line to disable) -->
   <script src="js/aura-orbs.js"></script>

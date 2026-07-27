@@ -2,7 +2,7 @@
    Network-first for pages (so edits show immediately), cache-first for static
    assets. Lets you browse the directory and your saved route on the street with
    no signal. Bump CACHE to invalidate. */
-const CACHE = 'ss-fd-v28'; /* bumped: WCAG 2.2 AA + readability hardening (nav cue, contrast, tap targets, form a11y, heading order) */
+const CACHE = 'ss-fd-v29'; /* bumped: estimator parse + empty-state fixes, retired-mark precache removed, 270-house copy */
 const CORE = [
   './fashion-directory',
   './field-guide',
@@ -18,7 +18,6 @@ const CORE = [
   './js/fd-atelier.js',
   './js/estimator.js',
   './js/gift-redeem.js',
-  './assets/butterfly-side.svg',
   './manifest.webmanifest'
 ];
 /* Language bundles (js/i18n/<page>.<lang>.js) are deliberately NOT precached:

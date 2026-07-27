@@ -9,15 +9,14 @@
   <meta name="theme-color" content="#eef3fb" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#1a1d29" media="(prefers-color-scheme: dark)" />
 
-  <link rel="icon" href="assets/butterfly-side.svg" type="image/svg+xml" />
   <link rel="icon" href="assets/favicon-48.png" type="image/png" sizes="48x48" />
   <link rel="icon" href="assets/favicon-192.png" type="image/png" sizes="192x192" />
-  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="apple-touch-icon" href="assets/favicon-192.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Tenor+Sans&family=Merriweather+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=2026-07-26a" />
+  <link rel="stylesheet" href="css/styles.css?v=2026-07-27a" />
 
   <!-- Respect the same theme / accessibility prefs the main site stores -->
   <script>
@@ -72,6 +71,7 @@
     </header>
 
     <main class="est-main">
+      <h1 class="sr-only">Build a rough estimate — Seraphic Styler</h1>
       <!-- ===== ESTIMATE ===== -->
       <section id="estimate">
         <div class="wrap">
@@ -87,17 +87,18 @@
                 <select id="estLangSelect" class="cur-select ss-lang-select" aria-label="Language / 言語"></select>
               </label>
             </div>
-            <div class="quiz-progress" aria-hidden="true">
-              <span class="quiz-bar"><i class="quiz-bar-fill" id="quizBarFill"></i></span>
+            <div class="quiz-progress">
+              <span class="quiz-bar" aria-hidden="true"><i class="quiz-bar-fill" id="quizBarFill"></i></span>
               <span class="quiz-count"><span id="quizStepNum">1</span> / 4</span>
             </div>
 
             <!-- Step 1 — items -->
             <div class="quiz-step is-active" data-step="1">
               <p class="quiz-q" data-i18n="est.items.h">Your items</p>
-              <p class="quiz-help small muted" data-i18n="est.items.note">Enter each item's store price in VND.</p>
+              <p class="quiz-help small muted" id="estItemsNote" data-i18n="est.items.note">Enter each item's store price in VND.</p>
               <div class="line-items" id="lineItems"></div>
               <button class="btn btn-ghost" id="addItem" type="button" style="margin-top:0.4rem">+ <span data-i18n="est.add">Add item</span></button>
+              <p class="quiz-help small muted" id="estStepHint" hidden data-i18n="est.items.hint">No items yet — you can still add a styling tier on step 3.</p>
               <div class="quiz-nav"><span class="quiz-spacer"></span><button class="btn btn-primary quiz-next" type="button" data-next data-i18n="est.next">Continue</button></div>
             </div>
 
@@ -130,6 +131,15 @@
               </select>
               <label class="quiz-check"><input type="checkbox" id="complex" style="width:auto" /> <span data-i18n="est.complex">Rare / complex sourcing (+200,000₫)</span> <span class="tip" tabindex="0" role="note" aria-label="What counts as rare or complex sourcing?">i<span class="tip-box" data-i18n="est.complex.tip">Added only for rare or limited drops, multi-store hunts across the city, tight deadlines, or many changes after sourcing has begun — always agreed with you in advance, never a surprise.</span></span></label>
               <label class="quiz-check green-check"><input type="checkbox" id="green" style="width:auto" /> <svg class="leaf-ic" viewBox="0 0 24 24" aria-hidden="true" width="15" height="15"><path d="M20 4c0 8-5.5 13-13 13H4c0-7 5-13 12-13h4Z"/><path d="M4 20c3.5-5.5 7.5-8.5 12-10"/></svg><span data-i18n="est.green">Green shopping — choose a sustainable brand (−10% service fee)</span> <span class="tip" tabindex="0" role="note" aria-label="Why shop green">🌳<span class="tip-box" data-i18n="est.green.tip">Shopping green matters: choosing low-impact, locally made, and circular pieces cuts waste, saves water, and supports Vietnam's artisan makers. Pick a verified sustainable brand and I'll take 10% off my service fee. More on green living at treehugger.com.</span></span></label>
+              <label class="quiz-q" for="styling" style="margin-top:1rem" data-i18n="est.styling">Add a styling service? (optional)</label>
+              <p class="quiz-help small muted" data-i18n="est.styling.help">Sourcing a piece you already found is just my sourcing fee. If you'd also like a consultation or a curated edit, add a styling tier here — the same prices as the gift tiers, and each includes a piece credit that comes straight off your items below. This only adds it to your estimate; we still book and confirm it together over DM.</p>
+              <select id="styling">
+                <option value="none" selected data-i18n="est.styling.none">No styling — just source my pieces</option>
+                <option value="discovery" data-i18n="est.styling.discovery">The Discovery — one piece, found for you (+$49, incl. 900,000₫ piece credit)</option>
+                <option value="edit" data-i18n="est.styling.edit">The Edit — consultation + a curated edit (+$149, incl. 2,700,000₫ credit)</option>
+                <option value="capsule" data-i18n="est.styling.capsule">The Capsule — style profile + capsule edit (+$249, incl. 4,600,000₫ credit)</option>
+                <option value="atelier" data-i18n="est.styling.atelier">The Atelier — full styling, in person or by video (+$349, incl. 6,300,000₫ credit)</option>
+              </select>
               <label class="quiz-q" for="payMethod" style="margin-top:0.8rem" data-i18n="est.pay">How will you pay?</label>
               <p class="quiz-help small muted" data-i18n="est.pay.help">Bank transfer, Wise &amp; Zelle are fee-free. Card (via Stripe) adds a processing fee — shown as its own line, never hidden in prices.</p>
               <select id="payMethod">
@@ -147,13 +157,16 @@
                 <div class="result-row"><span data-i18n="est.sub">Items subtotal</span><span class="v" id="rSubtotal">0₫</span></div>
                 <div class="result-row"><span><span data-i18n="est.fee">Service fees</span> <span class="tip" tabindex="0" role="note" aria-label="About service fees">i<span class="tip-box" data-i18n="est.fee.tip2">My sourcing fee per item: 8% of the item price (7% above 5,000,000₫), with a minimum of 250,000₫ per item. Domestic shipping inside Vietnam is included.</span></span> <span class="muted small" id="rFeeNote">—</span></span><span class="v" id="rFee">0₫</span></div>
                 <div class="result-row"><span><span data-i18n="est.base">Base fee</span> <span class="tip" tabindex="0" role="note" aria-label="About the base fee">i<span class="tip-box" data-i18n="est.base.tip">A flat 100,000₫ per order covering coordination, messaging, and careful packing. Shipping is passed through at cost.</span></span></span><span class="v" id="rBase">0₫</span></div>
+                <div class="result-row" id="rStyleRow" style="display:none"><span><span data-i18n="est.styleline">Styling service</span> <span class="tip" tabindex="0" role="note" aria-label="About the styling service">i<span class="tip-box" data-i18n="est.style.tip">An optional consultation or curated edit — the same tiers and prices as the gifts (Discovery $49, Edit $149, Capsule $249, Atelier $349), each with a built-in credit toward your pieces ($34 / $104 / $174 / $239), shown as its own line below. The pieces stay at cost and shipping is separate.</span></span> <span class="muted small" id="rStyleNote">—</span></span><span class="v" id="rStyle">0₫</span></div>
+                <div class="result-row" id="rCreditRow" style="display:none"><span><span data-i18n="est.creditline">Piece credit applied</span> <span class="tip" tabindex="0" role="note" aria-label="About the piece credit">i<span class="tip-box" data-i18n="est.credit.tip">Each styling tier includes a fixed credit toward your pieces — the same credit inside the gift tiers ($34 / $104 / $174 / $239). It is subtracted here, up to the value of your items.</span></span></span><span class="v green-v" id="rCredit">0₫</span></div>
                 <div class="result-row" id="rComplexRow" style="display:none"><span data-i18n="est.complexline">Complex sourcing</span><span class="v" id="rComplex">0₫</span></div>
                 <div class="result-row" id="rGreenRow" style="display:none"><span data-i18n="est.greenline">Green shopping discount</span><span class="v green-v" id="rGreen">0₫</span></div>
                 <div class="result-row"><span data-i18n="est.shiplbl">Est. shipping</span><span class="v" id="rShip">—</span></div>
                 <div class="result-row" id="rCardRow" style="display:none"><span><span data-i18n="est.cardline">Card processing (Stripe)</span> <span class="tip" tabindex="0" role="note" aria-label="About the card processing fee">i<span class="tip-box" data-i18n="est.card.tip">Stripe charges 2.9% + $0.30 of the amount charged. Choosing card passes that through exactly — no markup. Bank transfer, Wise &amp; Zelle skip it entirely.</span></span></span><span class="v" id="rCard">0₫</span></div>
-                <div class="result-row total"><span data-i18n="est.total">Total (VND)</span><span class="v" id="rTotal">—</span></div>
+                <div class="result-row total" role="status" aria-live="polite"><span data-i18n="est.total">Total (VND)</span><span class="v" id="rTotal">—</span></div>
                 <div class="result-row" style="border:none"><span class="muted"><span data-i18n="est.usd">Approx. in</span> <select id="estCurrency" class="cur-select" aria-label="Currency"><option>USD</option><option>EUR</option><option>GBP</option><option>AUD</option><option>CAD</option><option>SGD</option><option>JPY</option><option>KRW</option><option>CNY</option><option>THB</option><option>AED</option><option>INR</option></select></span><span class="v usd" id="rUsd">—</span></div>
-                <p class="fx-status" id="fxStatus" style="margin-top:0.5rem">Loading live rate…</p>
+                <p class="fx-status" id="fxStatus" role="status" aria-live="polite" style="margin-top:0.5rem">Loading live rate…</p>
+                <p class="estimate-note" id="estEmptyMsg" style="display:none" data-i18n="est.empty">Nothing to estimate yet — add an item price, or choose a styling tier.</p>
               </div>
               <details class="est-accuracy">
                 <summary><span data-i18n="est.acc.sum">How accurate is this estimate?</span><span class="est-acc-badge">~95%</span></summary>
@@ -165,10 +178,28 @@
                 </div>
               </details>
               <button class="btn btn-primary btn-lg" id="sendBasket" type="button" style="width:100%;margin-top:1rem"><span data-i18n="est.send">Send this estimate for confirmation</span></button>
-              <p class="estimate-note" id="copiedMsg" style="display:none;color:var(--accent-deep)" data-i18n="est.copied">✓ Basket summary copied — paste it into your DM to me.</p>
+              <p class="estimate-note" id="copiedMsg" style="display:none;color:var(--accent-deep)">✓ Basket summary copied — paste it into your DM to me.</p>
               <p class="estimate-note" data-i18n="est.note">This is an estimate. Your final quote (exact shipping, current stock, store price) is confirmed by me before any payment.</p>
               <div class="quiz-nav"><button class="quiz-back" type="button" data-back data-i18n="est.back">Back</button><button class="quiz-back" id="quizRestart" type="button" data-i18n="est.restart">Start over</button></div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Before you send — reassurance for first-time clients ===== -->
+      <section id="est-faq">
+        <div class="wrap narrow">
+          <div class="section-head center">
+            <span class="eyebrow" data-i18n="est.faq.eyebrow">Before you send</span>
+            <h2 data-i18n="est.faq.h2">Quiet answers to fair questions</h2>
+          </div>
+          <div class="faq">
+            <details><summary data-i18n="est.faq.q1">Is this a quote? Am I committing to anything?</summary><div class="a" data-i18n="est.faq.a1">No. An estimate is arithmetic, not an order — nothing is sourced, nothing is reserved, and nothing is charged until you approve the final quote I confirm personally.</div></details>
+            <details><summary data-i18n="est.faq.q2">What happens after I press send?</summary><div class="a" data-i18n="est.faq.a2">Your summary arrives to me through the form, and a copy sits on your clipboard as a backup. I reply within a day with the real store price, current availability, and exact shipping for your address — that reply is the final quote.</div></details>
+            <details><summary data-i18n="est.faq.q3">When do I actually pay?</summary><div class="a" data-i18n="est.faq.a3">Only after you approve the final quote — 50% to place the order, and the balance plus exact shipping before your parcel leaves Saigon. You are never asked to pay from this page.</div></details>
+            <details><summary data-i18n="est.faq.q4">Is paying safe?</summary><div class="a" data-i18n="est.faq.a4">Bank transfer, Wise, PayPal, or Payoneer — choose PayPal Goods &amp; Services for buyer protection. You receive photo confirmation of every piece before it ships, and a tracking number the moment it does.</div></details>
+            <details><summary data-i18n="est.faq.q5">Why is shipping such a large share of the total?</summary><div class="a" data-i18n="est.faq.a5">Couriers price clothes by weight and volume, and honest international rates are simply high — a recent 0.5–1&nbsp;kg parcel ran 1,950,000₫. Shipping is passed through at exact cost, never marked up, and I repack carefully to cut the volume you would otherwise pay for.</div></details>
+            <details><summary data-i18n="est.faq.q6">What if it doesn't fit, or arrives wrong?</summary><div class="a" data-i18n="est.faq.a6">Sizing is confirmed against the real garment's measurements before we buy — that is part of the service. If the wrong item arrives or it is damaged, tell me within 48 hours with an unboxing video and I'll make it right.</div></details>
           </div>
         </div>
       </section>
@@ -208,12 +239,24 @@
         if (head) { head.setAttribute('tabindex', '-1'); try { head.focus({ preventScroll: true }); } catch (e) { head.focus(); } }
         if (!noScroll) quiz.scrollIntoView({ behavior: rm ? 'auto' : 'smooth', block: 'start' });
       }
+      var warned = false;
       quiz.addEventListener('click', function (e) {
         var t = e.target.closest('[data-next],[data-back],#quizRestart');
         if (!t || !quiz.contains(t)) return;
         if (t.id === 'quizRestart') show(0);
         else if (t.hasAttribute('data-back')) show(cur - 1);
-        else if (t.hasAttribute('data-next')) show(cur + 1);
+        else if (t.hasAttribute('data-next')) {
+          // Gentle pause, not a wall: an empty basket gets one hint (a styling
+          // tier can still be added on step 3), then Continue works as normal.
+          var hint = document.getElementById('estStepHint');
+          if (cur === 0 && hint) {
+            var any = false;
+            quiz.querySelectorAll('.item-price').forEach(function (i) { if (/\d/.test(i.value)) any = true; });
+            if (!any && !warned) { warned = true; hint.hidden = false; return; }
+            hint.hidden = true;
+          }
+          show(cur + 1);
+        }
       });
       show(0, true);
     })();

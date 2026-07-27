@@ -74,7 +74,7 @@ var CONFIG = {
 
   var el = {};
   ['lineItems','addItem','region','weight','complex','green','styling','payMethod','estCurrency','rSubtotal','rFee','rFeeNote','rBase',
-   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rComplexRow','rComplex','rGreenRow','rGreen','rCardRow','rCard','rShip','rTotal','rUsd','fxStatus','sendBasket','copiedMsg']
+   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rComplexRow','rComplex','rGreenRow','rGreen','rCardRow','rCard','rShip','rTotal','rUsd','fxStatus','sendBasket','copiedMsg','estEmptyMsg']
     .forEach(function (id) { el[id] = document.getElementById(id); });
   if (!el.lineItems) return; // not on a page with the estimator
 
@@ -96,8 +96,29 @@ var CONFIG = {
     if (!el.fxStatus) return;
     var c = curCode();
     var vndPerCur = fxRate / rateFor(c); // VND for 1 unit of the selected currency
-    el.fxStatus.textContent = (fxLive ? 'Live rate' : 'Offline estimate') + ': 1 ' + c + ' ≈ ' +
+    el.fxStatus.textContent = (fxLive ? t('est.fx.live', 'Live rate') : t('est.fx.offline', 'Offline estimate')) + ': 1 ' + c + ' ≈ ' +
       Math.round(vndPerCur).toLocaleString('en-US') + '₫' + (fxLive && fxWhen ? ' (as of ' + fxWhen + ', +1.5% buffer)' : ' (+1.5% buffer)');
+  }
+
+  /* Same forgiving VND parser as the redeem page and directory tray:
+     "850k" / "2m" / "1tr" / "1.500.000" / bare "850" (→ 850,000₫) all read correctly. */
+  function parseVnd(raw) {
+    if (raw == null) return 0;
+    var s = String(raw).toLowerCase().replace(/vnd|[₫đ]/g, '').replace(/\s+/g, '');
+    if (!s) return 0;
+    var mult = 1;
+    if (/tr$/.test(s)) { mult = 1e6; s = s.slice(0, -2); }
+    else if (/m$/.test(s)) { mult = 1e6; s = s.slice(0, -1); }
+    else if (/k$/.test(s)) { mult = 1e3; s = s.slice(0, -1); }
+    var n;
+    if (mult > 1) n = parseFloat(s.replace(',', '.'));
+    else if (/^\d{1,3}([.,]\d{3})+$/.test(s)) n = parseInt(s.replace(/[.,]/g, ''), 10);
+    else if (/^\d+([.,]\d+)?$/.test(s)) n = parseFloat(s.replace(',', '.'));
+    else return 0;
+    if (isNaN(n) || n <= 0) return 0;
+    var v = n * mult;
+    if (mult === 1 && v <= 9999) v = v * 1000;        // bare "350" reads as thousands, like the tray
+    return Math.round(v);
   }
 
   function itemFee(p) {
@@ -117,8 +138,7 @@ var CONFIG = {
   function readItems() {
     var vals = [];
     el.lineItems.querySelectorAll('.item-price').forEach(function (i) {
-      var v = parseFloat((i.value || '').replace(/[^0-9.]/g, ''));
-      vals.push(isNaN(v) ? 0 : v);
+      vals.push(parseVnd(i.value));
     });
     return vals;
   }
@@ -133,7 +153,7 @@ var CONFIG = {
     row.className = 'line-item';
     row.innerHTML =
       '<div class="li-fields">' +
-        '<input class="item-price" type="text" inputmode="numeric" placeholder="e.g. 850000" aria-label="Item price in VND" aria-describedby="estItemsNote">' +
+        '<input class="item-price" type="text" inputmode="numeric" placeholder="e.g. 850,000 or 850k" aria-label="Item price in VND" aria-describedby="estItemsNote">' +
         '<input class="item-link" type="url" placeholder="URL / link (optional)" aria-label="Item link (optional)">' +
       '</div>' +
       '<button class="remove-item" type="button" aria-label="Remove item">✕</button>';
@@ -141,8 +161,7 @@ var CONFIG = {
     var lIn = row.querySelector('.item-link'); lIn.value = link || '';
     pIn.addEventListener('input', function () {
       var raw = pIn.value.trim();
-      var n = parseFloat(raw.replace(/[^0-9.]/g, ''));
-      pIn.setAttribute('aria-invalid', (raw !== '' && !(n > 0)) ? 'true' : 'false');
+      pIn.setAttribute('aria-invalid', (raw !== '' && !(parseVnd(raw) > 0)) ? 'true' : 'false');
       recalc();
     });
     lIn.addEventListener('input', save);
@@ -201,6 +220,16 @@ var CONFIG = {
       else { el.rCreditRow.style.display = 'none'; }
     }
     var nonShip = c.subtotal + c.fees + c.base + c.complex - c.green + c.styling - c.credit;
+    if (c.nItems === 0 && c.styling === 0) {
+      // Nothing entered yet — an honest empty state, not a shipping band pretending to be a total.
+      if (el.rCardRow) el.rCardRow.style.display = 'none';
+      el.rShip.textContent = '—';
+      el.rTotal.textContent = '—';
+      el.rUsd.textContent = '—';
+      if (el.estEmptyMsg) el.estEmptyMsg.style.display = '';
+      updateFxStatus(); save(); return;
+    }
+    if (el.estEmptyMsg) el.estEmptyMsg.style.display = 'none';
     if (c.nItems === 0 && c.styling > 0) {
       // A styling service (consultation / edit) with no pieces sourced yet — nothing to ship.
       var cfS = c.card ? cardFee(nonShip) : 0;
@@ -291,6 +320,14 @@ var CONFIG = {
   }
 
   function send() {
+    var c0 = compute();
+    if (c0.nItems === 0 && c0.styling === 0) {
+      if (el.copiedMsg) {
+        el.copiedMsg.textContent = t('est.empty.send', 'Nothing to send yet — add an item price, or choose a styling tier.');
+        el.copiedMsg.style.display = 'block';
+      }
+      return;
+    }
     var text = summary();
     var enc = encodeURIComponent(text);
     if (navigator.clipboard) navigator.clipboard.writeText(text).catch(function () {});
@@ -314,7 +351,7 @@ var CONFIG = {
   }
 
   function loadFx() {
-    el.fxStatus.textContent = 'Loading live rate…';
+    el.fxStatus.textContent = t('est.fx.loading', 'Loading live rate…');
     fetch('https://open.er-api.com/v6/latest/USD')
       .then(function (r) { return r.json(); })
       .then(function (d) {
