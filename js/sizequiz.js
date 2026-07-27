@@ -221,6 +221,13 @@
     measPanel.hidden = (m !== 'meas');
     if (m === 'size') render(ROWS[idx], [], false); else renderMeas();
   }
+  var PLACEHOLDER = { cm: { bust: '92', waist: '74', hip: '99', height: '165' }, in: { bust: '36', waist: '29', hip: '39', height: '65' } };
+  function paintUnit() {
+    measPanel.querySelectorAll('.vq-suffix').forEach(function (sfx) { sfx.textContent = unit; });
+    ['bust', 'waist', 'hip', 'height'].forEach(function (k) {
+      if (mIn[k]) mIn[k].setAttribute('placeholder', PLACEHOLDER[unit][k]);
+    });
+  }
   function setUnit(u) {
     if (u === unit || !hasMeas) return;
     // convert whatever is already typed so nobody re-measures for a toggle
@@ -231,6 +238,7 @@
     });
     unit = u;
     unitGroup.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-unit') === u ? 'true' : 'false'); });
+    paintUnit();
     renderMeas();
   }
 
@@ -275,5 +283,6 @@
   }
   new MutationObserver(function () { refreshChrome(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
 
+  if (hasMeas) paintUnit();
   refreshChrome();
 })();

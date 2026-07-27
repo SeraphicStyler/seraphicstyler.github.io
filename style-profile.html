@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>The style profile — Seraphic Styler</title>
+  <meta name="description" content="A short intake about your days and what you're drawn to — the quiet groundwork behind every Seraphic Styler tier. Nothing is stored; it goes only to me, only when you press send." />
+  <meta name="theme-color" content="#eef3fb" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1d29" media="(prefers-color-scheme: dark)" />
+
+  <link rel="icon" href="assets/favicon-48.png" type="image/png" sizes="48x48" />
+  <link rel="icon" href="assets/favicon-192.png" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="assets/favicon-192.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Tenor+Sans&family=Merriweather+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css?v=2026-07-27b" />
+
+  <!-- Respect the same theme / accessibility prefs the main site stores -->
+  <script>
+    (function () { var d = document.documentElement, s = window.localStorage;
+      try {
+        var th = s.getItem('ss-theme') || 'auto'; var pcs = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; if (th === 'dark' || (th === 'auto' && pcs)) d.classList.add('dark'); else if (th === 'mono') d.classList.add('mono');
+        if (s.getItem('ss-contrast') === '1') d.classList.add('hc');
+        var ts = s.getItem('ss-textsize'); if (ts === 'lg') d.classList.add('ts-lg'); if (ts === 'xl') d.classList.add('ts-xl');
+        if (s.getItem('ss-motion') === '1') d.classList.add('rm');
+      } catch (e) {}
+    })();
+  </script>
+
+  <style>
+    /* Page-scoped layout — mirrors estimate.html's shell so brand stays in sync. */
+    .sp-page { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
+    .sp-top {
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem; text-align: center;
+      padding: calc(env(safe-area-inset-top) + clamp(1.5rem, 6vw, 2.6rem)) 1.25rem 0.3rem;
+    }
+    .sp-top .brand-mark { width: 40px; height: 40px; color: var(--accent-deep); }
+    .sp-main { flex: 1 0 auto; }
+    .sp-page section#profile { padding-top: clamp(1rem, 4vw, 1.6rem); }
+    .sp-foot {
+      flex-shrink: 0; text-align: center; font-family: var(--font-accent);
+      font-size: 0.78rem; color: var(--text-secondary); line-height: 1.9;
+      padding: 1.6rem 1.25rem calc(env(safe-area-inset-bottom) + 2.2rem);
+    }
+    .sp-foot a { color: var(--accent-deep); text-decoration: none; }
+    .sp-foot a:hover { text-decoration: underline; }
+    .sp-foot .dot { opacity: 0.4; margin: 0 0.55rem; }
+
+    /* depth selector + groups */
+    .sp-depths { display: flex; justify-content: center; margin: 0.4rem auto 0.5rem; }
+    .sp-depths .vn-seg { flex-wrap: wrap; justify-content: center; }
+    .sp-mins { text-align: center; font-family: var(--font-accent); font-size: 0.74rem; letter-spacing: 0.05em; color: var(--text-secondary); margin: 0.55rem 0 0; }
+    .sp-form { max-width: 46rem; margin: 1.9rem auto 0; display: grid; gap: 1.1rem; }
+    .sp-q { border: 1px solid var(--surface-border); border-radius: 1.1rem; background: var(--surface-soft); padding: 1.15rem clamp(0.95rem, 3vw, 1.4rem) 1.3rem; margin: 0; min-width: 0; }
+    .sp-q legend { float: left; width: 100%; font-family: var(--font-accent); font-size: 0.82rem; letter-spacing: 0.05em; color: var(--text-primary); padding: 0; margin-bottom: 0.7rem; }
+    .sp-q legend em { font-style: italic; color: var(--text-secondary); font-size: 0.74rem; letter-spacing: 0.03em; text-transform: none; }
+    .sp-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; clear: both; }
+    .sp-chip { font-family: var(--font-accent); font-size: 0.82rem; letter-spacing: 0.03em; color: var(--text-secondary);
+      background: var(--field-bg); border: 1px solid var(--field-border); border-radius: 999px;
+      min-height: 44px; padding: 0.45rem 1.05rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.45rem;
+      transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease; }
+    .sp-chip::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--surface-border); transition: background 0.2s ease; }
+    .sp-chip:hover { border-color: var(--accent); }
+    .sp-chip[aria-pressed="true"] { border-color: var(--accent-deep); background: var(--surface-solid); color: var(--text-primary); }
+    .sp-chip[aria-pressed="true"]::before { background: var(--accent-deep); }
+    .sp-chip:focus-visible { outline: 2px solid var(--accent-deep); outline-offset: 2px; }
+    .sp-fields { display: grid; gap: 0.75rem; clear: both; }
+    @media (min-width: 620px) { .sp-fields.two { grid-template-columns: 1fr 1fr; } }
+    .sp-field { display: flex; flex-direction: column; gap: 0.35rem; font-family: var(--font-accent); font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-secondary); }
+    .sp-field input, .sp-field textarea { font-family: var(--font-body); font-size: 0.98rem; padding: 0.55rem 0.75rem; min-height: 44px; border-radius: 0.65rem; border: 1px solid var(--field-border); background: var(--field-bg); color: var(--text-primary); width: 100%; resize: vertical; }
+    .sp-field input::placeholder, .sp-field textarea::placeholder { color: var(--text-secondary); opacity: 0.45; }
+    .sp-note { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6; margin: 0.6rem 0 0; clear: both; }
+    .sp-note a { color: var(--accent-deep); border-bottom: 1px solid var(--surface-border); }
+
+    /* depth gating: groups above the chosen depth fold away */
+    body[data-depth="1"] .sp-q[data-min="2"], body[data-depth="1"] .sp-q[data-min="3"] { display: none; }
+    body[data-depth="2"] .sp-q[data-min="3"] { display: none; }
+
+    .sp-send { max-width: 46rem; margin: 1.6rem auto 0; text-align: center; padding: 1.4rem clamp(1rem, 3vw, 1.6rem) 1.5rem; }
+    .sp-privacy { font-size: 0.8rem; font-style: italic; color: var(--text-secondary); line-height: 1.6; max-width: 52ch; margin: 0 auto 1rem; }
+    .sp-copied { display: none; margin-top: 0.8rem; color: var(--accent-deep); font-size: 0.85rem; }
+  </style>
+</head>
+<body data-depth="2">
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="sp-page">
+    <header class="sp-top">
+      <svg class="brand-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.3,27.0 C18.4,18.0 21.6,8.4 31.6,6.6 C38.2,5.4 41.0,11.4 37.8,18.0 C35.0,24.2 28.6,27.4 23.0,28.6 Z"/><path d="M22.6,29.4 C26.8,31.2 32.2,33.0 35.0,38.0 C36.6,40.8 36.0,43.8 33.6,43.4 C29.6,42.7 25.0,35.6 22.4,30.4 Z"/><path d="M22.3,27.0 C21.5,28.8 21.5,30.6 22.6,32.2"/><path d="M22.3,27.0 C19.9,22.2 17.2,18.4 13.4,16.4"/><path d="M22.3,27.0 C20.6,21.8 18.8,17.2 16.0,13.8"/><circle cx="13.4" cy="16.4" r="1.2" fill="currentColor" stroke="none"/><circle cx="16.0" cy="13.8" r="1.2" fill="currentColor" stroke="none"/></svg>
+      <a class="brand-lockup" href="./" aria-label="Seraphic Styler home" style="text-decoration:none">
+        <span class="brand-seraphic">Seraphic</span>
+        <span class="brand-styler">Styler</span>
+      </a>
+    </header>
+
+    <main class="sp-main">
+      <h1 class="sr-only">The style profile — Seraphic Styler</h1>
+      <section id="profile">
+        <div class="wrap">
+          <div class="section-head center">
+            <span class="badge-pill" data-i18n="sp.badge">The style profile</span>
+            <h2 style="margin-top:0.8rem" data-i18n="sp.h2">Tell me about them — or about you</h2>
+            <p class="lead narrow" data-i18n="sp.intro">Every tier begins here: a quiet intake about days, taste and fit — never weight, never a verdict. Answer what you can; skip what you can't. I propose a direction before a single piece is bought.</p>
+          </div>
+
+          <div class="sp-depths">
+            <div class="vn-seg" role="group" id="spDepth" aria-label="How deep should we go?">
+              <button type="button" data-depth="1" aria-pressed="false">The Discovery · short intake</button>
+              <button type="button" data-depth="2" aria-pressed="true">The Edit · consultation</button>
+              <button type="button" data-depth="3" aria-pressed="false">The Capsule &amp; Atelier · full profile</button>
+            </div>
+          </div>
+          <p class="sp-mins" id="spMins">About four minutes.</p>
+
+          <form class="sp-form" id="spForm" novalidate>
+            <!-- Depth 1 — the short style intake (The Discovery) -->
+            <fieldset class="sp-q" data-min="1" data-k="who">
+              <legend data-i18n="sp.q1">Who is this for?</legend>
+              <div class="sp-chips" data-single>
+                <button type="button" class="sp-chip" data-v="A gift" aria-pressed="false">It's a gift</button>
+                <button type="button" class="sp-chip" data-v="For myself" aria-pressed="false">It's for me</button>
+              </div>
+              <div class="sp-fields" style="margin-top:0.75rem">
+                <label class="sp-field"><span data-i18n="sp.q1name">Their first name <em style="text-transform:none;letter-spacing:0">(optional)</em></span><input type="text" id="spName" autocomplete="off" placeholder="Mai"></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="sp-q" data-min="1" data-k="days">
+              <legend data-i18n="sp.q2">What do their weeks hold?</legend>
+              <div class="sp-chips">
+                <button type="button" class="sp-chip" data-v="Work & meetings" aria-pressed="false">Work &amp; meetings</button>
+                <button type="button" class="sp-chip" data-v="Café days & errands" aria-pressed="false">Café days &amp; errands</button>
+                <button type="button" class="sp-chip" data-v="Evenings out" aria-pressed="false">Evenings out</button>
+                <button type="button" class="sp-chip" data-v="Travel" aria-pressed="false">Travel</button>
+                <button type="button" class="sp-chip" data-v="Celebrations ahead" aria-pressed="false">Celebrations ahead</button>
+                <button type="button" class="sp-chip" data-v="Quiet days at home" aria-pressed="false">Quiet days at home</button>
+              </div>
+            </fieldset>
+
+            <fieldset class="sp-q" data-min="1" data-k="drawn">
+              <legend data-i18n="sp.q3">What are they drawn to?</legend>
+              <div class="sp-chips">
+                <button type="button" class="sp-chip" data-v="Soft & feminine" aria-pressed="false">Soft &amp; feminine</button>
+                <button type="button" class="sp-chip" data-v="Minimal & clean" aria-pressed="false">Minimal &amp; clean</button>
+                <button type="button" class="sp-chip" data-v="Romantic coquette" aria-pressed="false">Romantic coquette</button>
+                <button type="button" class="sp-chip" data-v="Modern áo dài" aria-pressed="false">Modern áo dài</button>
+                <button type="button" class="sp-chip" data-v="Easy street style" aria-pressed="false">Easy street style</button>
+                <button type="button" class="sp-chip" data-v="Vintage soul" aria-pressed="false">Vintage soul</button>
+                <button type="button" class="sp-chip" data-v="Quiet neutrals" aria-pressed="false">Quiet neutrals</button>
+                <button type="button" class="sp-chip" data-v="Bold colour" aria-pressed="false">Bold colour</button>
+              </div>
+            </fieldset>
+
+            <fieldset class="sp-q" data-min="1" data-k="colours">
+              <legend data-i18n="sp.q4">Colours</legend>
+              <div class="sp-fields two">
+                <label class="sp-field"><span data-i18n="sp.q4a">Colours to love</span><input type="text" id="spColLove" autocomplete="off" placeholder="cream, sage, soft blue"></label>
+                <label class="sp-field"><span data-i18n="sp.q4b">Colours to avoid</span><input type="text" id="spColAvoid" autocomplete="off" placeholder="neon, orange"></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="sp-q" data-min="1" data-k="loved">
+              <legend data-i18n="sp.q5">A piece they already love <em>— or a link</em></legend>
+              <div class="sp-fields">
+                <label class="sp-field"><span class="sr-only">A piece they already love</span><textarea id="spLoved" rows="2" placeholder="A linen dress she wears constantly — or paste an Instagram link"></textarea></label>
+              </div>
+            </fieldset>
+
+            <!-- Depth 2 — the consultation (The Edit) -->
+            <fieldset class="sp-q" data-min="2" data-k="fit">
+              <legend data-i18n="sp.q6">Fit &amp; silhouette</legend>
+              <div class="sp-chips">
+                <button type="button" class="sp-chip" data-v="Fitted & tailored" aria-pressed="false">Fitted &amp; tailored</button>
+                <button type="button" class="sp-chip" data-v="Relaxed & flowing" aria-pressed="false">Relaxed &amp; flowing</button>
+                <button type="button" class="sp-chip" data-v="Cropped is fine" aria-pressed="false">Cropped is fine</button>
+                <button type="button" class="sp-chip" data-v="Longer lengths" aria-pressed="false">Longer lengths</button>
+                <button type="button" class="sp-chip" data-v="High-waisted" aria-pressed="false">High-waisted</button>
+                <button type="button" class="sp-chip" data-v="Modest cuts" aria-pressed="false">Modest cuts</button>
+              </div>
+            </fieldset>
+
+            <fieldset class="sp-q" data-min="2" data-k="fabric">
+              <legend data-i18n="sp.q7">Fabric feelings</legend>
+              <div class="sp-chips">
+                <button type="button" class="sp-chip" data-v="Linen" aria-pressed="false">Linen</button>
+                <button type="button" class="sp-chip" data-v="Cotton" aria-pressed="false">Cotton</button>
+                <button type="button" class="sp-chip" data-v="Silk" aria-pressed="false">Silk</button>
+                <button type="button" class="sp-chip" data-v="Breathable for heat" aria-pressed="false">Breathable for heat</button>
+                <button type="button" class="sp-chip" data-v="No wool" aria-pressed="false">No wool</button>
+                <button type="button" class="sp-chip" data-v="No preference" aria-pressed="false">No preference</button>
+              </div>
+            </fieldset>
+
+            <fieldset class="sp-q" data-min="2" data-k="sizes">
+              <legend data-i18n="sp.q8">Sizes, if known <em>— not required</em></legend>
+              <div class="sp-fields">
+                <label class="sp-field"><span data-i18n="sp.q8l">Anything you know</span><input type="text" id="spSizes" autocomplete="off" placeholder="US 6 · usually a medium · tall"></label>
+              </div>
+              <p class="sp-note" data-i18n="sp.q8n">Not sure? The <a href="./#sizing">quick size check</a> reads it from measurements — and I confirm real garment measurements before anything is bought.</p>
+            </fieldset>
+
+            <!-- Depth 3 — the full profile (The Capsule & Atelier) -->
+            <fieldset class="sp-q" data-min="3" data-k="job">
+              <legend data-i18n="sp.q9">What should this wardrobe do?</legend>
+              <div class="sp-chips">
+                <button type="button" class="sp-chip" data-v="A mix-and-match capsule" aria-pressed="false">A mix-and-match capsule</button>
+                <button type="button" class="sp-chip" data-v="Looks for an occasion" aria-pressed="false">Looks for an occasion</button>
+                <button type="button" class="sp-chip" data-v="Refreshing the everyday" aria-pressed="false">Refreshing the everyday</button>
+                <button type="button" class="sp-chip" data-v="A new chapter" aria-pressed="false">A new chapter</button>
+              </div>
+            </fieldset>
+
+            <fieldset class="sp-q" data-min="3" data-k="never">
+              <legend data-i18n="sp.q10">The never-wear list</legend>
+              <div class="sp-fields">
+                <label class="sp-field"><span class="sr-only">Never-wear list</span><textarea id="spNever" rows="2" placeholder="No strapless, nothing scratchy, no logos…"></textarea></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="sp-q" data-min="3" data-k="timing">
+              <legend data-i18n="sp.q11">Timing</legend>
+              <div class="sp-fields">
+                <label class="sp-field"><span data-i18n="sp.q11l">Any date this should be ready for?</span><input type="text" id="spTiming" autocomplete="off" placeholder="A wedding on 20 September"></label>
+              </div>
+            </fieldset>
+          </form>
+
+          <div class="glass sp-send">
+            <p class="sp-privacy" data-i18n="sp.privacy">Nothing here is stored on this site — your answers go only to me, only when you press send, and a copy lands on your clipboard.</p>
+            <button class="btn btn-primary btn-lg" id="spSend" type="button" style="min-width:min(100%,22rem)" data-i18n="sp.send">Send the profile</button>
+            <p class="sp-copied" id="spCopied">✓ Profile copied &amp; opened pre-filled in the form.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="sp-foot">
+      <span><a href="./#gift">← Gift styling</a></span>
+      <span class="dot">·</span>
+      <span><a href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener">Instagram</a></span>
+      <span class="dot">·</span>
+      <span><a href="mailto:seraphicstyler@gmail.com">seraphicstyler@gmail.com</a></span>
+      <br />
+      <a class="home-link" href="./" style="display:inline-block;margin-top:0.15rem;font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase">← Full site</a>
+    </footer>
+  </div>
+
+  <!-- Tally powers the pre-filled send popup; falls back to a new tab if blocked. -->
+  <script async src="https://tally.so/widgets/embed.js"></script>
+  <script src="js/style-profile.js"></script>
+</body>
+</html>

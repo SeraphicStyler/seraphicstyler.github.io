@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Tenor+Sans&family=Merriweather+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=2026-07-27a" />
+  <link rel="stylesheet" href="css/styles.css?v=2026-07-27b" />
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"ProfessionalService","name":"Seraphic Styler","description":"A Saigon styling & sourcing atelier — rare Vietnamese fashion and beauty, verified in person and shipped worldwide.","url":"https://www.seraphicstyler.com/","email":"seraphicstyler@gmail.com","areaServed":"Worldwide","address":{"@type":"PostalAddress","addressLocality":"Ho Chi Minh City","addressCountry":"VN"},"sameAs":["https://instagram.com/seraphicstyler","https://tiktok.com/@seraphicstyler"]}
   </script>
@@ -288,10 +288,10 @@ You choose: order everything, a few pieces, or nothing at all — the board is y
             <button type="button" data-unit="in" aria-pressed="false">in</button>
           </div>
           <div class="vq-meas-grid">
-            <label class="vq-meas-field"><span id="vqLblBust">Bust</span><input id="vqBust" type="text" inputmode="decimal" autocomplete="off"></label>
-            <label class="vq-meas-field"><span id="vqLblWaist">Waist</span><input id="vqWaist" type="text" inputmode="decimal" autocomplete="off"></label>
-            <label class="vq-meas-field"><span id="vqLblHip">Hips</span><input id="vqHip" type="text" inputmode="decimal" autocomplete="off"></label>
-            <label class="vq-meas-field"><span id="vqLblHeight">Height (optional)</span><input id="vqHeight" type="text" inputmode="decimal" autocomplete="off"></label>
+            <label class="vq-meas-field"><span id="vqLblBust">Bust</span><input id="vqBust" type="text" inputmode="decimal" autocomplete="off" placeholder="92"><span class="vq-suffix" aria-hidden="true">cm</span></label>
+            <label class="vq-meas-field"><span id="vqLblWaist">Waist</span><input id="vqWaist" type="text" inputmode="decimal" autocomplete="off" placeholder="74"><span class="vq-suffix" aria-hidden="true">cm</span></label>
+            <label class="vq-meas-field"><span id="vqLblHip">Hips</span><input id="vqHip" type="text" inputmode="decimal" autocomplete="off" placeholder="99"><span class="vq-suffix" aria-hidden="true">cm</span></label>
+            <label class="vq-meas-field"><span id="vqLblHeight">Height (optional)</span><input id="vqHeight" type="text" inputmode="decimal" autocomplete="off" placeholder="165"><span class="vq-suffix" aria-hidden="true">cm</span></label>
           </div>
           <p class="vq-privacy small muted" id="vqPrivacy"></p>
           <details class="vq-howto">
@@ -626,7 +626,7 @@ You choose: order everything, a few pieces, or nothing at all — the board is y
         <span class="eyebrow" data-i18n="gift.eyebrow">Gift styling</span>
         <h2 data-i18n="gift.h2">Give the gift of a Saigon wardrobe</h2>
         <p class="lead narrow" data-i18n="gift.intro">For a birthday, a wedding, or simply because — choose a tier or name your own amount, and I'll look after your recipient personally, then send a note and a code to redeem.</p>
-        <p class="small muted" style="font-style:italic;max-width:52ch;margin:0.6rem auto 0" data-i18n="gift.unsure">Not sure what they'd want? That's what the style profile is for — a short intake about their days and what they're drawn to, and I propose a direction before a single piece is bought.</p>
+        <p class="small muted" style="font-style:italic;max-width:52ch;margin:0.6rem auto 0" data-i18n="gift.unsure">Not sure what they'd want? That's what <a class="gift-link" href="style-profile.html?from=gift-note">the style profile</a> is for — a short intake about their days and what they're drawn to, and I propose a direction before a single piece is bought.</p>
       </div>
       <div class="gift-currency reveal">
         <label for="giftCurrency" data-i18n="gift.cur">Show prices in</label>
@@ -635,15 +635,37 @@ You choose: order everything, a few pieces, or nothing at all — the board is y
         </select>
       </div>
       <div class="grid gift-grid-4 reveal">
-        <div class="gift-card"><h3 data-i18n="gift.1h">The Discovery</h3><div class="gift-price" data-usd="49"><span class="gift-amt">$49</span><span class="vnd">≈ 1,300,000₫</span></div><div class="gift-split" data-i18n="gift.1s">$15 styling fee · $34 piece credit ≈ 900,000₫</div><div class="body" data-i18n="gift.1b2"><p class="gift-lead">One piece, found and sent.</p><ul class="gift-points"><li>A short style intake to learn their taste</li><li>One piece, verified in person and photographed for approval</li><li>A small, quietly luxurious gesture</li></ul></div><a class="btn btn-primary" href="https://tally.so/r/gD10Kl?about=Gifting%20a%20styling%20experience&amp;tier=The%20Discovery%20(%2449)&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
-        <div class="gift-card"><h3 data-i18n="gift.2h">The Edit</h3><div class="gift-price" data-usd="149"><span class="gift-amt">$149</span><span class="vnd">≈ 3,900,000₫</span></div><div class="gift-split" data-i18n="gift.2s">$45 styling fee · $104 piece credit ≈ 2,700,000₫</div><div class="body" data-i18n="gift.2b2"><p class="gift-lead">A curated edit in their size.</p><ul class="gift-points"><li>Begins with a consultation</li><li>Three to five pieces to the value of the credit, from Saigon's local designers</li><li>Fewer if they fall for something rarer</li></ul></div><a class="btn btn-primary" href="https://tally.so/r/gD10Kl?about=Gifting%20a%20styling%20experience&amp;tier=The%20Edit%20(%24149)&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
-        <div class="gift-card featured"><span class="gift-tag" data-i18n="gift.tag">Most Requested</span><h3 data-i18n="gift.4h">The Capsule</h3><div class="gift-price" data-usd="249"><span class="gift-amt">$249</span><span class="vnd">≈ 6,500,000₫</span></div><div class="gift-split" data-i18n="gift.4s">$75 styling fee · $174 piece credit ≈ 4,600,000₫</div><div class="body" data-i18n="gift.4b2"><p class="gift-lead">A full capsule, styled to mix and match.</p><ul class="gift-points"><li>A full style profile first</li><li>Eight to twelve coordinated pieces, to the value of the credit</li><li>A lookbook showing how to wear them together</li><li>Styled remotely, sent worldwide</li></ul></div><a class="btn btn-primary" href="https://tally.so/r/gD10Kl?about=Gifting%20a%20styling%20experience&amp;tier=The%20Capsule%20(%24249)&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
-        <div class="gift-card"><h3 data-i18n="gift.3h">The Atelier</h3><div class="gift-price" data-usd="349"><span class="gift-amt">$349</span><span class="vnd">≈ 9,200,000₫</span></div><div class="gift-split" data-i18n="gift.3s">$110 styling fee · $239 piece credit ≈ 6,300,000₫</div><div class="body" data-i18n="gift.3b2"><p class="gift-lead">The full experience — in person or by video.</p><ul class="gift-points"><li>In Saigon: consultation, sourcing &amp; a two-hour in-shop try-on — often no shipping at all</li><li>From abroad: I shop live on video</li><li>A polished, itemized itinerary to approve before anything ships</li></ul></div><a class="btn btn-primary" href="https://tally.so/r/gD10Kl?about=Gifting%20a%20styling%20experience&amp;tier=The%20Atelier%20(%24349)&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
+        <div class="gift-card"><h3 data-i18n="gift.1h">The Discovery</h3><div class="gift-price" data-usd="49"><span class="gift-amt">$49</span><span class="vnd">≈ 1,300,000₫</span></div><div class="gift-split" data-i18n="gift.1s">$15 styling fee · $34 piece credit ≈ 900,000₫</div><p class="gift-for" data-i18n="gift.1for">For a lovely gesture</p><div class="body" data-i18n="gift.1b2"><p class="gift-lead">One piece, found and sent.</p><ul class="gift-points"><li><a class="gift-link" href="style-profile.html?tier=discovery&amp;from=gift-card">A short style intake</a> to learn their taste</li><li>One piece, verified in person and photographed for approval</li><li>A small, quietly luxurious gesture</li></ul></div><a class="btn btn-primary" href="https://tally.so/r/gD10Kl?about=Gifting%20a%20styling%20experience&amp;tier=The%20Discovery%20(%2449)&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
+        <div class="gift-card"><h3 data-i18n="gift.2h">The Edit</h3><div class="gift-price" data-usd="149"><span class="gift-amt">$149</span><span class="vnd">≈ 3,900,000₫</span></div><div class="gift-split" data-i18n="gift.2s">$45 styling fee · $104 piece credit ≈ 2,700,000₫</div><p class="gift-for" data-i18n="gift.2for">For taste you roughly know</p><div class="body" data-i18n="gift.2b2"><p class="gift-lead">A curated edit in their size.</p><ul class="gift-points"><li>Begins with <a class="gift-link" href="style-profile.html?tier=edit&amp;from=gift-card">a consultation</a></li><li>Three to five pieces to the value of the credit, from Saigon's local designers</li><li>Fewer if they fall for something rarer</li></ul></div><a class="btn btn-primary" href="https://tally.so/r/gD10Kl?about=Gifting%20a%20styling%20experience&amp;tier=The%20Edit%20(%24149)&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
+        <div class="gift-card featured"><span class="gift-tag" data-i18n="gift.tag">Most Requested</span><h3 data-i18n="gift.4h">The Capsule</h3><div class="gift-price" data-usd="249"><span class="gift-amt">$249</span><span class="vnd">≈ 6,500,000₫</span></div><div class="gift-split" data-i18n="gift.4s">$75 styling fee · $174 piece credit ≈ 4,600,000₫</div><p class="gift-for" data-i18n="gift.4for">For a wardrobe moment</p><div class="body" data-i18n="gift.4b2"><p class="gift-lead">A full capsule, styled to mix and match.</p><ul class="gift-points"><li><a class="gift-link" href="style-profile.html?tier=capsule&amp;from=gift-card">A full style profile</a> first</li><li>Eight to twelve coordinated pieces, to the value of the credit</li><li>A lookbook showing how to wear them together</li><li>Styled remotely, sent worldwide</li></ul></div><a class="btn btn-primary" href="https://tally.so/r/gD10Kl?about=Gifting%20a%20styling%20experience&amp;tier=The%20Capsule%20(%24249)&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
+        <div class="gift-card"><h3 data-i18n="gift.3h">The Atelier</h3><div class="gift-price" data-usd="349"><span class="gift-amt">$349</span><span class="vnd">≈ 9,200,000₫</span></div><div class="gift-split" data-i18n="gift.3s">$110 styling fee · $239 piece credit ≈ 6,300,000₫</div><p class="gift-for" data-i18n="gift.3for">For the milestone</p><div class="body" data-i18n="gift.3b2"><p class="gift-lead">The full experience — in person or by video.</p><ul class="gift-points"><li>In Saigon: <a class="gift-link" href="style-profile.html?tier=atelier&amp;from=gift-card">consultation</a>, sourcing &amp; a two-hour in-shop try-on — often no shipping at all</li><li>From abroad: I shop live on video</li><li>A polished, itemized itinerary to approve before anything ships</li></ul></div><a class="btn btn-primary" href="https://tally.so/r/gD10Kl?about=Gifting%20a%20styling%20experience&amp;tier=The%20Atelier%20(%24349)&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
       </div>
       <!-- Gift finder — three questions that route to the right tier, honestly.
            JS-rendered (outside data-i18n nodes); the line below is the no-JS fallback. -->
       <div class="gift-quiz glass reveal" id="giftQuiz">
         <p class="vq-bucket" style="margin:0 auto">Not sure which tier? <a href="#contact" style="color:var(--accent-deep);text-decoration:underline">Write to me</a>, describe them, and I'll tell you honestly which fits.</p>
+      </div>
+      <!-- For the analytical buyer: the four tiers, side by side -->
+      <div class="faq gift-compare reveal">
+        <details>
+          <summary data-i18n="gift.cmp.sum">Compare the four tiers side by side</summary>
+          <div class="a">
+            <div class="glass table-wrap">
+              <table class="table">
+                <thead><tr><th></th><th>The Discovery</th><th>The Edit</th><th>The Capsule</th><th>The Atelier</th></tr></thead>
+                <tbody>
+                  <tr><td data-i18n="gift.cmp.r1">Price</td><td>$49 · ≈1,300,000₫</td><td>$149 · ≈3,900,000₫</td><td>$249 · ≈6,500,000₫</td><td>$349 · ≈9,200,000₫</td></tr>
+                  <tr><td data-i18n="gift.cmp.r2">Styling fee</td><td>$15</td><td>$45</td><td>$75</td><td>$110</td></tr>
+                  <tr><td data-i18n="gift.cmp.r3">Piece credit</td><td>$34 ≈ 900,000₫</td><td>$104 ≈ 2,700,000₫</td><td>$174 ≈ 4,600,000₫</td><td>$239 ≈ 6,300,000₫</td></tr>
+                  <tr><td data-i18n="gift.cmp.r4">The pieces</td><td>One, found and sent</td><td>Three to five</td><td>Eight to twelve, with a lookbook</td><td>A try-on day — or live video</td></tr>
+                  <tr><td data-i18n="gift.cmp.r5">It begins with</td><td>A short style intake</td><td>A consultation</td><td>A full style profile</td><td>A full style profile</td></tr>
+                  <tr><td data-i18n="gift.cmp.r6">How it happens</td><td>Styled remotely, shipped</td><td>Styled remotely, shipped</td><td>Styled remotely, shipped worldwide</td><td>In Sài Gòn — or live on video</td></tr>
+                  <tr><td data-i18n="gift.cmp.r7">Best for</td><td>A lovely gesture</td><td>Taste you roughly know</td><td>A wardrobe moment</td><td>The milestone</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </details>
       </div>
       <div class="gift-support reveal">
         <h3 class="gift-covers-h" data-i18n="gift.coversh">What the gift covers</h3>
@@ -665,6 +687,14 @@ You choose: order everything, a few pieces, or nothing at all — the board is y
           </tbody>
         </table>
         <!-- <p class="gift-support__note assure" data-i18n="gift.pay">Prefer to spread the cost? PayPal Pay Later lets you pay in installments, where it is offered.</p> -->
+        <!-- Last-mile reassurance, at the point of commitment -->
+        <div class="faq gift-faq">
+          <details><summary data-i18n="gift.faq.q1">What does the recipient receive first?</summary><div class="a" data-i18n="gift.faq.a1">A digital note with your message and their code, within 24 hours of your payment. Redeeming it opens a conversation with me — and the styling begins with the style profile, at whatever pace suits them.</div></details>
+          <details><summary data-i18n="gift.faq.q2">Is shipping included?</summary><div class="a" data-i18n="gift.faq.a2">Delivery inside Vietnam is included. International courier is passed through at exact cost when your recipient redeems — typically $70–170 for clothes, by weight and destination.</div></details>
+          <details><summary data-i18n="gift.faq.q3">Can I prepay the shipping?</summary><div class="a" data-i18n="gift.faq.a3">Yes — ask when you gift and I will quote it upfront, so the gift arrives with nothing left to pay.</div></details>
+          <details><summary data-i18n="gift.faq.q4">Can they swap pieces?</summary><div class="a" data-i18n="gift.faq.a4">Nothing is bought until they approve it. They see photographs of each actual piece first, and if something isn't right, the hunt simply continues — approval-first is how everything here works.</div></details>
+          <details><summary data-i18n="gift.faq.q5">Do I need to know their size?</summary><div class="a" data-i18n="gift.faq.a5">No. The style profile asks gently, and I confirm real garment measurements before anything is bought — whether they wear a US small or a 5XL.</div></details>
+        </div>
         <div class="gift-support__actions">
           <a href="https://tally.so/r/gD10Kl?about=Gifting%20a%20styling%20experience&amp;tier=A%20custom%20amount&amp;source=home-gift" target="_blank" rel="noopener" data-i18n="gift.any">Or gift any amount →</a>
           <span class="gift-support__dot" aria-hidden="true">·</span>
