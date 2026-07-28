@@ -32,7 +32,7 @@
     padding:2rem 1.8rem;box-shadow:0 30px 70px -30px rgba(46,71,115,.35);text-align:center}
   #login .mark{width:62px;height:62px;border-radius:50%;margin:0 auto 1rem;display:grid;place-items:center;
     background:radial-gradient(circle at 50% 40%,#fff,#eef3fb 80%);border:1px solid var(--border)}
-  #login .mark img{width:38px;height:38px}
+  #login .mark img,#login .mark svg{width:38px;height:38px;color:var(--accent,#2e54ad)}
   #login input{text-align:center;margin:1rem 0 .8rem}
   #login .err{color:var(--warn);font-size:.82rem;min-height:1.1em}
 
@@ -62,7 +62,7 @@
 
 <!-- ===== LOGIN ===== -->
 <div id="login">
-  <div class="mark"><img src="assets/social/avatar.svg" alt="Seraphic Styler"></div>
+  <div class="mark" role="img" aria-label="Seraphic Styler"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.3,27.0 C18.4,18.0 21.6,8.4 31.6,6.6 C38.2,5.4 41.0,11.4 37.8,18.0 C35.0,24.2 28.6,27.4 23.0,28.6 Z"/><path d="M22.6,29.4 C26.8,31.2 32.2,33.0 35.0,38.0 C36.6,40.8 36.0,43.8 33.6,43.4 C29.6,42.7 25.0,35.6 22.4,30.4 Z"/><path d="M22.3,27.0 C21.5,28.8 21.5,30.6 22.6,32.2"/><path d="M22.3,27.0 C19.9,22.2 17.2,18.4 13.4,16.4"/><path d="M22.3,27.0 C20.6,21.8 18.8,17.2 16.0,13.8"/><circle cx="13.4" cy="16.4" r="1.2" fill="currentColor" stroke="none"/><circle cx="16.0" cy="13.8" r="1.2" fill="currentColor" stroke="none"/></svg></div>
   <h1 style="font-size:1.5rem">Lookbook <em>admin</em></h1>
   <p class="muted" style="margin:.4rem 0 0">Sign in to manage your looks.</p>
   <input id="pass" type="password" placeholder="Passphrase" autocomplete="current-password" />

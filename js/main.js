@@ -185,7 +185,7 @@
               a.classList.toggle('active', on);
               if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
             });
-            /* The rail only carries eight of the sections; the ones it skips
+            /* The rail only carries some of the sections; the ones it skips
                keep the nearest dot above them lit rather than blanking the rail. */
             var rl = document.querySelectorAll('.rail a');
             var hit = false;

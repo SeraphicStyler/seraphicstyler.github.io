@@ -4,7 +4,7 @@
    in view (sticky rail on desktop), visible logic ("Because you said …"),
    and the smaller option always shown. Self-contained EN + VI chrome, same
    pattern as sizequiz.js; renders into #giftQuiz and reads tier names,
-   prices and Tally links straight from the gift cards in the DOM so prices
+   prices and checkout links straight from the gift cards in the DOM so prices
    can never drift. Price source of record: CONFIG.styling in js/estimator.js
    + the card markup itself.
    Honesty guardrails: a small gesture is never upsold — see recommend(). */
@@ -14,7 +14,7 @@
   var L = {
     en: {
       eyebrow: 'Gift finder', title: '✨ Which gift fits them?',
-      sub: 'Four quick questions — the last one is optional — and the smaller option always stays in view.',
+      sub: 'Four questions — the last is optional. The gentler tier always stays in view.',
       optional: 'optional',
       q1: 'What’s the moment?',
       q1o: ['A small thank-you, or just because', 'A birthday or anniversary', 'A milestone — a wedding, a graduation, a new chapter'],
@@ -28,8 +28,8 @@
       q4: 'Will they be in Sài Gòn?',
       q4o: ['They live there, or will visit', 'No — styled remotely'],
       q4s: ['in Sài Gòn', 'styled remotely'],
-      waiting: 'Answer the first three questions — my suggestion appears here.',
-      suggest: 'My suggestion',
+      waiting: 'Answer the first three — my suggestion appears here.',
+      suggest: 'My suggestion', said2: 'Suggested',
       said: 'Because you said',
       gift: 'Gift this →', see: 'Read the tier ↑',
       runnerDown: 'If that feels large — {tier}, {price}.',
@@ -54,7 +54,7 @@
     },
     vi: {
       eyebrow: 'Chọn quà nhanh', title: '✨ Gói quà nào hợp với người ấy?',
-      sub: 'Bốn câu hỏi nhanh — câu cuối không bắt buộc — và lựa chọn nhẹ nhàng hơn luôn được giữ trong tầm mắt.',
+      sub: 'Bốn câu hỏi — câu cuối không bắt buộc. Gói nhẹ nhàng hơn luôn ở trong tầm mắt.',
       optional: 'không bắt buộc',
       q1: 'Dịp gì vậy?',
       q1o: ['Một lời cảm ơn nhỏ, hoặc chẳng cần dịp gì', 'Sinh nhật hay kỷ niệm', 'Một cột mốc — đám cưới, tốt nghiệp, một chương mới'],
@@ -69,7 +69,7 @@
       q4o: ['Ở đó, hoặc sắp ghé', 'Không — styling từ xa'],
       q4s: ['ở Sài Gòn', 'styling từ xa'],
       waiting: 'Trả lời ba câu đầu — gợi ý của mình sẽ hiện ở đây.',
-      suggest: 'Gợi ý của mình',
+      suggest: 'Gợi ý của mình', said2: 'Gợi ý',
       said: 'Vì bạn chọn',
       gift: 'Tặng gói này →', see: 'Xem chi tiết gói ↑',
       runnerDown: 'Nếu thấy hơi nhiều — {tier}, {price}.',
@@ -116,7 +116,13 @@
   var PROFILE_TIER = { 49: 'discovery', 149: 'edit', 249: 'capsule', 349: 'atelier' };
   function tierName(i) { return tiers[i].nameEl.textContent.trim(); }
   function tierPrice(i) { return '$' + Math.round(tiers[i].usd); }
-  function quizHref(i) { return tiers[i].href.replace('source=home-gift', 'source=home-gift-quiz'); }
+  /* Stripe payment links carry the source in client_reference_id (it shows on
+     the payment in the dashboard); Tally links keep the old source param. */
+  function quizHref(i) {
+    var h = tiers[i].href;
+    if (h.indexOf('buy.stripe.com') > -1) return h + (h.indexOf('?') > -1 ? '&' : '?') + 'client_reference_id=gift-finder';
+    return h.replace('source=home-gift', 'source=home-gift-quiz');
+  }
   function profileHref(i) { return 'style-profile.html?tier=' + (PROFILE_TIER[Math.round(tiers[i].usd)] || 'edit') + '&from=gift-finder'; }
 
   /* Scores per option (tier scale 1 = Discovery … 4 = Atelier). The Capsule
@@ -180,7 +186,7 @@
     var runnerLine = t(runnerKey).replace('{tier}', tierName(r.runner)).replace('{price}', tierPrice(r.runner));
     box.innerHTML =
       '<span class="gq-r-eyebrow">' + esc(t('suggest')) + '</span>' +
-      '<div class="gq-r-tier">' + esc(tierName(r.rec)) + ' <span class="gq-r-price">' + esc(tierPrice(r.rec)) + '</span></div>' +
+      '<h4 class="gq-r-tier">' + esc(tierName(r.rec)) + ' <span class="gq-r-price">' + esc(tierPrice(r.rec)) + '</span></h4>' +
       '<p class="gq-r-said">' + esc(t('said')) + ': <em>' + esc(saidBits.join(' · ')) + '</em></p>' +
       '<p class="gq-r-why">' + esc(whyLine(r.rec)) + '</p>' +
       '<ul class="gq-points">' + t('points')[r.rec].map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul>' +
@@ -192,11 +198,16 @@
       '<a class="gq-profile" href="' + profileHref(r.rec) + '">' + esc(t('profile')) + '</a>' +
       '<p class="gq-assure">' + esc(t('assure')) + '</p>';
     box.classList.add('gq-live');
+    /* Screen readers hear the verdict, not the whole panel re-read on every tap. */
+    var say = mount.querySelector('[data-gq-say]');
+    if (say) say.textContent = t('said2') + ': ' + tierName(r.rec) + ', ' + tierPrice(r.rec) + '.';
     box.classList.remove('vq-pop'); void box.offsetWidth; box.classList.add('vq-pop');
     var see = box.querySelector('.gq-see');
     if (see) see.addEventListener('click', function () {
       var card = tiers[r.rec].card;
       card.scrollIntoView({ behavior: document.documentElement.classList.contains('rm') ? 'auto' : 'smooth', block: 'center' });
+      if (!card.hasAttribute('tabindex')) card.setAttribute('tabindex', '-1');
+      card.focus({ preventScroll: true });
       card.classList.add('is-suggested');
       setTimeout(function () { card.classList.remove('is-suggested'); }, 2200);
     });
@@ -214,7 +225,8 @@
           fieldset(2, 'q3', 'q3o', false) +
           fieldset(3, 'q4', 'q4o', true) +
         '</form>' +
-        '<aside class="gq-rail"><div class="gq-result" role="status" aria-live="polite"></div></aside>' +
+        '<aside class="gq-rail"><div class="gq-result" aria-live="off"></div>' +
+        '<p class="sr-only" role="status" aria-live="polite" data-gq-say></p></aside>' +
       '</div>';
     renderResult();
   }

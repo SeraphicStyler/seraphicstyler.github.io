@@ -162,7 +162,7 @@ html.mono .grain {
 }
 
 /* ---- Text-size accessibility ---- */
-html { font-size: 106.25%; /* 17px base size */ }
+html { font-size: 95.625%; /* 15.3px base — the 17px original read as oversized at 100% zoom; this is precisely the 90%-zoom rendering the owner preferred. Containers are px-based, so this also airs out the layout. */ }
 html.ts-lg { font-size: 118.75%; }
 html.ts-xl { font-size: 131.25%; }
 
@@ -439,6 +439,27 @@ html.rm .vq-pop { animation: none; }
   .eco-table td[data-i18n^="eco.b"] { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.55; padding-top: 0.15rem; padding-bottom: 0.9rem; border-bottom: 1px solid var(--surface-border); }
   .eco-table .ecocat { font-family: var(--font-accent); text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.66rem; color: var(--accent-deep); padding: 1.15rem 1rem 0.25rem; }
 }
+/* Four tiers cannot sit side by side on a phone: below 700px the comparison
+   stacks row by row, each value naming its own tier, so nothing is clipped
+   and nothing needs sideways scrolling. */
+@media (max-width: 700px) {
+  .gift-compare .table-wrap { overflow-x: visible; }
+  .gift-compare .table { display: block; min-width: 0 !important; }
+  .gift-compare .table thead { display: none; }
+  .gift-compare .table tbody, .gift-compare .table tr, .gift-compare .table th, .gift-compare .table td { display: block; width: auto; }
+  .gift-compare .table tr { padding: 0.9rem 0 1rem; border-bottom: 1px solid var(--surface-border); }
+  .gift-compare .table tr:last-child { border-bottom: 0; }
+  .gift-compare .table th[scope="row"] { font-family: var(--font-accent); font-size: 0.66rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent-deep); padding: 0 0 0.5rem; border: 0; }
+  .gift-compare .table td { display: flex; gap: 0.6rem; align-items: baseline; justify-content: space-between;
+    padding: 0.28rem 0; border: 0; font-size: 0.9rem; text-align: right; }
+  .gift-compare .table td::before { content: attr(data-tier); flex: 0 0 auto; text-align: left;
+    font-family: var(--font-accent); font-size: 0.74rem; letter-spacing: 0.02em; color: var(--text-secondary); }
+}
+/* The scroll region is reachable by keyboard, but only shows a ring for keyboard use. */
+.table-wrap:focus { outline: none; }
+.table-wrap:focus-visible { outline: 2px solid var(--accent-deep); outline-offset: 2px; }
+
 .narrow { max-width: var(--maxw-narrow); margin-left: auto; margin-right: auto; }
 
 /* section header: eyebrow -> thin h2 -> hairline rule with far-right index */
@@ -485,6 +506,12 @@ html.dark .brand-seraphic { color: var(--text-primary); }
 .nav-links a::after {
   content: ''; position: absolute; left: 0.45rem; right: 0.45rem; bottom: 0.3rem; height: 1px;
   background: var(--accent-deep); transform: scaleX(0); transform-origin: center; transition: transform 0.4s ease;
+}
+/* Ten links either side of a centred wordmark run out of room below ~1500px:
+   tighten the gaps and the per-link padding rather than clipping the ends. */
+@media (min-width: 981px) and (max-width: 1500px) {
+  .nav-links { gap: clamp(0.5rem, 0.15rem + 0.55vw, 1rem); }
+  .nav-links a { padding: 0.5rem 0.28rem; letter-spacing: 0.1em; }
 }
 .nav-links a:hover { color: var(--text-primary); }
 .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
@@ -793,7 +820,7 @@ html.rm .a11y-panel.open { animation: none; }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
 .gift-grid-4 { grid-template-columns: repeat(4, 1fr); }
 @media (max-width: 860px) { .grid-3 { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 1000px) { .gift-grid-4 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 1150px) { .gift-grid-4 { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 600px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
 @media (max-width: 560px) { .gift-grid-4 { grid-template-columns: 1fr; } }
 .service { padding: 1.4rem 0 0.4rem; border-top: 1px solid var(--surface-border); }
@@ -1104,13 +1131,14 @@ html.rm .hero .reveal { transition-delay: 0s; }
 .gq-opt input:checked + .gq-card .gq-mark::after { background: var(--accent-deep); }
 .gq-opt input:focus-visible + .gq-card { outline: 2px solid var(--accent-deep); outline-offset: 2px; }
 /* recommendation panel */
+.gift-card:focus { outline: 2px solid var(--accent-deep); outline-offset: 3px; }
 .gq-result { background: var(--surface-soft); border: 1px solid var(--surface-border); border-radius: 1.1rem; padding: 1.25rem 1.3rem 1.35rem; text-align: left; }
 .gq-waiting { color: var(--text-secondary); font-size: 0.86rem; line-height: 1.6; margin: 0; }
 .gq-dots { display: flex; gap: 0.45rem; margin-top: 0.8rem; }
 .gq-dots span { width: 9px; height: 9px; border-radius: 50%; background: var(--surface-border); transition: background 0.25s ease; }
 .gq-dots span.on { background: var(--accent-deep); }
 .gq-r-eyebrow { display: block; font-family: var(--font-accent); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--eyebrow-ink); margin-bottom: 0.45rem; }
-.gq-r-tier { font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; color: var(--text-primary); line-height: 1.2; }
+.gq-r-tier { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; color: var(--text-primary); line-height: 1.2; }
 .gq-r-price { color: var(--accent-deep); font-size: 1.15rem; margin-left: 0.15rem; }
 .gq-r-said { font-family: var(--font-accent); font-size: 0.74rem; letter-spacing: 0.03em; color: var(--text-secondary); margin: 0.55rem 0 0; }
 .gq-r-said em { font-style: italic; color: var(--accent-deep); }
@@ -1128,17 +1156,16 @@ html.rm .hero .reveal { transition-delay: 0s; }
 .gift-card.is-suggested { outline: 2px solid var(--accent-deep); outline-offset: 4px; border-radius: var(--card-radius); transition: outline-color 0.4s ease; }
 /* "What the gift covers" — a scannable comparison table (replaces the 3-card list) */
 .gift-covers-h { text-align: center; font-size: 1.15rem; margin: 0.4rem 0 0.5rem; }
-.gift-covers { width: 100%; max-width: 52rem; margin: 0.6rem auto 0.2rem; border-collapse: collapse; text-align: left; }
-.gift-covers th { font-family: var(--font-accent); font-size: 0.7rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--accent-deep); font-weight: 500; vertical-align: top; white-space: nowrap; width: 1%; padding: 1rem 1.4rem 1rem 0; border-top: 1px solid var(--surface-border); }
-.gift-covers td { font-size: 0.86rem; color: var(--text-secondary); line-height: 1.6; padding: 1rem 0; border-top: 1px solid var(--surface-border); }
-.gift-covers .gc-tag { display: block; color: var(--text-primary); font-weight: 500; margin-bottom: 0.15rem; }
-.gift-covers tr:first-child th, .gift-covers tr:first-child td { border-top: 0; }
-@media (max-width: 560px) {
-  .gift-covers, .gift-covers tbody, .gift-covers tr, .gift-covers th, .gift-covers td { display: block; width: auto; }
-  .gift-covers th { white-space: normal; padding: 0.9rem 0 0.15rem; }
-  .gift-covers td { padding: 0 0 0.2rem; border-top: 0; }
-  .gift-covers tr:first-child th { border-top: 0; }
-}
+.gift-covers { display: grid; gap: 1.1rem; width: 100%; max-width: 52rem; margin: 1rem auto 0.2rem; text-align: left; }
+@media (min-width: 860px) { .gift-covers { grid-template-columns: repeat(3, 1fr); gap: 1.4rem; } }
+.gc-panel { border-top: 1px solid var(--surface-border); padding-top: 0.95rem; }
+.gc-h { font-family: var(--font-accent); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.13em;
+  text-transform: uppercase; color: var(--accent-deep); margin: 0; }
+.gc-tag { font-family: var(--font-display); font-size: 0.98rem; line-height: 1.35; color: var(--text-primary); margin: 0.35rem 0 0.6rem; }
+.gc-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.42rem; }
+.gc-list li { position: relative; padding-left: 1rem; font-size: 0.85rem; line-height: 1.55; color: var(--text-secondary); }
+.gc-list li::before { content: ''; position: absolute; left: 0.1rem; top: 0.62em; width: 4px; height: 4px;
+  border-radius: 50%; background: var(--accent-deep); opacity: 0.75; }
 .gift-tag { position: absolute; top: -0.7rem; left: 1.5rem; font-family: var(--font-accent); font-size: 0.6rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; background: var(--accent); color: var(--cta-text); padding: 0.3rem 0.75rem; border-radius: 999px; }
 
 /* ---- Green / eco shopping toggle + discount ---- */
@@ -1549,3 +1576,160 @@ img, svg, video, canvas { max-width: 100%; }
 .footer .brand .brand-mark{width:34px;height:34px}
 .lp-brand-mark{display:block;width:clamp(46px,7vw,66px);height:auto;color:var(--text-primary);margin:0 auto .4rem}
 html.hc .brand-mark,html.hc .lp-brand-mark,html.mono .brand-mark,html.mono .lp-brand-mark{color:var(--text-primary)}
+
+/* ══ The style profile — intake, result card & popup ══════════════
+   One instrument, three homes: the standalone page (style-profile.html),
+   the popup on the home page, and the links page. All markup is rendered
+   by js/style-profile.js into a .sp-root, so these styles are shared.
+   Depth gating hangs off .sp-root[data-depth], never <body>. */
+.sp-root { --sp-gutter: clamp(0.95rem, 3vw, 1.4rem); }
+.sp-depths { display: flex; justify-content: center; margin: 0.4rem auto 0.5rem; }
+.sp-depths .vn-seg { flex-wrap: wrap; justify-content: center; }
+.sp-mins { text-align: center; font-family: var(--font-accent); font-size: 0.74rem; letter-spacing: 0.05em; color: var(--text-secondary); margin: 0.55rem 0 0; }
+.sp-mins b { font-weight: 500; color: var(--accent-deep); letter-spacing: 0.04em; }
+.sp-form { max-width: 46rem; margin: 1.5rem auto 0; display: grid; gap: 1.1rem; }
+.sp-q { border: 1px solid var(--surface-border); border-radius: 1.1rem; background: var(--surface-soft); padding: 1.15rem var(--sp-gutter) 1.3rem; margin: 0; min-width: 0; }
+.sp-q legend { float: left; width: 100%; font-family: var(--font-accent); font-size: 0.82rem; letter-spacing: 0.05em; color: var(--text-primary); padding: 0; margin-bottom: 0.7rem; }
+.sp-q legend em { font-style: italic; color: var(--text-secondary); font-size: 0.74rem; letter-spacing: 0.03em; text-transform: none; }
+.sp-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; clear: both; }
+.sp-chip { font-family: var(--font-accent); font-size: 0.82rem; letter-spacing: 0.03em; color: var(--text-secondary);
+  background: var(--field-bg); border: 1px solid var(--field-border); border-radius: 999px;
+  min-height: 44px; padding: 0.45rem 1.05rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.45rem;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease; }
+.sp-chip::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--surface-border); transition: background 0.2s ease; }
+.sp-chip:hover { border-color: var(--accent); }
+.sp-chip[aria-pressed="true"] { border-color: var(--accent-deep); background: var(--surface-solid); color: var(--text-primary); }
+.sp-chip[aria-pressed="true"]::before { background: var(--accent-deep); }
+.sp-chip:focus-visible { outline: 2px solid var(--accent-deep); outline-offset: 2px; }
+.sp-fields { display: grid; gap: 0.75rem; clear: both; }
+@media (min-width: 620px) { .sp-fields.two { grid-template-columns: 1fr 1fr; } }
+.sp-field { display: flex; flex-direction: column; gap: 0.35rem; font-family: var(--font-accent); font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-secondary); }
+.sp-field input, .sp-field textarea { font-family: var(--font-body); font-size: 0.98rem; padding: 0.55rem 0.75rem; min-height: 44px; border-radius: 0.65rem; border: 1px solid var(--field-border); background: var(--field-bg); color: var(--text-primary); width: 100%; resize: vertical; }
+.sp-field input::placeholder, .sp-field textarea::placeholder { color: var(--text-secondary); opacity: 0.45; }
+.sp-note { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6; margin: 0.6rem 0 0; clear: both; }
+.sp-note a { color: var(--accent-deep); border-bottom: 1px solid var(--surface-border); }
+
+/* Sections — the intake reads as four short rooms, each gated by depth */
+.sp-sec { display: grid; gap: 1.1rem; margin: 0; padding: 0; border: 0; }
+.sp-sec + .sp-sec { margin-top: 0.5rem; }
+.sp-sec-h { display: flex; align-items: center; gap: 0.7rem; margin: 0;
+  font-family: var(--font-brand); font-weight: 500; text-transform: uppercase;
+  letter-spacing: 0.2em; font-size: 0.66rem; color: var(--eyebrow-ink); }
+.sp-sec-h::after { content: ''; flex: 1; height: 1px; background: var(--surface-border); }
+.sp-hint { margin: -0.35rem 0 0.55rem; font-size: 0.76rem; line-height: 1.5; color: var(--text-secondary); clear: both; max-width: 48ch; }
+.sp-next { margin: 0.85rem auto 0; max-width: 46ch; font-size: 0.78rem; line-height: 1.6; color: var(--text-secondary); }
+.sp-root[data-depth="1"] .sp-sec[data-min="2"], .sp-root[data-depth="1"] .sp-sec[data-min="3"],
+.sp-root[data-depth="2"] .sp-sec[data-min="3"] { display: none; }
+
+/* [hidden] must beat the display rules above when the card takes over */
+.sp-form[hidden], .sp-depths[hidden], .sp-send[hidden], .sp-mins[hidden], .sp-q[hidden] { display: none !important; }
+
+/* depth gating: groups above the chosen depth fold away */
+.sp-root[data-depth="1"] .sp-q[data-min="2"], .sp-root[data-depth="1"] .sp-q[data-min="3"] { display: none; }
+.sp-root[data-depth="2"] .sp-q[data-min="3"] { display: none; }
+
+.sp-send { max-width: 46rem; margin: 1.5rem auto 0; text-align: center; padding: 1.4rem var(--sp-gutter) 1.5rem; }
+.sp-privacy { font-size: 0.8rem; font-style: italic; color: var(--text-secondary); line-height: 1.6; max-width: 52ch; margin: 0 auto 1rem; }
+.sp-copied { display: none; margin-top: 0.8rem; color: var(--accent-deep); font-size: 0.85rem; }
+
+/* ── The result: a card made to be screenshotted ─────────────────
+   Deliberately narrow (a phone screenshot's width) and self-contained:
+   brand mark, the direction I read from the answers, then the answers
+   themselves. Actions live outside the card so they never appear in
+   the picture. */
+.sp-result { max-width: 30rem; margin: 0.6rem auto 0; }
+.sp-result[hidden] { display: none; }
+.sp-card { position: relative; overflow: hidden; max-width: 25rem; margin: 0 auto;
+  background: var(--surface-solid); border: 1px solid var(--surface-border); border-radius: 1.35rem;
+  padding: 1.6rem 1.35rem 1.15rem; box-shadow: 0 30px 60px -46px rgba(46,71,115,0.55); }
+.sp-card::before { content: ''; position: absolute; inset: -40% 40% 55% -35%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(201,182,232,0.32), transparent 70%); }
+.sp-card::after { content: ''; position: absolute; inset: 60% -30% -35% 45%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(138,147,222,0.22), transparent 70%); }
+.sp-card > * { position: relative; }
+.sp-card:focus { outline: none; }  /* focus is moved here on reveal — silently, for screen readers */
+.sp-card-head { text-align: center; display: grid; justify-items: center; gap: 0.15rem; }
+.sp-card-head .brand-mark { width: 34px; height: 34px; color: var(--accent-deep); }
+.sp-card-brand { font-family: var(--font-brand); text-transform: uppercase; letter-spacing: 0.28em; font-size: 0.74rem; color: var(--text-primary); padding-left: 0.28em; }
+.sp-card-kicker { font-family: var(--font-script); font-size: 1.35rem; line-height: 1.1; color: #9070c4; }
+html.hc .sp-card-kicker, html.mono .sp-card-kicker { color: var(--text-primary); }
+.sp-card-title { font-family: var(--font-display); font-weight: 400; font-size: 1.35rem; line-height: 1.2; text-align: center; margin: 0.85rem 0 0.2rem; color: var(--text-primary); }
+.sp-card-tier { text-align: center; font-family: var(--font-accent); font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--eyebrow-ink); margin: 0 0 0.9rem; }
+.sp-card-rule { border: 0; border-top: 1px solid var(--surface-border); margin: 0.9rem 0; }
+.sp-card-direction { font-family: 'Cormorant Garamond', var(--font-display), serif; font-size: 1.16rem; line-height: 1.45; font-style: italic;
+  text-align: center; color: var(--text-primary); margin: 0 0 0.2rem; }
+.sp-card-rows { display: grid; gap: 0.7rem; margin: 0; }
+.sp-card-row { display: grid; gap: 0.22rem; }
+.sp-card-row dt { font-family: var(--font-accent); font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--eyebrow-ink); }
+.sp-card-row dd { margin: 0; font-family: var(--font-body); font-size: 0.86rem; line-height: 1.5; color: var(--text-primary); }
+.sp-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.sp-tag { font-family: var(--font-accent); font-size: 0.72rem; letter-spacing: 0.02em; color: var(--text-primary);
+  border: 1px solid var(--surface-border); background: var(--surface-soft); border-radius: 999px; padding: 0.2rem 0.6rem;
+  display: inline-flex; align-items: center; gap: 0.34rem; }
+.sp-tag .sw { width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--surface-border); flex: 0 0 auto; }
+.sp-tag.no { color: var(--text-secondary); text-decoration: line-through; text-decoration-thickness: 1px; }
+.sp-card-foot { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; margin-top: 1.1rem;
+  font-family: var(--font-accent); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); }
+.sp-card-ref { color: var(--accent-deep); letter-spacing: 0.16em; }
+.sp-shot { text-align: center; font-family: var(--font-accent); font-size: 0.78rem; line-height: 1.7; color: var(--text-secondary); margin: 1rem auto 0; max-width: 34ch; }
+.sp-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.55rem; margin-top: 0.9rem; }
+.sp-actions .btn { min-height: 44px; }
+.sp-back { display: inline-flex; align-items: center; gap: 0.35rem; margin: 0.9rem auto 0; background: none; border: 0; cursor: pointer;
+  font-family: var(--font-accent); font-size: 0.76rem; letter-spacing: 0.05em; color: var(--text-secondary); min-height: 44px; }
+.sp-back:hover { color: var(--accent-deep); }
+.sp-result .sp-back { display: flex; }
+
+/* ── The popup (home page) ───────────────────────────────────────── */
+.sp-overlay { position: fixed; inset: 0; z-index: 500; display: none; padding: clamp(0.6rem, 3vw, 1.6rem);
+  background: rgba(28, 38, 66, 0.52); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); overflow-y: auto; }
+.sp-overlay.open { display: block; }
+.sp-dialog { position: relative; width: 100%; max-width: 44rem; margin: auto; background: var(--bg-primary); color: var(--text-primary);
+  border: 1px solid var(--surface-border); border-radius: 1.5rem; box-shadow: 0 40px 90px -50px rgba(20,30,60,0.75);
+  padding: clamp(1.4rem, 4vw, 2.1rem) clamp(0.9rem, 3vw, 1.8rem) clamp(1.4rem, 4vw, 2rem); }
+.sp-dialog-close { position: absolute; top: 0.7rem; right: 0.7rem; width: 44px; height: 44px; border-radius: 999px;
+  border: 1px solid var(--surface-border); background: var(--surface-solid); color: var(--text-secondary); cursor: pointer; font-size: 1rem; line-height: 1; }
+.sp-dialog-close:hover { color: var(--text-primary); border-color: var(--accent); }
+.sp-dialog .sp-form, .sp-dialog .sp-send, .sp-dialog .sp-result { max-width: none; }
+.sp-dialog .sp-head { text-align: center; margin-bottom: 0.4rem; }
+.sp-dialog .sp-head h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.3rem, 3.4vw, 1.75rem); margin: 0.6rem 0 0.4rem; }
+.sp-dialog .sp-head p { font-size: 0.92rem; line-height: 1.65; color: var(--text-secondary); max-width: 46ch; margin: 0 auto; }
+.sp-dialog .sp-standalone { display: block; margin-top: 1rem; text-align: center; font-family: var(--font-accent); font-size: 0.74rem; letter-spacing: 0.04em; color: var(--text-secondary); }
+.sp-dialog .sp-standalone a { color: var(--accent-deep); border-bottom: 1px solid var(--surface-border); }
+body.sp-locked { overflow: hidden; }
+@media (prefers-reduced-motion: no-preference) {
+  .sp-overlay.open .sp-dialog { animation: sp-rise 0.32s ease both; }
+  @keyframes sp-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+}
+
+/* Prose that was really a list — bulleted so it can be scanned, not read.
+   Other languages still receive the original sentence from translations.js. */
+.risk-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.34rem; }
+.risk-list li { position: relative; padding-left: 0.95rem; line-height: 1.55; }
+.risk-list li::before { content: ''; position: absolute; left: 0.08rem; top: 0.62em; width: 4px; height: 4px;
+  border-radius: 50%; background: var(--accent-deep); opacity: 0.7; }
+.risk-promise { margin: 0.65rem 0 0; }
+
+/* ── Group & bulk orders — worked examples + rough estimator ────────── */
+.bulk-scenarios { margin-top: clamp(2.2rem, 5vw, 3.2rem); }
+.bx-card h3 { margin-bottom: 0.3rem; }
+.bx-who { font-size: 0.84rem; line-height: 1.55; color: var(--text-secondary); margin: 0 0 0.85rem; }
+.bx-rows { display: grid; gap: 0.55rem; margin: 0; }
+.bx-rows > div { display: grid; gap: 0.12rem; padding-top: 0.55rem; border-top: 1px solid var(--surface-border); }
+.bx-rows > div:first-child { border-top: 0; padding-top: 0; }
+.bx-rows dt { font-family: var(--font-accent); font-size: 0.7rem; letter-spacing: 0.04em; color: var(--text-secondary); }
+.bx-rows dd { margin: 0; font-size: 0.9rem; color: var(--text-primary); }
+.bx-rows .bx-total dd { font-family: var(--font-display); font-size: 1.08rem; }
+.bx-rows .bx-per dd { color: var(--accent-deep); }
+.bx-note { font-size: 0.78rem; font-style: italic; line-height: 1.55; color: var(--text-secondary); margin: 0.85rem 0 0; }
+
+.bulk-est { max-width: 56rem; margin: clamp(2.2rem, 5vw, 3.2rem) auto 0; padding: 1.6rem clamp(1rem, 3vw, 1.8rem) 1.5rem; }
+.be-grid { display: grid; gap: 1.4rem; margin-top: 1.1rem; text-align: left; }
+@media (min-width: 760px) { .be-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); } }
+.be-fields { display: grid; gap: 0.85rem; align-content: start; }
+.be-fields select { font-family: var(--font-body); font-size: 0.98rem; padding: 0.55rem 0.75rem; min-height: 44px; border-radius: 0.65rem; border: 1px solid var(--field-border); background: var(--field-bg); color: var(--text-primary); width: 100%; }
+.be-check { display: flex; gap: 0.55rem; align-items: flex-start; font-size: 0.84rem; line-height: 1.5; color: var(--text-secondary); cursor: pointer; min-height: 44px; }
+.be-check input { width: 18px; height: 18px; margin-top: 0.15rem; accent-color: var(--accent-deep); flex: 0 0 auto; }
+.be-check em { font-style: italic; }
+.be-out { border: 1px solid var(--surface-border); border-radius: 1.1rem; background: var(--surface-soft); padding: 1.1rem 1.2rem 1.2rem; }
+.be-waiting { color: var(--text-secondary); font-size: 0.86rem; line-height: 1.6; margin: 0; }
+.be-cta { margin-top: 1.05rem; }

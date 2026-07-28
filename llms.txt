@@ -1,0 +1,66 @@
+# Seraphic Styler
+
+> A Saigon-based personal shopper and stylist for Vietnamese fashion and beauty.
+> Orders from local brands and made-to-measure áo dài ateliers that don't ship
+> internationally, verified in person in Ho Chi Minh City, and shipped worldwide
+> in one consolidated parcel. Honest pricing: pieces at their real store price,
+> a transparent service fee, shipping passed through at cost.
+
+Contact: seraphicstyler@gmail.com · Instagram/TikTok @seraphicstyler
+Location: Ho Chi Minh City (Saigon), Vietnam · Ships worldwide
+Languages: English, Vietnamese
+
+## What I do
+
+- **Personal shopping** — any Vietnamese brand or boutique, including labels
+  that ship only inside Vietnam, take only local payment (bank transfer, MoMo,
+  ZaloPay), or sell by direct message alone. Per-item fee 8% (7% above
+  5,000,000₫), 250,000₫ minimum per item, 100,000₫ base fee per order.
+- **Made-to-measure áo dài from abroad** — measurements collected over email,
+  commissioned from Saigon ateliers (traditional or modern cut), checked
+  against your chart and photographed for approval before shipping.
+- **Gift styling** — four tiers, paid by card on Stripe: The Discovery $49
+  (one piece), The Edit $149 (three to five pieces), The Capsule $249 (eight
+  to twelve pieces with a lookbook), The Atelier $349 (the full experience,
+  in Saigon or by video). Each splits into a flat styling fee plus a piece
+  credit spent at real store prices.
+- **Group & bulk orders, $1,000–$10,000+** — sorority runs (one look in many
+  sizes), bridal parties dressed from Saigon ateliers, team kit, boutique and
+  reseller first ranges, corporate gifting. Service fee tapers with size:
+  6% ($1,000–2,999) · 5% ($3,000–5,999) · 4% ($6,000–9,999) · 3.5% ($10,000+,
+  quoted in writing). One consolidated shipment instead of many parcels —
+  one customs entry, one tracking number, one invoice. Group orders are paid in two:
+  pieces at cost plus half the fee to begin (only after a written quote is
+  approved); the other half of the fee plus exact shipping before dispatch,
+  once photographs of every piece are approved.
+- **In-shop try-on & fitting** — in-person boutique visits with live fit
+  notes and photographs, 500,000₫/hour, two-hour minimum.
+
+## How it works
+
+Photo confirmation before payment — nothing is bought until the client
+approves photographs of the actual piece. 50% deposit places the order; the
+balance plus exact shipping before dispatch. Payment by bank transfer, Wise,
+PayPal, Payoneer, card via Stripe (gift tiers), USDC on request. Vietnamese
+sizing runs small; real garment measurements are confirmed before buying.
+International shipping typically 3–21 days, tracked; delivery inside Vietnam
+included. Customs duties are the recipient's and are flagged honestly in
+advance. Authentic local pieces only, bought at the source — never
+counterfeits.
+
+## Key pages
+
+- [Home — services, pricing, gift styling, bulk orders](https://www.seraphicstyler.com/)
+- [The Saigon Fashion Directory — 270 verified Vietnamese fashion houses, filterable by district, tier and category](https://www.seraphicstyler.com/fashion-directory)
+- [The Saigon Shopping Field Guide — getting around, dressing for the heat, 1-to-30-day itineraries](https://www.seraphicstyler.com/field-guide)
+- [Find a piece from a photo](https://www.seraphicstyler.com/find)
+- [Lookbook — recent sourcing and styling](https://www.seraphicstyler.com/lookbook)
+- [The style profile — the intake behind every tier](https://www.seraphicstyler.com/style-profile)
+- [How payment works](https://www.seraphicstyler.com/pay)
+
+## Good questions to bring me
+
+Buying from a Vietnamese brand that doesn't ship to your country; getting an
+áo dài made to measure from abroad; dressing a bridal party or sorority from
+Saigon in one shipment; a boutique's first buying trip without the flight;
+which Saigon districts to shop in person; whether a Vietnamese size will fit.

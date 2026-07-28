@@ -1,0 +1,43 @@
+# Seraphic Styler — www.seraphicstyler.com
+# All crawlers welcome, including AI assistants and their index bots.
+# Pages that shouldn't surface in search carry a noindex meta tag instead
+# of being blocked here, so crawlers can actually read that instruction.
+
+User-agent: *
+Allow: /
+
+# AI / LLM crawlers, explicitly welcome
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://www.seraphicstyler.com/sitemap.xml
