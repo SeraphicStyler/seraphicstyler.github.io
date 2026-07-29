@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Free International Shipping — every question, answered · Seraphic Styler</title>
+  <meta name="description" content="How the free international shipping flight works for US &amp; California clients — pricing, example baskets, a cost comparison against couriers and flying yourself, dates, customs, and every what-if, answered honestly in one place." />
+  <link rel="canonical" href="https://www.seraphicstyler.com/free-international-shipping" />
+  <meta name="theme-color" content="#eef3fb" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1d29" media="(prefers-color-scheme: dark)" />
+
+  <link rel="icon" href="assets/favicon-48.png" type="image/png" sizes="48x48" />
+  <link rel="icon" href="assets/favicon-192.png" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="assets/favicon-192.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Tenor+Sans&family=Merriweather+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css?v=2026-07-28d" />
+
+  <!-- Respect the same theme / accessibility prefs the main site stores -->
+  <script>
+    (function () { var d = document.documentElement, s = window.localStorage;
+      try {
+        var th = s.getItem('ss-theme') || 'auto'; var pcs = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; if (th === 'dark' || (th === 'auto' && pcs)) d.classList.add('dark'); else if (th === 'mono') d.classList.add('mono');
+        if (s.getItem('ss-contrast') === '1') d.classList.add('hc');
+        var ts = s.getItem('ss-textsize'); if (ts === 'lg') d.classList.add('ts-lg'); if (ts === 'xl') d.classList.add('ts-xl');
+        if (s.getItem('ss-motion') === '1') d.classList.add('rm');
+      } catch (e) {}
+    })();
+  </script>
+
+  <style>
+    /* ============ Page-scoped layout. Visual tokens come from css/styles.css. ============ */
+    .fis-page { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
+    .fis-main { flex: 1 0 auto; }
+    .fis-main section { padding-top: clamp(1.8rem, 5.5vw, 3.2rem); padding-bottom: clamp(0.6rem, 2vw, 1.2rem); }
+    html { scroll-behavior: smooth; }
+    html.rm { scroll-behavior: auto; }
+    [id] { scroll-margin-top: 4.4rem; }
+
+    /* Skip link */
+    .fis-skip {
+      position: absolute; left: 0.75rem; top: -3.5rem; z-index: 60;
+      background: var(--accent-deep); color: var(--cta-text, #fff);
+      font-family: var(--font-accent); font-size: 0.78rem; letter-spacing: 0.1em;
+      padding: 0.7rem 1.1rem; border-radius: 0 0 12px 12px; text-decoration: none;
+      transition: top 0.2s ease;
+    }
+    .fis-skip:focus-visible { top: 0; }
+
+    /* Header */
+    .fis-top {
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem; text-align: center;
+      padding: calc(env(safe-area-inset-top) + clamp(1.4rem, 5vw, 2.4rem)) 1.25rem 0.9rem;
+    }
+    .fis-top .brand-mark { width: 40px; height: 40px; color: var(--accent-deep); }
+    .fis-top .brand-lockup { line-height: 0.9; }
+
+    /* Sticky section nav (scroll-spy) */
+    .fis-nav {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--nav-bg, color-mix(in srgb, var(--bg-primary) 82%, transparent));
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--surface-border);
+    }
+    .fis-nav-in { display: flex; align-items: center; gap: 0.6rem; max-width: 62rem; margin: 0 auto; padding: 0 0.9rem; }
+    .fis-nav-links { display: flex; gap: 0.15rem; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; flex: 1; }
+    .fis-nav-links::-webkit-scrollbar { display: none; }
+    .fis-nav-links a {
+      flex: 0 0 auto; display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.8rem;
+      font-family: var(--font-accent); font-size: 0.7rem; letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--text-secondary); text-decoration: none; border-bottom: 2px solid transparent;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    .fis-nav-links a:hover { color: var(--accent-deep); }
+    .fis-nav-links a[aria-current="true"] { color: var(--accent-deep); border-bottom-color: var(--accent-deep); }
+    .fis-nav-cta { flex: 0 0 auto; font-size: 0.72rem !important; padding: 0.55rem 1rem !important; min-height: 0 !important; }
+    @media (max-width: 640px) { .fis-nav-cta { display: none !important; } }
+
+    /* Hero */
+    .fis-h1 {
+      font-family: var(--font-display); font-weight: 400; color: var(--text-primary);
+      font-size: clamp(1.85rem, 5.6vw, 2.9rem); line-height: 1.14; margin: 0.85rem 0 0;
+    }
+    .fis-count {
+      display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.1rem;
+      font-family: var(--font-accent); font-size: 0.74rem; letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--accent-deep); border: 1px solid color-mix(in srgb, var(--accent-deep) 30%, transparent);
+      border-radius: 999px; padding: 0.5rem 1rem;
+      background: color-mix(in srgb, var(--accent-soft) 30%, transparent);
+    }
+    .fis-count .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+    @media (prefers-reduced-motion: no-preference) {
+      html:not(.rm) .fis-count .pulse { animation: fisPulse 2.2s ease-in-out infinite; }
+    }
+    @keyframes fisPulse { 0%,100% { opacity: 1; transform: scale(1);} 50% { opacity: 0.45; transform: scale(0.8);} }
+    .fis-hero-cta { display: flex; flex-wrap: wrap; gap: 0.7rem; justify-content: center; margin-top: 1.4rem; }
+
+    /* Fact strip + trust strip */
+    .fis-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.7rem; margin-top: 1.7rem; }
+    @media (max-width: 720px) { .fis-facts { grid-template-columns: repeat(2, 1fr); } }
+    .fis-fact { text-align: center; padding: 1.05rem 0.7rem 1rem; border-radius: 16px; }
+    .fis-fact .n { display: block; font-family: var(--font-display); font-size: clamp(1.25rem, 3.4vw, 1.7rem); color: var(--accent-deep); line-height: 1.15; }
+    .fis-fact .l { display: block; margin-top: 0.3rem; font-family: var(--font-accent); font-size: 0.7rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--text-secondary); }
+    .fis-trust { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.55rem; margin-top: 0.7rem; }
+    @media (max-width: 720px) { .fis-trust { grid-template-columns: repeat(2, 1fr); } }
+    .fis-trust li {
+      list-style: none; display: flex; align-items: center; gap: 0.55rem;
+      font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4; padding: 0.55rem 0.7rem;
+      border-radius: 12px; border: 1px dashed color-mix(in srgb, var(--accent-deep) 20%, transparent);
+    }
+    .fis-trust svg { flex: 0 0 auto; width: 15px; height: 15px; color: var(--accent-deep); }
+
+    /* Numbered steps */
+    .fis-steps { display: grid; gap: 0.75rem; margin-top: 1.4rem; }
+    .fis-step { display: flex; gap: 0.95rem; align-items: flex-start; padding: 1.05rem 1.15rem; border-radius: 16px; }
+    .fis-step .num {
+      flex: 0 0 auto; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%;
+      font-family: var(--font-display); font-size: 0.9rem; color: var(--accent-deep);
+      background: color-mix(in srgb, var(--accent-soft) 38%, transparent);
+    }
+    .fis-step h3 { margin: 0.1rem 0 0.25rem; font-size: 1.02rem; }
+    .fis-step p { margin: 0; color: var(--text-secondary); font-size: 0.92rem; line-height: 1.65; }
+
+    /* Timeline — live tracker */
+    .fis-dates { margin-top: 1.4rem; padding: 0.4rem 1.2rem; border-radius: 18px; }
+    .fis-daterow { display: grid; grid-template-columns: minmax(7.6rem, auto) 1fr; gap: 1rem; align-items: baseline; padding: 0.85rem 0; }
+    .fis-daterow + .fis-daterow { border-top: 1px solid color-mix(in srgb, var(--accent-deep) 12%, transparent); }
+    .fis-daterow .d { font-family: var(--font-accent); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-deep); white-space: nowrap; }
+    .fis-daterow .t { margin: 0; color: var(--text-secondary); font-size: 0.93rem; line-height: 1.6; }
+    .fis-daterow.past { opacity: 0.55; }
+    .fis-daterow.past .d::after { content: " ✓"; }
+    .fis-daterow.now .d { color: var(--accent); font-weight: 500; }
+    .fis-daterow.now { position: relative; }
+    .fis-here {
+      display: inline-block; margin-left: 0.55rem; font-size: 0.6rem; letter-spacing: 0.14em;
+      color: var(--cta-text, #fff); background: var(--accent-deep); border-radius: 999px;
+      padding: 0.18rem 0.55rem; vertical-align: 0.1em; text-transform: uppercase; font-family: var(--font-accent);
+    }
+
+    /* Tier picker (radio cards) */
+    .fis-tiers { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; margin-top: 1.4rem; }
+    @media (max-width: 680px) { .fis-tiers { grid-template-columns: 1fr; } }
+    .fis-tier { position: relative; border-radius: 16px; }
+    .fis-tier input { position: absolute; opacity: 0; pointer-events: none; }
+    .fis-tier label {
+      display: block; cursor: pointer; padding: 1.15rem 1.2rem 1.05rem; border-radius: 16px; height: 100%;
+      border: 1.5px solid transparent; transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      html:not(.rm) .fis-tier label:hover { transform: translateY(-2px); }
+    }
+    .fis-tier input:checked + label { border-color: var(--accent-deep); box-shadow: 0 6px 22px color-mix(in srgb, var(--accent-deep) 14%, transparent); }
+    .fis-tier input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .fis-tier h3 { margin: 0; display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; font-size: 1.05rem; }
+    .fis-tier h3 .p { font-family: var(--font-display); font-size: 1.35rem; color: var(--accent-deep); }
+    .fis-tier .sub { margin: 0.35rem 0 0; color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; }
+    .fis-tier .cap { margin: 0.55rem 0 0; font-family: var(--font-accent); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); opacity: 0.85; }
+    .fis-tier .flag {
+      position: absolute; top: -0.62rem; right: 0.9rem; z-index: 1; font-family: var(--font-accent); font-size: 0.62rem;
+      letter-spacing: 0.16em; text-transform: uppercase; color: var(--cta-text, #fff);
+      background: var(--accent-deep); padding: 0.22rem 0.6rem; border-radius: 999px;
+    }
+    .fis-meter { height: 6px; border-radius: 999px; background: color-mix(in srgb, var(--accent-deep) 12%, transparent); overflow: hidden; margin-top: 0.6rem; }
+    .fis-meter i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-lavender, var(--accent))); border-radius: 999px; }
+    @media (prefers-reduced-motion: no-preference) { html:not(.rm) .fis-meter i { transition: width 0.45s ease; } }
+
+    /* Configurator */
+    .fis-config { margin-top: 1.5rem; padding: 1.3rem 1.35rem 1.2rem; border-radius: 18px; }
+    .fis-config .q { font-family: var(--font-accent); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-secondary); margin: 1.1rem 0 0.5rem; }
+    .fis-config .q:first-child { margin-top: 0; }
+    .fis-radios { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .fis-radios .opt { position: relative; }
+    .fis-radios input { position: absolute; opacity: 0; pointer-events: none; }
+    .fis-radios label {
+      display: inline-flex; align-items: center; min-height: 44px; padding: 0 1rem; cursor: pointer;
+      border: 1px solid color-mix(in srgb, var(--accent-deep) 24%, transparent); border-radius: 999px;
+      font-size: 0.86rem; color: var(--text-secondary); transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .fis-radios input:checked + label { border-color: var(--accent-deep); color: var(--accent-deep); background: color-mix(in srgb, var(--accent-soft) 34%, transparent); }
+    .fis-radios input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .fis-radios input:disabled + label { opacity: 0.4; cursor: not-allowed; text-decoration: line-through; }
+    .fis-budget { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+    .fis-budget input[type="number"] {
+      width: 9rem; min-height: 44px; padding: 0 0.85rem; border-radius: 12px; font-size: 0.95rem;
+      border: 1px solid color-mix(in srgb, var(--accent-deep) 26%, transparent);
+      background: var(--surface-soft); color: var(--text-primary);
+    }
+    .fis-budget input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .fis-sum { margin-top: 1.2rem; border-top: 1px solid color-mix(in srgb, var(--accent-deep) 14%, transparent); padding-top: 0.9rem; }
+    .fis-sum .row { display: flex; justify-content: space-between; gap: 1rem; padding: 0.28rem 0; font-size: 0.92rem; color: var(--text-secondary); }
+    .fis-sum .row .v { font-family: var(--font-display); color: var(--accent-deep); white-space: nowrap; }
+    .fis-sum .row.total { font-size: 1.05rem; color: var(--text-primary); padding-top: 0.55rem; }
+    .fis-sum .row.total .v { font-size: 1.3rem; }
+    .fis-sum .note { margin: 0.55rem 0 0; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6; }
+    .fis-copy { margin-top: 0.9rem; display: flex; gap: 0.7rem; flex-wrap: wrap; align-items: center; }
+    .fis-copied { font-size: 0.82rem; color: var(--accent-deep); }
+
+    /* Basket tabs */
+    .fis-tabs { display: flex; gap: 0.45rem; flex-wrap: wrap; justify-content: center; margin-top: 1.3rem; }
+    .fis-tabs [role="tab"] {
+      min-height: 44px; padding: 0 1.05rem; cursor: pointer; border-radius: 999px;
+      border: 1px solid color-mix(in srgb, var(--accent-deep) 24%, transparent);
+      background: none; color: var(--text-secondary); font-size: 0.86rem; font-family: inherit;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .fis-tabs [role="tab"][aria-selected="true"] { border-color: var(--accent-deep); color: var(--accent-deep); background: color-mix(in srgb, var(--accent-soft) 34%, transparent); }
+    .fis-tabs [role="tab"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .fis-basket { margin-top: 1.1rem; padding: 1.2rem 1.3rem 1.1rem; border-radius: 18px; }
+    .fis-basket[hidden] { display: none; }
+    @media (prefers-reduced-motion: no-preference) {
+      html:not(.rm) .fis-basket:not([hidden]) { animation: fisFade 0.3s ease; }
+    }
+    @keyframes fisFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .fis-basket .bk-head { display: flex; justify-content: space-between; gap: 0.8rem; align-items: baseline; flex-wrap: wrap; }
+    .fis-basket .bk-head h3 { margin: 0; font-size: 1.08rem; }
+    .fis-basket .bk-head .who { font-family: var(--font-script); font-size: 1.4rem; color: var(--accent); }
+    .fis-basket .bk-note { margin: 0.3rem 0 0.4rem; font-size: 0.86rem; color: var(--text-secondary); line-height: 1.6; }
+
+    /* Tables */
+    .fis-table { width: 100%; border-collapse: collapse; margin-top: 0.4rem; font-size: 0.9rem; }
+    .fis-table caption { text-align: left; font-family: var(--font-accent); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-secondary); padding-bottom: 0.5rem; }
+    .fis-table th, .fis-table td { text-align: left; padding: 0.62rem 0.5rem; border-bottom: 1px solid color-mix(in srgb, var(--accent-deep) 12%, transparent); vertical-align: top; }
+    .fis-table thead th { font-family: var(--font-accent); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-secondary); font-weight: 500; }
+    .fis-table td.v, .fis-table th.v { text-align: right; font-family: var(--font-display); color: var(--accent-deep); white-space: nowrap; }
+    .fis-table td.w { text-align: right; white-space: nowrap; color: var(--text-secondary); font-size: 0.82rem; }
+    .fis-table tr:last-child th, .fis-table tr:last-child td { border-bottom: none; }
+    .fis-table .fis-total th, .fis-table .fis-total td { border-top: 1.5px solid color-mix(in srgb, var(--accent-deep) 30%, transparent); font-size: 1rem; }
+    .fis-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+    /* Comparison cards — reflow instead of horizontal scroll */
+    .cmp-list { display: grid; gap: 0.7rem; margin-top: 1.4rem; }
+    @media (min-width: 860px) { .cmp-list { grid-template-columns: 1fr 1fr; } .cmp.best { grid-column: 1 / -1; } }
+    .cmp { padding: 1.05rem 1.15rem 1rem; border-radius: 16px; }
+    .cmp.best { outline: 1.5px solid color-mix(in srgb, var(--accent-deep) 45%, transparent); }
+    .cmp-h { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; flex-wrap: wrap; }
+    .cmp-h h3 { margin: 0; font-size: 1.02rem; }
+    .cmp-tag {
+      font-family: var(--font-accent); font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--cta-text, #fff); background: var(--accent-deep); padding: 0.24rem 0.6rem; border-radius: 999px; white-space: nowrap;
+    }
+    .cmp-tag.alt { color: var(--text-secondary); background: none; border: 1px solid color-mix(in srgb, var(--accent-deep) 24%, transparent); }
+    .cmp-prices { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.8rem; }
+    .cmp-prices.one { grid-template-columns: 1fr; }
+    .cmp-prices > div {
+      padding: 0.6rem 0.7rem; border-radius: 12px;
+      background: color-mix(in srgb, var(--accent-soft) 26%, transparent);
+    }
+    .cmp-prices .pl { display: block; font-family: var(--font-accent); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-secondary); }
+    .cmp-prices .pv { display: block; font-family: var(--font-display); font-size: 1.12rem; color: var(--accent-deep); line-height: 1.25; margin-top: 0.15rem; }
+    .cmp-prices .pn { display: block; font-size: 0.72rem; color: var(--text-secondary); }
+    .cmp-fares { display: grid; gap: 0.35rem; margin-top: 0.8rem; }
+    .cmp-fares > div {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 0.8rem;
+      padding: 0.42rem 0.7rem; border-radius: 10px;
+      background: color-mix(in srgb, var(--accent-soft) 22%, transparent);
+    }
+    .cmp-fares .fl { font-family: var(--font-accent); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-secondary); }
+    .cmp-fares .fv { font-family: var(--font-display); font-size: 1.02rem; color: var(--accent-deep); white-space: nowrap; }
+    .cmp-plus { margin: 0.5rem 0 0; font-size: 0.8rem; color: var(--text-secondary); }
+    .cmp-meta { margin: 0.75rem 0 0; display: grid; gap: 0.3rem; }
+    .cmp-meta > div { display: grid; grid-template-columns: 3.4rem 1fr; gap: 0.7rem; align-items: baseline; }
+    .cmp-meta dt { font-family: var(--font-accent); font-size: 0.62rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--text-secondary); }
+    .cmp-meta dd { margin: 0; font-size: 0.85rem; line-height: 1.55; color: var(--text-secondary); }
+    .cmp-note { margin: 0.7rem 0 0; font-size: 0.8rem; line-height: 1.55; color: var(--accent-deep); }
+
+    /* Scannable bullets — for readers who bounce off dense paragraphs */
+    .fis-bul { margin: 0.55rem 0 0; padding-left: 1.1rem; display: grid; gap: 0.34rem; }
+    .fis-bul li { font-size: 0.9rem; line-height: 1.6; color: var(--text-secondary); }
+    .fis-bul li::marker { color: var(--accent); }
+    .fis-bul strong { color: var(--text-primary); font-weight: 500; }
+    .a-lead { margin: 0; font-size: 0.94rem; line-height: 1.6; }
+    .fis-step .fis-bul { margin-top: 0.45rem; }
+    .a-foot { margin: 0.6rem 0 0; font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary); }
+
+    /* FAQ groups */
+    .fis-group { margin-top: 2.1rem; }
+    .fis-group:first-of-type { margin-top: 1.2rem; }
+    .fis-group > h3 { display: flex; align-items: baseline; gap: 0.6rem; margin: 0 0 0.75rem; font-size: 1.05rem; }
+    .fis-group > h3 .k { font-family: var(--font-script); font-size: 1.45rem; color: var(--accent); font-weight: 400; }
+    .fis-tools { display: flex; justify-content: flex-end; margin-top: 1rem; }
+    .fis-tools button {
+      font-family: var(--font-accent); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent-deep); background: none; border: 1px solid color-mix(in srgb, var(--accent-deep) 25%, transparent);
+      border-radius: 999px; padding: 0.65rem 1.05rem; min-height: 44px; cursor: pointer;
+    }
+    .fis-tools button:hover { border-color: var(--accent-deep); }
+    .fis-tools button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    @media (prefers-reduced-motion: no-preference) {
+      html:not(.rm) .faq details[open] .a { animation: fisFade 0.28s ease; }
+    }
+
+    /* Interactive checklist */
+    .fis-check { list-style: none; margin: 1.3rem 0 0; padding: 0.6rem 1.25rem; border-radius: 18px; }
+    .fis-check li + li { border-top: 1px solid color-mix(in srgb, var(--accent-deep) 10%, transparent); }
+    .fis-check label { display: flex; gap: 0.85rem; align-items: flex-start; padding: 0.78rem 0; font-size: 0.94rem; line-height: 1.65; color: var(--text-secondary); cursor: pointer; }
+    .fis-check input { margin-top: 0.28rem; width: 1.15rem; height: 1.15rem; accent-color: var(--accent-deep); flex: 0 0 auto; }
+    .fis-check input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .fis-check input:checked ~ span { opacity: 0.75; }
+    .fis-check strong { color: var(--text-primary); font-weight: 500; }
+    .fis-progress { margin-top: 0.9rem; text-align: center; font-family: var(--font-accent); font-size: 0.74rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--text-secondary); }
+    .fis-ready { text-align: center; margin-top: 0.8rem; }
+    .fis-ready[hidden] { display: none; }
+    .fis-ready p { font-family: var(--font-script); font-size: 1.5rem; color: var(--accent); margin: 0 0 0.6rem; }
+
+    /* CTA close */
+    .fis-cta { text-align: center; padding-bottom: clamp(1.2rem, 4vw, 2rem); }
+    .fis-cta .script { font-family: var(--font-script); font-size: clamp(1.6rem, 5vw, 2.2rem); color: var(--accent); display: block; margin-bottom: 0.4rem; }
+    .fis-cta .btn-row { display: flex; flex-wrap: wrap; gap: 0.7rem; justify-content: center; margin-top: 1.3rem; }
+
+    /* Mobile sticky order bar */
+    .fis-bar {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 55;
+      display: flex; align-items: center; justify-content: space-between; gap: 0.8rem;
+      padding: 0.65rem 1rem calc(env(safe-area-inset-bottom) + 0.65rem);
+      background: var(--nav-bg, color-mix(in srgb, var(--bg-primary) 88%, transparent));
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-top: 1px solid var(--surface-border);
+      transform: translateY(110%);
+    }
+    @media (prefers-reduced-motion: no-preference) { html:not(.rm) .fis-bar { transition: transform 0.3s ease; } }
+    .fis-bar.show { transform: translateY(0); }
+    .fis-bar .txt { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.35; }
+    .fis-bar .txt strong { display: block; color: var(--text-primary); font-weight: 500; font-size: 0.84rem; }
+    .fis-bar .btn { flex: 0 0 auto; }
+    @media (min-width: 721px) { .fis-bar { display: none; } }
+    body { padding-bottom: 0; }
+
+    /* Scroll-reveal (classes applied by JS only, so no-JS readers lose nothing) */
+    @media (prefers-reduced-motion: no-preference) {
+      html:not(.rm) .rv { opacity: 0; transform: translateY(14px); transition: opacity 0.55s ease, transform 0.55s ease; }
+      html:not(.rm) .rv.in { opacity: 1; transform: none; }
+    }
+
+    .fis-foot {
+      flex-shrink: 0; text-align: center; font-family: var(--font-accent);
+      font-size: 0.78rem; color: var(--text-secondary); line-height: 1.9;
+      padding: 1.6rem 1.25rem calc(env(safe-area-inset-bottom) + 4.4rem);
+    }
+    @media (min-width: 721px) { .fis-foot { padding-bottom: calc(env(safe-area-inset-bottom) + 2.2rem); } }
+    .fis-foot a { color: var(--accent-deep); text-decoration: none; }
+    .fis-foot a:hover { text-decoration: underline; }
+    .fis-foot .dot { opacity: 0.4; margin: 0 0.55rem; }
+    .fis-foot .home-link { display: inline-block; margin-top: 0.15rem; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; }
+
+    @media print {
+      .grain, .fis-nav, .fis-tools, .fis-bar, .fis-skip, .fis-hero-cta, .fis-cta .btn-row, .fis-copy { display: none !important; }
+      .fis-main details { break-inside: avoid; }
+      .fis-basket[hidden] { display: block !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="fis-skip" href="#fis-content">Skip to content</a>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="fis-page">
+    <header class="fis-top">
+      <svg class="brand-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.3,27.0 C18.4,18.0 21.6,8.4 31.6,6.6 C38.2,5.4 41.0,11.4 37.8,18.0 C35.0,24.2 28.6,27.4 23.0,28.6 Z"/><path d="M22.6,29.4 C26.8,31.2 32.2,33.0 35.0,38.0 C36.6,40.8 36.0,43.8 33.6,43.4 C29.6,42.7 25.0,35.6 22.4,30.4 Z"/><path d="M22.3,27.0 C21.5,28.8 21.5,30.6 22.6,32.2"/><path d="M22.3,27.0 C19.9,22.2 17.2,18.4 13.4,16.4"/><path d="M22.3,27.0 C20.6,21.8 18.8,17.2 16.0,13.8"/><circle cx="13.4" cy="16.4" r="1.2" fill="currentColor" stroke="none"/><circle cx="16.0" cy="13.8" r="1.2" fill="currentColor" stroke="none"/></svg>
+      <a class="brand-lockup" href="./" aria-label="Seraphic Styler home" style="text-decoration:none">
+        <span class="brand-seraphic">Seraphic</span>
+        <span class="brand-styler">Styler</span>
+      </a>
+    </header>
+
+    <nav class="fis-nav" aria-label="Page sections">
+      <div class="fis-nav-in">
+        <div class="fis-nav-links" id="fisNavLinks">
+          <a href="#how">How</a>
+          <a href="#dates">Dates</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#baskets">Baskets</a>
+          <a href="#compare">Compare</a>
+          <a href="#delivery">Delivery</a>
+          <a href="#faq">Questions</a>
+          <a href="#checklist">Ready?</a>
+        </div>
+        <a class="fis-nav-cta btn btn-primary" href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener">DM to order</a>
+      </div>
+    </nav>
+
+    <main class="fis-main" id="fis-content">
+
+      <!-- ===== HERO ===== -->
+      <section id="offer" aria-labelledby="fisH1">
+        <div class="wrap narrow">
+          <div class="section-head center">
+            <span class="badge-pill">Sài Gòn → California · one flight</span>
+            <h1 class="fis-h1" id="fisH1">Free international shipping, explained completely</h1>
+            <p class="lead" style="margin-top:1rem">
+              On <strong>18 August</strong> I fly home from Sài Gòn to Orange County — and your order flies
+              with me, in my checked bags. No courier, no per-kilo bill, no month of waiting.
+              This page answers every question a US client has asked me, and the ones you
+              haven't thought to ask yet. Read it once, order with a quiet mind.
+            </p>
+            <span class="fis-count" id="fisCount" role="status"><span class="pulse" aria-hidden="true"></span><span id="fisCountTxt">Orders open until 15 August</span></span>
+            <div class="fis-hero-cta">
+              <a class="btn btn-primary btn-lg" href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener">DM me on Instagram</a>
+              <a class="btn btn-ghost" href="#how">See how it works</a>
+            </div>
+          </div>
+
+          <div class="fis-facts" data-rv>
+            <div class="fis-fact glass"><span class="n">$0</span><span class="l">international shipping</span></div>
+            <div class="fis-fact glass"><span class="n">18 Aug</span><span class="l">flight · SGN → OC</span></div>
+            <div class="fis-fact glass"><span class="n">Free</span><span class="l">Orange County pickup</span></div>
+            <div class="fis-fact glass"><span class="n">After</span><span class="l">delivery — my fee is due</span></div>
+          </div>
+
+          <ul class="fis-trust" data-rv aria-label="Why you can relax">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Real photos before you pay</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Pieces at boutique cost, receipts shown</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>My fee due only after delivery</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Declared at US customs, by the book</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ===== HOW IT WORKS ===== -->
+      <section id="how" aria-labelledby="howH">
+        <div class="wrap narrow">
+          <div class="section-head center">
+            <span class="eyebrow">The deal, plainly</span>
+            <h2 id="howH">How it works, in four steps</h2>
+            <p class="lead narrow">Nothing is bought until you've seen it. Nothing is owed until it's in your hands.</p>
+          </div>
+          <div class="fis-steps">
+            <div class="fis-step glass" data-rv>
+              <span class="num" aria-hidden="true">01</span>
+              <div>
+                <h3>You send the brief</h3>
+                <p class="a-lead">However it's easiest for you:</p>
+                <ul class="fis-bul">
+                  <li>Send a <strong>link, a screenshot, or a Pinterest board</strong></li>
+                  <li>Or just the feeling — "something silk, for a September wedding"</li>
+                  <li>Don't know Vietnamese brands? That's my favourite part</li>
+                  <li>Or browse all 270 houses free in the <a href="fashion-directory.html">Saigon Fashion Directory</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="fis-step glass" data-rv>
+              <span class="num" aria-hidden="true">02</span>
+              <div>
+                <h3>You approve real photos, then pay for the pieces</h3>
+                <p class="a-lead">Nothing is bought before you've seen it:</p>
+                <ul class="fis-bul">
+                  <li>I photograph the <strong>actual piece in my hands</strong>, in the shop</li>
+                  <li>You say yes — or no, with nothing owed</li>
+                  <li>You pay <strong>only the boutique price</strong>, receipt shown</li>
+                  <li>I shop with your money, never my own card. That's why pieces stay at cost</li>
+                </ul>
+              </div>
+            </div>
+            <div class="fis-step glass" data-rv>
+              <span class="num" aria-hidden="true">03</span>
+              <div>
+                <h3>I inspect, pack, and fly it home</h3>
+                <p class="a-lead">The careful part, which is mine:</p>
+                <ul class="fis-bul">
+                  <li>Every piece checked in the light and wrapped softly</li>
+                  <li>Suitcases close the <strong>night of 16 August</strong></li>
+                  <li>We land in California on <strong>18 August</strong></li>
+                  <li>Your order rides with me — so international shipping is waived</li>
+                </ul>
+              </div>
+            </div>
+            <div class="fis-step glass" data-rv>
+              <span class="num" aria-hidden="true">04</span>
+              <div>
+                <h3>You receive it — then my fee is due</h3>
+                <p class="a-lead">However you'd like it to reach you:</p>
+                <ul class="fis-bul">
+                  <li><strong>Free pickup</strong> in central Orange County</li>
+                  <li><strong>$20–40</strong> to your doorstep across OC and LA</li>
+                  <li>Tracked USPS anywhere else in the US</li>
+                  <li>My fee is due <strong>only once the clothes are in your hands</strong></li>
+                  <li>Cash is loveliest — Zelle, Venmo, PayPal, and Wise all welcome</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== DATES ===== -->
+      <section id="dates" aria-labelledby="datesH">
+        <div class="wrap narrow">
+          <div class="section-head center">
+            <span class="eyebrow">One flight, one window</span>
+            <h2 id="datesH">The dates that matter</h2>
+            <p class="lead narrow">This timeline knows today's date — the highlighted row is where we are right now.</p>
+          </div>
+          <div class="fis-dates glass" id="fisTimeline" data-rv>
+            <div class="fis-daterow" data-from="2026-07-01" data-to="2026-08-15"><span class="d">Now → 15 Aug</span><p class="t"><strong>Orders and payment open.</strong> Tell me what you're dreaming of — this window is short, so today is the right day.</p></div>
+            <div class="fis-daterow" data-from="2026-07-01" data-to="2026-08-15"><span class="d">Through 15 Aug</span><p class="t">I wander the boutiques. You approve real photos, then pay for your pieces — I shop with your money, never mine.</p></div>
+            <div class="fis-daterow" data-from="2026-08-15" data-to="2026-08-15"><span class="d">15 Aug</span><p class="t"><strong>Orders and payment close.</strong> The last piece anyone can add.</p></div>
+            <div class="fis-daterow" data-from="2026-08-16" data-to="2026-08-17"><span class="d">16 – 17 Aug</span><p class="t">The suitcases close — the night of the 16th and the morning of the 17th. Nothing goes in after this.</p></div>
+            <div class="fis-daterow" data-from="2026-08-18" data-to="2026-08-20"><span class="d">18 Aug</span><p class="t">The suitcases and I come home to California.</p></div>
+            <div class="fis-daterow" data-from="2026-08-21" data-to="2026-08-31"><span class="d">21 – 31 Aug</span><p class="t">Your pieces find you, across Orange County and LA.</p></div>
+          </div>
+          <p class="small muted" style="text-align:center;margin-top:0.9rem">Missed the window? Tell me anyway — you go first on the next flight, and there's always a next flight.</p>
+        </div>
+      </section>
+
+      <!-- ===== PRICING ===== -->
+      <section id="pricing" aria-labelledby="priceH">
+        <div class="wrap narrow">
+          <div class="section-head center">
+            <span class="eyebrow">My fees · international shipping waived</span>
+            <h2 id="priceH">Four sizes, four flat prices</h2>
+            <p class="lead narrow">Each price is everything I charge — coordination, sourcing, and the hand-carry home. The pieces themselves you buy at their real boutique price, receipt shown. Pick a size to see your numbers below.</p>
+          </div>
+
+          <div class="fis-tiers" role="radiogroup" aria-label="Choose an order size">
+            <div class="fis-tier glass" data-rv>
+              <input type="radio" name="fisTier" id="tierSingle" value="single" />
+              <label for="tierSingle">
+                <h3>The Single <span class="p">$65</span></h3>
+                <p class="sub">One outfit, two or three pieces. A dress and the shoes to go with it.</p>
+                <p class="cap">1.5 kg · 3.3 lb · up to 3 pieces</p>
+                <div class="fis-meter" aria-hidden="true"><i style="width:8%"></i></div>
+              </label>
+            </div>
+            <div class="fis-tier glass" data-rv>
+              <input type="radio" name="fisTier" id="tierCapsule" value="capsule" />
+              <label for="tierCapsule">
+                <h3>The Capsule <span class="p">$130</span></h3>
+                <p class="sub">Four to six pieces — a small edit that mixes into everything you own.</p>
+                <p class="cap">4 kg · 9 lb · up to 6 pieces</p>
+                <div class="fis-meter" aria-hidden="true"><i style="width:20%"></i></div>
+              </label>
+            </div>
+            <div class="fis-tier glass" data-rv>
+              <input type="radio" name="fisTier" id="tierWardrobe" value="wardrobe" />
+              <label for="tierWardrobe">
+                <h3>The Wardrobe <span class="p">$225</span></h3>
+                <p class="sub">Ten to fourteen pieces. Holds a fortnight of outfits.</p>
+                <p class="cap">9 kg · 20 lb · up to 14 pieces</p>
+                <div class="fis-meter" aria-hidden="true"><i style="width:45%"></i></div>
+              </label>
+            </div>
+            <div class="fis-tier glass" data-rv>
+              <span class="flag">Best value</span>
+              <input type="radio" name="fisTier" id="tierSuitcase" value="suitcase" checked />
+              <label for="tierSuitcase">
+                <h3>The Suitcase <span class="p">$375</span></h3>
+                <p class="sub">A whole bag, yours alone — up to 25 pieces, doorstep delivery included.</p>
+                <p class="cap">20 kg · 44 lb · up to 25 pieces</p>
+                <div class="fis-meter" aria-hidden="true"><i style="width:100%"></i></div>
+              </label>
+            </div>
+          </div>
+          <p class="small muted" style="margin-top:0.9rem">Just one piece? Claim a find from my weekly posts — <strong>$45</strong>. Each extra outfit on an order, <strong>$35</strong>. Pieces themselves typically run 600,000₫–3,000,000₫ ($25–115).</p>
+
+          <!-- Configurator -->
+          <div class="fis-config glass" data-rv>
+            <p class="q" id="qDeliver">How will you receive it?</p>
+            <div class="fis-radios" role="radiogroup" aria-labelledby="qDeliver">
+              <span class="opt"><input type="radio" name="fisShip" id="shipPickup" value="pickup" checked /><label for="shipPickup">OC pickup · free</label></span>
+              <span class="opt"><input type="radio" name="fisShip" id="shipDoorOC" value="doorOC" /><label for="shipDoorOC" id="lblDoorOC">Doorstep, Orange County · $20</label></span>
+              <span class="opt"><input type="radio" name="fisShip" id="shipDoorLA" value="doorLA" /><label for="shipDoorLA" id="lblDoorLA">Doorstep, greater LA · $40</label></span>
+              <span class="opt"><input type="radio" name="fisShip" id="shipUsps" value="usps" /><label for="shipUsps" id="lblUsps">USPS, anywhere in the US</label></span>
+            </div>
+
+            <p class="q"><label for="fisBudget" style="font:inherit;letter-spacing:inherit;color:inherit">Roughly what you'd like to spend on pieces (optional)</label></p>
+            <div class="fis-budget">
+              <input type="number" id="fisBudget" min="0" step="10" inputmode="numeric" placeholder="e.g. 300" aria-describedby="fisBudgetHelp" />
+              <span class="small muted" id="fisBudgetHelp">USD — your pieces stay at boutique cost, so this part is entirely yours to set.</span>
+            </div>
+
+            <div class="fis-sum" aria-live="polite">
+              <div class="row"><span id="sumTierLbl">The Suitcase — my entire fee</span><span class="v" id="sumFee">$375</span></div>
+              <div class="row"><span>International shipping</span><span class="v">$0 — waived</span></div>
+              <div class="row"><span id="sumShipLbl">OC pickup</span><span class="v" id="sumShip">Free</span></div>
+              <div class="row" id="sumPiecesRow" hidden><span>Your pieces, at boutique cost</span><span class="v" id="sumPieces">—</span></div>
+              <div class="row total"><span id="sumTotalLbl">Everything I charge</span><span class="v" id="sumTotal">$375</span></div>
+              <p class="note" id="sumNote">Plus your pieces at their real boutique price, receipts shown — enter a rough budget above and I'll fold it in.</p>
+            </div>
+            <div class="fis-copy">
+              <button class="btn btn-ghost" type="button" id="fisCopyBtn">Copy this as my order summary</button>
+              <span class="fis-copied" id="fisCopied" role="status" hidden>✓ Copied — paste it into your DM to me.</span>
+            </div>
+          </div>
+
+          <div class="glass" style="margin-top:1.4rem;padding:1.15rem 1.3rem;border-radius:18px" data-rv>
+            <p class="eyebrow" style="margin:0 0 0.4rem">A real example, all-in</p>
+            <div class="fis-scroll">
+              <table class="fis-table">
+                <tbody>
+                  <tr><th scope="row">A silk atelier dress — 2,600,000₫ in Sài Gòn</th><td class="v">$100</td></tr>
+                  <tr><th scope="row">The Single — my entire fee</th><td class="v">$65</td></tr>
+                  <tr><th scope="row">International shipping &amp; OC pickup</th><td class="v">Free</td></tr>
+                  <tr class="fis-total"><th scope="row"><strong>You pay, all-in</strong></th><td class="v"><strong>$165</strong></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="small muted" style="margin:0.6rem 0 0">For scale: a courier charges $70+ for the shipping alone, and comparable US retail runs $250+.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== EXAMPLE BASKETS ===== -->
+      <section id="baskets" aria-labelledby="basketsH">
+        <div class="wrap narrow">
+          <div class="section-head center">
+            <span class="eyebrow">So you can picture your order</span>
+            <h2 id="basketsH">Four example baskets, priced to the đồng</h2>
+            <p class="lead narrow">Real boutique price ranges, real garment weights. Your basket will differ — that's the point of a personal shopper — but the arithmetic works exactly like this.</p>
+          </div>
+
+          <div class="fis-tabs" role="tablist" aria-label="Example baskets">
+            <button role="tab" id="tabB1" aria-selected="true" aria-controls="bk1" type="button">The Single</button>
+            <button role="tab" id="tabB2" aria-selected="false" aria-controls="bk2" tabindex="-1" type="button">The Capsule</button>
+            <button role="tab" id="tabB3" aria-selected="false" aria-controls="bk3" tabindex="-1" type="button">The Wardrobe</button>
+            <button role="tab" id="tabB4" aria-selected="false" aria-controls="bk4" tabindex="-1" type="button">The Suitcase</button>
+          </div>
+
+          <!-- Basket 1 -->
+          <div class="fis-basket glass" id="bk1" role="tabpanel" aria-labelledby="tabB1" tabindex="0">
+            <div class="bk-head"><h3>The Single · $65</h3><span class="who">the wedding guest</span></div>
+            <p class="bk-note">One occasion, dressed completely — the dress and the shoes to walk into the room in.</p>
+            <div class="fis-scroll">
+              <table class="fis-table">
+                <thead><tr><th>Piece</th><th class="v">Boutique price</th><th class="w">Weight</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">Silk atelier dress — 2,600,000₫</th><td class="v">$100</td><td class="w">350 g</td></tr>
+                  <tr><th scope="row">Kitten heels — 900,000₫</th><td class="v">$35</td><td class="w">900 g</td></tr>
+                  <tr><th scope="row">Pieces, at cost</th><td class="v">$135</td><td class="w">1.25 kg of 1.5</td></tr>
+                  <tr><th scope="row">The Single — my entire fee</th><td class="v">$65</td><td class="w"></td></tr>
+                  <tr class="fis-total"><th scope="row"><strong>All-in, at OC pickup</strong></th><td class="v"><strong>$200</strong></td><td class="w"></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="fis-meter" role="img" aria-label="1.25 of 1.5 kilograms used"><i style="width:83%"></i></div>
+            <p class="small muted" style="margin:0.7rem 0 0">Shipping this yourself by courier: from <strong>$70</strong> — for the shipping alone. Comparable US retail for the dress: $250+.</p>
+          </div>
+
+          <!-- Basket 2 -->
+          <div class="fis-basket glass" id="bk2" role="tabpanel" aria-labelledby="tabB2" tabindex="0" hidden>
+            <div class="bk-head"><h3>The Capsule · $130</h3><span class="who">desk to dinner</span></div>
+            <p class="bk-note">Six pieces that dress a working week — every top goes with every bottom.</p>
+            <div class="fis-scroll">
+              <table class="fis-table">
+                <thead><tr><th>Piece</th><th class="v">Boutique price</th><th class="w">Weight</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">Linen midi dress — 1,200,000₫</th><td class="v">$46</td><td class="w">350 g</td></tr>
+                  <tr><th scope="row">Silk blouse, ivory — 780,000₫</th><td class="v">$30</td><td class="w">150 g</td></tr>
+                  <tr><th scope="row">Silk blouse, black — 780,000₫</th><td class="v">$30</td><td class="w">150 g</td></tr>
+                  <tr><th scope="row">Tailored trousers — 990,000₫</th><td class="v">$38</td><td class="w">600 g</td></tr>
+                  <tr><th scope="row">Bias slip skirt — 700,000₫</th><td class="v">$27</td><td class="w">250 g</td></tr>
+                  <tr><th scope="row">Knit cardigan — 850,000₫</th><td class="v">$33</td><td class="w">500 g</td></tr>
+                  <tr><th scope="row">Pieces, at cost — 5,300,000₫</th><td class="v">$204</td><td class="w">2.0 kg of 4</td></tr>
+                  <tr><th scope="row">The Capsule — my entire fee</th><td class="v">$130</td><td class="w"></td></tr>
+                  <tr class="fis-total"><th scope="row"><strong>All-in, at OC pickup</strong></th><td class="v"><strong>$334</strong></td><td class="w"></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="fis-meter" role="img" aria-label="2 of 4 kilograms used"><i style="width:50%"></i></div>
+            <p class="small muted" style="margin:0.7rem 0 0">That's <strong>≈ $56 a piece, everything included</strong> — and half the weight allowance still empty. Shipping this yourself: from <strong>$120</strong>, before anyone has found you a single blouse.</p>
+          </div>
+
+          <!-- Basket 3 -->
+          <div class="fis-basket glass" id="bk3" role="tabpanel" aria-labelledby="tabB3" tabindex="0" hidden>
+            <div class="bk-head"><h3>The Wardrobe · $225</h3><span class="who">the fortnight</span></div>
+            <p class="bk-note">Twelve pieces — two weeks of outfits, including one made-to-measure áo dài from a Sài Gòn atelier.</p>
+            <div class="fis-scroll">
+              <table class="fis-table">
+                <thead><tr><th>Piece</th><th class="v">Boutique price</th><th class="w">Weight</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">Silk atelier dress — 2,600,000₫</th><td class="v">$100</td><td class="w">350 g</td></tr>
+                  <tr><th scope="row">Linen midi dress — 1,200,000₫</th><td class="v">$46</td><td class="w">350 g</td></tr>
+                  <tr><th scope="row">Printed day dress — 900,000₫</th><td class="v">$35</td><td class="w">350 g</td></tr>
+                  <tr><th scope="row">Silk blouse, ivory — 780,000₫</th><td class="v">$30</td><td class="w">150 g</td></tr>
+                  <tr><th scope="row">Silk blouse, chocolate — 780,000₫</th><td class="v">$30</td><td class="w">150 g</td></tr>
+                  <tr><th scope="row">Tailored trousers — 990,000₫</th><td class="v">$38</td><td class="w">600 g</td></tr>
+                  <tr><th scope="row">Wide-leg jeans — 1,100,000₫</th><td class="v">$42</td><td class="w">600 g</td></tr>
+                  <tr><th scope="row">Bias slip skirt — 700,000₫</th><td class="v">$27</td><td class="w">250 g</td></tr>
+                  <tr><th scope="row">Pleated skirt — 750,000₫</th><td class="v">$29</td><td class="w">250 g</td></tr>
+                  <tr><th scope="row">Knit cardigan — 850,000₫</th><td class="v">$33</td><td class="w">500 g</td></tr>
+                  <tr><th scope="row">Áo dài, made to measure — 2,500,000₫</th><td class="v">$96</td><td class="w">550 g</td></tr>
+                  <tr><th scope="row">Leather sandals — 900,000₫</th><td class="v">$35</td><td class="w">900 g</td></tr>
+                  <tr><th scope="row">Pieces, at cost — 14,050,000₫</th><td class="v">$541</td><td class="w">5.0 kg of 9</td></tr>
+                  <tr><th scope="row">The Wardrobe — my entire fee</th><td class="v">$225</td><td class="w"></td></tr>
+                  <tr class="fis-total"><th scope="row"><strong>All-in, at OC pickup</strong></th><td class="v"><strong>$766</strong></td><td class="w"></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="fis-meter" role="img" aria-label="5 of 9 kilograms used"><i style="width:56%"></i></div>
+            <p class="small muted" style="margin:0.7rem 0 0"><strong>≈ $64 a piece all-in</strong>, made-to-measure included. Shipping this yourself: from <strong>$270</strong> — half a Wardrobe fee, spent on postage.</p>
+          </div>
+
+          <!-- Basket 4 -->
+          <div class="fis-basket glass" id="bk4" role="tabpanel" aria-labelledby="tabB4" tabindex="0" hidden>
+            <div class="bk-head"><h3>The Suitcase · $375</h3><span class="who">the new chapter</span></div>
+            <p class="bk-note">A whole bag, yours alone — twenty-five pieces, doorstep delivery included. Often shared by two sisters or two friends.</p>
+            <div class="fis-scroll">
+              <table class="fis-table">
+                <thead><tr><th>Pieces</th><th class="v">Boutique price</th><th class="w">Weight</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">Six dresses, silk &amp; linen — ≈7,300,000₫</th><td class="v">$280</td><td class="w">2.1 kg</td></tr>
+                  <tr><th scope="row">Six blouses &amp; tops — ≈4,700,000₫</th><td class="v">$180</td><td class="w">0.9 kg</td></tr>
+                  <tr><th scope="row">Four trousers &amp; jeans — ≈4,200,000₫</th><td class="v">$160</td><td class="w">2.4 kg</td></tr>
+                  <tr><th scope="row">Three skirts — ≈2,200,000₫</th><td class="v">$84</td><td class="w">0.75 kg</td></tr>
+                  <tr><th scope="row">Two knits — ≈1,700,000₫</th><td class="v">$66</td><td class="w">1.0 kg</td></tr>
+                  <tr><th scope="row">Two áo dài, full sets — ≈5,000,000₫</th><td class="v">$190</td><td class="w">1.1 kg</td></tr>
+                  <tr><th scope="row">Two pairs of shoes — ≈1,800,000₫</th><td class="v">$70</td><td class="w">1.8 kg</td></tr>
+                  <tr><th scope="row">25 pieces, at cost — ≈26,900,000₫</th><td class="v">$1,030</td><td class="w">10.1 kg of 20</td></tr>
+                  <tr><th scope="row">The Suitcase — my entire fee, doorstep included</th><td class="v">$375</td><td class="w"></td></tr>
+                  <tr class="fis-total"><th scope="row"><strong>All-in, delivered to your door</strong></th><td class="v"><strong>$1,405</strong></td><td class="w"></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="fis-meter" role="img" aria-label="10.1 of 20 kilograms used"><i style="width:51%"></i></div>
+            <p class="small muted" style="margin:0.7rem 0 0"><strong>≈ $56 a piece, delivered</strong> — for a closet that would run $3,000+ at comparable US retail. Shipping this yourself: from <strong>$600</strong>. And the bag still has ten kilos of air in it; the real cap is the 25 pieces.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== COMPARISON ===== -->
+      <section id="compare" aria-labelledby="compareH">
+        <div class="wrap narrow">
+          <div class="section-head center">
+            <span class="eyebrow">The honest maths</span>
+            <h2 id="compareH">Every way to get Sài Gòn fashion to California</h2>
+            <p class="lead narrow">I priced my own competition so you don't have to — every route, including the ones where you fly.</p>
+          </div>
+
+          <div class="cmp-list">
+            <article class="cmp glass best" data-rv>
+              <header class="cmp-h">
+                <h3>This flight — hand-carry</h3>
+                <span class="cmp-tag">This offer</span>
+              </header>
+              <div class="cmp-prices">
+                <div><span class="pl">One outfit</span><span class="pv">$65</span><span class="pn">shipping $0</span></div>
+                <div><span class="pl">A full bag</span><span class="pv">$375</span><span class="pn">shipping $0</span></div>
+              </div>
+              <dl class="cmp-meta">
+                <div><dt>Time</dt><dd>In your hands 21–31 Aug</dd></div>
+                <div><dt>Duty</dt><dd>Declared for you. Rare at this size; at cost if charged</dd></div>
+                <div><dt>Work</dt><dd>Mine — I shop, size-check, inspect, pack, carry, deliver</dd></div>
+              </dl>
+            </article>
+
+            <article class="cmp glass" data-rv>
+              <header class="cmp-h"><h3>Express courier</h3><span class="cmp-tag alt">DHL-class</span></header>
+              <div class="cmp-prices">
+                <div><span class="pl">One outfit</span><span class="pv">from $70</span><span class="pn">shipping alone</span></div>
+                <div><span class="pl">A full bag</span><span class="pv">$600–1,000</span><span class="pn">shipping alone</span></div>
+              </div>
+              <dl class="cmp-meta">
+                <div><dt>Time</dt><dd>1–2 weeks, tracked</dd></div>
+                <div><dt>Duty</dt><dd>Duty and broker fees can be added on top</dd></div>
+                <div><dt>Work</dt><dd>Yours — and you still need someone in Sài Gòn to buy it</dd></div>
+              </dl>
+            </article>
+
+            <article class="cmp glass" data-rv>
+              <header class="cmp-h"><h3>Economy post</h3><span class="cmp-tag alt">Slow lane</span></header>
+              <div class="cmp-prices">
+                <div><span class="pl">One outfit</span><span class="pv">$25–40</span><span class="pn">shipping alone</span></div>
+                <div><span class="pl">A full bag</span><span class="pv">$300–500</span><span class="pn">shipping alone</span></div>
+              </div>
+              <dl class="cmp-meta">
+                <div><dt>Time</dt><dd>3–8 weeks, tracking patchy</dd></div>
+                <div><dt>Duty</dt><dd>Usually clears free — the slow lane's one advantage</dd></div>
+                <div><dt>Work</dt><dd>Yours — many boutiques take only Vietnamese payment</dd></div>
+              </dl>
+            </article>
+
+            <article class="cmp glass" data-rv>
+              <header class="cmp-h"><h3>Fly there yourself</h3><span class="cmp-tag alt">Round trip</span></header>
+              <div class="cmp-fares">
+                <div><span class="fl">Economy</span><span class="fv">$900–1,500</span></div>
+                <div><span class="fl">Business</span><span class="fv">$2,800–4,800</span></div>
+                <div><span class="fl">First</span><span class="fv">$6,000–12,000+</span></div>
+              </div>
+              <p class="cmp-plus">Plus about <strong>$400–700</strong> for a week of hotel and food.</p>
+              <dl class="cmp-meta">
+                <div><dt>Time</dt><dd>18–30 hours each way, plus the week itself</dd></div>
+                <div><dt>Duty</dt><dd>You declare your own purchases on landing</dd></div>
+                <div><dt>Work</dt><dd>All yours — research, districts, sizing, packing</dd></div>
+              </dl>
+              <p class="cmp-note">Even in economy, the ticket alone costs more than two full Suitcases, delivered.</p>
+            </article>
+
+            <article class="cmp glass" data-rv>
+              <header class="cmp-h"><h3>Mail forwarder</h3><span class="cmp-tag alt">Buy-and-ship</span></header>
+              <div class="cmp-prices one">
+                <div><span class="pl">Either size</span><span class="pv">Often impossible</span><span class="pn">before cost even matters</span></div>
+              </div>
+              <dl class="cmp-meta">
+                <div><dt>Time</dt><dd>Weeks, when it works at all</dd></div>
+                <div><dt>Duty</dt><dd>Standard import rules apply</dd></div>
+                <div><dt>Work</dt><dd>Nobody inspects, nobody checks sizing — and boutiques selling by DM can't be forwarded</dd></div>
+              </dl>
+            </article>
+          </div>
+
+          <p class="small muted" style="margin-top:1rem">Airfares are typical mid-2026 round-trip ranges between California and Sài Gòn; your dates and airline will move them. The honest synthesis: <strong>every other route costs more, takes longer, or still leaves you needing a person in Sài Gòn.</strong> I'm the person in Sài Gòn — and if you do want the trip itself (it's wonderful), the <a href="field-guide.html">field guide</a> and <a href="fashion-directory.html">directory</a> are my gift, free.</p>
+        </div>
+      </section>
+
+      <!-- ===== DELIVERY ===== -->
+      <section id="delivery" aria-labelledby="deliveryH">
+        <div class="wrap narrow">
+          <div class="section-head center">
+            <span class="eyebrow">Orange County · LA · the whole US</span>
+            <h2 id="deliveryH">Getting it to you</h2>
+          </div>
+          <div class="glass" style="padding:0.6rem 1.1rem;border-radius:18px" data-rv>
+            <div class="fis-scroll">
+              <table class="fis-table">
+                <thead>
+                  <tr><th>Order</th><th class="v">OC pickup</th><th class="v">Doorstep</th><th class="v">US post</th></tr>
+                </thead>
+                <tbody>
+                  <tr><th scope="row">The Single · $65</th><td class="v">Free</td><td class="v">$20 / $40</td><td class="v">$16</td></tr>
+                  <tr><th scope="row">The Capsule · $130</th><td class="v">Free</td><td class="v">$20 / $40</td><td class="v">$28–40</td></tr>
+                  <tr><th scope="row">The Wardrobe · $225</th><td class="v">Free</td><td class="v">$20 / $40</td><td class="v">$28–40</td></tr>
+                  <tr><th scope="row">The Suitcase · $375</th><td class="v">Free</td><td class="v">Included</td><td class="v">—</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p class="small muted" style="margin-top:0.9rem">Doorstep: <strong>$20</strong> anywhere in Orange County, <strong>$40</strong> greater LA. Post: USPS Priority, tracked, 1–3 days — the same flat rate to San José as to New York. Pickup is a lovely public spot in central OC, shared once your order is confirmed.</p>
+        </div>
+      </section>
+
+      <!-- ===== FAQ ===== -->
+      <section id="faq" aria-labelledby="faqH">
+        <div class="wrap narrow">
+          <div class="section-head center">
+            <span class="eyebrow">The dedicated portal</span>
+            <h2 id="faqH">Every question, answered honestly</h2>
+            <p class="lead narrow">Grouped so you can read straight through, or jump to the one keeping you up. If yours isn't here, it becomes the next entry — just ask.</p>
+          </div>
+
+          <div class="fis-tools"><button type="button" id="fisToggleAll" aria-expanded="false">Open every answer</button></div>
+
+          <div class="fis-group">
+            <h3><span class="k">Ordering</span> — what you can ask for</h3>
+            <div class="faq">
+              <details><summary>What exactly can I order?</summary><div class="a"><p class="a-lead">Anything I can fold, wrap, and tuck in gently.</p>
+                <ul class="fis-bul">
+                  <li><strong>Yes:</strong> clothing, shoes, bags, scarves, jewellery, áo dài</li>
+                  <li><strong>Yes:</strong> linen and silk by the metre</li>
+                  <li><strong>No:</strong> perfume, aerosols, food, anything counterfeit</li>
+                </ul>
+                <p class="a-foot">Premium ateliers and quiet little studios you won't find on any shelf in America. If it exists in Sài Gòn, I can go stand in front of it for you.</p></div></details>
+              <details><summary>I don't know any Vietnamese brands. Can you choose for me?</summary><div class="a"><p class="a-lead">Yes — honestly, that's my favourite kind of order. Send me any of these:</p>
+                <ul class="fis-bul">
+                  <li>A screenshot of something you liked, or a Pinterest board</li>
+                  <li>A feeling: "elevated linen for work," "one dress for a September wedding"</li>
+                  <li>A colour, an occasion, or the piece you already own and want a sister to</li>
+                </ul>
+                <p class="a-foot">Prefer to look first? All 270 verified houses are free to browse in the <a href="fashion-directory.html">Saigon Fashion Directory</a>, filterable by style, tier, and category.</p></div></details>
+              <details><summary>How many pieces can one order hold?</summary><div class="a"><ul class="fis-bul">
+                  <li><strong>The Single</strong> — one outfit, two or three pieces</li>
+                  <li><strong>The Capsule</strong> — four to six pieces</li>
+                  <li><strong>The Wardrobe</strong> — ten to fourteen pieces</li>
+                  <li><strong>The Suitcase</strong> — up to twenty-five pieces</li>
+                </ul>
+                <p class="a-foot">Not sure? Send me the list — I'll weigh it and tell you honestly which tier it is. You never pay for a bigger tier than your order needs, and the <a href="#baskets">example baskets</a> show exactly how each size fills.</p></div></details>
+              <details><summary>How do I know Vietnamese sizing will fit me?</summary><div class="a"><p class="a-lead">This is part of the service, not your risk to carry.</p>
+                <ul class="fis-bul">
+                  <li>Vietnamese sizing runs small, so I never trust the letter on the tag</li>
+                  <li>You send <strong>bust, waist, hip, and height</strong> once</li>
+                  <li>I measure the real garment and check it against you</li>
+                  <li>If a piece won't fit, <strong>I tell you before you pay</strong>, not after</li>
+                </ul></div></details>
+              <details><summary>Can I order with a friend, or split a suitcase?</summary><div class="a">Yes. Group orders are welcome — each person's pieces are photographed, approved, and packed separately, so nothing gets mixed up at pickup. A shared Suitcase is often the best value per person; just tell me who's in and I'll coordinate one thread for everyone.</div></details>
+              <details><summary>Can you have an áo dài made to measure for me?</summary><div class="a">Yes — measurements collected over email, commissioned from a Sài Gòn atelier in a traditional or modern cut, checked against your chart and photographed for your approval before it's packed. For the 18 August flight, ask early: tailoring needs the front of the window, not the end of it.</div></details>
+            </div>
+          </div>
+
+          <div class="fis-group">
+            <h3><span class="k">Paying</span> — what it costs and when</h3>
+            <div class="faq">
+              <details><summary>What do I actually pay, and when?</summary><div class="a"><p class="a-lead">Two payments, nothing hidden.</p>
+                <ul class="fis-bul">
+                  <li><strong>First</strong> — after you approve the photos, the boutique price of your pieces, by Zelle or Wise so it stays exactly at cost</li>
+                  <li><strong>Second</strong> — my flat tier fee ($65–$375), once the clothes are in your hands</li>
+                </ul>
+                <p class="a-foot">You are never asked to prepay my fee, and there is no third number.</p></div></details>
+              <details><summary>How do I know I'm paying the real store price?</summary><div class="a">You see the receipt. I shop with your money, never my own card, so there's no room for a markup to hide in — the boutique's price is your price, converted at the real exchange rate. If a shop happens to run a sale the day I'm there, you pay the sale price.</div></details>
+              <details><summary>Which payment methods do you take?</summary><div class="a"><ul class="fis-bul">
+                  <li><strong>For the pieces:</strong> Zelle or Wise — both fee-free, so cost stays cost</li>
+                  <li><strong>For my fee at handoff:</strong> cash is loveliest, but Zelle, Venmo, PayPal, and Wise all work</li>
+                  <li><strong>Want buyer protection?</strong> Choose PayPal Goods &amp; Services for the fee — I'm happy to work that way</li>
+                </ul></div></details>
+              <details><summary>What protects me? Why should I trust this?</summary><div class="a"><p class="a-lead">The order of operations protects you:</p>
+                <ul class="fis-bul">
+                  <li>Nothing is bought until you approve a photo of the real piece</li>
+                  <li>You pay pieces <strong>at cost</strong>, with the receipt shown</li>
+                  <li>My fee — the only money I make — arrives <strong>last</strong>, after delivery</li>
+                </ul>
+                <p class="a-foot">If I don't put real clothes in your hands, I don't get paid. That's the whole safety model, and it's why it's built this way.</p></div></details>
+              <details><summary>Is there really no shipping charge at all?</summary><div class="a"><p class="a-lead">For this flight, none — your order rides in my checked luggage.</p>
+                <ul class="fis-bul">
+                  <li>No courier, nothing per kilo — the flight is happening anyway</li>
+                  <li>My tier fee includes the hand-carry (that's the biggest slice of it)</li>
+                  <li>Beyond free OC pickup: $20–40 doorstep, or USPS at cost</li>
+                </ul>
+                <p class="a-foot">There is no other line on the bill.</p></div></details>
+            </div>
+          </div>
+
+          <div class="fis-group">
+            <h3><span class="k">Customs</span> — the border, done properly</h3>
+            <div class="faq">
+              <details><summary>Is this legal? Does it go through customs?</summary><div class="a">Yes, and yes. Everything I carry is declared at US customs on arrival — this is the boring, by-the-book version of hand-carry, which is exactly what you want. No grey-market shortcuts, nothing tucked out of sight.</div></details>
+              <details><summary>Will I owe import duty?</summary><div class="a">On orders this size, duty usually isn't assessed at all. If any is, it's passed to you at exact cost with the customs receipt — never estimated, never padded. You'll know the number before you're asked for it.</div></details>
+              <details><summary>What can't come in the suitcase?</summary><div class="a"><ul class="fis-bul">
+                  <li><strong>Perfume, aerosols, food</strong> — airline and customs rules</li>
+                  <li><strong>Nothing counterfeit, ever</strong> — fakes get seized at the border</li>
+                </ul>
+                <p class="a-foot">I won't risk your order or the honest orders sitting beside it. Everything I buy is genuine, from the brand's own boutique, with the receipt to show for it.</p></div></details>
+              <details><summary>How do I know the pieces are authentic?</summary><div class="a">Because of where they're bought: directly from each label's own store or atelier in Sài Gòn, at their listed price, with their receipt. I photograph the piece in the boutique before you commit. There is no marketplace, no middleman, and no version of this where a fake enters the chain.</div></details>
+            </div>
+          </div>
+
+          <div class="fis-group">
+            <h3><span class="k">What-ifs</span> — the honest edge cases</h3>
+            <div class="faq">
+              <details><summary>What if a piece is sold out when you get to the shop?</summary><div class="a"><p class="a-lead">Then you haven't lost anything — you only pay after I photograph the piece in my hands.</p>
+                <ul class="fis-bul">
+                  <li>I message you from the shop with what's actually there</li>
+                  <li>Or hunt the same piece at the brand's other locations</li>
+                  <li>You approve a real alternative, or simply skip it</li>
+                </ul>
+                <p class="a-foot">No money moves for a piece that doesn't exist.</p></div></details>
+              <details><summary>What if my flight — your flight — gets delayed or changed?</summary><div class="a">Your pieces are already bought, inspected, and packed in my bags, so they're never stranded — they simply land when I do, and I update you the moment anything shifts. My fee is still due only on delivery, so a delay costs you nothing but patience. Airlines wobble; the arrangement doesn't.</div></details>
+              <details><summary>What if something arrives damaged or wrong?</summary><div class="a">Tell me within 48 hours with an unboxing video and I'll make it right. It's rare by design — every piece is checked in the light and wrapped softly before the bags close — but the promise exists for the day it's needed.</div></details>
+              <details><summary>What if it doesn't fit after all?</summary><div class="a">This is why measurements happen before buying, not after — it's the strongest protection there is, and it's on me to get right. Boutique pieces from Sài Gòn generally can't be returned once we've flown them across an ocean, so I'd rather slow down at the measuring step than apologise at the fitting. If you're between sizes on a piece, I'll tell you plainly and we decide together before you pay.</div></details>
+              <details><summary>What if I miss the 15 August cutoff?</summary><div class="a"><p class="a-lead">Tell me what you wanted anyway — you have two options:</p>
+                <ul class="fis-bul">
+                  <li><strong>Wait.</strong> You go first on the next flight, and there's always a next flight</li>
+                  <li><strong>Ship it.</strong> Courier runs about $30–50 a kilo, one to two weeks — the <a href="estimate.html">estimator</a> gives you a grounded ballpark</li>
+                </ul>
+                <p class="a-foot">If you can wait, the flight is simply the better deal.</p></div></details>
+              <details><summary>How does pickup actually work?</summary><div class="a"><ul class="fis-bul">
+                  <li><strong>Pickup</strong> — a lovely public spot in central OC, shared once your order is confirmed; we pick a time between 21 and 31 August</li>
+                  <li><strong>Doorstep</strong> — $20 anywhere in OC, $40 across greater LA, and included with the Suitcase</li>
+                  <li><strong>Outside SoCal</strong> — USPS Priority, tracked, 1–3 days</li>
+                </ul></div></details>
+              <details><summary>Is space limited? Should I actually hurry?</summary><div class="a">Genuinely, yes — and not as a sales tactic. The airline lets me check five client bags, about a hundred kilos, and I book each one only when the last is nearly full. Confirmed orders hold their place in the order they're confirmed. Orders and payment close 15 August; the suitcases close the night of the 16th and the morning of the 17th. If you're reading this in time, you're in time.</div></details>
+            </div>
+          </div>
+
+          <div class="fis-group">
+            <h3><span class="k">The quiet part</span> — fair questions people whisper</h3>
+            <div class="faq">
+              <details><summary>Why is shipping free? What's the catch?</summary><div class="a"><p class="a-lead">There isn't one — here's the mechanics so you don't have to take that on faith:</p>
+                <ul class="fis-bul">
+                  <li>I'm flying home to California on 18 August regardless</li>
+                  <li>Checked bags are already part of that trip</li>
+                  <li>I'd rather fill them with your pieces than with air</li>
+                  <li>My flat tier fee is where I'm paid — and it's printed on this page</li>
+                </ul>
+                <p class="a-foot">That's the entire business model.</p></div></details>
+              <details><summary>Wouldn't it be cheaper to just fly to Vietnam myself?</summary><div class="a"><p class="a-lead">I did the maths for you in the <a href="#compare">comparison chart</a>:</p>
+                <ul class="fis-bul">
+                  <li>Economy round trip: <strong>$900–1,500</strong>, before a single night's hotel</li>
+                  <li>Travel time: <strong>18–30 hours each way</strong></li>
+                  <li>The ticket alone costs more than <strong>two full Suitcases, delivered</strong></li>
+                </ul>
+                <p class="a-foot">As a holiday? Wonderful — genuinely, go, and take my free <a href="field-guide.html">field guide</a> with you. As a shopping strategy, the numbers never close.</p></div></details>
+              <details><summary>Who am I actually dealing with?</summary><div class="a">Me — one person, not a warehouse. I'm the stylist behind Seraphic Styler: based in Sài Gòn, home in Orange County, reachable at <a href="mailto:seraphicstyler@gmail.com">seraphicstyler@gmail.com</a> and @seraphicstyler on Instagram and TikTok. You'll recognise me at pickup, because by then we'll have been talking for weeks.</div></details>
+              <details><summary>Is my information private?</summary><div class="a">Yes. Your measurements, address, and order stay between us — they're used to fit and deliver your pieces, and for nothing else. If I ever want to share a photo of a find (never of you), I ask first.</div></details>
+              <details><summary>I still have a question this page didn't answer.</summary><div class="a">Then it's a good question and I want it — DM @seraphicstyler on Instagram or TikTok, or email <a href="mailto:seraphicstyler@gmail.com">seraphicstyler@gmail.com</a>. I reply within a day, and your question quietly makes this page better for the next reader.</div></details>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== CHECKLIST ===== -->
+      <section id="checklist" aria-labelledby="checkH">
+        <div class="wrap narrow">
+          <div class="section-head center">
+            <span class="eyebrow">Before you order</span>
+            <h2 id="checkH">Read once, then rest easy</h2>
+            <p class="lead narrow">Tick these six as you go. When they're all checked, you know everything that matters.</p>
+          </div>
+          <ul class="fis-check glass" id="fisCheck">
+            <li><label><input type="checkbox" /><span><strong>I know the window.</strong> Orders and payment close 15 August, suitcases close 16–17 August, we land 18 August, delivery 21–31 August.</span></label></li>
+            <li><label><input type="checkbox" /><span><strong>I know the price.</strong> One flat tier fee ($65 / $130 / $225 / $375), pieces at boutique cost with receipts, international shipping waived.</span></label></li>
+            <li><label><input type="checkbox" /><span><strong>I know the order of things.</strong> Real photos first, my approval second, payment third — and the service fee only after delivery.</span></label></li>
+            <li><label><input type="checkbox" /><span><strong>I've sent my measurements.</strong> Bust, waist, hip, height — so every piece is checked against me before it's bought.</span></label></li>
+            <li><label><input type="checkbox" /><span><strong>I know how I'll receive it.</strong> Free OC pickup, $20–40 doorstep across OC and LA, or tracked USPS anywhere in the US.</span></label></li>
+            <li><label><input type="checkbox" /><span><strong>I know who to ask.</strong> @seraphicstyler on Instagram or TikTok, or seraphicstyler@gmail.com — replies within a day.</span></label></li>
+          </ul>
+          <p class="fis-progress" id="fisCheckProgress" role="status">0 of 6</p>
+          <div class="fis-ready" id="fisReady" hidden>
+            <p>You're ready.</p>
+            <a class="btn btn-primary" href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener">DM me your first piece</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== CTA ===== -->
+      <section class="fis-cta" id="cta">
+        <div class="wrap narrow">
+          <span class="script">One suitcase has your name on it.</span>
+          <h2 style="margin:0">Ready when you are</h2>
+          <p class="lead narrow" style="margin-top:0.7rem">DM the piece you've been staring at for a month — or just say <em>OC</em> and I'll send you the little order form.</p>
+          <div class="btn-row">
+            <a class="btn btn-primary btn-lg" href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener">DM me on Instagram</a>
+            <a class="btn btn-ghost" href="mailto:seraphicstyler@gmail.com?subject=Free%20international%20shipping%20order">Email your order</a>
+            <a class="btn btn-ghost" href="estimate.html">Build a rough estimate</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="fis-foot">
+      <span><a href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener">Instagram</a></span>
+      <span class="dot">·</span>
+      <span><a href="https://www.tiktok.com/@seraphicstyler" target="_blank" rel="noopener">TikTok</a></span>
+      <span class="dot">·</span>
+      <span><a href="mailto:seraphicstyler@gmail.com">seraphicstyler@gmail.com</a></span>
+      <br />
+      <a class="home-link" href="./">← Full site</a>
+    </footer>
+  </div>
+
+  <!-- Mobile sticky order bar -->
+  <div class="fis-bar" id="fisBar" aria-hidden="true">
+    <span class="txt"><strong id="fisBarTitle">Orders close 15 Aug</strong><span id="fisBarSub">Free shipping · one flight</span></span>
+    <a class="btn btn-primary" href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener">DM to order</a>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+      var rm = document.documentElement.classList.contains('rm') ||
+               (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ---------- Live window: countdown + timeline phases ---------- */
+      var now = new Date();
+      function daysUntil(y, m, d) { // end of that day, local
+        return Math.ceil((new Date(y, m, d, 23, 59, 59) - now) / 86400000);
+      }
+      var closeDays = daysUntil(2026, 7, 15);  // 15 Aug 2026 — orders and payment close
+      var landDays  = daysUntil(2026, 7, 18);  // 18 Aug 2026
+      var countTxt = document.getElementById('fisCountTxt');
+      var barTitle = document.getElementById('fisBarTitle');
+      if (closeDays > 1) {
+        countTxt.textContent = 'Orders open — ' + closeDays + ' days left, closing 15 August';
+        barTitle.textContent = closeDays + ' days left to order';
+      } else if (closeDays === 1) {
+        countTxt.textContent = 'Orders close tomorrow, 15 August';
+        barTitle.textContent = 'Orders close tomorrow';
+      } else if (closeDays === 0) {
+        countTxt.textContent = 'Last day — orders close tonight';
+        barTitle.textContent = 'Last day to order';
+      } else if (landDays >= 0) {
+        countTxt.textContent = 'Orders closed — the suitcases fly 18 August. DM for the next flight';
+        barTitle.textContent = 'DM for the next flight';
+      } else {
+        countTxt.textContent = 'This flight has landed — DM to go first on the next one';
+        barTitle.textContent = 'Next flight — DM me';
+      }
+      var chipPlaced = false;
+      document.querySelectorAll('#fisTimeline .fis-daterow').forEach(function (row) {
+        var from = new Date(row.getAttribute('data-from') + 'T00:00:00');
+        var to = new Date(row.getAttribute('data-to') + 'T23:59:59');
+        if (now > to) row.classList.add('past');
+        else if (now >= from) {
+          row.classList.add('now');
+          if (!chipPlaced) { // only the first live row is labelled, even when phases overlap
+            chipPlaced = true;
+            var chip = document.createElement('span');
+            chip.className = 'fis-here'; chip.textContent = 'You are here';
+            row.querySelector('.d').appendChild(chip);
+          }
+        }
+      });
+
+      /* ---------- Scroll-spy nav ---------- */
+      var links = Array.prototype.slice.call(document.querySelectorAll('#fisNavLinks a'));
+      var byId = {};
+      links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+      if ('IntersectionObserver' in window) {
+        var current = null;
+        var spy = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              if (current) current.removeAttribute('aria-current');
+              current = byId[e.target.id];
+              if (current) {
+                current.setAttribute('aria-current', 'true');
+                // Keep the active chip visible by scrolling the nav strip itself.
+                // Never scrollIntoView here: it also scrolls the document (and the
+                // site sets scroll-behavior:smooth), which fights the user's scroll.
+                var strip = document.getElementById('fisNavLinks');
+                var l = current.offsetLeft, r = l + current.offsetWidth;
+                if (l < strip.scrollLeft) strip.scrollLeft = l - 12;
+                else if (r > strip.scrollLeft + strip.clientWidth) strip.scrollLeft = r - strip.clientWidth + 12;
+              }
+            }
+          });
+        }, { rootMargin: '-35% 0px -55% 0px' });
+        Object.keys(byId).forEach(function (id) { var s = document.getElementById(id); if (s) spy.observe(s); });
+      }
+
+      /* ---------- Scroll reveal (JS-applied so no-JS loses nothing) ---------- */
+      var rvEls = document.querySelectorAll('[data-rv]');
+      if (!rm && 'IntersectionObserver' in window) {
+        var rv = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); rv.unobserve(e.target); } });
+        }, { rootMargin: '0px 0px -8% 0px' });
+        rvEls.forEach(function (el) { el.classList.add('rv'); rv.observe(el); });
+      }
+
+      /* ---------- Mobile sticky bar: show after hero, hide at final CTA ---------- */
+      var bar = document.getElementById('fisBar');
+      var hero = document.getElementById('offer');
+      var cta = document.getElementById('cta');
+      if ('IntersectionObserver' in window) {
+        var pastHero = false, atCta = false;
+        function setBar() {
+          var on = pastHero && !atCta;
+          bar.classList.toggle('show', on);
+          bar.setAttribute('aria-hidden', String(!on));
+        }
+        new IntersectionObserver(function (en) { en.forEach(function (e) { pastHero = !e.isIntersecting; }); setBar(); }, { rootMargin: '-80px 0px 0px 0px' }).observe(hero);
+        new IntersectionObserver(function (en) { en.forEach(function (e) { atCta = e.isIntersecting; }); setBar(); }).observe(cta);
+      }
+
+      /* ---------- Pricing configurator ---------- */
+      var TIERS = {
+        single:   { name: 'The Single',   fee: 65,  usps: [16, 16] },
+        capsule:  { name: 'The Capsule',  fee: 130, usps: [28, 40] },
+        wardrobe: { name: 'The Wardrobe', fee: 225, usps: [28, 40] },
+        suitcase: { name: 'The Suitcase', fee: 375, usps: null }
+      };
+      var SHIP = {
+        pickup: { label: 'OC pickup', cost: [0, 0], free: true },
+        doorOC: { label: 'Doorstep, Orange County', cost: [20, 20] },
+        doorLA: { label: 'Doorstep, greater LA', cost: [40, 40] },
+        usps:   { label: 'USPS, anywhere in the US', cost: null } // per tier
+      };
+      var $ = function (id) { return document.getElementById(id); };
+      function money(v) { return '$' + v.toLocaleString('en-US'); }
+      function range(pair) { return pair[0] === pair[1] ? money(pair[0]) : money(pair[0]) + '–' + pair[1].toLocaleString('en-US'); }
+      function state() {
+        var t = document.querySelector('input[name="fisTier"]:checked').value;
+        var s = document.querySelector('input[name="fisShip"]:checked').value;
+        return { tier: t, ship: s };
+      }
+      function shipCost(t, s) {
+        if (t === 'suitcase' && (s === 'doorOC' || s === 'doorLA')) return { pair: [0, 0], label: 'Doorstep — included with the Suitcase' };
+        if (s === 'usps') { var u = TIERS[t].usps; return u ? { pair: u, label: 'USPS Priority, tracked' } : null; }
+        var d = SHIP[s];
+        return { pair: d.cost, label: d.label + (d.free ? '' : '') };
+      }
+      function update() {
+        var st = state();
+        var tier = TIERS[st.tier];
+        // USPS availability + doorstep labels for Suitcase
+        var uspsInput = $('shipUsps');
+        uspsInput.disabled = !tier.usps;
+        $('lblUsps').textContent = tier.usps ? ('USPS, anywhere in the US · ' + range(tier.usps)) : 'USPS — not for the Suitcase';
+        if (uspsInput.disabled && st.ship === 'usps') { $('shipPickup').checked = true; st.ship = 'pickup'; }
+        var inc = st.tier === 'suitcase';
+        $('lblDoorOC').textContent = 'Doorstep, Orange County · ' + (inc ? 'included' : '$20');
+        $('lblDoorLA').textContent = 'Doorstep, greater LA · ' + (inc ? 'included' : '$40');
+
+        var sc = shipCost(st.tier, st.ship);
+        $('sumTierLbl').textContent = tier.name + ' — my entire fee';
+        $('sumFee').textContent = money(tier.fee);
+        $('sumShipLbl').textContent = sc.label;
+        $('sumShip').textContent = sc.pair[0] === 0 && sc.pair[1] === 0 ? (st.ship === 'pickup' ? 'Free' : 'Included') : range(sc.pair);
+
+        var budget = parseFloat($('fisBudget').value);
+        var hasBudget = !isNaN(budget) && budget > 0;
+        $('sumPiecesRow').hidden = !hasBudget;
+        var lo = tier.fee + sc.pair[0], hi = tier.fee + sc.pair[1];
+        if (hasBudget) {
+          $('sumPieces').textContent = '≈ ' + money(Math.round(budget));
+          lo += budget; hi += budget;
+          $('sumTotalLbl').textContent = 'Your rough all-in';
+          $('sumNote').textContent = 'Pieces stay at boutique cost with receipts shown — this is a planning number, and I confirm the real one before you pay anything.';
+        } else {
+          $('sumTotalLbl').textContent = 'Everything I charge';
+          $('sumNote').textContent = "Plus your pieces at their real boutique price, receipts shown — enter a rough budget above and I'll fold it in.";
+        }
+        $('sumTotal').textContent = lo === hi ? money(Math.round(lo)) : money(Math.round(lo)) + '–' + Math.round(hi).toLocaleString('en-US');
+      }
+      document.querySelectorAll('input[name="fisTier"], input[name="fisShip"]').forEach(function (i) { i.addEventListener('change', update); });
+      $('fisBudget').addEventListener('input', update);
+      update();
+
+      $('fisCopyBtn').addEventListener('click', function () {
+        var st = state();
+        var tier = TIERS[st.tier];
+        var sc = shipCost(st.tier, st.ship);
+        var budget = parseFloat($('fisBudget').value);
+        var lines = [
+          'Hi! From seraphicstyler.com/free-international-shipping —',
+          'Size: ' + tier.name + ' (' + money(tier.fee) + ' flat fee)',
+          'Receive: ' + sc.label + (sc.pair[1] ? ' (' + range(sc.pair) + ')' : ' (free/included)'),
+          (!isNaN(budget) && budget > 0 ? 'Piece budget: about ' + money(Math.round(budget)) : 'Piece budget: still deciding'),
+          'What I\'m dreaming of: '
+        ];
+        var text = lines.join('\n');
+        function done() { var c = $('fisCopied'); c.hidden = false; setTimeout(function () { c.hidden = true; }, 4000); }
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () { window.prompt('Copy this:', text); });
+        else window.prompt('Copy this:', text);
+      });
+
+      /* ---------- Basket tabs ---------- */
+      var tabs = Array.prototype.slice.call(document.querySelectorAll('.fis-tabs [role="tab"]'));
+      function selectTab(tab, focus) {
+        tabs.forEach(function (t) {
+          var on = t === tab;
+          t.setAttribute('aria-selected', String(on));
+          t.tabIndex = on ? 0 : -1;
+          document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+        });
+        if (focus) tab.focus();
+      }
+      tabs.forEach(function (tab, i) {
+        tab.addEventListener('click', function () { selectTab(tab, false); });
+        tab.addEventListener('keydown', function (e) {
+          var j = null;
+          if (e.key === 'ArrowRight') j = (i + 1) % tabs.length;
+          if (e.key === 'ArrowLeft') j = (i - 1 + tabs.length) % tabs.length;
+          if (e.key === 'Home') j = 0;
+          if (e.key === 'End') j = tabs.length - 1;
+          if (j !== null) { e.preventDefault(); selectTab(tabs[j], true); }
+        });
+      });
+
+      /* ---------- FAQ open-all + print ---------- */
+      var btn = $('fisToggleAll');
+      var open = false;
+      btn.addEventListener('click', function () {
+        open = !open;
+        document.querySelectorAll('#faq details').forEach(function (d) { d.open = open; });
+        btn.textContent = open ? 'Close every answer' : 'Open every answer';
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      window.addEventListener('beforeprint', function () {
+        document.querySelectorAll('#faq details').forEach(function (d) { d.open = true; });
+      });
+
+      /* ---------- Interactive checklist ---------- */
+      var boxes = Array.prototype.slice.call(document.querySelectorAll('#fisCheck input[type="checkbox"]'));
+      var prog = $('fisCheckProgress'), ready = $('fisReady');
+      function tally() {
+        var n = boxes.filter(function (b) { return b.checked; }).length;
+        prog.textContent = n + ' of ' + boxes.length + (n === boxes.length ? ' — everything that matters' : '');
+        ready.hidden = n !== boxes.length;
+      }
+      boxes.forEach(function (b) { b.addEventListener('change', tally); });
+      tally();
+    })();
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type": "Question", "name": "What exactly can I order?", "acceptedAnswer": {"@type": "Answer", "text": "Anything foldable: clothing, shoes, bags, scarves, jewellery, áo dài, and linen or silk by the metre — from premium Saigon ateliers and small studios not sold in the US. Browse 270 verified houses free in the Saigon Fashion Directory."}},
+      {"@type": "Question", "name": "What do I pay, and when?", "acceptedAnswer": {"@type": "Answer", "text": "Two payments: after approving photos of the actual piece, you pay only the boutique price (receipt shown) by Zelle or Wise. The flat tier fee — $65 Single, $130 Capsule, $225 Wardrobe, $375 Suitcase — is due only once the clothes are in your hands."}},
+      {"@type": "Question", "name": "Is there really no international shipping charge?", "acceptedAnswer": {"@type": "Answer", "text": "For the 18 August flight, none. Orders ride in checked luggage on a flight that is happening anyway, so international courier charges are waived. OC pickup is free; doorstep delivery is $20 in Orange County, $40 in greater LA; USPS reaches the rest of the US at cost."}},
+      {"@type": "Question", "name": "Will I owe US import duty?", "acceptedAnswer": {"@type": "Answer", "text": "Everything is declared at US customs. On orders this size, duty usually isn't assessed; if any is, it's passed through at exact cost with the customs receipt."}},
+      {"@type": "Question", "name": "How do I know Vietnamese sizing will fit?", "acceptedAnswer": {"@type": "Answer", "text": "Vietnamese sizing runs small, so the real garment's measurements are checked against yours (bust, waist, hip, height) before anything is bought. If a piece won't fit, you're told before you pay."}},
+      {"@type": "Question", "name": "What if a piece is sold out?", "acceptedAnswer": {"@type": "Answer", "text": "You only pay after the piece is photographed in hand, so nothing is charged for a piece that isn't there. You'll be offered what's actually available, or the same piece hunted at other locations, or you simply skip it."}},
+      {"@type": "Question", "name": "What if I miss the 15 August cutoff?", "acceptedAnswer": {"@type": "Answer", "text": "Confirmed orders go first on the next flight — there is always a next flight. Courier shipping is also available (typically $30–50 per kilo, one to two weeks), with a free online estimator for a grounded ballpark."}},
+      {"@type": "Question", "name": "What if something arrives damaged or wrong?", "acceptedAnswer": {"@type": "Answer", "text": "Report it within 48 hours with an unboxing video and it will be made right. Every piece is inspected and wrapped before the bags close."}},
+      {"@type": "Question", "name": "Wouldn't it be cheaper to fly to Vietnam myself?", "acceptedAnswer": {"@type": "Answer", "text": "An economy round trip between California and Sài Gòn typically runs $900–1,500 plus 18–30 hours of travel each way and a week of hotel costs — more than two full Suitcase orders, delivered. Wonderful as a holiday; the maths never closes as a shopping strategy."}}
+    ]
+  }
+  </script>
+</body>
+</html>
