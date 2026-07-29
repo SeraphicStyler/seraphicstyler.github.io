@@ -140,6 +140,49 @@
     .lp-gift-paths a:hover { border-bottom-color: currentColor; }
     .lp-gift-when { margin: 0.35rem 0 0; font-size: 0.68rem; letter-spacing: 0.02em; color: var(--text-secondary); }
 
+    /* ===== The flight promotion — the one thing on this page with a deadline =====
+       Deliberately louder than the cards around it: filled rather than tinted,
+       its own hairline frame, and a live count that stops the scroll. */
+    .lp-promo { position: relative; display: block; margin-top: 1.6rem; padding: 1.15rem 1.15rem 1.05rem;
+      border-radius: 18px; text-decoration: none; color: var(--text-primary); overflow: hidden;
+      border: 1.5px solid var(--accent);
+      background: linear-gradient(135deg, rgba(201,182,232,0.62), rgba(174,196,246,0.5) 46%, rgba(238,243,251,0.94));
+      box-shadow: 0 12px 30px -18px rgba(35,58,114,0.65); }
+    html.dark .lp-promo { background: linear-gradient(135deg, rgba(169,184,238,0.20), rgba(46,84,173,0.20) 50%, rgba(36,40,55,0.86)); }
+    .lp-promo::after { content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(420px 150px at 88% -10%, rgba(255,255,255,0.55), transparent 70%); }
+    html.dark .lp-promo::after { background: radial-gradient(420px 150px at 88% -10%, rgba(169,184,238,0.16), transparent 70%); }
+    .lp-promo-flag { display: inline-flex; align-items: center; gap: 0.45rem;
+      font-family: var(--font-brand); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--cta-text, #fff); background: var(--accent); border-radius: 999px; padding: 0.28rem 0.7rem; }
+    .lp-promo-flag .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    @media (prefers-reduced-motion: no-preference) {
+      html:not(.rm) .lp-promo-flag .dot { animation: lp-blink 2.2s ease-in-out infinite; }
+    }
+    @keyframes lp-blink { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+    .lp-promo-t { display: block; margin: 0.6rem 0 0; font-family: var(--font-display); font-weight: 400;
+      font-size: clamp(1.3rem, 5.4vw, 1.7rem); line-height: 1.15; }
+    .lp-promo-t em { font-family: var(--font-script); font-style: normal; color: var(--accent); font-size: 1.15em; }
+    .lp-promo-s { margin: 0.4rem 0 0; font-size: 0.82rem; line-height: 1.6; color: var(--text-secondary); max-width: 44ch; }
+    .lp-promo-facts { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.8rem; }
+    .lp-promo-facts span { font-family: var(--font-accent); font-size: 0.63rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent); background: rgba(255,255,255,0.6);
+      border: 1px solid rgba(46,84,173,0.22); border-radius: 999px; padding: 0.3rem 0.62rem; }
+    html.dark .lp-promo-facts span { background: rgba(36,40,55,0.55); border-color: rgba(169,184,238,0.28); }
+    .lp-promo-go { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem;
+      margin-top: 0.95rem; padding-top: 0.8rem; border-top: 1px solid rgba(46,84,173,0.2); }
+    html.dark .lp-promo-go { border-top-color: rgba(169,184,238,0.22); }
+    .lp-promo-when { font-size: 0.72rem; line-height: 1.4; color: var(--text-secondary); }
+    .lp-promo-when strong { display: block; color: var(--accent); font-size: 0.8rem; font-weight: 500; }
+    .lp-promo-btn { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 0.4rem; min-height: 44px;
+      padding: 0 1.05rem; border-radius: 999px; background: var(--accent); color: var(--cta-text, #fff);
+      font-family: var(--font-brand); font-size: 0.82rem; white-space: nowrap;
+      transition: transform .18s ease, box-shadow .18s ease; }
+    .lp-promo:hover .lp-promo-btn { transform: translateY(-1px); box-shadow: 0 8px 18px -10px rgba(35,58,114,0.7); }
+    .lp-promo:active { transform: translateY(0) scale(0.996); }
+    .lp-promo:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    html.rm .lp-promo, html.rm .lp-promo-btn { transition: none; }
+
     /* ===== Motion — cultivated, not decorative =====
        Group titles are unveiled by a clip mask (clip-path shifts nothing in the
        layout and reads more editorial than a slide). Deliberately CSS-only: an
@@ -307,6 +350,22 @@
       </div>
     </header>
 
+
+    <!-- ===== Featured promotion — the flight home, while the window is open ===== -->
+    <a class="lp-promo" href="free-international-shipping" data-track="promo-flight">
+      <span class="lp-promo-flag"><span class="dot" aria-hidden="true"></span>Limited — one flight</span>
+      <strong class="lp-promo-t">Free international <em>shipping</em></strong>
+      <p class="lp-promo-s">I fly to Orange County on 18 August with room for a few client orders in my suitcase. Your pieces come home with me — no courier, no per-kilo bill.</p>
+      <div class="lp-promo-facts">
+        <span>$0 shipping</span>
+        <span>Free OC pickup</span>
+        <span>Pay after delivery</span>
+      </div>
+      <div class="lp-promo-go">
+        <span class="lp-promo-when"><strong id="lpPromoCount">Orders close 15 August</strong>Everything answered before you order</span>
+        <span class="lp-promo-btn">Read the details →</span>
+      </div>
+    </a>
 
     <!-- ===== Block-based links (a destination, not a plain list) ===== -->
     <nav class="lp-groups" aria-label="Seraphic Styler links">
@@ -754,5 +813,19 @@ const ICONS={"11 Garmentory":"icons/11 Garmentory.jpg","18 Again":"icons/18 Agai
   })();
   </script>
   <script src="js/discover-brand.js"></script>
+  <!-- Flight promo: a live count, so the deadline is never stale -->
+  <script>
+    (function () {
+      var el = document.getElementById('lpPromoCount'); if (!el) return;
+      var now = new Date();
+      var d = Math.ceil((new Date(2026, 7, 15, 23, 59, 59) - now) / 86400000);   // 15 Aug 2026
+      var flown = Math.ceil((new Date(2026, 7, 18, 23, 59, 59) - now) / 86400000); // 18 Aug 2026
+      if (d > 1) el.textContent = d + ' days left — orders close 15 August';
+      else if (d === 1) el.textContent = 'Orders close tomorrow, 15 August';
+      else if (d === 0) el.textContent = 'Last day — orders close tonight';
+      else if (flown >= 0) el.textContent = 'Orders closed — DM for the next flight';
+      else el.textContent = 'This flight has landed — ask about the next';
+    })();
+  </script>
 </body>
 </html>
