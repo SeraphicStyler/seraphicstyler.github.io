@@ -353,17 +353,17 @@
 
     <!-- ===== Featured promotion — the flight home, while the window is open ===== -->
     <a class="lp-promo" href="free-international-shipping" data-track="promo-flight">
-      <span class="lp-promo-flag"><span class="dot" aria-hidden="true"></span>Limited — one flight</span>
-      <strong class="lp-promo-t">Free international <em>shipping</em></strong>
-      <p class="lp-promo-s">I fly to Orange County on 18 August with room for a few client orders in my suitcase. Your pieces come home with me — no courier, no per-kilo bill.</p>
+      <span class="lp-promo-flag"><span class="dot" aria-hidden="true"></span><span data-i18n="lp.promo_flag">Limited — one flight</span></span>
+      <strong class="lp-promo-t" data-i18n="lp.promo_t">Free international <em>shipping</em></strong>
+      <p class="lp-promo-s" data-i18n="lp.promo_s">I fly to Orange County on 18 August with room for a few client orders in my suitcase. Your pieces come home with me — no courier, no per-kilo bill.</p>
       <div class="lp-promo-facts">
-        <span>$0 shipping</span>
-        <span>Free OC pickup</span>
-        <span>Photos before you pay</span>
+        <span data-i18n="lp.promo_f1">$0 shipping</span>
+        <span data-i18n="lp.promo_f2">Free OC pickup</span>
+        <span data-i18n="lp.promo_f3">Photos before you pay</span>
       </div>
       <div class="lp-promo-go">
-        <span class="lp-promo-when"><strong id="lpPromoCount">Orders close 15 August</strong>Everything answered before you order</span>
-        <span class="lp-promo-btn">Read the details →</span>
+        <span class="lp-promo-when"><strong id="lpPromoCount">Orders close 15 August</strong><span data-i18n="lp.promo_ans">Everything answered before you order</span></span>
+        <span class="lp-promo-btn" data-i18n="lp.promo_btn">Read the details →</span>
       </div>
     </a>
 
@@ -823,14 +823,19 @@ const ICONS={"11 Garmentory":"icons/11 Garmentory.jpg","18 Again":"icons/18 Agai
   <script>
     (function () {
       var el = document.getElementById('lpPromoCount'); if (!el) return;
-      var now = new Date();
-      var d = Math.ceil((new Date(2026, 7, 15, 23, 59, 59) - now) / 86400000);   // 15 Aug 2026
-      var flown = Math.ceil((new Date(2026, 7, 18, 23, 59, 59) - now) / 86400000); // 18 Aug 2026
-      if (d > 1) el.textContent = d + ' days left — orders close 15 August';
-      else if (d === 1) el.textContent = 'Orders close tomorrow, 15 August';
-      else if (d === 0) el.textContent = 'Last day — orders close tonight';
-      else if (flown >= 0) el.textContent = 'Orders closed — DM for the next flight';
-      else el.textContent = 'This flight has landed — ask about the next';
+      function render() {
+        var now = new Date();
+        var d = Math.ceil((new Date(2026, 7, 15, 23, 59, 59) - now) / 86400000);   // 15 Aug 2026
+        var flown = Math.ceil((new Date(2026, 7, 18, 23, 59, 59) - now) / 86400000); // 18 Aug 2026
+        var TF = window.SS_TF || function (k, en, v) { return en.replace('{n}', v && v.n); };
+        if (d > 1) el.textContent = TF('lp.promo_c_many', '{n} days left — orders close 15 August', { n: d });
+        else if (d === 1) el.textContent = TF('lp.promo_c_tmrw', 'Orders close tomorrow, 15 August');
+        else if (d === 0) el.textContent = TF('lp.promo_c_today', 'Last day — orders close tonight');
+        else if (flown >= 0) el.textContent = TF('lp.promo_c_closed', 'Orders closed — DM for the next flight');
+        else el.textContent = TF('lp.promo_c_landed', 'This flight has landed — ask about the next');
+      }
+      render();
+      document.addEventListener('ss:lang', render);
     })();
   </script>
 </body>
