@@ -73,8 +73,8 @@ var CONFIG = {
   var FALLBACK_RATES = { USD:1, EUR:0.92, GBP:0.79, AUD:1.5, CAD:1.36, SGD:1.34, JPY:155, KRW:1350, CNY:7.2, THB:36, AED:3.67, INR:83 };
 
   var el = {};
-  ['lineItems','addItem','region','weight','complex','green','styling','payMethod','estCurrency','rSubtotal','rFee','rFeeNote','rBase',
-   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rComplexRow','rComplex','rGreenRow','rGreen','rCardRow','rCard','rShip','rTotal','rUsd','fxStatus','sendBasket','copiedMsg','estEmptyMsg']
+  ['lineItems','addItem','region','region2','compareDest','compareWrap','destCompare','weight','complex','green','styling','payMethod','estCurrency','rSubtotal','rFee','rFeeNote','rBase',
+   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rComplexRow','rComplex','rGreenRow','rGreen','rCardRow','rCard','rShip','rShipNote','rTotal','rUsd','fxStatus','sendBasket','copiedMsg','estEmptyMsg']
     .forEach(function (id) { el[id] = document.getElementById(id); });
   if (!el.lineItems) return; // not on a page with the estimator
 
@@ -174,9 +174,43 @@ var CONFIG = {
   function save() {
     try {
       localStorage.setItem('ss-basket', JSON.stringify({
-        items: readItems(), links: readLinks(), region: el.region.value, weight: el.weight.value, complex: el.complex.checked, green: !!(el.green && el.green.checked), styling: (el.styling && el.styling.value) || 'none', pay: (el.payMethod && el.payMethod.value) || 'bank', cur: curCode()
+        items: readItems(), links: readLinks(), region: el.region.value, weight: el.weight.value, complex: el.complex.checked, green: !!(el.green && el.green.checked), styling: (el.styling && el.styling.value) || 'none', pay: (el.payMethod && el.payMethod.value) || 'bank', cur: curCode(),
+        compare: !!(el.compareDest && el.compareDest.checked), region2: (el.region2 && el.region2.value) || ''
       }));
     } catch (e) {}
+  }
+
+  /* --- Destination comparison helpers -------------------------------------
+     A client can often receive to more than one country (a dress that could go
+     to the UK or to China). Shipping is the biggest variable in the estimate,
+     so let them see both routes side by side instead of toggling back and
+     forth. Everything except shipping (and the card fee that rides on it) is
+     identical between destinations, so only shipping is recomputed. */
+  function shipRange(regionVal, weightVal) {
+    if (CONFIG.customWeights.indexOf(weightVal) !== -1) return null; // custom quote
+    var zone = CONFIG.shipping[regionVal] || CONFIG.shipping.us;
+    return zone[weightVal] || zone.light;
+  }
+  function totalsFor(nonShip, ship, card) {
+    if (!ship) return null;
+    var lo = nonShip + ship[0] + (card ? cardFee(nonShip + ship[0]) : 0);
+    var hi = nonShip + ship[1] + (card ? cardFee(nonShip + ship[1]) : 0);
+    return { ship: ship, lo: lo, hi: hi };
+  }
+  function regionLabel(v) {
+    var o = el.region && el.region.querySelector('option[value="' + v + '"]');
+    return o ? o.textContent : v;
+  }
+  /* A sensible second region when the two selects collide — the routes clients
+     most often weigh against each other, in order. */
+  function firstOtherRegion(v) {
+    var pref = ['eu', 'us', 'asia', 'oceania', 'sca', 'mena', 'latam', 'africa'];
+    for (var i = 0; i < pref.length; i++) if (pref[i] !== v && CONFIG.shipping[pref[i]]) return pref[i];
+    return v;
+  }
+  function compareOn() {
+    return !!(el.compareDest && el.compareDest.checked && el.region2 && el.region2.value &&
+              el.region2.value !== el.region.value);
   }
 
   function compute() {
@@ -190,11 +224,72 @@ var CONFIG = {
     var styling = styleCfg ? styleCfg.vnd : 0;
     var credit = styleCfg ? Math.min(styleCfg.credit || 0, subtotal) : 0; // piece credit, capped at items
     var custom = CONFIG.customWeights.indexOf(el.weight.value) !== -1;
-    var zone = CONFIG.shipping[el.region.value] || CONFIG.shipping.us;
-    var ship = custom ? null : (zone[el.weight.value] || zone.light);
+    var ship = shipRange(el.region.value, el.weight.value);
     var nItems = items.filter(function (v) { return v > 0; }).length;
     var card = !!(el.payMethod && el.payMethod.value === 'card');
     return { items: items, subtotal: subtotal, fees: fees, base: base, complex: complex, green: green, styling: styling, credit: credit, styleCfg: styleCfg, ship: ship, custom: custom, nItems: nItems, card: card };
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (ch) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch];
+    });
+  }
+
+  /* Side-by-side destination panel. Hidden unless the visitor has ticked
+     "compare" AND picked a second, different region. */
+  function renderCompare(c, nonShip) {
+    if (!el.destCompare) return;
+    var box = el.destCompare;
+    if (!compareOn() || (c.nItems === 0 && c.styling === 0)) { box.hidden = true; box.innerHTML = ''; return; }
+    box.hidden = false;
+
+    var head = '<p class="dc-h">' + esc(t('est.cmp.h', 'Comparing two destinations')) + '</p>';
+
+    // Nothing shippable to compare yet (styling-only basket, or a custom-quote weight)
+    if (c.nItems === 0 && c.styling > 0) {
+      box.innerHTML = head + '<p class="dc-note">' +
+        esc(t('est.cmp.nopieces', 'Shipping is added once your pieces are sourced — add an item to compare the two routes.')) + '</p>';
+      return;
+    }
+    if (c.custom) {
+      // interpolate here rather than via tf(), so the sentence still reads correctly
+      // on a page where the i18n engine hasn't loaded
+      var msg = t('est.cmp.custom', 'Parcels over 10 kg are custom-quoted, so I price both routes by hand — send the estimate and I will quote {a} and {b} together.')
+        .replace('{a}', regionLabel(el.region.value)).replace('{b}', regionLabel(el.region2.value));
+      box.innerHTML = head + '<p class="dc-note">' + esc(msg) + '</p>';
+      return;
+    }
+
+    var opts = [el.region.value, el.region2.value].map(function (v) {
+      return { v: v, name: regionLabel(v), t: totalsFor(nonShip, shipRange(v, el.weight.value), c.card) };
+    });
+    var bestLo = Math.min(opts[0].t.lo, opts[1].t.lo);
+
+    var cards = opts.map(function (o) {
+      var best = o.t.lo === bestLo;
+      return '<div class="dc-card' + (best ? ' is-best' : '') + '">' +
+        (best ? '<span class="dc-badge">' + esc(t('est.cmp.lower', 'Lower estimate')) + '</span>' : '') +
+        '<p class="dc-name">' + esc(o.name) + '</p>' +
+        '<p class="dc-line"><span>' + esc(t('est.shiplbl', 'Est. shipping')) + '</span><span>' + fmtVnd(o.t.ship[0]) + ' – ' + fmtVnd(o.t.ship[1]) + '</span></p>' +
+        '<p class="dc-total">' + fmtVnd(o.t.lo) + ' – ' + fmtVnd(o.t.hi) + '</p>' +
+        '<p class="dc-cur">≈ ' + esc(fmtCur(toCur(o.t.lo))) + ' – ' + esc(fmtCur(toCur(o.t.hi))) + '</p>' +
+        '<button class="dc-use" type="button" data-use-region="' + esc(o.v) + '">' +
+          esc(t('est.cmp.use', 'Ship here')) + '</button>' +
+      '</div>';
+    }).join('');
+
+    var gapLo = Math.abs(opts[0].t.lo - opts[1].t.lo);
+    var cheaper = opts[0].t.lo === bestLo ? opts[0].name : opts[1].name;
+    var diff = gapLo > 0
+      ? esc(cheaper) + ' ' + esc(t('est.cmp.cheaperby', 'is cheaper by about')) + ' ' + fmtVnd(gapLo) + ' (≈ ' + esc(fmtCur(toCur(gapLo))) + ')'
+      : esc(t('est.cmp.even', 'Both routes estimate the same — pick whichever is easier to receive.'));
+
+    box.innerHTML = head +
+      '<p class="dc-sub">' + esc(t('est.cmp.sub', 'Same pieces, same fees — only shipping changes. Pick either one, or send both and I will confirm the real courier price for each.')) + '</p>' +
+      '<div class="dc-grid">' + cards + '</div>' +
+      '<p class="dc-diff">' + diff + '</p>' +
+      '<p class="dc-note">' + esc(t('est.cmp.duty', 'Import duty and customs in the destination country are not included and differ by country — a cheaper route can still cost more after duty. I flag this before you pay.')) + '</p>';
   }
 
   function recalc() {
@@ -220,6 +315,9 @@ var CONFIG = {
       else { el.rCreditRow.style.display = 'none'; }
     }
     var nonShip = c.subtotal + c.fees + c.base + c.complex - c.green + c.styling - c.credit;
+    renderCompare(c, nonShip);
+    // When two destinations are in play, name the one this card is priced for.
+    if (el.rShipNote) el.rShipNote.textContent = compareOn() ? '(' + regionLabel(el.region.value) + ')' : '';
     if (c.nItems === 0 && c.styling === 0) {
       // Nothing entered yet — an honest empty state, not a shipping band pretending to be a total.
       if (el.rCardRow) el.rCardRow.style.display = 'none';
@@ -305,6 +403,23 @@ var CONFIG = {
         'ESTIMATED TOTAL: ' + fmtVnd(nonShip + c.ship[0] + cfLo) + ' – ' + fmtVnd(nonShip + c.ship[1] + cfHi),
         '≈ ' + fmtCur(toCur(nonShip + c.ship[0] + cfLo)) + ' – ' + fmtCur(toCur(nonShip + c.ship[1] + cfHi)));
     }
+    if (compareOn()) {
+      lines.push('', 'COMPARING TWO DESTINATIONS — please quote both:');
+      if (c.custom) {
+        lines.push('• ' + regionLabel(el.region.value) + ' — custom quote (10kg+)',
+          '• ' + regionLabel(el.region2.value) + ' — custom quote (10kg+)');
+      } else if (c.nItems === 0) {
+        lines.push('• ' + regionLabel(el.region.value), '• ' + regionLabel(el.region2.value),
+          '(shipping added once pieces are sourced)');
+      } else {
+        [el.region.value, el.region2.value].forEach(function (v) {
+          var tt = totalsFor(nonShip, shipRange(v, el.weight.value), c.card);
+          lines.push('• ' + regionLabel(v) + ': shipping ' + fmtVnd(tt.ship[0]) + ' – ' + fmtVnd(tt.ship[1]) +
+            ' → total ' + fmtVnd(tt.lo) + ' – ' + fmtVnd(tt.hi) + ' (≈ ' + fmtCur(toCur(tt.lo)) + ' – ' + fmtCur(toCur(tt.hi)) + ')');
+        });
+      }
+      lines.push('(I have not decided which destination yet — duty not included.)');
+    }
     lines.push('', 'Please confirm my final quote — thank you! 🎀');
     return lines.join('\n');
   }
@@ -368,7 +483,29 @@ var CONFIG = {
   }
 
   el.addItem.addEventListener('click', function () { addItem(''); recalc(); });
-  el.region.addEventListener('change', recalc);
+  el.region.addEventListener('change', function () {
+    // Never let both selects sit on the same region — the comparison would be a no-op.
+    if (el.region2 && el.region2.value === el.region.value) el.region2.value = firstOtherRegion(el.region.value);
+    recalc();
+  });
+  if (el.region2) el.region2.addEventListener('change', recalc);
+  if (el.compareDest) el.compareDest.addEventListener('change', function () {
+    if (el.compareWrap) el.compareWrap.hidden = !el.compareDest.checked;
+    if (el.compareDest.checked && el.region2 && el.region2.value === el.region.value) {
+      el.region2.value = firstOtherRegion(el.region.value);
+    }
+    recalc();
+  });
+  // "Ship here" inside the comparison promotes that region to the primary one,
+  // and demotes the previous primary into the compare slot (so nothing is lost).
+  if (el.destCompare) el.destCompare.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-use-region]');
+    if (!b) return;
+    var pick = b.getAttribute('data-use-region');
+    if (pick === el.region.value) { el.compareDest.checked = false; if (el.compareWrap) el.compareWrap.hidden = true; }
+    else { el.region2.value = el.region.value; el.region.value = pick; }
+    recalc();
+  });
   el.weight.addEventListener('change', recalc);
   el.complex.addEventListener('change', recalc);
   if (el.green) el.green.addEventListener('change', recalc);
@@ -389,6 +526,12 @@ var CONFIG = {
     if (saved.styling && el.styling) el.styling.value = saved.styling; // absent (old baskets) → default 'none'
     if (saved.pay && el.payMethod) el.payMethod.value = saved.pay; // absent (old baskets, tray handoff) → default 'bank'
     if (saved.cur && el.estCurrency) el.estCurrency.value = saved.cur;
+    if (saved.region2 && el.region2) el.region2.value = saved.region2;
+    if (saved.compare && el.compareDest) {                    // absent (older baskets) → comparison off
+      el.compareDest.checked = true;
+      if (el.compareWrap) el.compareWrap.hidden = false;
+      if (el.region2 && el.region2.value === el.region.value) el.region2.value = firstOtherRegion(el.region.value);
+    }
   } else { addItem(''); }
   loadFx();
   recalc();

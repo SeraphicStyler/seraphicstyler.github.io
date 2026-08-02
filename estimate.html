@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Tenor+Sans&family=Merriweather+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=2026-07-28d" />
+  <link rel="stylesheet" href="css/styles.css?v=2026-08-02a" />
 
   <!-- Respect the same theme / accessibility prefs the main site stores -->
   <script>
@@ -116,6 +116,21 @@
                 <option value="mena" data-i18n="ship.r5">Middle East &amp; North Africa</option>
                 <option value="africa" data-i18n="ship.r8">Africa</option>
               </select>
+              <label class="quiz-check"><input type="checkbox" id="compareDest" style="width:auto" /> <span data-i18n="est.compare">Compare a second destination</span> <span class="tip" tabindex="0" role="note" aria-label="Why compare two destinations?">i<span class="tip-box" data-i18n="est.compare.tip">If your piece could go to more than one address — a second home, family abroad, or wherever you happen to be that month — pick both and see the two totals side by side. Shipping is the biggest variable in any estimate.</span></span></label>
+              <div id="compareWrap" hidden>
+                <label class="quiz-q" for="region2" style="margin-top:0.9rem" data-i18n="est.shipto2">Second destination</label>
+                <p class="quiz-help small muted" data-i18n="est.q.dest2">I will quote both routes and you decide after seeing the real courier price.</p>
+                <select id="region2">
+                <option value="us" data-i18n="ship.r3">US &amp; Canada</option>
+                <option value="latam" data-i18n="ship.r6">Latin America</option>
+                <option value="eu" selected data-i18n="ship.r4">Europe &amp; UK</option>
+                <option value="oceania" data-i18n="ship.r2">Australia &amp; New Zealand</option>
+                <option value="asia" data-i18n="ship.r1">East &amp; SE Asia</option>
+                <option value="sca" data-i18n="ship.r7">South &amp; Central Asia</option>
+                <option value="mena" data-i18n="ship.r5">Middle East &amp; North Africa</option>
+                <option value="africa" data-i18n="ship.r8">Africa</option>
+                </select>
+              </div>
               <div class="quiz-nav"><button class="quiz-back" type="button" data-back data-i18n="est.back">Back</button><button class="btn btn-primary quiz-next" type="button" data-next data-i18n="est.next">Continue</button></div>
             </div>
 
@@ -161,13 +176,14 @@
                 <div class="result-row" id="rCreditRow" style="display:none"><span><span data-i18n="est.creditline">Piece credit applied</span> <span class="tip" tabindex="0" role="note" aria-label="About the piece credit">i<span class="tip-box" data-i18n="est.credit.tip">Each styling tier includes a fixed credit toward your pieces — the same credit inside the gift tiers ($34 / $104 / $174 / $239). It is subtracted here, up to the value of your items.</span></span></span><span class="v green-v" id="rCredit">0₫</span></div>
                 <div class="result-row" id="rComplexRow" style="display:none"><span data-i18n="est.complexline">Complex sourcing</span><span class="v" id="rComplex">0₫</span></div>
                 <div class="result-row" id="rGreenRow" style="display:none"><span data-i18n="est.greenline">Green shopping discount</span><span class="v green-v" id="rGreen">0₫</span></div>
-                <div class="result-row"><span data-i18n="est.shiplbl">Est. shipping</span><span class="v" id="rShip">—</span></div>
+                <div class="result-row"><span><span data-i18n="est.shiplbl">Est. shipping</span> <span class="muted small" id="rShipNote"></span></span><span class="v" id="rShip">—</span></div>
                 <div class="result-row" id="rCardRow" style="display:none"><span><span data-i18n="est.cardline">Card processing (Stripe)</span> <span class="tip" tabindex="0" role="note" aria-label="About the card processing fee">i<span class="tip-box" data-i18n="est.card.tip">Stripe charges 2.9% + $0.30 of the amount charged. Choosing card passes that through exactly — no markup. Bank transfer, Wise &amp; Zelle skip it entirely.</span></span></span><span class="v" id="rCard">0₫</span></div>
                 <div class="result-row total" role="status" aria-live="polite"><span data-i18n="est.total">Total (VND)</span><span class="v" id="rTotal">—</span></div>
                 <div class="result-row" style="border:none"><span class="muted"><span data-i18n="est.usd">Approx. in</span> <select id="estCurrency" class="cur-select" aria-label="Currency"><option>USD</option><option>EUR</option><option>GBP</option><option>AUD</option><option>CAD</option><option>SGD</option><option>JPY</option><option>KRW</option><option>CNY</option><option>THB</option><option>AED</option><option>INR</option></select></span><span class="v usd" id="rUsd">—</span></div>
                 <p class="fx-status" id="fxStatus" role="status" aria-live="polite" style="margin-top:0.5rem">Loading live rate…</p>
                 <p class="estimate-note" id="estEmptyMsg" style="display:none" data-i18n="est.empty">Nothing to estimate yet — add an item price, or choose a styling tier.</p>
               </div>
+              <div class="dest-compare" id="destCompare" hidden></div>
               <details class="est-accuracy">
                 <summary><span data-i18n="est.acc.sum">How accurate is this estimate?</span><span class="est-acc-badge">~95%</span></summary>
                 <div class="est-acc-body">

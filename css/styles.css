@@ -1344,6 +1344,25 @@ html.rm .quiz-step.is-active { animation: none; }
 .quiz-back { background: none; border: none; color: var(--text-secondary); font-family: var(--font-accent); font-size: 0.82rem; letter-spacing: 0.06em; cursor: pointer; padding: 0.7rem 0.5rem; transition: color 0.2s ease; }
 .quiz-back:hover { color: var(--text-primary); }
 .result-card { background: var(--surface-soft); border: 1px solid var(--surface-border); border-radius: var(--card-radius); padding: clamp(1.1rem, 4vw, 1.6rem); }
+
+/* ---- Destination comparison (two shipping routes, side by side) ---- */
+.dest-compare { margin-top: 1rem; padding: clamp(1rem, 4vw, 1.4rem); background: var(--surface-soft); border: 1px solid var(--surface-border); border-radius: var(--card-radius); }
+.dest-compare .dc-h { font-family: var(--font-accent); font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-deep); margin: 0; }
+.dest-compare .dc-sub { font-size: 0.85rem; color: var(--text-secondary); margin: 0.4rem 0 0.9rem; line-height: 1.6; }
+.dc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.dc-card { position: relative; border: 1px solid var(--surface-border); border-radius: calc(var(--card-radius) * 0.7); padding: 0.95rem 0.9rem 0.8rem; background: var(--surface); }
+.dc-card.is-best { border-color: var(--accent-deep); box-shadow: 0 0 0 1px var(--accent-deep) inset; }
+.dc-badge { position: absolute; top: -0.6rem; left: 0.75rem; font-family: var(--font-accent); font-size: 0.58rem; letter-spacing: 0.13em; text-transform: uppercase; padding: 0.22rem 0.5rem; border-radius: 999px; background: var(--accent-deep); color: var(--cta-text); }
+.dc-name { font-family: var(--font-display); font-size: 1.02rem; margin: 0.15rem 0 0.5rem; line-height: 1.25; }
+.dc-line { display: flex; justify-content: space-between; gap: 0.5rem; font-size: 0.76rem; color: var(--text-secondary); margin: 0 0 0.55rem; font-variant-numeric: tabular-nums; }
+.dc-total { font-family: var(--font-body); font-variant-numeric: tabular-nums; font-size: 0.94rem; font-weight: 500; margin: 0; }
+.dc-cur { font-size: 0.8rem; color: var(--text-secondary); margin: 0.15rem 0 0.7rem; font-variant-numeric: tabular-nums; }
+.dc-use { width: 100%; background: none; border: 1px solid var(--surface-border); border-radius: 999px; padding: 0.45rem 0.5rem; font-family: var(--font-accent); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-primary); cursor: pointer; transition: background 0.2s ease, border-color 0.2s ease; }
+.dc-use:hover { border-color: var(--accent-deep); background: var(--accent-soft); color: var(--accent-deep); }
+.dest-compare .dc-diff { font-size: 0.85rem; margin: 0.9rem 0 0; color: var(--text-primary); }
+.dest-compare .dc-note { font-size: 0.76rem; line-height: 1.65; color: var(--text-secondary); margin: 0.45rem 0 0; }
+@media (max-width: 460px) { .dc-grid { grid-template-columns: 1fr; gap: 1.1rem; } }
+
 @media (max-width: 520px) {
   .quiz-nav { flex-wrap: wrap; }
   .quiz-nav .btn-primary { min-width: 0; flex: 1 1 100%; order: -1; }
