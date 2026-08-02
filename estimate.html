@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Tenor+Sans&family=Merriweather+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=2026-08-02a" />
+  <link rel="stylesheet" href="css/styles.css?v=2026-08-03a" />
 
   <!-- Respect the same theme / accessibility prefs the main site stores -->
   <script>
@@ -159,7 +159,7 @@
               <p class="quiz-help small muted" data-i18n="est.pay.help">Bank transfer, Wise &amp; Zelle are fee-free. Card (via Stripe) adds a processing fee — shown as its own line, never hidden in prices.</p>
               <select id="payMethod">
                 <option value="bank" selected data-i18n="est.pay.bank">Bank transfer / Wise / Zelle — no extra fee</option>
-                <option value="card" data-i18n="est.pay.card">Card via Stripe — adds ~3.3% processing</option>
+                <option value="card" data-i18n="est.pay.card">Card via Stripe — adds ~5.4% + $0.30 (international rate)</option>
               </select>
               <div class="quiz-nav"><button class="quiz-back" type="button" data-back data-i18n="est.back">Back</button><button class="btn btn-primary quiz-next" type="button" data-next data-i18n="est.see">See my estimate</button></div>
             </div>
@@ -177,9 +177,13 @@
                 <div class="result-row" id="rComplexRow" style="display:none"><span data-i18n="est.complexline">Complex sourcing</span><span class="v" id="rComplex">0₫</span></div>
                 <div class="result-row" id="rGreenRow" style="display:none"><span data-i18n="est.greenline">Green shopping discount</span><span class="v green-v" id="rGreen">0₫</span></div>
                 <div class="result-row"><span><span data-i18n="est.shiplbl">Est. shipping</span> <span class="muted small" id="rShipNote"></span></span><span class="v" id="rShip">—</span></div>
-                <div class="result-row" id="rCardRow" style="display:none"><span><span data-i18n="est.cardline">Card processing (Stripe)</span> <span class="tip" tabindex="0" role="note" aria-label="About the card processing fee">i<span class="tip-box" data-i18n="est.card.tip">Stripe charges 2.9% + $0.30 of the amount charged. Choosing card passes that through exactly — no markup. Bank transfer, Wise &amp; Zelle skip it entirely.</span></span></span><span class="v" id="rCard">0₫</span></div>
+                <div class="result-row" id="rCardRow" style="display:none"><span><span data-i18n="est.cardline">Card processing (Stripe)</span> <span class="tip" tabindex="0" role="note" aria-label="About the card processing fee">i<span class="tip-box" data-i18n="est.card.tip">Passed through at cost, never marked up. Stripe takes 2.9% + $0.30, plus 1.5% for an international card and 1% when it converts currency. I cannot tell whose card is which from an estimate, so this line is priced at the full international rate — a ceiling, not a surprise. If your card turns out to be domestic, your payment link costs less than this. Bank transfer, Wise &amp; Zelle skip the fee entirely.</span></span></span><span class="v" id="rCard">0₫</span></div>
                 <div class="result-row total" role="status" aria-live="polite"><span data-i18n="est.total">Total (VND)</span><span class="v" id="rTotal">—</span></div>
                 <div class="result-row" style="border:none"><span class="muted"><span data-i18n="est.usd">Approx. in</span> <select id="estCurrency" class="cur-select" aria-label="Currency"><option>USD</option><option>EUR</option><option>GBP</option><option>AUD</option><option>CAD</option><option>SGD</option><option>JPY</option><option>KRW</option><option>CNY</option><option>THB</option><option>AED</option><option>INR</option></select></span><span class="v usd" id="rUsd">—</span></div>
+                <div class="result-row split-row" id="rDepositRow" style="display:none"><span><span data-i18n="est.deposit">Deposit — due to start</span> <span class="tip" tabindex="0" role="note" aria-label="What the deposit covers">i<span class="tip-box" data-i18n="est.deposit.tip">Your pieces, my service fees and the base fee — everything I can price exactly today. Paid once you have approved the real photographs, so I can buy the pieces.</span></span></span><span class="v" id="rDeposit">—</span></div>
+                <p class="split-cur" id="rDepositCur"></p>
+                <div class="result-row split-row" id="rBalanceRow" style="display:none"><span><span data-i18n="est.balance">Balance — before it ships</span> <span class="tip" tabindex="0" role="note" aria-label="What the balance covers">i<span class="tip-box" data-i18n="est.balance.tip">Shipping only, sent once your parcel is packed and weighed — so you pay the real courier price, not a guess. This is the part of the estimate that moves.</span></span></span><span class="v" id="rBalance">—</span></div>
+                <p class="split-cur" id="rBalanceCur"></p>
                 <p class="fx-status" id="fxStatus" role="status" aria-live="polite" style="margin-top:0.5rem">Loading live rate…</p>
                 <p class="estimate-note" id="estEmptyMsg" style="display:none" data-i18n="est.empty">Nothing to estimate yet — add an item price, or choose a styling tier.</p>
               </div>
@@ -212,7 +216,7 @@
           <div class="faq">
             <details><summary data-i18n="est.faq.q1">Is this a quote? Am I committing to anything?</summary><div class="a" data-i18n="est.faq.a1">No. An estimate is arithmetic, not an order — nothing is sourced, nothing is reserved, and nothing is charged until you approve the final quote I confirm personally.</div></details>
             <details><summary data-i18n="est.faq.q2">What happens after I press send?</summary><div class="a" data-i18n="est.faq.a2">Your summary arrives to me through the form, and a copy sits on your clipboard as a backup. I reply within a day with the real store price, current availability, and exact shipping for your address — that reply is the final quote.</div></details>
-            <details><summary data-i18n="est.faq.q3">When do I actually pay?</summary><div class="a" data-i18n="est.faq.a3">Only after you approve the final quote — 50% to place the order, and the balance plus exact shipping before your parcel leaves Saigon. You are never asked to pay from this page.</div></details>
+            <details><summary data-i18n="est.faq.q3">When do I actually pay?</summary><div class="a" data-i18n="est.faq.a3">Only after you approve the final quote, and in two parts: a deposit covering your pieces and fees so I can buy them, then the shipping balance once your parcel is packed and weighed — so shipping is the real courier price, not a guess. You are never asked to pay from this page.</div></details>
             <details><summary data-i18n="est.faq.q4">Is paying safe?</summary><div class="a" data-i18n="est.faq.a4">Bank transfer, Wise, PayPal, or Payoneer — choose PayPal Goods &amp; Services for buyer protection. You receive photo confirmation of every piece before it ships, and a tracking number the moment it does.</div></details>
             <details><summary data-i18n="est.faq.q5">Why is shipping such a large share of the total?</summary><div class="a" data-i18n="est.faq.a5">Couriers price clothes by weight and volume, and honest international rates are simply high — a recent 0.5–1&nbsp;kg parcel ran 1,950,000₫. Shipping is passed through at exact cost, never marked up, and I repack carefully to cut the volume you would otherwise pay for.</div></details>
             <details><summary data-i18n="est.faq.q6">What if it doesn't fit, or arrives wrong?</summary><div class="a" data-i18n="est.faq.a6">Sizing is confirmed against the real garment's measurements before we buy — that is part of the service. If the wrong item arrives or it is damaged, tell me within 48 hours with an unboxing video and I'll make it right.</div></details>

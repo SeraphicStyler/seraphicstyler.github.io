@@ -1345,6 +1345,13 @@ html.rm .quiz-step.is-active { animation: none; }
 .quiz-back:hover { color: var(--text-primary); }
 .result-card { background: var(--surface-soft); border: 1px solid var(--surface-border); border-radius: var(--card-radius); padding: clamp(1.1rem, 4vw, 1.6rem); }
 
+/* ---- Deposit / balance split (the two payments an order is taken in) ---- */
+.result-row.split-row { border-bottom: none; padding: 0.5rem 0 0.1rem; font-size: 0.92rem; }
+.result-row.split-row:first-of-type { border-top: 1px dashed var(--surface-border); margin-top: 0.5rem; padding-top: 0.8rem; }
+.result-row.split-row .v { font-weight: 500; }
+.split-cur { text-align: right; font-size: 0.78rem; color: var(--text-secondary); margin: 0 0 0.35rem; font-variant-numeric: tabular-nums; }
+html[dir="rtl"] .split-cur { text-align: left; }
+
 /* ---- Destination comparison (two shipping routes, side by side) ---- */
 .dest-compare { margin-top: 1rem; padding: clamp(1rem, 4vw, 1.4rem); background: var(--surface-soft); border: 1px solid var(--surface-border); border-radius: var(--card-radius); }
 .dest-compare .dc-h { font-family: var(--font-accent); font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-deep); margin: 0; }

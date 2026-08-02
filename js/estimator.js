@@ -32,9 +32,23 @@ var CONFIG = {
 
   fx: { fallbackVndPerUsd: 26300, spread: 0.015 },
 
-  /* Card (Stripe) processing pass-through: charged = (total + fixedUsd*fx) / (1 - rate).
-     Bank transfer / Wise / Zelle carry no fee. */
-  card: { rate: 0.029, fixedUsd: 0.30 },
+  /* Card (Stripe) processing pass-through: charged = (amount + fixedUsd*fx) / (1 - rate).
+     Bank transfer / Wise / Zelle carry no fee.
+
+     Stripe stacks its surcharges, and I cannot tell from an estimate whose card is
+     domestic, so every card estimate is priced at the INTERNATIONAL rate — the
+     ceiling, never short. If the real card turns out to be domestic, the payment
+     link costs less than this line, never more. Stripe's published rates (Aug 2026):
+       base 2.9% + $0.30  ·  +1.5% international card  ·  +1% currency conversion
+     manualEntry (+0.5%) applies only to cards typed in by hand — payment links and
+     Checkout are never manually entered, so it stays 0. Set it if that ever changes. */
+  card: { rate: 0.029, intl: 0.015, fx: 0.01, manualEntry: 0, fixedUsd: 0.30 },
+
+  /* Payment is taken in two parts, so the card fee lands on each part separately
+     (Stripe charges its fixed $0.30 per charge, not per order):
+       deposit  — pieces + service fees + base (+ styling, complexity, less credits)
+       balance  — exact shipping, once the parcel is packed and weighed */
+  splitPayment: true,
 
   /* Shipping estimate ranges in VND [economy low, express high].
      Two estimable classes: light (0.5-3kg) & standard (3-10kg). Anchored to a REAL
@@ -74,7 +88,7 @@ var CONFIG = {
 
   var el = {};
   ['lineItems','addItem','region','region2','compareDest','compareWrap','destCompare','weight','complex','green','styling','payMethod','estCurrency','rSubtotal','rFee','rFeeNote','rBase',
-   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rComplexRow','rComplex','rGreenRow','rGreen','rCardRow','rCard','rShip','rShipNote','rTotal','rUsd','fxStatus','sendBasket','copiedMsg','estEmptyMsg']
+   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rComplexRow','rComplex','rGreenRow','rGreen','rCardRow','rCard','rShip','rShipNote','rDepositRow','rDeposit','rDepositCur','rBalanceRow','rBalance','rBalanceCur','rTotal','rUsd','fxStatus','sendBasket','copiedMsg','estEmptyMsg']
     .forEach(function (id) { el[id] = document.getElementById(id); });
   if (!el.lineItems) return; // not on a page with the estimator
 
@@ -128,11 +142,18 @@ var CONFIG = {
     return Math.max(f.minFee, pct);
   }
 
-  /* Exact Stripe pass-through: what must be added so the charged amount nets totalVnd. */
-  function cardFee(totalVnd) {
+  /* Total percentage Stripe takes off a card charge, at the international ceiling. */
+  function cardRate() {
     var cc = CONFIG.card;
-    if (!cc || !(totalVnd > 0)) return 0;
-    return (totalVnd + cc.fixedUsd * fxRate) / (1 - cc.rate) - totalVnd;
+    return cc.rate + (cc.intl || 0) + (cc.fx || 0) + (cc.manualEntry || 0);
+  }
+  function cardRatePct() { return (cardRate() * 100).toFixed(1).replace(/\.0$/, '') + '%'; }
+
+  /* Exact Stripe pass-through: what must be added so the charged amount nets amountVnd. */
+  function cardFee(amountVnd) {
+    var cc = CONFIG.card;
+    if (!cc || !(amountVnd > 0)) return 0;
+    return (amountVnd + cc.fixedUsd * fxRate) / (1 - cardRate()) - amountVnd;
   }
 
   function readItems() {
@@ -230,6 +251,37 @@ var CONFIG = {
     return { items: items, subtotal: subtotal, fees: fees, base: base, complex: complex, green: green, styling: styling, credit: credit, styleCfg: styleCfg, ship: ship, custom: custom, nItems: nItems, card: card };
   }
 
+  /* Split an estimate into the two payments it is actually taken in.
+     deposit = everything I can price today (pieces + fees, less credits)
+     balance = shipping, which is only exact once the parcel is packed & weighed.
+     Each is its own Stripe charge, so each carries its own processing fee. */
+  function splitOf(nonShip, ship, card) {
+    var depFee = card ? cardFee(nonShip) : 0;
+    var balFeeLo = card ? cardFee(ship[0]) : 0;
+    var balFeeHi = card ? cardFee(ship[1]) : 0;
+    return {
+      deposit: nonShip + depFee, depositFee: depFee,
+      balLo: ship[0] + balFeeLo, balHi: ship[1] + balFeeHi,
+      feeLo: depFee + balFeeLo, feeHi: depFee + balFeeHi,
+      lo: nonShip + depFee + ship[0] + balFeeLo,
+      hi: nonShip + depFee + ship[1] + balFeeHi
+    };
+  }
+  function showSplit(s) {
+    if (!el.rDepositRow) return;
+    el.rDepositRow.style.display = '';
+    el.rBalanceRow.style.display = '';
+    el.rDeposit.textContent = fmtVnd(s.deposit);
+    el.rDepositCur.textContent = '≈ ' + fmtCur(toCur(s.deposit));
+    el.rBalance.textContent = fmtVnd(s.balLo) + ' – ' + fmtVnd(s.balHi);
+    el.rBalanceCur.textContent = '≈ ' + fmtCur(toCur(s.balLo)) + ' – ' + fmtCur(toCur(s.balHi));
+  }
+  function hideSplit() {
+    if (!el.rDepositRow) return;
+    el.rDepositRow.style.display = 'none';
+    el.rBalanceRow.style.display = 'none';
+  }
+
   function esc(s) {
     return String(s).replace(/[&<>"]/g, function (ch) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch];
@@ -325,6 +377,7 @@ var CONFIG = {
       el.rTotal.textContent = '—';
       el.rUsd.textContent = '—';
       if (el.estEmptyMsg) el.estEmptyMsg.style.display = '';
+      hideSplit();
       updateFxStatus(); save(); return;
     }
     if (el.estEmptyMsg) el.estEmptyMsg.style.display = 'none';
@@ -338,6 +391,7 @@ var CONFIG = {
       el.rShip.textContent = t('est.ship.later', 'Added with your pieces');
       el.rTotal.textContent = fmtVnd(nonShip + cfS);
       el.rUsd.textContent = '≈ ' + fmtCur(toCur(nonShip + cfS));
+      hideSplit();                       // styling only — one payment, nothing to ship
       updateFxStatus(); save(); return;
     }
     if (c.custom) {
@@ -349,16 +403,18 @@ var CONFIG = {
       el.rShip.textContent = t('est.customquote', 'Custom quote');
       el.rTotal.textContent = fmtVnd(nonShip + cf) + t('est.plusship', ' + shipping');
       el.rUsd.textContent = '≈ ' + fmtCur(toCur(nonShip + cf)) + t('est.customhaul', ' + shipping (custom quote, 10kg+)');
+      hideSplit();                       // shipping is hand-quoted, so no balance figure yet
     } else {
-      var cfLo = c.card ? cardFee(nonShip + c.ship[0]) : 0;
-      var cfHi = c.card ? cardFee(nonShip + c.ship[1]) : 0;
+      // Two charges, so the card fee is calculated on each part separately.
+      var s = splitOf(nonShip, c.ship, c.card);
       if (el.rCardRow) {
-        if (cfLo > 0) { el.rCardRow.style.display = ''; el.rCard.textContent = fmtVnd(cfLo) + ' – ' + fmtVnd(cfHi); }
+        if (s.feeLo > 0) { el.rCardRow.style.display = ''; el.rCard.textContent = fmtVnd(s.feeLo) + ' – ' + fmtVnd(s.feeHi); }
         else { el.rCardRow.style.display = 'none'; }
       }
       el.rShip.textContent = fmtVnd(c.ship[0]) + ' – ' + fmtVnd(c.ship[1]);
-      el.rTotal.textContent = fmtVnd(nonShip + c.ship[0] + cfLo) + ' – ' + fmtVnd(nonShip + c.ship[1] + cfHi);
-      el.rUsd.textContent = '≈ ' + fmtCur(toCur(nonShip + c.ship[0] + cfLo)) + ' – ' + fmtCur(toCur(nonShip + c.ship[1] + cfHi));
+      el.rTotal.textContent = fmtVnd(s.lo) + ' – ' + fmtVnd(s.hi);
+      el.rUsd.textContent = '≈ ' + fmtCur(toCur(s.lo)) + ' – ' + fmtCur(toCur(s.hi));
+      showSplit(s);
     }
     updateFxStatus();
     save();
@@ -387,21 +443,24 @@ var CONFIG = {
     lines.push('Payment: ' + (c.card ? 'Card via Stripe (processing fee below)' : 'Bank transfer / Wise / Zelle (fee-free)'));
     if (c.nItems === 0 && c.styling > 0) {
       var cfS = c.card ? cardFee(nonShip) : 0;
-      if (cfS > 0) lines.push('Card processing (Stripe 2.9% + $0.30, at cost): ' + fmtVnd(cfS));
+      if (cfS > 0) lines.push('Card processing (Stripe ' + cardRatePct() + ' + $0.30 intl rate, at cost): ' + fmtVnd(cfS));
       lines.push('Shipping: added once your pieces are sourced',
         'ESTIMATED TOTAL (styling only): ' + fmtVnd(nonShip + cfS) + ' (≈ ' + fmtCur(toCur(nonShip + cfS)) + ')');
     } else if (c.custom) {
       var cf = c.card ? cardFee(nonShip) : 0;
-      if (cf > 0) lines.push('Card processing (Stripe 2.9% + $0.30, at cost): ' + fmtVnd(cf) + ' + card fee on shipping at invoice');
+      if (cf > 0) lines.push('Card processing (Stripe ' + cardRatePct() + ' + $0.30 intl rate, at cost): ' + fmtVnd(cf) + ' + card fee on shipping at invoice');
       lines.push('Est. before shipping: ' + fmtVnd(nonShip + cf) + ' (≈ ' + fmtCur(toCur(nonShip + cf)) + ')',
         'Shipping: CUSTOM QUOTE — heavy haul (10kg+), to confirm after packing plan');
     } else {
-      var cfLo = c.card ? cardFee(nonShip + c.ship[0]) : 0;
-      var cfHi = c.card ? cardFee(nonShip + c.ship[1]) : 0;
-      if (cfLo > 0) lines.push('Card processing (Stripe 2.9% + $0.30, at cost): ' + fmtVnd(cfLo) + ' – ' + fmtVnd(cfHi));
+      var sp = splitOf(nonShip, c.ship, c.card);
+      if (sp.feeLo > 0) lines.push('Card processing (Stripe ' + cardRatePct() + ' + $0.30 intl rate, at cost, both charges): ' + fmtVnd(sp.feeLo) + ' – ' + fmtVnd(sp.feeHi));
       lines.push('Est. shipping: ' + fmtVnd(c.ship[0]) + ' – ' + fmtVnd(c.ship[1]),
-        'ESTIMATED TOTAL: ' + fmtVnd(nonShip + c.ship[0] + cfLo) + ' – ' + fmtVnd(nonShip + c.ship[1] + cfHi),
-        '≈ ' + fmtCur(toCur(nonShip + c.ship[0] + cfLo)) + ' – ' + fmtCur(toCur(nonShip + c.ship[1] + cfHi)));
+        'ESTIMATED TOTAL: ' + fmtVnd(sp.lo) + ' – ' + fmtVnd(sp.hi),
+        '≈ ' + fmtCur(toCur(sp.lo)) + ' – ' + fmtCur(toCur(sp.hi)),
+        '',
+        'Split into the two payments:',
+        '• Deposit to start (pieces + fees): ' + fmtVnd(sp.deposit) + ' (≈ ' + fmtCur(toCur(sp.deposit)) + ')',
+        '• Balance before dispatch (shipping): ' + fmtVnd(sp.balLo) + ' – ' + fmtVnd(sp.balHi) + ' (≈ ' + fmtCur(toCur(sp.balLo)) + ' – ' + fmtCur(toCur(sp.balHi)) + ')');
     }
     if (compareOn()) {
       lines.push('', 'COMPARING TWO DESTINATIONS — please quote both:');
