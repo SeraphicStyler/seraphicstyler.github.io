@@ -450,6 +450,11 @@ main>.group:not(:first-child){border-top:1px solid var(--line-soft);margin-top:2
   letter-spacing:.11em;color:var(--ok);background:var(--ok-bg);border-radius:var(--r-pill);padding:3px 9px;
   white-space:nowrap;}
 .card .fib::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;flex:none;}
+/* the occasions a house dresses — Seraphic's editorial read, filterable from the Occasion select */
+.card .occ{display:inline-flex;align-items:center;gap:5px;font-size:.58rem;text-transform:uppercase;
+  letter-spacing:.11em;color:var(--peri-text);border:1px solid color-mix(in srgb,var(--orchid) 50%,transparent);
+  border-radius:var(--r-pill);padding:3px 9px;white-space:nowrap;}
+.card .occ::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--orchid);flex:none;}
 .badge{display:inline-flex;align-items:center;gap:6px;font-size:.6rem;font-weight:600;
   text-transform:uppercase;letter-spacing:.08em;padding:3px 9px;border-radius:var(--r-pill);white-space:nowrap;}
 .badge::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;flex:none;}
@@ -815,6 +820,8 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
         <select class="sel" id="tiersel"></select></label>
       <label class="selwrap"><span data-i18n="fd.fiblabel">Fabric</span>
         <select class="sel" id="fibsel"></select></label>
+      <label class="selwrap"><span data-i18n="fd.occlabel">Occasion</span>
+        <select class="sel" id="occsel"></select></label>
       <label class="selwrap"><span data-i18n="fd.sortlabel">Sort</span>
         <select class="sel" id="sortsel"></select></label>
       <button class="morebtn" id="morebtn" aria-expanded="false" aria-controls="morepanel"><span data-i18n="fd.morefilters">More filters</span></button>
@@ -963,6 +970,18 @@ const fibMatch=(b,f)=>{
   return f==="natural"?t.some(x=>NATURAL.includes(x)):t.includes(f);
 };
 const fibLabel=b=>fibOf(b).map(k=>{const t=FIBERS.find(x=>x[0]===k);return t?tlabel(t):k;}).join(" · ");
+/* — Occasion. A use-case lens, not a wardrobe group: a gown house is still "Luxury &
+   couture", a party label is still "Womenswear" — this select cuts across those groups.
+   `occ` in directory-data.js is tagged editorially, only where a house's own work
+   clearly dresses the moment: gowns/formal for balls & galas, statement pieces for
+   nights out, dress-forward feminine RTW for birthdays. Untagged = unreviewed, not
+   unsuitable — same philosophy as the fabric facet. — */
+const OCCS=[["all","fd.occ.all","Any occasion"],
+  ["event","fd.occ.event","Balls, galas & formal"],
+  ["night","fd.occ.night","Nightlife & parties"],
+  ["bday","fd.occ.bday","Birthdays & celebrations"]];
+const occOf=b=>Array.isArray(b.occ)?b.occ:(b.occ?[b.occ]:[]);
+const occLabel=b=>occOf(b).map(k=>{const t=OCCS.find(x=>x[0]===k);return t?tlabel(t):k;}).join(" · ");
 const VIBES=[["all","fd.vibe.all","All vibes"],["coastal","fd.vibe.coastal","Coastal"],["studio","fd.vibe.studio","Studio"],["performance","fd.vibe.performance","Performance"]];
 const SORTS=[["rec","fd.sort.rec","Curated order"],["az",null,"A → Z"],["tierup","fd.sort.tierup","Price tier: low → high"],["tierdn","fd.sort.tierdn","Price tier: high → low"]];
 /* Tuple label: translated when it carries a key, verbatim when it doesn't. */
@@ -1069,7 +1088,7 @@ const grpTitle=g=>T("fd.grp."+g[0]+".t",g[1]);
 const grpDesc =g=>T("fd.grp."+g[0]+".d",g[2]);
 
 /* ============ STATE ============ */
-let fCat="all",fCity="all",fWalk=false,fQ="",fZone="",fTier="all",fVibe="all",fFib="all",fSaved=false,fSort="rec";
+let fCat="all",fCity="all",fWalk=false,fQ="",fZone="",fTier="all",fVibe="all",fFib="all",fOcc="all",fSaved=false,fSort="rec";
 
 /* — Saved shortlist (localStorage; hearts never leave this browser) — */
 let SAVED=new Set();
@@ -1108,6 +1127,7 @@ function syncHash(){
   if(fTier!=="all")p.set("tier",fTier);
   if(fVibe!=="all")p.set("vibe",fVibe);
   if(fFib!=="all")p.set("fib",fFib);
+  if(fOcc!=="all")p.set("occ",fOcc);
   if(fZone)p.set("zone",fZone);
   if(fWalk)p.set("walk","1");
   if(fSaved)p.set("saved","1");
@@ -1153,6 +1173,7 @@ function match(b){
   if(fTier!=="all"&&b.tier!==fTier)return false;
   if(fVibe!=="all"&&vibeOf(b)!==fVibe)return false;
   if(fFib!=="all"&&!fibMatch(b,fFib))return false;
+  if(fOcc!=="all"&&!occOf(b).includes(fOcc))return false;
   if(fSaved&&!isSaved(b))return false;
   if(fZone&&zoneOf(b)!==fZone)return false;
   if(fQ){const t=(b.n+" "+(b.h||"")+" "+(b.a||"")+" "+(b.no||"")+" "+b.area).toLowerCase();
@@ -1214,6 +1235,7 @@ function card(b,i){
   const sub=b.sub?`<span class="area"${viAttr(b.sub)}>${b.sub}</span>`:"";
   const vb=vibeOf(b),vibe=vb?`<span class="vibe">${vb}</span>`:"";
   const fl=fibLabel(b),fib=fl?`<span class="fib">${fl}</span>`:"";  /* what the house says its cloth is */
+  const ol=occLabel(b),occ=ol?`<span class="occ">${ol}</span>`:"";  /* the occasions it dresses */
   const price=b.price?`<span class="price">${b.price}</span>`:"";
   const on=isSaved(b);
   const sv=`<button class="sv${on?" on":""}" data-id="${bid(b)}" aria-pressed="${on}" aria-label="${L.saveFor(b.n)}">
@@ -1238,7 +1260,7 @@ function card(b,i){
     <div class="cd-more">
       <div class="note"${viAttr(note)}>${note}</div>
       <div class="addr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg><span${viAttr(b.a)}>${b.a}</span><span class="acts">${cm}</span></div>
-      <div class="foot"><span class="st ${st[1]}">${stl}</span>${openbadge}${confbadge}${price}${tier}${fib}${vibe}${sub}<span class="area"${viAttr(b.area)}>${b.area}</span></div>
+      <div class="foot"><span class="st ${st[1]}">${stl}</span>${openbadge}${confbadge}${price}${tier}${fib}${occ}${vibe}${sub}<span class="area"${viAttr(b.area)}>${b.area}</span></div>
     </div>
     ${cmPop}
     <span class="credit" aria-hidden="true">seraphicstyler.com</span>
@@ -1256,6 +1278,7 @@ function activeFilters(){
   if(fTier!=="all")out.push({k:"tier",label:lbl(TIERS,fTier)});
   if(fVibe!=="all")out.push({k:"vibe",label:lbl(VIBES,fVibe)});
   if(fFib!=="all")out.push({k:"fib",label:lbl(FIBERS,fFib)});
+  if(fOcc!=="all")out.push({k:"occ",label:lbl(OCCS,fOcc)});
   if(fWalk)out.push({k:"walk",label:L.walkF});
   if(fSaved)out.push({k:"saved",label:L.savedF});
   return out;
@@ -1267,12 +1290,13 @@ function removeFilter(k){
   if(k==="tier")fTier="all";
   if(k==="vibe")fVibe="all";
   if(k==="fib")fFib="all";
+  if(k==="occ")fOcc="all";
   if(k==="walk")fWalk=false;
   if(k==="saved")fSaved=false;
   syncHash();syncUI();
 }
 function resetAll(){
-  fCat="all";fCity="all";fTier="all";fVibe="all";fFib="all";fZone="";fWalk=false;fSaved=false;fQ="";
+  fCat="all";fCity="all";fTier="all";fVibe="all";fFib="all";fOcc="all";fZone="";fWalk=false;fSaved=false;fQ="";
   const q=document.getElementById("q");q.value="";document.getElementById("qclear").hidden=true;
   syncHash();syncUI();
 }
@@ -1489,6 +1513,7 @@ document.getElementById("vibechips").addEventListener("click",e=>{
 document.getElementById("locsel").addEventListener("change",e=>{setLoc(e.target.value);updateMapClear();syncHash();renderMap();render();});
 document.getElementById("tiersel").addEventListener("change",e=>{fTier=e.target.value;syncHash();render();});
 document.getElementById("fibsel").addEventListener("change",e=>{fFib=e.target.value;syncHash();render();});
+document.getElementById("occsel").addEventListener("change",e=>{fOcc=e.target.value;syncHash();render();});
 document.getElementById("sortsel").addEventListener("change",e=>{fSort=e.target.value;syncHash();render();});
 document.getElementById("walkonly").addEventListener("change",e=>{fWalk=e.target.checked;syncHash();render();});
 document.getElementById("savedbtn").addEventListener("click",e=>{
@@ -1761,7 +1786,7 @@ function renderMapNote(){
 new MutationObserver(()=>{
   statChips();renderBrowse();renderNow();renderMapNote();
   chipbar("catchips",CATS,fCat,"cat");chipbar("vibechips",VIBES,fVibe,"vibe");
-  fillSel("locsel",LOCS,locValue());fillSel("tiersel",TIERS,fTier);fillSel("fibsel",FIBERS,fFib);fillSel("sortsel",SORTS,fSort);
+  fillSel("locsel",LOCS,locValue());fillSel("tiersel",TIERS,fTier);fillSel("fibsel",FIBERS,fFib);fillSel("occsel",OCCS,fOcc);fillSel("sortsel",SORTS,fSort);
   render();renderMap();
   /* stateful labels the data-i18n pass can't know about */
   const sb=document.getElementById("savedbtn");if(sb)sb.title=LX().savedTip;
@@ -1810,7 +1835,7 @@ new MutationObserver(()=>{
 /* — Restore state from a shared deep link (#cat=men&tier=mid, #zone=d3, #q=…) — */
 function applyHash(){
   const h=location.hash.replace(/^#/,"");
-  fCat="all";fCity="all";fTier="all";fVibe="all";fZone="";fWalk=false;fSaved=false;fQ="";fSort="rec";
+  fCat="all";fCity="all";fTier="all";fVibe="all";fFib="all";fOcc="all";fZone="";fWalk=false;fSaved=false;fQ="";fSort="rec";
   const q=document.getElementById("q");q.value="";
   if(h){
     const p=new URLSearchParams(h);
@@ -1819,6 +1844,7 @@ function applyHash(){
     if(p.get("tier"))fTier=p.get("tier");
     if(p.get("vibe"))fVibe=p.get("vibe");
     if(p.get("fib"))fFib=p.get("fib");
+    if(p.get("occ"))fOcc=p.get("occ");
     if(p.get("sort"))fSort=p.get("sort");
     fZone=p.get("zone")||"";
     fWalk=p.get("walk")==="1";
@@ -1833,7 +1859,7 @@ function applyHash(){
 }
 function syncUI(){
   chipbar("catchips",CATS,fCat,"cat");chipbar("vibechips",VIBES,fVibe,"vibe");
-  fillSel("locsel",LOCS,locValue());fillSel("tiersel",TIERS,fTier);fillSel("fibsel",FIBERS,fFib);fillSel("sortsel",SORTS,fSort);
+  fillSel("locsel",LOCS,locValue());fillSel("tiersel",TIERS,fTier);fillSel("fibsel",FIBERS,fFib);fillSel("occsel",OCCS,fOcc);fillSel("sortsel",SORTS,fSort);
   document.getElementById("walkonly").checked=fWalk;
   document.getElementById("savedbtn").setAttribute("aria-pressed",String(fSaved));
   statChips();updateSavedCount();updateMapClear();render();renderMap();
