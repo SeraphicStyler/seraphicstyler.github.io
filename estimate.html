@@ -80,6 +80,8 @@
             <h2 style="margin-top:0.8rem" data-i18n="est.h2">Build a rough estimate</h2>
             <p class="lead narrow" data-i18n="est.intro">A grounded ballpark — not a checkout. Add your items, select a destination, and I will confirm the exact quote by direct message. Styling and in-shop try-on are booked separately.</p>
           </div>
+          <!-- Guess-then-reveal price game (js/price-game.js) — warms up intuition before the real quiz below -->
+          <div id="priceGame"></div>
           <div class="quiz glass" id="estQuiz">
             <div class="quiz-toolbar">
               <label class="quiz-lang">
@@ -250,6 +252,7 @@
   <script src="js/translations.js"></script>
   <script src="js/i18n.js"></script>
   <script src="js/estimator.js"></script>
+  <script src="js/price-game.js"></script>
 
   <!-- Minimal 4-step navigator (self-contained port of the homepage stepper) -->
   <script>

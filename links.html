@@ -248,6 +248,40 @@
       .hgrp { gap: 12px; }
     }
 
+    /* ===== Services reel — an auto-rotating preview of what I do =====
+       Without JS it renders as a plain stack of tappable cards; the script
+       flips it to a scroll-snap reel that drifts on its own (never under
+       reduced motion), pauses the moment you touch, hover or focus it, and
+       keeps dots in step with manual swipes. */
+    .lp-reel { margin-top: 1.6rem; }
+    .lp-reel-track { display: grid; gap: 0.7rem; margin-top: 0.62rem; }
+    .lp-reel-track.lp-reel-on { display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+      scrollbar-width: none; padding: 4px 2px;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); }
+    .lp-reel-track.lp-reel-on::-webkit-scrollbar { display: none; }
+    .lp-reel-on .lp-reel-card { flex: 0 0 86%; scroll-snap-align: center; }
+    @media (min-width: 560px) { .lp-reel-on .lp-reel-card { flex-basis: 72%; } }
+    .lp-reel-card { display: flex; flex-direction: column; gap: 0.28rem; padding: 1.05rem 1.1rem 0.95rem;
+      border-radius: 16px; background: var(--surface-solid); border: 1px solid var(--surface-border);
+      text-decoration: none; color: var(--text-primary); box-shadow: 0 6px 20px -14px rgba(35,58,114,0.5);
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+    .lp-reel-card:hover { transform: translateY(-2px); border-color: rgba(46,84,173,0.4);
+      box-shadow: 0 14px 30px -16px rgba(35,58,114,0.55); }
+    .lp-reel-card:active { transform: translateY(0) scale(0.995); }
+    html.rm .lp-reel-card { transition: none; }
+    .lp-reel-e { font-family: var(--font-brand); font-weight: 500; text-transform: uppercase;
+      letter-spacing: 0.18em; font-size: 0.58rem; color: var(--eyebrow-ink); }
+    .lp-reel-t { font-family: var(--font-brand); font-size: 0.98rem; letter-spacing: 0.01em; }
+    .lp-reel-s { color: var(--text-secondary); font-size: 0.76rem; line-height: 1.5; margin: 0; }
+    .lp-reel-p { display: flex; justify-content: space-between; align-items: center; gap: 0.6rem;
+      margin-top: 0.5rem; padding-top: 0.55rem; border-top: 1px solid var(--surface-border);
+      font-family: var(--font-brand); font-size: 0.8rem; color: var(--accent); }
+    .lp-reel-dots { display: flex; justify-content: center; gap: 0.5rem; margin-top: 0.8rem; }
+    .lp-reel-dot { width: 8px; height: 8px; padding: 0; border-radius: 50%; border: none; cursor: pointer;
+      background: var(--surface-border); transition: background .25s ease, transform .25s ease; }
+    .lp-reel-dot[aria-current="true"] { background: var(--accent); transform: scale(1.3); }
+
     /* ===== Quick-estimate popup ===== */
     .qe-overlay { position: fixed; inset: 0; z-index: 400; display: none; align-items: center; justify-content: center; padding: 1.2rem;
       background: rgba(28,36,55,0.45); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
@@ -379,6 +413,50 @@
         <span class="lp-promo-btn" data-i18n="lp.promo_btn">Read the details →</span>
       </div>
     </a>
+
+    <!-- ===== Services reel — a self-rotating preview of everything on offer ===== -->
+    <section class="lp-reel reveal" aria-label="Services preview">
+      <h2 class="lp-group-h" data-i18n="lp.reel.h">What I can do for you</h2>
+      <div class="lp-reel-track" id="lpReelTrack" tabindex="0" aria-roledescription="carousel" aria-label="Services preview">
+        <a class="lp-reel-card" href="./#services" data-track="reel-styling">
+          <span class="lp-reel-e" data-i18n="lp.reel.1e">Styling</span>
+          <span class="lp-reel-t" data-i18n="lp.reel.1t">Personal styling</span>
+          <p class="lp-reel-s" data-i18n="lp.reel.1s">A Saigon wardrobe built around your days, your fit and what you already own.</p>
+          <span class="lp-reel-p"><span data-i18n="lp.reel.1p">from $49</span><span aria-hidden="true">→</span></span>
+        </a>
+        <a class="lp-reel-card" href="./#contact" data-track="reel-sourcing">
+          <span class="lp-reel-e" data-i18n="lp.reel.2e">Sourcing</span>
+          <span class="lp-reel-t" data-i18n="lp.reel.2t">Order any Vietnam brand</span>
+          <p class="lp-reel-s" data-i18n="lp.reel.2s">Send a wishlist — even pieces never posted online. Verified in person before anything ships.</p>
+          <span class="lp-reel-p"><span data-i18n="lp.reel.2p">pieces at cost + a small fee</span><span aria-hidden="true">→</span></span>
+        </a>
+        <a class="lp-reel-card" href="./#gift" data-track="reel-gift">
+          <span class="lp-reel-e" data-i18n="lp.reel.3e">Gifts</span>
+          <span class="lp-reel-t" data-i18n="lp.reel.3t">Gift styling</span>
+          <p class="lp-reel-s" data-i18n="lp.reel.3s">Give a Saigon wardrobe — their code and a handwritten note arrive within 24 hours.</p>
+          <span class="lp-reel-p"><span data-i18n="lp.reel.3p">from $49</span><span aria-hidden="true">→</span></span>
+        </a>
+        <a class="lp-reel-card" href="./#services" data-track="reel-vintage">
+          <span class="lp-reel-e" data-i18n="lp.reel.4e">Vintage</span>
+          <span class="lp-reel-t" data-i18n="lp.reel.4t">Vintage &amp; rare finds</span>
+          <p class="lp-reel-s" data-i18n="lp.reel.4s">Hunted across Saigon's vintage rooms and ateliers — one-of-one pieces, honestly graded.</p>
+          <span class="lp-reel-p"><span data-i18n="lp.reel.4p">from $149</span><span aria-hidden="true">→</span></span>
+        </a>
+        <a class="lp-reel-card" href="fashion-directory" data-track="reel-directory">
+          <span class="lp-reel-e" data-i18n="lp.reel.5e">Free</span>
+          <span class="lp-reel-t" data-i18n="lp.reel.5t">Saigon Fashion Directory</span>
+          <p class="lp-reel-s" data-i18n="lp.reel.5s">262 verified brands, mapped by district and price band — the foundation of every request.</p>
+          <span class="lp-reel-p"><span data-i18n="lp.reel.5p">browse free</span><span aria-hidden="true">→</span></span>
+        </a>
+        <a class="lp-reel-card" href="lookbook" data-track="reel-lookbook">
+          <span class="lp-reel-e" data-i18n="lp.reel.6e">Free</span>
+          <span class="lp-reel-t" data-i18n="lp.reel.6t">The lookbook</span>
+          <p class="lp-reel-s" data-i18n="lp.reel.6s">Saigon pieces in motion — see the fabric move before you ask me to find it.</p>
+          <span class="lp-reel-p"><span data-i18n="lp.reel.6p">watch free</span><span aria-hidden="true">→</span></span>
+        </a>
+      </div>
+      <div class="lp-reel-dots" id="lpReelDots" hidden></div>
+    </section>
 
     <!-- ===== Block-based links (a destination, not a plain list) ===== -->
     <nav class="lp-groups" aria-label="Seraphic Styler links">
@@ -567,6 +645,97 @@
   <script src="js/main.js"></script>
   <script src="js/estimator.js"></script>
   <script src="js/style-profile.js"></script>
+  <script>
+    /* ---- Services reel: flips the static card stack into a scroll-snap
+       carousel that rotates on its own. Auto-advance is skipped entirely
+       under reduced motion (html.rm OR the OS preference, checked every
+       tick so mid-session toggles stop it), pauses on hover/touch/focus,
+       while the tab is hidden, and while the reel is off-screen. Cards are
+       plain <a>s — nothing intercepts their taps. ---- */
+    (function () {
+      var track = document.getElementById('lpReelTrack');
+      var dotsBox = document.getElementById('lpReelDots');
+      if (!track || !dotsBox) return;
+      var cards = Array.prototype.slice.call(track.children);
+      if (cards.length < 2) return;
+      track.classList.add('lp-reel-on');
+      dotsBox.hidden = false;
+
+      function rm() {
+        return document.documentElement.classList.contains('rm') ||
+          (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+      }
+
+      var idx = 0, hover = false, focus = false, touchHold = null, inView = true;
+      var dots = cards.map(function (c, i) {
+        var d = document.createElement('button');
+        d.type = 'button'; d.className = 'lp-reel-dot';
+        var name = c.querySelector('.lp-reel-t');
+        d.setAttribute('aria-label', name ? name.textContent.trim() : ('' + (i + 1)));
+        d.addEventListener('click', function () { goTo(i); });
+        dotsBox.appendChild(d);
+        return d;
+      });
+
+      function mark(i) {
+        idx = i;
+        dots.forEach(function (d, j) { d.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+      }
+      function goTo(i) {
+        var n = cards.length;
+        i = ((i % n) + n) % n;
+        var c = cards[i];
+        track.scrollTo({ left: c.offsetLeft - (track.clientWidth - c.offsetWidth) / 2,
+                         behavior: rm() ? 'auto' : 'smooth' });
+        mark(i);
+      }
+
+      /* Dots follow manual swipes (rAF-throttled nearest-center). */
+      var raf = null;
+      track.addEventListener('scroll', function () {
+        if (raf) return;
+        raf = requestAnimationFrame(function () {
+          raf = null;
+          var mid = track.scrollLeft + track.clientWidth / 2;
+          var best = 0, bestDist = Infinity;
+          cards.forEach(function (c, i) {
+            var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
+            if (d < bestDist) { bestDist = d; best = i; }
+          });
+          if (best !== idx) mark(best);
+        });
+      }, { passive: true });
+
+      var reel = track.closest('.lp-reel') || track;
+      reel.addEventListener('pointerenter', function () { hover = true; });
+      reel.addEventListener('pointerleave', function () { hover = false; });
+      reel.addEventListener('focusin', function () { focus = true; });
+      reel.addEventListener('focusout', function () { focus = false; });
+      reel.addEventListener('touchstart', function () {
+        clearTimeout(touchHold);
+        touchHold = setTimeout(function () { touchHold = null; }, 8000); // linger after a touch
+      }, { passive: true });
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) { inView = entries[0].isIntersecting; },
+          { threshold: 0.35 }).observe(track);
+      }
+
+      setInterval(function () {
+        if (rm() || hover || focus || touchHold || !inView || document.hidden) return;
+        goTo(idx + 1);
+      }, 4000);
+
+      mark(0);
+      /* Language switch re-writes card text in place — refresh dot labels. */
+      document.addEventListener('ss:lang', function () {
+        dots.forEach(function (d, i) {
+          var name = cards[i].querySelector('.lp-reel-t');
+          if (name) d.setAttribute('aria-label', name.textContent.trim());
+        });
+      });
+    })();
+  </script>
+
   <script>
     /* ---- Quick-estimate popup: reuses estimator.js CONFIG so pricing stays in one place ---- */
     (function () {
