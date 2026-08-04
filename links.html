@@ -76,6 +76,15 @@
     .lp-cta:hover .inner-content { background: #2f4c75; }
     html.mono .lp-cta .inner-content { background: #2d2d2d; }
 
+    /* Three explicit paths — sourcing leads, styling & bulk sit beneath as quiet pills */
+    .lp-paths { display: grid; gap: 0.55rem; max-width: 340px; margin: 0 auto; }
+    .lp-path2 { display: flex; align-items: center; justify-content: center; padding: 0.8rem 1.2rem; border-radius: 999px;
+      border: 1px solid rgba(46,84,173,0.35); background: var(--surface-solid); color: var(--accent); text-decoration: none;
+      font-family: var(--font-accent); font-weight: 500; font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase;
+      transition: border-color .18s ease, background .18s ease; }
+    .lp-path2:hover { border-color: var(--accent); background: rgba(46,84,173,0.06); }
+    .lp-path-note { margin: 0.7rem auto 0; font-size: 0.72rem; line-height: 1.55; color: var(--text-secondary); max-width: 40ch; }
+
     .lp-cta2 { display: inline-block; margin-top: 0.85rem; color: var(--accent); font-family: var(--font-brand);
       font-size: 0.84rem; letter-spacing: 0.02em; background: none; border: none; border-bottom: 1px solid transparent;
       cursor: pointer; padding: 0 0 1px; transition: border-color .18s ease; }
@@ -209,7 +218,7 @@
 
     /* ===== Brand showcase (glassmorphic, drifting) ===== */
     .lp-houses { margin-top: 2.6rem; }
-    .lp-houses-all { display: block; text-align: center; margin-top: 0.9rem; font-family: var(--font-brand);
+    .lp-houses-all { display: block; width: fit-content; text-align: center; margin: 0.9rem auto 0; font-family: var(--font-brand);
       font-size: 0.78rem; color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; }
     .lp-houses-all:hover { border-bottom-color: currentColor; }
     .lp-houses-head { text-align: center; margin-bottom: 0.9rem; }
@@ -334,12 +343,16 @@
         <p class="lp-tag" data-i18n="hero.lead">Hard-to-find Vietnamese fashion &amp; beauty, verified in person and shipped worldwide.</p>
         <p class="lp-trust" data-i18n="lp.trust">Hồ Chí Minh City · Replies within 1–2 business days</p>
 
-        <a class="star-border-container lp-cta" href="https://tally.so/r/gD10Kl?about=An%20inquiry%20%E2%80%94%20I%27m%20looking%20for%20something&amp;source=links-hero" target="_blank" rel="noopener" data-track="inquiry-top">
-          <div class="border-gradient-bottom"></div>
-          <div class="border-gradient-top"></div>
-          <div class="inner-content" data-i18n="hero.cta1">Start an inquiry</div>
-        </a>
-        <br />
+        <div class="lp-paths">
+          <a class="star-border-container lp-cta" href="https://tally.so/r/gD10Kl?about=I%20want%20help%20sourcing%20or%20buying%20specific%20items&amp;source=links-hero" target="_blank" rel="noopener" data-track="path-sourcing">
+            <div class="border-gradient-bottom"></div>
+            <div class="border-gradient-top"></div>
+            <div class="inner-content" data-i18n="lp.path1">Source a piece</div>
+          </a>
+          <a class="lp-path2" href="https://tally.so/r/gD10Kl?about=I%20want%20to%20book%20a%20styling%20service&amp;source=links-hero" target="_blank" rel="noopener" data-track="path-styling" data-i18n="lp.path2">Book styling — from $49</a>
+          <a class="lp-path2" href="https://tally.so/r/gD10Kl?about=I%20need%20corporate%20%2F%20group%20%2F%20bulk%20buying%20support&amp;source=links-hero" target="_blank" rel="noopener" data-track="path-bulk" data-i18n="lp.path3">Group &amp; bulk orders</a>
+        </div>
+        <p class="lp-path-note" data-i18n="lp.pathnote">Know the piece? Choose sourcing. Bringing inspiration or a moodboard? That is styling — a paid service, credited toward your pieces.</p>
         <button class="lp-cta2" id="qeOpen" type="button" data-track="estimate-open" data-i18n="lp.estlink">or get a quick estimate →</button>
 
         <ul class="lp-proof">
@@ -478,7 +491,7 @@
           <span class="lp-go" aria-hidden="true">→</span>
       </a>
 
-          <a class="lp-card" href="https://tally.so/r/gD10Kl?about=An%20inquiry%20%E2%80%94%20I%27m%20looking%20for%20something&amp;source=links" target="_blank" rel="noopener" data-track="email">
+          <a class="lp-card" href="mailto:seraphicstyler@gmail.com" data-track="email">
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 7 12 13l8.5-6"/></svg></span>
           <span class="lp-meta"><span class="lp-title" data-i18n="lp.email_t">Email</span><span class="lp-sub">seraphicstyler@gmail.com</span></span>
           <span class="lp-go" aria-hidden="true">→</span>
@@ -604,7 +617,7 @@
         if (!q) { resultBox.hidden = true; return; }
         resultBox.hidden = false;
         rangeEl.textContent = fmt(q.low) + ' – ' + fmt(q.high);
-        emailLink.href = C.contact.tally + '?about=' + encodeURIComponent('Confirming my estimate') +
+        emailLink.href = C.contact.tally + '?about=' + encodeURIComponent("I'm confirming an estimate or paste-in result") +
           '&estimate=' + encodeURIComponent(summaryText(q)) + '&source=links-qe';
       }
 

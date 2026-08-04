@@ -146,8 +146,9 @@
   /* The sizing result CTA carries the read into the contact form ("about"
      is an existing Tally field), so no one has to retype their own answer. */
   function ctaHref(r, fromMeas) {
-    var about = 'Sizing help — VN ' + r.vn + ' (US ' + r.us + (fromMeas ? ', from measurements' : '') + ')';
-    return 'https://tally.so/r/gD10Kl?about=' + encodeURIComponent(about) + '&source=home-sizing';
+    var note = 'Sizing help — VN ' + r.vn + ' (US ' + r.us + (fromMeas ? ', from measurements' : '') + ')';
+    return 'https://tally.so/r/gD10Kl?about=' + encodeURIComponent('I want help sourcing or buying specific items') +
+      '&estimate=' + encodeURIComponent(note) + '&source=home-sizing';
   }
 
   function render(r, notes, fromMeas) {

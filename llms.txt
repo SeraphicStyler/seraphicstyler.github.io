@@ -1,6 +1,10 @@
 # Seraphic Styler
 
-> A Saigon-based personal shopper and stylist for Vietnamese fashion and beauty.
+> A Saigon-based atelier with two distinct paid services: SOURCING (you name the
+> exact Vietnamese piece; found, verified, shipped at cost plus a clear fee) and
+> STYLING (pieces chosen for you; four flat-price tiers from $49, each with a
+> piece credit). A moodboard, Pinterest board, or "something like this" request
+> is styling, not sourcing.
 > Orders from local brands and made-to-measure áo dài ateliers that don't ship
 > internationally, verified in person in Ho Chi Minh City, and shipped worldwide
 > in one consolidated parcel. Honest pricing: pieces at their real store price,
@@ -12,18 +16,23 @@ Languages: English, Vietnamese
 
 ## What I do
 
-- **Personal shopping** — any Vietnamese brand or boutique, including labels
+- **Sourcing (personal shopping)** — any exact piece from any Vietnamese brand or boutique, including labels
   that ship only inside Vietnam, take only local payment (bank transfer, MoMo,
   ZaloPay), or sell by direct message alone. Per-item fee 8% (7% above
-  5,000,000₫), 250,000₫ minimum per item, 100,000₫ base fee per order.
+  5,000,000₫), 350,000₫ minimum per item, 250,000₫ base fee per order.
+  The first two boutiques on a list are included; each additional store
+  adds 150,000₫.
 - **Made-to-measure áo dài from abroad** — measurements collected over email,
   commissioned from Saigon ateliers (traditional or modern cut), checked
   against your chart and photographed for approval before shipping.
-- **Gift styling** — four tiers, paid by card on Stripe: The Discovery $49
-  (one piece), The Edit $149 (three to five pieces), The Capsule $249 (eight
-  to twelve pieces with a lookbook), The Atelier $349 (the full experience,
-  in Saigon or by video). Each splits into a flat styling fee plus a piece
-  credit spent at real store prices.
+- **Styling — bookable for yourself or giftable** — four tiers, paid by card on
+  Stripe: The Discovery $49 (a first styling read, 1–2 pieces), The Edit $149
+  (a curated edit, typically 3–5 pieces — moodboard and "choose for me"
+  requests live here), The Capsule $249 (8–12 pieces with a lookbook), The
+  Atelier $349 (the full experience, in Saigon or by video). Each splits into
+  a flat styling fee plus a piece credit spent at real store prices. Styling
+  direction, curation, capsule planning, and personalized recommendations are
+  always part of a paid tier — never free pre-sale work.
 - **Group & bulk orders, $1,000–$10,000+** — sorority runs (one look in many
   sizes), bridal parties dressed from Saigon ateliers, team kit, boutique and
   reseller first ranges, corporate gifting. Service fee tapers with size:
@@ -55,7 +64,7 @@ counterfeits.
 - [The Saigon Fashion Directory — 270 verified Vietnamese fashion houses, filterable by district, tier and category](https://www.seraphicstyler.com/fashion-directory)
 - [The Saigon Shopping Field Guide — getting around, dressing for the heat, 1-to-30-day itineraries](https://www.seraphicstyler.com/field-guide)
 - [Find a piece from a photo](https://www.seraphicstyler.com/find)
-- [Lookbook — recent sourcing and styling](https://www.seraphicstyler.com/lookbook)
+- [Lookbook — recent sourcing, and looks styled to order](https://www.seraphicstyler.com/lookbook)
 - [The style profile — the intake behind every tier](https://www.seraphicstyler.com/style-profile)
 - [How payment works](https://www.seraphicstyler.com/pay)
 
@@ -64,4 +73,6 @@ counterfeits.
 Buying from a Vietnamese brand that doesn't ship to your country; getting an
 áo dài made to measure from abroad; dressing a bridal party or sorority from
 Saigon in one shipment; a boutique's first buying trip without the flight;
-which Saigon districts to shop in person; whether a Vietnamese size will fit.
+which Saigon districts to shop in person; whether a Vietnamese size will fit;
+booking a styling tier when you don't know Vietnamese brands yet; turning a
+Pinterest board or a feeling into real pieces (styling, from $49).

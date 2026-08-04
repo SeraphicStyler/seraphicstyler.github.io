@@ -8,7 +8,7 @@
    The tray tallies VND + USD over shortlist+ready, previews the service
    fee via the estimator's CONFIG, and runs the route solver over those
    stores to call the trip "a simple run" or "a proper hunt" — the hunt
-   is what the +200,000₫ complex-sourcing fee covers.
+   is what the per-store fee (first 2 included, +150,000₫ each after) and the +200,000₫ complex fee cover.
    Storage: localStorage 'fd-basket' {v:2, items:[{…, state}]}. v1 baskets
    migrate to state:'ready' (their estimate CTA was live and must stay so);
    pre-tray hearts in 'fd-saved' fold in as state:'saved' rows, and
@@ -467,13 +467,13 @@
         html += '<h3>' + esc(t('fd.bk.hunt', 'A proper hunt')) + '</h3>' +
           '<p>' + v.phys.length + ' ' + esc(t('fd.bk.stores', 'stores')) + (v.districts ? ' ' + esc(t('fd.bk.across', 'across')) + ' ' + v.districts + ' ' + esc(t('fd.bk.districts', 'district(s)')) : '') +
           esc(span) + esc(extra) + '. ' +
-          esc(t('fd.bk.huntWhy', 'Multi-store hunts across the city are exactly what the +200,000₫ complex-sourcing fee covers; it’s included in the preview below.')) + '</p>';
+          esc(t('fd.bk.huntWhy2', 'The first two boutiques are included; each additional store adds 150,000₫ for the extra travel — and hard-to-coordinate runs add the +200,000₫ complex fee. Both are in the preview below.')) + '</p>';
       } else {
         var zoneKeys = Object.keys(v.zones);
         var where = zoneKeys.length === 1 ? (ZONELABEL[zoneKeys[0]] || 'Saigon') : 'Saigon';
         html += '<h3>' + esc(t('fd.bk.simple', 'A simple run')) + '</h3>' +
           '<p>' + stores + ' ' + esc(t('fd.bk.stops', 'stop(s)')) + ' ' + esc(t('fd.bk.in', 'in')) + ' ' + esc(where) + '. ' +
-          esc(t('fd.bk.simpleWhy', 'This fits a standard sourcing trip — the +200,000₫ complex-sourcing surcharge doesn’t apply.')) + '</p>';
+          esc(t('fd.bk.simpleWhy2', 'This fits a standard sourcing trip — no extra-stop or complex-sourcing fees apply.')) + '</p>';
       }
       if (v.plan) {
         html += '<div class="bk-stats"><span>' + v.phys.length + ' ' + esc(t('fd.bk.stops2', 'stops')) + '</span>' +
@@ -505,9 +505,12 @@
       if (C && C.fee && subtotal > 0) {
         var svc = priced.reduce(function (a, it) { return a + itemFee(it.priceVnd); }, 0);
         var complexFee = v.complicated ? C.complexFee : 0;
-        var total = subtotal + svc + C.baseFee + complexFee;
+        var stopsIncl = (C.stops && C.stops.included) || 2;
+        var stopsFee = C.stops ? Math.max(0, v.phys.length - stopsIncl) * C.stops.perExtra : 0;
+        var total = subtotal + svc + C.baseFee + stopsFee + complexFee;
         rows += '<div class="r"><span>' + esc(t('fd.bk.service', 'Service fee')) + '</span><b>' + fmtVnd(svc) + '</b></div>' +
           '<div class="r"><span>' + esc(t('fd.bk.base', 'Base fee')) + '</span><b>' + fmtVnd(C.baseFee) + '</b></div>' +
+          (stopsFee ? '<div class="r"><span>' + esc(t('fd.bk.stopsFee', 'Additional stops')) + '</span><b>+' + fmtVnd(stopsFee) + ' <em style="font-weight:400">(' + v.phys.length + ' ' + esc(t('fd.bk.stores', 'stores')) + ', ' + esc(t('fd.bk.stopsIncl', 'first 2 included')) + ')</em></b></div>' : '') +
           '<div class="r"><span>' + esc(t('fd.bk.complex', 'Complex sourcing')) + '</span><b>' +
             (complexFee ? '+' + fmtVnd(complexFee) + ' <em style="font-weight:400">(' + esc(t('fd.bk.auto', 'auto')) + ': ' + esc(v.reasons.join(' / ')) + ')</em>'
                         : '0₫ — ' + esc(t('fd.bk.notNeeded', 'not needed for a simple run'))) + '</b></div>' +
@@ -589,8 +592,9 @@
     if (C && C.fee && subtotal > 0) {
       var svc = priced.reduce(function (a, it) { return a + itemFee(it.priceVnd); }, 0);
       var cx = v.complicated ? C.complexFee : 0;
-      lines.push(t('fd.bk.sumFees', 'Service + base fee: ') + fmtVnd(svc + C.baseFee) + (cx ? ' · ' + t('fd.bk.sumCx', 'Complex sourcing: +') + fmtVnd(cx) : ''));
-      lines.push(t('fd.bk.sumTotal', 'Total before shipping: ') + fmtVnd(subtotal + svc + C.baseFee + cx));
+      var sf = C.stops ? Math.max(0, v.phys.length - ((C.stops && C.stops.included) || 2)) * C.stops.perExtra : 0;
+      lines.push(t('fd.bk.sumFees', 'Service + base fee: ') + fmtVnd(svc + C.baseFee) + (sf ? ' · ' + t('fd.bk.sumStops', 'Additional stops: +') + fmtVnd(sf) : '') + (cx ? ' · ' + t('fd.bk.sumCx', 'Complex sourcing: +') + fmtVnd(cx) : ''));
+      lines.push(t('fd.bk.sumTotal', 'Total before shipping: ') + fmtVnd(subtotal + svc + C.baseFee + sf + cx));
     }
     lines.push(t('fd.bk.sumTrip', 'Trip: ') + (v.complicated ? t('fd.bk.hunt', 'A proper hunt') + ' (' + v.reasons.join(', ') + ')' : t('fd.bk.simple', 'A simple run')));
     return lines.join('\n');
@@ -840,10 +844,10 @@
         if (navigator.clipboard) navigator.clipboard.writeText(text).catch(function () {});
         var C = cfg();
         var base = (C && C.contact && C.contact.tally) || 'https://tally.so/r/gD10Kl';
-        var url = base + '?about=' + encodeURIComponent('Basket sourcing request') + '&estimate=' + encodeURIComponent(text) + '&source=fd-basket';
+        var url = base + '?about=' + encodeURIComponent('I want help sourcing or buying specific items') + '&estimate=' + encodeURIComponent(text) + '&source=fd-basket';
         if (url.length > 1900) {
           var brief = items.length + ' items across ' + groupItems().length + ' stores — ' + t('fd.bk.sumTotalShort', 'details copied to clipboard, paste here.');
-          url = base + '?about=' + encodeURIComponent('Basket sourcing request') + '&estimate=' + encodeURIComponent(brief) + '&source=fd-basket';
+          url = base + '?about=' + encodeURIComponent('I want help sourcing or buying specific items') + '&estimate=' + encodeURIComponent(brief) + '&source=fd-basket';
         }
         window.open(url, '_blank', 'noopener');
         showToast(t('fd.bk.sent', 'Opening the request form — your list is also on the clipboard'));

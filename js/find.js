@@ -466,7 +466,7 @@ INTL=international · ⚑ = listing needs re-verification`;
 
   function conciergeLinks() {
     return '<div class="qrow">' +
-      '<a class="btn-primary" href="https://tally.so/r/gD10Kl?about=Find%20this%20piece&source=find" target="_blank" rel="noopener">' + esc(t('find.err.send', 'Send it to Seraphic Styler →')) + '</a>' +
+      '<a class="btn-primary" href="https://tally.so/r/gD10Kl?about=I%20want%20help%20sourcing%20or%20buying%20specific%20items&source=find" target="_blank" rel="noopener">' + esc(t('find.err.send', 'Send it to Seraphic Styler →')) + '</a>' +
       '<a class="btn-ghost" href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener noreferrer">' + esc(t('find.err.dm', 'DM @seraphicstyler')) + '</a>' +
       '</div>';
   }
@@ -492,7 +492,7 @@ INTL=international · ⚑ = listing needs re-verification`;
       '<button type="button" class="btn-ghost" data-act="copydesc">' + esc(t('find.res.copy', 'Copy description')) + '</button>' +
       '<button type="button" class="btn-ghost" data-act="copyjson">' + esc(t('find.res.copyjson', 'Copy JSON')) + '</button>' +
       '</div>' +
-      '<div class="resend"><a class="btn-primary" href="https://tally.so/r/gD10Kl?about=Find%20this%20piece&source=find-results" target="_blank" rel="noopener">' + esc(t('find.res.send', 'Send this to Seraphic Styler →')) + '</a></div>';
+      '<div class="resend"><a class="btn-primary" href="https://tally.so/r/gD10Kl?about=I%20want%20help%20sourcing%20or%20buying%20specific%20items&source=find-results" target="_blank" rel="noopener">' + esc(t('find.res.send', 'Send this to Seraphic Styler →')) + '</a></div>';
     el.results.innerHTML = h;
     el.results.hidden = false;
   }

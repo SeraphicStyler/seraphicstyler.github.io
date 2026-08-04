@@ -1034,11 +1034,11 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
 <section class="cta-band" aria-labelledby="cta-h">
   <div class="wrap"><div class="inner">
     <h2 id="cta-h" data-i18n="fg.cta.h">Rather not walk it yourself?</h2>
-    <p data-i18n="fg.cta.p">This is the free field guide. When you'd rather have the doors chosen for you, the
-      appointments booked, the fittings timed, and everything shipped home in a single parcel — that's the
-      atelier's work.</p>
+    <p data-i18n="fg.cta.p2">This is the free field guide. When you'd rather have the doors chosen for you, the
+      appointments booked, the fittings timed, and everything shipped home in a single parcel — that is
+      The Atelier, my full styling tier: $349, with $239 of it credited toward your pieces.</p>
     <div class="btns">
-      <a class="btn primary" href="./#estimate" data-i18n="fg.cta.b1">Get an estimate →</a>
+      <a class="btn primary" href="https://tally.so/r/gD10Kl?about=I%20want%20to%20book%20a%20styling%20service&amp;source=field-guide" target="_blank" rel="noopener" data-i18n="fg.cta.b1b">Book styling →</a>
       <a class="btn ghost" href="./#contact" data-i18n="fg.cta.b2">Talk to Seraphic Styler</a>
     </div>
   </div></div>
@@ -1062,7 +1062,7 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
       itineraries deep-link straight into its filters. Addresses and prices are current to mid-2026 from brands'
       own channels, 2025–26 press and our own walking; boutiques relocate often — message a shop the day before
       you visit. Ward names changed mid-2025; Grab &amp; Google Maps still resolve the older district labels.</p>
-    <p class="report" data-i18n="fg.report">Spot something out of date? <a href="https://tally.so/r/gD10Kl?about=Something%20on%20the%20site%20looks%20off&amp;source=field-guide" target="_blank" rel="noopener">Tell us →</a></p>
+    <p class="report" data-i18n="fg.report">Spot something out of date? <a href="mailto:seraphicstyler@gmail.com?subject=Site%20correction%20%E2%80%94%20field%20guide">Tell us →</a></p>
   </div>
   <div class="contact">
     <h3 data-i18n="fg.foot.7">Seraphic Styler</h3>
@@ -1081,119 +1081,6 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
   <script src="js/i18n/manifest.js"></script>
   <script src="js/i18n-page.js"></script>
   <script async src="https://tally.so/widgets/embed.js"></script>
-  <script>
-/* ============ REPORT LINK -> TALLY ============
-   The translated fg.report strings in js/i18n/fg.*.js still embed the old
-   mailto link; this delegated handler reroutes those clicks to the Tally
-   form as an on-site popup (survives i18n's innerHTML swaps; the mailto /
-   direct link stays as the no-JS fallback). */
-document.addEventListener("click",function(e){
-  const a=e.target.closest&&e.target.closest('.report a');
-  if(!a)return;
-  if(window.Tally){
-    e.preventDefault();
-    window.Tally.openPopup("gD10Kl",{layout:"modal",width:700,hideTitle:true,autoClose:4000,hiddenFields:{about:"Something on the site looks off",source:"field-guide"}});
-  }else if(a.href.indexOf("mailto:")===0){
-    e.preventDefault();
-    window.open("https://tally.so/r/gD10Kl?about="+encodeURIComponent("Something on the site looks off")+"&source=field-guide","_blank","noopener");
-  }
-});
-
-/* ============ THEME ============ */
-document.getElementById("theme").addEventListener("click",()=>{
-  const d=document.documentElement.getAttribute("data-theme")==="dark";
-  document.documentElement.setAttribute("data-theme",d?"light":"dark");
-  try{localStorage.setItem("ss-theme",d?"light":"dark");}catch(e){}
-});
-
-/* ============ AURORA (the one bold moment) ============ */
-(function(){
-  const c=document.getElementById("aurora");if(!c)return;
-  const rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
-  const ctx=c.getContext("2d");let W,H,t=0;
-  const blobs=[["#c9b6e8",.55],["#8a93de",.5],["#c98fc4",.42],["#cf9bb4",.4]];
-  function size(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}
-  function draw(){
-    ctx.clearRect(0,0,W,H);ctx.globalCompositeOperation="lighter";
-    blobs.forEach((b,i)=>{
-      const x=W*(.25+.28*Math.sin(t*.0004+i*1.7))+ (i%2?W*.3:0);
-      const y=H*(.4+.34*Math.cos(t*.0005+i*2.1));
-      const r=Math.max(W,H)*(.34+.06*Math.sin(t*.0006+i));
-      const g=ctx.createRadialGradient(x,y,0,x,y,r);
-      g.addColorStop(0,b[0]);g.addColorStop(1,"transparent");
-      ctx.globalAlpha=b[1];ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill();
-    });
-    ctx.globalAlpha=1;
-  }
-  size();draw();addEventListener("resize",()=>{size();draw();});
-  if(!rm){(function loop(){t+=16;draw();requestAnimationFrame(loop);})();}
-})();
-
-/* ============ READING PROGRESS ============ */
-(function(){
-  const bar=document.querySelector(".progress i");if(!bar)return;
-  let ticking=false;
-  function upd(){
-    const h=document.documentElement,max=h.scrollHeight-h.clientHeight;
-    bar.style.width=(max>0?(h.scrollTop/max)*100:0)+"%";ticking=false;
-  }
-  addEventListener("scroll",()=>{if(!ticking){ticking=true;requestAnimationFrame(upd);}},{passive:true});
-  addEventListener("resize",upd,{passive:true});upd();
-})();
-
-/* ============ SECTION SPY (active nav) ============ */
-(function(){
-  const links=[].slice.call(document.querySelectorAll(".secnav a"));
-  if(!links.length||!("IntersectionObserver" in window))return;
-  const map={};links.forEach(a=>{map[a.getAttribute("href").slice(1)]=a;});
-  const secs=links.map(a=>document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
-  const io=new IntersectionObserver(ents=>{
-    ents.forEach(e=>{
-      if(e.isIntersecting){
-        links.forEach(a=>a.removeAttribute("aria-current"));
-        const a=map[e.target.id];if(a)a.setAttribute("aria-current","true");
-      }
-    });
-  },{rootMargin:"-45% 0px -50% 0px"});
-  secs.forEach(s=>io.observe(s));
-})();
-
-/* ============ ITINERARY DEEP-LINKS & COPY ============ */
-(function(){
-  const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
-  function openHash(){
-    const id=location.hash.slice(1);if(!id)return;
-    const el=document.getElementById(id);
-    if(el&&el.classList.contains("plan")){
-      el.open=true;
-      el.scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"});
-    }
-  }
-  addEventListener("hashchange",openHash);openHash();
-  document.querySelectorAll(".pl-copy").forEach(btn=>{
-    const label=btn.querySelector("span");
-    const orig=label?label.textContent:"";
-    btn.addEventListener("click",()=>{
-      const plan=btn.closest("details.plan");if(!plan||!plan.id)return;
-      const url=location.href.split("#")[0]+"#"+plan.id;
-      const done=txt=>{btn.setAttribute("data-copied","");if(label)label.textContent=txt;
-        setTimeout(()=>{btn.removeAttribute("data-copied");if(label)label.textContent=orig;},1500);};
-      if(navigator.clipboard&&navigator.clipboard.writeText){
-        navigator.clipboard.writeText(url).then(()=>done("Copied"),()=>{try{location.hash="#"+plan.id;}catch(e){}done("Link ready");});
-      }else{try{location.hash="#"+plan.id;}catch(e){}done("Link ready");}
-    });
-  });
-})();
-
-/* ============ PRINT: expand every itinerary ============ */
-(function(){
-  let opened=[];
-  addEventListener("beforeprint",()=>{
-    opened=[];document.querySelectorAll("details.plan").forEach(d=>{if(!d.open){opened.push(d);d.open=true;}});
-  });
-  addEventListener("afterprint",()=>{opened.forEach(d=>d.open=false);opened=[];});
-})();
-</script>
 
   <script src="js/discover-brand.js"></script>
 </body>

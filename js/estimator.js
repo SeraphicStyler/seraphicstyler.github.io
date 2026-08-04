@@ -9,12 +9,13 @@
 var CONFIG = {
   /* Per-ITEM service fee tiers (VND). Includes domestic VN shipping. */
   fee: {
-    minFee: 250000,                             // every item pays at least 250,000₫
+    minFee: 350000,                             // every item pays at least 350,000₫ (raised 4 Aug 2026)
     midThreshold: 5000000,  midRate: 0.08,      // item ≤ 5M -> 8%
     highRate: 0.07                              // > 5M -> 7%
   },
-  baseFee: 100000,        // flat per-order coordination & packing fee
-  complexFee: 200000,     // optional surcharge for rare/complex sourcing
+  baseFee: 250000,        // flat per-order coordination, rides & packing fee (raised 4 Aug 2026)
+  complexFee: 200000,     // optional surcharge for rare/rush sourcing
+  stops: { included: 2, perExtra: 150000 }, // first two boutiques included; +150,000₫ per additional store
   greenDiscount: 0.10,    // modest discount on the SERVICE FEE for green/eco shopping (0.10 = 10% off fees)
 
   /* Optional styling-service add-ons (VND) — the SAME prices as the gift tiers
@@ -87,7 +88,7 @@ var CONFIG = {
   var FALLBACK_RATES = { USD:1, EUR:0.92, GBP:0.79, AUD:1.5, CAD:1.36, SGD:1.34, JPY:155, KRW:1350, CNY:7.2, THB:36, AED:3.67, INR:83 };
 
   var el = {};
-  ['lineItems','addItem','region','region2','compareDest','compareWrap','destCompare','weight','complex','green','styling','payMethod','estCurrency','rSubtotal','rFee','rFeeNote','rBase',
+  ['lineItems','addItem','region','region2','compareDest','compareWrap','destCompare','weight','stops','complex','green','styling','payMethod','estCurrency','rSubtotal','rFee','rFeeNote','rBase','rStopsRow','rStops',
    'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rComplexRow','rComplex','rGreenRow','rGreen','rCardRow','rCard','rShip','rShipNote','rDepositRow','rDeposit','rDepositCur','rBalanceRow','rBalance','rBalanceCur','rTotal','rUsd','fxStatus','sendBasket','copiedMsg','estEmptyMsg']
     .forEach(function (id) { el[id] = document.getElementById(id); });
   if (!el.lineItems) return; // not on a page with the estimator
@@ -195,7 +196,7 @@ var CONFIG = {
   function save() {
     try {
       localStorage.setItem('ss-basket', JSON.stringify({
-        items: readItems(), links: readLinks(), region: el.region.value, weight: el.weight.value, complex: el.complex.checked, green: !!(el.green && el.green.checked), styling: (el.styling && el.styling.value) || 'none', pay: (el.payMethod && el.payMethod.value) || 'bank', cur: curCode(),
+        items: readItems(), links: readLinks(), region: el.region.value, weight: el.weight.value, stops: el.stops ? el.stops.value : '', complex: el.complex.checked, green: !!(el.green && el.green.checked), styling: (el.styling && el.styling.value) || 'none', pay: (el.payMethod && el.payMethod.value) || 'bank', cur: curCode(),
         compare: !!(el.compareDest && el.compareDest.checked), region2: (el.region2 && el.region2.value) || ''
       }));
     } catch (e) {}
@@ -240,6 +241,8 @@ var CONFIG = {
     var fees = items.reduce(function (a, b) { return a + itemFee(b); }, 0);
     var base = subtotal > 0 ? CONFIG.baseFee : 0;
     var complex = el.complex.checked ? CONFIG.complexFee : 0;
+    var stopsN = el.stops ? (parseInt(el.stops.value, 10) || 0) : 0;
+    var stopsFee = subtotal > 0 ? Math.max(0, stopsN - CONFIG.stops.included) * CONFIG.stops.perExtra : 0;
     var green = (el.green && el.green.checked) ? fees * CONFIG.greenDiscount : 0; // modest service-fee discount
     var styleCfg = (el.styling && CONFIG.styling[el.styling.value]) || null;
     var styling = styleCfg ? styleCfg.vnd : 0;
@@ -248,7 +251,7 @@ var CONFIG = {
     var ship = shipRange(el.region.value, el.weight.value);
     var nItems = items.filter(function (v) { return v > 0; }).length;
     var card = !!(el.payMethod && el.payMethod.value === 'card');
-    return { items: items, subtotal: subtotal, fees: fees, base: base, complex: complex, green: green, styling: styling, credit: credit, styleCfg: styleCfg, ship: ship, custom: custom, nItems: nItems, card: card };
+    return { items: items, subtotal: subtotal, fees: fees, base: base, complex: complex, stopsFee: stopsFee, green: green, styling: styling, credit: credit, styleCfg: styleCfg, ship: ship, custom: custom, nItems: nItems, card: card };
   }
 
   /* Split an estimate into the two payments it is actually taken in.
@@ -352,6 +355,10 @@ var CONFIG = {
     el.rBase.textContent = fmtVnd(c.base);
     if (c.complex > 0) { el.rComplexRow.style.display = ''; el.rComplex.textContent = fmtVnd(c.complex); }
     else { el.rComplexRow.style.display = 'none'; }
+    if (el.rStopsRow) {
+      if (c.stopsFee > 0) { el.rStopsRow.style.display = ''; el.rStops.textContent = '+' + fmtVnd(c.stopsFee); }
+      else { el.rStopsRow.style.display = 'none'; }
+    }
     if (el.rGreenRow) {
       if (c.green > 0) { el.rGreenRow.style.display = ''; el.rGreen.textContent = '−' + fmtVnd(c.green); }
       else { el.rGreenRow.style.display = 'none'; }
@@ -366,7 +373,7 @@ var CONFIG = {
       if (c.credit > 0) { el.rCreditRow.style.display = ''; el.rCredit.textContent = '−' + fmtVnd(c.credit); }
       else { el.rCreditRow.style.display = 'none'; }
     }
-    var nonShip = c.subtotal + c.fees + c.base + c.complex - c.green + c.styling - c.credit;
+    var nonShip = c.subtotal + c.fees + c.base + c.complex + c.stopsFee - c.green + c.styling - c.credit;
     renderCompare(c, nonShip);
     // When two destinations are in play, name the one this card is priced for.
     if (el.rShipNote) el.rShipNote.textContent = compareOn() ? '(' + regionLabel(el.region.value) + ')' : '';
@@ -422,7 +429,7 @@ var CONFIG = {
 
   function summary() {
     var c = compute();
-    var nonShip = c.subtotal + c.fees + c.base + c.complex - c.green + c.styling - c.credit;
+    var nonShip = c.subtotal + c.fees + c.base + c.complex + c.stopsFee - c.green + c.styling - c.credit;
     var region = el.region.options[el.region.selectedIndex].text;
     var links = readLinks();
     var lines = ['Hi! Here is my Seraphic Styler basket estimate:', ''];
@@ -437,6 +444,7 @@ var CONFIG = {
     if (c.styling > 0) lines.push('Styling service (' + (c.styleCfg ? c.styleCfg.label : '') + '): ' + fmtVnd(c.styling));
     if (c.credit > 0) lines.push('Piece credit applied (included in the tier): −' + fmtVnd(c.credit));
     else if (c.styling > 0 && c.nItems === 0) lines.push('(Tier includes a ' + fmtVnd(c.styleCfg.credit) + ' piece credit — applied once pieces are added)');
+    if (c.stopsFee > 0) lines.push('Additional stops (beyond 2 boutiques): +' + fmtVnd(c.stopsFee));
     if (c.complex > 0) lines.push('Complex sourcing: ' + fmtVnd(c.complex));
     if (c.green > 0) lines.push('Green shopping discount: −' + fmtVnd(c.green) + ' (sustainable brand)');
     lines.push('Ship to: ' + region + ' (' + el.weight.value + ')');
@@ -489,7 +497,7 @@ var CONFIG = {
   }
 
   function tallyUrl(text) {
-    return CONFIG.contact.tally + '?about=' + encodeURIComponent('Confirming my estimate') +
+    return CONFIG.contact.tally + '?about=' + encodeURIComponent("I'm confirming an estimate or paste-in result") +
       '&estimate=' + encodeURIComponent(estimateParam(text)) + '&source=home-estimator';
   }
 
@@ -517,7 +525,7 @@ var CONFIG = {
     // the form is the system of record: it always arrives (mailto/DM often don't)
     if (window.Tally) {
       window.Tally.openPopup('gD10Kl', { layout: 'modal', width: 700, hideTitle: true, autoClose: 4000, hiddenFields: {
-        about: 'Confirming my estimate', estimate: estimateParam(text), source: 'home-estimator'
+        about: "I'm confirming an estimate or paste-in result", estimate: estimateParam(text), source: 'home-estimator'
       } });
     } else {
       window.open(form, '_blank', 'noopener');
@@ -566,6 +574,7 @@ var CONFIG = {
     recalc();
   });
   el.weight.addEventListener('change', recalc);
+  if (el.stops) el.stops.addEventListener('change', recalc);
   el.complex.addEventListener('change', recalc);
   if (el.green) el.green.addEventListener('change', recalc);
   if (el.styling) el.styling.addEventListener('change', recalc);
@@ -580,6 +589,7 @@ var CONFIG = {
     saved.items.forEach(function (v, i) { addItem(v || '', (saved.links && saved.links[i]) || ''); });
     if (saved.region) el.region.value = saved.region;
     if (saved.weight) el.weight.value = saved.weight;
+    if (saved.stops && el.stops) el.stops.value = saved.stops; // absent (old baskets) → default 1–2 included
     if (saved.complex) el.complex.checked = true;
     if (saved.green && el.green) el.green.checked = true;
     if (saved.styling && el.styling) el.styling.value = saved.styling; // absent (old baskets) → default 'none'

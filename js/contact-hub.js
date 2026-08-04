@@ -11,7 +11,7 @@
 
   var FORM_ID = 'gD10Kl';
   var TALLY = 'https://tally.so/r/' + FORM_ID;
-  var FIELDS = { about: 'An inquiry — I\'m looking for something', source: 'contact-hub' };
+  var FIELDS = { source: 'contact-hub' };
 
   var BUBBLE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 8.6 8.6 0 0 1-3.6-.8L3 21l1.9-5.1A8.5 8.5 0 1 1 21 11.5z"/></svg>';
 
@@ -20,7 +20,7 @@
       window.Tally.openPopup(FORM_ID, { layout: 'modal', width: 700, hideTitle: true, autoClose: 4000, hiddenFields: FIELDS });
     } else {
       // Tally script blocked or not yet loaded: fall back to the hosted form
-      window.open(TALLY + '?about=' + encodeURIComponent(FIELDS.about) + '&source=' + FIELDS.source, '_blank', 'noopener');
+      window.open(TALLY + '?source=' + FIELDS.source, '_blank', 'noopener');
     }
   }
 

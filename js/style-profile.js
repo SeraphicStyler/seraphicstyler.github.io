@@ -168,9 +168,9 @@
 
   function shellHTML(voice) {
     var h = '<div class="sp-depths"><div class="vn-seg" role="group" data-sp="depth" aria-label="How deep should we go?">' +
-      '<button type="button" data-depth="1" aria-pressed="false">The Discovery · short intake</button>' +
-      '<button type="button" data-depth="2" aria-pressed="true">The Edit · consultation</button>' +
-      '<button type="button" data-depth="3" aria-pressed="false">The Capsule &amp; Atelier · full match</button>' +
+      '<button type="button" data-depth="1" aria-pressed="false">The Discovery $49 · short intake</button>' +
+      '<button type="button" data-depth="2" aria-pressed="true">The Edit $149 · consultation</button>' +
+      '<button type="button" data-depth="3" aria-pressed="false">The Capsule &amp; Atelier $249–349 · full match</button>' +
       '</div></div>' +
       '<p class="sp-mins" data-sp="mins">About four minutes.</p>' +
       '<form class="sp-form" data-sp="form" novalidate>';
@@ -189,7 +189,7 @@
       '<div class="glass sp-send" data-sp="send">' +
       '<p class="sp-privacy">Your answers are sent only to me, and copied to your clipboard — nothing is stored on this site.</p>' +
       '<button class="btn btn-primary btn-lg" type="button" data-sp="see" style="min-width:min(100%,22rem)">See the profile →</button>' +
-      '<p class="sp-next">Send it and I reply within one to two business days with a first direction — and what I would look for.</p>' +
+      '<p class="sp-next">Send it and I reply within one to two business days with the tier that fits and what it would include. The profile is free; styling begins at $49, most of it credited toward your pieces.</p>' +
       '<p class="sp-copied" data-sp="msg" role="status"></p>' +
       '</div>' +
       '<div class="sp-result" data-sp="result" hidden></div>';
@@ -319,7 +319,7 @@
       else if (cloth.length || fitv || heat) s = 'Pieces';
       if (!s) {
         if (days.length) return cap('A wardrobe for ' + list(days) + ' — the rest we shape together.');
-        return 'A direction we’ll shape together — tell me the rest when you write.';
+        return 'Your tier turns this into a direction — tell me the rest when you write.';
       }
       if (visible(2)) {
         if (cloth.length) s += ' in ' + list(cloth.slice(0, 2));
@@ -432,7 +432,7 @@
           '<dl class="sp-card-rows">' + rows + '</dl>' +
           '<div class="sp-card-foot"><span class="sp-card-ref">' + esc(lastRef) + '</span><span>seraphicstyler.com</span></div>' +
         '</article>' +
-        '<p class="sp-shot">Screenshot this card and send it to me on <a href="' + IG + '" target="_blank" rel="noopener">Instagram</a> — or use a button below. Nothing is bought without a yes.</p>' +
+        '<p class="sp-shot">Screenshot this card and send it to me on <a href="' + IG + '" target="_blank" rel="noopener">Instagram</a> — or use a button below. Styling is booked from $49; nothing is bought without a yes.</p>' +
         '<div class="sp-actions">' +
           '<button class="btn btn-primary" type="button" data-sp="send-form">Send it to me →</button>' +
           '<button class="btn btn-ghost" type="button" data-sp="copy">Copy as text</button>' +

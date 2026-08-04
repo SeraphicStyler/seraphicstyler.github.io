@@ -107,13 +107,13 @@
       'Landed before customs: ≈' + usd(low / FX) + '–' + usd(high / FX);
     var TALLY = (C.contact && C.contact.tally) || 'https://tally.so/r/gD10Kl';
     var send = document.getElementById('beSend');
-    send.setAttribute('href', TALLY + '?about=' + encodeURIComponent('A group or bulk order') +
+    send.setAttribute('href', TALLY + '?about=' + encodeURIComponent('I need corporate / group / bulk buying support') +
       '&style=' + encodeURIComponent(summary) + '&source=home-bulk-estimator');
     send.addEventListener('click', function (e) {
       if (!window.Tally) return; /* href opens in a new tab as the fallback */
       e.preventDefault();
       window.Tally.openPopup('gD10Kl', { layout: 'modal', width: 700, hideTitle: true, autoClose: 4000,
-        hiddenFields: { about: 'A group or bulk order', style: summary, source: 'home-bulk-estimator' } });
+        hiddenFields: { about: 'I need corporate / group / bulk buying support', style: summary, source: 'home-bulk-estimator' } });
     });
   }
 

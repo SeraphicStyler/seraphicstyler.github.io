@@ -347,7 +347,7 @@
       v.innerHTML =
         '<p class="cc-art-a">' + esc(t('contactBlurb')) + '</p>' +
         '<a class="btn btn-primary cc-cta" href="' + TALLY +
-          '?about=' + encodeURIComponent('An inquiry — I\'m looking for something') +
+          '?about=' + encodeURIComponent('I want help sourcing or buying specific items') +
           '&source=concierge" target="_blank" rel="noopener">' + esc(t('contact')) + '</a>';
     } };
   }
