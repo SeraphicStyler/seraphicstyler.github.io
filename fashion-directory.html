@@ -180,6 +180,8 @@ img{max-width:100%;}
 .qb .n{font-family:var(--font-display);font-size:1.7rem;line-height:1;font-variant-numeric:tabular-nums;}
 .qb .t{font-size:.84rem;font-weight:500;line-height:1.25;}
 .qb .a{margin-top:auto;font-size:.68rem;color:var(--cobalt);letter-spacing:.06em;}
+.qb.sig{border-color:var(--peri);}
+.qb.sig .t{color:var(--peri);}
 .qb.all{background:var(--cobalt);border-color:var(--cobalt);color:#fff;}
 .qb.all .a{color:#fff;opacity:.85;}
 [data-theme=dark] .qb.all{color:#161a26;}
@@ -455,6 +457,9 @@ main>.group:not(:first-child){border-top:1px solid var(--line-soft);margin-top:2
   letter-spacing:.11em;color:var(--peri-text);border:1px solid color-mix(in srgb,var(--orchid) 50%,transparent);
   border-radius:var(--r-pill);padding:3px 9px;white-space:nowrap;}
 .card .occ::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--orchid);flex:none;}
+/* Signature-eligible designer houses — the $750 commission pool */
+.card .sigb{display:inline-flex;align-items:center;gap:4px;font-size:.58rem;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--peri);border:1px solid var(--peri);border-radius:999px;padding:2px 8px;}
 .badge{display:inline-flex;align-items:center;gap:6px;font-size:.6rem;font-weight:600;
   text-transform:uppercase;letter-spacing:.08em;padding:3px 9px;border-radius:var(--r-pill);white-space:nowrap;}
 .badge::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;flex:none;}
@@ -803,6 +808,9 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21C7 16.5 3 13 3 8.8 3 6.1 5.1 4 7.7 4c1.7 0 3.2.9 4.3 2.4C13.1 4.9 14.6 4 16.3 4 18.9 4 21 6.1 21 8.8c0 4.2-4 7.7-9 12.2Z"/></svg>
           <span data-i18n="fd.savedlab">Saved</span> <b id="savedcount"></b>
         </button>
+        <button class="utilbtn" id="sigbtn" aria-pressed="false" title="The designer houses eligible for The Signature ($750).">
+          ✦ <span data-i18n="fd.siglab">Signature</span>
+        </button>
         <button class="utilbtn" id="basketbtn" title="Your tray — saved in this browser.">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
           <span data-i18n="fd.basketlab">Tray</span> <b id="basketcount"></b>
@@ -1036,6 +1044,7 @@ const LX=()=>({
   searchF:q=>TF("fd.dyn.searchF","Search: “{q}”",{q}),
   walkF:T("fd.dyn.walkF","Walk-in only"),
   savedF:T("fd.dyn.savedF","Saved only"),
+  sigF:T("fd.dyn.sigF","Signature houses"),sigB:T("fd.dyn.sigB","Signature"),
   one:T("fd.dyn.one","Exactly one house matches."),
   oneBtn:n=>TF("fd.dyn.showAllBtn","Show all {n} houses",{n}),
   emptyH:T("fd.dyn.emptyH","No houses match"),
@@ -1088,7 +1097,7 @@ const grpTitle=g=>T("fd.grp."+g[0]+".t",g[1]);
 const grpDesc =g=>T("fd.grp."+g[0]+".d",g[2]);
 
 /* ============ STATE ============ */
-let fCat="all",fCity="all",fWalk=false,fQ="",fZone="",fTier="all",fVibe="all",fFib="all",fOcc="all",fSaved=false,fSort="rec";
+let fCat="all",fCity="all",fWalk=false,fQ="",fZone="",fTier="all",fVibe="all",fFib="all",fOcc="all",fSaved=false,fSig=false,fSort="rec";
 
 /* — Saved shortlist (localStorage; hearts never leave this browser) — */
 let SAVED=new Set();
@@ -1131,6 +1140,7 @@ function syncHash(){
   if(fZone)p.set("zone",fZone);
   if(fWalk)p.set("walk","1");
   if(fSaved)p.set("saved","1");
+  if(fSig)p.set("sig","1");
   if(fSort!=="rec")p.set("sort",fSort);
   if(fQ)p.set("q",fQ);
   const s=p.toString();
@@ -1175,6 +1185,7 @@ function match(b){
   if(fFib!=="all"&&!fibMatch(b,fFib))return false;
   if(fOcc!=="all"&&!occOf(b).includes(fOcc))return false;
   if(fSaved&&!isSaved(b))return false;
+  if(fSig&&!b.sig)return false;
   if(fZone&&zoneOf(b)!==fZone)return false;
   if(fQ){const t=(b.n+" "+(b.h||"")+" "+(b.a||"")+" "+(b.no||"")+" "+b.area).toLowerCase();
     if(!t.includes(fQ))return false;}
@@ -1236,6 +1247,7 @@ function card(b,i){
   const vb=vibeOf(b),vibe=vb?`<span class="vibe">${vb}</span>`:"";
   const fl=fibLabel(b),fib=fl?`<span class="fib">${fl}</span>`:"";  /* what the house says its cloth is */
   const ol=occLabel(b),occ=ol?`<span class="occ">${ol}</span>`:"";  /* the occasions it dresses */
+  const sigb=b.sig?`<span class="sigb">✦ ${L.sigB}</span>`:"";
   const price=b.price?`<span class="price">${b.price}</span>`:"";
   const on=isSaved(b);
   const sv=`<button class="sv${on?" on":""}" data-id="${bid(b)}" aria-pressed="${on}" aria-label="${L.saveFor(b.n)}">
@@ -1260,7 +1272,7 @@ function card(b,i){
     <div class="cd-more">
       <div class="note"${viAttr(note)}>${note}</div>
       <div class="addr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg><span${viAttr(b.a)}>${b.a}</span><span class="acts">${cm}</span></div>
-      <div class="foot"><span class="st ${st[1]}">${stl}</span>${openbadge}${confbadge}${price}${tier}${fib}${occ}${vibe}${sub}<span class="area"${viAttr(b.area)}>${b.area}</span></div>
+      <div class="foot"><span class="st ${st[1]}">${stl}</span>${openbadge}${confbadge}${price}${tier}${sigb}${fib}${occ}${vibe}${sub}<span class="area"${viAttr(b.area)}>${b.area}</span></div>
     </div>
     ${cmPop}
     <span class="credit" aria-hidden="true">seraphicstyler.com</span>
@@ -1281,6 +1293,7 @@ function activeFilters(){
   if(fOcc!=="all")out.push({k:"occ",label:lbl(OCCS,fOcc)});
   if(fWalk)out.push({k:"walk",label:L.walkF});
   if(fSaved)out.push({k:"saved",label:L.savedF});
+  if(fSig)out.push({k:"sig",label:L.sigF});
   return out;
 }
 function removeFilter(k){
@@ -1293,10 +1306,11 @@ function removeFilter(k){
   if(k==="occ")fOcc="all";
   if(k==="walk")fWalk=false;
   if(k==="saved")fSaved=false;
+  if(k==="sig"){fSig=false;const sb=document.getElementById("sigbtn");if(sb)sb.setAttribute("aria-pressed","false");}
   syncHash();syncUI();
 }
 function resetAll(){
-  fCat="all";fCity="all";fTier="all";fVibe="all";fFib="all";fOcc="all";fZone="";fWalk=false;fSaved=false;fQ="";
+  fCat="all";fCity="all";fTier="all";fVibe="all";fFib="all";fOcc="all";fZone="";fWalk=false;fSaved=false;fSig=false;fQ="";
   const q=document.getElementById("q");q.value="";document.getElementById("qclear").hidden=true;
   syncHash();syncUI();
 }
@@ -1480,7 +1494,7 @@ function renderBrowse(){
   g.innerHTML=GROUPS.map(g2=>{
     const n=B.filter(b=>b.cat===g2[0]).length;
     return `<button class="qb" data-cat="${g2[0]}"><span class="n">${n}</span><span class="t">${grpTitle(g2)}</span><span class="a">${L.qbBrowse}</span></button>`;
-  }).join("")+`<button class="qb all" data-cat="all"><span class="n">${B.length}</span><span class="t">${L.qbAll}</span><span class="a">${L.qbBrowse}</span></button>`;
+  }).join("")+`<button class="qb sig" data-sig="1"><span class="n">${B.filter(b=>b.sig).length}</span><span class="t">✦ ${L.sigF}</span><span class="a">${L.qbBrowse}</span></button>`+`<button class="qb all" data-cat="all"><span class="n">${B.length}</span><span class="t">${L.qbAll}</span><span class="a">${L.qbBrowse}</span></button>`;
   cascade(g);
 }
 
@@ -1519,6 +1533,9 @@ document.getElementById("walkonly").addEventListener("change",e=>{fWalk=e.target
 document.getElementById("savedbtn").addEventListener("click",e=>{
   fSaved=!fSaved;e.currentTarget.setAttribute("aria-pressed",String(fSaved));
   syncHash();render();});
+document.getElementById("sigbtn").addEventListener("click",e=>{
+  fSig=!fSig;e.currentTarget.setAttribute("aria-pressed",String(fSig));
+  syncHash();render();});
 document.getElementById("morebtn").addEventListener("click",e=>{
   const p=document.getElementById("morepanel"),open=!p.classList.contains("open");
   p.classList.toggle("open",open);e.currentTarget.setAttribute("aria-expanded",String(open));
@@ -1542,6 +1559,8 @@ document.getElementById("activebar").addEventListener("click",e=>{
 /* quick browse */
 document.getElementById("qbgrid").addEventListener("click",e=>{
   const b=e.target.closest(".qb");if(!b)return;
+  if(b.dataset.sig){fSig=true;syncHash();syncUI();
+    document.getElementById("main").scrollIntoView({behavior:"smooth",block:"start"});return;}
   fCat=b.dataset.cat;
   chipbar("catchips",CATS,fCat,"cat");syncHash();render();
   document.getElementById("main").scrollIntoView({behavior:"smooth",block:"start"});
@@ -1835,7 +1854,7 @@ new MutationObserver(()=>{
 /* — Restore state from a shared deep link (#cat=men&tier=mid, #zone=d3, #q=…) — */
 function applyHash(){
   const h=location.hash.replace(/^#/,"");
-  fCat="all";fCity="all";fTier="all";fVibe="all";fFib="all";fOcc="all";fZone="";fWalk=false;fSaved=false;fQ="";fSort="rec";
+  fCat="all";fCity="all";fTier="all";fVibe="all";fFib="all";fOcc="all";fZone="";fWalk=false;fSaved=false;fSig=false;fQ="";fSort="rec";
   const q=document.getElementById("q");q.value="";
   if(h){
     const p=new URLSearchParams(h);
@@ -1849,12 +1868,14 @@ function applyHash(){
     fZone=p.get("zone")||"";
     fWalk=p.get("walk")==="1";
     fSaved=p.get("saved")==="1";
+    fSig=p.get("sig")==="1";const _sb=document.getElementById("sigbtn");if(_sb)_sb.setAttribute("aria-pressed",String(fSig));
     const qs=p.get("q")||"";
     if(qs){fQ=qs.toLowerCase();q.value=qs;}
   }
   document.getElementById("qclear").hidden=!fQ;
   document.getElementById("walkonly").checked=fWalk;
   document.getElementById("savedbtn").setAttribute("aria-pressed",String(fSaved));
+  var _sg=document.getElementById("sigbtn");if(_sg)_sg.setAttribute("aria-pressed",String(fSig));
   updateMapClear();
 }
 function syncUI(){
@@ -1862,6 +1883,7 @@ function syncUI(){
   fillSel("locsel",LOCS,locValue());fillSel("tiersel",TIERS,fTier);fillSel("fibsel",FIBERS,fFib);fillSel("occsel",OCCS,fOcc);fillSel("sortsel",SORTS,fSort);
   document.getElementById("walkonly").checked=fWalk;
   document.getElementById("savedbtn").setAttribute("aria-pressed",String(fSaved));
+  var _sg=document.getElementById("sigbtn");if(_sg)_sg.setAttribute("aria-pressed",String(fSig));
   statChips();updateSavedCount();updateMapClear();render();renderMap();
 }
 applyHash();

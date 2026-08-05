@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Tenor+Sans&family=Merriweather+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=2026-08-03a" />
+  <link rel="stylesheet" href="css/styles.css?v=2026-08-05a" />
   <script>
     (function () { var d = document.documentElement, s = window.localStorage;
       try {
@@ -256,13 +256,14 @@
     .lp-reel { margin-top: 1.6rem; }
     .lp-reel-track { display: grid; gap: 0.7rem; margin-top: 0.62rem; }
     .lp-reel-track.lp-reel-on { display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
-      scrollbar-width: none; padding: 4px 2px;
-      -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
-      mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); }
+      scrollbar-width: none; padding: 4px 2px; cursor: grab;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 2%, #000 98%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 2%, #000 98%, transparent); }
+    .lp-reel-track.lp-reel-on.is-dragging { cursor: grabbing; scroll-snap-type: none; scroll-behavior: auto; }
     .lp-reel-track.lp-reel-on::-webkit-scrollbar { display: none; }
-    .lp-reel-on .lp-reel-card { flex: 0 0 86%; scroll-snap-align: center; }
-    @media (min-width: 560px) { .lp-reel-on .lp-reel-card { flex-basis: 72%; } }
-    .lp-reel-card { display: flex; flex-direction: column; gap: 0.28rem; padding: 1.05rem 1.1rem 0.95rem;
+    .lp-reel-on .lp-reel-card { flex: 0 0 92%; scroll-snap-align: center; }
+    @media (min-width: 560px) { .lp-reel-on .lp-reel-card { flex-basis: 80%; } }
+    .lp-reel-card { display: flex; flex-direction: column; gap: 0.34rem; padding: 1.2rem 1.2rem 1.05rem;
       border-radius: 16px; background: var(--surface-solid); border: 1px solid var(--surface-border);
       text-decoration: none; color: var(--text-primary); box-shadow: 0 6px 20px -14px rgba(35,58,114,0.5);
       transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
@@ -272,15 +273,252 @@
     html.rm .lp-reel-card { transition: none; }
     .lp-reel-e { font-family: var(--font-brand); font-weight: 500; text-transform: uppercase;
       letter-spacing: 0.18em; font-size: 0.58rem; color: var(--eyebrow-ink); }
-    .lp-reel-t { font-family: var(--font-brand); font-size: 0.98rem; letter-spacing: 0.01em; }
-    .lp-reel-s { color: var(--text-secondary); font-size: 0.76rem; line-height: 1.5; margin: 0; }
+    .lp-reel-t { font-family: var(--font-brand); font-size: 1.05rem; letter-spacing: 0.01em; }
+    .lp-reel-s { color: var(--text-secondary); font-size: 0.8rem; line-height: 1.6; margin: 0; }
     .lp-reel-p { display: flex; justify-content: space-between; align-items: center; gap: 0.6rem;
-      margin-top: 0.5rem; padding-top: 0.55rem; border-top: 1px solid var(--surface-border);
-      font-family: var(--font-brand); font-size: 0.8rem; color: var(--accent); }
-    .lp-reel-dots { display: flex; justify-content: center; gap: 0.5rem; margin-top: 0.8rem; }
+      margin-top: 0.55rem; padding-top: 0.6rem; border-top: 1px solid var(--surface-border);
+      font-family: var(--font-brand); font-size: 0.85rem; color: var(--accent); }
+    .lp-reel-nav { display: flex; align-items: center; justify-content: center; gap: 0.9rem; margin-top: 0.8rem; }
+    .lp-reel-arrow { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--surface-border);
+      background: var(--surface-solid); color: var(--text-primary); font-size: 1.1rem; line-height: 1;
+      cursor: pointer; display: grid; place-items: center; transition: border-color .18s ease; }
+    .lp-reel-arrow:hover, .lp-reel-arrow:focus-visible { border-color: var(--accent); }
+    .lp-reel-dots { display: flex; justify-content: center; gap: 0.5rem; }
     .lp-reel-dot { width: 8px; height: 8px; padding: 0; border-radius: 50%; border: none; cursor: pointer;
       background: var(--surface-border); transition: background .25s ease, transform .25s ease; }
     .lp-reel-dot[aria-current="true"] { background: var(--accent); transform: scale(1.3); }
+
+    /* ===== Story-first portal (Aug 2026 redesign) =====
+       Two-path hero → trust ticker → sourcing & styling sections with price
+       whispers → house-rules panel. One consistent vocabulary: sourcing fee,
+       styling fee, clothing credit, pieces at cost, shipping at cost.
+       Numbers mirror CONFIG in js/estimator.js — update together. */
+
+    /* -- Choose your path: two large decision cards -- */
+    .lp-choose { display: grid; gap: 0.65rem; margin: 0 auto; text-align: left; }
+    @media (min-width: 480px) { .lp-choose { grid-template-columns: 1fr 1fr; } }
+    .lp-path-card { position: relative; display: flex; flex-direction: column; gap: 0.3rem; min-height: 44px;
+      padding: 1.05rem 1.05rem 0.9rem; border-radius: 18px; text-decoration: none; color: var(--text-primary);
+      background: var(--surface-solid); border: 1px solid rgba(46,84,173,0.28); overflow: hidden;
+      box-shadow: 0 8px 24px -16px rgba(35,58,114,0.55);
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+    .lp-path-card::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0;
+      background: radial-gradient(120% 90% at 85% -10%, rgba(201,182,232,0.45), transparent 65%);
+      transition: opacity .3s ease; }
+    .lp-path-card:hover, .lp-path-card:focus-visible { transform: translateY(-2px); border-color: var(--accent);
+      box-shadow: 0 16px 34px -18px rgba(35,58,114,0.6); }
+    .lp-path-card:hover::after, .lp-path-card:focus-visible::after { opacity: 1; }
+    .lp-path-card:active { transform: translateY(0) scale(0.995); }
+    html.rm .lp-path-card, html.rm .lp-path-card::after { transition: none; }
+    .lp-path-card.is-styling { background: linear-gradient(135deg, rgba(201,182,232,0.4), rgba(238,243,251,0.94)); }
+    html.dark .lp-path-card.is-styling { background: linear-gradient(135deg, rgba(201,182,232,0.14), rgba(46,84,173,0.12)); }
+    .lp-pc-e { font-family: var(--font-brand); font-weight: 500; text-transform: uppercase; letter-spacing: 0.18em;
+      font-size: 0.58rem; color: var(--eyebrow-ink); }
+    .lp-pc-t { font-family: var(--font-display); font-weight: 400; font-size: 1.06rem; line-height: 1.3; }
+    .lp-pc-s { color: var(--text-secondary); font-size: 0.76rem; line-height: 1.5; margin: 0; }
+    .lp-pc-w { margin-top: 0.45rem; padding-top: 0.5rem; border-top: 1px solid var(--surface-border);
+      font-family: var(--font-accent); font-size: 0.68rem; letter-spacing: 0.02em; color: var(--accent);
+      display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+    .lp-pc-w .go { color: var(--text-secondary); }
+    .lp-bulk-note { margin: 0.55rem auto 0; font-family: var(--font-accent); font-size: 0.66rem;
+      letter-spacing: 0.03em; color: var(--text-secondary); }
+
+    /* -- Trust ticker: one quiet drifting line of house promises -- */
+    .lp-ticker { margin-top: 1.5rem; overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+    .lp-tick-row { display: flex; width: max-content; animation: hdrift 46s linear infinite; }
+    .lp-tick-grp { display: flex; align-items: center; }
+    .lp-tick-grp span { position: relative; white-space: nowrap; padding: 0 1.15rem;
+      font-family: var(--font-brand); font-size: 0.64rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--eyebrow-ink); }
+    .lp-tick-grp span + span::before { content: '·'; position: absolute; left: -0.18rem; opacity: 0.55; }
+    .lp-ticker:hover .lp-tick-row, .lp-ticker:focus-within .lp-tick-row { animation-play-state: paused; }
+    @media (prefers-reduced-motion: reduce) {
+      .lp-tick-row { animation: none; width: auto; flex-wrap: wrap; justify-content: center; row-gap: 0.3rem; }
+      .lp-tick-grp[aria-hidden] { display: none; }
+      .lp-ticker { mask-image: none; -webkit-mask-image: none; }
+    }
+    html.rm .lp-tick-row { animation: none; width: auto; flex-wrap: wrap; justify-content: center; row-gap: 0.3rem; }
+    html.rm .lp-tick-grp[aria-hidden] { display: none; }
+    html.rm .lp-ticker { mask-image: none; -webkit-mask-image: none; }
+
+    /* -- Story sections -- */
+    .lp-sec { margin-top: 3.4rem; }
+    .lp-sec-h { display: flex; align-items: center; gap: 0.7rem; margin: 0 0 0.55rem;
+      font-family: var(--font-brand); font-weight: 500; text-transform: uppercase;
+      letter-spacing: 0.2em; font-size: 0.66rem; color: var(--eyebrow-ink); }
+    .lp-sec-h::after { content: ''; flex: 1; height: 1px; background: var(--surface-border); }
+    .lp-sec-t { font-family: var(--font-display); font-weight: 400; color: var(--text-primary);
+      font-size: clamp(1.35rem, 5.5vw, 1.7rem); line-height: 1.25; margin: 0.35rem 0 0.6rem; }
+    .lp-lead { color: var(--text-secondary); font-size: 0.84rem; line-height: 1.7; margin: 0 0 1.4rem; max-width: 44ch; }
+    .lp-care { color: var(--text-secondary); font-size: 0.78rem; line-height: 1.6; font-style: italic; margin: 1rem 0 0; max-width: 50ch; }
+    .lp-yes { margin: 0.8rem 0 0; font-family: var(--font-accent); font-size: 0.7rem; letter-spacing: 0.04em; color: var(--text-secondary); }
+
+    /* -- Process: four quiet cards, arriving one after another -- */
+    .lp-steps { list-style: none; margin: 0 0 1.4rem; padding: 0; display: grid; gap: 0.6rem; }
+    @media (min-width: 480px) { .lp-steps { grid-template-columns: 1fr 1fr; } }
+    .lp-steps li { padding: 0.95rem 1rem 0.9rem; border-radius: 14px; background: var(--surface-solid);
+      border: 1px solid var(--surface-border); box-shadow: 0 5px 16px -13px rgba(35,58,114,0.45);
+      opacity: 0; transform: translateY(8px); transition: opacity .6s ease, transform .6s cubic-bezier(0.33,1,0.68,1); }
+    .lp-steps.in li { opacity: 1; transform: none; }
+    .lp-steps li:nth-child(2) { transition-delay: 0.12s; } .lp-steps li:nth-child(3) { transition-delay: 0.24s; }
+    .lp-steps li:nth-child(4) { transition-delay: 0.36s; }
+    .lp-step-n { display: block; font-family: var(--font-accent); font-size: 0.58rem; letter-spacing: 0.16em;
+      color: var(--eyebrow-ink); opacity: 0.75; margin-bottom: 0.3rem; }
+    .lp-step-t { display: block; font-family: var(--font-brand); font-size: 0.88rem; color: var(--text-primary); margin-bottom: 0.2rem; }
+    .lp-step-d { margin: 0; color: var(--text-secondary); font-size: 0.74rem; line-height: 1.5; }
+
+    /* -- Trust chips: four small promises, not a shouting line -- */
+    .lp-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; }
+    .lp-chips span { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.32rem 0.7rem;
+      border-radius: 999px; border: 1px solid rgba(46,84,173,0.25); background: var(--surface-solid);
+      font-family: var(--font-accent); font-size: 0.64rem; letter-spacing: 0.03em; color: var(--accent-deep); }
+    .lp-chips span::before { content: '✓'; font-size: 0.6rem; opacity: 0.8; }
+
+    /* -- Price whisper callout: calm, not promotional -- */
+    .lp-whisper { margin-top: 1.2rem; padding: 1rem 1.1rem; border-radius: 16px;
+      background: linear-gradient(135deg, rgba(201,182,232,0.35), rgba(238,243,251,0.9));
+      border: 1px solid rgba(46,84,173,0.22); }
+    html.dark .lp-whisper { background: linear-gradient(135deg, rgba(201,182,232,0.12), rgba(46,84,173,0.12)); }
+    .lp-whisper { padding: 1.25rem 1.2rem 1.15rem; }
+    .lp-whisper strong { display: block; font-family: var(--font-display); font-weight: 300; font-size: 1.45rem;
+      color: var(--text-primary); margin-bottom: 0.3rem; line-height: 1.25; }
+    .lp-whisper strong b { color: var(--accent); font-weight: 300; }
+    .lp-whisper span { display: block; color: var(--text-secondary); font-size: 0.78rem; line-height: 1.6; max-width: 46ch; }
+
+    /* -- Section CTA rows -- */
+    .lp-ctarow { display: grid; gap: 0.55rem; margin-top: 1.15rem; }
+    .lp-cta-soft { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0.8rem 1.2rem;
+      border-radius: 999px; border: 1px solid rgba(46,84,173,0.35); background: var(--surface-solid); color: var(--accent);
+      text-decoration: none; cursor: pointer; font-family: var(--font-accent); font-weight: 500; font-size: 0.74rem;
+      letter-spacing: 0.12em; text-transform: uppercase; transition: border-color .18s ease, background .18s ease; }
+    .lp-cta-soft:hover { border-color: var(--accent); background: rgba(46,84,173,0.06); }
+
+    /* -- Live currency peek: your money → đồng, same API as the estimator -- */
+    .lp-fx { margin-top: 1rem; padding: 0.95rem 1.05rem 0.85rem; border-radius: 14px;
+      background: var(--surface-solid); border: 1px solid var(--surface-border); }
+    .lp-fx-row { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .lp-fx-row input, .lp-fx-row select { font-family: var(--font-body); font-size: 16px; color: var(--text-primary);
+      background: var(--surface-soft, var(--surface)); border: 1px solid var(--surface-border); border-radius: 10px;
+      padding: 0.5rem 0.65rem; min-height: 44px; }
+    .lp-fx-row input { width: 6.5rem; }
+    .lp-fx-eq { font-family: var(--font-display); font-weight: 300; font-size: 1.15rem; color: var(--accent);
+      font-variant-numeric: tabular-nums; margin-left: auto; }
+    .lp-fx-note { margin: 0.55rem 0 0; font-family: var(--font-accent); font-size: 0.64rem;
+      letter-spacing: 0.03em; color: var(--text-secondary); }
+
+    /* -- Fee drawer -- */
+    .lp-drawer { margin-top: 1rem; border-top: 1px solid var(--surface-border); }
+    .lp-drawer summary { display: flex; align-items: center; gap: 0.5rem; min-height: 44px; cursor: pointer;
+      list-style: none; font-family: var(--font-accent); font-size: 0.76rem; letter-spacing: 0.04em; color: var(--accent-deep); }
+    .lp-drawer summary::-webkit-details-marker { display: none; }
+    .lp-drawer summary::after { content: '＋'; margin-left: auto; color: var(--text-secondary); font-size: 0.9rem; }
+    .lp-drawer[open] summary::after { content: '－'; }
+    .lp-drawer .lp-dbody { padding: 0.35rem 0 0.9rem; display: grid; gap: 0.5rem; }
+    .lp-drawer .lp-dbody p { margin: 0; font-size: 0.8rem; line-height: 1.6; color: var(--text-secondary);
+      padding: 0.75rem 0.9rem; border-radius: 12px; background: var(--surface-solid);
+      border: 1px solid var(--surface-border); }
+    .lp-drawer .lp-dbody b { display: block; color: var(--text-primary); font-weight: 500;
+      font-family: var(--font-brand); font-size: 0.82rem; margin-bottom: 0.15rem; }
+    .lp-drawer .lp-dbody p.lp-dcare { background: none; border: none; padding: 0.2rem 0.1rem;
+      font-style: italic; }
+
+    /* -- Styling tiers with the fee/credit split meter -- */
+    .lp-tiers { display: grid; gap: 0.7rem; margin-top: 0.4rem; }
+    .lp-tier { position: relative; padding: 1rem 1.1rem 0.95rem; border-radius: 16px;
+      background: var(--surface-solid); border: 1px solid var(--surface-border);
+      box-shadow: 0 6px 20px -14px rgba(35,58,114,0.5); }
+    .lp-tier.is-featured { border-color: rgba(46,84,173,0.4);
+      background: linear-gradient(135deg, rgba(201,182,232,0.35), rgba(238,243,251,0.94)); }
+    html.dark .lp-tier.is-featured { background: linear-gradient(135deg, rgba(201,182,232,0.13), rgba(46,84,173,0.13)); }
+    .lp-tier.is-signature { border-color: var(--periwinkle);
+      background: linear-gradient(160deg, rgba(138,147,222,0.16), rgba(238,243,251,0.95)); }
+    html.dark .lp-tier.is-signature { background: linear-gradient(160deg, rgba(138,147,222,0.14), rgba(36,40,55,0.6)); }
+    .lp-tier.is-signature .lp-tier-badge { background: var(--periwinkle); }
+    .lp-tier-top { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; }
+    .lp-tier-n { font-family: var(--font-brand); font-size: 0.95rem; color: var(--text-primary); }
+    .lp-tier-p { font-family: var(--font-display); font-weight: 300; font-size: 1.35rem; color: var(--accent);
+      font-variant-numeric: tabular-nums; }
+    .lp-tier-badge { position: absolute; top: -0.62rem; left: 1rem; font-family: var(--font-accent); font-size: 0.56rem;
+      font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; background: var(--accent);
+      color: var(--cta-text, #fff); padding: 0.26rem 0.65rem; border-radius: 999px; }
+    .lp-meter { display: flex; height: 8px; border-radius: 999px; overflow: hidden; margin: 0.6rem 0 0.4rem;
+      background: var(--surface-border); }
+    .lp-meter-i { width: 0; background: linear-gradient(90deg, var(--periwinkle), var(--accent));
+      transition: width 0.9s cubic-bezier(0.33,1,0.68,1) 0.15s; border-radius: 999px 0 0 999px; }
+    .lp-tiers.in .lp-meter-i { width: var(--pct); }
+    .lp-tier-split { display: flex; justify-content: space-between; gap: 0.6rem; font-family: var(--font-accent);
+      font-size: 0.68rem; letter-spacing: 0.02em; color: var(--text-secondary); }
+    .lp-tier-split b { color: var(--accent-deep); font-weight: 500; }
+    .lp-tier-d { margin: 0.5rem 0 0; color: var(--text-secondary); font-size: 0.76rem; line-height: 1.5; }
+    .lp-tier-buy { display: inline-flex; align-items: center; min-height: 40px; margin-top: 0.6rem; padding: 0 1.05rem;
+      border-radius: 999px; border: 1px solid rgba(46,84,173,0.35); color: var(--accent); text-decoration: none;
+      font-family: var(--font-accent); font-weight: 500; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+      transition: border-color .18s ease, background .18s ease; }
+    .lp-tier-buy:hover, .lp-tier-buy:focus-visible { border-color: var(--accent); background: rgba(46,84,173,0.06); }
+    .lp-tier.is-featured .lp-tier-buy { background: var(--accent); border-color: var(--accent); color: var(--cta-text, #fff); }
+    .lp-tier.is-featured .lp-tier-buy:hover { background: var(--accent-hover); }
+    .lp-sty-note { margin: 0.9rem 0 0; text-align: center; font-size: 0.78rem; font-style: italic; color: var(--text-secondary); }
+    .lp-safe { margin: -0.4rem 0 1rem; color: var(--text-secondary); font-size: 0.8rem; line-height: 1.6; max-width: 50ch; }
+    .lp-safe b { color: var(--text-primary); font-weight: 500; }
+    .lp-ns { margin: 0.6rem 0 0; font-family: var(--font-accent); font-size: 0.64rem; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--eyebrow-ink); line-height: 1.9; }
+    .lp-tryfree { margin: 0.8rem 0 0; text-align: center; font-size: 0.76rem; }
+    .lp-tryfree a { color: var(--accent-deep); border-bottom: 1px solid transparent; text-decoration: none; }
+    .lp-tryfree a:hover { border-bottom-color: currentColor; }
+    .lp-startsmall { margin: 0.7rem auto 0; font-size: 0.72rem; line-height: 1.55; color: var(--text-secondary); max-width: 40ch; }
+    .qe-tiers a { display: flex; justify-content: space-between; align-items: center; gap: 0.7rem; width: 100%;
+      min-height: 44px; text-decoration: none; color: inherit; }
+    .qe-tiers a:hover .t-p, .qe-tiers a:focus-visible .t-p { text-decoration: underline; }
+
+    /* -- No-surprises pricing: a house note, not a warning box -- */
+    .lp-honest { margin-top: 2.6rem; padding: 1.2rem 1.2rem 1.05rem; border-radius: 18px;
+      border: 1px solid var(--surface-border); background: var(--surface-solid); }
+    .lp-honest ul { list-style: none; margin: 0.55rem 0 0; padding: 0; display: grid; gap: 0.5rem; }
+    .lp-honest li { position: relative; padding-left: 1.15rem; font-size: 0.8rem; line-height: 1.55; color: var(--text-secondary); }
+    .lp-honest li::before { content: ''; position: absolute; left: 0.1rem; top: 0.55em; width: 5px; height: 5px;
+      border-radius: 50%; background: var(--accent); opacity: 0.8; }
+    .lp-honest li b { color: var(--text-primary); font-weight: 500; }
+
+    /* -- Sticky mobile action bar: the two paths, always within thumb reach -- */
+    .lp-stickybar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 320; display: none;
+      gap: 0.5rem; padding: 0.6rem 0.9rem calc(0.6rem + env(safe-area-inset-bottom));
+      background: var(--surface-solid); border-top: 1px solid var(--surface-border);
+      box-shadow: 0 -10px 30px -18px rgba(35,58,114,0.45);
+      transform: translateY(105%); transition: transform .3s cubic-bezier(0.33,1,0.68,1); }
+    .lp-stickybar a { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 44px;
+      border-radius: 999px; text-decoration: none; font-family: var(--font-accent); font-weight: 500;
+      font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; }
+    .lp-stickybar .sb-src { background: var(--accent); color: var(--cta-text, #fff); }
+    .lp-stickybar .sb-sty { border: 1px solid rgba(46,84,173,0.35); color: var(--accent); background: transparent; }
+    @media (max-width: 699px) { .lp-stickybar { display: flex; } }
+    html.lp-bar-on .lp-stickybar { transform: translateY(0); }
+    html.rm .lp-stickybar { transition: none; }
+    @media (max-width: 699px) { html.lp-bar-on .lp { padding-bottom: 5.6rem; } }
+    @media (prefers-reduced-motion: no-preference) { html:not(.rm) { scroll-behavior: smooth; } }
+
+    /* -- Quick-estimate router (step 0) + styling tiers panel -- */
+    .qe-q0 { font-family: var(--font-accent); font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--eyebrow-ink); margin: 0.2rem 0 0.7rem; }
+    .qe-mode { display: grid; gap: 0.55rem; margin-bottom: 0.4rem; }
+    .qe-mode button { display: flex; flex-direction: column; align-items: flex-start; gap: 0.15rem; min-height: 44px;
+      text-align: left; padding: 0.85rem 1rem; border-radius: 14px; cursor: pointer; font: inherit;
+      background: var(--surface-soft); border: 1px solid var(--surface-border); color: var(--text-primary);
+      transition: border-color .18s ease; }
+    .qe-mode button:hover, .qe-mode button:focus-visible { border-color: var(--accent); }
+    .qe-mode .m-t { font-family: var(--font-brand); font-size: 0.92rem; }
+    .qe-mode .m-s { color: var(--text-secondary); font-size: 0.74rem; }
+    .qe-back { display: inline-flex; align-items: center; min-height: 44px; background: none; border: none; cursor: pointer;
+      padding: 0; margin-bottom: 0.3rem; color: var(--text-secondary); font-family: var(--font-accent); font-size: 0.72rem;
+      letter-spacing: 0.04em; }
+    .qe-back:hover { color: var(--text-primary); }
+    .qe-tiers { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; gap: 0.45rem; }
+    .qe-tiers li { display: flex; justify-content: space-between; align-items: baseline; gap: 0.7rem;
+      padding: 0.55rem 0; border-bottom: 1px dashed var(--surface-border); font-size: 0.84rem; color: var(--text-primary); }
+    .qe-tiers li:last-child { border-bottom: none; }
+    .qe-tiers .t-c { font-family: var(--font-accent); font-size: 0.68rem; color: var(--text-secondary); white-space: nowrap; }
+    .qe-tiers .t-p { font-family: var(--font-display); color: var(--accent); font-size: 1rem; }
 
     /* ===== Quick-estimate popup ===== */
     .qe-overlay { position: fixed; inset: 0; z-index: 400; display: none; align-items: center; justify-content: center; padding: 1.2rem;
@@ -377,25 +615,51 @@
         <p class="lp-tag" data-i18n="hero.lead">Hard-to-find Vietnamese fashion &amp; beauty, verified in person and shipped worldwide.</p>
         <p class="lp-trust" data-i18n="lp.trust">Hồ Chí Minh City · Replies within 1–2 business days</p>
 
-        <div class="lp-paths">
-          <a class="star-border-container lp-cta" href="https://tally.so/r/gD10Kl?about=I%20want%20help%20sourcing%20or%20buying%20specific%20items&amp;source=links-hero" target="_blank" rel="noopener" data-track="path-sourcing">
-            <div class="border-gradient-bottom"></div>
-            <div class="border-gradient-top"></div>
-            <div class="inner-content" data-i18n="lp.path1">Source a piece</div>
+        <span class="lp-eyebrow" style="margin-bottom:0.6rem" data-i18n="lp2.choose">Choose your path</span>
+        <div class="lp-choose">
+          <a class="lp-path-card" href="#lp-sourcing" data-track="choose-sourcing">
+            <span class="lp-pc-e" data-i18n="lp2.pc1e">Sourcing</span>
+            <span class="lp-pc-t" data-i18n="lp2.pc1t">I know the piece</span>
+            <p class="lp-pc-s" data-i18n="lp2.pc1s">Send a link or a photo — I find it, verify it in person, and ship it.</p>
+            <span class="lp-pc-w"><span data-i18n="lp2.pc1w">Pieces at cost — my fee starts at about $23 for all the legwork</span><span class="go" aria-hidden="true">↓</span></span>
           </a>
-          <a class="lp-path2" href="https://tally.so/r/gD10Kl?about=I%20want%20to%20book%20a%20styling%20service&amp;source=links-hero" target="_blank" rel="noopener" data-track="path-styling" data-i18n="lp.path2">Book styling — from $49</a>
+          <a class="lp-path-card is-styling" href="#lp-styling" data-track="choose-styling">
+            <span class="lp-pc-e" data-i18n="lp2.pc2e">Styling</span>
+            <span class="lp-pc-t" data-i18n="lp2.pc2t">Dress me for the moment</span>
+            <p class="lp-pc-s" data-i18n="lp2.pc2s">A moodboard, a feeling, an occasion — I choose, you approve.</p>
+            <span class="lp-pc-w"><span data-i18n="lp2.pc2w">From $49 — most of it becomes your clothes</span><span class="go" aria-hidden="true">↓</span></span>
+          </a>
+        </div>
+        <p class="lp-startsmall" data-i18n="lp2.startsmall">You can start free or small — most clients begin with one piece or a short style intake.</p>
+        <div class="lp-paths" style="margin-top:0.55rem">
           <a class="lp-path2" href="https://tally.so/r/gD10Kl?about=I%20need%20corporate%20%2F%20group%20%2F%20bulk%20buying%20support&amp;source=links-hero" target="_blank" rel="noopener" data-track="path-bulk" data-i18n="lp.path3">Group &amp; bulk orders</a>
         </div>
-        <p class="lp-path-note" data-i18n="lp.pathnote">Know the piece? Choose sourcing. Bringing inspiration or a moodboard? That is styling — a paid service, credited toward your pieces.</p>
-        <button class="lp-cta2" id="qeOpen" type="button" data-track="estimate-open" data-i18n="lp.estlink">or get a quick estimate →</button>
-
-        <ul class="lp-proof">
-          <li data-i18n="lp.proof1">Ships worldwide</li>
-          <li data-i18n="lp.proof2">Verified in person</li>
-          <li data-i18n="lp.proof3">Honest fit advice</li>
-        </ul>
+        <p class="lp-bulk-note" data-i18n="lp2.bulknote">Custom coordination quote · items always at cost · large builds (weddings, productions) quoted as a small share of budget</p>
+        <button class="lp-cta2" id="qeOpen" type="button" data-track="estimate-open" data-i18n="lp2.estlink">or see your estimate before you commit →</button>
       </div>
     </header>
+
+    <!-- ===== Trust ticker — the house promises, one quiet drifting line ===== -->
+    <div class="lp-ticker" aria-label="House promises">
+      <div class="lp-tick-row">
+        <div class="lp-tick-grp">
+          <span data-i18n="lp2.tk1">Verified in person</span>
+          <span data-i18n="lp2.tk2">Pieces at cost</span>
+          <span data-i18n="lp2.tk3">Ships worldwide</span>
+          <span data-i18n="lp2.tk4">Honest fit advice</span>
+          <span data-i18n="lp2.tk5">Replies in 1–2 business days</span>
+          <span data-i18n="lp2.tk6">Nothing bought without your yes</span>
+        </div>
+        <div class="lp-tick-grp" aria-hidden="true">
+          <span data-i18n="lp2.tk1">Verified in person</span>
+          <span data-i18n="lp2.tk2">Pieces at cost</span>
+          <span data-i18n="lp2.tk3">Ships worldwide</span>
+          <span data-i18n="lp2.tk4">Honest fit advice</span>
+          <span data-i18n="lp2.tk5">Replies in 1–2 business days</span>
+          <span data-i18n="lp2.tk6">Nothing bought without your yes</span>
+        </div>
+      </div>
+    </div>
 
 
     <!-- ===== Featured promotion — the flight home, while the window is open ===== -->
@@ -413,6 +677,169 @@
         <span class="lp-promo-btn" data-i18n="lp.promo_btn">Read the details →</span>
       </div>
     </a>
+
+    <!-- ===== Sourcing — you name the piece =====
+         Fee copy mirrors CONFIG in js/estimator.js (8%/7%, min 350k, base 250k) — update together. -->
+    <section class="lp-sec" id="lp-sourcing" aria-labelledby="lps-h">
+      <h2 class="lp-sec-h" id="lps-h" data-i18n="lp2.src_h">Sourcing</h2>
+      <p class="lp-sec-t" data-i18n="lp2.src_t">You name the piece.</p>
+      <p class="lp-lead" data-i18n="lp2.src_lead">Send a link or a photo. I'll find it, verify it in person, photograph it for your approval, and ship it at the real receipt price.</p>
+
+      <ol class="lp-steps reveal" aria-label="How sourcing works">
+        <li><span class="lp-step-n">01</span><span class="lp-step-t" data-i18n="lp2.s1t">Send it over</span><p class="lp-step-d" data-i18n="lp2.s1d">A link or a photo of the piece is enough.</p></li>
+        <li><span class="lp-step-n">02</span><span class="lp-step-t" data-i18n="lp2.s2t">I go see it</span><p class="lp-step-d" data-i18n="lp2.s2d">Verified at the boutique, with my own hands.</p></li>
+        <li><span class="lp-step-n">03</span><span class="lp-step-t" data-i18n="lp2.s3t">You say yes</span><p class="lp-step-d" data-i18n="lp2.s3d">Photos first — nothing is bought without your approval.</p></li>
+        <li><span class="lp-step-n">04</span><span class="lp-step-t" data-i18n="lp2.s4t">It comes home</span><p class="lp-step-d" data-i18n="lp2.s4d">Shipped to your door, tracked the whole way.</p></li>
+      </ol>
+
+      <div class="lp-whisper reveal">
+        <strong data-i18n="lp2.src_w1">From <b>about $23</b> in fees.</strong>
+        <span data-i18n="lp2.src_w2">That's 600,000₫, where most simple requests stay. The piece and shipping simply cost what they cost — nothing added.</span>
+        <div class="lp-chips" aria-label="House promises">
+          <span data-i18n="lp2.c1">Receipt-price pieces</span>
+          <span data-i18n="lp2.c2">Photos before purchase</span>
+          <span data-i18n="lp2.c3">Shipping at cost</span>
+          <span data-i18n="lp2.c4">Your yes first</span>
+        </div>
+      </div>
+
+      <div class="lp-ctarow">
+        <a class="star-border-container lp-cta" href="https://tally.so/r/gD10Kl?about=I%20want%20help%20sourcing%20or%20buying%20specific%20items&amp;source=links-sourcing" target="_blank" rel="noopener" data-track="path-sourcing">
+          <div class="border-gradient-bottom"></div>
+          <div class="border-gradient-top"></div>
+          <div class="inner-content" data-i18n="lp2.src_cta">Start sourcing a specific piece</div>
+        </a>
+      </div>
+      <p class="lp-tryfree"><button class="lp-cta2" type="button" data-qe-open="sourcing" data-track="estimate-sourcing" data-i18n="lp2.src_est">Get a sourcing estimate →</button></p>
+
+      <details class="lp-drawer">
+        <summary data-i18n="lp2.drawer">See the exact fee breakdown</summary>
+        <div class="lp-dbody">
+          <p class="lp-dcare" data-i18n="lp2.src_care">The fee is just my legwork — finding the piece, visiting the boutiques, checking it with my own hands, photos for your yes, and careful packing for the trip home. I'd rather get one piece exactly right than make any bill bigger.</p>
+          <p data-i18n="lp2.d1"><b>Per-item sourcing fee</b> 8% of the piece (7% above 5,000,000₫), minimum 350,000₫ per item</p>
+          <p data-i18n="lp2.d2"><b>Per-order coordination</b> 250,000₫ flat — rides, boutique visits &amp; packing</p>
+          <p data-i18n="lp2.d3"><b>Typical minimum</b> 600,000₫ ≈ $23 before the piece and shipping</p>
+          <p data-i18n="lp2.d4"><b>Optional</b> Rare-find or rush sourcing +200,000₫ · beyond two boutiques +150,000₫ per stop · green shopping takes 10% off the sourcing fees</p>
+          <p data-i18n="lp2.d5"><b>Always</b> Pieces and shipping at cost, never marked up</p>
+        </div>
+      </details>
+
+      <div class="lp-fx" id="lpFx" hidden>
+        <div class="lp-fx-row">
+          <input id="lpFxAmt" type="number" inputmode="decimal" min="0" value="100" aria-label="Amount" />
+          <select id="lpFxCur" aria-label="Currency">
+            <option value="USD" selected>USD $</option><option value="EUR">EUR €</option>
+            <option value="GBP">GBP £</option><option value="AUD">AUD $</option>
+            <option value="CAD">CAD $</option><option value="SGD">SGD $</option>
+            <option value="JPY">JPY ¥</option><option value="KRW">KRW ₩</option>
+            <option value="CNY">CNY ¥</option><option value="THB">THB ฿</option>
+            <option value="AED">AED</option><option value="INR">INR ₹</option>
+          </select>
+          <span class="lp-fx-eq" id="lpFxOut">≈ —</span>
+        </div>
+        <p class="lp-fx-note" id="lpFxNote" data-i18n="lp2.fx_note">Live rate refreshed daily, with a small buffer built in — your final quote uses the bank's rate on the day.</p>
+      </div>
+    </section>
+
+    <!-- ===== Styling — I choose for you ===== -->
+    <section class="lp-sec" id="lp-styling" aria-labelledby="lpy-h">
+      <h2 class="lp-sec-h" id="lpy-h" data-i18n="lp2.sty_h">Styling — I choose for you</h2>
+      <p class="lp-sec-t" data-i18n="lp2.sty_t">Where your money goes, in plain sight.</p>
+      <p class="lp-lead" data-i18n="lp2.sty_lead">Bring a moodboard, a feeling, a moment to dress for. Every tier splits openly: a flat styling fee, and a clothing credit spent entirely on your pieces.</p>
+      <p class="lp-safe" data-i18n="lp2.sty_safe"><b>You'll see the exact total before you say yes.</b> If the numbers don't feel good, we adjust or pause — nothing happens without you.</p>
+
+      <div class="lp-tiers reveal">
+        <article class="lp-tier">
+          <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t1n">The Discovery</span><span class="lp-tier-p">$49</span></div>
+          <div class="lp-meter" role="img" aria-label="$34 clothing credit, $15 styling fee"><i class="lp-meter-i" style="--pct:69%"></i></div>
+          <div class="lp-tier-split"><span data-i18n="lp2.t1s"><b>$34 clothes</b> · $15 styling</span></div>
+          <p class="lp-tier-d" data-i18n="lp2.t1d">The low-risk way to try this — one piece, found and sent. Where most new clients start.</p>
+          <a class="lp-tier-buy" href="https://buy.stripe.com/9B6eVe5vF6Vh6og47waAw03?client_reference_id=links-styling" target="_blank" rel="noopener" data-track="buy-discovery" data-i18n="lp2.buy">Book this tier →</a>
+        </article>
+        <article class="lp-tier">
+          <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t2n">The Edit</span><span class="lp-tier-p">$149</span></div>
+          <div class="lp-meter" role="img" aria-label="$104 clothing credit, $45 styling fee"><i class="lp-meter-i" style="--pct:70%"></i></div>
+          <div class="lp-tier-split"><span data-i18n="lp2.t2s"><b>$104 clothes</b> · $45 styling</span></div>
+          <p class="lp-tier-d" data-i18n="lp2.t2d">More pieces, still contained — typically 3–5, fewer if you fall for something rarer.</p>
+          <a class="lp-tier-buy" href="https://buy.stripe.com/bJecN65vF93p5kc5bAaAw04?client_reference_id=links-styling" target="_blank" rel="noopener" data-track="buy-edit" data-i18n="lp2.buy">Book this tier →</a>
+        </article>
+        <article class="lp-tier is-featured">
+          <span class="lp-tier-badge" data-i18n="lp2.most">Most requested</span>
+          <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t3n">The Capsule</span><span class="lp-tier-p">$249</span></div>
+          <div class="lp-meter" role="img" aria-label="$174 clothing credit, $75 styling fee"><i class="lp-meter-i" style="--pct:70%"></i></div>
+          <div class="lp-tier-split"><span data-i18n="lp2.t3s"><b>$174 clothes</b> · $75 styling</span></div>
+          <p class="lp-tier-d" data-i18n="lp2.t3d">A small wardrobe in one go — 8–12 mix-and-match pieces, with a lookbook to wear them together.</p>
+          <a class="lp-tier-buy" href="https://buy.stripe.com/00wdRaf6f3J513W7jIaAw05?client_reference_id=links-styling" target="_blank" rel="noopener" data-track="buy-capsule" data-i18n="lp2.buy">Book this tier →</a>
+        </article>
+        <article class="lp-tier">
+          <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t4n">The Atelier</span><span class="lp-tier-p">$349</span></div>
+          <div class="lp-meter" role="img" aria-label="$239 clothing credit, $110 styling fee"><i class="lp-meter-i" style="--pct:68%"></i></div>
+          <div class="lp-tier-split"><span data-i18n="lp2.t4s"><b>$239 clothes</b> · $110 styling</span></div>
+          <p class="lp-tier-d" data-i18n="lp2.t4d">The full, hands-on experience — in Sài Gòn, or live on video from anywhere.</p>
+          <a class="lp-tier-buy" href="https://buy.stripe.com/6oUdRa4rBdjF13W33saAw06?client_reference_id=links-styling" target="_blank" rel="noopener" data-track="buy-atelier" data-i18n="lp2.buy">Book this tier →</a>
+        </article>
+        <article class="lp-tier is-signature">
+          <span class="lp-tier-badge" data-i18n="lp2.t5b">Designer only</span>
+          <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t5n">The Signature</span><span class="lp-tier-p">$750</span></div>
+          <div class="lp-meter" role="img" aria-label="$460 clothing credit, $290 styling fee"><i class="lp-meter-i" style="--pct:61%"></i></div>
+          <div class="lp-tier-split"><span data-i18n="lp2.t5s"><b>$460 clothes</b> · $290 styling</span></div>
+          <p class="lp-tier-d" data-i18n="lp2.t5d">The designer commission — pieces from the coveted houses (Fancì Club, GIA Studios, the ateliers), appointments attended on your behalf, made-to-measure fittings, a lookbook, and 60 days of support. At Saigon prices, the credit is 2–4 genuine designer pieces.</p>
+          <p class="lp-tier-d" data-i18n="lp2.t5ship">One written total — pieces, fees and shipping — before anything is bought. Signature orders get first claim on free flight-window shipping.</p>
+          <a class="lp-tier-buy" href="https://tally.so/r/gD10Kl?about=I%20want%20to%20book%20a%20styling%20service&amp;source=links-signature" target="_blank" rel="noopener" data-track="book-signature" data-i18n="lp2.t5cta">Begin with a conversation →</a>
+          <p class="lp-tryfree" style="text-align:left;margin-top:0.5rem"><a href="fashion-directory#sig=1" data-track="sig-houses" data-i18n="lp2.t5see">See the Signature houses →</a></p>
+        </article>
+      </div>
+      <p class="lp-sty-note" data-i18n="lp2.sty_note">You pay for considered guidance; the rest stays with your wardrobe. Bigger tiers aren't "better" — they simply give us more room to work.</p>
+
+      <div class="lp-ctarow">
+        <a class="star-border-container lp-cta" href="https://tally.so/r/gD10Kl?about=I%20want%20to%20book%20a%20styling%20service&amp;source=links-styling" target="_blank" rel="noopener" data-track="path-styling">
+          <div class="border-gradient-bottom"></div>
+          <div class="border-gradient-top"></div>
+          <div class="inner-content" data-i18n="lp2.sty_cta">Not sure? Tell me the moment first</div>
+        </a>
+        <a class="lp-cta-soft" href="#lp-gift" data-track="gift-jump" data-i18n="lp2.sty_gift">Gift it instead →</a>
+      </div>
+      <p class="lp-tryfree" data-i18n="lp2.tryfree">Not ready to spend? <a href="style-profile.html?tier=discovery&amp;from=links-soft">Start with the free style intake →</a></p>
+      <p class="lp-yes" data-i18n="lp2.yes">Nothing is bought without your yes — photos first, always.</p>
+    </section>
+
+    <!-- ===== No-surprises pricing — a house note ===== -->
+    <section class="lp-honest reveal" aria-labelledby="lph-h">
+      <h2 class="lp-sec-h" id="lph-h" data-i18n="lp2.hb_e">House rules</h2>
+      <p class="lp-sec-t" style="margin-bottom:0" data-i18n="lp2.hb_h">No-surprises pricing</p>
+      <ul>
+        <li data-i18n="lp2.hb1"><b>Pieces at the real receipt price</b> — never marked up</li>
+        <li data-i18n="lp2.hb2"><b>Shipping at the carrier's actual cost</b>, billed once your parcel is weighed</li>
+        <li data-i18n="lp2.hb3"><b>You never pay everything up front</b> — first a simple deposit, then the real shipping once your parcel is weighed</li>
+        <li data-i18n="lp2.hb4"><b>Bank transfer, Wise &amp; Zelle are fee-free</b> · cards add Stripe's own ~5.4% + $0.30, itemized on your link</li>
+        <li data-i18n="lp2.hb5"><b>The exact total is confirmed before any payment</b> — see your estimate before you commit</li>
+        <li data-i18n="lp2.hb6"><b>Nothing is bought without your yes</b></li>
+      </ul>
+    </section>
+
+    <!-- ===== Gift styling — the styling tiers, wrapped ===== -->
+    <section class="lp-sec" id="lp-gift" aria-labelledby="lpg-gift">
+      <h2 class="lp-sec-h" id="lpg-gift" data-i18n="lp2.gift_h">Gift styling</h2>
+      <div class="lp-links reveal">
+        <div class="lp-gift">
+          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M20 12v9H4v-9"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7S9 3 6.5 4.5 8 7 12 7zM12 7s3-4 5.5-2.5S16 7 12 7z"/></svg></span>
+          <div class="lp-meta">
+            <span class="lp-title" data-i18n="lp.gift_t">Gift styling — give a Saigon wardrobe</span>
+            <p class="lp-gift-hook" data-i18n="lp2.gift_s">From $49 — the recipient receives a clothing credit and their own stylist; you get all the credit.</p>
+            <div class="lp-gift-paths">
+              <a href="./#gift" data-track="gift-tiers" data-i18n="lp.gift_p1">Pick a tier →</a>
+              <a href="./#giftQuiz" data-track="gift-finder" data-i18n="lp.gift_p2">Not sure? 4-question gift finder →</a>
+            </div>
+            <p class="lp-gift-when" data-i18n="lp.gift_w">Their code and note arrive within 24 hours</p>
+          </div>
+        </div>
+        <a class="lp-card" href="redeem" data-track="redeem">
+          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M20 12v9H4v-9"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7S9 3 6.5 4.5 8 7 12 7zM12 7s3-4 5.5-2.5S16 7 12 7z"/></svg></span>
+          <span class="lp-meta"><span class="lp-title" data-i18n="lp.redeem_t">Redeem a gift</span><span class="lp-sub" data-i18n="lp.redeem_s">Got a gift code? See exactly what you'd pay</span></span>
+          <span class="lp-go" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
 
     <!-- ===== Services reel — a self-rotating preview of everything on offer ===== -->
     <section class="lp-reel reveal" aria-label="Services preview">
@@ -445,7 +872,7 @@
         <a class="lp-reel-card" href="fashion-directory" data-track="reel-directory">
           <span class="lp-reel-e" data-i18n="lp.reel.5e">Free</span>
           <span class="lp-reel-t" data-i18n="lp.reel.5t">Saigon Fashion Directory</span>
-          <p class="lp-reel-s" data-i18n="lp.reel.5s">262 verified brands, mapped by district and price band — the foundation of every request.</p>
+          <p class="lp-reel-s" data-i18n="lp.reel.5s">270 verified brands, mapped by district and price band — the foundation of every request.</p>
           <span class="lp-reel-p"><span data-i18n="lp.reel.5p">browse free</span><span aria-hidden="true">→</span></span>
         </a>
         <a class="lp-reel-card" href="lookbook" data-track="reel-lookbook">
@@ -460,42 +887,6 @@
 
     <!-- ===== Block-based links (a destination, not a plain list) ===== -->
     <nav class="lp-groups" aria-label="Seraphic Styler links">
-
-      <section class="lp-group" aria-labelledby="lpg-start">
-        <h2 class="lp-group-h" id="lpg-start" data-i18n="lp.g.start">Start here</h2>
-        <div class="lp-links reveal">
-          <a class="lp-card lp-card-feature" href="./#contact" data-track="order">
-          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></span>
-          <span class="lp-meta"><span class="lp-title" data-i18n="lp.order_t">Order any Vietnam brand</span><span class="lp-sub" data-i18n="lp.order_s">Even pieces not posted — send me your wishlist</span></span>
-          <span class="lp-go" aria-hidden="true">→</span>
-      </a>
-
-          <div class="lp-gift">
-            <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M20 12v9H4v-9"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7S9 3 6.5 4.5 8 7 12 7zM12 7s3-4 5.5-2.5S16 7 12 7z"/></svg></span>
-            <div class="lp-meta">
-              <span class="lp-title" data-i18n="lp.gift_t">Gift styling — give a Saigon wardrobe</span>
-              <p class="lp-gift-hook" data-i18n="lp.gift_s">From $49 — they get a personal stylist, you get all the credit.</p>
-              <div class="lp-gift-paths">
-                <a href="./#gift" data-track="gift-tiers" data-i18n="lp.gift_p1">Pick a tier →</a>
-                <a href="./#giftQuiz" data-track="gift-finder" data-i18n="lp.gift_p2">Not sure? 4-question gift finder →</a>
-              </div>
-              <p class="lp-gift-when" data-i18n="lp.gift_w">Their code and note arrive within 24 hours</p>
-            </div>
-          </div>
-
-          <button class="lp-card" id="qeOpenCard" type="button" data-track="estimate-card">
-          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8 7h8M8 11h8M8 15h4"/></svg></span>
-          <span class="lp-meta"><span class="lp-title" data-i18n="lp.est_t">Get a quick estimate</span><span class="lp-sub" data-i18n="lp.est_s">A ballpark in seconds, then DM or email me</span></span>
-          <span class="lp-go" aria-hidden="true">→</span>
-      </button>
-
-          <a class="lp-card" href="redeem" data-track="redeem">
-          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M20 12v9H4v-9"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7S9 3 6.5 4.5 8 7 12 7zM12 7s3-4 5.5-2.5S16 7 12 7z"/></svg></span>
-          <span class="lp-meta"><span class="lp-title" data-i18n="lp.redeem_t">Redeem a gift</span><span class="lp-sub" data-i18n="lp.redeem_s">Got a gift code? See exactly what you'd pay</span></span>
-          <span class="lp-go" aria-hidden="true">→</span>
-      </a>
-        </div>
-      </section>
 
       <section class="lp-group" aria-labelledby="lpg-free">
         <h2 class="lp-group-h" id="lpg-free" data-i18n="lp.g.free">Free — no obligation</h2>
@@ -530,7 +921,7 @@
         <div class="lp-links reveal">
           <a class="lp-card lp-card-feature" href="fashion-directory" data-track="directory">
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M9 20l-6 2V6l6-2 6 2 6-2v16l-6 2-6-2z"/><path d="M9 4v16M15 6v16"/></svg></span>
-          <span class="lp-meta"><span class="lp-title" data-i18n="lp.dir_t">The Saigon Fashion Directory</span><span class="lp-sub" data-i18n="lp.dir_s">262 verified houses, mapped by district</span></span>
+          <span class="lp-meta"><span class="lp-title" data-i18n="lp.dir_t">The Saigon Fashion Directory</span><span class="lp-sub" data-i18n="lp.dir_s">270 verified houses, mapped by district</span></span>
           <span class="lp-go" aria-hidden="true">→</span>
       </a>
 
@@ -594,9 +985,15 @@
       <a class="lp-houses-all" href="fashion-directory" data-i18n="lp.houses_all">See the full directory →</a>
     </section>
 
-    <p class="lp-foot" data-i18n="lp.foot">Order any Vietnam brand — including pieces not posted.<br />Clear pricing, honest fit advice, and worldwide shipping from Saigon.</p>
+    <p class="lp-foot" data-i18n="lp2.foot">Pieces at cost · shipping at cost · nothing bought without your yes.<br />Saigon styling &amp; sourcing, shipped worldwide.</p>
 
   </main>
+
+  <!-- ===== Sticky mobile action bar — the two paths, thumb-reachable ===== -->
+  <nav class="lp-stickybar" aria-label="Quick actions">
+    <a class="sb-src" href="https://tally.so/r/gD10Kl?about=I%20want%20help%20sourcing%20or%20buying%20specific%20items&amp;source=links-sticky" target="_blank" rel="noopener" data-track="sticky-sourcing" data-i18n="lp2.sb1">Source a piece</a>
+    <a class="sb-sty" href="https://tally.so/r/gD10Kl?about=I%20want%20to%20book%20a%20styling%20service&amp;source=links-sticky" target="_blank" rel="noopener" data-track="sticky-styling" data-i18n="lp2.sb2">Book styling</a>
+  </nav>
 
   <!-- ===== Quick-estimate popup ===== -->
   <div class="qe-overlay" id="qeOverlay" aria-hidden="true">
@@ -606,6 +1003,37 @@
       <h2 id="qeTitle" data-i18n="qe.title">Quick estimate</h2>
       <p class="qe-sub" data-i18n="qe.sub">A ballpark in seconds. No payment — your final quote is confirmed when you message me.</p>
 
+      <div id="qeStep0">
+        <p class="qe-q0" data-i18n="lp2.qe0">What are you looking for?</p>
+        <div class="qe-mode">
+          <button type="button" data-qe-mode="sourcing" data-track="qe-mode-sourcing">
+            <span class="m-t" data-i18n="lp2.qe0a">I have a link or a photo</span>
+            <span class="m-s" data-i18n="lp2.qe0a2">Estimate a sourcing order</span>
+          </button>
+          <button type="button" data-qe-mode="styling" data-track="qe-mode-styling">
+            <span class="m-t" data-i18n="lp2.qe0b">I need help choosing</span>
+            <span class="m-s" data-i18n="lp2.qe0b2">See the styling tiers</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="qeStyPanel" hidden>
+        <button class="qe-back" type="button" data-qe-mode="" data-i18n="lp2.qeback">‹ Something else</button>
+        <ul class="qe-tiers">
+          <li><a href="https://buy.stripe.com/9B6eVe5vF6Vh6og47waAw03?client_reference_id=links-qe" target="_blank" rel="noopener" data-track="qe-buy-discovery"><span data-i18n="lp2.t1n">The Discovery</span><span class="t-c" data-i18n="lp2.qt1">$34 clothes · $15 fee</span><span class="t-p">$49</span></a></li>
+          <li><a href="https://buy.stripe.com/bJecN65vF93p5kc5bAaAw04?client_reference_id=links-qe" target="_blank" rel="noopener" data-track="qe-buy-edit"><span data-i18n="lp2.t2n">The Edit</span><span class="t-c" data-i18n="lp2.qt2">$104 clothes · $45 fee</span><span class="t-p">$149</span></a></li>
+          <li><a href="https://buy.stripe.com/00wdRaf6f3J513W7jIaAw05?client_reference_id=links-qe" target="_blank" rel="noopener" data-track="qe-buy-capsule"><span data-i18n="lp2.t3n">The Capsule</span><span class="t-c" data-i18n="lp2.qt3">$174 clothes · $75 fee</span><span class="t-p">$249</span></a></li>
+          <li><a href="https://buy.stripe.com/6oUdRa4rBdjF13W33saAw06?client_reference_id=links-qe" target="_blank" rel="noopener" data-track="qe-buy-atelier"><span data-i18n="lp2.t4n">The Atelier</span><span class="t-c" data-i18n="lp2.qt4">$239 clothes · $110 fee</span><span class="t-p">$349</span></a></li>
+        </ul>
+        <p class="qe-rnote" style="display:block;text-align:center;color:var(--text-secondary);font-size:0.7rem;margin:-0.4rem 0 0.8rem" data-i18n="lp2.qe_tap">Tap a tier to book it — payment opens on Stripe's secure page</p>
+        <div class="qe-cta">
+          <a class="btn qe-dm" href="https://tally.so/r/gD10Kl?about=I%20want%20to%20book%20a%20styling%20service&amp;source=links-qe-styling" target="_blank" rel="noopener" data-track="qe-book-styling" data-i18n="lp2.qe_book">Not sure? Tell me the moment first</a>
+        </div>
+        <p class="qe-rnote" style="display:block;text-align:center;color:var(--text-secondary);font-size:0.72rem;margin:0.7rem 0 0" data-i18n="lp2.qe_stynote">Part of every tier becomes your clothes — the credit is spent entirely on your pieces.</p>
+      </div>
+
+      <div id="qeSrcPanel" hidden>
+      <button class="qe-back" type="button" data-qe-mode="" data-i18n="lp2.qeback">‹ Something else</button>
       <label class="qe-field"><span data-i18n="qe.budget">Item budget (USD)</span>
         <input id="qeBudget" type="number" min="0" inputmode="decimal" placeholder="e.g. 120" />
       </label>
@@ -625,8 +1053,8 @@
 
       <div class="qe-result" id="qeResult" hidden>
         <span class="qe-range" id="qeRange">—</span>
-        <span class="qe-rnote" data-i18n="qe.rnote">all-in estimate · items + service fee + shipping</span>
-        <span class="qe-rnote" data-i18n="qe.cardnote">card payments add ~3.3% (Stripe) · bank transfer, Wise &amp; Zelle are fee-free</span>
+        <span class="qe-rnote" data-i18n="qe.rnote">all-in estimate · items + sourcing fee + shipping</span>
+        <span class="qe-rnote" data-i18n="qe.cardnote">cards add Stripe's own ~5.4% + $0.30 · bank transfer, Wise &amp; Zelle are fee-free</span>
       </div>
 
       <div class="qe-cta">
@@ -634,7 +1062,9 @@
         <a class="btn qe-email" id="qeEmail" href="https://tally.so/r/gD10Kl" target="_blank" rel="noopener" data-track="estimate-email" data-i18n="qe.email">Send this estimate</a>
       </div>
       <p class="qe-copied" id="qeCopied" hidden data-i18n="qe.copied">✓ Estimate copied — just paste it into the DM.</p>
+      <p class="qe-rnote" style="display:block;text-align:center;color:var(--text-secondary);font-size:0.72rem;margin:0.7rem 0 0" data-i18n="lp2.qe_ball">A ballpark, not a commitment — I confirm the exact total before anything is bought.</p>
       <a class="qe-full" href="./estimate.html" data-i18n="qe.full">Prefer the detailed estimator? Open the full site →</a>
+      </div>
     </div>
   </div>
 
@@ -676,6 +1106,59 @@
         dotsBox.appendChild(d);
         return d;
       });
+
+      /* Arrows flank the dots — easier than dragging, on any device. */
+      var T = function (k, en) { return window.SS_T ? window.SS_T(k, en) : en; };
+      var nav = document.createElement('div');
+      nav.className = 'lp-reel-nav';
+      var prevB = document.createElement('button'), nextB = document.createElement('button');
+      prevB.type = nextB.type = 'button';
+      prevB.className = nextB.className = 'lp-reel-arrow';
+      prevB.textContent = '‹'; nextB.textContent = '›';
+      function labelArrows() {
+        prevB.setAttribute('aria-label', T('lp2.rprev', 'Previous service'));
+        nextB.setAttribute('aria-label', T('lp2.rnext', 'Next service'));
+      }
+      labelArrows();
+      prevB.addEventListener('click', function () { goTo(idx - 1); });
+      nextB.addEventListener('click', function () { goTo(idx + 1); });
+      dotsBox.parentNode.insertBefore(nav, dotsBox);
+      nav.appendChild(prevB); nav.appendChild(dotsBox); nav.appendChild(nextB);
+      dotsBox.hidden = false;
+
+      /* Mouse drag-to-scroll — trackpads and touch already scroll natively,
+         but a mouse can't drag a scroll container without this. */
+      var dragging = false, dragMoved = false, dragX = 0, dragStart = 0;
+      track.addEventListener('pointerdown', function (e) {
+        if (e.pointerType !== 'mouse' || e.button !== 0) return;
+        dragging = true; dragMoved = false; dragX = e.clientX; dragStart = track.scrollLeft;
+        track.classList.add('is-dragging');
+        try { track.setPointerCapture(e.pointerId); } catch (err) {}
+      });
+      track.addEventListener('pointermove', function (e) {
+        if (!dragging) return;
+        var dx = e.clientX - dragX;
+        if (Math.abs(dx) > 4) dragMoved = true;
+        track.scrollLeft = dragStart - dx;
+      });
+      function endDrag() {
+        if (!dragging) return;
+        dragging = false;
+        track.classList.remove('is-dragging');
+        if (dragMoved) {
+          var mid = track.scrollLeft + track.clientWidth / 2, best = 0, bd = Infinity;
+          cards.forEach(function (c, i) {
+            var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
+            if (d < bd) { bd = d; best = i; }
+          });
+          goTo(best);
+        }
+      }
+      track.addEventListener('pointerup', endDrag);
+      track.addEventListener('pointercancel', endDrag);
+      track.addEventListener('click', function (e) {
+        if (dragMoved) { dragMoved = false; e.preventDefault(); e.stopPropagation(); }
+      }, true);
 
       function mark(i) {
         idx = i;
@@ -721,13 +1204,14 @@
       }
 
       setInterval(function () {
-        if (rm() || hover || focus || touchHold || !inView || document.hidden) return;
+        if (rm() || hover || focus || touchHold || dragging || !inView || document.hidden) return;
         goTo(idx + 1);
-      }, 4000);
+      }, 6500);
 
       mark(0);
-      /* Language switch re-writes card text in place — refresh dot labels. */
+      /* Language switch re-writes card text in place — refresh labels. */
       document.addEventListener('ss:lang', function () {
+        labelArrows();
         dots.forEach(function (d, i) {
           var name = cards[i].querySelector('.lp-reel-t');
           if (name) d.setAttribute('aria-label', name.textContent.trim());
@@ -805,6 +1289,90 @@
         if (q && navigator.clipboard) { navigator.clipboard.writeText(summaryText(q)).then(function () { if (copied) copied.hidden = false; }).catch(function () {}); }
         window.open(IG_DM, '_blank', 'noopener');
       });
+    })();
+
+    /* ---- Live currency peek: same open.er-api.com feed as the estimator,
+       cached in sessionStorage for 6h, CONFIG fallback rate if offline. ---- */
+    (function () {
+      var box = document.getElementById('lpFx');
+      if (!box || !window.CONFIG) return;
+      var amt = document.getElementById('lpFxAmt');
+      var cur = document.getElementById('lpFxCur');
+      var out = document.getElementById('lpFxOut');
+      var FALLBACK = { USD: 1, EUR: 0.92, GBP: 0.79, AUD: 1.5, CAD: 1.36, SGD: 1.34, JPY: 155, KRW: 1350, CNY: 7.2, THB: 36, AED: 3.67, INR: 83 };
+      var rates = null, vndPerUsd = window.CONFIG.fx.fallbackVndPerUsd;
+
+      function show() {
+        var a = parseFloat(amt.value);
+        if (isNaN(a) || a <= 0) { out.textContent = '≈ —'; return; }
+        var perUsd = rates ? (rates[cur.value] || FALLBACK[cur.value] || 1) : (FALLBACK[cur.value] || 1);
+        /* Same conservative buffer as the estimator (CONFIG.fx.spread) so the
+           peek is never rosier than the real quote. */
+        var vnd = (a / perUsd) * vndPerUsd * (1 - window.CONFIG.fx.spread);
+        out.textContent = '≈ ' + Math.round(vnd).toLocaleString('en-US') + '₫';
+      }
+
+      function ready(d) {
+        if (d && d.rates && d.rates.VND) { rates = d.rates; vndPerUsd = d.rates.VND; }
+        box.hidden = false;
+        show();
+      }
+      try {
+        var c = JSON.parse(sessionStorage.getItem('ss-fx') || 'null');
+        if (c && c.t && (Date.now() - c.t) < 216e5) { ready(c.d); }
+        else {
+          fetch('https://open.er-api.com/v6/latest/USD')
+            .then(function (r) { return r.json(); })
+            .then(function (d) {
+              try { sessionStorage.setItem('ss-fx', JSON.stringify({ t: Date.now(), d: { rates: d.rates } })); } catch (e) {}
+              ready(d);
+            })
+            .catch(function () { ready(null); });
+        }
+      } catch (e) { ready(null); }
+      amt.addEventListener('input', show);
+      cur.addEventListener('change', show);
+    })();
+
+    /* ---- Quick-estimate router: one question, then the right tool.
+       Runs after the estimate popup IIFE; touches none of its internals —
+       it only shows/hides the step-0 chooser and the two panels. ---- */
+    (function () {
+      var overlay = document.getElementById('qeOverlay');
+      var step0 = document.getElementById('qeStep0');
+      var src = document.getElementById('qeSrcPanel');
+      var sty = document.getElementById('qeStyPanel');
+      if (!overlay || !step0 || !src || !sty) return;
+      var budget = document.getElementById('qeBudget');
+      function setMode(m) {
+        step0.hidden = !!m;
+        src.hidden = (m !== 'sourcing');
+        sty.hidden = (m !== 'styling');
+        if (m === 'sourcing' && budget) setTimeout(function () { try { budget.focus(); } catch (e) {} }, 80);
+      }
+      document.addEventListener('click', function (e) {
+        var mb = e.target.closest('[data-qe-mode]');
+        if (mb && overlay.contains(mb)) { setMode(mb.getAttribute('data-qe-mode') || null); return; }
+        var op = e.target.closest('[data-qe-open]');
+        if (op) {
+          var qeOpen = document.getElementById('qeOpen');
+          if (qeOpen) qeOpen.click(); // reuses the popup's own open handler
+          setMode(op.getAttribute('data-qe-open') || null);
+          return;
+        }
+        if (e.target.closest('#qeOpen')) setMode(null); // hero entry always starts at the question
+      });
+      setMode(null);
+    })();
+
+    /* ---- Sticky mobile action bar: appears once the hero scrolls away ---- */
+    (function () {
+      var bar = document.querySelector('.lp-stickybar');
+      var hero = document.querySelector('.lp-top');
+      if (!bar || !hero || !('IntersectionObserver' in window)) return;
+      new IntersectionObserver(function (entries) {
+        document.documentElement.classList.toggle('lp-bar-on', !entries[0].isIntersecting);
+      }, { threshold: 0 }).observe(hero);
     })();
 
     /* ---- Lightweight click tracking — ready for Plausible / GoatCounter ---- */

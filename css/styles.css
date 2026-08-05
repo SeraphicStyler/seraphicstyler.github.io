@@ -735,6 +735,11 @@ html.rm .a11y-panel.open { animation: none; }
   background: var(--surface-soft); border: 1px solid var(--surface-border); border-radius: var(--btn-radius);
   padding: 0.42rem 0.6rem; cursor: pointer;
 }
+/* Touch screens: a form control under 16px makes iOS zoom the page when its
+   picker opens — the whole panel appears to "pop out". 16px stops the zoom. */
+@media (pointer: coarse) {
+  .a11y-panel select { font-size: 16px; }
+}
 .a11y-panel select {
   appearance: none; -webkit-appearance: none; min-width: 0; max-width: 9.5rem; padding-right: 1.7rem;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235a6b8c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
