@@ -67,7 +67,10 @@
         aBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
         if (open) {
           if (links) { links.classList.remove('open'); if (ham) ham.setAttribute('aria-expanded', 'false'); }
-          var first = document.getElementById('langSelect'); if (first) first.focus();
+          /* Focus the close button, never the select — iOS opens a select's
+             native picker on programmatic focus, popping the language list
+             over the panel on every open. */
+          var first = aPanel.querySelector('.a11y-close'); if (first) first.focus();
         }
       });
       document.addEventListener('click', function (e) {
