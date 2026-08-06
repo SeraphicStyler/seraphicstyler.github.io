@@ -516,7 +516,7 @@
                         : '0₫ — ' + esc(t('fd.bk.notNeeded', 'not needed for a simple run'))) + '</b></div>' +
           '<div class="r total"><span>' + esc(t('fd.bk.total', 'Total before shipping')) + '</span><b>' + fmtVnd(total) + '</b></div>' +
           '<div class="r usd"><span>' + (fxLive ? esc(t('fd.bk.live', 'Live rate')) : esc(t('fd.bk.offline', 'Offline estimate'))) + '</span><b>≈ ' + fmtUsd(toUsd(total)) + '</b></div>' +
-          '<div class="r note">' + esc(t('fd.bk.cardnote', 'Card payments add ~3.3% (Stripe) — bank transfer, Wise & Zelle are fee-free.')) + '</div>';
+          '<div class="r note">' + esc(t('fd.bk.cardnote2', 'Cards add Stripe\'s own ~5.4% + $0.30 — bank transfer, Wise & Zelle are fee-free.')) + '</div>';
       }
       rows += '<div class="r note">' + esc(t('fd.bk.honest', 'An estimate, not a quote — shipping and the final number live on the estimate page.')) + '</div>';
       fees.innerHTML = rows;

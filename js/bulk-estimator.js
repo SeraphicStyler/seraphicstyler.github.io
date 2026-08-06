@@ -15,7 +15,7 @@
 
   var C = window.CONFIG || {};
   var FX = (C.fx && C.fx.fallbackVndPerUsd) || 26300;
-  var BASE = C.baseFee || 100000;
+  var BASE = C.baseFee || 250000;
   var MIN = (C.fee && C.fee.minFee) || 250000;
   var MID = (C.fee && C.fee.midThreshold) || 5000000;
   var SHIP = C.shipping || {
