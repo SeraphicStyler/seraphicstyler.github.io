@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>The Signature — a designer wardrobe, commissioned in Sài Gòn · Seraphic Styler</title>
+  <meta name="description" content="The Signature is Seraphic Styler's designer commission: pieces from Sài Gòn's most coveted houses, appointments attended on your behalf, one written total before anything is bought. By consultation — two commissions per window." />
+  <meta property="og:title" content="The Signature — Seraphic Styler" />
+  <meta property="og:description" content="A designer wardrobe, commissioned in Sài Gòn. By consultation — two commissions per window." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.seraphicstyler.com/signature" />
+  <meta property="og:image" content="https://www.seraphicstyler.com/assets/social/og-image.png" />
+  <link rel="canonical" href="https://www.seraphicstyler.com/signature" />
+  <link rel="icon" href="assets/favicon-48.png" type="image/png" sizes="48x48" />
+  <link rel="icon" href="assets/favicon-192.png" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="assets/favicon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Tenor+Sans&family=Merriweather+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css?v=2026-08-05a" />
+  <!-- Respect the same theme / accessibility prefs the main site stores -->
+  <script>
+    (function () { var d = document.documentElement, s = window.localStorage;
+      try {
+        var th = s.getItem('ss-theme') || 'auto'; var pcs = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; if (th === 'dark' || (th === 'auto' && pcs)) d.classList.add('dark'); else if (th === 'mono') d.classList.add('mono');
+        if (s.getItem('ss-contrast') === '1') d.classList.add('hc');
+        var ts = s.getItem('ss-textsize'); if (ts === 'lg') d.classList.add('ts-lg'); if (ts === 'xl') d.classList.add('ts-xl');
+        if (s.getItem('ss-motion') === '1') d.classList.add('rm');
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    /* The Signature — one quiet editorial column. Whitespace is the design. */
+    .sg { max-width: 620px; margin: 0 auto; padding: 0 1.4rem; }
+    .sg-top { text-align: center; padding: clamp(3.4rem, 12vh, 6.5rem) 0 0; }
+    .sg-top .brand-lockup { text-decoration: none; }
+    .sg-mark { width: 38px; height: 38px; color: var(--accent-deep); margin: 0 auto 0.6rem; display: block; }
+
+    .sg-hero { text-align: center; padding: clamp(4rem, 14vh, 7.5rem) 0 clamp(3.5rem, 10vh, 5.5rem); }
+    .sg-eyebrow { display: block; font-family: var(--font-brand); text-transform: uppercase;
+      letter-spacing: 0.3em; font-size: 0.66rem; color: var(--eyebrow-ink); margin-bottom: 1.6rem; }
+    .sg-h1 { font-family: var(--font-display); font-weight: 300; color: var(--text-primary);
+      font-size: clamp(1.9rem, 6.5vw, 2.7rem); line-height: 1.25; margin: 0; }
+    .sg-h1 em { font-family: var(--font-script); font-style: normal; font-weight: 400;
+      font-size: 1.25em; color: var(--accent); }
+    .sg-h1 { display: block; }
+    .sg-hero .sg-lead { display: block; margin: 1.8rem auto 0; max-width: 44ch; color: var(--text-secondary);
+      font-size: 0.95rem; line-height: 1.85; font-family: var(--font-body); font-weight: 400; }
+    .sg-scarce { display: block; margin: 2.4rem auto 0; font-family: var(--font-brand); text-transform: uppercase;
+      letter-spacing: 0.22em; font-size: 0.62rem; color: var(--accent-deep); }
+    .sg-scarce::before, .sg-scarce::after { content: '·'; margin: 0 0.9rem; opacity: 0.5; }
+
+    .sg-sec { padding: clamp(3.2rem, 9vh, 5rem) 0; border-top: 1px solid var(--surface-border); }
+    .sg-sec-e { display: block; font-family: var(--font-brand); text-transform: uppercase;
+      letter-spacing: 0.26em; font-size: 0.62rem; color: var(--eyebrow-ink); margin-bottom: 1.1rem; }
+    .sg-sec h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.3rem, 4.5vw, 1.6rem);
+      color: var(--text-primary); line-height: 1.35; margin: 0 0 1.1rem; }
+    .sg-sec p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.85; margin: 0 0 1rem; max-width: 54ch; }
+    .sg-sec p b { color: var(--text-primary); font-weight: 500; }
+
+    /* The houses — typography, not logos */
+    .sg-houses { list-style: none; margin: 2rem 0 1.4rem; padding: 0; columns: 2; column-gap: 2.4rem; }
+    @media (max-width: 480px) { .sg-houses { columns: 1; } }
+    .sg-houses li { break-inside: avoid; padding: 0.55rem 0; border-bottom: 1px solid var(--surface-border);
+      font-family: var(--font-brand); font-size: 0.88rem; letter-spacing: 0.04em; color: var(--text-primary); }
+    .sg-houses li small { display: block; font-family: var(--font-accent); font-size: 0.66rem;
+      letter-spacing: 0.06em; color: var(--text-secondary); margin-top: 0.15rem; }
+    .sg-more { font-family: var(--font-accent); font-size: 0.8rem; }
+    .sg-more a { color: var(--accent-deep); border-bottom: 1px solid transparent; text-decoration: none; }
+    .sg-more a:hover { border-bottom-color: currentColor; }
+
+    /* The journey — four quiet steps */
+    .sg-steps { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 2rem; }
+    .sg-steps li { display: grid; grid-template-columns: 3rem 1fr; gap: 1.1rem; align-items: baseline; }
+    .sg-steps .n { font-family: var(--font-display); font-weight: 300; font-size: 1.5rem;
+      color: var(--lav-mist); font-variant-numeric: tabular-nums; }
+    html.dark .sg-steps .n { color: var(--periwinkle); }
+    .sg-steps h3 { font-family: var(--font-brand); font-weight: 400; font-size: 0.95rem;
+      letter-spacing: 0.05em; color: var(--text-primary); margin: 0 0 0.35rem; }
+    .sg-steps p { margin: 0; font-size: 0.88rem; }
+
+    /* The figure — said once, calmly */
+    .sg-figure { text-align: center; }
+    .sg-price { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.6rem, 9vw, 3.4rem);
+      color: var(--accent); line-height: 1; margin: 0.6rem 0 1.2rem; font-variant-numeric: tabular-nums; }
+    .sg-figure p { margin-left: auto; margin-right: auto; }
+    .sg-quiet { font-family: var(--font-accent); font-size: 0.72rem; letter-spacing: 0.04em;
+      color: var(--text-secondary); }
+
+    /* Closing */
+    .sg-close { text-align: center; padding-bottom: clamp(4rem, 12vh, 7rem); }
+    .sg-cta { display: inline-flex; align-items: center; justify-content: center; min-height: 52px;
+      padding: 0 3rem; margin-top: 1.6rem; border: 1px solid var(--accent); border-radius: 999px;
+      color: var(--accent); text-decoration: none; font-family: var(--font-accent); font-weight: 500;
+      font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase;
+      transition: background 0.25s ease, color 0.25s ease; }
+    .sg-cta:hover, .sg-cta:focus-visible { background: var(--accent); color: var(--cta-text, #fff); }
+    .sg-close .sg-quiet { display: block; margin-top: 1.3rem; }
+    .sg-foot { text-align: center; font-family: var(--font-accent); font-size: 0.74rem;
+      color: var(--text-secondary); padding: 0 1.4rem calc(env(safe-area-inset-bottom) + 2.6rem); }
+    .sg-foot a { color: var(--accent-deep); text-decoration: none; }
+    .sg-foot a:hover { text-decoration: underline; }
+    .sg-foot .dot { opacity: 0.4; margin: 0 0.5rem; }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="sg sg-top">
+    <svg class="sg-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.3,27.0 C18.4,18.0 21.6,8.4 31.6,6.6 C38.2,5.4 41.0,11.4 37.8,18.0 C35.0,24.2 28.6,27.4 23.0,28.6 Z"/><path d="M22.6,29.4 C26.8,31.2 32.2,33.0 35.0,38.0 C36.6,40.8 36.0,43.8 33.6,43.4 C29.6,42.7 25.0,35.6 22.4,30.4 Z"/><path d="M22.3,27.0 C21.5,28.8 21.5,30.6 22.6,32.2"/><path d="M22.3,27.0 C19.9,22.2 17.2,18.4 13.4,16.4"/><path d="M22.3,27.0 C20.6,21.8 18.8,17.2 16.0,13.8"/><circle cx="13.4" cy="16.4" r="1.2" fill="currentColor" stroke="none"/><circle cx="16.0" cy="13.8" r="1.2" fill="currentColor" stroke="none"/></svg>
+    <a class="brand-lockup" href="./" aria-label="Seraphic Styler home">
+      <span class="brand-seraphic">Seraphic</span>
+      <span class="brand-styler">Styler</span>
+    </a>
+  </header>
+
+  <main class="sg">
+    <h1 class="sg-hero">
+      <span class="sg-eyebrow">The Signature</span>
+      <span class="sg-h1">A designer wardrobe,<br />commissioned in <em>Sài Gòn</em>.</span>
+      <span class="sg-lead" role="text">The houses that dress Bella Hadid and walk the Paris couture calendar sell out in hours, hide behind appointments, and rarely ship abroad. I walk into them for you.</span>
+      <span class="sg-scarce">By consultation · two commissions per window</span>
+    </h1>
+
+    <section class="sg-sec" aria-labelledby="sg-houses-h">
+      <span class="sg-sec-e">The houses</span>
+      <h2 id="sg-houses-h">What your commission unlocks</h2>
+      <p>Fancì Club — worn by Bella Hadid, Hailey Bieber, BLACKPINK — whose drops vanish in hours. GIA Studios, stocked at Lane Crawford and Farfetch, at the Hai Bà Trưng price instead of the export one. Phan Huy, the first Vietnamese name on the official Paris Haute Couture calendar. And the ateliers that never post at all.</p>
+      <ul class="sg-houses" id="sgHouses">
+        <li>Fancì Club<small>cult Y2K corsetry · Thảo Điền</small></li>
+        <li>GIA Studios<small>quiet luxury · D1</small></li>
+        <li>Phan Huy<small>Paris Haute Couture calendar</small></li>
+        <li>LI LAM<small>minimalist, sensual tailoring</small></li>
+        <li>VUNGOC&amp;SON<small>opulent red-carpet gowns</small></li>
+        <li>Đỗ Long<small>evening &amp; pageant couture</small></li>
+      </ul>
+      <p class="sg-more"><a href="fashion-directory#sig=1">All twenty-one Signature houses, in the directory →</a></p>
+    </section>
+
+    <section class="sg-sec" aria-labelledby="sg-journey-h">
+      <span class="sg-sec-e">The commission</span>
+      <h2 id="sg-journey-h">Four quiet steps</h2>
+      <ol class="sg-steps">
+        <li><span class="n" aria-hidden="true">01</span><div><h3>The conversation</h3><p>Your moment, your taste, your measurements — by message or video, at your pace.</p></div></li>
+        <li><span class="n" aria-hidden="true">02</span><div><h3>The ateliers</h3><p>I attend the appointments on your behalf — drops claimed, made-to-measure coordinated, fittings proxied with your numbers.</p></div></li>
+        <li><span class="n" aria-hidden="true">03</span><div><h3>The approval</h3><p>Photographs from inside the boutiques, and one written total — pieces, fee, and shipping — before anything is bought. Nothing happens without your yes.</p></div></li>
+        <li><span class="n" aria-hidden="true">04</span><div><h3>The arrival</h3><p>Your pieces, a lookbook to wear them together, and sixty days of me. Signature commissions take first claim on free flight-window shipping.</p></div></li>
+      </ol>
+    </section>
+
+    <section class="sg-sec sg-figure" aria-labelledby="sg-figure-h">
+      <span class="sg-sec-e">The figure</span>
+      <h2 id="sg-figure-h" class="sr-only">Pricing</h2>
+      <div class="sg-price">$750</div>
+      <p>Commissions begin at $750. <b>$460 of it is your clothing credit</b>, spent entirely at the houses — at Sài Gòn prices, two to four genuine designer pieces. $290 is the styling fee: the appointments, the fittings, the judgment.</p>
+      <p class="sg-quiet">Pieces at the real receipt price, never marked up · shipping at the carrier's cost · the exact total in writing before any payment</p>
+    </section>
+
+    <section class="sg-sec sg-close" aria-label="Begin">
+      <span class="sg-sec-e">When you're ready</span>
+      <h2>It begins with a conversation.</h2>
+      <a class="sg-cta" href="https://tally.so/r/gD10Kl?about=I%20want%20to%20book%20a%20styling%20service&amp;source=signature-page" target="_blank" rel="noopener" data-track="signature-begin">Begin the conversation</a>
+      <span class="sg-quiet">Two commissions per window · replies within 1–2 business days</span>
+    </section>
+  </main>
+
+  <footer class="sg-foot">
+    <a href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener">@seraphicstyler</a>
+    <span class="dot">·</span>
+    <a href="mailto:seraphicstyler@gmail.com">seraphicstyler@gmail.com</a>
+    <span class="dot">·</span>
+    <a href="./links">Everything else</a>
+  </footer>
+
+  <!-- The full house list, drawn live from the directory data so curation
+       stays single-source: flag a house `sig:1` there and it appears here. -->
+  <script src="js/directory-data.js"></script>
+  <script>
+    (function () {
+      var list = document.getElementById('sgHouses');
+      var DATA = window.SS_DIRECTORY;
+      if (!list || !DATA) return;
+      var sig = DATA.filter(function (b) { return b.sig; });
+      if (sig.length < 6) return; // keep the hand-written six if data is off
+      /* Marquee names lead; the rest follow in directory order. */
+      var lead = ['Fancì Club', 'GIA Studios', 'Phan Huy', 'LI LAM / LAM', 'VUNGOC&SON', 'Đỗ Long'];
+      sig.sort(function (a, b2) {
+        var ia = lead.indexOf(a.n), ib = lead.indexOf(b2.n);
+        return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+      });
+      list.innerHTML = sig.map(function (b) {
+        var where = (b.city === 'HAN' ? 'Hà Nội' : (b.area || 'Sài Gòn')).split('·')[0].trim();
+        var note = (b.no || '').split(/[;.]/)[0];
+        if (note.length > 46) note = note.slice(0, 46).replace(/\s+\S*$/, '') + '…';
+        return '<li>' + b.n + '<small>' + note + (note ? ' · ' : '') + where + '</small></li>';
+      }).join('');
+    })();
+    /* Lightweight click tracking, same shape as the rest of the site */
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('[data-track]'); if (!a) return;
+      try {
+        if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: 'link/' + a.getAttribute('data-track'), title: a.getAttribute('data-track'), event: true });
+      } catch (_) {}
+    }, { passive: true });
+  </script>
+</body>
+</html>
