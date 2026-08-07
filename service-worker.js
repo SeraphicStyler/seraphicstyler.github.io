@@ -2,7 +2,7 @@
    Network-first for pages (so edits show immediately), cache-first for static
    assets. Lets you browse the directory and your saved route on the street with
    no signal. Bump CACHE to invalidate. */
-const CACHE = 'ss-fd-v42'; /* bumped: bridal category (16 new houses, 286 total) + iOS settings-panel focus fix */
+const CACHE = 'ss-fd-v43'; /* bumped: Signature browse tile readable again (scoped footer .sig, cobalt title) */
 const CORE = [
   './fashion-directory',
   './field-guide',
