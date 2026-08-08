@@ -1,0 +1,19 @@
+name = "seraphic-api"
+main = "src/index.js"
+compatibility_date = "2026-01-15"
+workers_dev = true
+
+# Cache for extracted product metadata. Create it with:
+#   npx wrangler kv namespace create CACHE_KV
+# then paste the printed id below. The Worker runs without it — KV only
+# saves repeat fetches, it is not required for correctness.
+[[kv_namespaces]]
+binding = "CACHE_KV"
+id = "7cabb80064cd4105aba4e3bb80eca5e6"
+
+# Once the Worker is deployed and working on *.workers.dev, expose it on the
+# real domain. DNS for seraphicstyler.com is already on Cloudflare, so this
+# needs no nameserver change.
+# [[routes]]
+# pattern = "api.seraphicstyler.com/api/*"
+# custom_domain = true
