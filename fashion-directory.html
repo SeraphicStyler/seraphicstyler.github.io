@@ -18,7 +18,7 @@
   <link rel="icon" href="assets/favicon-192.png" type="image/png" sizes="192x192" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&family=Tenor+Sans&family=Noto+Sans+Tifinagh&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&family=Tenor+Sans&family=Noto+Sans+Tifinagh&display=swap" rel="stylesheet" />
   <style>
     /* Tifinagh glyphs aren't in the brand fonts, so redeclaring font-family on [lang="zgh"]
        alone does nothing — body/h1/etc. each set their own font-family from these same
@@ -55,7 +55,7 @@
   --shadow:0 22px 48px -34px rgba(35,58,114,.45);
   --shadow-sm:0 8px 22px -16px rgba(35,58,114,.4);
   --halo:0 0 22px rgba(201,182,232,.5),0 0 54px rgba(46,84,173,.14);
-  --font-display:"Tenor Sans",Cambria,"Hoefler Text",serif;
+  --font-display:"Merriweather Sans","Tenor Sans",Cambria,serif;
   --font-script:"Pinyon Script","Snell Roundhand",cursive;
   --font-body:"Montserrat","Helvetica Neue","Segoe UI",system-ui,sans-serif;
   --maxw:1240px;
@@ -252,6 +252,7 @@ img{max-width:100%;}
   background:var(--card-solid);border:1px solid var(--line);border-radius:var(--r-pill);
   padding:8px 10px 8px 16px;box-shadow:var(--shadow-sm);}
 .search input{border:0;outline:0;background:none;font:inherit;color:var(--ink);width:100%;min-width:0;}
+.search:focus-within{outline:2px solid var(--cobalt);outline-offset:2px;}
 .search svg{flex:none;opacity:.55;}
 .qclear{all:unset;cursor:pointer;flex:none;display:grid;place-items:center;width:26px;height:26px;
   border-radius:50%;color:var(--ink-mute);font-size:.9rem;line-height:1;}
@@ -914,9 +915,12 @@ footer .sig{font-family:var(--font-script);font-size:1.7rem;color:var(--cobalt);
   <script src="js/i18n/manifest.js"></script>
   <script src="js/i18n-page.js"></script>
   <script src="js/directory-data.js"></script>
+  <script src="js/fd-search.js"></script><!-- diacritic-blind, alias-aware search over the directory; offline -->
   <script>
 /* ============ DATA ============ */
 const B=window.SS_DIRECTORY; // data lives in js/directory-data.js (shared with the route planner)
+/* One pass to stamp each house with its folded search key (js/fd-search.js). */
+if(window.SS_SEARCH)SS_SEARCH.index(B);
 
 /* — Retail clusters (streets panel) — */
 const STREETS=[
@@ -965,17 +969,27 @@ const TIERS=[["all","fd.tiersel.all","All tiers"],["mid","fd.tiersel.mid","Mid"]
    is exactly what you have to ask about in the shop. `natural` is the union of the
    plant/animal fibres; `circular` is upcycled, deadstock and secondhand. — */
 const FIBERS=[["all","fd.fib.all","All fabrics"],["natural","fd.fib.natural","Natural fibre"],
+  ["plant","fd.fib.plant","Plant-based · no silk"],
   ["linen","fd.fib.linen","Linen"],["cotton","fd.fib.cotton","Cotton"],["silk","fd.fib.silk","Silk"],
   ["hemp","fd.fib.hemp","Hemp"],["tencel","fd.fib.tencel","TENCEL & modal"],
   ["circular","fd.fib.circular","Upcycled & secondhand"]];
 /* TENCEL/modal/lyocell is regenerated cellulose — not polyester, and it breathes, but it is not
    a natural fibre either. It gets its own tag rather than being smuggled into `natural`. */
 const NATURAL=["linen","cotton","silk","hemp"];
+/* — Plant-based. Silk is a natural fibre but an animal one, so a vegan wardrobe
+   can't read the `natural` tag: it sweeps silk in. `plant` is the vegan-facing
+   cut — a house that names a plant or plant-derived fibre and does not name
+   silk. Same evidentiary rule as every fibre tag: it reflects what the house
+   states, so it is a shortlist to start from, not a certification. Leather,
+   wool and fur aren't tracked in `fib` at all — still ask in the shop. — */
+const PLANT=["linen","cotton","hemp","tencel"];
 const fibOf=b=>Array.isArray(b.fib)?b.fib:(b.fib?[b.fib]:[]);
 const fibMatch=(b,f)=>{
   const t=fibOf(b);
   if(!t.length)return false;
-  return f==="natural"?t.some(x=>NATURAL.includes(x)):t.includes(f);
+  if(f==="natural")return t.some(x=>NATURAL.includes(x));
+  if(f==="plant")return t.some(x=>PLANT.includes(x))&&!t.includes("silk");
+  return t.includes(f);
 };
 const fibLabel=b=>fibOf(b).map(k=>{const t=FIBERS.find(x=>x[0]===k);return t?tlabel(t):k;}).join(" · ");
 /* — Occasion. A use-case lens, not a wardrobe group: a gown house is still "Luxury &
@@ -1188,14 +1202,37 @@ function match(b){
   if(fSaved&&!isSaved(b))return false;
   if(fSig&&!b.sig)return false;
   if(fZone&&zoneOf(b)!==fZone)return false;
-  if(fQ){const t=(b.n+" "+(b.h||"")+" "+(b.a||"")+" "+(b.no||"")+" "+b.area).toLowerCase();
-    if(!t.includes(fQ))return false;}
+  if(fQ&&!qMatch(b))return false;
   return true;
+}
+/* — Text search. fd-search.js folds the tone marks off both sides, so a client
+     typing "ao dai", "phu nhuan" or "district 3" on a US keyboard reaches
+     "áo dài", "Phú Nhuận" and "D3". Parsing the query is memoised on fQ: it
+     runs once per keystroke, not once per house per keystroke. If the module
+     ever fails to load the page falls back to the old substring behaviour. — */
+let _qk=null,_qt=null;
+function qTerms(){
+  if(_qk!==fQ){_qk=fQ;_qt=window.SS_SEARCH?SS_SEARCH.parse(fQ):null;}
+  return _qt;
+}
+function qMatch(b){
+  const terms=qTerms();
+  if(!terms)return (b.n+" "+(b.h||"")+" "+(b.a||"")+" "+(b.no||"")+" "+b.area).toLowerCase().includes(fQ);
+  if(!terms.length)return true; /* nothing but stopwords — show everything */
+  return SS_SEARCH.test(b._sk||SS_SEARCH.keyOf(b),terms);
 }
 function sortList(arr){
   if(fSort==="az")return [...arr].sort((a,b)=>a.n.localeCompare(b.n,"vi"));
   if(fSort==="tierup")return [...arr].sort((a,b)=>(TIER_RANK[a.tier]??4)-(TIER_RANK[b.tier]??4));
   if(fSort==="tierdn")return [...arr].sort((a,b)=>(TIER_RANK[b.tier]??4)-(TIER_RANK[a.tier]??4));
+  /* Searching replaces the curated order with relevance — a house whose NAME is
+     what you typed should not sit below one that merely mentions it in a note.
+     Sort is stable, so equal scores keep the curated order. An explicit sort
+     (az/tier) still wins; this only fills in for "rec". */
+  if(fQ&&window.SS_SEARCH){
+    const t=qTerms();
+    if(t&&t.length)return [...arr].sort((a,b)=>SS_SEARCH.score(b,t)-SS_SEARCH.score(a,t));
+  }
   return arr; /* rec = curated data order */
 }
 /* Live open/closed status from a store's stated hours (walk-in / hub only) */
@@ -1906,9 +1943,16 @@ window.SS_FD={zoneOf:zoneOf,match:match,mapsUrl:mapsUrl};
   <script src="js/discover-brand.js"></script>
   <script src="js/estimator.js"></script><!-- loaded for window.CONFIG (fees + FX); its estimator UI self-disables on this page -->
   <script src="js/fd-basket.js"></script>
+  <script src="js/fd-smartpaste.js"></script><!-- smart paste: resolves a pasted link against the directory, no network -->
+  <!-- Optional enrichment only. The line below points smart-paste at the Worker in worker/,
+       which reads a shop's own Open Graph/JSON-LD for the price and image a browser can't
+       fetch cross-origin. Local resolution still runs first and this never blocks it —
+       delete this line and the tray behaves exactly as it did before. -->
+  <script>window.SS_PASTE_API = "https://seraphic-api.seraphic-api.workers.dev";</script>
   <script src="js/fd-atelier.js"></script>
   <script>if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("rm");</script>
-  <!-- Concierge widget intentionally not loaded on the directory page -->
+  <!-- Inquiry beacon (js/contact-hub.js) intentionally not loaded on the directory page -->
+  <script src="js/fd-voice.js"></script><!-- voice concierge: speech/typed → deep-link hash; all client-side, no API keys -->
 
 </body>
 </html>

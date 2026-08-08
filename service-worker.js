@@ -2,12 +2,13 @@
    Network-first for pages (so edits show immediately), cache-first for static
    assets. Lets you browse the directory and your saved route on the street with
    no signal. Bump CACHE to invalidate. */
-const CACHE = 'ss-fd-v43'; /* bumped: Signature browse tile readable again (scoped footer .sig, cobalt title) */
+const CACHE = 'ss-fd-v55'; /* bumped: paste enrichment API + diacritic-blind search */
 const CORE = [
   './fashion-directory',
   './field-guide',
   './find',
   './js/directory-data.js',
+  './js/fd-search.js',
   './js/route-solver.js',
   './js/store-coords.js',
   './js/route-panel.js',
@@ -16,6 +17,8 @@ const CORE = [
   './js/find.js',
   './js/fd-basket.js',
   './js/fd-atelier.js',
+  './js/fd-voice.js',
+  './js/fd-smartpaste.js',
   './js/estimator.js',
   './js/gift-redeem.js',
   './manifest.webmanifest'

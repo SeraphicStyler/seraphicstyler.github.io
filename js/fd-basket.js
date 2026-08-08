@@ -930,7 +930,10 @@
 
   document.addEventListener('ss:lang', function () { if (!panel.hidden) renderAll(); else renderTotals(); });
 
-  window.SS_BASKET = { has: has, addOrOpen: addOrOpen, addStructured: addStructured, open: open, close: close, count: count };
+  /* parsePrice is exported so the smart-paste module (js/fd-smartpaste.js) reads
+     "1.290.000₫", "350k" and "1,2tr" exactly the way the tray's own inputs do —
+     one money parser, never two that drift apart. */
+  window.SS_BASKET = { has: has, addOrOpen: addOrOpen, addStructured: addStructured, open: open, close: close, count: count, parsePrice: parsePrice };
   window.SS_TRAY = {
     addSaved: addSaved, removeSaved: removeSaved, isSaved: isSavedBrand,
     setState: setState, countByState: countByState, open: open, close: close
