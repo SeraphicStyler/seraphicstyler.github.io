@@ -373,6 +373,19 @@
     .lp-meter-i { width: 0; background: linear-gradient(90deg, var(--periwinkle), var(--accent));
       transition: width 0.9s cubic-bezier(0.33,1,0.68,1) 0.15s; border-radius: 999px 0 0 999px; }
     .lp-tiers.in .lp-meter-i { width: var(--pct); }
+
+    /* Fact rows — the same icon-led read as the gift cards on index.html, so a
+       client comparing the two pages sees one language, not two. Grid rather
+       than flex so every value lines up in a column down the card. */
+    .lp-facts { list-style: none; margin: 0.55rem 0 0.7rem; padding: 0; display: grid; gap: 0.34rem; }
+    .lp-facts li { display: grid; grid-template-columns: 1.15rem auto 1fr; align-items: center; gap: 0.5rem;
+      font-family: var(--font-accent); font-size: 0.76rem; }
+    .lp-fic { display: grid; place-items: center; color: var(--accent); }
+    .lp-fic svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.7;
+      stroke-linecap: round; stroke-linejoin: round; }
+    .lp-fk { color: var(--ink-soft, #51618f); letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.66rem; }
+    .lp-fv { text-align: right; color: var(--accent-deep); font-weight: 500; }
+    .lp-tier.is-featured .lp-fic { color: var(--accent-deep); }
     .lp-tier-split { display: flex; justify-content: space-between; gap: 0.6rem; font-family: var(--font-accent);
       font-size: 0.68rem; letter-spacing: 0.02em; color: var(--text-secondary); }
     .lp-tier-split b { color: var(--accent-deep); font-weight: 500; }
@@ -663,14 +676,14 @@
         <article class="lp-tier">
           <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t1n">The Discovery</span><span class="lp-tier-p">$49</span></div>
           <div class="lp-meter" role="img" aria-label="$34 clothing credit, $15 styling fee"><i class="lp-meter-i" style="--pct:69%"></i></div>
-          <div class="lp-tier-split"><span data-i18n="lp2.t1s"><b>$34 clothes</b> · $15 styling</span></div>
+          <ul class="lp-facts"><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="lp-fk" data-i18n="lp2.k.fee">Styling fee</span><span class="lp-fv">$15</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="lp-fk" data-i18n="lp2.k.credit">Piece credit</span><span class="lp-fv">$34</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="lp-fk" data-i18n="lp2.k.arrives">Arrives</span><span class="lp-fv" data-i18n="lp2.t1arr">One piece</span></li></ul>
           <p class="lp-tier-d" data-i18n="lp2.t1d">The low-risk way to try this — one piece, found and sent. Where most new clients start.</p>
           <a class="lp-tier-buy" href="https://buy.stripe.com/9B6eVe5vF6Vh6og47waAw03?client_reference_id=links-styling" target="_blank" rel="noopener" data-track="buy-discovery" data-i18n="lp2.buy">Book this tier →</a>
         </article>
         <article class="lp-tier">
           <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t2n">The Edit</span><span class="lp-tier-p">$149</span></div>
           <div class="lp-meter" role="img" aria-label="$104 clothing credit, $45 styling fee"><i class="lp-meter-i" style="--pct:70%"></i></div>
-          <div class="lp-tier-split"><span data-i18n="lp2.t2s"><b>$104 clothes</b> · $45 styling</span></div>
+          <ul class="lp-facts"><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="lp-fk" data-i18n="lp2.k.fee">Styling fee</span><span class="lp-fv">$45</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="lp-fk" data-i18n="lp2.k.credit">Piece credit</span><span class="lp-fv">$104</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="lp-fk" data-i18n="lp2.k.arrives">Arrives</span><span class="lp-fv" data-i18n="lp2.t2arr">Three to five pieces</span></li></ul>
           <p class="lp-tier-d" data-i18n="lp2.t2d">More pieces, still contained — typically 3–5, fewer if you fall for something rarer.</p>
           <a class="lp-tier-buy" href="https://buy.stripe.com/bJecN65vF93p5kc5bAaAw04?client_reference_id=links-styling" target="_blank" rel="noopener" data-track="buy-edit" data-i18n="lp2.buy">Book this tier →</a>
         </article>
@@ -678,14 +691,14 @@
           <span class="lp-tier-badge" data-i18n="lp2.most">Most requested</span>
           <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t3n">The Capsule</span><span class="lp-tier-p">$249</span></div>
           <div class="lp-meter" role="img" aria-label="$174 clothing credit, $75 styling fee"><i class="lp-meter-i" style="--pct:70%"></i></div>
-          <div class="lp-tier-split"><span data-i18n="lp2.t3s"><b>$174 clothes</b> · $75 styling</span></div>
+          <ul class="lp-facts"><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="lp-fk" data-i18n="lp2.k.fee">Styling fee</span><span class="lp-fv">$75</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="lp-fk" data-i18n="lp2.k.credit">Piece credit</span><span class="lp-fv">$174</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="lp-fk" data-i18n="lp2.k.arrives">Arrives</span><span class="lp-fv" data-i18n="lp2.t3arr">Eight to twelve pieces</span></li></ul>
           <p class="lp-tier-d" data-i18n="lp2.t3d">A small wardrobe in one go — 8–12 mix-and-match pieces, with a lookbook to wear them together.</p>
           <a class="lp-tier-buy" href="https://buy.stripe.com/4gMeVe5vFfrNcME47waAw08?client_reference_id=links-styling" target="_blank" rel="noopener" data-track="buy-capsule" data-i18n="lp2.buy">Book this tier →</a>
         </article>
         <article class="lp-tier">
           <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t4n">The Atelier</span><span class="lp-tier-p">$349</span></div>
           <div class="lp-meter" role="img" aria-label="$239 clothing credit, $110 styling fee"><i class="lp-meter-i" style="--pct:68%"></i></div>
-          <div class="lp-tier-split"><span data-i18n="lp2.t4s"><b>$239 clothes</b> · $110 styling</span></div>
+          <ul class="lp-facts"><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="lp-fk" data-i18n="lp2.k.fee">Styling fee</span><span class="lp-fv">$110</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="lp-fk" data-i18n="lp2.k.credit">Piece credit</span><span class="lp-fv">$239</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="lp-fk" data-i18n="lp2.k.arrives">Arrives</span><span class="lp-fv" data-i18n="lp2.t4arr">A try-on day — or live video</span></li></ul>
           <p class="lp-tier-d" data-i18n="lp2.t4d">The full, hands-on experience — in Sài Gòn, or live on video from anywhere.</p>
           <a class="lp-tier-buy" href="https://buy.stripe.com/aFacN68HRfrNbIA0VkaAw07?client_reference_id=links-styling" target="_blank" rel="noopener" data-track="buy-atelier" data-i18n="lp2.buy">Book this tier →</a>
         </article>
@@ -693,7 +706,7 @@
           <span class="lp-tier-badge" data-i18n="lp2.t5b">Designer only</span>
           <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t5n">The Signature</span><span class="lp-tier-p">$750</span></div>
           <div class="lp-meter" role="img" aria-label="$460 clothing credit, $290 styling fee"><i class="lp-meter-i" style="--pct:61%"></i></div>
-          <div class="lp-tier-split"><span data-i18n="lp2.t5s"><b>$460 clothes</b> · $290 styling</span></div>
+          <ul class="lp-facts"><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="lp-fk" data-i18n="lp2.k.fee">Styling fee</span><span class="lp-fv">$290</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="lp-fk" data-i18n="lp2.k.credit">Piece credit</span><span class="lp-fv">$460</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="lp-fk" data-i18n="lp2.k.arrives">Arrives</span><span class="lp-fv" data-i18n="lp2.t5arr">Made-to-measure fittings</span></li></ul>
           <p class="lp-tier-d" data-i18n="lp2.t5d">Pieces from the coveted houses — Fancì Club, GIA Studios, the ateliers — with made-to-measure fittings, a lookbook, and 60 days of support.</p>
           <p class="lp-tier-d" data-i18n="lp2.t5ship">One written total before anything is bought. First claim on free flight-window shipping.</p>
           <a class="lp-tier-buy" href="https://tally.so/r/gD10Kl?about=I%20want%20to%20book%20a%20styling%20service&amp;source=links-signature" target="_blank" rel="noopener" data-track="book-signature" data-i18n="lp2.t5cta">Begin with a conversation →</a>
