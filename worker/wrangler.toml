@@ -1,4 +1,9 @@
-name = "seraphic-api"
+# Renamed from "seraphic-api" on 8 Aug 2026. A Worker is identified by name
+# within an account, so sharing that name with ~/code/seraphic-api meant each
+# `wrangler deploy` REPLACED the other project's script — and because the name
+# also owns the api.seraphicstyler.com custom domain, this fetcher ended up
+# answering the directory API's hostname and 404ing every /v1/ path.
+name = "seraphic-product-meta"
 main = "src/index.js"
 compatibility_date = "2026-01-15"
 workers_dev = true

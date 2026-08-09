@@ -1948,7 +1948,10 @@ window.SS_FD={zoneOf:zoneOf,match:match,mapsUrl:mapsUrl};
        which reads a shop's own Open Graph/JSON-LD for the price and image a browser can't
        fetch cross-origin. Local resolution still runs first and this never blocks it —
        delete this line and the tray behaves exactly as it did before. -->
-  <script>window.SS_PASTE_API = "https://seraphic-api.seraphic-api.workers.dev";</script>
+  <!-- Renamed 8 Aug 2026: the fetcher was deployed as "seraphic-api", the same
+       Worker name as the directory API, so each deploy replaced the other and the
+       fetcher inherited api.seraphicstyler.com. It now has its own name and URL. -->
+  <script>window.SS_PASTE_API = "https://seraphic-product-meta.seraphic-api.workers.dev";</script>
   <script src="js/fd-atelier.js"></script>
   <script>if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("rm");</script>
   <!-- Inquiry beacon (js/contact-hub.js) intentionally not loaded on the directory page -->
