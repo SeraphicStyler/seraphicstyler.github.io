@@ -41,7 +41,7 @@
     africa:  { light: [2300000, 5300000], standard: [4600000, 12000000] }
   };
   var CUSTOM_W = C.customWeights || ['heavy', 'haul'];
-  var FX = C.fx || { fallbackVndPerUsd: 26300, spread: 0.015 };
+  var FX = C.fx || { fallbackVndPerUsd: 26150, spread: 0.025, step: 50 };
   var TALLY = (C.contact && C.contact.tally) || 'https://tally.so/r/gD10Kl';
 
   var REGION_LABELS = {
@@ -84,7 +84,12 @@
   /* ---------- FX ---------- */
   var fxRate = FX.fallbackVndPerUsd, allRates = null, fxLive = false;
   function rateFor(c) { return (allRates && allRates[c] != null) ? allRates[c] : (FALLBACK_RATES[c] != null ? FALLBACK_RATES[c] : 1); }
-  function toCur(vnd, cur) { return (vnd / (fxRate * (1 - (FX.spread || 0.015)))) * rateFor(cur); }
+  /* Same floored charge rate as the estimator, so a recipient redeeming a gift
+     sees the figure the written quote will use. */
+  function toCur(vnd, cur) {
+    if (window.SS_allInRate) return vnd / window.SS_allInRate(fxRate / rateFor(cur));
+    return (vnd / (fxRate * (1 - (FX.spread || 0.025)))) * rateFor(cur);
+  }
   function fmtCur(n, cur) {
     try { return new Intl.NumberFormat(undefined, { style: 'currency', currency: cur, maximumFractionDigits: (cur === 'JPY' || cur === 'KRW' || cur === 'VND' ? 0 : 2) }).format(n); }
     catch (e) { return '$' + n.toFixed(2); }
@@ -225,7 +230,7 @@
     grFx.textContent = cur === 'VND' ? '' : ((fxLive ? t('gr.live', 'Live rate') : t('gr.offline', 'Estimate')) + ', ' + cur);
 
     if (pieces === 0) grNote.textContent = t('gr.note0', 'Add the pieces you’re considering above to see your redemption total.');
-    else if (leftover > 0) grNote.textContent = window.SS_TF ? window.SS_TF('gr.noteLeft', 'You’re fully covered — {x} of credit remains for anything else you add. You’d pay shipping only.', { x: fmtVnd(leftover) }) : ('You’re fully covered — ' + fmtVnd(leftover) + ' of credit remains for anything else you add. You’d pay shipping only.');
+    else if (leftover > 0) grNote.textContent = window.SS_TF ? window.SS_TF('gr.noteLeft', 'You’re fully covered — {x} of credit remains. Use it now, or save it for a future order. You’d pay shipping only.', { x: fmtVnd(leftover) }) : ('You’re fully covered — ' + fmtVnd(leftover) + ' of credit remains. Use it now, or save it for a future order. You’d pay shipping only.');
     else if (balance > 0) grNote.textContent = window.SS_TF ? window.SS_TF('gr.noteBal', 'Your {c} credit is applied in full; the {b} beyond it is at cost, plus shipping.', { c: fmtVnd(credit), b: fmtVnd(balance) }) : ('Your ' + fmtVnd(credit) + ' credit is applied in full; the ' + fmtVnd(balance) + ' beyond it is at cost, plus shipping.');
     else grNote.textContent = t('gr.noteExact', 'Your credit covers the pieces exactly. You’d pay shipping only.');
 

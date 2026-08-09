@@ -113,7 +113,7 @@
 
   /* ---------- FX (estimator's approach; never the solver's stale 24500) ---------- */
   function cfg() { return window.CONFIG || null; }
-  var fxRate = (cfg() && cfg().fx && cfg().fx.fallbackVndPerUsd) || 26300, fxLive = false, fxTried = false;
+  var fxRate = (cfg() && cfg().fx && cfg().fx.fallbackVndPerUsd) || 26150, fxLive = false, fxTried = false;
   function loadFx() {
     if (fxTried) return; fxTried = true;
     try {
@@ -124,7 +124,11 @@
     } catch (e) {}
   }
   function toUsd(vnd) {
-    var spread = (cfg() && cfg().fx && cfg().fx.spread) || 0.015;
+    /* Prefer the shared helper (estimator.js) so the tray quotes the same
+       floored rate as every other estimate; the literals are only reached on
+       pages that do not load it, and must track CONFIG.fx. */
+    if (window.SS_allInRate && cfg() && cfg().fx) return vnd / window.SS_allInRate(fxRate);
+    var spread = (cfg() && cfg().fx && cfg().fx.spread) || 0.025;
     return vnd / (fxRate * (1 - spread));
   }
 

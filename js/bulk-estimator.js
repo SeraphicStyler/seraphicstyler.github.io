@@ -14,9 +14,9 @@
   if (!out || !vEl || !pEl || !rEl) return;
 
   var C = window.CONFIG || {};
-  var FX = (C.fx && C.fx.fallbackVndPerUsd) || 26300;
+  var FX = (C.fx && C.fx.fallbackVndPerUsd) || 26150;
   var BASE = C.baseFee || 250000;
-  var MIN = (C.fee && C.fee.minFee) || 250000;
+  var MIN = (C.fee && C.fee.minFee) || 350000;
   var MID = (C.fee && C.fee.midThreshold) || 5000000;
   var SHIP = C.shipping || {
     asia:    { standard: [1800000, 5000000] },  oceania: { standard: [2800000, 7500000] },
@@ -33,7 +33,7 @@
   }
 
   /* The taper. Under $1,000 the standard per-item model applies (8%, 7% above
-     5M₫, 250k₫ minimum). From $1,000 the percentage falls with size; the
+     5M₫, 350k₫ minimum). From $1,000 the percentage falls with size; the
      per-piece minimum stays only for distinct pieces under $3,000 — repeats
      of one piece waive it, exactly as the table says. */
   function fee(totalVnd, totalUsd, pieces, repeats) {

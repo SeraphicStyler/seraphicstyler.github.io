@@ -31,7 +31,15 @@ var CONFIG = {
     atelier:   { vnd: 9200000, credit: 6300000, label: 'The Atelier' }
   },
 
-  fx: { fallbackVndPerUsd: 26300, spread: 0.015 },
+  /* The one FX dial. `spread` is the margin held back from the live mid-market
+     rate — it covers what it actually costs to move money into Vietnam (Wise
+     ~0.5%) plus the 2–7 days between quoting and payment landing. Raised to
+     2.5% on 7 Aug 2026; the page discloses it as "transfer costs included".
+     `step` floors the result to a calm figure (26,148 → 25,450) so the printed
+     rate IS the charged rate. Flooring never rounds toward the client.
+     `fallbackVndPerUsd` is only used if both live feeds fail — keep it near
+     the real market so an offline estimate is not wildly off. */
+  fx: { fallbackVndPerUsd: 26150, spread: 0.025, step: 50 },
 
   /* Card (Stripe) processing pass-through: charged = (amount + fixedUsd*fx) / (1 - rate).
      Bank transfer / Wise / Zelle carry no fee.
@@ -78,6 +86,26 @@ var CONFIG = {
   }
 };
 
+/* The rate the site both SHOWS and CHARGES, from a raw market rate in VND per
+   one unit of the client's currency. Live mid-market, less the transfer margin,
+   floored to a readable step — so a client who multiplies by the printed rate
+   lands on our exact figure instead of one a few hundred đồng away. Global on
+   purpose: links.html, the tray and the redeem page all quote from this. */
+function SS_allInRate(vndPerUnit) {
+  var v = vndPerUnit * (1 - CONFIG.fx.spread);
+  /* Coarse steps on big numbers, finer on small ones, so 25,450₫/USD and
+     18.89₫/KRW are both legible and both exact. */
+  var step = v >= 20000 ? (CONFIG.fx.step || 50)
+           : v >= 2000  ? 10
+           : v >= 200   ? 1
+           : v >= 20    ? 0.1 : 0.01;
+  return Math.floor(v / step) * step;
+}
+/* Printed form of a rate — decimals only where the number needs them. */
+function SS_fmtRate(v) {
+  return v.toLocaleString('en-US', { maximumFractionDigits: v >= 200 ? 0 : 2 });
+}
+
 /* ---------------------------------------------------------------------- */
 (function () {
   'use strict';
@@ -89,7 +117,7 @@ var CONFIG = {
 
   var el = {};
   ['lineItems','addItem','region','region2','compareDest','compareWrap','destCompare','weight','stops','complex','green','styling','payMethod','estCurrency','rSubtotal','rFee','rFeeNote','rBase','rStopsRow','rStops',
-   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rComplexRow','rComplex','rGreenRow','rGreen','rCardRow','rCard','rShip','rShipNote','rDepositRow','rDeposit','rDepositCur','rBalanceRow','rBalance','rBalanceCur','rTotal','rUsd','fxStatus','sendBasket','copiedMsg','estEmptyMsg']
+   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rLeftoverRow','rLeftover','rLeftoverUsd','rComplexRow','rComplex','rGreenRow','rGreen','rCardRow','rCard','rShip','rShipNote','rDepositRow','rDeposit','rDepositCur','rBalanceRow','rBalance','rBalanceCur','rTotal','rUsd','fxStatus','sendBasket','copiedMsg','estEmptyMsg']
     .forEach(function (id) { el[id] = document.getElementById(id); });
   if (!el.lineItems) return; // not on a page with the estimator
 
@@ -103,16 +131,18 @@ var CONFIG = {
     catch (e) { return '$' + n.toFixed(2); }
   }
   function rateFor(c) { return (allRates && allRates[c] != null) ? allRates[c] : (FALLBACK_RATES[c] != null ? FALLBACK_RATES[c] : 1); }
-  function toCur(vnd) {
-    var usd = vnd / (fxRate * (1 - CONFIG.fx.spread));
-    return usd * rateFor(curCode());
-  }
+  /* One rate, used for every figure on the page and printed in the status line
+     verbatim. Showing a different number than the totals used is what made the
+     old estimate read as confusing — clients compared the two and worried. */
+  function chargeRate(c) { return SS_allInRate(fxRate / rateFor(c)); }
+  function toCur(vnd) { return vnd / chargeRate(curCode()); }
   function updateFxStatus() {
     if (!el.fxStatus) return;
     var c = curCode();
-    var vndPerCur = fxRate / rateFor(c); // VND for 1 unit of the selected currency
-    el.fxStatus.textContent = (fxLive ? t('est.fx.live', 'Live rate') : t('est.fx.offline', 'Offline estimate')) + ': 1 ' + c + ' ≈ ' +
-      Math.round(vndPerCur).toLocaleString('en-US') + '₫' + (fxLive && fxWhen ? ' (as of ' + fxWhen + ', +1.5% buffer)' : ' (+1.5% buffer)');
+    var line = ' · 1 ' + c + ' ≈ ' + SS_fmtRate(chargeRate(c)) + '₫ · ';
+    el.fxStatus.textContent = fxLive
+      ? t('est.fx.live2', "Today's rate") + line + t('est.fx.incl', 'transfer costs included · refreshed daily')
+      : t('est.fx.offline2', 'Offline estimate') + line + t('est.fx.confirm', 'exact rate confirmed in your written quote');
   }
 
   /* Same forgiving VND parser as the redeem page and directory tray:
@@ -247,11 +277,12 @@ var CONFIG = {
     var styleCfg = (el.styling && CONFIG.styling[el.styling.value]) || null;
     var styling = styleCfg ? styleCfg.vnd : 0;
     var credit = styleCfg ? Math.min(styleCfg.credit || 0, subtotal) : 0; // piece credit, capped at items
+    var creditLeft = (styleCfg && nItems > 0) ? Math.max(0, (styleCfg.credit || 0) - credit) : 0; // unused credit — carries to a future order
     var custom = CONFIG.customWeights.indexOf(el.weight.value) !== -1;
     var ship = shipRange(el.region.value, el.weight.value);
     var nItems = items.filter(function (v) { return v > 0; }).length;
     var card = !!(el.payMethod && el.payMethod.value === 'card');
-    return { items: items, subtotal: subtotal, fees: fees, base: base, complex: complex, stopsFee: stopsFee, green: green, styling: styling, credit: credit, styleCfg: styleCfg, ship: ship, custom: custom, nItems: nItems, card: card };
+    return { items: items, subtotal: subtotal, fees: fees, base: base, complex: complex, stopsFee: stopsFee, green: green, styling: styling, credit: credit, creditLeft: creditLeft, styleCfg: styleCfg, ship: ship, custom: custom, nItems: nItems, card: card };
   }
 
   /* Split an estimate into the two payments it is actually taken in.
@@ -373,6 +404,15 @@ var CONFIG = {
       if (c.credit > 0) { el.rCreditRow.style.display = ''; el.rCredit.textContent = '−' + fmtVnd(c.credit); }
       else { el.rCreditRow.style.display = 'none'; }
     }
+    /* Unused tier credit is never lost — it stays on the gift for a future
+       order. Informational only: it is not part of this order's total. */
+    if (el.rLeftoverRow) {
+      if (c.creditLeft > 0) {
+        el.rLeftoverRow.style.display = '';
+        el.rLeftover.textContent = fmtVnd(c.creditLeft);
+        if (el.rLeftoverUsd) el.rLeftoverUsd.textContent = '≈ ' + fmtCur(toCur(c.creditLeft));
+      } else { el.rLeftoverRow.style.display = 'none'; }
+    }
     var nonShip = c.subtotal + c.fees + c.base + c.complex + c.stopsFee - c.green + c.styling - c.credit;
     renderCompare(c, nonShip);
     // When two destinations are in play, name the one this card is priced for.
@@ -443,6 +483,7 @@ var CONFIG = {
       'Base fee: ' + fmtVnd(c.base));
     if (c.styling > 0) lines.push('Styling service (' + (c.styleCfg ? c.styleCfg.label : '') + '): ' + fmtVnd(c.styling));
     if (c.credit > 0) lines.push('Piece credit applied (included in the tier): −' + fmtVnd(c.credit));
+    if (c.creditLeft > 0) lines.push('Gift credit left over — saved for a future order: ' + fmtVnd(c.creditLeft));
     else if (c.styling > 0 && c.nItems === 0) lines.push('(Tier includes a ' + fmtVnd(c.styleCfg.credit) + ' piece credit — applied once pieces are added)');
     if (c.stopsFee > 0) lines.push('Additional stops (beyond 2 boutiques): +' + fmtVnd(c.stopsFee));
     if (c.complex > 0) lines.push('Complex sourcing: ' + fmtVnd(c.complex));
@@ -532,20 +573,44 @@ var CONFIG = {
     }
   }
 
+  /* Live rate, two independent sources + a 6h sessionStorage cache shared with
+     the links page ('ss-fx'), so every page shows the SAME number and a
+     one-provider outage never silently drops quotes to the static fallback. */
+  function applyFx(d) {
+    if (d && d.rates && d.rates.VND) {
+      fxRate = d.rates.VND; allRates = d.rates; fxLive = true; fxWhen = d.when || '';
+      return true;
+    }
+    return false;
+  }
+  function storeFx(d) { try { sessionStorage.setItem('ss-fx', JSON.stringify({ t: Date.now(), d: d })); } catch (e) {} }
   function loadFx() {
     el.fxStatus.textContent = t('est.fx.loading', 'Loading live rate…');
+    try {
+      var c = JSON.parse(sessionStorage.getItem('ss-fx') || 'null');
+      if (c && c.t && (Date.now() - c.t) < 216e5 && applyFx(c.d)) { recalc(); return; }
+    } catch (e) {}
     fetch('https://open.er-api.com/v6/latest/USD')
       .then(function (r) { return r.json(); })
       .then(function (d) {
-        if (d && d.rates && d.rates.VND) {
-          fxRate = d.rates.VND; allRates = d.rates; fxLive = true;
-          fxWhen = d.time_last_update_utc ? new Date(d.time_last_update_utc).toISOString().slice(0, 10) : 'today';
-        } else throw new Error('no VND');
-        recalc();
+        var pack = { rates: d && d.rates, when: d && d.time_last_update_utc ? new Date(d.time_last_update_utc).toISOString().slice(0, 10) : '' };
+        if (!applyFx(pack)) throw new Error('no VND');
+        storeFx(pack); recalc();
       })
       .catch(function () {
-        fxRate = CONFIG.fx.fallbackVndPerUsd; allRates = null; fxLive = false;
-        recalc();
+        fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.min.json')
+          .then(function (r) { return r.json(); })
+          .then(function (d) {
+            var src = d && d.usd; if (!src) throw new Error('no data');
+            var rates = {}; for (var k in src) rates[k.toUpperCase()] = src[k];
+            var pack = { rates: rates, when: d.date || '' };
+            if (!applyFx(pack)) throw new Error('no VND');
+            storeFx(pack); recalc();
+          })
+          .catch(function () {
+            fxRate = CONFIG.fx.fallbackVndPerUsd; allRates = null; fxLive = false;
+            recalc();
+          });
       });
   }
 
