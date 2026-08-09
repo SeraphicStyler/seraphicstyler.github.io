@@ -380,3 +380,10 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready);
   else ready();
 })();
+
+/* Esc dismisses an open info tooltip (WCAG 1.4.13) — the .tip pattern shows on focus */
+document.addEventListener('keydown', function (e) {
+  if (e.key !== 'Escape') return;
+  var t = document.activeElement && document.activeElement.closest && document.activeElement.closest('.tip');
+  if (t) t.blur();
+});

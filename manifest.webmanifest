@@ -2,7 +2,7 @@
   "name": "Seraphic Styler — Saigon Fashion Directory",
   "short_name": "Saigon Fashion",
   "description": "A curated, routable directory of Saigon's fashion houses — filter, save, and plan an optimized shopping route.",
-  "start_url": "./fashion-directory.html",
+  "start_url": "./fashion-directory",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",

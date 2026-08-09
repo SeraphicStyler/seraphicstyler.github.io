@@ -17,13 +17,16 @@
   <meta name="twitter:description" content="Saigon styling & sourcing, shipped worldwide. Order any Vietnam brand — verified in person." />
   <meta name="twitter:image" content="https://www.seraphicstyler.com/assets/social/og-image.png" />
   <link rel="canonical" href="https://www.seraphicstyler.com/links" />
+  <meta name="theme-color" content="#eef3fb" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1d29" media="(prefers-color-scheme: dark)" />
   <link rel="icon" href="assets/favicon-48.png" type="image/png" sizes="48x48" />
   <link rel="icon" href="assets/favicon-192.png" type="image/png" sizes="192x192" />
   <link rel="apple-touch-icon" href="assets/favicon-192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Tenor+Sans&family=Merriweather+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=2026-08-05a" />
+  <link rel="stylesheet" href="css/styles.css?v=2026-08-07" />
+  <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
   <script>
     (function () { var d = document.documentElement, s = window.localStorage;
       try {
@@ -49,13 +52,6 @@
       font-size: clamp(1.02rem, 3.4vw, 1.22rem); line-height: 1.45; margin: 0 auto 0.45rem; max-width: 32ch; }
     .lp-trust { color: var(--text-secondary); font-size: 0.8rem; margin: 0 0 1.4rem; }
 
-    /* ===== Aurora background — ported from React Bits @react-bits/Aurora (ogl/WebGL), full-viewport ===== */
-    .aurora-bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.55; }
-    html.dark .aurora-bg { opacity: 0.7; } /* dark bg can carry a touch more glow */
-    .aurora-bg canvas { display: block; width: 100%; height: 100%; }
-    html.mono .aurora-bg, html.hc .aurora-bg, html.rm .aurora-bg { display: none; } /* keep mono/high-contrast clean & honour reduced motion */
-    @media (prefers-reduced-motion: reduce) { .aurora-bg { display: none; } }
-
     /* ===== StarBorder CTA — ported from React Bits @react-bits/StarBorder, themed to the site's blue CTA ===== */
     .star-border-container { display: inline-block; position: relative; border-radius: 999px; overflow: hidden; padding: 1px 0; text-decoration: none; }
     .border-gradient-bottom, .border-gradient-top { position: absolute; width: 300%; height: 50%; opacity: 0.7; border-radius: 50%;
@@ -72,9 +68,8 @@
 
     /* CTA: the StarBorder container is now the <a>; the blue fill lives on .inner-content */
     .lp-cta { display: block; width: 100%; max-width: 340px; margin: 0 auto; }
-    .lp-cta .inner-content { width: 100%; box-sizing: border-box; background: #3a5a87; color: #f6f9ff; transition: background .18s ease; }
-    .lp-cta:hover .inner-content { background: #2f4c75; }
-    html.mono .lp-cta .inner-content { background: #2d2d2d; }
+    .lp-cta .inner-content { width: 100%; box-sizing: border-box; background: var(--accent); color: var(--cta-text, #fff); transition: background .18s ease; }
+    .lp-cta:hover .inner-content { background: var(--accent-hover); }
 
     /* Three explicit paths — sourcing leads, styling & bulk sit beneath as quiet pills */
     .lp-paths { display: grid; gap: 0.55rem; max-width: 340px; margin: 0 auto; }
@@ -128,7 +123,7 @@
     .lp-group-sub { margin: -0.1rem 0 0.2rem; font-size: 0.76rem; line-height: 1.55; color: var(--text-secondary); max-width: 46ch; }
 
     /* a duration, so the free tools read as a commitment you can measure */
-    .lp-time { margin-left: auto; flex: 0 0 auto; font-family: var(--font-accent); font-size: 0.6rem;
+    .lp-time { margin-left: auto; flex: 0 0 auto; font-family: var(--font-accent); font-size: 0.66rem;
       letter-spacing: 0.12em; text-transform: uppercase; color: var(--eyebrow-ink);
       border: 1px solid var(--surface-border); border-radius: 999px; padding: 0.18rem 0.5rem; white-space: nowrap; }
     .lp-card-timed .lp-go { margin-left: 0.5rem; }
@@ -141,7 +136,8 @@
     html.dark .lp-gift { background: linear-gradient(135deg, rgba(201,182,232,0.16), rgba(46,84,173,0.14)); }
     .lp-gift .ic { flex: 0 0 auto; width: 24px; height: 24px; color: var(--accent); margin-top: 0.1rem; }
     .lp-gift .ic svg { width: 100%; height: 100%; display: block; }
-    .lp-gift-hook { color: var(--text-secondary); font-size: 0.76rem; line-height: 1.5; margin: 0.14rem 0 0; max-width: 44ch; }
+    .lp-gift-hook { color: var(--text-primary); font-size: 0.76rem; line-height: 1.5; margin: 0.14rem 0 0; max-width: 44ch; }
+    .lp-card-feature .lp-sub, .lp-gift .lp-gift-when { color: var(--text-primary); }
     .lp-gift-paths { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; margin-top: 0.7rem; }
     .lp-gift-paths a { font-family: var(--font-brand); font-size: 0.82rem; color: var(--accent);
       text-decoration: none; border-bottom: 1px solid transparent; padding: 0.32rem 0; min-height: 44px;
@@ -162,7 +158,7 @@
       background: radial-gradient(420px 150px at 88% -10%, rgba(255,255,255,0.55), transparent 70%); }
     html.dark .lp-promo::after { background: radial-gradient(420px 150px at 88% -10%, rgba(169,184,238,0.16), transparent 70%); }
     .lp-promo-flag { display: inline-flex; align-items: center; gap: 0.45rem;
-      font-family: var(--font-brand); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+      font-family: var(--font-brand); font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase;
       color: var(--cta-text, #fff); background: var(--accent); border-radius: 999px; padding: 0.28rem 0.7rem; }
     .lp-promo-flag .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
     @media (prefers-reduced-motion: no-preference) {
@@ -172,16 +168,16 @@
     .lp-promo-t { display: block; margin: 0.6rem 0 0; font-family: var(--font-display); font-weight: 400;
       font-size: clamp(1.3rem, 5.4vw, 1.7rem); line-height: 1.15; }
     .lp-promo-t em { font-family: var(--font-script); font-style: normal; color: var(--accent); font-size: 1.15em; }
-    .lp-promo-s { margin: 0.4rem 0 0; font-size: 0.82rem; line-height: 1.6; color: var(--text-secondary); max-width: 44ch; }
+    .lp-promo-s { margin: 0.4rem 0 0; font-size: 0.82rem; line-height: 1.6; color: var(--text-primary); max-width: 44ch; }
     .lp-promo-facts { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.8rem; }
-    .lp-promo-facts span { font-family: var(--font-accent); font-size: 0.63rem; letter-spacing: 0.1em;
+    .lp-promo-facts span { font-family: var(--font-accent); font-size: 0.66rem; letter-spacing: 0.1em;
       text-transform: uppercase; color: var(--accent); background: rgba(255,255,255,0.6);
       border: 1px solid rgba(46,84,173,0.22); border-radius: 999px; padding: 0.3rem 0.62rem; }
     html.dark .lp-promo-facts span { background: rgba(36,40,55,0.55); border-color: rgba(169,184,238,0.28); }
     .lp-promo-go { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem;
       margin-top: 0.95rem; padding-top: 0.8rem; border-top: 1px solid rgba(46,84,173,0.2); }
     html.dark .lp-promo-go { border-top-color: rgba(169,184,238,0.22); }
-    .lp-promo-when { font-size: 0.72rem; line-height: 1.4; color: var(--text-secondary); }
+    .lp-promo-when { font-size: 0.72rem; line-height: 1.4; color: var(--text-primary); }
     .lp-promo-when strong { display: block; color: var(--accent); font-size: 0.8rem; font-weight: 500; }
     .lp-promo-btn { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 0.4rem; min-height: 44px;
       padding: 0 1.05rem; border-radius: 999px; background: var(--accent); color: var(--cta-text, #fff);
@@ -223,70 +219,13 @@
     .lp-houses-all:hover { border-bottom-color: currentColor; }
     .lp-houses-head { text-align: center; margin-bottom: 0.9rem; }
     .lp-houses-sub { color: var(--text-secondary); font-size: 0.76rem; margin: 0.3rem 0 0; }
-    .houses-strip { display: flex; flex-direction: column; gap: 10px; overflow: hidden;
-      -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-      mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-    .hrow { display: flex; width: max-content; animation: hdrift 74s linear infinite; }
-    .hrow.rev { animation-direction: reverse; animation-duration: 90s; }
-    .hrow:hover, .hrow:focus-within { animation-play-state: paused; }
-    .hgrp { display: flex; gap: 10px; padding-right: 10px; }
+    /* The drifting brand rows themselves come from js/discover-brand.js
+       (.brand-strip — self-contained markup, CSS and reduced-motion handling). */
     @keyframes hdrift { to { transform: translateX(-50%); } }
-    .hbtn { padding: 7px; border: 1px solid var(--surface-border); border-radius: 15px;
-      background: var(--surface); -webkit-backdrop-filter: blur(9px); backdrop-filter: blur(9px);
-      box-shadow: 0 8px 24px -16px rgba(46,71,115,0.4); transition: 0.2s ease; line-height: 0; display: block; }
-    .hbtn img { width: 50px; height: 50px; border-radius: 9px; object-fit: cover; display: block;
-      filter: grayscale(0.15); opacity: 0.85; transition: 0.2s ease; }
-    .hbtn:hover, .hbtn:focus-visible { border-color: var(--highlight); box-shadow: 0 14px 32px -18px rgba(46,71,115,0.55); }
-    .hbtn:hover img, .hbtn:focus-visible img { filter: none; opacity: 1; }
-    @media (prefers-reduced-motion: reduce) { .hrow { animation: none; } }
-    html.rm .hrow { animation: none; }
     /* Desktop — break the band wider than the 560px column for more leeway */
     @media (min-width: 680px) {
       .lp-houses { position: relative; left: 50%; transform: translateX(-50%); width: min(94vw, 880px); }
-      .hbtn img { width: 56px; height: 56px; }
-      .houses-strip { gap: 12px; }
-      .hgrp { gap: 12px; }
     }
-
-    /* ===== Services reel — an auto-rotating preview of what I do =====
-       Without JS it renders as a plain stack of tappable cards; the script
-       flips it to a scroll-snap reel that drifts on its own (never under
-       reduced motion), pauses the moment you touch, hover or focus it, and
-       keeps dots in step with manual swipes. */
-    .lp-reel { margin-top: 1.6rem; }
-    .lp-reel-track { display: grid; gap: 0.7rem; margin-top: 0.62rem; }
-    .lp-reel-track.lp-reel-on { display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
-      scrollbar-width: none; padding: 4px 2px; cursor: grab;
-      -webkit-mask-image: linear-gradient(90deg, transparent, #000 2%, #000 98%, transparent);
-      mask-image: linear-gradient(90deg, transparent, #000 2%, #000 98%, transparent); }
-    .lp-reel-track.lp-reel-on.is-dragging { cursor: grabbing; scroll-snap-type: none; scroll-behavior: auto; }
-    .lp-reel-track.lp-reel-on::-webkit-scrollbar { display: none; }
-    .lp-reel-on .lp-reel-card { flex: 0 0 92%; scroll-snap-align: center; }
-    @media (min-width: 560px) { .lp-reel-on .lp-reel-card { flex-basis: 80%; } }
-    .lp-reel-card { display: flex; flex-direction: column; gap: 0.34rem; padding: 1.2rem 1.2rem 1.05rem;
-      border-radius: 16px; background: var(--surface-solid); border: 1px solid var(--surface-border);
-      text-decoration: none; color: var(--text-primary); box-shadow: 0 6px 20px -14px rgba(35,58,114,0.5);
-      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
-    .lp-reel-card:hover { transform: translateY(-2px); border-color: rgba(46,84,173,0.4);
-      box-shadow: 0 14px 30px -16px rgba(35,58,114,0.55); }
-    .lp-reel-card:active { transform: translateY(0) scale(0.995); }
-    html.rm .lp-reel-card { transition: none; }
-    .lp-reel-e { font-family: var(--font-brand); font-weight: 500; text-transform: uppercase;
-      letter-spacing: 0.18em; font-size: 0.58rem; color: var(--eyebrow-ink); }
-    .lp-reel-t { font-family: var(--font-brand); font-size: 1.05rem; letter-spacing: 0.01em; }
-    .lp-reel-s { color: var(--text-secondary); font-size: 0.8rem; line-height: 1.6; margin: 0; }
-    .lp-reel-p { display: flex; justify-content: space-between; align-items: center; gap: 0.6rem;
-      margin-top: 0.55rem; padding-top: 0.6rem; border-top: 1px solid var(--surface-border);
-      font-family: var(--font-brand); font-size: 0.85rem; color: var(--accent); }
-    .lp-reel-nav { display: flex; align-items: center; justify-content: center; gap: 0.9rem; margin-top: 0.8rem; }
-    .lp-reel-arrow { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--surface-border);
-      background: var(--surface-solid); color: var(--text-primary); font-size: 1.1rem; line-height: 1;
-      cursor: pointer; display: grid; place-items: center; transition: border-color .18s ease; }
-    .lp-reel-arrow:hover, .lp-reel-arrow:focus-visible { border-color: var(--accent); }
-    .lp-reel-dots { display: flex; justify-content: center; gap: 0.5rem; }
-    .lp-reel-dot { width: 8px; height: 8px; padding: 0; border-radius: 50%; border: none; cursor: pointer;
-      background: var(--surface-border); transition: background .25s ease, transform .25s ease; }
-    .lp-reel-dot[aria-current="true"] { background: var(--accent); transform: scale(1.3); }
 
     /* ===== Story-first portal (Aug 2026 redesign) =====
        Two-path hero → trust ticker → sourcing & styling sections with price
@@ -313,7 +252,7 @@
     .lp-path-card.is-styling { background: linear-gradient(135deg, rgba(201,182,232,0.4), rgba(238,243,251,0.94)); }
     html.dark .lp-path-card.is-styling { background: linear-gradient(135deg, rgba(201,182,232,0.14), rgba(46,84,173,0.12)); }
     .lp-pc-e { font-family: var(--font-brand); font-weight: 500; text-transform: uppercase; letter-spacing: 0.18em;
-      font-size: 0.58rem; color: var(--eyebrow-ink); }
+      font-size: 0.64rem; color: var(--eyebrow-ink); }
     .lp-pc-t { font-family: var(--font-display); font-weight: 400; font-size: 1.06rem; line-height: 1.3; }
     .lp-pc-s { color: var(--text-secondary); font-size: 0.76rem; line-height: 1.5; margin: 0; }
     .lp-pc-w { margin-top: 0.45rem; padding-top: 0.5rem; border-top: 1px solid var(--surface-border);
@@ -330,7 +269,7 @@
     .lp-tick-row { display: flex; width: max-content; animation: hdrift 46s linear infinite; }
     .lp-tick-grp { display: flex; align-items: center; }
     .lp-tick-grp span { position: relative; white-space: nowrap; padding: 0 1.15rem;
-      font-family: var(--font-brand); font-size: 0.64rem; letter-spacing: 0.16em; text-transform: uppercase;
+      font-family: var(--font-brand); font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase;
       color: var(--eyebrow-ink); }
     .lp-tick-grp span + span::before { content: '·'; position: absolute; left: -0.18rem; opacity: 0.55; }
     .lp-ticker:hover .lp-tick-row, .lp-ticker:focus-within .lp-tick-row { animation-play-state: paused; }
@@ -364,7 +303,7 @@
     .lp-steps.in li { opacity: 1; transform: none; }
     .lp-steps li:nth-child(2) { transition-delay: 0.12s; } .lp-steps li:nth-child(3) { transition-delay: 0.24s; }
     .lp-steps li:nth-child(4) { transition-delay: 0.36s; }
-    .lp-step-n { display: block; font-family: var(--font-accent); font-size: 0.58rem; letter-spacing: 0.16em;
+    .lp-step-n { display: block; font-family: var(--font-accent); font-size: 0.64rem; letter-spacing: 0.16em;
       color: var(--eyebrow-ink); opacity: 0.75; margin-bottom: 0.3rem; }
     .lp-step-t { display: block; font-family: var(--font-brand); font-size: 0.88rem; color: var(--text-primary); margin-bottom: 0.2rem; }
     .lp-step-d { margin: 0; color: var(--text-secondary); font-size: 0.74rem; line-height: 1.5; }
@@ -377,11 +316,10 @@
     .lp-chips span::before { content: '✓'; font-size: 0.6rem; opacity: 0.8; }
 
     /* -- Price whisper callout: calm, not promotional -- */
-    .lp-whisper { margin-top: 1.2rem; padding: 1rem 1.1rem; border-radius: 16px;
+    .lp-whisper { margin-top: 1.2rem; padding: 1.25rem 1.2rem 1.15rem; border-radius: 16px;
       background: linear-gradient(135deg, rgba(201,182,232,0.35), rgba(238,243,251,0.9));
       border: 1px solid rgba(46,84,173,0.22); }
     html.dark .lp-whisper { background: linear-gradient(135deg, rgba(201,182,232,0.12), rgba(46,84,173,0.12)); }
-    .lp-whisper { padding: 1.25rem 1.2rem 1.15rem; }
     .lp-whisper strong { display: block; font-family: var(--font-display); font-weight: 300; font-size: 1.45rem;
       color: var(--text-primary); margin-bottom: 0.3rem; line-height: 1.25; }
     .lp-whisper strong b { color: var(--accent); font-weight: 300; }
@@ -394,19 +332,6 @@
       text-decoration: none; cursor: pointer; font-family: var(--font-accent); font-weight: 500; font-size: 0.74rem;
       letter-spacing: 0.12em; text-transform: uppercase; transition: border-color .18s ease, background .18s ease; }
     .lp-cta-soft:hover { border-color: var(--accent); background: rgba(46,84,173,0.06); }
-
-    /* -- Live currency peek: your money → đồng, same API as the estimator -- */
-    .lp-fx { margin-top: 1rem; padding: 0.95rem 1.05rem 0.85rem; border-radius: 14px;
-      background: var(--surface-solid); border: 1px solid var(--surface-border); }
-    .lp-fx-row { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-    .lp-fx-row input, .lp-fx-row select { font-family: var(--font-body); font-size: 16px; color: var(--text-primary);
-      background: var(--surface-soft, var(--surface)); border: 1px solid var(--surface-border); border-radius: 10px;
-      padding: 0.5rem 0.65rem; min-height: 44px; }
-    .lp-fx-row input { width: 6.5rem; }
-    .lp-fx-eq { font-family: var(--font-display); font-weight: 300; font-size: 1.15rem; color: var(--accent);
-      font-variant-numeric: tabular-nums; margin-left: auto; }
-    .lp-fx-note { margin: 0.55rem 0 0; font-family: var(--font-accent); font-size: 0.64rem;
-      letter-spacing: 0.03em; color: var(--text-secondary); }
 
     /* -- Fee drawer -- */
     .lp-drawer { margin-top: 1rem; border-top: 1px solid var(--surface-border); }
@@ -440,7 +365,7 @@
     .lp-tier-n { font-family: var(--font-brand); font-size: 0.95rem; color: var(--text-primary); }
     .lp-tier-p { font-family: var(--font-display); font-weight: 300; font-size: 1.35rem; color: var(--accent);
       font-variant-numeric: tabular-nums; }
-    .lp-tier-badge { position: absolute; top: -0.62rem; left: 1rem; font-family: var(--font-accent); font-size: 0.56rem;
+    .lp-tier-badge { position: absolute; top: -0.62rem; left: 1rem; font-family: var(--font-accent); font-size: 0.64rem;
       font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; background: var(--accent);
       color: var(--cta-text, #fff); padding: 0.26rem 0.65rem; border-radius: 999px; }
     .lp-meter { display: flex; height: 8px; border-radius: 999px; overflow: hidden; margin: 0.6rem 0 0.4rem;
@@ -452,7 +377,7 @@
       font-size: 0.68rem; letter-spacing: 0.02em; color: var(--text-secondary); }
     .lp-tier-split b { color: var(--accent-deep); font-weight: 500; }
     .lp-tier-d { margin: 0.5rem 0 0; color: var(--text-secondary); font-size: 0.76rem; line-height: 1.5; }
-    .lp-tier-buy { display: inline-flex; align-items: center; min-height: 40px; margin-top: 0.6rem; padding: 0 1.05rem;
+    .lp-tier-buy { display: inline-flex; align-items: center; min-height: 44px; margin-top: 0.6rem; padding: 0 1.05rem;
       border-radius: 999px; border: 1px solid rgba(46,84,173,0.35); color: var(--accent); text-decoration: none;
       font-family: var(--font-accent); font-weight: 500; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
       transition: border-color .18s ease, background .18s ease; }
@@ -532,7 +457,7 @@
     .qe-close:hover { color: var(--text-primary); }
     .qe-modal h2 { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; margin: 0.15rem 0 0.3rem; }
     .qe-sub { color: var(--text-secondary); font-size: 0.82rem; margin: 0 0 1.15rem; line-height: 1.5; }
-    .qe-field { display: block; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary); margin-bottom: 0.9rem; }
+    .qe-field { display: block; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary); margin-bottom: 0.9rem; }
     .qe-field input, .qe-field select { display: block; width: 100%; margin-top: 0.34rem; padding: 0.62rem 0.7rem; font-family: inherit; font-size: 0.92rem;
       color: var(--text-primary); background: var(--surface-soft); border: 1px solid var(--surface-border); border-radius: 10px; box-sizing: border-box; }
     .qe-check { display: flex; align-items: center; gap: 0.55rem; font-size: 0.84rem; color: var(--text-primary); margin-bottom: 1.05rem; cursor: pointer; text-transform: none; letter-spacing: 0; }
@@ -553,8 +478,8 @@
   </style>
 </head>
 <body>
-  <div class="aurora-bg" id="auroraBg" aria-hidden="true"></div>
   <div class="grain" aria-hidden="true"></div>
+  <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- Floating settings + EN/VN toggle — same as the main site -->
   <div class="a11y-wrap">
@@ -571,11 +496,11 @@
         <button class="a11y-close" type="button" aria-label="Close settings">✕</button>
       </div>
       <div class="a11y-row">
-        <h4 id="langLbl" data-i18n="a11y.language">Language</h4>
+        <p class="a11y-h" id="langLbl" data-i18n="a11y.language">Language</p>
         <select id="langSelect" aria-labelledby="langLbl"></select>
       </div>
       <div class="a11y-row">
-        <h4 data-i18n="a11y.textsize">Text size</h4>
+        <p class="a11y-h" data-i18n="a11y.textsize">Text size</p>
         <div class="seg" role="group" aria-label="Text size">
           <button type="button" data-size="md" aria-label="Default text size" aria-pressed="true" style="font-size:0.75rem">A</button>
           <button type="button" data-size="lg" aria-label="Large text size" aria-pressed="false" style="font-size:0.9rem">A</button>
@@ -583,7 +508,7 @@
         </div>
       </div>
       <div class="a11y-row">
-        <h4 data-i18n="a11y.theme">Theme</h4>
+        <p class="a11y-h" data-i18n="a11y.theme">Theme</p>
         <div class="seg" role="group" aria-label="Theme">
           <button type="button" data-theme="auto" aria-pressed="true" data-i18n="theme.auto">Auto</button><button type="button" data-theme="light" aria-pressed="false" data-i18n="theme.light">Light</button>
           <button type="button" data-theme="dark" aria-pressed="false" data-i18n="theme.dark">Dark</button>
@@ -591,17 +516,18 @@
         </div>
       </div>
       <div class="a11y-row">
-        <h4 data-i18n="a11y.contrast">High contrast</h4>
+        <p class="a11y-h" data-i18n="a11y.contrast">High contrast</p>
         <button class="switch" id="contrastBtn" type="button" aria-pressed="false" aria-label="High contrast">Off</button>
       </div>
       <div class="a11y-row">
-        <h4 data-i18n="a11y.motion">Reduce motion</h4>
+        <p class="a11y-h" data-i18n="a11y.motion">Reduce motion</p>
         <button class="switch" id="motionBtn" type="button" aria-pressed="false" aria-label="Reduce motion">Off</button>
       </div>
     </div>
   </div>
 
-  <main class="lp">
+  <main class="lp" id="main" tabindex="-1">
+    <h1 class="sr-only">Seraphic Styler — Saigon styling & sourcing, all links</h1>
 
     <!-- ===== Above the fold: brand + value + primary CTA ===== -->
     <header class="lp-top">
@@ -612,7 +538,7 @@
           <span class="brand-seraphic">Seraphic</span>
           <span class="brand-styler">Styler</span>
         </span>
-        <p class="lp-tag" data-i18n="hero.lead">Hard-to-find Vietnamese fashion &amp; beauty, verified in person and shipped worldwide.</p>
+        <p class="lp-tag" data-i18n="hero.lead">Hard-to-find Vietnamese fashion, verified in person and shipped worldwide.</p>
         <p class="lp-trust" data-i18n="lp.trust">Hồ Chí Minh City · Replies within 1–2 business days</p>
 
         <span class="lp-eyebrow" style="margin-bottom:0.6rem" data-i18n="lp2.choose">Choose your path</span>
@@ -630,7 +556,7 @@
             <span class="lp-pc-w"><span data-i18n="lp2.pc2w">From $49 — most of it becomes your clothes</span><span class="go" aria-hidden="true">↓</span></span>
           </a>
         </div>
-        <p class="lp-startsmall" data-i18n="lp2.startsmall">You can start free or small — most clients begin with one piece or a short style intake.</p>
+        <p class="lp-startsmall" data-i18n="lp2.startsmall">Start free or small — most clients begin with one piece.</p>
         <div class="lp-paths" style="margin-top:0.55rem">
           <a class="lp-path2" href="https://tally.so/r/gD10Kl?about=I%20need%20corporate%20%2F%20group%20%2F%20bulk%20buying%20support&amp;source=links-hero" target="_blank" rel="noopener" data-track="path-bulk" data-i18n="lp.path3">Group &amp; bulk orders</a>
         </div>
@@ -640,7 +566,7 @@
     </header>
 
     <!-- ===== Trust ticker — the house promises, one quiet drifting line ===== -->
-    <div class="lp-ticker" aria-label="House promises">
+    <div class="lp-ticker" role="group" aria-label="House promises">
       <div class="lp-tick-row">
         <div class="lp-tick-grp">
           <span data-i18n="lp2.tk1">Verified in person</span>
@@ -666,7 +592,7 @@
     <a class="lp-promo" href="free-international-shipping" data-track="promo-flight">
       <span class="lp-promo-flag"><span class="dot" aria-hidden="true"></span><span data-i18n="lp.promo_flag">Limited — one flight</span></span>
       <strong class="lp-promo-t" data-i18n="lp.promo_t">Free international <em>shipping</em></strong>
-      <p class="lp-promo-s" data-i18n="lp.promo_s">I fly to Orange County on 18 August with room for a few client orders in my suitcase. Your pieces come home with me — no courier, no per-kilo bill.</p>
+      <p class="lp-promo-s" data-i18n="lp.promo_s">Your pieces fly home in my suitcase on 18 August — no courier, no per-kilo bill.</p>
       <div class="lp-promo-facts">
         <span data-i18n="lp.promo_f1">$0 shipping</span>
         <span data-i18n="lp.promo_f2">Free OC pickup</span>
@@ -683,7 +609,7 @@
     <section class="lp-sec" id="lp-sourcing" aria-labelledby="lps-h">
       <h2 class="lp-sec-h" id="lps-h" data-i18n="lp2.src_h">Sourcing</h2>
       <p class="lp-sec-t" data-i18n="lp2.src_t">You name the piece.</p>
-      <p class="lp-lead" data-i18n="lp2.src_lead">Send a link or a photo. I'll find it, verify it in person, photograph it for your approval, and ship it at the real receipt price.</p>
+      <p class="lp-lead" data-i18n="lp2.src_lead">Send a link or a photo. I find it, verify it in person, and ship it at the receipt price.</p>
 
       <ol class="lp-steps reveal" aria-label="How sourcing works">
         <li><span class="lp-step-n">01</span><span class="lp-step-t" data-i18n="lp2.s1t">Send it over</span><p class="lp-step-d" data-i18n="lp2.s1d">A link or a photo of the piece is enough.</p></li>
@@ -694,8 +620,8 @@
 
       <div class="lp-whisper reveal">
         <strong data-i18n="lp2.src_w1">From <b>about $23</b> in fees.</strong>
-        <span data-i18n="lp2.src_w2">That's 600,000₫, where most simple requests stay. The piece and shipping simply cost what they cost — nothing added.</span>
-        <div class="lp-chips" aria-label="House promises">
+        <span data-i18n="lp2.src_w2">That's 600,000₫, where most simple requests stay. The piece and shipping cost what they cost.</span>
+        <div class="lp-chips" role="group" aria-label="House promises">
           <span data-i18n="lp2.c1">Receipt-price pieces</span>
           <span data-i18n="lp2.c2">Photos before purchase</span>
           <span data-i18n="lp2.c3">Shipping at cost</span>
@@ -724,29 +650,14 @@
         </div>
       </details>
 
-      <div class="lp-fx" id="lpFx" hidden>
-        <div class="lp-fx-row">
-          <input id="lpFxAmt" type="number" inputmode="decimal" min="0" value="100" aria-label="Amount" />
-          <select id="lpFxCur" aria-label="Currency">
-            <option value="USD" selected>USD $</option><option value="EUR">EUR €</option>
-            <option value="GBP">GBP £</option><option value="AUD">AUD $</option>
-            <option value="CAD">CAD $</option><option value="SGD">SGD $</option>
-            <option value="JPY">JPY ¥</option><option value="KRW">KRW ₩</option>
-            <option value="CNY">CNY ¥</option><option value="THB">THB ฿</option>
-            <option value="AED">AED</option><option value="INR">INR ₹</option>
-          </select>
-          <span class="lp-fx-eq" id="lpFxOut">≈ —</span>
-        </div>
-        <p class="lp-fx-note" id="lpFxNote" data-i18n="lp2.fx_note">Live rate refreshed daily, with a small buffer built in — your final quote uses the bank's rate on the day.</p>
-      </div>
     </section>
 
     <!-- ===== Styling — I choose for you ===== -->
     <section class="lp-sec" id="lp-styling" aria-labelledby="lpy-h">
       <h2 class="lp-sec-h" id="lpy-h" data-i18n="lp2.sty_h">Styling — I choose for you</h2>
       <p class="lp-sec-t" data-i18n="lp2.sty_t">Where your money goes, in plain sight.</p>
-      <p class="lp-lead" data-i18n="lp2.sty_lead">Bring a moodboard, a feeling, a moment to dress for. Every tier splits openly: a flat styling fee, and a clothing credit spent entirely on your pieces.</p>
-      <p class="lp-safe" data-i18n="lp2.sty_safe"><b>You'll see the exact total before you say yes.</b> If the numbers don't feel good, we adjust or pause — nothing happens without you.</p>
+      <p class="lp-lead" data-i18n="lp2.sty_lead">Bring a moodboard, a feeling, a moment. Every tier splits openly: a flat styling fee, and a clothing credit spent entirely on your pieces.</p>
+      <p class="lp-safe" data-i18n="lp2.sty_safe"><b>You see the exact total before you say yes.</b></p>
 
       <div class="lp-tiers reveal">
         <article class="lp-tier">
@@ -783,13 +694,13 @@
           <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t5n">The Signature</span><span class="lp-tier-p">$750</span></div>
           <div class="lp-meter" role="img" aria-label="$460 clothing credit, $290 styling fee"><i class="lp-meter-i" style="--pct:61%"></i></div>
           <div class="lp-tier-split"><span data-i18n="lp2.t5s"><b>$460 clothes</b> · $290 styling</span></div>
-          <p class="lp-tier-d" data-i18n="lp2.t5d">The designer commission — pieces from the coveted houses (Fancì Club, GIA Studios, the ateliers), appointments attended on your behalf, made-to-measure fittings, a lookbook, and 60 days of support. At Saigon prices, the credit is 2–4 genuine designer pieces.</p>
-          <p class="lp-tier-d" data-i18n="lp2.t5ship">One written total — pieces, fees and shipping — before anything is bought. Signature orders get first claim on free flight-window shipping.</p>
+          <p class="lp-tier-d" data-i18n="lp2.t5d">Pieces from the coveted houses — Fancì Club, GIA Studios, the ateliers — with made-to-measure fittings, a lookbook, and 60 days of support.</p>
+          <p class="lp-tier-d" data-i18n="lp2.t5ship">One written total before anything is bought. First claim on free flight-window shipping.</p>
           <a class="lp-tier-buy" href="https://tally.so/r/gD10Kl?about=I%20want%20to%20book%20a%20styling%20service&amp;source=links-signature" target="_blank" rel="noopener" data-track="book-signature" data-i18n="lp2.t5cta">Begin with a conversation →</a>
           <p class="lp-tryfree" style="text-align:left;margin-top:0.5rem"><a href="signature" data-track="sig-page" data-i18n="lp2.t5see">Explore The Signature in full →</a></p>
         </article>
       </div>
-      <p class="lp-sty-note" data-i18n="lp2.sty_note">You pay for considered guidance; the rest stays with your wardrobe. Bigger tiers aren't "better" — they simply give us more room to work.</p>
+      <p class="lp-sty-note" data-i18n="lp2.sty_note">Bigger tiers aren't better — they give us more room to work.</p>
 
       <div class="lp-ctarow">
         <a class="star-border-container lp-cta" href="https://tally.so/r/gD10Kl?about=I%20want%20to%20book%20a%20styling%20service&amp;source=links-styling" target="_blank" rel="noopener" data-track="path-styling">
@@ -825,7 +736,7 @@
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M20 12v9H4v-9"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7S9 3 6.5 4.5 8 7 12 7zM12 7s3-4 5.5-2.5S16 7 12 7z"/></svg></span>
           <div class="lp-meta">
             <span class="lp-title" data-i18n="lp.gift_t">Gift styling — give a Saigon wardrobe</span>
-            <p class="lp-gift-hook" data-i18n="lp2.gift_s">From $49 — the recipient receives a clothing credit and their own stylist; you get all the credit.</p>
+            <p class="lp-gift-hook" data-i18n="lp2.gift_s">From $49 — they get a clothing credit and their own stylist. You get the credit.</p>
             <div class="lp-gift-paths">
               <a href="./#gift" data-track="gift-tiers" data-i18n="lp.gift_p1">Pick a tier →</a>
               <a href="./#giftQuiz" data-track="gift-finder" data-i18n="lp.gift_p2">Not sure? 4-question gift finder →</a>
@@ -841,56 +752,12 @@
       </div>
     </section>
 
-    <!-- ===== Services reel — a self-rotating preview of everything on offer ===== -->
-    <section class="lp-reel reveal" aria-label="Services preview">
-      <h2 class="lp-group-h" data-i18n="lp.reel.h">What I can do for you</h2>
-      <div class="lp-reel-track" id="lpReelTrack" tabindex="0" aria-roledescription="carousel" aria-label="Services preview">
-        <a class="lp-reel-card" href="./#services" data-track="reel-styling">
-          <span class="lp-reel-e" data-i18n="lp.reel.1e">Styling</span>
-          <span class="lp-reel-t" data-i18n="lp.reel.1t">Personal styling</span>
-          <p class="lp-reel-s" data-i18n="lp.reel.1s">A Saigon wardrobe built around your days, your fit and what you already own.</p>
-          <span class="lp-reel-p"><span data-i18n="lp.reel.1p">from $49</span><span aria-hidden="true">→</span></span>
-        </a>
-        <a class="lp-reel-card" href="./#contact" data-track="reel-sourcing">
-          <span class="lp-reel-e" data-i18n="lp.reel.2e">Sourcing</span>
-          <span class="lp-reel-t" data-i18n="lp.reel.2t">Order any Vietnam brand</span>
-          <p class="lp-reel-s" data-i18n="lp.reel.2s">Send a wishlist — even pieces never posted online. Verified in person before anything ships.</p>
-          <span class="lp-reel-p"><span data-i18n="lp.reel.2p">pieces at cost + a small fee</span><span aria-hidden="true">→</span></span>
-        </a>
-        <a class="lp-reel-card" href="./#gift" data-track="reel-gift">
-          <span class="lp-reel-e" data-i18n="lp.reel.3e">Gifts</span>
-          <span class="lp-reel-t" data-i18n="lp.reel.3t">Gift styling</span>
-          <p class="lp-reel-s" data-i18n="lp.reel.3s">Give a Saigon wardrobe — their code and a handwritten note arrive within 24 hours.</p>
-          <span class="lp-reel-p"><span data-i18n="lp.reel.3p">from $49</span><span aria-hidden="true">→</span></span>
-        </a>
-        <a class="lp-reel-card" href="./#services" data-track="reel-vintage">
-          <span class="lp-reel-e" data-i18n="lp.reel.4e">Vintage</span>
-          <span class="lp-reel-t" data-i18n="lp.reel.4t">Vintage &amp; rare finds</span>
-          <p class="lp-reel-s" data-i18n="lp.reel.4s">Hunted across Saigon's vintage rooms and ateliers — one-of-one pieces, honestly graded.</p>
-          <span class="lp-reel-p"><span data-i18n="lp.reel.4p">from $149</span><span aria-hidden="true">→</span></span>
-        </a>
-        <a class="lp-reel-card" href="fashion-directory" data-track="reel-directory">
-          <span class="lp-reel-e" data-i18n="lp.reel.5e">Free</span>
-          <span class="lp-reel-t" data-i18n="lp.reel.5t">Saigon Fashion Directory</span>
-          <p class="lp-reel-s" data-i18n="lp.reel.5s">286 verified brands, mapped by district and price band — the foundation of every request.</p>
-          <span class="lp-reel-p"><span data-i18n="lp.reel.5p">browse free</span><span aria-hidden="true">→</span></span>
-        </a>
-        <a class="lp-reel-card" href="lookbook" data-track="reel-lookbook">
-          <span class="lp-reel-e" data-i18n="lp.reel.6e">Free</span>
-          <span class="lp-reel-t" data-i18n="lp.reel.6t">The lookbook</span>
-          <p class="lp-reel-s" data-i18n="lp.reel.6s">Saigon pieces in motion — see the fabric move before you ask me to find it.</p>
-          <span class="lp-reel-p"><span data-i18n="lp.reel.6p">watch free</span><span aria-hidden="true">→</span></span>
-        </a>
-      </div>
-      <div class="lp-reel-dots" id="lpReelDots" hidden></div>
-    </section>
-
     <!-- ===== Block-based links (a destination, not a plain list) ===== -->
     <nav class="lp-groups" aria-label="Seraphic Styler links">
 
       <section class="lp-group" aria-labelledby="lpg-free">
         <h2 class="lp-group-h" id="lpg-free" data-i18n="lp.g.free">Free — no obligation</h2>
-        <p class="lp-group-sub" data-i18n="lp.g.free_s">Three depths of one style profile. Each ends on a card you can screenshot and send me — nothing is ever bought without your yes.</p>
+        <p class="lp-group-sub" data-i18n="lp.g.free_s">Three depths of one style profile — each ends on a card you can send me.</p>
         <div class="lp-links reveal">
           <a class="lp-card lp-card-timed" href="style-profile.html?tier=discovery&amp;from=links" data-track="profile-intake">
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M5 4.5h14v15l-7-3.2-7 3.2z"/><path d="M9 9h6M9 12.5h4"/></svg></span>
@@ -921,7 +788,7 @@
         <div class="lp-links reveal">
           <a class="lp-card lp-card-feature" href="fashion-directory" data-track="directory">
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M9 20l-6 2V6l6-2 6 2 6-2v16l-6 2-6-2z"/><path d="M9 4v16M15 6v16"/></svg></span>
-          <span class="lp-meta"><span class="lp-title" data-i18n="lp.dir_t">The Saigon Fashion Directory</span><span class="lp-sub" data-i18n="lp.dir_s">286 verified houses, mapped by district</span></span>
+          <span class="lp-meta"><span class="lp-title" data-i18n="lp.dir_t">The Saigon Fashion Directory</span><span class="lp-sub" data-i18n="lp.dir_s">300 verified houses, mapped by district</span></span>
           <span class="lp-go" aria-hidden="true">→</span>
       </a>
 
@@ -934,6 +801,13 @@
           <a class="lp-card" href="lookbook" data-track="lookbook">
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="3"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8.5 7 10 4.8h4L15.5 7"/></svg></span>
           <span class="lp-meta"><span class="lp-title" data-i18n="nav.lookbook">Lookbook</span><span class="lp-sub" data-i18n="lp.look_s">Recent sources &amp; styling</span></span>
+          <span class="lp-go" aria-hidden="true">→</span>
+      </a>
+
+          <a class="lp-card lp-card-timed" href="style-quiz" data-track="style-quiz">
+          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.2 9.2a2.8 2.8 0 1 1 3.9 2.6c-.8.35-1.1.9-1.1 1.7"/><circle cx="12" cy="16.8" r="0.4" fill="currentColor" stroke="none"/></svg></span>
+          <span class="lp-meta"><span class="lp-title" data-i18n="lp.quiz_t">The Style Quiz</span><span class="lp-sub" data-i18n="lp.quiz_s">Your style as a blend — matched to the houses that fit</span></span>
+          <span class="lp-time" data-i18n="lp.time1">2 min</span>
           <span class="lp-go" aria-hidden="true">→</span>
       </a>
         </div>
@@ -981,7 +855,7 @@
         <span class="lp-eyebrow" data-i18n="lp.houses_t">Browse the houses</span>
         <p class="lp-houses-sub" data-i18n="lp.houses_s">Tap any label to open it in the directory</p>
       </div>
-      <div class="houses-strip" id="housesstrip"></div>
+      <div class="brand-strip"></div>
       <a class="lp-houses-all" href="fashion-directory" data-i18n="lp.houses_all">See the full directory →</a>
     </section>
 
@@ -1074,151 +948,6 @@
   <script src="js/i18n.js"></script>
   <script src="js/main.js"></script>
   <script src="js/estimator.js"></script>
-  <script src="js/style-profile.js"></script>
-  <script>
-    /* ---- Services reel: flips the static card stack into a scroll-snap
-       carousel that rotates on its own. Auto-advance is skipped entirely
-       under reduced motion (html.rm OR the OS preference, checked every
-       tick so mid-session toggles stop it), pauses on hover/touch/focus,
-       while the tab is hidden, and while the reel is off-screen. Cards are
-       plain <a>s — nothing intercepts their taps. ---- */
-    (function () {
-      var track = document.getElementById('lpReelTrack');
-      var dotsBox = document.getElementById('lpReelDots');
-      if (!track || !dotsBox) return;
-      var cards = Array.prototype.slice.call(track.children);
-      if (cards.length < 2) return;
-      track.classList.add('lp-reel-on');
-      dotsBox.hidden = false;
-
-      function rm() {
-        return document.documentElement.classList.contains('rm') ||
-          (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
-      }
-
-      var idx = 0, hover = false, focus = false, touchHold = null, inView = true;
-      var dots = cards.map(function (c, i) {
-        var d = document.createElement('button');
-        d.type = 'button'; d.className = 'lp-reel-dot';
-        var name = c.querySelector('.lp-reel-t');
-        d.setAttribute('aria-label', name ? name.textContent.trim() : ('' + (i + 1)));
-        d.addEventListener('click', function () { goTo(i); });
-        dotsBox.appendChild(d);
-        return d;
-      });
-
-      /* Arrows flank the dots — easier than dragging, on any device. */
-      var T = function (k, en) { return window.SS_T ? window.SS_T(k, en) : en; };
-      var nav = document.createElement('div');
-      nav.className = 'lp-reel-nav';
-      var prevB = document.createElement('button'), nextB = document.createElement('button');
-      prevB.type = nextB.type = 'button';
-      prevB.className = nextB.className = 'lp-reel-arrow';
-      prevB.textContent = '‹'; nextB.textContent = '›';
-      function labelArrows() {
-        prevB.setAttribute('aria-label', T('lp2.rprev', 'Previous service'));
-        nextB.setAttribute('aria-label', T('lp2.rnext', 'Next service'));
-      }
-      labelArrows();
-      prevB.addEventListener('click', function () { goTo(idx - 1); });
-      nextB.addEventListener('click', function () { goTo(idx + 1); });
-      dotsBox.parentNode.insertBefore(nav, dotsBox);
-      nav.appendChild(prevB); nav.appendChild(dotsBox); nav.appendChild(nextB);
-      dotsBox.hidden = false;
-
-      /* Mouse drag-to-scroll — trackpads and touch already scroll natively,
-         but a mouse can't drag a scroll container without this. */
-      var dragging = false, dragMoved = false, dragX = 0, dragStart = 0;
-      track.addEventListener('pointerdown', function (e) {
-        if (e.pointerType !== 'mouse' || e.button !== 0) return;
-        dragging = true; dragMoved = false; dragX = e.clientX; dragStart = track.scrollLeft;
-        track.classList.add('is-dragging');
-        try { track.setPointerCapture(e.pointerId); } catch (err) {}
-      });
-      track.addEventListener('pointermove', function (e) {
-        if (!dragging) return;
-        var dx = e.clientX - dragX;
-        if (Math.abs(dx) > 4) dragMoved = true;
-        track.scrollLeft = dragStart - dx;
-      });
-      function endDrag() {
-        if (!dragging) return;
-        dragging = false;
-        track.classList.remove('is-dragging');
-        if (dragMoved) {
-          var mid = track.scrollLeft + track.clientWidth / 2, best = 0, bd = Infinity;
-          cards.forEach(function (c, i) {
-            var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
-            if (d < bd) { bd = d; best = i; }
-          });
-          goTo(best);
-        }
-      }
-      track.addEventListener('pointerup', endDrag);
-      track.addEventListener('pointercancel', endDrag);
-      track.addEventListener('click', function (e) {
-        if (dragMoved) { dragMoved = false; e.preventDefault(); e.stopPropagation(); }
-      }, true);
-
-      function mark(i) {
-        idx = i;
-        dots.forEach(function (d, j) { d.setAttribute('aria-current', j === i ? 'true' : 'false'); });
-      }
-      function goTo(i) {
-        var n = cards.length;
-        i = ((i % n) + n) % n;
-        var c = cards[i];
-        track.scrollTo({ left: c.offsetLeft - (track.clientWidth - c.offsetWidth) / 2,
-                         behavior: rm() ? 'auto' : 'smooth' });
-        mark(i);
-      }
-
-      /* Dots follow manual swipes (rAF-throttled nearest-center). */
-      var raf = null;
-      track.addEventListener('scroll', function () {
-        if (raf) return;
-        raf = requestAnimationFrame(function () {
-          raf = null;
-          var mid = track.scrollLeft + track.clientWidth / 2;
-          var best = 0, bestDist = Infinity;
-          cards.forEach(function (c, i) {
-            var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
-            if (d < bestDist) { bestDist = d; best = i; }
-          });
-          if (best !== idx) mark(best);
-        });
-      }, { passive: true });
-
-      var reel = track.closest('.lp-reel') || track;
-      reel.addEventListener('pointerenter', function () { hover = true; });
-      reel.addEventListener('pointerleave', function () { hover = false; });
-      reel.addEventListener('focusin', function () { focus = true; });
-      reel.addEventListener('focusout', function () { focus = false; });
-      reel.addEventListener('touchstart', function () {
-        clearTimeout(touchHold);
-        touchHold = setTimeout(function () { touchHold = null; }, 8000); // linger after a touch
-      }, { passive: true });
-      if ('IntersectionObserver' in window) {
-        new IntersectionObserver(function (entries) { inView = entries[0].isIntersecting; },
-          { threshold: 0.35 }).observe(track);
-      }
-
-      setInterval(function () {
-        if (rm() || hover || focus || touchHold || dragging || !inView || document.hidden) return;
-        goTo(idx + 1);
-      }, 6500);
-
-      mark(0);
-      /* Language switch re-writes card text in place — refresh labels. */
-      document.addEventListener('ss:lang', function () {
-        labelArrows();
-        dots.forEach(function (d, i) {
-          var name = cards[i].querySelector('.lp-reel-t');
-          if (name) d.setAttribute('aria-label', name.textContent.trim());
-        });
-      });
-    })();
-  </script>
 
   <script>
     /* ---- Quick-estimate popup: reuses estimator.js CONFIG so pricing stays in one place ---- */
@@ -1227,7 +956,6 @@
       var overlay = document.getElementById('qeOverlay');
       if (!overlay || !C) return;
       var openBtn = document.getElementById('qeOpen');
-      var openCard = document.getElementById('qeOpenCard');
       var closeBtn = document.getElementById('qeClose');
       var budget = document.getElementById('qeBudget');
       var region = document.getElementById('qeRegion');
@@ -1238,19 +966,23 @@
       var dmBtn = document.getElementById('qeDM');
       var copied = document.getElementById('qeCopied');
 
-      var VND_PER_USD = C.fx.fallbackVndPerUsd, SPREAD = C.fx.spread;
+      /* The same charged rate the converter above prints: live when the FX peek
+         has loaded it (window.SS_FX_VND), static fallback otherwise. Read at
+         quote time, and used in BOTH directions — a stated $120 budget buys
+         $120 of clothes, and the fees are the only thing added on top. */
+      function R() { return window.SS_allInRate(window.SS_FX_VND || C.fx.fallbackVndPerUsd); }
       var IG_DM = 'https://ig.me/m/seraphicstyler';
       var regionLabels = {};
       Array.prototype.forEach.call(region.options, function (o) { regionLabels[o.value] = o.textContent; });
 
       function itemFee(vnd) { var f = C.fee; if (vnd <= 0) return 0; return Math.max(f.minFee, vnd <= f.midThreshold ? vnd * f.midRate : vnd * f.highRate); }
-      function vndToUsd(vnd) { return vnd / (VND_PER_USD * (1 - SPREAD)); }
+      function vndToUsd(vnd) { return vnd / R(); }
       function fmt(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
 
       function quote() {
         var usd = parseFloat((budget.value || '').replace(/[^0-9.]/g, ''));
         if (isNaN(usd) || usd <= 0) return null;
-        var itemVnd = usd * VND_PER_USD;
+        var itemVnd = usd * R();
         var zone = C.shipping[region.value] || C.shipping.us;
         var ship = bulky.checked ? zone.standard : zone.light;
         var nonShip = itemVnd + itemFee(itemVnd) + C.baseFee;
@@ -1274,14 +1006,29 @@
           '&estimate=' + encodeURIComponent(summaryText(q)) + '&source=links-qe';
       }
 
-      function openModal() { overlay.classList.add('open'); overlay.setAttribute('aria-hidden', 'false'); refresh(); setTimeout(function () { budget.focus(); }, 60); }
-      function closeModal() { overlay.classList.remove('open'); overlay.setAttribute('aria-hidden', 'true'); if (copied) copied.hidden = true; }
+      /* Focus is kept inside the dialog while it's open, and handed back to
+         whichever control opened it when it closes. */
+      var lastFocus = null;
+      function openModal() { lastFocus = document.activeElement; overlay.classList.add('open'); overlay.setAttribute('aria-hidden', 'false'); refresh(); setTimeout(function () { var f = overlay.querySelector('#qeStep0:not([hidden]) button') || (!budget.closest('[hidden]') && budget) || closeBtn; f.focus(); }, 60); }
+      function closeModal() {
+        overlay.classList.remove('open'); overlay.setAttribute('aria-hidden', 'true'); if (copied) copied.hidden = true;
+        if (lastFocus && lastFocus.focus) { try { lastFocus.focus(); } catch (e) {} }
+      }
 
       if (openBtn) openBtn.addEventListener('click', openModal);
-      if (openCard) openCard.addEventListener('click', openModal);
       if (closeBtn) closeBtn.addEventListener('click', closeModal);
       overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
-      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal(); });
+      document.addEventListener('keydown', function (e) {
+        if (!overlay.classList.contains('open')) return;
+        if (e.key === 'Escape') { closeModal(); return; }
+        if (e.key !== 'Tab') return;
+        var focusables = overlay.querySelectorAll('a[href], button:not([disabled]), input, select, [tabindex]:not([tabindex="-1"])');
+        var vis = Array.prototype.filter.call(focusables, function (f) { return f.offsetParent !== null; });
+        if (!vis.length) return;
+        var first = vis[0], last = vis[vis.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      });
       [budget, region, bulky].forEach(function (el) { el.addEventListener('input', refresh); el.addEventListener('change', refresh); });
 
       dmBtn.addEventListener('click', function () {
@@ -1291,32 +1038,13 @@
       });
     })();
 
-    /* ---- Live currency peek: same open.er-api.com feed as the estimator,
-       cached in sessionStorage for 6h, CONFIG fallback rate if offline. ---- */
+    /* ---- Live USD→VND rate for the quick-estimate popup: same feed and 6h
+       sessionStorage cache ('ss-fx') as the estimator page, so every page
+       quotes the same number. CONFIG's static rate stands in if offline. ---- */
     (function () {
-      var box = document.getElementById('lpFx');
-      if (!box || !window.CONFIG) return;
-      var amt = document.getElementById('lpFxAmt');
-      var cur = document.getElementById('lpFxCur');
-      var out = document.getElementById('lpFxOut');
-      var FALLBACK = { USD: 1, EUR: 0.92, GBP: 0.79, AUD: 1.5, CAD: 1.36, SGD: 1.34, JPY: 155, KRW: 1350, CNY: 7.2, THB: 36, AED: 3.67, INR: 83 };
-      var rates = null, vndPerUsd = window.CONFIG.fx.fallbackVndPerUsd;
-
-      function show() {
-        var a = parseFloat(amt.value);
-        if (isNaN(a) || a <= 0) { out.textContent = '≈ —'; return; }
-        var perUsd = rates ? (rates[cur.value] || FALLBACK[cur.value] || 1) : (FALLBACK[cur.value] || 1);
-        /* Same conservative buffer as the estimator (CONFIG.fx.spread) so the
-           peek is never rosier than the real quote. */
-        var vnd = (a / perUsd) * vndPerUsd * (1 - window.CONFIG.fx.spread);
-        out.textContent = '≈ ' + Math.round(vnd).toLocaleString('en-US') + '₫';
-      }
-
-      function ready(d) {
-        if (d && d.rates && d.rates.VND) { rates = d.rates; vndPerUsd = d.rates.VND; }
-        box.hidden = false;
-        show();
-      }
+      if (!window.CONFIG) return;
+      function ready(d) { if (d && d.rates && d.rates.VND) window.SS_FX_VND = d.rates.VND; }
+      function store(d) { try { sessionStorage.setItem('ss-fx', JSON.stringify({ t: Date.now(), d: d })); } catch (e) {} }
       try {
         var c = JSON.parse(sessionStorage.getItem('ss-fx') || 'null');
         if (c && c.t && (Date.now() - c.t) < 216e5) { ready(c.d); }
@@ -1324,14 +1052,23 @@
           fetch('https://open.er-api.com/v6/latest/USD')
             .then(function (r) { return r.json(); })
             .then(function (d) {
-              try { sessionStorage.setItem('ss-fx', JSON.stringify({ t: Date.now(), d: { rates: d.rates } })); } catch (e) {}
+              if (!d || !d.rates || !d.rates.VND) throw new Error('no VND');
+              store({ rates: d.rates });
               ready(d);
             })
-            .catch(function () { ready(null); });
+            .catch(function () {
+              fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.min.json')
+                .then(function (r) { return r.json(); })
+                .then(function (d) {
+                  var src = d && d.usd; if (!src) throw new Error('no data');
+                  var up = {}; for (var k in src) up[k.toUpperCase()] = src[k];
+                  store({ rates: up });
+                  ready({ rates: up });
+                })
+                .catch(function () {});
+            });
         }
-      } catch (e) { ready(null); }
-      amt.addEventListener('input', show);
-      cur.addEventListener('change', show);
+      } catch (e) {}
     })();
 
     /* ---- Quick-estimate router: one question, then the right tool.
@@ -1386,188 +1123,6 @@
     }, { passive: true });
   </script>
 
-  <!-- ===== Aurora background (vanilla port of @react-bits/Aurora, ogl/WebGL) =====
-       Iridescent full-viewport aurora behind the whole page. Skipped in mono /
-       high-contrast / reduced-motion (those modes hide .aurora-bg via CSS, and we
-       also bail here so no WebGL context is created). ogl UMD global from the
-       local vendor bundle — same as 404.html, no CDN request. -->
-  <script src="js/vendor/ogl.umd.js"></script>
-  <script type="module">
-    var ctn = document.getElementById('auroraBg');
-    var root = document.documentElement;
-    var skip = root.classList.contains('mono') || root.classList.contains('hc') || root.classList.contains('rm') ||
-      (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-    if (ctn && !skip) {
-      try {
-        var ogl = window.ogl;
-        var Renderer = ogl.Renderer, Program = ogl.Program, Mesh = ogl.Mesh, Color = ogl.Color, Triangle = ogl.Triangle;
-
-        var VERT = '#version 300 es\nin vec2 position;\nvoid main() {\n  gl_Position = vec4(position, 0.0, 1.0);\n}\n';
-
-        var FRAG = `#version 300 es
-precision highp float;
-
-uniform float uTime;
-uniform float uAmplitude;
-uniform vec3 uColorStops[3];
-uniform vec2 uResolution;
-uniform float uBlend;
-
-out vec4 fragColor;
-
-vec3 permute(vec3 x) {
-  return mod(((x * 34.0) + 1.0) * x, 289.0);
-}
-
-float snoise(vec2 v){
-  const vec4 C = vec4(
-      0.211324865405187, 0.366025403784439,
-      -0.577350269189626, 0.024390243902439
-  );
-  vec2 i  = floor(v + dot(v, C.yy));
-  vec2 x0 = v - i + dot(i, C.xx);
-  vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
-  vec4 x12 = x0.xyxy + C.xxzz;
-  x12.xy -= i1;
-  i = mod(i, 289.0);
-
-  vec3 p = permute(
-      permute(i.y + vec3(0.0, i1.y, 1.0))
-    + i.x + vec3(0.0, i1.x, 1.0)
-  );
-
-  vec3 m = max(
-      0.5 - vec3(
-          dot(x0, x0),
-          dot(x12.xy, x12.xy),
-          dot(x12.zw, x12.zw)
-      ),
-      0.0
-  );
-  m = m * m;
-  m = m * m;
-
-  vec3 x = 2.0 * fract(p * C.www) - 1.0;
-  vec3 h = abs(x) - 0.5;
-  vec3 ox = floor(x + 0.5);
-  vec3 a0 = x - ox;
-  m *= 1.79284291400159 - 0.85373472095314 * (a0*a0 + h*h);
-
-  vec3 g;
-  g.x  = a0.x  * x0.x  + h.x  * x0.y;
-  g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-  return 130.0 * dot(m, g);
-}
-
-struct ColorStop {
-  vec3 color;
-  float position;
-};
-
-#define COLOR_RAMP(colors, factor, finalColor) {              \\
-  int index = 0;                                            \\
-  for (int i = 0; i < 2; i++) {                               \\
-     ColorStop currentColor = colors[i];                    \\
-     bool isInBetween = currentColor.position <= factor;    \\
-     index = int(mix(float(index), float(i), float(isInBetween))); \\
-  }                                                         \\
-  ColorStop currentColor = colors[index];                   \\
-  ColorStop nextColor = colors[index + 1];                  \\
-  float range = nextColor.position - currentColor.position; \\
-  float lerpFactor = (factor - currentColor.position) / range; \\
-  finalColor = mix(currentColor.color, nextColor.color, lerpFactor); \\
-}
-
-void main() {
-  vec2 uv = gl_FragCoord.xy / uResolution;
-
-  ColorStop colors[3];
-  colors[0] = ColorStop(uColorStops[0], 0.0);
-  colors[1] = ColorStop(uColorStops[1], 0.5);
-  colors[2] = ColorStop(uColorStops[2], 1.0);
-
-  vec3 rampColor;
-  COLOR_RAMP(colors, uv.x, rampColor);
-
-  float height = snoise(vec2(uv.x * 2.0 + uTime * 0.1, uTime * 0.25)) * 0.5 * uAmplitude;
-  height = exp(height);
-  height = (uv.y * 2.0 - height + 0.2);
-  float intensity = 0.6 * height;
-
-  float midPoint = 0.20;
-  float auroraAlpha = smoothstep(midPoint - uBlend * 0.5, midPoint + uBlend * 0.5, intensity);
-
-  vec3 auroraColor = intensity * rampColor;
-
-  fragColor = vec4(auroraColor * auroraAlpha, auroraAlpha);
-}
-`;
-
-        // Requested configuration
-        var P = { colorStops: ['#c9b6e8', '#233a72', '#cf9bb4'], blend: 0.67, amplitude: 1.0, speed: 1.1 };
-
-        function toRGB(hex) { var c = new Color(hex); return [c.r, c.g, c.b]; }
-
-        var renderer = new Renderer({ alpha: true, premultipliedAlpha: true, antialias: true });
-        var gl = renderer.gl;
-        gl.clearColor(0, 0, 0, 0);
-        gl.enable(gl.BLEND);
-        gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-        gl.canvas.style.backgroundColor = 'transparent';
-
-        var geometry = new Triangle(gl);
-        if (geometry.attributes.uv) delete geometry.attributes.uv;
-
-        var program = new Program(gl, {
-          vertex: VERT,
-          fragment: FRAG,
-          uniforms: {
-            uTime: { value: 0 },
-            uAmplitude: { value: P.amplitude },
-            uColorStops: { value: P.colorStops.map(toRGB) },
-            uResolution: { value: [ctn.offsetWidth, ctn.offsetHeight] },
-            uBlend: { value: P.blend }
-          }
-        });
-
-        var mesh = new Mesh(gl, { geometry: geometry, program: program });
-        ctn.appendChild(gl.canvas);
-
-        function resize() {
-          renderer.setSize(ctn.offsetWidth, ctn.offsetHeight);
-          program.uniforms.uResolution.value = [ctn.offsetWidth, ctn.offsetHeight];
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        var animateId = 0;
-        function update(t) {
-          animateId = requestAnimationFrame(update);
-          var time = t * 0.01;
-          program.uniforms.uTime.value = time * P.speed * 0.1;
-          renderer.render({ scene: mesh });
-        }
-        animateId = requestAnimationFrame(update);
-
-        // Pause the loop while the tab is hidden to save the battery.
-        document.addEventListener('visibilitychange', function () {
-          if (document.hidden) { cancelAnimationFrame(animateId); }
-          else { animateId = requestAnimationFrame(update); }
-        });
-      } catch (e) { /* WebGL/CDN unavailable — the existing gradient background remains */ }
-    }
-  </script>
-  <script>
-const ICONS={"11 Garmentory":"icons/11 Garmentory.jpg","18 Again":"icons/18 Again.jpg","1998 Before The Dawn":"icons/1998beforethedawn.png","Aeva Atelier":"icons/AEVA Atelier.jpg","Aguja Studio":"icons/Aguja Studio.jpg","Aimee":"icons/Aimee.jpg","Aisytum":"icons/Aisytum.jpg","AME Jewellery":"icons/AME Jewellery.jpg","Amory":"icons/Amory.jpg","Ananas":"icons/Ananas.jpg","Anna Clothes":"icons/Anna Clothes.jpg","Arya":"icons/Arya.jpg","Augety":"icons/Augety.jpg","BaaBeeBoo":"icons/BaaBeeBoo.jpg","Babie Club":"icons/Babie Club.jpg","Badchoices":"icons/Bad Choices.webp","Brown VN":"icons/Brown.png","Bubble":"icons/Bubble.jpg","Bupbes":"icons/Bupbes.png","By Cotno":"icons/By Cotno.jpg","By Fairy":"icons/By Fairy.jpg","By Vee":"icons/By Vee.jpg","caleélilou":"icons/caleelilou.jpg","Calista de Minh Thanh":"icons/Calista de Minh Thanh.png","Cao Minh Saigon":"icons/Cao Minh Saigon.png","CAOSTU":"icons/CAOSTU.jpg","CE CE":"icons/Ce Ce.jpg","CEM — Chị Em Mình":"icons/CEM - Chi Em Minh.jpg","Chan Club":"icons/Chan Club.jpg","CHATS by C.DAM":"icons/Chats by C.Dam.jpg","Chautfifth":"icons/Chautfifth.jpg","Chérieon":"icons/Cherieon.webp","Chou Chou":"icons/Chou Chou.png","Chung Thanh Phong":"icons/Chung Thanh Phong.jpg","Clothes Bar":"icons/Clothes Bar.jpg","Cocosin":"icons/Cocosin.jpg","Curnon":"icons/Curnon.jpg","Daniv Dear":"icons/Daniv Dear.jpg","Daphale Studios":"icons/427607833_358377757122119_2907036623528799797_n.jpg","Dawn Vintage":"icons/Dawn.png","De Pure":"icons/De Pure.jpg","Depass":"icons/Depass.png","Dimo":"icons/Dimo.jpg","Đỗ Long":"icons/Do Long.jpg","Dòng Dòng Sài Gòn":"icons/Dong Dong Sai Gon.jpg","Dune De Label":"icons/Dune De Label.jpg","Duu Stu":"icons/Duu Stu.jpg","Elena NGN":"icons/Elena NGN.jpg","Enuff Studio":"icons/Enuff Studio.jpg","EQL Apparel":"icons/EQL Apparel .jpg","Fancì Club":"icons/Fanci Club.jpg","Feiin Atelier":"icons/Feiin Atelier.jpg","Firefly Studio":"icons/Firefly Studio.jpg","Fitme":"icons/Fitme .jpg","Floralpunk":"icons/Floralpunk.jpg","Gèrme":"icons/Germe.jpg","GIA Studios":"icons/GIA Studios .jpg","Glamdoll":"icons/Glamdoll.png","Goût De Jun":"icons/Gout De Jun.webp","Guvie":"icons/Guvie.webp","Hà Linh Thu":"icons/Ha Linh Thu.jpg","Hangkao Closet":"icons/Hangkao Closet.jpg","Hapas":"icons/Hapas.jpg","Happy Hahaha Studio":"icons/Happy Hahaha Studio.jpg","Hello Weekend Market":"icons/Hello Weekend Market.jpg","Her Day Off":"icons/Her Day Off.jpg","Hoang Studios":"icons/Hoang Studios.jpg","Huelley":"icons/Huelley.jpg","Huelley Rose":"icons/Huelley Rose.jpg","Is Flourish":"icons/Is Flourish.jpg","IVY moda":"icons/IVY moda.jpg","Jenéa by Jenny":"icons/Jenea by Jenny.jpg","Jennie Choo":"icons/Jennie Choo.jpg","Josephine":"icons/Josephine.png","Josephine (Hanoi)":"icons/Josephine (Hanoi).jpg","Joven":"icons/Joven.jpg","Jubin Studio":"icons/Jubin Studio.jpg","Jujubae":"icons/Jujubae.jpg","Jula":"icons/Jula.png","Juno":"icons/Juno.jpg","Kae":"icons/Kae.jpg","Kaiiros":"icons/Kaiiros.jpg","Katherine Studio":"icons/Katherine Studio.jpg","Kathy Atelier":"icons/Kathy Atelier.jpeg","Keira Tong":"icons/Keira Tong.jpg","Kistiny":"icons/Kistiny.jpg","L'Espoir":"icons/L'Espoir.jpg","La Phạm":"icons/La Pham.jpg","La Vierge":"icons/la Vierge.jpg","Lace Lingerie Lover":"icons/Lace Lingerie Lover .webp","LaLune":"icons/LaLune.png","Laneci":"icons/Laneci.jpg","LAVIEM":"icons/Laviem.jpg","Le Thanh Hoa":"icons/Le Thanh Hoa .jpg","Levents":"icons/Levents.png","LI LAM / LAM":"icons/LI LAM LAM.jpg","Libé":"icons/Libe.jpg","Linh Nga Couture":"icons/Linh Nga Couture.jpg","Lovelyn":"icons/Lovelyn.jpg","LSOUL":"icons/LSOUL.jpg","Lụa Là by Diễm":"icons/Lua La by Diem.jpg","Lussera":"icons/Lussera.jpg","Mael Femme":"icons/Mael Femme.jpg","Mangata":"icons/Mangata.jpg","Matemade":"icons/Mate Made.jpg","Metiseko":"icons/Metiseko.jpg","Miah Noir":"icons/miah.noir.jpg","Mimilys":"icons/Mimilys.jpg","Minh Tuan Couture":"icons/Minh Tuan Couture.jpg","Mira Emb":"icons/Mira Emb.jpg","Mood Emode":"icons/Mood Emode.jpg","Moodswings":"icons/Moodswings.jpg","Moon Me":"icons/Moon Me.jpg","Mooris":"icons/Mooris.jpg","Morris":"icons/Morris.jpg","Moulin Rose":"icons/Moulin Rose.jpg","Nguyễn Hoàng Tú":"icons/Nguyen Hoang Tu.jpg","Nosbyn":"icons/Nosbyn.jpg","Nosbyn Studio":"icons/Nosbyn Studio.jpg","OAK — Wear of a Kind":"icons/OAK.jpg","OCÉARA":"icons/OCEARA.jpg","Olaben":"icons/Olaben.jpg","OLV":"icons/OLV.png","OnOnMM ®":"icons/OnOnMM.jpg","ONWAYS":"icons/ONWAYS.jpg","Perpearl":"icons/Per Pearl.png","Phan Đăng Hoàng":"icons/Phan Dang Hoang.jpg","Phan Huy":"icons/Phan Huy .jpg","Pomelo Flower":"icons/Pomelo Flower.jpg","Poppy Babi":"icons/Poppy Babi.jpg","Punch":"icons/Punch.jpg","REBN":"icons/REBN Official.jpg","Rêver":"icons/REVER.jpg","Rid Kid Closet":"icons/Rid Kid Closet.jpg","Rosie":"icons/Rosie.jpg","Rue Des Chats":"icons/Rue Des Chats.jpg","Rue Miche L'Édition":"icons/Rue Miche L'Édition.jpg","Sassy Sis":"icons/Sassy Sis.png","SEESON":"icons/SEESON.jpg","Sensore":"icons/Sensore.jpg","Shimmer Silver":"icons/Shimmer Silver.jpg","Shondo":"icons/Shondo.jpg","Shu Shi":"icons/Shu Shi.jpg","Sister Sister by Min":"icons/Sister Sister by Min.jpg","SIXDO":"icons/SIXDO .jpg","So Dópe Club":"icons/So Dope Club.jpg","Sò Vintage":"icons/So Vintage.jpg","Some Official":"icons/Some Official.jpg","Sonancy Mood":"icons/So Nancy Mood.webp","Stress Mama":"icons/Stress Mama.jpg","Striped T":"icons/Striped T.jpg","Subtle Le Nguyen":"icons/Subtle Le Nguyen.jpg","Sundei":"icons/Sundei.jpg","Swessy":"icons/Swessy.jpg","Szombies":"icons/Szombies.jpg","Tartan Studios":"icons/Tartan Studios.png","Teddy And":"icons/Teddy And.jpg","Thao Bibi":"icons/Thao Bibi .jpg","The Country Boutiques":"icons/The Country Boutiques .jpg","The Fancé":"icons/The Fance.webp","The New Playground":"icons/The New Playground.jpg","The Nicolette House":"icons/The Nicolette House.jpg","The Purists Club":"icons/The Purists Club.jpg","Tiela":"icons/Tiela.png","Trần Hùng":"icons/Tran Hung.jpg","Valenciani":"icons/Valenciani.jpg","Vanila Gals":"icons/Vanila Gals.jpg","Vascara":"icons/Vascara.jpg","Velia Co":"icons/Velia Co.jpg","Velvet Venom":"icons/Velvet Venom.png","Veos":"icons/Veos.jpg","Vintage Angel Tailor":"icons/Vintage Angel.jpg","VUNGOC&SON":"icons/VUNGOC&SON.jpg","Wabitales":"icons/WabiTales.jpg","Wephobia":"icons/Wephobia.png","Whenever Atelier":"icons/Where Atelier.png","Whose Studio":"icons/Whose Studio.webp","Xinh Hà":"icons/Xinh Ha.jpg"};  (function(){
-    const strip=document.getElementById("housesstrip");if(!strip)return;
-    const keys=Object.keys(ICONS).filter(n=>n!=="Huelley");
-    for(let i=keys.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[keys[i],keys[j]]=[keys[j],keys[i]];}
-    const pick=keys.slice(0,12);
-    const tile=n=>`<a class="hbtn" href="fashion-directory#q=${encodeURIComponent(n)}" aria-label="${n}"><img src="${encodeURI(ICONS[n])}" alt="" width="56" height="56" loading="lazy" decoding="async"></a>`;
-    const row=(names,rev)=>{const grp=names.map(tile).join("");return `<div class="hrow${rev?" rev":""}"><div class="hgrp">${grp}</div><div class="hgrp" aria-hidden="true">${grp.replace(/<a /g,'<a tabindex="-1" ')}</div></div>`;};
-    strip.innerHTML=row(pick);
-  })();
-  </script>
   <script src="js/discover-brand.js"></script>
   <!-- Flight promo: a live count, so the deadline is never stale -->
   <script>

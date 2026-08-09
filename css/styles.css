@@ -180,6 +180,32 @@ a { color: inherit; text-decoration: none; }
 section[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
 
 ::selection { background: var(--highlight); color: var(--text-primary); }
+html.dark ::selection { background: rgba(138,147,222,0.4); color: var(--text-primary); }
+
+/* ---- Pastel phrase highlight ----
+   A breath of aurora behind a key phrase — quiet in light, dark and mono;
+   high-contrast trades the wash for a plain underline. Wraps cleanly
+   across lines via box-decoration-break. */
+mark.hl {
+  background: linear-gradient(104deg,
+    color-mix(in srgb, var(--periwinkle) 24%, transparent) 0%,
+    color-mix(in srgb, var(--lav-mist) 32%, transparent) 55%,
+    color-mix(in srgb, var(--orchid) 22%, transparent) 100%);
+  color: inherit;
+  border-radius: 0.4em;
+  padding: 0.06em 0.26em; margin: 0 -0.06em;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+html.dark mark.hl {
+  background: linear-gradient(104deg, rgba(138,147,222,0.26) 0%, rgba(201,182,232,0.18) 55%, rgba(201,143,196,0.22) 100%);
+  color: var(--text-primary);
+}
+html.mono mark.hl { background: color-mix(in srgb, var(--highlight) 55%, transparent); color: inherit; }
+html.hc mark.hl {
+  background: none; padding: 0; margin: 0; border-radius: 0;
+  text-decoration: underline; text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px; text-underline-offset: 3px; color: inherit;
+}
 
 /* ---- Celestial base + soft lavender wash ---- */
 body {
@@ -252,8 +278,12 @@ html.dark .hero::before, html.dark .hero::after {
   color: #d4e8ff; text-shadow: 0 0 8px #bcdcff, 0 0 22px rgba(110,170,255,0.9), 0 0 46px rgba(60,120,240,0.7);
 }
 
-/* ---- Angelic halo headings (white + luminous glow) ---- */
-.hero h1, .section-head h2 { color: var(--text-primary); text-shadow: var(--halo); }
+/* ---- Angelic halo headings (white + luminous glow) ----
+   The hero keeps the full halo; section headlines take a whisper of it —
+   the heavy smear behind every h2 read as blur, not glow. */
+.hero h1 { color: var(--text-primary); text-shadow: var(--halo); }
+.section-head h2 { color: var(--text-primary); text-shadow: 0 0 22px rgba(255,255,255,0.4); }
+html.dark .section-head h2 { text-shadow: 0 0 24px rgba(169,184,238,0.22); }
 .hero { position: relative; overflow: hidden; }
 .hero::before, .hero::after { content: '✦'; position: absolute; color: #fff; text-shadow: var(--halo); pointer-events: none; opacity: 0.9; z-index: 1; animation: twinkle 4.5s ease-in-out infinite; }
 .hero::before { top: 13%; left: 15%; font-size: 1.5rem; }
@@ -340,6 +370,17 @@ html.hc .section-head h2::first-letter, html.mono .section-head h2::first-letter
   font-family: var(--font-accent); font-weight: 500; font-size: 0.75rem; letter-spacing: 0.25em;
   text-transform: uppercase; color: var(--text-secondary);
 }
+/* Section eyebrows sit in a quiet pill — a chip above the headline, not a stray
+   caption. Themes inherit through the tokens. */
+.section-head .eyebrow {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0.48rem 1.05rem; border-radius: 999px;
+  border: 1px solid var(--surface-border);
+  background: color-mix(in srgb, var(--surface-solid) 60%, transparent);
+  color: var(--eyebrow-ink); font-size: 0.66rem; letter-spacing: 0.22em;
+  box-shadow: 0 10px 24px -18px rgba(46,71,115,0.5);
+}
+html.dark .section-head .eyebrow { color: var(--text-secondary); }
 .lead { font-family: var(--font-body); font-weight: 400; font-size: clamp(1.05rem, 2vw, 1.2rem);
   line-height: 1.6; color: var(--text-secondary); max-width: 46ch; }
 .muted { color: var(--text-secondary); }
@@ -462,15 +503,14 @@ html.rm .vq-pop { animation: none; }
 
 .narrow { max-width: var(--maxw-narrow); margin-left: auto; margin-right: auto; }
 
-/* section header: eyebrow -> thin h2 -> hairline rule with far-right index */
-.section-head { margin-bottom: clamp(2.5rem, 6vw, 4rem); }
-section:not(#hero) .section-head { border-bottom: 1px solid var(--surface-border); padding-bottom: clamp(0.9rem, 2vw, 1.3rem); }
-/* One hairline between a section head and its first block — never two. */
-.section-head + .rows,
-.section-head + .steps,
-.section-head + .jl-track { border-top: 0; }
-#details .acc:first-of-type { border-top: 0; } /* first accordion sits inside a .reveal wrapper */
+/* section header — one rhythm everywhere (the "Process" pattern):
+   pill eyebrow -> headline -> short centred lead. No hairline under the head;
+   the first content block draws its own rule where it needs one. */
+.section-head { margin-bottom: clamp(2.2rem, 5vw, 3.4rem); text-align: center; }
 .section-head.center { text-align: center; }
+.section-head h2 { margin-top: 0.85rem; }
+/* the lead that follows a head joins the same centred column */
+.section-head + .lead { margin-left: auto; margin-right: auto; text-align: center; }
 
 /* ---- Navigation (in-page anchors) ---- */
 .nav {
@@ -725,7 +765,7 @@ html.rm .a11y-wrap { animation: none; opacity: 1; }
 html.rm .a11y-panel.open { animation: none; }
 .a11y-head { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0 0.75rem; }
 .a11y-eyebrow { font-family: var(--font-accent); font-weight: 600; font-size: 0.64rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--text-secondary); }
-.a11y-close { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 999px; border: 1px solid var(--surface-border); background: transparent; color: var(--text-secondary); cursor: pointer; font-size: 0.8rem; line-height: 1; transition: background 0.2s ease, color 0.2s ease; }
+.a11y-close { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 999px; border: 1px solid var(--surface-border); background: transparent; color: var(--text-secondary); cursor: pointer; font-size: 0.8rem; line-height: 1; transition: background 0.2s ease, color 0.2s ease; }
 .a11y-close:hover { background: var(--accent-soft); color: var(--text-primary); }
 .a11y-panel .a11y-h { font-family: var(--font-accent); font-weight: 500; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); margin: 0; flex: 0 0 auto; }
 .a11y-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; row-gap: 0.55rem; padding: 0.78rem 0; }
@@ -756,7 +796,7 @@ html.rm .a11y-panel.open { animation: none; }
 .seg button { flex: 1 1 auto; min-width: 0; min-height: 44px; border: none; border-radius: 0; padding: 0.45rem 0.5rem; font-size: 0.74rem; background: transparent; white-space: nowrap; }
 .seg button + button { border-left: 1px solid var(--surface-border); }
 .seg button.on { background: var(--accent); color: var(--cta-text); }
-.switch { min-width: 3.3rem; text-align: center; letter-spacing: 0.08em; transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
+.switch { min-width: 3.3rem; min-height: 44px; text-align: center; letter-spacing: 0.08em; transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
 .switch.on { background: var(--accent); color: var(--cta-text); border-color: var(--accent); }
 .a11y-panel select:focus-visible, .seg button:focus-visible, .switch:focus-visible, .a11y-close:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 2px; }
 
@@ -857,12 +897,19 @@ html[dir="rtl"] .svc-for, html[dir="rtl"] .svc-desc, html[dir="rtl"] .svc-facts 
 .svc-cta:hover, .svc-cta:focus-visible { color: var(--accent-deep); border-bottom-color: var(--surface-border); }
 html[dir="rtl"] .svc-cta::after { content: " \2190"; } /* arrow points the reading direction */
 
-/* ---- Pricing tiers ---- */
-.tiers { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
-@media (max-width: 720px) { .tiers { grid-template-columns: 1fr; } }
-.tier { text-align: center; padding: 1.6rem; border: 1px solid var(--surface-border); border-radius: var(--card-radius); }
-.tier .range { font-family: var(--font-accent); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); }
-.tier .fee { font-family: var(--font-display); font-weight: 300; font-size: 2.6rem; color: var(--accent); margin: 0.4rem 0; font-variant-numeric: tabular-nums; }
+/* ---- Pricing tiers — a quiet ledger, not three shouting cards.
+   One bordered panel, one hairline row per rate: label + note left,
+   the figure right. Reads like the fee table it actually is. ---- */
+.tiers { display: grid; grid-template-columns: 1fr; gap: 0; max-width: 40rem; margin-inline: auto;
+  border: 1px solid var(--surface-border); border-radius: var(--card-radius); overflow: hidden;
+  background: color-mix(in srgb, var(--surface-solid) 72%, transparent); }
+.tier { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center;
+  column-gap: 1.2rem; text-align: left; padding: 1.05rem 1.35rem; border: 0; border-radius: 0; }
+.tier + .tier { border-top: 1px solid var(--surface-border); }
+.tier .range { font-family: var(--font-accent); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-primary); }
+.tier .muted { grid-column: 1; font-size: 0.8rem; margin: 0.15rem 0 0; }
+.tier .fee { grid-column: 2; grid-row: 1 / span 2; font-family: var(--font-display); font-weight: 300;
+  font-size: 1.85rem; color: var(--accent); margin: 0; font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 /* ---- Glass + tables (reserved for estimator + shipping table) ---- */
 .glass {
@@ -873,7 +920,7 @@ html[dir="rtl"] .svc-cta::after { content: " \2190"; } /* arrow points the readi
   box-shadow: 0 20px 50px -22px rgba(70,110,170,0.30), inset 0 1px 0 rgba(255,255,255,0.6);
 }
 html.dark .glass { border-color: rgba(255,255,255,0.12); box-shadow: 0 20px 50px -22px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06); }
-.tier, .gift-card { backdrop-filter: blur(var(--glass-blur)) saturate(140%); -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%); }
+.tiers, .gift-card { backdrop-filter: blur(var(--glass-blur)) saturate(140%); -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%); }
 .card { padding: clamp(1.4rem, 3vw, 2rem); }
 .table-wrap { overflow-x: auto; border-radius: var(--card-radius); }
 .table { width: 100%; border-collapse: collapse; font-size: 0.94rem; }
@@ -1074,18 +1121,57 @@ html.dark .linkhub .avatar img { filter: brightness(1.9) saturate(0.85); }
 .hero .scroll-cue.reveal { transition-delay: 0.48s; }
 html.rm .hero .reveal { transition-delay: 0s; }
 
-/* ---- Gift styling cards ---- */
-.gift-card { position: relative; padding: 2.2rem 2rem; border: 1px solid var(--surface-border); border-radius: var(--card-radius); background: var(--surface); display: flex; flex-direction: column; transition: border-color 0.4s ease; }
-.gift-card:hover { border-color: var(--text-primary); }
-.gift-card.featured { border-color: var(--text-primary); box-shadow: none; }
-.gift-card h3 { margin-bottom: 0.3rem; }
-.gift-card .gift-price { font-family: var(--font-display); font-weight: 300; font-size: 2rem; color: var(--accent); margin: 0.1rem 0 0.7rem; font-variant-numeric: tabular-nums; line-height: 1.1; }
-.gift-card .gift-price .vnd { display: block; font-family: var(--font-accent); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: none; color: var(--text-secondary); margin-top: 0.2rem; }
+/* ---- Gift styling cards — a clean pane on an aurora wash.
+   Structure per slide: eyebrow ("for whom") · tier name · price · a small
+   fact ledger (fee / credit / arrives / begins with) · one soft lead · CTA.
+   The ledger rows carry tiny pastel chips, one hue per fact, so the four
+   slides read as one system. ---- */
+.gift-card { position: relative; padding: 1.9rem 1.7rem 1.7rem; border: 1px solid var(--surface-border); border-radius: var(--card-radius);
+  background: color-mix(in srgb, var(--surface-solid) 82%, transparent);
+  box-shadow: 0 26px 54px -40px rgba(46,71,115,0.45);
+  display: flex; flex-direction: column; transition: border-color 0.4s ease; }
+html.dark .gift-card { box-shadow: 0 26px 54px -40px rgba(0,0,0,0.6); }
+.gift-card:hover { border-color: var(--accent); }
+.gift-card.featured { border-color: var(--accent); box-shadow: 0 30px 60px -38px rgba(46,84,173,0.5); }
+.gift-card h3 { margin-bottom: 0.15rem; font-size: 1.35rem; }
+.gift-card .gift-price { font-family: var(--font-display); font-weight: 300; font-size: 2.1rem; color: var(--accent); margin: 0.15rem 0 1rem; font-variant-numeric: tabular-nums; line-height: 1.1; display: flex; align-items: baseline; gap: 0.55rem; flex-wrap: wrap; }
+.gift-card .gift-price .vnd { font-family: var(--font-accent); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: none; color: var(--text-secondary); }
+/* the fact ledger */
+.gift-facts { list-style: none; margin: 0 0 1.05rem; padding: 0.95rem 0 0; border-top: 1px solid var(--surface-border);
+  display: grid; gap: 0.55rem; }
+.gift-facts li { display: grid; grid-template-columns: auto auto minmax(0,1fr); align-items: center; column-gap: 0.6rem; min-height: 24px; }
+.gf-ic { width: 23px; height: 23px; border-radius: 7px; display: grid; place-items: center; color: var(--text-primary); }
+.gf-ic svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.gf-ic-fee    { background: color-mix(in srgb, var(--periwinkle) 24%, transparent); }
+.gf-ic-credit { background: color-mix(in srgb, var(--orchid) 22%, transparent); }
+.gf-ic-arrive { background: color-mix(in srgb, var(--lav-mist) 32%, transparent); }
+.gf-ic-begin  { background: color-mix(in srgb, var(--mauve) 24%, transparent); }
+html.dark .gf-ic { color: var(--text-primary); }
+html.dark .gf-ic-fee    { background: rgba(138,147,222,0.22); }
+html.dark .gf-ic-credit { background: rgba(201,143,196,0.20); }
+html.dark .gf-ic-arrive { background: rgba(201,182,232,0.18); }
+html.dark .gf-ic-begin  { background: rgba(207,155,180,0.20); }
+html.mono .gf-ic, html.hc .gf-ic { background: var(--accent-soft); }
+.gift-facts .gf-k { font-family: var(--font-accent); font-size: 0.64rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); }
+.gift-facts .gf-v { font-size: 0.85rem; font-weight: 500; color: var(--text-primary); text-align: right; line-height: 1.35; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.gift-facts .gf-v .gf-sub { display: block; font-weight: 400; font-size: 0.68rem; letter-spacing: 0.03em; color: var(--text-secondary); }
 .gift-card .body { color: var(--text-secondary); font-size: 0.92rem; flex: 1; }
 .gift-card .gift-lead { font-weight: 600; color: var(--text-primary); margin: 0 0 0.55rem; font-size: 0.92rem; line-height: 1.4; }
 .gift-card .gift-points { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.42rem; }
-.gift-card .gift-points li { position: relative; padding-left: 1rem; font-size: 0.86rem; line-height: 1.45; }
+.gift-card .gift-points li { position: relative; padding-left: 1rem; font-size: 0.84rem; line-height: 1.5; }
 .gift-card .gift-points li::before { content: ""; position: absolute; left: 0.1rem; top: 0.55em; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+/* aurora wash behind the carousel — the pastel field the panes float on */
+.gcar-viewport::before { content: ""; position: absolute; inset: 6% 10%; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(58% 54% at 38% 42%, rgba(201,182,232,0.4), transparent 72%),
+    radial-gradient(52% 50% at 66% 58%, rgba(138,147,222,0.26), transparent 74%),
+    radial-gradient(44% 46% at 55% 32%, rgba(207,155,180,0.2), transparent 76%);
+  filter: blur(26px); }
+html.dark .gcar-viewport::before { background:
+    radial-gradient(58% 54% at 38% 42%, rgba(74,92,170,0.32), transparent 72%),
+    radial-gradient(52% 50% at 66% 58%, rgba(120,90,150,0.2), transparent 74%);
+  filter: blur(30px); }
+html.hc .gcar-viewport::before, html.mono .gcar-viewport::before { display: none; }
 /* Gift support copy — one center axis, separated content groups */
 .gift-support { display: grid; justify-items: center; row-gap: 1rem; max-width: 46rem; margin: 1.75rem auto 0; text-align: center; }
 .gift-support > p { max-width: 56ch; margin: 0; }
@@ -1097,8 +1183,8 @@ html.rm .hero .reveal { transition-delay: 0s; }
 .gift-price .gift-amt { font: inherit; color: inherit; }
 @media (max-width: 640px) { .gift-support__actions { flex-direction: column; } .gift-support__dot { display: none; } }
 .gift-card .btn { margin-top: 1.1rem; }
-.gift-card .gift-split { font-family: var(--font-accent); font-size: 0.72rem; letter-spacing: 0.05em; color: var(--text-secondary); margin: -0.2rem 0 0.75rem; }
-.gift-card .gift-for { font-family: var(--font-accent); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-deep); margin: -0.35rem 0 0.7rem; }
+.gift-card .gift-for { font-family: var(--font-accent); font-size: 0.64rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--eyebrow-ink); margin: 0 0 0.55rem; }
+html.dark .gift-card .gift-for { color: var(--text-secondary); }
 .gift-link { color: var(--accent-deep); border-bottom: 1px solid var(--surface-border); transition: border-color 0.2s ease; }
 .gift-link:hover { border-bottom-color: currentColor; }
 .gift-compare { max-width: 52rem; margin: 1.7rem auto 0; }
@@ -1548,7 +1634,7 @@ html.rm .faqlite-item, html.rm .faqlite-chev { transition: none; }
    =================================================================== */
 .section-head .eyebrow::before{content:"";display:inline-block;width:.85em;height:.85em;margin-right:.5em;
   vertical-align:-.05em;background:url(../assets/shapes/sparkle6.svg) center/contain no-repeat}
-.section-head.center .eyebrow::after{content:"";display:inline-block;width:.85em;height:.85em;margin-left:.5em;
+.section-head .eyebrow::after{content:"";display:inline-block;width:.85em;height:.85em;margin-left:.5em;
   vertical-align:-.05em;background:url(../assets/shapes/sparkle6.svg) center/contain no-repeat}
 
 /* keep the accessibility themes plain */
@@ -1682,7 +1768,7 @@ html.hc .brand-mark,html.hc .lp-brand-mark,html.mono .brand-mark,html.mono .lp-b
 .sp-card-head { text-align: center; display: grid; justify-items: center; gap: 0.15rem; }
 .sp-card-head .brand-mark { width: 34px; height: 34px; color: var(--accent-deep); }
 .sp-card-brand { font-family: var(--font-brand); text-transform: uppercase; letter-spacing: 0.28em; font-size: 0.74rem; color: var(--text-primary); padding-left: 0.28em; }
-.sp-card-kicker { font-family: var(--font-script); font-size: 1.35rem; line-height: 1.1; color: #9070c4; }
+.sp-card-kicker { font-family: var(--font-script); font-size: 1.35rem; line-height: 1.1; color: #75539f; }
 html.hc .sp-card-kicker, html.mono .sp-card-kicker { color: var(--text-primary); }
 .sp-card-title { font-family: var(--font-display); font-weight: 400; font-size: 1.35rem; line-height: 1.2; text-align: center; margin: 0.85rem 0 0.2rem; color: var(--text-primary); }
 .sp-card-tier { text-align: center; font-family: var(--font-accent); font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--eyebrow-ink); margin: 0 0 0.9rem; }

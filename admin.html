@@ -110,6 +110,10 @@
   //    Stored as the SHA-256 hash of the passphrase. To change it, run:
   //      printf '%s' 'your-new-passphrase' | shasum -a 256
   //    and paste the hash below.
+  /* SECURITY: this gate only hides UI — the hash is public and the check runs
+     client-side, so treat this page as fully readable by anyone. NEVER put a
+     Supabase/API key or any secret in this file; wire writes through a backend
+     (e.g. an edge function checking a server-side secret) before going live. */
   var PASS_HASH = '1b2218e1231e9b148b7fb7a964d6c07d36478628eab32942b056803b2df23eb9';
 
   function sha256Hex(str){

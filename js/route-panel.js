@@ -223,8 +223,11 @@
     var optsWrap = ov.querySelector('#ssrp-opts');
     var seedCountEl = ov.querySelector('#ssrp-seedcount');
 
-    /* state */
-    var state = { seed: 'saved', zone: 'd1', mode: 'bike', start: 'benthanh', startMin: 540, roundTrip: true, dwell: 25, geo: null };
+    /* state — the shortlist is the best seed when there IS one, but defaulting to
+       it unconditionally left a first-time visitor looking at a selected-but-
+       disabled chip and a dead "Optimize route · 0 routeable stops". Fall back to
+       whatever they are already looking at. */
+    var state = { seed: seedSaved().length ? 'saved' : 'filter', zone: 'd1', mode: 'bike', start: 'benthanh', startMin: 540, roundTrip: true, dwell: 25, geo: null };
 
     function currentStops() {
       if (state.seed === 'saved') return seedSaved();
