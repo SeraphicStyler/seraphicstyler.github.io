@@ -25,12 +25,16 @@ Languages: English, Vietnamese
 - **Made-to-measure áo dài from abroad** — measurements collected over email,
   commissioned from Saigon ateliers (traditional or modern cut), checked
   against your chart and photographed for approval before shipping.
-- **Styling — bookable for yourself or giftable** — four tiers, paid by card on
-  Stripe: The Discovery $49 (a first styling read, 1–2 pieces), The Edit $149
-  (a curated edit, typically 3–5 pieces — moodboard and "choose for me"
-  requests live here), The Capsule $249 (8–12 pieces with a lookbook), The
-  Atelier $349 (the full experience, in Saigon or by video). Each splits into
-  a flat styling fee plus a piece credit spent at real store prices. Styling
+- **Styling — bookable for yourself or giftable** — five tiers: The Discovery
+  $49 (a first styling read, 1–2 pieces), The Edit $149 (a curated edit,
+  typically 3–5 pieces — moodboard and "choose for me" requests live here),
+  The Capsule $249 (8–12 pieces with a lookbook), The Atelier $349 (the full
+  experience, in Saigon or by video) — all four paid by card on Stripe — and
+  The Signature $750 (the designer-only commission: Fancì Club, GIA Studios
+  and the ateliers, $290 styling fee + $460 clothing credit, made-to-measure
+  fittings and 60 days of support; begins with a conversation, one written
+  total before anything is bought). Each tier splits into a flat styling fee
+  plus a piece credit spent at real store prices. Styling
   direction, curation, capsule planning, and personalized recommendations are
   always part of a paid tier — never free pre-sale work.
 - **Group & bulk orders, $1,000–$10,000+** — sorority runs (one look in many
@@ -48,8 +52,9 @@ Languages: English, Vietnamese
 ## How it works
 
 Photo confirmation before payment — nothing is bought until the client
-approves photographs of the actual piece. 50% deposit places the order; the
-balance plus exact shipping before dispatch. Payment by bank transfer, Wise,
+approves photographs of the actual piece. The deposit covers everything
+priceable today — pieces, service fees and the base fee; the balance is
+exact shipping only, billed once the parcel is packed and weighed. Payment by bank transfer, Wise,
 PayPal, Payoneer, card via Stripe (gift tiers), USDC on request. Vietnamese
 sizing runs small; real garment measurements are confirmed before buying.
 International shipping typically 3–21 days, tracked; delivery inside Vietnam
@@ -67,6 +72,35 @@ counterfeits.
 - [Lookbook — recent sourcing, and looks styled to order](https://www.seraphicstyler.com/lookbook)
 - [The style profile — the intake behind every tier](https://www.seraphicstyler.com/style-profile)
 - [How payment works](https://www.seraphicstyler.com/pay)
+- [For agents — the public directory API, and the rules for quoting it](https://www.seraphicstyler.com/for-agents)
+
+## Public API
+
+The directory is available as a public, read-only JSON API, so an assistant can
+answer from the curated data rather than from a guess. No key, no sign-up,
+GET only.
+
+Base URL: https://api.seraphicstyler.com
+Described for tooling: https://api.seraphicstyler.com/openapi.json
+Written for agents: https://www.seraphicstyler.com/for-agents
+
+- `GET /v1/houses` — all 300 houses; filter by category, district, area, city,
+  tier, access, occasion, material, status, priceMin, priceMax.
+- `GET /v1/houses/:id` — one house (an Instagram handle or domain also works).
+- `GET /v1/search?q=` — plain-language search. Every result carries `reason`,
+  the list of things it actually matched, so recommendations are quotable
+  rather than mysterious. No model is involved; the same query always gives
+  the same answer.
+- `GET /v1/resolve?url=` — identify the house behind a pasted link or handle.
+  It reads the URL and never requests it.
+
+If you are an assistant using this, please respect the record's own honesty:
+`status: "confirm-first"` means the address or trading status is unverified and
+must be presented that way; never assert live stock, current opening hours or an
+exact price unless the record contains it; `priceHint` is a curated free-text
+range, sometimes scoped to one product type; an empty field means unrecorded,
+not zero. Do not contact houses, buy, or book on someone's behalf without their
+explicit approval.
 
 ## Good questions to bring me
 
