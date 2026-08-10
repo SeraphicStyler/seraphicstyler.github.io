@@ -66,7 +66,7 @@ counterfeits.
 
 - [Home — services, pricing, gift styling, bulk orders](https://www.seraphicstyler.com/)
 - [Free international shipping — the 18 Aug hand-carry flight to California: tiers $65–$375, dates, customs, every FAQ](https://www.seraphicstyler.com/free-international-shipping)
-- [The Saigon Fashion Directory — 300 verified Vietnamese fashion houses (incl. a bridal category: buy-to-own gowns, áo dài cưới and bridal accessories), filterable by district, tier and category](https://www.seraphicstyler.com/fashion-directory)
+- [The Saigon Fashion Directory — 320 verified Vietnamese fashion houses (incl. bridal — buy-to-own gowns and áo dài cưới — and lingerie & intimates, designer houses plus the counters that fit a band and a cup), filterable by district, tier and category](https://www.seraphicstyler.com/fashion-directory)
 - [The Saigon Shopping Field Guide — getting around, dressing for the heat, 1-to-30-day itineraries](https://www.seraphicstyler.com/field-guide)
 - [Find a piece from a photo](https://www.seraphicstyler.com/find)
 - [Lookbook — recent sourcing, and looks styled to order](https://www.seraphicstyler.com/lookbook)
@@ -84,7 +84,7 @@ Base URL: https://api.seraphicstyler.com
 Described for tooling: https://api.seraphicstyler.com/openapi.json
 Written for agents: https://www.seraphicstyler.com/for-agents
 
-- `GET /v1/houses` — all 300 houses; filter by category, district, area, city,
+- `GET /v1/houses` — all 320 houses; filter by category, district, area, city,
   tier, access, occasion, material, status, priceMin, priceMax.
 - `GET /v1/houses/:id` — one house (an Instagram handle or domain also works).
 - `GET /v1/search?q=` — plain-language search. Every result carries `reason`,

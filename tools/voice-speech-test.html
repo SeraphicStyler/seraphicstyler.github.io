@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Concierge speech check — what the engine actually hears</title>
+<style>
+  body { font: 14px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; margin: 0; padding: 24px; background: #0f1320; color: #e8ecf7; }
+  h1 { font: 600 15px/1.4 system-ui, sans-serif; letter-spacing: .04em; text-transform: uppercase; color: #a9b6da; margin: 0 0 4px; }
+  p.lede { font: 13px/1.6 system-ui, sans-serif; color: #8f9dc4; max-width: 74ch; margin: 0 0 22px; }
+  pre { white-space: pre-wrap; margin: 0; }
+  .ui { color: #6f7ea8; }
+  .said { color: #cfe0ff; }
+  .vi { color: #f0c9a8; }
+  .warn { color: #ffb4a2; }
+</style>
+</head>
+<body>
+<h1>Concierge speech check</h1>
+<p class="lede">
+  The concierge does not read the interface aloud — it rewrites a house record into
+  spoken sentences first (<code>js/fd-voice.js</code> → <code>listingParts</code>), then hands
+  those to the engine. This page stubs <code>speechSynthesis</code> and prints the exact
+  utterance queue: text, the voice language each part is routed to, and its rate. That
+  is the whole contract, so a regression shows up here as words rather than as sound.
+  Serve the site (<code>node tools/serve.mjs</code>) and open this file through the server,
+  not from <code>file://</code>.
+</p>
+<pre id="out">running…</pre>
+
+<script>
+/* Capture what would reach the engine. speechSynthesis is a read-only accessor on
+   window, so it has to be replaced with defineProperty — a plain assignment is
+   silently ignored and you end up testing the real, mute, headless engine. */
+window.__spoken = [];
+window.SpeechSynthesisUtterance = function (text) { this.text = text; };
+Object.defineProperty(window, 'speechSynthesis', { configurable: true, value: {
+  cancel: function () {},
+  speak: function (u) { window.__spoken.push({ text: u.text, lang: u.lang, rate: u.rate }); },
+  /* Pretend both voices are installed, so language routing is exercised even on a
+     machine with no Vietnamese voice. */
+  getVoices: function () { return [
+    { name: 'Samantha', lang: 'en-US', localService: true },
+    { name: 'Linh',     lang: 'vi-VN', localService: true }
+  ]; },
+  addEventListener: function () {}
+} });
+/* fd-voice.js only boots on the directory page: it wants the data, the page's
+   shared helpers, and #main. */
+window.SS_FD = { zoneOf: function () { return 'd1'; }, match: function () { return true; }, mapsUrl: function () { return '#'; } };
+</script>
+<div id="main" hidden></div>
+<script src="../js/directory-data.js"></script>
+<script src="../js/fd-voice.js"></script>
+<script>
+(function () {
+  var B = window.SS_DIRECTORY, V = window.SS_VOICE, out = [];
+  if (!B || !V) { document.getElementById('out').textContent = 'fd-voice.js did not boot — serve this page over http, not file://'; return; }
+
+  /* The awkward cases, on purpose: numerals, run-together caps, an ampersand, an
+     em dash, a ward code, an area column carrying an access note, a house with no
+     tier, and a Vietnamese name with and without diacritics. */
+  var CASES = ['The 31', 'Kilomet109', 'VUNGOC&SON', 'CEM — Chị Em Mình', '11 Garmentory',
+               'Lace Lingerie Lover', 'Mustoto', 'Arya', 'Chợ Bà Chiểu', 'PHUONG MY',
+               'Thong Thả Lingerie', 'La Phạm'];
+  out.push('— one house at a time —\n');
+  CASES.forEach(function (n) {
+    var b = B.filter(function (x) { return x.n === n; })[0];
+    if (!b) { out.push('<span class="warn">' + n + ' — no longer in the directory; retire this case</span>\n'); return; }
+    var ui = [b.n, b.st, b.tier, (b.fib || []).join('+'), b.area].filter(Boolean).join(' · ');
+    out.push('<span class="ui">UI  : ' + ui + '</span>\n<span class="said">SAID: ' + V.toSpokenListing(b) + '</span>\n\n');
+  });
+
+  /* And the whole flow, which is where the lead line, the "start with" framing and
+     the confirm-first count live. */
+  function flow(label) {
+    window.__spoken = [];
+    try { V.readOut(3); } catch (e) { /* say() needs the panel open; the queue is the point */ }
+    out.push('\n— ' + label + ' —\n');
+    window.__spoken.forEach(function (p) {
+      var c = p.lang === 'vi-VN' ? 'vi' : 'said';
+      out.push('  <span class="' + c + '">[' + p.lang + ' @' + p.rate + '] ' + p.text + '</span>\n');
+    });
+  }
+  flow('read out · English');
+  document.documentElement.setAttribute('lang', 'vi');
+  flow('read out · Vietnamese');
+  document.documentElement.setAttribute('lang', 'en');
+
+  document.getElementById('out').innerHTML = out.join('');
+})();
+</script>
+</body>
+</html>

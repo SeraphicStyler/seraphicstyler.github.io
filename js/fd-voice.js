@@ -14,6 +14,17 @@
    servers, no API keys, no build step. Where speech is unavailable or
    refused, the identical flow runs on typed input.
 
+   Reading out is a rewrite, not a playback. Results are never handed to the
+   engine as interface strings — WALK-IN · PREMIUM · LINEN · THẢO ĐIỀN is a
+   database talking. They pass through a speech layer first (SPOKEN_NAME,
+   spokenName/spokenArea/spokenAccess/spokenFabrics → listingParts) that turns
+   a record into a stylist's two or three sentences, expands the shorthand a
+   person would never say aloud, and hands the engine the only two things that
+   make it sound human: punctuation to breathe on, and a Vietnamese voice for
+   the Vietnamese words. Pauses come from splitting into queued utterances,
+   since speechSynthesis has no SSML. tools/voice-speech-test.html prints the
+   resulting queue so a regression reads as words, not as sound.
+
    State drives the page's own deep link (#cat=…&zone=…&tier=…), so filters,
    chips, the map and shareable URLs stay in sync — the concierge's result
    IS a link. Self-injecting in the fd-basket.js mold: own <style>, own DOM,
@@ -26,7 +37,7 @@
    push-to-talk, Escape cancels.
 
    Storage: localStorage 'fd-vc' {lang, last:{intent,label,ts}}.
-   Exposes window.SS_VOICE = { open }.
+   Exposes window.SS_VOICE = { open, readOut, toSpokenListing }.
    ---------------------------------------------------------------------- */
 (function () {
   'use strict';
@@ -92,7 +103,7 @@
     applied: 'Directory filtered behind this panel.',
     a11yApplied: '{n} houses match. {x}',
     kbdHint: 'Cmd/Ctrl+Space focuses this · Cmd/Ctrl+Shift+Space talks · Esc closes',
-    cats: { women: 'Womenswear', men: 'Menswear', luxury: 'Luxury & couture', bridal: 'Bridal & wedding', tailor: 'Áo dài & tailors', active: 'Athleisure', access: 'Accessories', sleep: 'Sleep & loungewear', vintage: 'Vintage & preloved', market: 'Markets' },
+    cats: { women: 'Womenswear', men: 'Menswear', luxury: 'Luxury & couture', bridal: 'Bridal & wedding', tailor: 'Áo dài & tailors', active: 'Athleisure', access: 'Accessories', lingerie: 'Lingerie & intimates', sleep: 'Sleep & loungewear', vintage: 'Vintage & preloved', market: 'Markets' },
     tiers: { mid: 'Mid', premium: 'Premium', luxury: 'Luxury', couture: 'Couture' },
     fibs: { plant: 'plant-based', natural: 'natural fibre', linen: 'linen', cotton: 'cotton', silk: 'silk', hemp: 'hemp', tencel: 'TENCEL', circular: 'upcycled' },
     occs: { event: 'balls & formal', night: 'nightlife', bday: 'birthdays' },
@@ -100,7 +111,25 @@
     modes: { ship: 'ship to me', visit: 'visiting Saigon' },
     walk: 'walk-in', sig: 'signature houses', han: 'Hanoi',
     facet: { cat: 'category', zone: 'district', city: 'city', tier: 'budget', fib: 'fabric', occ: 'occasion', walk: 'walk-in', sig: 'signature', mode: 'delivery' },
-    close: 'Close concierge', langBtn: 'Listening language'
+    close: 'Close concierge', langBtn: 'Listening language',
+    /* — Spoken copy. Read aloud, a card is not a row of tokens but a stylist
+       handing over a shortlist, so these are whole sentences with the pauses
+       written in. Tier reads as an adjective mid-sentence ("a premium house"),
+       which is why it has its own map rather than reusing `tiers`. — */
+    spokeFound: 'I found {n}.', spokeFoundFor: 'I found {n} for {x}.',
+    spokeFirst: 'Here are the first {k}.',
+    spokeStart: 'Start with {x}.',
+    spokeIn: 'In {x}.',
+    spokeFocus: 'They focus on {x}.',
+    spokeConfirm: 'Message them first.',
+    spokeConfirmN: '{n} of these say to message them first.',
+    spokeTiers: { mid: 'mid-range', premium: 'premium', luxury: 'luxury', couture: 'couture' },
+    spokeFibs: { circular: 'upcycled and secondhand pieces' },
+    spokeWalkT: 'A {tier} house you can walk into.', spokeWalk0: 'You can walk in.',
+    spokeApptT: 'A {tier} house, by appointment only.', spokeAppt0: 'By appointment only.',
+    spokeHubT: 'A {tier} label, sold inside a multi-brand hub.', spokeHub0: 'Sold inside a multi-brand hub.',
+    spokeOnlineT: 'A {tier} label, online only.', spokeOnline0: 'Online only.',
+    spokePopupT: 'A {tier} pop-up — check it’s still running.', spokePopup0: 'A pop-up — check it’s still running.'
   };
   var VI = {
     fab: 'Trợ lý giọng nói', title: 'Trợ lý', sub: 'Nói hoặc gõ trong một câu',
@@ -144,7 +173,7 @@
     applied: 'Danh bạ phía sau đã lọc.',
     a11yApplied: '{n} nhà phù hợp. {x}',
     kbdHint: 'Cmd/Ctrl+Space để vào · Cmd/Ctrl+Shift+Space để nói · Esc để đóng',
-    cats: { women: 'Thời trang nữ', men: 'Thời trang nam', luxury: 'Cao cấp & couture', bridal: 'Cưới', tailor: 'Áo dài & may đo', active: 'Đồ tập', access: 'Phụ kiện', sleep: 'Đồ ngủ & mặc nhà', vintage: 'Vintage & đồ si', market: 'Chợ phiên' },
+    cats: { women: 'Thời trang nữ', men: 'Thời trang nam', luxury: 'Cao cấp & couture', bridal: 'Cưới', tailor: 'Áo dài & may đo', active: 'Đồ tập', access: 'Phụ kiện', lingerie: 'Nội y', sleep: 'Đồ ngủ & mặc nhà', vintage: 'Vintage & đồ si', market: 'Chợ phiên' },
     tiers: { mid: 'Tầm trung', premium: 'Premium', luxury: 'Cao cấp', couture: 'Couture' },
     fibs: { plant: 'thuần chay', natural: 'sợi tự nhiên', linen: 'vải lanh', cotton: 'cotton', silk: 'lụa', hemp: 'gai dầu', tencel: 'TENCEL', circular: 'tái chế' },
     occs: { event: 'dạ hội & trang trọng', night: 'đi chơi tối', bday: 'sinh nhật' },
@@ -152,7 +181,21 @@
     modes: { ship: 'gửi tới tôi', visit: 'tới Sài Gòn' },
     walk: 'ghé trực tiếp', sig: 'nhà tiêu biểu', han: 'Hà Nội',
     facet: { cat: 'danh mục', zone: 'quận', city: 'thành phố', tier: 'ngân sách', fib: 'chất liệu', occ: 'dịp', walk: 'ghé trực tiếp', sig: 'tiêu biểu', mode: 'cách nhận' },
-    close: 'Đóng trợ lý', langBtn: 'Ngôn ngữ nghe'
+    close: 'Đóng trợ lý', langBtn: 'Ngôn ngữ nghe',
+    spokeFound: 'Mình tìm được {n}.', spokeFoundFor: 'Mình tìm được {n} cho {x}.',
+    spokeFirst: 'Đây là {k} nhà đầu tiên.',
+    spokeStart: 'Bắt đầu với {x}.',
+    spokeIn: 'Ở {x}.',
+    spokeFocus: 'Họ tập trung vào {x}.',
+    spokeConfirm: 'Nhắn trước cho họ nhé.',
+    spokeConfirmN: '{n} nhà trong số này nên nhắn trước.',
+    spokeTiers: { mid: 'tầm trung', premium: 'premium', luxury: 'cao cấp', couture: 'couture' },
+    spokeFibs: { circular: 'đồ tái chế và đồ si' },
+    spokeWalkT: 'Một nhà {tier}, ghé trực tiếp được.', spokeWalk0: 'Ghé trực tiếp được.',
+    spokeApptT: 'Một nhà {tier}, chỉ theo hẹn.', spokeAppt0: 'Chỉ theo hẹn.',
+    spokeHubT: 'Một nhãn {tier}, bán trong hub nhiều thương hiệu.', spokeHub0: 'Bán trong hub nhiều thương hiệu.',
+    spokeOnlineT: 'Một nhãn {tier}, chỉ bán online.', spokeOnline0: 'Chỉ bán online.',
+    spokePopupT: 'Một pop-up {tier} — kiểm tra xem còn chạy không.', spokePopup0: 'Là pop-up — kiểm tra xem còn chạy không.'
   };
   function L() { return isVI() ? VI : EN; }
   function t(key) { var d = L()[key]; return window.SS_T ? window.SS_T('fd.vc.' + key, d) : d; }
@@ -176,6 +219,7 @@
     cats: [
       ['bridal', /\b(vay cuoi|ao cuoi|ao dai cuoi|bridal|brides?|weddings?|co dau|dam cuoi|cuoi)\b/],
       ['tailor', /\b(ao dai|tailor(s|ing)?|may do|dat may|bespoke|tho may|embroider(y|ed)?|theu)\b/],
+      ['lingerie', /\b(lingerie|underwear|intimates?|bralettes?|bras?|knickers|panties|briefs|corset(ry)?|noi y|do lot|ao nguc|ao lot)\b/],
       ['sleep', /\b(sleepwear|p[ay]jamas?|do ngu|nightwear|loungewear|do mac nha)\b/],
       ['vintage', /\b(vintage|secondhand|second hand|do si|2hand|preloved|thrift(ing|s)?|do cu)\b/],
       ['active', /\b(activewear|athleisure|gym|yoga|pilates|do tap|the thao|leggings?)\b/],
@@ -489,21 +533,122 @@
       u.lang = lang;
       var v = pickVoice(lang);
       if (v) u.voice = v;
-      u.rate = 0.97;   /* a shade under default: the default clips consonants */
+      /* a shade under default: the default clips consonants. A part may ask for
+         slower still — house names do, so the word that matters lands. */
+      u.rate = p.rate || 0.97;
       u.pitch = 1;
       u.volume = 1;
       try { speechSynthesis.speak(u); } catch (e) {}
     });
   }
-  /* A house name in Vietnamese script read by an English voice is the single
-     worst-sounding thing here — give it to a Vietnamese voice when one exists. */
-  function nameParts(names) {
+  /* ---------- the spoken rewrite ----------
+     On screen a house is a row of tokens: WALK-IN · PREMIUM · LINEN · THẢO ĐIỀN.
+     Read aloud that is a database talking, and the concierge is supposed to be a
+     stylist. So nothing goes to the engine as a UI string: a record is rewritten
+     into sentences first, and the engine is handed the only two things that
+     actually make it sound human — punctuation to breathe on, and a Vietnamese
+     voice for the Vietnamese words.
+
+     Pauses come from splitting into utterances, not from markup: speechSynthesis
+     has no SSML, but it does stop between queued utterances. So one clause = one
+     utterance, the name gets its own and is read a touch slower, and a sentence
+     whose proper noun is Vietnamese is queued as its own utterance precisely so
+     it can be handed to the Vietnamese voice. */
+
+  /* Names an engine gets audibly wrong: run-together caps, bare numerals, an
+     ampersand it spells out. Editorial and not exhaustive — add one whenever you
+     hear a name mangled. A Vietnamese respelling is deliberate: it re-routes the
+     name to the Vietnamese voice in listingParts below. */
+  var SPOKEN_NAME = {
+    'The 31': 'The Thirty-One', '11 Garmentory': 'Eleven Garmentory', '18 Again': 'Eighteen Again',
+    '1998 Before The Dawn': 'Nineteen ninety-eight, Before The Dawn',
+    'Kilomet109': 'Kilomet one-oh-nine', 'Splits59': 'Splits fifty-nine', 'UV100': 'U-V one hundred',
+    '2.abnormal': 'Two, abnormal', 'I.Sport': 'I Sport', 'PUR. Braslove': 'Pure Braslove',
+    'CHATS by C.DAM': 'Chats by C-DAM', 'LI LAM / LAM': 'Li Lam', 'LSOUL': 'L-Soul',
+    'SIXDO': 'Six-Do', 'BYFAS': 'By-Fas', 'ICONDENIM': 'Icon Denim', 'MEAN BLVD': 'Mean Boulevard',
+    'MOMIU': 'Mo-Miu', 'SEESON': 'See-Son', 'ONOFF': 'On-Off', 'ONWAYS': 'On-Ways',
+    'MONTSAND': 'Mont-Sand', 'CHYMEOCHY': 'Chy-Meo-Chy', 'CAOSTU': 'Cao-Stu', 'LAHAVA': 'La-Hava',
+    'CE CE': 'Cee Cee', 'REBN': 'R-E-B-N', 'LAVIEM': 'La-Viem', 'H&D Tailor': 'H and D Tailor',
+    'VUNGOC&SON': 'Vũ Ngọc và Sơn', 'PHUONG MY': 'Phương My'
+  };
+  /* Which voice reads the copy is decided by the language the copy is written
+     in — not by recLang, which is what the microphone is listening for. Someone
+     can dictate in Vietnamese while reading an English panel; the sentences are
+     still English, and an English voice has to say them. */
+  function copyLang() { return isVI() ? 'vi-VN' : 'en-US'; }
+  function spokenName(n) {
+    /* A Vietnamese respelling fixes the name in either language, so it always
+       applies. The English ones — numerals spelled out, run-together caps split
+       — would only confuse a Vietnamese voice, so they are EN-only. */
+    var alt = SPOKEN_NAME[n];
+    if (alt && isVI() && !VI_CHARS.test(alt)) alt = null;
+    return String(alt || n)
+      .replace(/\s*[—–]\s*/g, ', ')                      /* an em dash is a breath, not a word */
+      .replace(/\s*\(\s*/g, ', ').replace(/\s*\)/g, '')
+      .replace(/\s*&\s*/g, isVI() ? ' và ' : ' and ')
+      .replace(/\s*\/\s*/g, ', ')
+      .replace(/\s+/g, ' ').replace(/[.,]+$/, '').trim();
+  }
+  /* The area column doubles as a note field — "Hanoi · appt", "D1 / D3 · hubs",
+     "Online · SGN". Those tokens say how you get in, which the access sentence
+     has already said properly, so they are dropped here instead of read twice. */
+  var AREA_NOISE = /\b(appt|by appointment|appointment only|hubs?|walk-?ins?|online|pop-?ups?|stockists?)\b/gi;
+  /* "D3 · P.14" is a filing code. A person says "District 3, Ward 14" — and says
+     the ward name in Vietnamese, which is the point of keeping it unfolded. */
+  function spokenArea(b) {
+    var vi = isVI();
+    return String(b.area || '')
+      .replace(/\s*·\s*/g, ', ').replace(/\s*\/\s*/g, ', ')
+      .replace(/\bD(\d{1,2})\b/g, vi ? 'Quận $1' : 'District $1')
+      .replace(/\bQ\.?\s?(\d{1,2})\b/g, vi ? 'Quận $1' : 'District $1')
+      .replace(/\bP\.\s?(\d{1,2})\b/g, vi ? 'Phường $1' : 'Ward $1')
+      .replace(/\bSGN\b/g, vi ? 'Sài Gòn' : 'Saigon')
+      .replace(/\bHanoi\b/g, vi ? 'Hà Nội' : 'Hanoi')
+      .replace(/\bVN\b/g, vi ? 'Việt Nam' : 'Vietnam')
+      .replace(/\bINTL\b/g, vi ? 'nước ngoài' : 'overseas')
+      .replace(AREA_NOISE, '')
+      .replace(/\s*,\s*(?=,|$)/g, '')      /* commas orphaned by the cut above */
+      .replace(/^\s*,\s*/, '')
+      .replace(/\s+/g, ' ').replace(/[,\s]+$/, '').trim();
+  }
+  /* How you get in is the fact that decides whether a house is worth the trip,
+     so it carries the sentence rather than trailing it as a badge. */
+  function spokenAccess(b) {
+    var key = b.st === 'appt' ? 'Appt' : b.st === 'hub' ? 'Hub'
+      : b.st === 'online' ? 'Online' : b.st === 'popup' ? 'Popup' : 'Walk';
+    var tier = (L().spokeTiers || {})[b.tier];
+    return tier ? fill('spoke' + key + 'T', { tier: tier }) : t('spoke' + key + '0');
+  }
+  function spokenFabrics(b) {
+    var f = Array.isArray(b.fib) ? b.fib : (b.fib ? [b.fib] : []);
+    /* the filter chip reads "upcycled"; a sentence needs "upcycled pieces" */
+    var lab = L().fibs || {}, spoken = L().spokeFibs || {};
+    var names = f.map(function (k) { return spoken[k] || lab[k] || k; });
+    if (!names.length) return '';
+    if (names.length === 1) return names[0];
+    return names.slice(0, -1).join(', ') + (isVI() ? ' và ' : ' and ') + names[names.length - 1];
+  }
+  /* One house, spoken. Two or three short sentences — this is a shortlist being
+     read out, not a description being performed. `lead` makes the first one
+     "Start with X" instead of a bare name; `withFabric` is only true when fabric
+     is what the client asked about, so nobody is read a fibre list they didn't
+     want. */
+  function listingParts(b, opts) {
+    opts = opts || {};
     var viVoice = pickVoice('vi-VN');
     var out = [];
-    names.forEach(function (n, i) {
-      var isVn = VI_CHARS.test(n);
-      out.push({ text: n + (i < names.length - 1 ? ',' : '.'), lang: (isVn && viVoice) ? 'vi-VN' : recLang });
-    });
+    var nm = spokenName(b.n);
+    var nmLine = opts.lead ? fill('spokeStart', { x: nm }) : nm + '.';
+    /* the name is the word that has to land: its own utterance, a shade slower */
+    out.push({ text: nmLine, lang: (VI_CHARS.test(nmLine) && viVoice) ? 'vi-VN' : copyLang(), rate: 0.93 });
+    out.push({ text: spokenAccess(b), lang: copyLang() });
+    var area = spokenArea(b);
+    if (area) out.push({ text: fill('spokeIn', { x: area }), lang: (VI_CHARS.test(area) && viVoice) ? 'vi-VN' : copyLang() });
+    if (opts.withFabric) {
+      var fab = spokenFabrics(b);
+      if (fab) out.push({ text: fill('spokeFocus', { x: fab }), lang: copyLang() });
+    }
+    if (opts.withConfirm && b.flag) out.push({ text: t('spokeConfirm'), lang: copyLang() });
     return out;
   }
 
@@ -746,7 +891,7 @@
 
   /* ---------- refinements: offered, never required ---------- */
   var REFINE_DIMS = [
-    { k: 'cat', vals: ['women', 'bridal', 'tailor', 'luxury', 'vintage', 'sleep', 'access', 'men', 'active', 'market'] },
+    { k: 'cat', vals: ['women', 'bridal', 'tailor', 'luxury', 'vintage', 'lingerie', 'sleep', 'access', 'men', 'active', 'market'] },
     { k: 'fib', vals: ['plant', 'silk', 'linen', 'cotton', 'circular'] },
     { k: 'occ', vals: ['event', 'night', 'bday'] },
     { k: 'tier', vals: ['mid', 'premium', 'luxury', 'couture'] },
@@ -918,12 +1063,40 @@
     if (location.hash) location.hash = '';
     if (render) { conv.innerHTML = ''; say(fill('resetCmd', { n: B.length })); renderState(); discover(); announce(fill('resetCmd', { n: B.length })); }
   }
+  /* Reading out is a rewrite, not a playback: results → spoken copy → engine.
+     The written line under the panel is built from the very same parts, so what
+     you hear and what you can re-read afterwards are never two different texts. */
   function readOut(limit) {
+    var all = matches(intent);
     var list = ranked(intent).slice(0, limit || 5);
     if (!list.length) { say(t('match0')); return; }
-    var lead = countLabel(matches(intent).length) + '.';
-    speakParts([{ text: lead, lang: recLang }].concat(nameParts(list.map(function (b) { return b.n; }))));
-    say(lead + ' ' + list.map(function (b) { return b.n; }).join(', '));
+
+    var chips = activeChips(intent).map(function (c) { return c.label; });
+    var parts = [{
+      text: chips.length
+        ? fill('spokeFoundFor', { n: countLabel(all.length), x: chips.join(', ') })
+        : fill('spokeFound', { n: countLabel(all.length) }),
+      lang: copyLang()
+    }];
+    /* Only worth saying when there are more than we're about to read. */
+    if (all.length > list.length) parts.push({ text: fill('spokeFirst', { k: list.length }), lang: copyLang() });
+
+    /* Fabric is read only when fabric is what was asked for. */
+    var withFabric = !!intent.fib;
+    /* One caution per house reads as nagging across five of them, so a single
+       count closes instead — and the per-house line comes back when it's one. */
+    var flagged = list.filter(function (b) { return b.flag; });
+    list.forEach(function (b, i) {
+      parts = parts.concat(listingParts(b, {
+        lead: i === 0 && list.length > 1,
+        withFabric: withFabric,
+        withConfirm: flagged.length === 1
+      }));
+    });
+    if (flagged.length > 1) parts.push({ text: fill('spokeConfirmN', { n: flagged.length }), lang: copyLang() });
+
+    speakParts(parts);
+    say(parts.map(function (p) { return p.text; }).join(' '));
   }
   function doSave(nt) {
     var m = nt.match(RX.firstN), count = m ? parseInt(m[2] || m[3], 10) : 0;
@@ -1164,5 +1337,15 @@
     }
   });
 
-  window.SS_VOICE = { open: open };
+  /* toSpokenListing is the response-generation layer, exposed deliberately: the
+     spoken rewrite of a house is useful to anything that needs to say one out
+     loud, and it is the seam tools/verify-voice.mjs checks. */
+  window.SS_VOICE = {
+    open: open,
+    readOut: readOut,
+    toSpokenListing: function (b, opts) {
+      return listingParts(b, opts || { withFabric: true, withConfirm: true })
+        .map(function (p) { return p.text; }).join(' ');
+    }
+  };
 })();

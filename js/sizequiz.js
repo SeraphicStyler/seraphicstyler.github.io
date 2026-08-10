@@ -52,7 +52,7 @@
   var L = {
     en: {
       eyebrow: 'Quick check', title: '✨ What size am I likely to be in Vietnam?',
-      sub: 'A playful estimate — I always confirm real garment measurements before we buy.',
+      sub: 'A playful estimate — not a verdict.',
       sysLabel: 'Your home sizing system', usually: 'I usually wear a…',
       result: 'In Vietnam, you’re most likely a', approx: 'That’s roughly',
       reassure: 'The tag will read a larger size than you’re used to — that’s the local cut, not a verdict on your body.',
@@ -60,7 +60,7 @@
       modeSize: 'I know my size', modeMeas: 'Start from measurements',
       modeLabel: 'How would you like to check?', unitLabel: 'Units',
       bust: 'Bust', waist: 'Waist', hip: 'Hips', height: 'Height (optional)',
-      privacy: 'Nothing you type here is saved or sent automatically — it stays on your device and disappears when you leave, unless you choose to send me the result. Education only, never a verdict.',
+      privacy: 'Nothing you type here is saved or sent automatically — it stays on your device and disappears when you leave, unless you choose to send me the result.',
       howSum: 'How to measure at home',
       how: [
         'A soft tape measure, over light clothing or none — a mirror or a friend helps.',
@@ -84,7 +84,7 @@
     },
     vi: {
       eyebrow: 'Thử nhanh', title: '✨ Ở Việt Nam mình mặc size nào?',
-      sub: 'Chỉ là ước tính cho vui — mình luôn xác nhận số đo thực của trang phục trước khi mua.',
+      sub: 'Chỉ là ước tính cho vui — không phải lời phán xét.',
       sysLabel: 'Hệ size bạn quen dùng', usually: 'Mình thường mặc…',
       result: 'Ở Việt Nam, bạn nhiều khả năng mặc', approx: 'Tức là khoảng',
       reassure: 'Nhãn sẽ ghi size lớn hơn bạn quen — đó là cách cắt may địa phương, không phải lời phán xét về cơ thể bạn.',
@@ -92,7 +92,7 @@
       modeSize: 'Mình biết size', modeMeas: 'Bắt đầu từ số đo',
       modeLabel: 'Bạn muốn thử theo cách nào?', unitLabel: 'Đơn vị',
       bust: 'Vòng ngực', waist: 'Vòng eo', hip: 'Vòng mông', height: 'Chiều cao (không bắt buộc)',
-      privacy: 'Số đo bạn nhập không được lưu hay tự gửi đi đâu — chỉ nằm trên thiết bị của bạn và biến mất khi rời trang, trừ khi bạn chủ động gửi kết quả cho mình. Chỉ để tham khảo, không bao giờ là lời phán xét.',
+      privacy: 'Số đo bạn nhập không được lưu hay tự gửi đi đâu — chỉ nằm trên thiết bị của bạn và biến mất khi rời trang, trừ khi bạn chủ động gửi kết quả cho mình.',
       howSum: 'Cách tự đo tại nhà',
       how: [
         'Dùng thước dây mềm, đo trên lớp áo mỏng hoặc sát da — có gương hoặc người giúp càng tốt.',
@@ -130,6 +130,8 @@
   var unitGroup = document.getElementById('vqUnit');
   var sizePanel = document.getElementById('vqSizePanel');
   var measPanel = document.getElementById('vqMeasure');
+  /* lives outside #vqMeasure so it can sit below the result prompt it explains */
+  var howto = document.getElementById('vqHowto');
   var mIn = { bust: document.getElementById('vqBust'), waist: document.getElementById('vqWaist'), hip: document.getElementById('vqHip'), height: document.getElementById('vqHeight') };
   var hasMeas = !!(modeGroup && unitGroup && sizePanel && measPanel && mIn.bust && mIn.waist && mIn.hip);
 
@@ -220,6 +222,7 @@
     modeGroup.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-mode') === m ? 'true' : 'false'); });
     sizePanel.hidden = (m !== 'size');
     measPanel.hidden = (m !== 'meas');
+    if (howto) howto.hidden = (m !== 'meas');
     if (m === 'size') render(ROWS[idx], [], false); else renderMeas();
   }
   var PLACEHOLDER = { cm: { bust: '92', waist: '74', hip: '99', height: '165' }, in: { bust: '36', waist: '29', hip: '39', height: '65' } };

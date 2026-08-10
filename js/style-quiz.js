@@ -99,7 +99,7 @@
     if (cat === 'active' || has(/active|sport|swim|performance|athleisure|yoga|gym/)) add('sporty');
     if (cat === 'tailor') add('heritage');
     if (cat === 'luxury' || tier === 'luxury' || tier === 'couture') add('elegant');
-    if (cat === 'sleep') add('romantic');
+    if (cat === 'sleep' || cat === 'lingerie') add('romantic');
     var out = Object.keys(t);
     return out.length ? out : ['contemporary'];
   }

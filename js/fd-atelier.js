@@ -39,7 +39,7 @@
     var s = ((b.no || '') + ' ' + (b.n || '')).toLowerCase(), tg = [];
     var has = function (re) { return re.test(s); };
     if (has(/minimal|timeless|slow fashion|essential|clean|quiet|understated|basic|workwear/)) tg.push('minimal');
-    if (has(/romantic|feminine|coquette|soft|lace|floral|flower|delicate|bow|ribbon|dreamy|sweet|lingerie/) || b.cat === 'sleep') tg.push('romantic');
+    if (has(/romantic|feminine|coquette|soft|lace|floral|flower|delicate|bow|ribbon|dreamy|sweet|lingerie/) || b.cat === 'sleep' || b.cat === 'lingerie') tg.push('romantic');
     if (has(/street|playful|urban|edgy|grunge|y2k|bold|graphic|hype|vintage|retro|thrift|second.?hand/)) tg.push('street');
     if (has(/elegant|luxur|refined|glamour|sophisticat/) || b.cat === 'luxury' || b.tier === 'luxury' || b.tier === 'couture') tg.push('elegant');
     if (has(/evening|gown|bridal|occasion|red.carpet|couture/)) tg.push('evening');

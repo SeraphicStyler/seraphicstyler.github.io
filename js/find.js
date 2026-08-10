@@ -1,7 +1,7 @@
 /* Seraphic Styler — "Find it in Saigon" photo finder (js/find.js)
    ----------------------------------------------------------------------
    Drop / pick / paste a photo of Vietnamese fashion. With the owner's
-   Anthropic API key saved in this browser, the photo plus the 300-brand
+   Anthropic API key saved in this browser, the photo plus the 320-brand
    index go straight from the browser to api.anthropic.com (never to this
    site's host) and Claude matches the piece against the directory.
    Without a key the page still works as a visitor tool: preview, quick
@@ -28,7 +28,7 @@
   FIND.SYSTEM = `You are the in-house fashion analyst for Seraphic Styler, a personal styling and
 sourcing studio in Saigon (Ho Chi Minh City). You identify fashion items in photos —
 usually Instagram screenshots or phone photos of Vietnamese fashion — and match them
-against the studio's directory of 300 Vietnamese fashion houses, given below as the
+against the studio's directory of 320 Vietnamese fashion houses, given below as the
 BRAND INDEX.
 
 You know Vietnamese fashion in both English and Vietnamese: áo dài and its modern
@@ -80,7 +80,7 @@ are, and the next step you'd take (visit a matched house, send the photo to the
 Seraphic Styler concierge, or run the searches).`;
 
   /* Header of the second (cached) system block; the index lines follow it. */
-  var INDEX_HEADER = `BRAND INDEX — 300 Vietnamese fashion houses, one per line:
+  var INDEX_HEADER = `BRAND INDEX — 320 Vietnamese fashion houses, one per line:
 Name | @instagram | cat/sub | tier | city area | access | tags | notes
 cat: women|men|luxury|tailor|active|access|sleep|market · tier: mid|premium|luxury|
 couture|none · access: walk=walk-in, appt=appointment, online, hub=stocked in
@@ -94,7 +94,7 @@ INTL=international · ⚑ = listing needs re-verification`;
       "items": { "type": "array", "items": { "type": "object", "properties": {
         "name_en": { "type": "string" }, "name_vi": { "type": "string" },
         "garment_type": { "type": "string" },
-        "directory_category": { "type": "string", "enum": ["women", "men", "luxury", "tailor", "active", "access", "sleep", "market", "other"] },
+        "directory_category": { "type": "string", "enum": ["women", "men", "luxury", "tailor", "active", "access", "lingerie", "sleep", "market", "other"] },
         "materials": { "type": "array", "items": { "type": "string" } },
         "motifs": { "type": "array", "items": { "type": "string" } },
         "colors": { "type": "array", "items": { "type": "string" } },
@@ -420,7 +420,7 @@ INTL=international · ⚑ = listing needs re-verification`;
     var hint = el.hint.value.trim();
     setState('calling');
     el.results.hidden = false;
-    el.results.innerHTML = '<p class="mut">' + esc(t('find.busy', 'Analyzing the photo against 300 Vietnamese houses… this usually takes under a minute.')) + '</p>';
+    el.results.innerHTML = '<p class="mut">' + esc(t('find.busy', 'Analyzing the photo against 320 Vietnamese houses… this usually takes under a minute.')) + '</p>';
     callApi(key, f, hint).then(function (data) {
       console.log('[find] usage', data.usage);
       var parsed = extract(data);

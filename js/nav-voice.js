@@ -58,8 +58,39 @@
     conscious: 'sustainable ethical conscious natural fibre vegan kinder environment',
     details:   'price pricing cost fees shipping policy policies terms payment refund how much',
     journey:   'journey timeline dream to wardrobe stages',
-    contact:   'contact book message dm email inquiry get started talk reach begin'
+    contact:   'contact book message dm email inquiry get started talk reach begin',
+    /* the link hub */
+    'lp-sourcing': 'source sourcing trace tracing find identify piece photo screenshot link buy specific item',
+    'lp-styling':  'styling stylist choose for me edit capsule atelier signature discovery tiers',
+    'lp-gift':     'gift present giftcard giving someone birthday',
+    'lp-rules':    'rules promises honest policy fine print what you wont do guarantees',
+    'lp-free':     'free no obligation style profile intake quiz start free',
+    'lp-browse':   'browse directory field guide lookbook quiz explore saigon',
+    'lp-follow':   'follow contact instagram tiktok youtube email dm reach message'
   };
+
+  /* ---------- the rest of the site ----------
+     The concierge runs on more than one page, and a client asking for "sizing"
+     on the link hub means the sizing section — not "not found here, sorry". So
+     every page also offers the other page's landmarks, and any entry whose id
+     already exists on THIS page is dropped, which is what keeps one list
+     correct on both. Local sections always outrank these, so nothing navigates
+     away when the answer is right here. */
+  var SITE = [
+    { href: './#services',  id: 'services', t: 'What I do',         h: 'service styling sourcing options lanes packages what do you do' },
+    { href: './#sizing',    id: 'sizing',   t: 'Sizing & fit',      h: 'size sizes fit measurements small true to size chart' },
+    { href: './#process',   id: 'process',  t: 'How it works',      h: 'how it works steps process order flow what happens' },
+    { href: './#estimate',  id: 'estimate', t: 'Quick estimate',    h: 'estimate cost calculator how much price quote budget total' },
+    { href: './#details',   id: 'details',  t: 'Prices & policies', h: 'price pricing cost fees shipping policy policies terms payment refund how much' },
+    { href: './#trust',     id: 'trust',    t: 'Trust & safety',    h: 'trust safe scam legit reviews guarantee refund confidence' },
+    { href: './#bulk',      id: 'bulk',     t: 'Group & bulk',      h: 'bulk group order many people together wholesale bridal party sorority team' },
+    { href: './#about',     id: 'about',    t: 'About me',          h: 'who you are stylist sandria background story' },
+    { href: 'links#lp-sourcing', id: 'lp-sourcing', t: 'Sourcing — name the piece', h: HINTS['lp-sourcing'] },
+    { href: 'links#lp-styling',  id: 'lp-styling',  t: 'Styling — I choose for you', h: HINTS['lp-styling'] },
+    { href: 'links#lp-gift',     id: 'lp-gift',     t: 'Gift styling',               h: HINTS['lp-gift'] },
+    { href: 'links#lp-rules',    id: 'lp-rules',    t: 'House rules',                h: HINTS['lp-rules'] }
+  ];
+
   var SECTIONS = [];
   function readPage() {
     SECTIONS = [];
@@ -80,7 +111,16 @@
         key: norm(title + ' ' + id + ' ' + (HINTS[id] || '') + ' ' + body)
       });
     });
+    /* then the rest of the site, minus anything this page already answers */
+    SITE.forEach(function (d) {
+      if (seen[d.id]) return;
+      SECTIONS.push({
+        id: d.id, href: d.href, title: d.t, hint: d.h,
+        key: norm(d.t + ' ' + d.id + ' ' + d.h)
+      });
+    });
   }
+  function isAway(s) { return !!s.href; }
 
   /* ---------- match ---------- */
   /* "what size am i" must not be decided by the word "what". Question words and
@@ -96,7 +136,7 @@
     var terms = q.split(' ').filter(meaningful);
     if (!terms.length) return 0;
     var titleKey = norm(sec.title), idKey = norm(sec.id);
-    var hintKey = ' ' + norm(HINTS[sec.id] || '') + ' ';
+    var hintKey = ' ' + norm(sec.hint || HINTS[sec.id] || '') + ' ';
     var s = 0;
     terms.forEach(function (w) {
       if (idKey === w) s += 14;
@@ -111,7 +151,12 @@
   function best(query) {
     var q = norm(query);
     if (!q) return [];
-    return SECTIONS.map(function (s) { return { s: s, n: score(s, q) }; })
+    return SECTIONS.map(function (s) {
+        /* an off-page destination has no body prose to match on, so it is scored
+           on title+hints alone and then nudged below local sections — the page
+           you are on always gets to answer first */
+        return { s: s, n: score(s, q) * (isAway(s) ? 0.9 : 1) };
+      })
       .filter(function (r) { return r.n > 0; })
       .sort(function (a, b) { return b.n - a.n; })
       .slice(0, 3);
@@ -122,7 +167,13 @@
      keyboard user is left behind at the old position while the visual
      viewport travels — the single most common bug in "jump to section". */
   function go(sec) {
-    if (!sec || !sec.el) return;
+    if (!sec) return;
+    if (isAway(sec)) {                       /* lives on another page — go there */
+      announce(fmt(t('nv.leaving', 'Opening {x}'), sec.title));
+      location.href = sec.href;
+      return;
+    }
+    if (!sec.el) return;
     var el = sec.el;
     if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1');
     try { el.scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'start' }); }
@@ -134,22 +185,40 @@
   function fmt(s, x) { return String(s).replace('{x}', x); }
 
   /* ---------- styles ---------- */
+  /* The bottom-left corner already belongs to .a11y-wrap — the column of 52px
+     discs (theme, language, ⚙ settings) at left:1.25rem, and at z-index 300, so
+     it paints over anything parked underneath it. The pill therefore starts
+     where that column ends: --nv-gut is the disc width plus both gutters, and
+     the pill shares the discs' 1.25rem baseline so the two read as one row.
+     Change the disc size in styles.css and only this number needs to follow. */
   var css =
-    '.nv-fab{position:fixed;left:1.1rem;bottom:1.1rem;z-index:60;display:inline-flex;align-items:center;gap:.5em;' +
+    ':root{--nv-gut:calc(1.25rem + 52px + .6rem);}' +
+    '.nv-fab{position:fixed;left:var(--nv-gut);bottom:1.25rem;z-index:299;display:inline-flex;align-items:center;gap:.5em;' +
       'height:48px;padding:0 1rem 0 .8rem;border-radius:999px;border:1px solid var(--surface-border,rgba(46,71,115,.16));' +
       'background:#fff;color:var(--accent-deep,#233a72);cursor:pointer;font:inherit;font-size:.82rem;font-weight:600;' +
-      'box-shadow:0 12px 30px -18px rgba(35,58,114,.6);}' +
+      /* the 5.6rem reserve on the right is the .chub beacon: 60px + its 1.25rem gutter */
+      'box-shadow:0 12px 30px -18px rgba(35,58,114,.6);max-width:calc(100vw - var(--nv-gut) - 5.6rem);' +
+      'white-space:nowrap;overflow:hidden;}' +
     '.nv-fab:hover{box-shadow:0 16px 36px -16px rgba(35,58,114,.55);}' +
     '.nv-fab:focus-visible{outline:2px solid var(--accent,#2e54ad);outline-offset:2px;}' +
-    '.nv-fab svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;}' +
-    '@media(max-width:720px){.nv-fab{bottom:.8rem;left:.8rem;height:44px;font-size:.78rem;}}' +
-    '.nv-panel{position:fixed;left:1.1rem;bottom:4.9rem;z-index:61;width:min(380px,calc(100vw - 2.2rem));' +
+    '.nv-fab svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;flex:none;}' +
+    '.nv-fab span{overflow:hidden;text-overflow:ellipsis;}' +
+    /* Phones: styles.css hides the theme + language discs, so only ⚙ remains —
+       the gutter is the same width, but the row is tighter and the pill shorter. */
+    '@media(max-width:720px){.nv-fab{bottom:1.1rem;height:44px;font-size:.78rem;padding:0 .8rem 0 .7rem;' +
+      'max-width:calc(100vw - var(--nv-gut) - 5.6rem);}}' +
+    /* The panel clears the disc column the same way, and sits above it (z-index
+       300) so an open panel is never half-covered by a disc. */
+    '.nv-panel{position:fixed;left:var(--nv-gut);bottom:5.1rem;z-index:301;' +
+      'width:min(380px,calc(100vw - var(--nv-gut) - 1.1rem));' +
       'max-height:min(560px,72vh);display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:#fff;' +
       'border:1px solid var(--surface-border,rgba(46,71,115,.16));box-shadow:0 26px 60px -30px rgba(35,58,114,.6);' +
       (RM ? '' : 'transition:opacity .2s ease,transform .2s ease;') + '}' +
     '.nv-panel[hidden]{display:none;}' +
     '.nv-panel.off{opacity:0;transform:translateY(8px) scale(.985);pointer-events:none;}' +
-    '@media(max-width:720px){.nv-panel{left:.6rem;right:.6rem;width:auto;bottom:4.2rem;max-height:68vh;}}' +
+    /* Narrow screens give the panel the full width — it has to start above the
+       ⚙ disc (which tops out at 1.25rem + 52px) rather than beside it. */
+    '@media(max-width:720px){.nv-panel{left:.6rem;right:.6rem;width:auto;bottom:5.3rem;max-height:68vh;}}' +
     '.nv-head{display:flex;align-items:center;gap:.55rem;padding:.85rem .95rem;border-bottom:1px solid rgba(46,71,115,.1);}' +
     '.nv-head b{font-size:.95rem;color:var(--accent-deep,#233a72);font-weight:600;}' +
     '.nv-head .s{font-size:.7rem;color:#51618f;}' +
@@ -161,6 +230,10 @@
     '.nv-go{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:.55rem;width:100%;' +
       'padding:.5rem .6rem;border-radius:10px;font-size:.83rem;color:#233a72;}' +
     '.nv-go:hover,.nv-go:focus-visible{background:rgba(46,84,173,.09);}' +
+    /* a destination on another page is still one tap, but it should never be a
+       surprise — the arrow says "this leaves the page you are on" */
+    '.nv-arr{margin-left:auto;flex:none;opacity:.5;font-size:.8em;}' +
+    '.nv-away .n{background:transparent;border:1px solid currentColor;opacity:.75;}' +
     '.nv-go:focus-visible{outline:2px solid var(--accent,#2e54ad);outline-offset:-2px;}' +
     '.nv-go .n{width:1.35rem;height:1.35rem;flex:none;border-radius:50%;display:grid;place-items:center;' +
       'background:rgba(46,84,173,.1);color:#2e54ad;font-size:.62rem;font-weight:700;}' +
@@ -238,13 +311,26 @@
       b.className = 'nv-go';
       b.innerHTML = '<span class="n">' + (i + 1) + '</span><span></span>';
       b.lastChild.textContent = s.title;
+      if (isAway(s)) {
+        b.classList.add('nv-away');
+        var mark = document.createElement('span');
+        mark.className = 'nv-arr';
+        mark.textContent = '↗';
+        mark.setAttribute('aria-hidden', 'true');
+        b.appendChild(mark);
+        b.title = t('nv.away', 'Opens another page on the site');
+      }
       b.addEventListener('click', function () { go(s); close(); });
       li.appendChild(b);
       ul.appendChild(li);
     });
     body.appendChild(ul);
   }
-  function listAll() { renderList(SECTIONS, t('nv.all', 'Everything on this page')); }
+  function listAll() {
+    var away = SECTIONS.some(isAway);
+    renderList(SECTIONS, away ? t('nv.allsite', 'On this page — and across the site')
+                              : t('nv.all', 'Everything on this page'));
+  }
 
   function ask(q) {
     var hits = best(q);

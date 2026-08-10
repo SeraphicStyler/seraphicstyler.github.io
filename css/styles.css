@@ -1065,8 +1065,12 @@ textarea { width: 100%; min-height: 110px; resize: vertical; }
 
 /* Sticky mobile CTA — primary action always within thumb reach */
 .sticky-cta { display: none; }
+/* Bottom of a phone screen, left to right: the ⚙ disc column, the "Take me to…"
+   pill beside it, and the chat beacon on the right. A centred CTA on that same
+   line lands on top of the pill, so it rides one row higher — still in thumb
+   reach, nothing overlapping. */
 @media (max-width: 820px) {
-  .sticky-cta { position: fixed; left: 50%; bottom: 1rem; transform: translateX(-50%) translateY(140%); z-index: 290;
+  .sticky-cta { position: fixed; left: 50%; bottom: 5.2rem; transform: translateX(-50%) translateY(140%); z-index: 290;
     background: var(--accent); color: var(--cta-text); font-family: var(--font-brand); text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.78rem;
     padding: 0.8rem 1.5rem; border-radius: 999px; text-decoration: none; white-space: nowrap;
     box-shadow: 0 12px 30px -8px rgba(40,64,110,0.55); opacity: 0; pointer-events: none;

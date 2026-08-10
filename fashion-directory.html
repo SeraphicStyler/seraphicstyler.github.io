@@ -8,10 +8,10 @@
   <meta name="theme-color" content="#2e54ad" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#161a26" media="(prefers-color-scheme: dark)" />
   <script>if('serviceWorker' in navigator && location.protocol==='https:'){addEventListener('load',function(){navigator.serviceWorker.register('service-worker.js').catch(function(){});});}</script>
-  <meta name="description" content="A curated, filterable directory of 300 Vietnamese fashion houses — boutiques, ateliers, designer labels and markets across Saigon and beyond, mapped by Seraphic Styler." />
+  <meta name="description" content="A curated, filterable directory of 320 Vietnamese fashion houses — boutiques, ateliers, designer labels and markets across Saigon and beyond, mapped by Seraphic Styler." />
   <link rel="canonical" href="https://www.seraphicstyler.com/fashion-directory" />
   <meta property="og:title" content="The Saigon Fashion Directory — Seraphic Styler" />
-  <meta property="og:description" content="300 Vietnamese fashion houses, filterable by district, tier and category, with a Saigon cluster map." />
+  <meta property="og:description" content="320 Vietnamese fashion houses, filterable by district, tier and category, with a Saigon cluster map." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://www.seraphicstyler.com/assets/social/og-image.png" />
   <link rel="icon" href="assets/favicon-48.png" type="image/png" sizes="48x48" />
@@ -737,7 +737,7 @@ footer .sig{font-family:var(--font-script);font-size:1.7rem;color:var(--cobalt);
     </div>
     <div class="eyebrow" data-i18n="fd.eye2">The atelier's open directory</div>
     <h1 class="title" data-i18n="fd.title">The Saigon <span class="script">Fashion</span> Directory</h1>
-    <p class="lede" data-i18n="fd.lede2">300 verified boutiques, ateliers, designer labels and markets, mapped by district.
+    <p class="lede" data-i18n="fd.lede2">320 verified boutiques, ateliers, designer labels and markets, mapped by district.
       Filter by what you're looking for, where you'll be, and how it's priced — free to browse,
       and every house sourceable through Seraphic Styler.</p>
     <div class="statline" id="statline"></div>
@@ -855,7 +855,7 @@ footer .sig{font-family:var(--font-script);font-size:1.7rem;color:var(--cobalt);
     <div class="skcard"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></div>
   </div>
 </main>
-<noscript><div class="wrap" style="padding:30px 0"><p>The directory is interactive and needs JavaScript to filter its 300 houses. Please enable it, or write to seraphicstyler@gmail.com for a copy.</p></div></noscript>
+<noscript><div class="wrap" style="padding:30px 0"><p>The directory is interactive and needs JavaScript to filter its 320 houses. Please enable it, or write to seraphicstyler@gmail.com for a copy.</p></div></noscript>
 
 <button class="themebtn" id="theme" aria-label="Toggle dark mode" data-i18n-al="fd.a11y.theme" aria-pressed="false" title="Toggle light / dark" data-i18n-ti="fd.a11y.themeTi">
   <svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
@@ -926,7 +926,7 @@ if(window.SS_SEARCH)SS_SEARCH.index(B);
 const STREETS=[
 {h:"Trần Quang Diệu",d:"District 3 · the design strip",c:"13 shops",l:"Goût De Jun (1) · Kathy Atelier + BaaBeeBoo (6) · Laneci (27) · Moulin Rose + Lace Lingerie Lover (48) · 18 Again (52) · Tartan (70) · Chérieon (76) · Rêver (91) · So Dópe Club (97) · caleélilou (136/5) · Chan Club (154)"},
 {h:"42 Tôn Thất Thiệp",d:"District 1 · Bến Nghé",c:"3 in one building",l:"Dawn Vintage + 1998 Before The Dawn (2F) · Depass (Rm 38E)"},
-{h:"Võ Văn Tần",d:"District 3",c:"5 shops",l:"Mooris (234) · Résel + Résel Bridal (245) · LAVIEM (289) · So Dópe Club (353) · Cocosin (365)"},
+{h:"Võ Văn Tần",d:"District 3",c:"7 shops",l:"Mooris (234) · Résel + Résel Bridal (245) · Sexy Forever (291) · LAVIEM (289) · So Dópe Club (353) · Cocosin (365) · Bom Sister (422)"},
 {h:"214 Hai Bà Trưng",d:"District 1 · Tân Định",c:"3 labels",l:"Huelley Rose · Huelley · Stress Mama — one address, three brands"},
 {h:"Hai Bà Trưng · Tân Định",d:"District 1 · the sleepwear corridor",c:"3 doors",l:"VINCY Homewear (248) · Wacoal (232) · ONOFF (366) — all within ~300 m of the 214 Hai Bà Trưng stop"},
 {h:"11 Garmentory",d:"Phú Nhuận · 117B Nguyễn Đình Chính",c:"multi-brand hub",l:"Duu Stu flagship · Babie Club · Badchoices · The Fancé + rotating local creatives & The Muse café"},
@@ -944,7 +944,7 @@ const STLAB={walk:["Walk-in","walk"],appt:["Appointment","appt"],online:["Online
    Place names (Phú Nhuận, Thảo Điền, Q5 · Chợ Lớn…) are proper nouns: they stay
    verbatim in every language — you say them to a driver, you don't translate them.
    A null key means "never translate this label". */
-const CATS=[["all","fd.cat.all","All"],["women","fd.cat.women","Womenswear"],["men","fd.cat.men","Menswear"],["luxury","fd.cat.luxury","Luxury & Couture"],["bridal","fd.cat.bridal","Bridal"],["tailor","fd.cat.tailor","Áo dài & Tailors"],["active","fd.cat.active","Athleisure"],["access","fd.cat.access","Accessories"],["sleep","fd.cat.sleep","Sleep & loungewear"],["vintage","fd.cat.vintage","Vintage & preloved"],["market","fd.cat.market","Markets"]];
+const CATS=[["all","fd.cat.all","All"],["women","fd.cat.women","Womenswear"],["men","fd.cat.men","Menswear"],["luxury","fd.cat.luxury","Luxury & Couture"],["bridal","fd.cat.bridal","Bridal"],["tailor","fd.cat.tailor","Áo dài & Tailors"],["active","fd.cat.active","Athleisure"],["access","fd.cat.access","Accessories"],["lingerie","fd.cat.lingerie","Lingerie & intimates"],["sleep","fd.cat.sleep","Sleep & loungewear"],["vintage","fd.cat.vintage","Vintage & preloved"],["market","fd.cat.market","Markets"]];
 /* Location taxonomy = exactly the map's zones, so filters and card areas finally agree. */
 const LOCS=[
  ["all","fd.loc.all","Everywhere"],
@@ -1104,6 +1104,7 @@ const GROUPS=[
  ["tailor","Áo dài, tailors & craft studios","Bespoke áo dài, made-to-measure ateliers, embroidery and upcycling — what's distinctive to Vietnam."],
  ["active","Premium athleisure","Studio-to-street activewear and functional sun-wear. No official Lululemon or Alo store exists in Vietnam yet."],
  ["access","Eyewear, shoes, bags & jewelry","Vietnamese accessory labels with real HCMC stores."],
+ ["lingerie","Lingerie & intimates","Designer and handmade lingerie houses first, then the counters that actually fit a band and a cup — most Vietnamese labels sell S/M/L only, which is the thing to know before you go. Sizes run small; the fitting group is the safer start above ~34C."],
  ["sleep","Sleep & loungewear","Cotton, linen and silk nightwear built for tropical nights — the natural-fibre houses, not the polyester-satin mass market."],
  ["vintage","Vintage & preloved","Curated secondhand houses, reworked one-offs and đồ si hunting grounds — Saigon's circular wardrobe. I can pair finds with a trusted tailor for repairs and resizing."],
  ["market","Markets & pop-ups","Where many brands gather at once — highest value per trip. Dates roam; check socials first."]

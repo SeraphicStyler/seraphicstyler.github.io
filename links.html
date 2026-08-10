@@ -556,8 +556,8 @@
           <a class="lp-path-card" href="#lp-sourcing" data-track="choose-sourcing">
             <span class="lp-pc-e" data-i18n="lp2.pc1e">Sourcing</span>
             <span class="lp-pc-t" data-i18n="lp2.pc1t">I know the piece</span>
-            <p class="lp-pc-s" data-i18n="lp2.pc1s">Send a link or a photo — I find it, verify it in person, and ship it.</p>
-            <span class="lp-pc-w"><span data-i18n="lp2.pc1w">Pieces at cost — my fee starts at about $23 for all the legwork</span><span class="go" aria-hidden="true">↓</span></span>
+            <p class="lp-pc-s" data-i18n="lp2.pc1s">Send a link and I go buy it. Send a photo with no source and I trace it first.</p>
+            <span class="lp-pc-w"><span data-i18n="lp2.pc1w">Pieces at cost — my fee starts at about $23 once you order</span><span class="go" aria-hidden="true">↓</span></span>
           </a>
           <a class="lp-path-card is-styling" href="#lp-styling" data-track="choose-styling">
             <span class="lp-pc-e" data-i18n="lp2.pc2e">Styling</span>
@@ -619,17 +619,21 @@
     <section class="lp-sec" id="lp-sourcing" aria-labelledby="lps-h">
       <h2 class="lp-sec-h" id="lps-h" data-i18n="lp2.src_h">Sourcing</h2>
       <p class="lp-sec-t" data-i18n="lp2.src_t">You name the piece.</p>
-      <p class="lp-lead" data-i18n="lp2.src_lead">Send a link or a photo. I find it, verify it in person, and ship it at the receipt price.</p>
+      <p class="lp-lead" data-i18n="lp2.src_lead">Send a link and I go straight to the boutique. Send a photo with no source and I trace it first — either way, verified in person and shipped at the receipt price.</p>
 
+      <!-- The Trace is step 02 because that is genuinely where it sits: after an
+           inquiry, before any deposit. It is charged only when there is something
+           to identify — a link has nothing to trace, so a link never pays it. -->
       <ol class="lp-steps reveal" aria-label="How sourcing works">
-        <li><span class="lp-step-n">01</span><span class="lp-step-t" data-i18n="lp2.s1t">Send it over</span><p class="lp-step-d" data-i18n="lp2.s1d">A link or a photo of the piece is enough.</p></li>
-        <li><span class="lp-step-n">02</span><span class="lp-step-t" data-i18n="lp2.s2t">I go see it</span><p class="lp-step-d" data-i18n="lp2.s2d">Verified at the boutique, with my own hands.</p></li>
-        <li><span class="lp-step-n">03</span><span class="lp-step-t" data-i18n="lp2.s3t">You say yes</span><p class="lp-step-d" data-i18n="lp2.s3d">Photos first — nothing is bought without your approval.</p></li>
-        <li><span class="lp-step-n">04</span><span class="lp-step-t" data-i18n="lp2.s4t">It comes home</span><p class="lp-step-d" data-i18n="lp2.s4d">Shipped to your door, tracked the whole way.</p></li>
+        <li><span class="lp-step-n">01</span><span class="lp-step-t" data-i18n="lp2.s1t">Send it over</span><p class="lp-step-d" data-i18n="lp2.s1d">A link, or a photo of the piece.</p></li>
+        <li><span class="lp-step-n">02</span><span class="lp-step-t" data-i18n="lp2.s0t">I trace it</span><p class="lp-step-d" data-i18n="lp2.s0d">Photos only — $25, credited in full to your order. Within 48 hours you know what it is, or why it can’t be had. Send a link and this step is skipped.</p></li>
+        <li><span class="lp-step-n">03</span><span class="lp-step-t" data-i18n="lp2.s2t">I go see it</span><p class="lp-step-d" data-i18n="lp2.s2d">Verified at the boutique, with my own hands.</p></li>
+        <li><span class="lp-step-n">04</span><span class="lp-step-t" data-i18n="lp2.s3t">You say yes</span><p class="lp-step-d" data-i18n="lp2.s3d">Photos first — nothing is bought without your approval. Your deposit places the order.</p></li>
+        <li><span class="lp-step-n">05</span><span class="lp-step-t" data-i18n="lp2.s4t">It comes home</span><p class="lp-step-d" data-i18n="lp2.s4d">Shipped to your door, tracked the whole way.</p></li>
       </ol>
 
       <div class="lp-whisper reveal">
-        <strong data-i18n="lp2.src_w1">From <b>about $23</b> in fees.</strong>
+        <strong data-i18n="lp2.src_w1">From <b>about $23</b> in fees once you order.</strong>
         <span data-i18n="lp2.src_w2">That's 600,000₫, where most simple requests stay. The piece and shipping cost what they cost.</span>
         <div class="lp-chips" role="group" aria-label="House promises">
           <span data-i18n="lp2.c1">Receipt-price pieces</span>
@@ -652,6 +656,8 @@
         <summary data-i18n="lp2.drawer">See the exact fee breakdown</summary>
         <div class="lp-dbody">
           <p class="lp-dcare" data-i18n="lp2.src_care">The fee is just my legwork — finding the piece, visiting the boutiques, checking it with my own hands, photos for your yes, and careful packing for the trip home. I'd rather get one piece exactly right than make any bill bigger.</p>
+          <p data-i18n="lp2.d0"><b>The Trace — $25 ≈ 640,000₫</b> Only when you send a photo with no source, and only before anything is ordered. Credited in full against your order total, so if you go ahead it costs you nothing. A link is never charged for it.</p>
+          <p data-i18n="lp2.d0b"><b>What the trace buys</b> One of three answers inside 48 hours: the shop and the price · the closest piece I can actually buy here · or why it can’t be sourced — usually a wholesale or dropship listing — with the nearest alternative. You’re paying for the answer, not the outcome.</p>
           <p data-i18n="lp2.d1"><b>Per-item sourcing fee</b> 8% of the piece (7% above 5,000,000₫), minimum 350,000₫ per item</p>
           <p data-i18n="lp2.d2"><b>Per-order coordination</b> 250,000₫ flat — rides, boutique visits &amp; packing</p>
           <p data-i18n="lp2.d3"><b>Typical minimum</b> 600,000₫ ≈ $23 before the piece and shipping</p>
@@ -725,7 +731,7 @@
     </section>
 
     <!-- ===== No-surprises pricing — a house note ===== -->
-    <section class="lp-honest reveal" aria-labelledby="lph-h">
+    <section class="lp-honest reveal" id="lp-rules" aria-labelledby="lph-h">
       <h2 class="lp-sec-h" id="lph-h" data-i18n="lp2.hb_e">House rules</h2>
       <p class="lp-sec-t" style="margin-bottom:0" data-i18n="lp2.hb_h">No-surprises pricing</p>
       <ul>
@@ -765,7 +771,7 @@
     <!-- ===== Block-based links (a destination, not a plain list) ===== -->
     <nav class="lp-groups" aria-label="Seraphic Styler links">
 
-      <section class="lp-group" aria-labelledby="lpg-free">
+      <section class="lp-group" id="lp-free" aria-labelledby="lpg-free">
         <h2 class="lp-group-h" id="lpg-free" data-i18n="lp.g.free">Free — no obligation</h2>
         <p class="lp-group-sub" data-i18n="lp.g.free_s">Three depths of one style profile — each ends on a card you can send me.</p>
         <div class="lp-links reveal">
@@ -792,13 +798,13 @@
         </div>
       </section>
 
-      <section class="lp-group" aria-labelledby="lpg-browse">
+      <section class="lp-group" id="lp-browse" aria-labelledby="lpg-browse">
         <h2 class="lp-group-h" id="lpg-browse" data-i18n="lp.g.browse">Browse Saigon</h2>
         <div class="discover-brand" style="margin:0 0 0.2rem;"></div>
         <div class="lp-links reveal">
           <a class="lp-card lp-card-feature" href="fashion-directory" data-track="directory">
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M9 20l-6 2V6l6-2 6 2 6-2v16l-6 2-6-2z"/><path d="M9 4v16M15 6v16"/></svg></span>
-          <span class="lp-meta"><span class="lp-title" data-i18n="lp.dir_t">The Saigon Fashion Directory</span><span class="lp-sub" data-i18n="lp.dir_s">300 verified houses, mapped by district</span></span>
+          <span class="lp-meta"><span class="lp-title" data-i18n="lp.dir_t">The Saigon Fashion Directory</span><span class="lp-sub" data-i18n="lp.dir_s">320 verified houses, mapped by district</span></span>
           <span class="lp-go" aria-hidden="true">→</span>
       </a>
 
@@ -823,7 +829,7 @@
         </div>
       </section>
 
-      <section class="lp-group" aria-labelledby="lpg-follow">
+      <section class="lp-group" id="lp-follow" aria-labelledby="lpg-follow">
         <h2 class="lp-group-h" id="lpg-follow" data-i18n="lp.g.follow">Follow &amp; contact</h2>
         <div class="lp-links reveal">
           <a class="lp-card" href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener" data-track="instagram">
@@ -1133,6 +1139,7 @@
     }, { passive: true });
   </script>
 
+  <script src="js/nav-voice.js"></script>
   <script src="js/discover-brand.js"></script>
   <!-- Flight promo: a live count, so the deadline is never stale -->
   <script>

@@ -14,7 +14,7 @@
    actually needs filled — WHICH HOUSE and HOW MUCH — are already obtainable
    with no network at all:
 
-     · WHICH HOUSE  — the directory already knows 259 of its 300 houses by
+     · WHICH HOUSE  — the directory already knows 259 of its 320 houses by
                       website or Instagram handle. A pasted URL is matched
                       against that, so "huelley.com/products/..." resolves to
                       Huelley, premium, D1 · Tân Định, instantly and offline.

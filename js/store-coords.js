@@ -2,8 +2,13 @@
    Street-level lat/lng for the Saigon walk-in boutiques, keyed by directory name.
    Source: OpenStreetMap Nominatim. approx:"district" = fell back to district
    centroid (no street match). DO NOT hand-edit coords — re-run the tool instead.
-   Built 2026-08-07 · 121 street-level · 39 district-level · 159 total */
+   Built 2026-08-09 · 133 street-level · 41 district-level · 174 total
+   Note: the 2026-08-09 run is a MERGE — pins built on 2026-08-07 were kept, and
+   only names Nominatim newly resolved were added. A clean re-run moved several
+   long-street matches (Lê Văn Sỹ, Trần Quang Diệu) far enough to break the
+   D3·P.14 cluster check in tools/verify-route.mjs. */
 window.SS_COORDS = {
+  "_meta": {lat:undefined, lng:undefined},
   "18 Again": {lat:10.78445, lng:106.67846, hours:"10:00–21:45"},
   "1998 Before The Dawn": {lat:10.77388, lng:106.70307, hours:"10:00–21:00"},
   "2.abnormal": {lat:10.7894, lng:106.67505},
@@ -18,7 +23,9 @@ window.SS_COORDS = {
   "BaaBeeBoo": {lat:10.78445, lng:106.67846, hours:"13:30–21:00"},
   "Bad Habits": {lat:10.7713, lng:106.69125},
   "Bảo Lộc Silk": {lat:10.78788, lng:106.6961},
+  "Bom Sister": {lat:10.77041, lng:106.68458},
   "Bon Bon Underwear": {lat:10.78823, lng:106.69155},
+  "Bralette's House": {lat:10.79394, lng:106.66875, hours:"9:00–21:00"},
   "Bunny Hill Concept": {lat:10.782, lng:106.686, approx:"district"},
   "By Vee": {lat:10.79316, lng:106.67793, hours:"9:00–22:00"},
   "Calista de Minh Thanh": {lat:10.77857, lng:106.7016},
@@ -35,6 +42,7 @@ window.SS_COORDS = {
   "Clothes Bar": {lat:10.7713, lng:106.69125},
   "CNES Shoemaker": {lat:10.8, lng:106.653, approx:"district"},
   "Cocosin": {lat:10.77041, lng:106.68458, hours:"9:00–21:30"},
+  "Corèle V.": {lat:10.77203, lng:106.69338},
   "Cuddle": {lat:10.80334, lng:106.74525},
   "Curnon": {lat:10.7894, lng:106.67505},
   "Daniv Dear": {lat:10.79143, lng:106.70239, hours:"10:00–21:00"},
@@ -69,6 +77,7 @@ window.SS_COORDS = {
   "Huelley": {lat:10.78823, lng:106.69155, hours:"8:30–21:40"},
   "Huelley Rose": {lat:10.78823, lng:106.69155},
   "I.Sport": {lat:10.81296, lng:106.71583},
+  "iBasic": {lat:10.782, lng:106.686, approx:"district"},
   "ICONDENIM": {lat:10.77203, lng:106.69338, hours:"8:30–22:00"},
   "In The Mood Saigon": {lat:10.80482, lng:106.73997, hours:"10:00–18:00"},
   "IVY moda": {lat:10.776, lng:106.7, approx:"district"},
@@ -81,13 +90,16 @@ window.SS_COORDS = {
   "L'Espoir": {lat:10.79189, lng:106.67196, hours:"9:30–22:00"},
   "La Vierge": {lat:10.79143, lng:106.70239},
   "Lace Lingerie Lover": {lat:10.78468, lng:106.67847},
+  "Ladali": {lat:10.79278, lng:106.67032, hours:"9:00–22:00"},
   "LAHAVA": {lat:10.79863, lng:106.67029},
+  "Lamluy": {lat:10.81105, lng:106.69074, hours:"8:00–22:00"},
   "Laneci": {lat:10.78445, lng:106.67846, hours:"10:00–22:00"},
   "LAVIEM": {lat:10.77997, lng:106.69344},
   "Le Saigonais": {lat:10.77473, lng:106.69808},
   "Levents": {lat:10.79635, lng:106.68599, hours:"10:00–21:30"},
   "LI LAM / LAM": {lat:10.77552, lng:106.70493},
   "Libé": {lat:10.775, lng:106.7, approx:"district"},
+  "Linari": {lat:10.75518, lng:106.71664},
   "Liniss": {lat:10.79189, lng:106.67196},
   "Lơ Silk": {lat:10.78009, lng:106.69635, hours:"10:00–20:00"},
   "Long Beach Pearl": {lat:10.775, lng:106.7, approx:"district"},
@@ -107,6 +119,7 @@ window.SS_COORDS = {
   "Mooris": {lat:10.782, lng:106.686, approx:"district"},
   "Moriko Saigon": {lat:10.79316, lng:106.67793, hours:"9:00–20:00"},
   "Moulin Rose": {lat:10.78445, lng:106.67846},
+  "Mustoto": {lat:10.7959, lng:106.74371, hours:"8:00–17:00"},
   "Nhật Tảo secondhand shops": {lat:10.773, lng:106.667, approx:"district"},
   "Nicole Bridal": {lat:10.79496, lng:106.67672},
   "Nosbyn": {lat:10.77252, lng:106.69736},
@@ -119,6 +132,7 @@ window.SS_COORDS = {
   "Phụ Kiện Cưới Minh Tâm": {lat:10.78392, lng:106.67848},
   "PHUONG MY": {lat:10.77908, lng:106.70359},
   "Pomelo Flower": {lat:10.775, lng:106.7, approx:"district"},
+  "PUR. Braslove": {lat:10.79462, lng:106.6778, hours:"10:00–21:00"},
   "Quyên Nguyễn Bridal": {lat:10.79958, lng:106.67495},
   "Résel Studio": {lat:10.77041, lng:106.68458},
   "Rêver": {lat:10.78445, lng:106.67846},
@@ -127,6 +141,8 @@ window.SS_COORDS = {
   "Rustea": {lat:10.80334, lng:106.74525},
   "Sassy Sis": {lat:10.79143, lng:106.70239, hours:"10:00–20:30"},
   "SEESON": {lat:10.78391, lng:106.69122},
+  "Seti House": {lat:10.775, lng:106.7, approx:"district"},
+  "Sexy Forever": {lat:10.77041, lng:106.68458, hours:"9:00–22:00"},
   "Shamdi": {lat:10.79394, lng:106.66875},
   "Shimmer Silver": {lat:10.77141, lng:106.69729},
   "Shondo": {lat:10.782, lng:106.686, approx:"district"},
@@ -139,6 +155,7 @@ window.SS_COORDS = {
   "Thai Tuấn (silk)": {lat:10.782, lng:106.686, approx:"district"},
   "Thao Bibi": {lat:10.75829, lng:106.67971},
   "The 31": {lat:10.80211, lng:106.73262},
+  "The Clothé": {lat:10.7896, lng:106.69967, hours:"11:00–21:00"},
   "The Country Boutiques": {lat:10.75203, lng:106.66025},
   "The Fancé": {lat:10.79768, lng:106.68847},
   "Thế Giới Đồ Tập": {lat:10.776, lng:106.7, approx:"district"},
@@ -152,17 +169,18 @@ window.SS_COORDS = {
   "Toàn Thịnh Silk": {lat:10.77225, lng:106.69623, hours:"9:00–21:00"},
   "TokyoLife": {lat:10.78856, lng:106.64068},
   "Trần Hùng": {lat:10.803, lng:106.74, approx:"district"},
+  "Triumph": {lat:10.76411, lng:106.66037},
   "UV100": {lat:10.78461, lng:106.70786},
   "Valenciani": {lat:10.77857, lng:106.7016},
   "Vascara": {lat:10.776, lng:106.7, approx:"district"},
   "Veos": {lat:10.775, lng:106.7, approx:"district"},
+  "Vera": {lat:10.782, lng:106.686, approx:"district"},
   "VINCY Homewear": {lat:10.775, lng:106.7, approx:"district", hours:"7:00–21:30"},
   "VUNGOC&SON": {lat:10.77262, lng:106.69681},
-  "Wacoal (Takashimaya)": {lat:10.775, lng:106.7, approx:"district"},
+  "Wacoal": {lat:10.775, lng:106.7, approx:"district"},
   "Wephobia": {lat:10.77212, lng:106.69441, hours:"9:00–21:30"},
   "Whenever Atelier": {lat:10.77003, lng:106.68201, hours:"10:00–21:00"},
   "Whose Studio": {lat:10.78691, lng:106.67965, hours:"10:00–21:00"},
   "Xéo Xọ": {lat:10.76936, lng:106.69731, hours:"10:00–21:00"},
-  _meta: {built:"2026-08-07", src:"nominatim", n:159, streetLevel:121, districtLevel:39, box:[10.68,10.9,106.6,106.85]}
+  _meta: {built:"2026-08-09", src:"nominatim", n:174, streetLevel:132, districtLevel:42, box:[10.68,10.9,106.6,106.85]}
 };
-if (typeof module !== 'undefined' && module.exports) module.exports = window.SS_COORDS;
