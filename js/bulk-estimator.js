@@ -11,6 +11,7 @@
   var pEl = document.getElementById('bePieces');
   var rEl = document.getElementById('beRegion');
   var repEl = document.getElementById('beRepeats');
+  var resEl = document.getElementById('beResale');
   if (!out || !vEl || !pEl || !rEl) return;
 
   var C = window.CONFIG || {};
@@ -58,6 +59,13 @@
   }
 
   function render() {
+    /* Resale is a different lane: the group taper here would misquote agent
+       work at group rates. Route to the boutique ladder instead of pricing. */
+    if (resEl && resEl.checked) {
+      out.innerHTML = '<p class="be-waiting">Stock for a boutique or resale prices on the buying-agent ladder — 18% down to 8% by buy size, with a $115 scouting deposit to start, credited in full against your first payment. The group taper here is for personal and group orders.</p>' +
+        '<div class="be-cta"><a class="btn btn-primary" href="#btqEst">Rough out your buy in the boutique estimator →</a></div>';
+      return;
+    }
     var totalUsd = parseFloat(vEl.value);
     var pieces = parseInt(pEl.value, 10);
     if (!(totalUsd > 0) || !(pieces > 0)) {
@@ -120,5 +128,6 @@
   ['input', 'change'].forEach(function (ev) {
     vEl.addEventListener(ev, render); pEl.addEventListener(ev, render);
     rEl.addEventListener(ev, render); repEl.addEventListener(ev, render);
+    if (resEl) resEl.addEventListener(ev, render);
   });
 })();

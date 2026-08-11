@@ -62,7 +62,10 @@
       'lp2.gift_h': 'Quà tặng styling',
       'lp2.gift_s': 'Từ $49 — người ấy nhận tín dụng trang phục và một stylist riêng; còn bạn nhận trọn lời khen.',
       'lp2.foot': 'Trang phục giá gốc · phí gửi giá gốc · chưa gật đầu thì chưa mua gì.<br>Styling & tìm nguồn từ Sài Gòn, gửi đi khắp thế giới.',
+      /* Sticky bar labels — one button whose label follows the section on screen. */
       'lp2.sb1': 'Tìm một món', 'lp2.sb2': 'Đặt styling',
+      'lp2.sb3': 'Tặng styling', 'lp2.sb4': 'Khảo sát phong cách miễn phí',
+      'lp2.sb5': 'Mở thư mục thương hiệu',
       'lp2.qe0': 'Bạn đang tìm gì?',
       'lp2.qe0a': 'Có link hoặc ảnh rồi', 'lp2.qe0a2': 'Ước tính một đơn tìm nguồn',
       'lp2.qe0b': 'Cần giúp lựa chọn', 'lp2.qe0b2': 'Xem các gói styling',

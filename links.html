@@ -422,12 +422,22 @@
       background: var(--surface-solid); border-top: 1px solid var(--surface-border);
       box-shadow: 0 -10px 30px -18px rgba(35,58,114,0.45);
       transform: translateY(105%); transition: transform .3s cubic-bezier(0.33,1,0.68,1); }
-    .lp-stickybar a { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 44px;
-      border-radius: 999px; text-decoration: none; font-family: var(--font-accent); font-weight: 500;
-      font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; }
-    .lp-stickybar .sb-src { background: var(--accent); color: var(--cta-text, #fff); }
-    .lp-stickybar .sb-sty { border: 1px solid rgba(46,84,173,0.35); color: var(--accent); background: transparent; }
-    @media (max-width: 699px) { .lp-stickybar { display: flex; } }
+    .lp-stickybar .sb-go { flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      min-height: 48px; padding: 0 1rem; border-radius: 999px; text-decoration: none;
+      background: var(--accent); color: var(--cta-text, #fff);
+      font-family: var(--font-accent); font-weight: 500;
+      /* 0.78rem sentence case, not 0.7rem uppercase: the label now changes as you
+         scroll, and uppercase letter-spacing made each change read as a flicker. */
+      font-size: 0.78rem; letter-spacing: 0.04em; }
+    .lp-stickybar .sb-label { transition: opacity .16s ease; }
+    .lp-stickybar.is-swapping .sb-label { opacity: 0; }
+    .lp-stickybar .sb-arrow { opacity: 0.75; }
+    /* The dismiss is deliberately quiet — an escape hatch, not a third choice. */
+    .lp-stickybar .sb-x { flex: 0 0 auto; width: 40px; min-height: 40px; border-radius: 999px;
+      border: 1px solid var(--surface-border); background: transparent; color: var(--text-secondary, #5a6b8c);
+      font-size: 0.85rem; line-height: 1; cursor: pointer; }
+    @media (max-width: 699px) { .lp-stickybar { display: flex; align-items: center; } }
+    html.lp-bar-off .lp-stickybar { display: none !important; }
     html.lp-bar-on .lp-stickybar { transform: translateY(0); }
     html.rm .lp-stickybar { transition: none; }
     @media (max-width: 699px) { html.lp-bar-on .lp { padding-bottom: 5.6rem; } }
@@ -716,7 +726,6 @@
           <p class="lp-tryfree" style="text-align:left;margin-top:0.5rem"><a href="signature" data-track="sig-page" data-i18n="lp2.t5see">Explore The Signature in full →</a></p>
         </article>
       </div>
-      <p class="lp-sty-note" data-i18n="lp2.sty_note">Bigger tiers aren't better — they give us more room to work.</p>
 
       <div class="lp-ctarow">
         <a class="star-border-container lp-cta" href="https://tally.so/r/gD10Kl?about=I%20want%20to%20book%20a%20styling%20service&amp;source=links-styling" target="_blank" rel="noopener" data-track="path-styling">
@@ -879,10 +888,22 @@
 
   </main>
 
-  <!-- ===== Sticky mobile action bar — the two paths, thumb-reachable ===== -->
-  <nav class="lp-stickybar" aria-label="Quick actions">
-    <a class="sb-src" href="https://tally.so/r/gD10Kl?about=I%20want%20help%20sourcing%20or%20buying%20specific%20items&amp;source=links-sticky" target="_blank" rel="noopener" data-track="sticky-sourcing" data-i18n="lp2.sb1">Source a piece</a>
-    <a class="sb-sty" href="https://tally.so/r/gD10Kl?about=I%20want%20to%20book%20a%20styling%20service&amp;source=links-sticky" target="_blank" rel="noopener" data-track="sticky-styling" data-i18n="lp2.sb2">Book styling</a>
+  <!-- ===== Sticky mobile action bar =====
+       ONE action, whose label follows the section being read. Two equal-weight
+       buttons was the old shape, and both went to the same Tally form differing
+       only by a prefill — so it asked the reader to make a choice that was not
+       a choice, while competing with the six inline CTAs already on the page.
+       Now it reinforces whatever section you are in instead of arguing with it.
+       Label and destination are set by JS; the markup carries the sourcing
+       default so it is never blank before the observer fires. -->
+  <nav class="lp-stickybar" aria-label="Quick action">
+    <a class="sb-go" id="sbGo"
+       href="https://tally.so/r/gD10Kl?about=I%20want%20help%20sourcing%20or%20buying%20specific%20items&amp;source=links-sticky"
+       target="_blank" rel="noopener" data-track="sticky-sourcing">
+      <span class="sb-label" id="sbLabel">Source a piece</span>
+      <span class="sb-arrow" aria-hidden="true">→</span>
+    </a>
+    <button class="sb-x" id="sbX" type="button" aria-label="Hide this bar">✕</button>
   </nav>
 
   <!-- ===== Quick-estimate popup ===== -->
@@ -961,6 +982,10 @@
   <script async src="https://tally.so/widgets/embed.js"></script>
   <script src="js/translations.js"></script>
   <script src="js/links-i18n.js"></script>
+  <!-- Part 2: the lp2.* story-first portal strings for every language. Must load
+       after links-i18n.js (it merges into the same dictionary) and before
+       i18n.js, which reads window.SS_TRANSLATIONS once at startup. -->
+  <script src="js/links-i18n-lp2.js"></script>
   <script src="js/i18n.js"></script>
   <script src="js/main.js"></script>
   <script src="js/estimator.js"></script>
@@ -1118,14 +1143,87 @@
       setMode(null);
     })();
 
-    /* ---- Sticky mobile action bar: appears once the hero scrolls away ---- */
+    /* ---- Sticky mobile action bar ----
+       Appears once the hero scrolls away, then carries ONE action whose label and
+       destination follow the section being read, so it never duplicates the CTA
+       already on screen. Each entry names the real destination that section's own
+       buttons point at — the bar is a shortcut to what you are looking at, not a
+       second opinion about it. Internal links stay in the tab; only the Tally form
+       opens a new one, which is what the inline buttons do too. */
     (function () {
       var bar = document.querySelector('.lp-stickybar');
       var hero = document.querySelector('.lp-top');
-      if (!bar || !hero || !('IntersectionObserver' in window)) return;
+      var link = document.getElementById('sbGo');
+      var label = document.getElementById('sbLabel');
+      var x = document.getElementById('sbX');
+      if (!bar || !hero || !link || !('IntersectionObserver' in window)) return;
+
+      var T = window.SS_T || function (k, en) { return en; };
+      var TALLY = 'https://tally.so/r/gD10Kl?about=';
+      var ACTIONS = {
+        'lp-sourcing': { key: 'lp2.sb1', en: 'Source a piece', track: 'sticky-sourcing', ext: true,
+          href: TALLY + encodeURIComponent('I want help sourcing or buying specific items') + '&source=links-sticky' },
+        'lp-styling': { key: 'lp2.sb2', en: 'Book styling', track: 'sticky-styling', ext: true,
+          href: TALLY + encodeURIComponent('I want to book a styling service') + '&source=links-sticky' },
+        'lp-gift': { key: 'lp2.sb3', en: 'Gift styling', track: 'sticky-gift', href: './#gift' },
+        'lp-free': { key: 'lp2.sb4', en: 'Free style intake', track: 'sticky-free', href: 'style-profile.html?from=links-sticky' },
+        'lp-browse': { key: 'lp2.sb5', en: 'Open the directory', track: 'sticky-directory', href: 'fashion-directory' }
+      };
+      /* Sections with no action of their own (the house rules, the follow block)
+         keep whatever was last set rather than blanking or reverting — the reader
+         is between two intents, not out of them. */
+      var current = null;
+      function apply(a) {
+        if (!a || a === current) return;
+        current = a;
+        bar.classList.add('is-swapping');
+        setTimeout(function () {
+          label.textContent = T(a.key, a.en);
+          link.href = a.href;
+          link.setAttribute('data-track', a.track);
+          if (a.ext) { link.target = '_blank'; link.rel = 'noopener'; }
+          else { link.removeAttribute('target'); link.removeAttribute('rel'); }
+          bar.classList.remove('is-swapping');
+        }, document.documentElement.classList.contains('rm') ? 0 : 160);
+      }
+
       new IntersectionObserver(function (entries) {
         document.documentElement.classList.toggle('lp-bar-on', !entries[0].isIntersecting);
       }, { threshold: 0 }).observe(hero);
+
+      /* Whichever mapped section is nearest the middle of the screen wins, so the
+         label matches what the reader is actually looking at rather than whatever
+         crossed an edge last. */
+      var mapped = Object.keys(ACTIONS)
+        .map(function (id) { return document.getElementById(id); })
+        .filter(Boolean);
+      /* IntersectionObserver fires on threshold crossings only, which is too coarse
+         for "nearest the middle of the screen". A passive scroll listener,
+         rAF-throttled, is the honest tool for this one. */
+      var ticking = false;
+      function pick() {
+        ticking = false;
+        var mid = window.innerHeight / 2, best = null, bestD = Infinity;
+        mapped.forEach(function (el) {
+          var r = el.getBoundingClientRect();
+          if (r.bottom < 0 || r.top > window.innerHeight) return;
+          var d = Math.abs((r.top + r.bottom) / 2 - mid);
+          if (d < bestD) { bestD = d; best = el.id; }
+        });
+        if (best) apply(ACTIONS[best]);
+      }
+      addEventListener('scroll', function () {
+        if (!ticking) { ticking = true; requestAnimationFrame(pick); }
+      }, { passive: true });
+      pick();
+
+      /* Dismissal lasts the visit, not forever: someone who closes it is reading,
+         not refusing, and a fresh visit from Instagram should get it back. */
+      try { if (sessionStorage.getItem('lp-bar-dismissed')) document.documentElement.classList.add('lp-bar-off'); } catch (e) {}
+      if (x) x.addEventListener('click', function () {
+        document.documentElement.classList.add('lp-bar-off');
+        try { sessionStorage.setItem('lp-bar-dismissed', '1'); } catch (e) {}
+      });
     })();
 
     /* ---- Lightweight click tracking — ready for Plausible / GoatCounter ---- */

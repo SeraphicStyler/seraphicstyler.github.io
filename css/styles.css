@@ -1251,6 +1251,9 @@ html.dark .gift-card .gift-for { color: var(--text-secondary); }
 .gift-card.is-suggested { outline: 2px solid var(--accent-deep); outline-offset: 4px; border-radius: var(--card-radius); transition: outline-color 0.4s ease; }
 /* "What the gift covers" — a scannable comparison table (replaces the 3-card list) */
 .gift-covers-h { text-align: center; font-size: 1.15rem; margin: 0.4rem 0 0.5rem; }
+/* The standfirst that sits under a .gift-covers-h — it had no rule at all, so it
+   pinned left in its 65ch box under a centred heading (#gift, #bulk, #boutique). */
+.gift-support__intro { max-width: 58ch; margin: 0 auto 1.1rem; text-align: center; }
 .gift-covers { display: grid; gap: 1.1rem; width: 100%; max-width: 52rem; margin: 1rem auto 0.2rem; text-align: left; }
 @media (min-width: 860px) { .gift-covers { grid-template-columns: repeat(3, 1fr); gap: 1.4rem; } }
 .gc-panel { border-top: 1px solid var(--surface-border); padding-top: 0.95rem; }
@@ -1880,3 +1883,17 @@ body.sp-locked { overflow: hidden; }
   .gl-row { grid-template-columns: 1fr auto; }
   .gl-row .gl-what { grid-column: 1 / -1; }
 }
+
+/* ===== Boutique buying-agent estimator (#btqEst) — shared by index.html
+   #boutique and for-boutiques.html; logic in js/boutique-estimator.js ===== */
+#btqEst .btq-presets { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin: 0 0 1.2rem; }
+#btqEst .btq-presets button { cursor: pointer; font-family: var(--font-accent); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.55rem 1rem; border: 1px solid var(--surface-border); border-radius: 999px; background: transparent; color: var(--text-secondary); transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease; }
+#btqEst .btq-presets button:hover { border-color: var(--accent-deep); color: var(--text-primary); }
+#btqEst .btq-presets button[aria-pressed="true"] { background: var(--accent-deep); border-color: var(--accent-deep); color: #fff; }
+#btqEst .be-duo { display: grid; gap: 0.9rem; margin-top: 0.9rem; }
+@media (min-width: 700px) { #btqEst .be-duo { grid-template-columns: 1fr 1fr; } }
+#btqEst .be-duo .dcol { border: 1px solid var(--surface-border); border-radius: 0.9rem; padding: 0.85rem 0.95rem; background: var(--surface-strong, var(--surface-soft)); }
+#btqEst .be-duo .dcol h4 { margin: 0 0 0.55rem; font-family: var(--font-accent); font-weight: 500; font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-deep); }
+#btqEst .be-duo .dcol.flight { border-color: var(--accent); }
+#btqEst .btq-flightnote { font-size: 0.78rem; line-height: 1.6; color: var(--text-secondary); margin: 0.8rem 0 0; }
+#btqEst #btqOnwardWrap { display: none; }

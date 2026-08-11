@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>For Boutiques — your buyer in Sài Gòn · Seraphic Styler</title>
+  <meta name="description" content="A buying &amp; sourcing agent for boutiques stocking Sài Gòn's emerging designers: 320 houses verified in person, negotiated stockist terms, every piece checked, one consolidated export shipment. Fees from 18% down to 8%, one written number before any deposit." />
+  <meta property="og:title" content="For Boutiques — Seraphic Styler" />
+  <meta property="og:description" content="Your buyer in Sài Gòn: 320 verified designer houses, negotiated stockist terms, every piece checked, one export parcel. 18% down to 8%, in writing before any deposit." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.seraphicstyler.com/for-boutiques" />
+  <meta property="og:image" content="https://www.seraphicstyler.com/assets/social/og-image.png" />
+  <link rel="canonical" href="https://www.seraphicstyler.com/for-boutiques" />
+  <meta name="theme-color" content="#eef3fb" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1d29" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="assets/favicon-48.png" type="image/png" sizes="48x48" />
+  <link rel="icon" href="assets/favicon-192.png" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="assets/favicon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Tenor+Sans&family=Merriweather+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css?v=2026-08-11" />
+  <!-- Respect the same theme / accessibility prefs the main site stores -->
+  <script>
+    (function () { var d = document.documentElement, s = window.localStorage;
+      try {
+        var th = s.getItem('ss-theme') || 'auto'; var pcs = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; if (th === 'dark' || (th === 'auto' && pcs)) d.classList.add('dark'); else if (th === 'mono') d.classList.add('mono');
+        if (s.getItem('ss-contrast') === '1') d.classList.add('hc');
+        var ts = s.getItem('ss-textsize'); if (ts === 'lg') d.classList.add('ts-lg'); if (ts === 'xl') d.classList.add('ts-xl');
+        if (s.getItem('ss-motion') === '1') d.classList.add('rm');
+      } catch (e) {}
+    })();
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Service","name":"Boutique buying & sourcing agent","provider":{"@id":"https://www.seraphicstyler.com/#atelier"},"areaServed":"Worldwide","url":"https://www.seraphicstyler.com/for-boutiques","description":"A buying agent for boutiques stocking Sài Gòn's emerging designers: showroom scouting against a buy brief, negotiated stockist terms at curated depth, a stated check on every piece, and one consolidated export shipment with a per-style commercial invoice. Buying fee tiered by buy size — 18% under $1,500 down to 8% at $20,000+ — one written number before any deposit; pieces at designer receipt price; shipping at exact carrier cost; $115 scouting deposit to start, credited in full."}
+  </script>
+  <style>
+    /* For Boutiques — the whole lane as one quiet, forwardable column.
+       Same editorial skeleton as signature.html; whitespace is the design. */
+    .bq { max-width: 620px; margin: 0 auto; padding: 0 1.4rem; }
+    .bq-top { text-align: center; padding: clamp(3rem, 10vh, 5.5rem) 0 0; }
+    .bq-top .brand-lockup { text-decoration: none; }
+    .bq-mark { width: 38px; height: 38px; color: var(--accent-deep); margin: 0 auto 0.6rem; display: block; }
+
+    .bq-hero { text-align: center; padding: clamp(3.4rem, 12vh, 6rem) 0 clamp(3rem, 9vh, 4.8rem); }
+    .bq-eyebrow { display: block; font-family: var(--font-brand); text-transform: uppercase;
+      letter-spacing: 0.3em; font-size: 0.66rem; color: var(--eyebrow-ink); margin-bottom: 1.6rem; }
+    .bq-h1 { display: block; font-family: var(--font-display); font-weight: 300; color: var(--text-primary);
+      font-size: clamp(1.9rem, 6.5vw, 2.7rem); line-height: 1.25; margin: 0; }
+    .bq-h1 em { font-family: var(--font-script); font-style: normal; font-weight: 400;
+      font-size: 1.25em; color: var(--accent); }
+    .bq-hero .bq-lead { display: block; margin: 1.8rem auto 0; max-width: 46ch; color: var(--text-secondary);
+      font-size: 0.95rem; line-height: 1.85; font-family: var(--font-body); font-weight: 400; }
+    .bq-scarce { display: block; margin: 2.4rem auto 0; font-family: var(--font-brand); text-transform: uppercase;
+      letter-spacing: 0.22em; font-size: 0.62rem; color: var(--accent-deep); }
+    .bq-scarce::before, .bq-scarce::after { content: '·'; margin: 0 0.9rem; opacity: 0.5; }
+
+    .bq-sec { padding: clamp(3rem, 8vh, 4.6rem) 0; border-top: 1px solid var(--surface-border); }
+    .bq-sec-e { display: block; font-family: var(--font-brand); text-transform: uppercase;
+      letter-spacing: 0.26em; font-size: 0.62rem; color: var(--eyebrow-ink); margin-bottom: 1.1rem; }
+    .bq-sec h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.3rem, 4.5vw, 1.6rem);
+      color: var(--text-primary); line-height: 1.35; margin: 0 0 1.1rem; }
+    .bq-sec p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.85; margin: 0 0 1rem; max-width: 54ch; }
+    .bq-sec p b { color: var(--text-primary); font-weight: 500; }
+
+    /* The ladder — typography, not a pricing table */
+    .bq-ladder { list-style: none; margin: 1.8rem 0 1.2rem; padding: 0; }
+    .bq-ladder li { display: flex; align-items: baseline; gap: 0.9rem; padding: 0.6rem 0;
+      border-bottom: 1px solid var(--surface-border); }
+    .bq-ladder .r { font-family: var(--font-accent); font-size: 0.8rem; letter-spacing: 0.05em;
+      color: var(--text-secondary); }
+    .bq-ladder .dots { flex: 1; border-bottom: 1px dotted var(--surface-border); transform: translateY(-0.3em); }
+    .bq-ladder .pct { font-family: var(--font-display); font-weight: 300; font-size: 1.25rem;
+      color: var(--accent-deep); font-variant-numeric: tabular-nums; }
+    .bq-quiet { font-family: var(--font-accent); font-size: 0.72rem; letter-spacing: 0.04em;
+      color: var(--text-secondary); line-height: 1.7; }
+
+    /* The terms, in three labelled answers rather than one run-on line */
+    .bq-terms { margin: 1.6rem 0 0; }
+    .bq-terms dt { font-family: var(--font-brand); text-transform: uppercase; letter-spacing: 0.18em;
+      font-size: 0.6rem; color: var(--eyebrow-ink); margin: 1.1rem 0 0.35rem; }
+    .bq-terms dt:first-child { margin-top: 0; }
+    .bq-terms dd { margin: 0; font-family: var(--font-accent); font-size: 0.78rem;
+      letter-spacing: 0.03em; line-height: 1.75; color: var(--text-secondary); max-width: 54ch; }
+
+    /* Sample briefs — the payoff to "three lines is enough" */
+    .bq-briefs { list-style: none; margin: 1.9rem 0 0; padding: 0; display: grid; gap: 1.5rem; }
+    .bq-briefs li { border-left: 1px solid var(--surface-border); padding-left: 1.1rem; }
+    .bq-briefs .ask { margin: 0 0 0.45rem; font-family: var(--font-display); font-weight: 300;
+      font-size: 1rem; line-height: 1.6; color: var(--text-primary); }
+    .bq-briefs .ans { margin: 0; font-family: var(--font-accent); font-size: 0.75rem;
+      letter-spacing: 0.03em; line-height: 1.7; color: var(--text-secondary); }
+    .bq-briefs .ans b { color: var(--accent-deep); font-weight: 500; font-variant-numeric: tabular-nums; }
+    html.dark .bq-briefs .ans b { color: var(--periwinkle); }
+
+    /* To start — the one figure before anything moves */
+    .bq-start { border: 1px solid var(--surface-border); border-radius: 14px; background: var(--surface-soft);
+      padding: 1.1rem 1.25rem; margin: 1.6rem 0 0; }
+    .bq-start .amt { font-family: var(--font-display); font-weight: 300; font-size: 1.5rem; color: var(--accent);
+      margin-right: 0.35rem; }
+    .bq-start p { margin: 0.35rem 0 0; font-size: 0.85rem; }
+
+    /* The buy, in five quiet steps */
+    .bq-steps { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 1.7rem; }
+    .bq-steps li { display: grid; grid-template-columns: 3rem 1fr; gap: 1.1rem; align-items: baseline; }
+    .bq-steps .n { font-family: var(--font-display); font-weight: 300; font-size: 1.5rem;
+      color: var(--eyebrow-ink); font-variant-numeric: tabular-nums; }
+    html.dark .bq-steps .n { color: var(--periwinkle); }
+    .bq-steps h3 { font-family: var(--font-brand); font-weight: 400; font-size: 0.95rem;
+      letter-spacing: 0.05em; color: var(--text-primary); margin: 0 0 0.35rem; }
+    .bq-steps p { margin: 0; font-size: 0.88rem; }
+
+    /* One worked buy — a small receipt */
+    .bq-receipt { list-style: none; margin: 1.8rem 0 0.9rem; padding: 0; }
+    .bq-receipt li { display: flex; align-items: baseline; gap: 0.9rem; padding: 0.55rem 0;
+      border-bottom: 1px solid var(--surface-border); }
+    .bq-receipt .l { font-family: var(--font-accent); font-size: 0.76rem; letter-spacing: 0.04em;
+      color: var(--text-secondary); }
+    .bq-receipt .dots { flex: 1; border-bottom: 1px dotted var(--surface-border); transform: translateY(-0.3em); }
+    .bq-receipt .v { font-family: var(--font-body); font-size: 0.9rem; color: var(--text-primary);
+      font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .bq-receipt li.tot .v { font-family: var(--font-display); font-size: 1.1rem; }
+    .bq-receipt li.per .v { color: var(--accent-deep); font-family: var(--font-display); font-size: 1.1rem; }
+
+    /* Temporary flight note — self-expires with the window */
+    .bq-flight { display: none; border: 1.5px solid var(--accent); border-radius: 14px;
+      padding: 1rem 1.2rem; margin: 1.8rem 0 0; }
+    .bq-flight p { margin: 0; font-size: 0.85rem; }
+
+    /* Closing */
+    .bq-close { text-align: center; padding-bottom: clamp(3.6rem, 10vh, 6rem); }
+    .bq-cta { display: inline-flex; align-items: center; justify-content: center; min-height: 52px;
+      padding: 0 3rem; margin-top: 1.6rem; border: 1px solid var(--accent); border-radius: 999px;
+      color: var(--accent); text-decoration: none; font-family: var(--font-accent); font-weight: 500;
+      font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase;
+      transition: background 0.25s ease, color 0.25s ease; }
+    .bq-cta:hover, .bq-cta:focus-visible { background: var(--accent); color: var(--cta-text, #fff); }
+    .bq-close .bq-quiet { display: block; margin-top: 1.3rem; }
+    .bq-foot { text-align: center; font-family: var(--font-accent); font-size: 0.74rem;
+      color: var(--text-secondary); padding: 0 1.4rem calc(env(safe-area-inset-bottom) + 2.6rem); }
+    .bq-foot a { color: var(--accent-deep); text-decoration: none; }
+    .bq-foot a:hover { text-decoration: underline; }
+    .bq-foot .dot { opacity: 0.4; margin: 0 0.5rem; }
+    .bq-sec a { color: var(--accent-deep); }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="bq bq-top">
+    <svg class="bq-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.3,27.0 C18.4,18.0 21.6,8.4 31.6,6.6 C38.2,5.4 41.0,11.4 37.8,18.0 C35.0,24.2 28.6,27.4 23.0,28.6 Z"/><path d="M22.6,29.4 C26.8,31.2 32.2,33.0 35.0,38.0 C36.6,40.8 36.0,43.8 33.6,43.4 C29.6,42.7 25.0,35.6 22.4,30.4 Z"/><path d="M22.3,27.0 C21.5,28.8 21.5,30.6 22.6,32.2"/><path d="M22.3,27.0 C19.9,22.2 17.2,18.4 13.4,16.4"/><path d="M22.3,27.0 C20.6,21.8 18.8,17.2 16.0,13.8"/><circle cx="13.4" cy="16.4" r="1.2" fill="currentColor" stroke="none"/><circle cx="16.0" cy="13.8" r="1.2" fill="currentColor" stroke="none"/></svg>
+    <a class="brand-lockup" href="./" aria-label="Seraphic Styler home">
+      <span class="brand-seraphic">Seraphic</span>
+      <span class="brand-styler">Styler</span>
+    </a>
+  </header>
+
+  <main class="bq">
+    <h1 class="bq-hero">
+      <span class="bq-eyebrow">For boutiques — buying &amp; sourcing agent</span>
+      <span class="bq-h1">Your buyer in <em>Sài Gòn</em>.</span>
+      <span class="bq-lead" role="text">Sài Gòn's designers are dressing international editorials — Fancì Club, GIA Studios, the wave behind them — and barely reach a single wholesale platform. I've verified 320 of their houses in person and buy from them year-round, working between California and Sài Gòn: terms negotiated, every piece checked, the whole buy shipped once.</span>
+      <span class="bq-scarce">One written number before any deposit · no retainer</span>
+    </h1>
+
+    <section class="bq-sec" id="pricing" aria-labelledby="bq-fee-h">
+      <span class="bq-sec-e">The fee</span>
+      <h2 id="bq-fee-h">One ladder, set by the whole buy</h2>
+      <ul class="bq-ladder">
+        <li><span class="r">Under $1,500</span><span class="dots" aria-hidden="true"></span><span class="pct">18%</span></li>
+        <li><span class="r">$1,500 – $4,999</span><span class="dots" aria-hidden="true"></span><span class="pct">15%</span></li>
+        <li><span class="r">$5,000 – $9,999</span><span class="dots" aria-hidden="true"></span><span class="pct">12%</span></li>
+        <li><span class="r">$10,000 – $19,999</span><span class="dots" aria-hidden="true"></span><span class="pct">10%</span></li>
+        <li><span class="r">$20,000 and above</span><span class="dots" aria-hidden="true"></span><span class="pct">8%</span></li>
+      </ul>
+      <!-- Split out of one dot-separated run-on. A prospect reading this is asking
+           two different questions — "what do I have to hand over before anything
+           happens" and "how does the fee behave" — and the answers were tangled
+           together. Labelled, the first one can be answered in a glance. -->
+      <dl class="bq-terms">
+        <dt>Asked of you, upfront</dt>
+        <dd>The brief — category and aesthetic direction, the budget, depth per style, size runs, no-gos, and the date stock must land. Three lines is enough to open it. Then the scouting deposit below, and nothing else until you've seen a written quote.</dd>
+
+        <dt>Never marked up</dt>
+        <dd>Pieces at designer receipt price · shipping at exact carrier cost, billed once your parcel is weighed · US duty stays yours, with the per-style commercial invoice prepared for your broker.</dd>
+
+        <dt>How the fee behaves</dt>
+        <dd>$25 minimum · rush or atelier coordination a flat 20%, replacing your tier rather than adding to it · and never more than it would be at the next tier's opening, so landing just under a threshold never costs you more than landing just over it.</dd>
+
+        <dt>What the fee buys</dt>
+        <dd>The research, the negotiation with each designer in Vietnamese, a check of every piece against a written spec — photographed for your approval before anything ships — and one consolidated export parcel with the paperwork done properly.</dd>
+
+        <dt>Paid in two</dt>
+        <dd>Pieces at cost plus half the fee to begin; the balance plus exact shipping only after you approve the photographs. Bank transfer, Wise, PayPal (Goods &amp; Services), or Payoneer. Quotes are fixed in đồng — each payment's dollar figure converts at that day's rate, so nothing drifts between quote and balance.</dd>
+
+        <dt>Faults</dt>
+        <dd>Designer pieces are final sale unless the designer is at fault. The pre-dispatch photographs are our shared record: report within seven days of delivery, with photos, and I take it back to the designer for repair, replacement or refund where the fault is theirs.</dd>
+
+        <dt>Research without a brief</dt>
+        <dd>Market surveys and option-hunting before you've committed a direction: 500,000₫ per hour, two-hour minimum — booked and paid before I set out, credited in full against your next buy.</dd>
+      </dl>
+      <div class="bq-start">
+        <span class="amt">$115</span><span class="bq-quiet">to start — the scouting deposit, 3,000,000₫</span>
+        <p>Nothing is scouted before it lands; it's credited in full against your first payment, and waived once you've bought before. If you decide not to buy, it has paid for the round — and the line sheet is yours to keep.</p>
+      </div>
+    </section>
+
+    <section class="bq-sec" aria-labelledby="bq-how-h">
+      <span class="bq-sec-e">The buy</span>
+      <h2 id="bq-how-h">Five quiet steps</h2>
+      <ol class="bq-steps">
+        <li><span class="n" aria-hidden="true">01</span><div><h3>The brief</h3><p>Free to set up — the aesthetic, the budget, depth per style, and the date stock must land. Three lines is enough.</p></div></li>
+        <li><span class="n" aria-hidden="true">02</span><div><h3>The scouting round</h3><p>Showrooms worked against your brief — in person during Sài Gòn buying windows, by live video between them — returned as a line sheet: photo, price, sizes, lead time, per style.</p></div></li>
+        <li><span class="n" aria-hidden="true">03</span><div><h3>The written quote</h3><p>Every style with its negotiated stockist terms, my fee as one number, the shipping band and the timeline. Nothing is placed before your yes.</p></div></li>
+        <li><span class="n" aria-hidden="true">04</span><div><h3>First payment &amp; the check</h3><p>Pieces at cost plus half the fee — your money buys your stock directly. Then every piece is checked and photographed for your approval.</p></div></li>
+        <li><span class="n" aria-hidden="true">05</span><div><h3>Dispatch</h3><p>The balance plus exact shipping after you approve the photographs. One consolidated export parcel, one tracking number, and the per-style commercial invoice your broker needs — US duty stays yours, prepared properly.</p></div></li>
+      </ol>
+    </section>
+
+    <!-- What a brief actually looks like. Step 01 promises "three lines is enough"
+         and then never shows one, which leaves the reader to guess the format and
+         the price of their own idea. These are the five shapes that actually
+         arrive, written the way they arrive, with the tier each one lands in.
+         Kept category-neutral on purpose: the arithmetic is the same whether the
+         floor is eveningwear, accessories or made-to-measure. -->
+    <section class="bq-sec" aria-labelledby="bq-briefs-h">
+      <span class="bq-sec-e">What gets asked</span>
+      <h2 id="bq-briefs-h">Five briefs, as they arrive</h2>
+      <p>Three lines is genuinely enough. These are the shapes that come in most often, and where each one lands on the ladder — at ≈2,800,000₫ a piece unless the price point says otherwise.</p>
+      <ul class="bq-briefs">
+        <li>
+          <p class="ask">“Six styles, two of each, for a February floor. Sizes XS–L. Shipping to Los Angeles.”</p>
+          <p class="ans">12 pieces · 3 houses · ≈$1,278 at cost → <b>18% · ≈$225</b>. The cap holds it at $225 rather than $230, because that is what the next tier would charge. A first, cautious range.</p>
+        </li>
+        <li>
+          <p class="ask">“Four made-to-measure commissions for named clients, plus three ready-to-wear to test the floor. I need them in six weeks.”</p>
+          <p class="ans">9 pieces · ≈$4,072 at cost → <b>flat 20% · ≈$814</b>. Made-to-measure with a compressed date is atelier coordination, so the flat rate replaces the tier — agreed in writing before I start, never applied after.</p>
+        </li>
+        <li>
+          <p class="ask">“Repeat the two styles that sold out, plus twelve new ones from the same three houses. Same size run as last season.”</p>
+          <p class="ans">36 pieces · ≈$5,065 at cost → <b>12% · ≈$608</b>. The second-season shape, and the one the ladder is built to reward: same relationship, smaller share.</p>
+        </li>
+        <li>
+          <p class="ask">“One category only, lower price point, more depth — ten styles, four of each.”</p>
+          <p class="ans">40 pieces · ≈$1,825 at cost → <b>15% · ≈$274</b>. More pieces than the first brief and a smaller fee, because the tier follows the money rather than the piece count.</p>
+        </li>
+        <li>
+          <p class="ask">“A full seasonal floor. Twenty styles, three of each, natural fibres only, one shipment.”</p>
+          <p class="ans">60 pieces · ≈$8,441 at cost → <b>12% · ≈$1,000</b>. Twelve per cent would be $1,013; the cap holds it at $1,000. Fabric and fibre constraints are part of the brief, not an extra.</p>
+        </li>
+      </ul>
+      <p class="bq-quiet" style="margin-top:1.6rem">A brief does not need a designer name in it. Tell me the shape of the floor, the budget and the date — finding the houses is the work you're paying for.</p>
+    </section>
+
+    <section class="bq-sec" aria-labelledby="bq-ex-h">
+      <span class="bq-sec-e">One worked buy</span>
+      <h2 id="bq-ex-h">A first range, to the đồng</h2>
+      <p>24 pieces across five designer houses, at two to three per style, averaging 2,800,000₫ a piece. Whatever the category — the arithmetic is the same. Converted at ≈26,300₫ to $1; your own quote is fixed in đồng, in writing.</p>
+      <ul class="bq-receipt">
+        <li><span class="l">Pieces at cost</span><span class="dots" aria-hidden="true"></span><span class="v">67,200,000₫ · ≈$2,555</span></li>
+        <li><span class="l">Buying fee — 15% tier</span><span class="dots" aria-hidden="true"></span><span class="v">10,080,000₫ · ≈$383</span></li>
+        <li><span class="l">One parcel, ≈8.4kg, US &amp; Canada</span><span class="dots" aria-hidden="true"></span><span class="v">≈$144–380</span></li>
+        <li class="tot"><span class="l">Landed, before US duty</span><span class="dots" aria-hidden="true"></span><span class="v">≈$3,083–3,319</span></li>
+        <li class="per"><span class="l">Per piece, landed</span><span class="dots" aria-hidden="true"></span><span class="v">≈$128–138</span></li>
+      </ul>
+      <p class="bq-quiet">Stockist terms at curated depth typically run 10–30% below retail — often covering the fee outright. Where a label has no room to move, I say so before you commit. Run your own numbers on <a href="#btqEst">the estimator below</a>.</p>
+      <div class="bq-flight" id="bqFlight">
+        <p><b>Until 15 August:</b> in-stock pieces on a US-bound buy can fly home free in my suitcase on the 18th — no courier, no per-kilo bill, free Orange County pickup. Mention it in your brief; space goes in paid order.</p>
+      </div>
+    </section>
+
+    <section class="bq-sec" aria-labelledby="btqEstH">
+      <span class="bq-sec-e">Your numbers</span>
+      <!-- Same estimator as the home #boutique section — ids shared with
+           js/boutique-estimator.js, styles shared via css/styles.css. -->
+      <div class="glass bulk-est" id="btqEst">
+        <h3 id="btqEstH" class="gift-covers-h">Rough out your buy</h3>
+        <p class="gift-support__intro small muted">A piece count, an average showroom price, a destination — the same ladder and anchors as the numbers above. A planning figure, not a quote: your own quote is itemized in writing, fixed in đồng, before anything is placed.</p>
+        <div class="btq-presets" role="group" aria-label="Start from a worked example">
+          <button type="button" id="btqPre1" aria-pressed="false">A first boutique buy</button>
+          <button type="button" id="btqPre2" aria-pressed="false">A repeat boutique buy</button>
+        </div>
+        <div class="be-grid">
+          <div class="be-fields">
+            <label class="sp-field"><span>Number of pieces</span>
+              <input type="number" id="btqPieces" inputmode="numeric" min="1" step="1" placeholder="24"></label>
+            <label class="sp-field"><span>Average showroom price per piece (₫)</span>
+              <input type="number" id="btqAvg" inputmode="numeric" min="0" step="100000" placeholder="2800000"></label>
+            <label class="sp-field"><span>Destination</span>
+              <select id="btqRegion">
+                <option value="us">US &amp; Canada</option>
+                <option value="latam">Latin America</option>
+                <option value="eu">Europe &amp; UK</option>
+                <option value="oceania">Australia &amp; New Zealand</option>
+                <option value="asia">East &amp; SE Asia</option>
+                <option value="sca">South &amp; Central Asia</option>
+                <option value="mena">Middle East &amp; North Africa</option>
+                <option value="africa">Africa</option>
+              </select></label>
+            <label class="be-check"><input type="checkbox" id="btqRush"> <span>Rush or atelier coordination <em>(flat 20% replaces the tier — agreed in writing before we start)</em></span></label>
+            <label class="be-check" id="btqFlightWrap"><input type="checkbox" id="btqFlight"> <span>The August flight window <em>(orders close 15 August — in-stock pieces fly home in my suitcase on the 18th, the international leg free)</em></span></label>
+            <label class="sp-field" id="btqOnwardWrap"><span>From Orange County, onward</span>
+              <select id="btqOnward">
+                <option value="pickup">Free pickup, central Orange County</option>
+                <option value="doorOC">Doorstep, Orange County — $20</option>
+                <option value="doorLA">Doorstep, greater LA — $40</option>
+                <option value="usps">Onward inside the US, tracked (e.g. CA → NY) — ≈$25–75</option>
+              </select></label>
+          </div>
+          <div class="be-out" id="btqOut" aria-live="polite">
+            <p class="be-waiting">Enter a piece count and an average showroom price — the whole buy appears here, worked to the đồng.</p>
+          </div>
+        </div>
+        <p class="small muted" style="margin-top:0.9rem">Planning assumptions: ≈0.35kg per packed piece, converted at ≈26,300₫ to $1. The tier is set by the whole buy, not per designer; exact shipping is quoted in writing after packing, never guessed. US duty on a commercial entry stays yours — I prepare the per-style invoice your broker files. Nothing is scouted before the deposit lands; because it is credited in full, a real buyer never pays it twice.</p>
+      </div>
+    </section>
+
+    <section class="bq-sec bq-close" aria-label="Begin">
+      <span class="bq-sec-e">When you're ready</span>
+      <h2>Send the buy brief.</h2>
+      <a class="bq-cta" href="https://tally.so/r/gD10Kl?about=I%20run%20a%20boutique%20%E2%80%94%20buying%20agent%20support&amp;source=for-boutiques-page" target="_blank" rel="noopener" data-track="for-boutiques-brief">Send your buy brief</a>
+      <span class="bq-quiet">Three lines is enough — the aesthetic, the budget, the date stock must land.<br />Replies within a business day · the full terms, worked examples and FAQ live on <a href="./#boutique">the main page</a>.</span>
+    </section>
+  </main>
+
+  <footer class="bq-foot">
+    <a href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener">@seraphicstyler</a>
+    <span class="dot">·</span>
+    <a href="mailto:seraphicstyler@gmail.com">seraphicstyler@gmail.com</a>
+    <span class="dot">·</span>
+    <a href="fashion-directory.html">The 320-house directory</a>
+  </footer>
+
+  <script src="js/boutique-estimator.js"></script>
+  <script>
+    /* The flight note shows only while orders are open — same self-expiry as
+       the homepage band, so a link forwarded in September stays honest. */
+    (function () {
+      var el = document.getElementById('bqFlight'); if (!el) return;
+      if (new Date() <= new Date(2026, 7, 15, 23, 59, 59)) el.style.display = 'block';
+    })();
+    /* Lightweight click tracking, same shape as the rest of the site */
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('[data-track]'); if (!a) return;
+      try {
+        if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: 'link/' + a.getAttribute('data-track'), title: a.getAttribute('data-track'), event: true });
+      } catch (_) {}
+    }, { passive: true });
+  </script>
+</body>
+</html>
