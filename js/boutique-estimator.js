@@ -45,8 +45,8 @@
     /* The gate before any sourcing begins: nothing is scouted until this
        lands. Published price, so it displays without the ≈ — and credited in
        full against the first payment, so it never changes the totals. */
-    scoutDepositVnd: 3000000,
-    scoutDepositUsdText: '$115',
+    scoutDepositVnd: 3900000,
+    scoutDepositUsdText: '$150',
 
     /* The ladder — tier set by the whole buy, not per designer. The cap
        implements btq.tierline: "Your fee is never more than it would be at
