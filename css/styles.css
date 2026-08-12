@@ -1935,3 +1935,34 @@ html.dark .bx-rows .be-margin > summary { color: var(--periwinkle); }
 #btqEst .be-duo .dcol.flight { border-color: var(--accent); }
 #btqEst .btq-flightnote { font-size: 0.78rem; line-height: 1.6; color: var(--text-secondary); margin: 0.8rem 0 0; }
 #btqEst #btqOnwardWrap { display: none; }
+
+/* ---- The footer garden ----
+   Drifting lavender blossoms and two aurora glows behind the footer — the site's
+   answer to a video footer, at zero bytes of media. Transform/opacity only, so it
+   composites on the GPU; negative delays start every bloom mid-drift. Stilled for
+   prefers-reduced-motion, dimmed in mono, removed in high-contrast. */
+.footer { position: relative; overflow: hidden; }
+.footer .wrap { position: relative; z-index: 1; }
+.foot-flora { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.ff-glow { position: absolute; width: 46vw; max-width: 620px; aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--periwinkle) 14%, transparent), transparent 66%);
+  animation: ffGlow 26s ease-in-out infinite alternate; }
+.ff-g1 { left: -10%; bottom: -34%; }
+.ff-g2 { right: -8%; top: -28%; animation-duration: 34s; animation-delay: -14s;
+  background: radial-gradient(circle, color-mix(in srgb, var(--orchid) 12%, transparent), transparent 66%); }
+.ff-p { position: absolute; left: var(--x); top: var(--y); width: var(--s); height: var(--s);
+  color: var(--periwinkle); opacity: var(--o); transform: rotate(var(--r));
+  animation: ffDrift var(--d) ease-in-out infinite alternate; }
+.ff-orchid { color: var(--orchid); }
+.ff-fly { color: var(--lav-mist); }
+@keyframes ffGlow {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(5%, -4%, 0) scale(1.14); } }
+@keyframes ffDrift {
+  from { transform: translate3d(0, 0, 0) rotate(var(--r)); }
+  to   { transform: translate3d(var(--dx), var(--dy), 0) rotate(calc(var(--r) + 14deg)); } }
+html.dark .ff-p { opacity: calc(var(--o) * 1.35); }
+html.dark .ff-glow { opacity: 0.8; }
+html.mono .foot-flora { opacity: 0.25; filter: grayscale(1); }
+html.hc .foot-flora { display: none; }
+@media (prefers-reduced-motion: reduce) { .ff-p, .ff-glow { animation: none; } }
