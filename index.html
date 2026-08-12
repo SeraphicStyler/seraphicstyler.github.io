@@ -257,36 +257,111 @@
   </section>
 
   <!-- ===== SERVICES ===== -->
+  <!-- Card anatomy (keep all four lines in step): h3 name · .svc-atm one atmospheric line · .body one literal line · .svc-price one isolated pricing line -->
+  <style>
+    #services [data-svc-cards] .service{display:flex;flex-direction:column}
+    #services .svc-atm{font-style:italic;color:var(--text-primary);font-size:0.95rem;line-height:1.5;margin:0 0 0.45rem}
+    #services .svc-price{margin:0.9rem 0 0;padding-top:0.6rem;border-top:1px solid var(--surface-border);font-size:0.85rem;letter-spacing:0.02em;font-weight:600;color:var(--text-primary)}
+    #services [data-svc-cards] .svc-price{margin-top:auto;padding-top:0.6rem}
+    #services [data-svc-cards] .service .body{margin-bottom:0.9rem}
+    #services .svc-compare{display:grid;grid-template-columns:1fr 1fr;gap:0;max-width:860px;margin:0 auto 2.2rem;padding:0;overflow:hidden}
+    #services .svc-compare .svc-col{padding:1.4rem 1.5rem}
+    #services .svc-compare .svc-col+.svc-col{border-left:1px solid var(--surface-border)}
+    #services .svc-compare h4{margin:0 0 0.5rem;font-size:1.05rem}
+    #services .svc-compare .svc-def{font-size:0.92rem;color:var(--text-primary);line-height:1.55;margin:0 0 1rem}
+    #services .svc-compare dl{margin:0;display:grid;gap:0.65rem}
+    #services .svc-compare dt{font-size:0.72rem;letter-spacing:0.09em;text-transform:uppercase;color:var(--text-secondary);margin:0 0 0.15rem}
+    #services .svc-compare dd{margin:0;font-size:0.9rem;color:var(--text-secondary);line-height:1.5}
+    @media (max-width:720px){#services .svc-compare{grid-template-columns:1fr}#services .svc-compare .svc-col+.svc-col{border-left:none;border-top:1px solid var(--surface-border)}}
+    /* Card CTAs wear the site's aurora highlight (see mark.hl) with a slow gradient drift */
+    #services .svc-book{display:inline-block;background:linear-gradient(104deg,
+      color-mix(in srgb, var(--periwinkle) 24%, transparent) 0%,
+      color-mix(in srgb, var(--lav-mist) 32%, transparent) 45%,
+      color-mix(in srgb, var(--orchid) 22%, transparent) 70%,
+      color-mix(in srgb, var(--periwinkle) 24%, transparent) 100%);
+      background-size:220% 100%;border-radius:0.5em;padding:0.22em 0.6em;margin:0 -0.1em;
+      text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+    html.dark #services .svc-book{background-image:linear-gradient(104deg, rgba(138,147,222,0.26) 0%, rgba(201,182,232,0.18) 45%, rgba(201,143,196,0.22) 70%, rgba(138,147,222,0.26) 100%);background-size:220% 100%;color:var(--text-primary)}
+    html.hc #services .svc-book{background:none;padding:0;margin:0;text-decoration-thickness:2px}
+    @media (prefers-reduced-motion:no-preference){
+      @keyframes svcSheen{0%{background-position:0% 0}50%{background-position:100% 0}100%{background-position:0% 0}}
+      #services .svc-book{animation:svcSheen 7s ease-in-out infinite}
+    }
+  </style>
   <section id="services">
     <div class="wrap">
       <div class="section-head center reveal">
         <span class="eyebrow" data-i18n="services.eyebrow">Services</span>
         <h2 data-i18n="svc2.h2">Two ways to work with me</h2>
-        <p class="lead narrow" data-i18n="svc2.intro">Send a link or photo of the exact piece — that's sourcing. Want me to choose for you? That's styling, from $49.</p>
+        <p class="lead narrow" data-i18n="svc2.intro2">If you know the piece, I source it. If you want my eye, I style it — from $49. Either way, every service is quoted the same plain way before anything is bought: the piece at its real price, my fee, and shipping at cost.</p>
+      </div>
+      <!-- Key definitions: the sourcing-vs-styling chart. Keep in step with the cards below and faq.q7. -->
+      <div class="svc-compare glass reveal">
+        <div class="svc-col">
+          <h4 data-i18n="svcvs.ah">Sourcing</h4>
+          <p class="svc-def" data-i18n="svcvs.adef"><strong>Definition:</strong> you already know exactly what you want. You show me the item — a link, a photo, a screenshot — and I buy that exact item and send it to you.</p>
+          <dl>
+            <div><dt data-i18n="svcvs.k1">You send</dt><dd data-i18n="svcvs.a1">A link or photo of the exact item, your size, and your country</dd></div>
+            <div><dt data-i18n="svcvs.k2">You receive</dt><dd data-i18n="svcvs.a2">That exact item. I check it in person and you see photos of it before anything is paid</dd></div>
+            <div><dt data-i18n="svcvs.k3">Priced</dt><dd data-i18n="svcvs.a3">Three numbers, shown before you pay: the item's store price + my fee + shipping</dd></div>
+            <div><dt data-i18n="svcvs.k4">Begins with</dt><dd data-i18n="svcvs.a4">A DM or email. Only a photo, and no idea where it's from? <a href="https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=home-compare" target="_blank" rel="noopener">The Trace ($25)</a> finds it — and the $25 counts toward your order</dd></div>
+          </dl>
+        </div>
+        <div class="svc-col">
+          <h4 data-i18n="svcvs.bh">Styling</h4>
+          <p class="svc-def" data-i18n="svcvs.bdef"><strong>Definition:</strong> you don't have an exact item in mind. You tell me your taste, your size and your budget — and I choose the pieces for you.</p>
+          <dl>
+            <div><dt data-i18n="svcvs.k1b">You send</dt><dd data-i18n="svcvs.b1">Ideas — a Pinterest board, screenshots of looks you love, or simply your size and what you like</dd></div>
+            <div><dt data-i18n="svcvs.k2b">You receive</dt><dd data-i18n="svcvs.b2">A selection chosen for you, with photos and real store prices. You approve every piece before it is bought</dd></div>
+            <div><dt data-i18n="svcvs.k3b">Priced</dt><dd data-i18n="svcvs.b3">One flat price, $49–$750. Part is my styling fee; the rest is credit spent on your clothes</dd></div>
+            <div><dt data-i18n="svcvs.k4b">Begins with</dt><dd data-i18n="svcvs.b4">Booking a tier below by card, then a short style questionnaire</dd></div>
+          </dl>
+        </div>
       </div>
       <h3 class="center reveal" style="margin:0 0 1rem" data-i18n="svc2.laneA">Sourcing — you name the piece</h3>
       <div class="grid grid-3" data-svc-cards>
-        <div class="service reveal"><h3 data-i18n="svc.1h">Vietnam Brand Sourcing</h3><div class="body" data-i18n="svc.1b">The exact piece, verified in hand and photographed before purchase.
-A link, a size, a destination — 1–3 days.</div></div>
-        <div class="service reveal"><h3 data-i18n="svc.7h">Vietnamese Beauty Sourcing</h3><div class="body" data-i18n="svc.7b">Vietnam-made skincare and cosmetics, rarely sold abroad.
-Seals and batches checked; customs rules flagged first.</div></div>
-        <div class="service reveal"><h3 data-i18n="svc2.findh">Found It For You</h3><div class="body" data-i18n="svc2.findb">Seen it but can't name it? Send the photo.
-I identify the maker, price it, and source it.</div></div>
+        <div class="service reveal"><h3 data-i18n="svc.1h">Vietnam Brand Sourcing</h3>
+        <p class="svc-atm" data-i18n="svc.1a">The exact piece, sourced in Saigon and verified in hand.</p>
+        <div class="body" data-i18n="svc.1b2">Send the link, the size, the destination — photographed before purchase, 1–3 days.</div>
+        <p class="svc-price" data-i18n="svc.1p">Store price + sourcing fee + shipping</p></div>
+        <div class="service reveal"><h3 data-i18n="svc.7h">Vietnamese Beauty Sourcing</h3>
+        <p class="svc-atm" data-i18n="svc.7a">Vietnam-made skincare and cosmetics, rarely sold abroad.</p>
+        <div class="body" data-i18n="svc.7b2">Seals and batch details checked; customs rules flagged before anything is bought.</div>
+        <p class="svc-price" data-i18n="svc.7p">Product price + sourcing fee + shipping</p></div>
+        <div class="service reveal"><h3 data-i18n="svc2.findh">Found It For You</h3>
+        <p class="svc-atm" data-i18n="svc2.finda">For the piece you've seen but can't yet place.</p>
+        <div class="body" data-i18n="svc2.findb2">Send the photo; I identify the maker, trace the piece, and quote it before anything is ordered.</div>
+        <p class="svc-price" data-i18n="svc2.findp">The Trace — $25, credited in full to your order</p>
+        <p style="margin:0.7rem 0 0"><a class="svc-cta svc-book" href="https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=home-services" target="_blank" rel="noopener" data-i18n="svc2.findcta">Start The Trace</a></p></div>
       </div>
       <h3 class="center reveal" style="margin:2.2rem 0 1rem" data-i18n="svc2.laneB">Styling — I choose for you</h3>
       <div class="grid grid-3" data-svc-cards>
-        <div class="service reveal"><h3 data-i18n="svc2.t1h">The Discovery — $49</h3><div class="body" data-i18n="svc2.t1b">A first styling read — 1–2 pieces chosen for you.
-$15 styling + $34 piece credit.</div></div>
-        <div class="service reveal"><h3 data-i18n="svc2.t2h">The Edit — $149</h3><div class="body" data-i18n="svc2.t2b">A curated edit, typically 3–5 pieces, photographed with real prices.
-$45 styling + $104 piece credit.</div></div>
-        <div class="service reveal"><h3 data-i18n="svc2.t3h">The Capsule — $249</h3><div class="body" data-i18n="svc2.t3b">8–12 pieces that layer together, with a lookbook.
-$75 styling + $174 piece credit.</div></div>
-        <div class="service reveal"><h3 data-i18n="svc2.t4h">The Atelier — $349</h3><div class="body" data-i18n="svc2.t4b">The full experience — in Saigon, or live on video.
-$110 styling + $239 piece credit.</div></div>
-        <div class="service reveal"><h3 data-i18n="svc2.t5h">The Signature — $750</h3><div class="body" data-i18n="svc2.t5b">The designer commission — Fancì Club, GIA Studios, the ateliers.
-Made-to-measure fittings, a lookbook, 60 days of support.
-$290 styling + $460 clothing credit.</div>
-        <p style="margin:0.7rem 0 0"><a class="svc-cta" href="signature" data-i18n="svc2.t5cta">Explore The Signature</a></p></div>
+        <div class="service reveal"><h3 data-i18n="svc2.t1h">The Discovery — $49</h3>
+        <p class="svc-atm" data-i18n="svc2.t1a">A first styling read, or a thoughtful gift.</p>
+        <div class="body" data-i18n="svc2.t1b2">1–2 pieces chosen for you.</div>
+        <p class="svc-price" data-i18n="svc2.t1p">$15 styling fee + $34 piece credit</p>
+        <p style="margin:0.7rem 0 0"><a class="svc-cta svc-book" href="https://buy.stripe.com/9B6eVe5vF6Vh6og47waAw03?client_reference_id=home-services" target="_blank" rel="noopener" data-i18n="svc2.t1cta">Book The Discovery</a></p></div>
+        <div class="service reveal"><h3 data-i18n="svc2.t2h">The Edit — $149</h3>
+        <p class="svc-atm" data-i18n="svc2.t2a">A sharper point of view, with room to choose.</p>
+        <div class="body" data-i18n="svc2.t2b2">Typically 3–5 pieces, photographed with real prices for your approval.</div>
+        <p class="svc-price" data-i18n="svc2.t2p">$45 styling fee + $104 piece credit</p>
+        <p style="margin:0.7rem 0 0"><a class="svc-cta svc-book" href="https://buy.stripe.com/bJecN65vF93p5kc5bAaAw04?client_reference_id=home-services" target="_blank" rel="noopener" data-i18n="svc2.t2cta">Book The Edit</a></p></div>
+        <div class="service reveal"><h3 data-i18n="svc2.t3h">The Capsule — $249</h3>
+        <p class="svc-atm" data-i18n="svc2.t3a">A small wardrobe, designed to belong together.</p>
+        <div class="body" data-i18n="svc2.t3b2">Usually 8–12 pieces that layer and mix, with a lookbook.</div>
+        <p class="svc-price" data-i18n="svc2.t3p">$75 styling fee + $174 piece credit</p>
+        <p style="margin:0.7rem 0 0"><a class="svc-cta svc-book" href="https://buy.stripe.com/4gMeVe5vFfrNcME47waAw08?client_reference_id=home-services" target="_blank" rel="noopener" data-i18n="svc2.t3cta">Book The Capsule</a></p></div>
+        <div class="service reveal"><h3 data-i18n="svc2.t4h">The Atelier — $349</h3>
+        <p class="svc-atm" data-i18n="svc2.t4a">The fuller experience — more conversation, more refinement.</p>
+        <div class="body" data-i18n="svc2.t4b2">In Saigon, or live on video.</div>
+        <p class="svc-price" data-i18n="svc2.t4p">$110 styling fee + $239 piece credit</p>
+        <p style="margin:0.7rem 0 0"><a class="svc-cta svc-book" href="https://buy.stripe.com/aFacN68HRfrNbIA0VkaAw07?client_reference_id=home-services" target="_blank" rel="noopener" data-i18n="svc2.t4cta">Book The Atelier</a></p></div>
+        <div class="service reveal"><h3 data-i18n="svc2.t5h">The Signature — $750</h3>
+        <p class="svc-atm" data-i18n="svc2.t5a">The designer commission — Fancì Club, GIA Studios, the ateliers.</p>
+        <div class="body" data-i18n="svc2.t5b2">Made-to-measure fittings, a lookbook, 60 days of support.</div>
+        <p class="svc-price" data-i18n="svc2.t5p">$290 styling fee + $460 clothing credit</p>
+        <p style="margin:0.7rem 0 0"><a class="svc-cta svc-book" href="https://buy.stripe.com/4gM6oIaPZ6VhdQIgUiaAw0b?client_reference_id=home-services" target="_blank" rel="noopener" data-i18n="svc2.t5book">Book The Signature</a></p>
+        <p style="margin:0.45rem 0 0"><a class="svc-cta" href="signature" data-i18n="svc2.t5cta2">or read the full details first</a></p></div>
       </div>
       <p class="center muted reveal" style="margin-top:1.2rem" data-i18n="svc2.note">Every tier is giftable — and <mark class="hl">most of it comes back as clothes</mark>.</p>
       <p class="center muted reveal" style="margin-top:0.6rem"><a class="svc-cta" href="#contact" data-i18n="svc2.cta">Can you send a photo of the exact piece? That's sourcing. Everything else is styling</a></p>
@@ -697,17 +772,41 @@ $290 styling + $460 clothing credit.</div>
         <div class="service"><h3 data-i18n="trust.s2h">Tracked the whole way</h3><div class="body" data-i18n="trust.s2b">A tracking number the moment your parcel ships, with updates until it reaches your door.</div></div>
         <div class="service"><h3 data-i18n="trust.s3h">A real person in Saigon</h3><div class="body" data-i18n="trust.s3b">Bilingual, on the ground, walking the boutiques myself — not a faceless reseller.</div></div>
       </div>
+      <p class="trust-cap reveal" data-i18n="trust.cap"><strong>A considered purchase, made personal.</strong> From first photograph to final delivery, a real person is accountable for the details.</p>
     </div>
   </section>
 
   <!-- ===== GIFT STYLING ===== -->
+  <!-- Editorial interlude: trust closes quietly, gifting opens as its own chapter — fine rules, one tonal surface, no boxes. -->
+  <style>
+    .trust-cap{text-align:center;color:var(--text-secondary);font-size:0.92rem;max-width:46ch;margin:2rem auto 0;line-height:1.6}
+    .gift-transition{padding:clamp(4rem,8vw,7.5rem) 1.5rem;text-align:center;background:var(--surface-soft)}
+    .gift-transition::before,.gift-transition::after{content:"";display:block;width:min(7rem,22vw);height:1px;margin-inline:auto;background:var(--surface-border)}
+    .gift-transition::before{margin-bottom:1.5rem}
+    .gift-transition::after{margin-top:1.7rem}
+    .gift-transition p{max-width:38rem;margin:0.8rem auto 0;line-height:1.65;color:var(--text-secondary)}
+    .gift-gesture{text-align:center;margin:0 0 1.2rem}
+    .gift-gesture p{color:var(--text-secondary);font-size:0.92rem;margin:0.35rem 0 0}
+    .gift-special{text-align:center;margin:2.6rem 0 1.1rem}
+    .gift-special p{color:var(--text-secondary);font-size:0.92rem;margin:0.35rem 0 0}
+    .gift-grid-2{grid-template-columns:repeat(2,1fr);max-width:820px;margin-inline:auto}
+    @media (max-width:560px){.gift-grid-2{grid-template-columns:1fr}}
+  </style>
+  <div class="gift-transition reveal">
+    <span class="eyebrow" data-i18n="gift.pre_e">A gift, handled beautifully</span>
+    <p data-i18n="gift.pre_p">Every gift begins with a real conversation, not a guess. They receive a private code, a considered style intake, and your note — then I source in Saigon, and every piece is photographed for approval before it is bought.</p>
+  </div>
   <section id="gift">
     <div class="wrap">
       <div class="section-head center reveal">
         <span class="eyebrow" data-i18n="gift.eyebrow">Gift styling</span>
-        <h2 data-i18n="gift.h2">Give the gift of a Saigon wardrobe</h2>
-        <p class="lead narrow" data-i18n="gift.intro">Choose a tier, add a note — their code arrives within 24 hours.</p>
+        <h2 data-i18n="gift.h2b">Give them a little Saigon</h2>
+        <p class="lead narrow" data-i18n="gift.intro3">A private style experience, shaped around their life, their taste, and a gift from you. Choose a tier and leave a note — their gift code arrives within 24 hours; the rest begins when they're ready.</p>
         <p class="small muted" style="font-style:italic;max-width:52ch;margin:0.6rem auto 0" data-i18n="gift.unsure">Not sure what they'd want? That's what <a class="gift-link" href="style-profile.html?from=gift-note">the style profile</a> is for — a short intake about their days and what they're drawn to, and their tier turns it into a direction before a single piece is bought.</p>
+      </div>
+      <div class="gift-gesture reveal">
+        <span class="eyebrow" data-i18n="gift.gest_e">Choose the gesture</span>
+        <p data-i18n="gift.gest_p">From one considered piece to a made-to-measure commission — a gift of personal style, at their pace.</p>
       </div>
       <div class="gift-currency reveal">
         <label for="giftCurrency" data-i18n="gift.cur">Show prices in</label>
@@ -721,6 +820,15 @@ $290 styling + $460 clothing credit.</div>
         <div class="gift-card featured"><span class="gift-tag" data-i18n="gift.tag">Most Requested</span><p class="gift-for" data-i18n="gift.4for">For a wardrobe moment</p><h3 data-i18n="gift.4h">The Capsule</h3><div class="gift-price" data-usd="249"><span class="gift-amt">$249</span><span class="vnd">≈ 6,500,000₫</span></div><ul class="gift-facts"><li><span class="gf-ic gf-ic-fee" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="gf-k" data-i18n="gift.k.fee">Styling fee</span><span class="gf-v">$75</span></li><li><span class="gf-ic gf-ic-credit" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="gf-k" data-i18n="gift.k.credit">Piece credit</span><span class="gf-v">$174<span class="gf-sub">≈ 4,600,000₫</span></span></li><li><span class="gf-ic gf-ic-arrive" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="gf-k" data-i18n="gift.k.arrives">Arrives</span><span class="gf-v" data-i18n="gift.4arr">Eight to twelve pieces</span></li><li><span class="gf-ic gf-ic-begin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><span class="gf-k" data-i18n="gift.k.begins">Begins with</span><span class="gf-v"><a class="gift-link" href="style-profile.html?tier=capsule&amp;from=gift-card" data-i18n="gift.4beg">A full style profile</a></span></li></ul><div class="body" data-i18n="gift.4b2"><p class="gift-lead">A full capsule, styled to mix and match.</p><ul class="gift-points"><li>A lookbook showing how to wear them together</li><li>Styled remotely, sent worldwide</li></ul></div><a class="btn btn-primary" href="https://buy.stripe.com/4gMeVe5vFfrNcME47waAw08" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
         <div class="gift-card"><p class="gift-for" data-i18n="gift.3for">For the milestone</p><h3 data-i18n="gift.3h">The Atelier</h3><div class="gift-price" data-usd="349"><span class="gift-amt">$349</span><span class="vnd">≈ 9,200,000₫</span></div><ul class="gift-facts"><li><span class="gf-ic gf-ic-fee" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="gf-k" data-i18n="gift.k.fee">Styling fee</span><span class="gf-v">$110</span></li><li><span class="gf-ic gf-ic-credit" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="gf-k" data-i18n="gift.k.credit">Piece credit</span><span class="gf-v">$239<span class="gf-sub">≈ 6,300,000₫</span></span></li><li><span class="gf-ic gf-ic-arrive" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="gf-k" data-i18n="gift.k.arrives">Arrives</span><span class="gf-v" data-i18n="gift.3arr">A try-on day — or live video</span></li><li><span class="gf-ic gf-ic-begin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><span class="gf-k" data-i18n="gift.k.begins">Begins with</span><span class="gf-v"><a class="gift-link" href="style-profile.html?tier=atelier&amp;from=gift-card" data-i18n="gift.3beg">A full style profile</a></span></li></ul><div class="body" data-i18n="gift.3b2"><p class="gift-lead">The full experience — in person or by video.</p><ul class="gift-points"><li>In Saigon: sourcing &amp; a two-hour in-shop try-on — often no shipping at all</li><li>From abroad: I shop live on video</li><li>An itemized itinerary to approve before anything ships</li></ul></div><a class="btn btn-primary" href="https://buy.stripe.com/aFacN68HRfrNbIA0VkaAw07" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
       </div>
+      <div class="gift-special reveal">
+        <span class="eyebrow" data-i18n="gift.spec_e">Special requests</span>
+        <p data-i18n="gift.spec_p">For a piece already imagined — or a commission worth remembering.</p>
+      </div>
+      <div class="grid gift-grid-2 reveal">
+        <div class="gift-card"><p class="gift-for" data-i18n="gift.6for">For the piece they can't stop thinking about</p><h3 data-i18n="gift.6h">The Trace</h3><div class="gift-price" data-usd="25"><span class="gift-amt">$25</span><span class="vnd">≈ 650,000₫</span></div><ul class="gift-facts"><li><span class="gf-ic gf-ic-fee" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="gf-k" data-i18n="gift.6fee">Finder's fee</span><span class="gf-v">$25</span></li><li><span class="gf-ic gf-ic-credit" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="gf-k" data-i18n="gift.6cr">Credited</span><span class="gf-v" data-i18n="gift.6crv">$25 back on their order</span></li><li><span class="gf-ic gf-ic-arrive" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="gf-k" data-i18n="gift.k.arrives">Arrives</span><span class="gf-v" data-i18n="gift.6arr">An answer within 48 hours</span></li><li><span class="gf-ic gf-ic-begin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><span class="gf-k" data-i18n="gift.k.begins">Begins with</span><span class="gf-v" data-i18n="gift.6beg">Their photo of the piece</span></li></ul><div class="body" data-i18n="gift.6b"><p class="gift-lead">They send the photo; I name the maker.</p><ul class="gift-points"><li>The shop and the real price — or the closest piece that can actually be bought</li><li>The $25 counts toward their order in full</li></ul></div><a class="btn btn-primary" href="https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
+        <div class="gift-card"><p class="gift-for" data-i18n="gift.5for">For the grandest gesture</p><h3 data-i18n="gift.5h">The Signature</h3><div class="gift-price" data-usd="750"><span class="gift-amt">$750</span><span class="vnd">≈ 19,600,000₫</span></div><ul class="gift-facts"><li><span class="gf-ic gf-ic-fee" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="gf-k" data-i18n="gift.k.fee">Styling fee</span><span class="gf-v">$290</span></li><li><span class="gf-ic gf-ic-credit" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="gf-k" data-i18n="gift.k.credit">Piece credit</span><span class="gf-v">$460<span class="gf-sub">≈ 12,000,000₫</span></span></li><li><span class="gf-ic gf-ic-arrive" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="gf-k" data-i18n="gift.k.arrives">Arrives</span><span class="gf-v" data-i18n="gift.5arr">Designer pieces, made to measure</span></li><li><span class="gf-ic gf-ic-begin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><span class="gf-k" data-i18n="gift.k.begins">Begins with</span><span class="gf-v"><a class="gift-link" href="signature" data-i18n="gift.5beg">A conversation</a></span></li></ul><div class="body" data-i18n="gift.5b"><p class="gift-lead">The designer commission, given whole.</p><ul class="gift-points"><li>Fancì Club, GIA Studios and the ateliers, to the value of the credit</li><li>Made-to-measure fittings, a lookbook, 60 days of support</li></ul></div><a class="btn btn-primary" href="https://buy.stripe.com/4gM6oIaPZ6VhdQIgUiaAw0b" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
+      </div>
+      <p class="center muted reveal" style="margin-top:1.1rem" data-i18n="gift.biglinks">Buying for many, not one? <a class="gift-link" href="#bulk">Group &amp; bulk orders →</a><span aria-hidden="true"> &nbsp;·&nbsp; </span><a class="gift-link" href="#boutique">Boutique buying &amp; sourcing →</a></p>
       <!-- Gift finder — three questions that route to the right tier, honestly.
            JS-rendered (outside data-i18n nodes); the line below is the no-JS fallback. -->
       <div class="gift-quiz glass reveal" id="giftQuiz">
@@ -1127,7 +1235,7 @@ $290 styling + $460 clothing credit.</div>
              walked, styles priced, a line sheet written. This is the same shape as The
              Trace on the retail side — a small prepaid step that buys a deliverable and
              is credited in full, so a real buyer never pays it twice. -->
-        <div class="tier"><p class="range" data-i18n="btq.t9r">Scouting deposit</p><div class="fee">$150</div><p class="muted" data-i18n="btq.t9s">3,900,000₫ — four to six hours, flat: the back-and-forth to pin the brief, the research and preparation, the showroom round itself, the analysis, and the final recommendation. Priced at the upper end and flat either way, so a round that runs long is mine to absorb. It opens every buy — no round is walked on spec. Credited in full against your first payment; if you decide not to proceed, the research and line sheet remain yours.</p></div>
+        <div class="tier"><p class="range" data-i18n="btq.t9r">Scouting deposit</p><div class="fee">$150</div><p class="muted" data-i18n="btq.t9s2">3,900,000₫ — four to six hours, flat: the back-and-forth to pin the brief, the research and preparation, the showroom round itself, the analysis, and the final recommendation. Priced at the upper end and flat either way, so a round that runs long is mine to absorb. It opens every buy — no round is walked on spec. Credited in full against your first payment; if you decide not to proceed, the research and line sheet remain yours. <a href="https://buy.stripe.com/cNi7sMbU3cfBbIA7jIaAw09?client_reference_id=home-boutique" target="_blank" rel="noopener" data-i18n="btq.t9pay">Pay the scouting deposit by card →</a></p></div>
         <div class="tier"><p class="range" data-i18n="btq.t10r">Research rate</p><div class="fee">$25<span style="font-size:0.42em;letter-spacing:0.04em;opacity:0.72"> /hr</span></div><p class="muted" data-i18n="btq.t10s">650,000₫ an hour, two-hour minimum — for market surveys, option-hunting, or exploratory research before a buy brief is defined. Prepaid and credited in full against your next buy.</p></div>
       </div>
       <p class="small muted center narrow reveal" style="margin-top:0.9rem" data-i18n="btq.tierline">One written number before any deposit, whichever tier your budget lands in — and the tier is set by the whole buy, not per designer. <strong>Your fee is never more than it would be at the next tier's opening</strong>, so landing just under a threshold never costs you more than landing just over it.</p>
