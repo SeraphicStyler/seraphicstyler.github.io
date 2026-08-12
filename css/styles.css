@@ -1944,25 +1944,36 @@ html.dark .bx-rows .be-margin > summary { color: var(--periwinkle); }
 .footer { position: relative; overflow: hidden; }
 .footer .wrap { position: relative; z-index: 1; }
 .foot-flora { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.foot-flora::before { content: ""; position: absolute; inset: -30% -55%;
+  background: linear-gradient(115deg,
+    transparent 22%,
+    color-mix(in srgb, var(--periwinkle) 12%, transparent) 36%,
+    color-mix(in srgb, var(--lav-mist) 20%, transparent) 47%,
+    color-mix(in srgb, var(--orchid) 12%, transparent) 58%,
+    transparent 74%);
+  animation: ffSweep 15s ease-in-out infinite alternate; }
+@keyframes ffSweep {
+  from { transform: translateX(-26%); }
+  to   { transform: translateX(26%); } }
 .ff-glow { position: absolute; width: 46vw; max-width: 620px; aspect-ratio: 1; border-radius: 50%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--periwinkle) 14%, transparent), transparent 66%);
-  animation: ffGlow 26s ease-in-out infinite alternate; }
+  background: radial-gradient(circle, color-mix(in srgb, var(--periwinkle) 24%, transparent), transparent 66%);
+  animation: ffGlow 22s ease-in-out infinite alternate; }
 .ff-g1 { left: -10%; bottom: -34%; }
 .ff-g2 { right: -8%; top: -28%; animation-duration: 34s; animation-delay: -14s;
-  background: radial-gradient(circle, color-mix(in srgb, var(--orchid) 12%, transparent), transparent 66%); }
+  background: radial-gradient(circle, color-mix(in srgb, var(--orchid) 20%, transparent), transparent 66%); }
 .ff-p { position: absolute; left: var(--x); top: var(--y); width: var(--s); height: var(--s);
-  color: var(--periwinkle); opacity: var(--o); transform: rotate(var(--r));
+  color: var(--periwinkle); opacity: calc(var(--o) * 1.3); transform: rotate(var(--r));
   animation: ffDrift var(--d) ease-in-out infinite alternate; }
 .ff-orchid { color: var(--orchid); }
 .ff-fly { color: var(--lav-mist); }
 @keyframes ffGlow {
-  from { transform: translate3d(0, 0, 0) scale(1); }
-  to   { transform: translate3d(5%, -4%, 0) scale(1.14); } }
+  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.75; }
+  to   { transform: translate3d(6%, -5%, 0) scale(1.22); opacity: 1; } }
 @keyframes ffDrift {
   from { transform: translate3d(0, 0, 0) rotate(var(--r)); }
-  to   { transform: translate3d(var(--dx), var(--dy), 0) rotate(calc(var(--r) + 14deg)); } }
+  to   { transform: translate3d(var(--dx), var(--dy), 0) rotate(calc(var(--r) + 18deg)) scale(1.12); } }
 html.dark .ff-p { opacity: calc(var(--o) * 1.35); }
 html.dark .ff-glow { opacity: 0.8; }
 html.mono .foot-flora { opacity: 0.25; filter: grayscale(1); }
 html.hc .foot-flora { display: none; }
-@media (prefers-reduced-motion: reduce) { .ff-p, .ff-glow { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .ff-p, .ff-glow, .foot-flora::before { animation: none; } }
