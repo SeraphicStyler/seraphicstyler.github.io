@@ -1844,6 +1844,44 @@ body.sp-locked { overflow: hidden; }
 .bx-rows dd { margin: 0; font-size: 0.9rem; color: var(--text-primary); }
 .bx-rows .bx-total dd { font-family: var(--font-display); font-size: 1.08rem; }
 .bx-rows .bx-per dd { color: var(--accent-deep); }
+/* The three moments money moves. It sits inside .bx-rows, so it has to opt out
+   of the row grid it would otherwise inherit — a label, not a line item. */
+.bx-rows .be-stages-h { display: block; grid-template-columns: none; gap: 0;
+  font-family: var(--font-brand); text-transform: uppercase; letter-spacing: 0.18em;
+  font-size: 0.6rem; color: var(--eyebrow-ink); margin-top: 0.5rem; padding-top: 0.9rem;
+  border-top: 1px solid var(--surface-border); }
+.bx-rows dt b { color: var(--text-primary); font-weight: 500; }
+/* The margin math — progressive disclosure inside the estimator. Duty, keystone
+   and break-even are what a serious buyer wants and a skimmer does not, so they
+   fold away; "landed, before duty" stays above, always visible. */
+.bx-rows .be-margin { display: block; grid-template-columns: none; gap: 0;
+  border-top: 1px solid var(--surface-border); padding-top: 0.55rem; margin-top: 0.5rem; }
+.bx-rows .be-margin > summary { display: flex; align-items: center; gap: 0.4rem;
+  min-height: 44px; cursor: pointer; list-style: none;
+  font-family: var(--font-accent); font-size: 0.72rem; letter-spacing: 0.04em;
+  color: var(--accent-deep); }
+.bx-rows .be-margin > summary::-webkit-details-marker { display: none; }
+.bx-rows .be-margin > summary::after { content: '+'; font-family: var(--font-brand);
+  font-size: 0.95rem; line-height: 1; opacity: 0.8; }
+.bx-rows .be-margin[open] > summary::after { content: '\2013'; }
+.bx-rows .be-margin > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+html.dark .bx-rows .be-margin > summary { color: var(--periwinkle); }
+.be-margin-b { display: grid; gap: 0.55rem; padding-bottom: 0.2rem; }
+.be-margin-b .be-row { display: grid; gap: 0.12rem; padding-top: 0.55rem;
+  border-top: 1px solid var(--surface-border); }
+.be-margin-b .be-row:first-child { border-top: 0; padding-top: 0.2rem; }
+.be-margin-b dt { font-family: var(--font-accent); font-size: 0.7rem;
+  letter-spacing: 0.04em; color: var(--text-secondary); }
+.be-margin-b dd { margin: 0; font-size: 0.9rem; color: var(--text-primary); }
+.be-margin-b .bx-per dd { color: var(--accent-deep); }
+.be-mpfnote { margin: 0.6rem 0 0; font-family: var(--font-accent); font-size: 0.68rem;
+  letter-spacing: 0.03em; line-height: 1.6; color: var(--text-secondary); }
+/* One claim per line. These blocks were 60-word chains of em-dashed clauses;
+   as bullets the eye can compare them and stop where it wants to. */
+.btq-bul { margin: 0; padding-left: 1.15rem; display: grid; gap: 0.4rem; }
+.btq-bul li { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7; }
+.btq-assume-h { font-family: var(--font-brand); text-transform: uppercase;
+  letter-spacing: 0.16em; font-size: 0.6rem; color: var(--eyebrow-ink); margin-bottom: 0.45rem; }
 .bx-note { font-size: 0.78rem; font-style: italic; line-height: 1.55; color: var(--text-secondary); margin: 0.85rem 0 0; }
 
 .bulk-est { max-width: 56rem; margin: clamp(2.2rem, 5vw, 3.2rem) auto 0; padding: 1.6rem clamp(1rem, 3vw, 1.8rem) 1.5rem; }

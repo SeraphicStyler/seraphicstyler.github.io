@@ -62,7 +62,7 @@
     /* Resale is a different lane: the group taper here would misquote agent
        work at group rates. Route to the boutique ladder instead of pricing. */
     if (resEl && resEl.checked) {
-      out.innerHTML = '<p class="be-waiting">Stock for a boutique or resale prices on the buying-agent ladder — 18% down to 8% by buy size, with a $115 scouting deposit to start, credited in full against your first payment. The group taper here is for personal and group orders.</p>' +
+      out.innerHTML = '<p class="be-waiting">Stock for a boutique or resale prices on the buying-agent ladder — 18% down to 8% by buy size, with a $150 scouting deposit to start, credited in full against your first payment. The group taper here is for personal and group orders.</p>' +
         '<div class="be-cta"><a class="btn btn-primary" href="#btqEst">Rough out your buy in the boutique estimator →</a></div>';
       return;
     }

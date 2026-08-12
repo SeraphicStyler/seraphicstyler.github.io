@@ -1,5 +1,5 @@
 /* Seraphic Styler — boutique buying-agent estimator (#btqEst on the home page).
-   A planning figure, not a checkout: the fee ladder, two-payment flow and
+   A planning figure, not a checkout: the fee ladder, three-stage payment flow and
    shipping anchors from the #boutique section, made interactive. Anchored to
    the two worked cards (24 × 2,800,000₫ → 15% tier; 60 × 3,700,000₫ → 12%
    tier) at the same ≈26,300₫/$ planning rate named in btq.exsub — keep BTQ
@@ -41,6 +41,33 @@
 
     minFeeUsd: 25,
     rushPct: 0.20,      /* replaces the tier, never adds to it */
+
+    /* Two layers, and both have to be named or the total looks invented:
+         · MFN / HTS apparel duty — roughly 16% woven to 32% knit
+         · Section 301 forced-labour duty — 12.5% for Vietnam, additive
+       The Section 301 layer took effect 24 July 2026, replacing the expired
+       Section 122 surcharge, and for Vietnam it STACKS on MFN rather than
+       capping to it (the cap applies only to the EU, Taiwan, Japan, Korea and
+       Switzerland). Verified against USTR and law-firm guidance, August 2026.
+       Annexes I and II carry product exclusions this does not check, so the
+       label defers to the broker's classification, as it must. */
+    duty: { mfnLow: 0.16, mfnHigh: 0.32, s301: 0.125, asOf: '24 Jul 2026' },
+
+    /* Merchandise Processing Fee, FY2026: 0.3464% of the goods, floored at
+       $33.58 and capped at $651.50 per entry. The floor is the whole point —
+       it is charged per ENTRY, so five small parcels pay five floors. */
+    mpf: { rate: 0.003464, minUsd: 33.58, maxUsd: 651.50 },
+
+    /* The resale test. Boutique keystone runs about 2.2–2.5x on landed cost;
+       2.3 is the midpoint used for the break-even line. Break-even units are
+       ceil(pieces / markup) — which depends only on the markup, not on any of
+       the cost figures above, so it stays true even if every estimate here is
+       off. That is why it is the most trustworthy number the tool prints. */
+    markup: { low: 2.2, mid: 2.3, high: 2.5 },
+
+    /* Sanity bounds — a planning tool should not render nonsense. */
+    maxPieces: 2000,
+    maxAvgVnd: 500000000,
 
     /* The gate before any sourcing begins: nothing is scouted until this
        lands. Published price, so it displays without the ≈ — and credited in
@@ -133,6 +160,86 @@
     return { amount: amount, label: label };
   }
 
+  /* The money, as the three moments it actually moves. "Paid in two" plus a
+     floating deposit row described the same total but hid the sequence, and the
+     sequence is the thing a first-time client is anxious about: what do I pay,
+     when, and what has happened by then.
+
+     Stages 1 and 2 never change with the shipping route, so they live in the
+     common block; stage 3 carries the freight and is drawn per scenario. */
+  function stage12Rows(totalVnd, feeVnd) {
+    var half = feeVnd / 2;
+    var stage2 = Math.max(0, totalVnd + half - BTQ.scoutDepositVnd);
+    var h = '';
+    h += row('<b>1 · To begin</b> — the scouting deposit, before a single showroom is walked',
+      vnd(BTQ.scoutDepositVnd) + ' · ' + BTQ.scoutDepositUsdText);
+    h += row('<b>2 · Once the line sheet is with you</b> — the pieces at cost plus half the fee, ' +
+      'less the deposit you have already paid',
+      '≈' + usd(stage2 / FX));
+    return h;
+  }
+  /* Stage 3 closes the buy: the rest of the fee and the freight, and not one
+     đồng of it before photographs of every piece have been approved. */
+  function stage3Row(feeVnd, shipLow, shipHigh) {
+    var half = feeVnd / 2;
+    var v = shipLow === shipHigh
+      ? '≈' + usd((half + shipLow) / FX)
+      : '≈' + usdR((half + shipLow) / FX, (half + shipHigh) / FX);
+    return row('<b>3 · Once every piece is bought and photographed</b> — the other half of the fee ' +
+      'plus exact shipping, after you approve the photographs. Then it ships.', v);
+  }
+
+  /* Duty, the true all-in, and the resale test — the three things a buyer works
+     out on paper after reading "landed, before US duty", and therefore the three
+     the tool should not make them work out on paper.
+
+     Duty rides on the goods only, so it is identical whether the buy travels by
+     courier or in a suitcase. shipLow/shipHigh are the freight for whichever
+     scenario is being drawn, so the same function serves both columns. */
+  function closingRows(totalVnd, feeVnd, shipLow, shipHigh, pieces) {
+    var dutyLow = totalVnd * (BTQ.duty.mfnLow + BTQ.duty.s301);
+    var dutyHigh = totalVnd * (BTQ.duty.mfnHigh + BTQ.duty.s301);
+    var allLow = totalVnd + feeVnd + shipLow + dutyLow;
+    var allHigh = totalVnd + feeVnd + shipHigh + dutyHigh;
+    var perLow = allLow / FX / pieces, perHigh = allHigh / FX / pieces;
+
+    /* Progressive disclosure: powerful for a serious buyer, noise for a skimmer.
+       "Landed, before duty" stays always-visible above; the resale test sits
+       behind a toggle. <details> so keyboard support comes free. */
+    var h = '<details class="be-margin"><summary>See the margin math</summary><div class="be-margin-b">';
+    var dLo = Math.round((BTQ.duty.mfnLow + BTQ.duty.s301) * 1000) / 10;
+    var dHi = Math.round((BTQ.duty.mfnHigh + BTQ.duty.s301) * 1000) / 10;
+    h += row('US duty — ' + dLo + '–' + dHi + '% of the goods: MFN ' +
+      Math.round(BTQ.duty.mfnLow * 100) + '–' + Math.round(BTQ.duty.mfnHigh * 100) +
+      '% plus the ' + (BTQ.duty.s301 * 100) + '% Section 301 in force since ' + BTQ.duty.asOf +
+      '. Never on my fee or the freight, and your broker\'s classification is the number that counts.',
+      vndR(dutyLow, dutyHigh) + ' · ≈' + usdR(dutyLow / FX, dutyHigh / FX));
+    h += row('All-in per piece — duty included', '≈' + usdR(perLow, perHigh), 'bx-per');
+    h += row('Retail at ' + BTQ.markup.low + '–' + BTQ.markup.high + '× — the keystone test',
+      '≈' + usdR(perLow * BTQ.markup.low, perHigh * BTQ.markup.high));
+
+    /* ceil(pieces / markup): independent of every cost figure above. */
+    var be = Math.ceil(pieces / BTQ.markup.mid);
+    h += row('Sold to break even — at ' + BTQ.markup.mid + '×',
+      be + ' of ' + pieces + ' · ' + Math.round(be / pieces * 100) + '%');
+
+    /* Three buckets, demarcated on purpose. Two are real money; the third is the
+       one a consolidation pitch is most often misread as saving, so it is stated
+       in the same list rather than buried in a footnote. */
+    var mpfOne = Math.min(Math.max((totalVnd / FX) * BTQ.mpf.rate, BTQ.mpf.minUsd), BTQ.mpf.maxUsd);
+    h += '<div class="be-stages-h">What consolidating saves — for every designer you would otherwise order from separately</div>';
+    h += row('One fewer parcel — freight at this destination\'s band',
+      '≈' + usdR(shipLow / FX, shipHigh / FX) + ' each');
+    h += row('One fewer customs entry — the MPF floor is charged per entry, not per dollar',
+      usd(BTQ.mpf.minUsd) + ' each');
+    h += row('One fewer entry for your broker to file', 'at their per-entry rate');
+    h += row('<b>Duty saves nothing.</b> It follows the goods, so it is identical whether the buy arrives as one parcel or six, by courier or in a suitcase.',
+      '≈' + usdR(dutyLow / FX, dutyHigh / FX) + ' either way');
+    h += '<p class="be-mpfnote">Your own consolidated entry: MPF ' + usd(mpfOne) +
+      '. FY2026 rate 0.3464% of the goods, floored at ' + usd(BTQ.mpf.minUsd) + ' per entry.</p>';
+    return h + '</div></details>';
+  }
+
   /* The window is open while orders are; afterwards the whole scenario layer
      disappears, exactly as the homepage band expires. */
   function flightOpen() { return new Date() <= BTQ.flight.ordersClose; }
@@ -151,8 +258,8 @@
 
   function render() {
     syncFlightUi();
-    var pieces = parseInt(pEl.value, 10);
-    var avgVnd = parseFloat(aEl.value);
+    var pieces = Math.min(parseInt(pEl.value, 10), BTQ.maxPieces);
+    var avgVnd = Math.min(parseFloat(aEl.value), BTQ.maxAvgVnd);
     if (!(pieces > 0) || !(avgVnd > 0)) {
       out.innerHTML = '<p class="be-waiting">Enter a piece count and an average showroom price — the whole buy appears here, worked to the đồng.</p>';
       return;
@@ -187,15 +294,17 @@
     var flightOn = flEl && flEl.checked && flightVisible();
 
     var html = '<dl class="bx-rows">';
-    html += row('To start — scouting deposit, before any sourcing begins; credited in full against your first payment, waived once you’ve bought before', vnd(BTQ.scoutDepositVnd) + ' · ' + BTQ.scoutDepositUsdText);
     html += row('Pieces at cost — ' + pieces + ' × ≈' + vnd(avgVnd), vnd(totalVnd) + ' · ≈' + usd(totalUsd));
     html += row('Buying fee — ' + f.label, vnd(f.amount) + ' · ≈' + usd(f.amount / FX));
-    html += row('Paid in two', '≈' + usd(p1 / FX) + ' to begin, your deposit already inside it · ≈' + usd(p2 / FX) + ' + exact shipping before dispatch');
+    html += '<div class="be-stages-h">What you pay, and when</div>';
+    html += stage12Rows(totalVnd, f.amount);
 
     if (!flightOn) {
+      html += stage3Row(f.amount, shipLow, shipHigh);
       html += row(shipLabel, shipLine);
       html += row('Landed, before US duty', '≈' + usdR(landLow / FX, landHigh / FX), 'bx-total');
       html += row('Per piece, landed', '≈' + usdR(landLow / FX / pieces, landHigh / FX / pieces), 'bx-per');
+      html += closingRows(totalVnd, f.amount, shipLow, shipHigh, pieces);
       html += '</dl>';
     } else {
       html += '</dl>';
@@ -218,15 +327,21 @@
 
       html += '<div class="be-duo">';
       html += '<div class="dcol"><h4>By courier — the standard model</h4><dl class="bx-rows">'
+        + stage3Row(f.amount, shipLow, shipHigh)
         + row(shipLabel, shipLine)
         + row('Landed, before US duty', '≈' + usdR(landLow / FX, landHigh / FX), 'bx-total')
         + row('Per piece, landed', '≈' + usdR(landLow / FX / pieces, landHigh / FX / pieces), 'bx-per')
+        + closingRows(totalVnd, f.amount, shipLow, shipHigh, pieces)
         + '</dl></div>';
       html += '<div class="dcol flight"><h4>On the ' + BTQ.flight.flightText + ' flight — this window only</h4><dl class="bx-rows">'
         + row('International leg — in my suitcase, ' + BTQ.flight.flightText, '$0 — instead of ' + usdR(shipLow / FX, shipHigh / FX) + ' by courier')
         + row('From Orange County — ' + ow.short, owTxt)
+        + stage3Row(f.amount, owLow, owHigh)
         + row('Landed, before US duty', flLanded, 'bx-total')
         + row('Per piece, landed', flPer, 'bx-per')
+        /* Duty is on the goods, so it is identical in both columns — which is
+           precisely the thing a free-freight offer can be misread as changing. */
+        + closingRows(totalVnd, f.amount, owLow, owHigh, pieces)
         + '</dl></div>';
       html += '</div>';
 
@@ -249,7 +364,9 @@
       + 'Pieces at cost: ' + pieces + ' × ' + vnd(avgVnd) + ' = ' + vnd(totalVnd) + ' (≈' + usd(totalUsd) + ')\n'
       + 'Buying fee: ' + f.label + ' = ' + vnd(f.amount) + ' (≈' + usd(f.amount / FX) + ')\n'
       + 'Destination: ' + regionTxt + ' · ≈' + kgTxt + '\n'
-      + 'Paid in two: ≈' + usd(p1 / FX) + ' to begin, ≈' + usd(p2 / FX) + ' + exact shipping before dispatch\n'
+      + 'Stage 1 — scouting deposit: ' + BTQ.scoutDepositUsdText + '\n'
+      + 'Stage 2 — on the line sheet, pieces + half the fee less the deposit: ≈' + usd(Math.max(0, p1 - BTQ.scoutDepositVnd) / FX) + '\n'
+      + 'Stage 3 — on photo approval, rest of the fee + exact shipping: ≈' + usd(p2 / FX) + ' + shipping\n'
       + (flightOn
         ? 'August flight window: international leg $0 (' + ow.short + ') — landed before duty ' + flLanded
         : 'Landed before US duty: ≈' + usdR(landLow / FX, landHigh / FX));

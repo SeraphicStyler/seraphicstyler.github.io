@@ -142,6 +142,26 @@
     .bq-foot a:hover { text-decoration: underline; }
     .bq-foot .dot { opacity: 0.4; margin: 0 0.5rem; }
     .bq-sec a { color: var(--accent-deep); }
+
+    /* Tier card table — mirrors the index.html #boutique layout */
+    .bq-tiers { display: grid; gap: 0; margin: 2rem 0 0; border: 1px solid var(--surface-border); border-radius: 14px; overflow: hidden; }
+    .bq-tier { display: flex; align-items: flex-start; justify-content: space-between; gap: 1.2rem;
+      padding: 1rem 1.25rem; border-bottom: 1px solid var(--surface-border); }
+    .bq-tier:last-child { border-bottom: none; }
+    .bq-tier-left { flex: 1; min-width: 0; }
+    .bq-tier-left .range { font-family: var(--font-brand); text-transform: uppercase; letter-spacing: 0.18em;
+      font-size: 0.6rem; color: var(--eyebrow-ink); margin: 0 0 0.3rem; }
+    .bq-tier-left .sub { margin: 0; font-family: var(--font-accent); font-size: 0.76rem;
+      letter-spacing: 0.02em; line-height: 1.7; color: var(--text-secondary); }
+    .bq-tier-right { flex-shrink: 0; font-family: var(--font-display); font-weight: 300;
+      font-size: 1.8rem; color: var(--accent-deep); white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .bq-tier-right .sm { font-size: 0.38em; letter-spacing: 0.04em; opacity: 0.72; }
+    .bq-tierfoot { margin: 0.9rem 0 0; font-family: var(--font-accent); font-size: 0.76rem;
+      letter-spacing: 0.02em; line-height: 1.75; color: var(--text-secondary); }
+    .bq-tierfoot strong { color: var(--text-primary); font-weight: 500; }
+    .bq-tierfoot-ship { margin: 0.5rem 0 0; font-family: var(--font-accent); font-size: 0.76rem;
+      letter-spacing: 0.02em; line-height: 1.75; color: var(--text-secondary); }
+    .bq-tierfoot-ship strong { color: var(--accent-deep); font-weight: 500; }
   </style>
 </head>
 <body>
@@ -165,45 +185,83 @@
 
     <section class="bq-sec" id="pricing" aria-labelledby="bq-fee-h">
       <span class="bq-sec-e">The fee</span>
-      <h2 id="bq-fee-h">One ladder, set by the whole buy</h2>
-      <ul class="bq-ladder">
-        <li><span class="r">Under $1,500</span><span class="dots" aria-hidden="true"></span><span class="pct">18%</span></li>
-        <li><span class="r">$1,500 – $4,999</span><span class="dots" aria-hidden="true"></span><span class="pct">15%</span></li>
-        <li><span class="r">$5,000 – $9,999</span><span class="dots" aria-hidden="true"></span><span class="pct">12%</span></li>
-        <li><span class="r">$10,000 – $19,999</span><span class="dots" aria-hidden="true"></span><span class="pct">10%</span></li>
-        <li><span class="r">$20,000 and above</span><span class="dots" aria-hidden="true"></span><span class="pct">8%</span></li>
-      </ul>
-      <!-- Split out of one dot-separated run-on. A prospect reading this is asking
-           two different questions — "what do I have to hand over before anything
-           happens" and "how does the fee behave" — and the answers were tangled
-           together. Labelled, the first one can be answered in a glance. -->
-      <dl class="bq-terms">
-        <dt>Asked of you, upfront</dt>
-        <dd>The brief — category and aesthetic direction, the budget, depth per style, size runs, no-gos, and the date stock must land. Three lines is enough to open it. Then the scouting deposit below, and nothing else until you've seen a written quote.</dd>
+      <h2 id="bq-fee-h">The terms, in plain numbers</h2>
 
-        <dt>Never marked up</dt>
-        <dd>Pieces at designer receipt price · shipping at exact carrier cost, billed once your parcel is weighed · US duty stays yours, with the per-style commercial invoice prepared for your broker.</dd>
-
-        <dt>How the fee behaves</dt>
-        <dd>$25 minimum · rush or atelier coordination a flat 20%, replacing your tier rather than adding to it · and never more than it would be at the next tier's opening, so landing just under a threshold never costs you more than landing just over it.</dd>
-
-        <dt>What the fee buys</dt>
-        <dd>The research, the negotiation with each designer in Vietnamese, a check of every piece against a written spec — photographed for your approval before anything ships — and one consolidated export parcel with the paperwork done properly.</dd>
-
-        <dt>Paid in two</dt>
-        <dd>Pieces at cost plus half the fee to begin; the balance plus exact shipping only after you approve the photographs. Bank transfer, Wise, PayPal (Goods &amp; Services), or Payoneer. Quotes are fixed in đồng — each payment's dollar figure converts at that day's rate, so nothing drifts between quote and balance.</dd>
-
-        <dt>Faults</dt>
-        <dd>Designer pieces are final sale unless the designer is at fault. The pre-dispatch photographs are our shared record: report within seven days of delivery, with photos, and I take it back to the designer for repair, replacement or refund where the fault is theirs.</dd>
-
-        <dt>Research without a brief</dt>
-        <dd>Market surveys and option-hunting before you've committed a direction: 650,000₫ per hour, two-hour minimum — booked and paid before I set out, credited in full against your next buy.</dd>
-      </dl>
-      <div class="bq-start">
-        <span class="amt">$150</span><span class="bq-quiet">to start — the scouting deposit, 3,900,000₫</span>
-        <p>Nothing is scouted before it lands; it's credited in full against your first payment, and waived once you've bought before. If you decide not to buy, it has paid for the round — and the line sheet is yours to keep.</p>
-        <p style="margin-top:0.6rem"><strong>Free international shipping</strong> on buys placed before 15 August — pieces fly home on the 18th, the courier leg on us.</p>
+      <div class="bq-tiers">
+        <div class="bq-tier">
+          <div class="bq-tier-left">
+            <p class="range">Buying fee · under $1,500</p>
+            <p class="sub">the small-buy rate — a first, cautious order, your time and mine both protected</p>
+          </div>
+          <div class="bq-tier-right">18%</div>
+        </div>
+        <div class="bq-tier">
+          <div class="bq-tier-left">
+            <p class="range">$1,500 – $4,999</p>
+            <p class="sub">the standard first-range tier</p>
+          </div>
+          <div class="bq-tier-right">15%</div>
+        </div>
+        <div class="bq-tier">
+          <div class="bq-tier-left">
+            <p class="range">$5,000 – $9,999</p>
+            <p class="sub">volume earns a smaller share</p>
+          </div>
+          <div class="bq-tier-right">12%</div>
+        </div>
+        <div class="bq-tier">
+          <div class="bq-tier-left">
+            <p class="range">$10,000 – $19,999</p>
+            <p class="sub">the repeat-buyer tier</p>
+          </div>
+          <div class="bq-tier-right">10%</div>
+        </div>
+        <div class="bq-tier">
+          <div class="bq-tier-left">
+            <p class="range">$20,000 and above</p>
+            <p class="sub">always quoted in writing first</p>
+          </div>
+          <div class="bq-tier-right">8%</div>
+        </div>
+        <div class="bq-tier">
+          <div class="bq-tier-left">
+            <p class="range">Rush or atelier coordination</p>
+            <p class="sub">compressed timelines, proxied fittings — this replaces your tier rather than adding to it, and is agreed in writing before we start</p>
+          </div>
+          <div class="bq-tier-right">20%</div>
+        </div>
+        <div class="bq-tier">
+          <div class="bq-tier-left">
+            <p class="range">Retainer</p>
+            <p class="sub">no subscription — agencies charge $500–2,500 a month; here you pay when you buy</p>
+          </div>
+          <div class="bq-tier-right">$0</div>
+        </div>
+        <div class="bq-tier">
+          <div class="bq-tier-left">
+            <p class="range">Minimum fee</p>
+            <p class="sub">every buy pays at least $25 in fee. Example: on a $100 reorder, 18% would be only $18 — so the fee becomes $25 instead. Orders over about $150 are never affected</p>
+          </div>
+          <div class="bq-tier-right">$25</div>
+        </div>
+        <div class="bq-tier">
+          <div class="bq-tier-left">
+            <p class="range">Scouting deposit</p>
+            <p class="sub">3,900,000₫ — four to six hours, flat: the back-and-forth to pin the brief, the research and preparation, the showroom round itself, the analysis, and the final recommendation. Priced at the upper end and flat either way, so a round that runs long is mine to absorb. It opens every buy — no round is walked on spec. Credited in full against your first payment; if you decide not to proceed, the research and line sheet remain yours.</p>
+          </div>
+          <div class="bq-tier-right">$150</div>
+        </div>
+        <div class="bq-tier">
+          <div class="bq-tier-left">
+            <p class="range">Research rate</p>
+            <p class="sub">650,000₫ an hour, two-hour minimum — for market surveys, option-hunting, or exploratory research before a buy brief is defined. Prepaid and credited in full against your next buy.</p>
+          </div>
+          <div class="bq-tier-right">$25<span class="sm"> /hr</span></div>
+        </div>
       </div>
+
+      <p class="bq-tierfoot">One written number before any deposit, whichever tier your budget lands in — and the tier is set by the whole buy, not per designer. <strong>Your fee is never more than it would be at the next tier’s opening</strong>, so landing just under a threshold never costs you more than landing just over it.</p>
+      <p class="bq-tierfoot-ship"><strong>Free international shipping</strong> on buys placed before 15 August — pieces fly home on the 18th, the courier leg on us. Your written quote will confirm it.</p>
     </section>
 
     <section class="bq-sec" aria-labelledby="bq-how-h">
