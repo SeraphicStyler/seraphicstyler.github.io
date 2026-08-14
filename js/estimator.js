@@ -19,16 +19,17 @@ var CONFIG = {
   greenDiscount: 0.10,    // modest discount on the SERVICE FEE for green/eco shopping (0.10 = 10% off fees)
 
   /* Optional styling-service add-ons (VND) — the SAME prices as the gift tiers
-     ($49 / $149 / $349 ≈ 1.3M / 3.9M / 9.2M₫), and like the gifts each includes a
-     piece CREDIT ($34 / $104 / $239 ≈ 900k / 2.7M / 6.3M₫) applied against the
-     itemized pieces in the estimate (capped at the items subtotal, never negative;
+     ($49 / $149 / $349 = 1,225,000 / 3,725,000 / 8,725,000₫), and like the gifts
+     each includes a piece CREDIT ($34 / $104 / $239 = 850,000 / 2,600,000 /
+     5,975,000₫) applied against the itemized pieces in the estimate
+     (capped at the items subtotal, never negative;
      with no items yet, it applies once pieces are added). The remainder is my
      styling TIME. Keep prices, credits and the gift-card split lines in step. */
   styling: {
-    discovery: { vnd: 1300000, credit: 900000,  label: 'The Discovery' },
-    edit:      { vnd: 3900000, credit: 2700000, label: 'The Edit' },
-    capsule:   { vnd: 6500000, credit: 4600000, label: 'The Capsule' },
-    atelier:   { vnd: 9200000, credit: 6300000, label: 'The Atelier' }
+    discovery: { vnd: 1225000, credit: 850000,  label: 'The Discovery' },
+    edit:      { vnd: 3725000, credit: 2600000, label: 'The Edit' },
+    capsule:   { vnd: 6225000, credit: 4350000, label: 'The Capsule' },
+    atelier:   { vnd: 8725000, credit: 5975000, label: 'The Atelier' }
   },
 
   /* The one FX dial. `spread` is the margin held back from the live mid-market
@@ -38,8 +39,13 @@ var CONFIG = {
      `step` floors the result to a calm figure (26,148 → 25,450) so the printed
      rate IS the charged rate. Flooring never rounds toward the client.
      `fallbackVndPerUsd` is only used if both live feeds fail — keep it near
-     the real market so an offline estimate is not wildly off. */
-  fx: { fallbackVndPerUsd: 26150, spread: 0.025, step: 50 },
+     the real market so an offline estimate is not wildly off.
+     `maxVndPerUsd` is the ceiling on the PRINTED rate, set 14 Aug 2026 to
+     match the 25,000₫/$1 peg every published credit is now quoted at. A
+     weakening đồng can no longer push an estimate above the peg — it can only
+     ever move the printed rate down, in my favour. Scaled by the client's
+     currency, so it caps EUR and KRW quotes in exactly the same proportion. */
+  fx: { fallbackVndPerUsd: 26150, spread: 0.025, step: 50, maxVndPerUsd: 25000 },
 
   /* Card (Stripe) processing pass-through: charged = (amount + fixedUsd*fx) / (1 - rate).
      Bank transfer / Wise / Zelle carry no fee.
@@ -90,9 +96,14 @@ var CONFIG = {
    one unit of the client's currency. Live mid-market, less the transfer margin,
    floored to a readable step — so a client who multiplies by the printed rate
    lands on our exact figure instead of one a few hundred đồng away. Global on
-   purpose: links.html, the tray and the redeem page all quote from this. */
-function SS_allInRate(vndPerUnit) {
+   purpose: links.html, the tray and the redeem page all quote from this.
+   `unitsPerUsd` (1 for USD, 0.92 for EUR, …) scales the CONFIG.fx.maxVndPerUsd
+   ceiling into the client's currency; omit it and the cap is read as USD. */
+function SS_allInRate(vndPerUnit, unitsPerUsd) {
   var v = vndPerUnit * (1 - CONFIG.fx.spread);
+  /* Never print above the published peg, whatever the market does. */
+  var cap = CONFIG.fx.maxVndPerUsd;
+  if (cap) { cap = cap / (unitsPerUsd || 1); if (v > cap) v = cap; }
   /* Coarse steps on big numbers, finer on small ones, so 25,450₫/USD and
      18.89₫/KRW are both legible and both exact. */
   var step = v >= 20000 ? (CONFIG.fx.step || 50)
@@ -134,7 +145,7 @@ function SS_fmtRate(v) {
   /* One rate, used for every figure on the page and printed in the status line
      verbatim. Showing a different number than the totals used is what made the
      old estimate read as confusing — clients compared the two and worried. */
-  function chargeRate(c) { return SS_allInRate(fxRate / rateFor(c)); }
+  function chargeRate(c) { return SS_allInRate(fxRate / rateFor(c), rateFor(c)); }
   function toCur(vnd) { return vnd / chargeRate(curCode()); }
   function updateFxStatus() {
     if (!el.fxStatus) return;

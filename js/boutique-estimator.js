@@ -72,7 +72,7 @@
     /* The gate before any sourcing begins: nothing is scouted until this
        lands. Published price, so it displays without the ≈ — and credited in
        full against the first payment, so it never changes the totals. */
-    scoutDepositVnd: 3900000,
+    scoutDepositVnd: 3750000,
     scoutDepositUsdText: '$150',
 
     /* The ladder — tier set by the whole buy, not per designer. The cap

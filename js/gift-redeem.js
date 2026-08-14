@@ -25,10 +25,10 @@
   /* ---------- config (with safe fallbacks if the estimator isn't present) ---------- */
   var C = window.CONFIG || {};
   var STYLING = C.styling || {
-    discovery: { vnd: 1300000, credit: 900000,  label: 'The Discovery' },
-    edit:      { vnd: 3900000, credit: 2700000, label: 'The Edit' },
-    capsule:   { vnd: 6500000, credit: 4600000, label: 'The Capsule' },
-    atelier:   { vnd: 9200000, credit: 6300000, label: 'The Atelier' }
+    discovery: { vnd: 1225000, credit: 850000,  label: 'The Discovery' },
+    edit:      { vnd: 3725000, credit: 2600000, label: 'The Edit' },
+    capsule:   { vnd: 6225000, credit: 4350000, label: 'The Capsule' },
+    atelier:   { vnd: 8725000, credit: 5975000, label: 'The Atelier' }
   };
   var SHIP = C.shipping || {
     asia:    { light: [900000, 2200000],  standard: [1800000, 5000000] },
@@ -87,7 +87,7 @@
   /* Same floored charge rate as the estimator, so a recipient redeeming a gift
      sees the figure the written quote will use. */
   function toCur(vnd, cur) {
-    if (window.SS_allInRate) return vnd / window.SS_allInRate(fxRate / rateFor(cur));
+    if (window.SS_allInRate) return vnd / window.SS_allInRate(fxRate / rateFor(cur), rateFor(cur));
     return (vnd / (fxRate * (1 - (FX.spread || 0.025)))) * rateFor(cur);
   }
   function fmtCur(n, cur) {
