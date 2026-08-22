@@ -62,6 +62,16 @@
     }
     /* Slightly tighter card gutters on the narrowest phones */
     @media (max-width: 380px) { .est-page .quiz { padding: 1.35rem 1.1rem; } }
+    /* card-fee sub-lines under the deposit / balance split */
+    .split-card { display: flex; justify-content: space-between; align-items: baseline; gap: 0.8rem; margin: 0.15rem 0 0; padding: 0 0 0 0.9rem; font-size: 0.8rem; color: var(--text-secondary); }
+    .split-card .v { font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .split-card.split-total { color: var(--text-primary); font-weight: 500; margin-bottom: 0.55rem; }
+    .split-card.split-total .v { color: var(--accent-deep, var(--accent)); }
+    .tip .tip-box.tip-math { width: 300px; max-width: 80vw; }
+    .tip-math b { display: block; color: var(--text-primary); font-weight: 500; margin-bottom: 0.2rem; }
+    .tip-math .m { display: block; font-family: var(--font-accent); font-variant-numeric: tabular-nums; color: var(--text-primary); margin: 0.3rem 0; padding: 0.35rem 0.5rem; border-radius: 6px; background: color-mix(in srgb, var(--surface-border) 40%, transparent); }
+    .tip-math ul { margin: 0.25rem 0 0.3rem; padding-left: 1rem; }
+    .tip-math li { margin: 0.05rem 0; }
   </style>
 </head>
 <body>
@@ -173,9 +183,9 @@
                 <option value="atelier" data-i18n="est.styling.atelier">The Atelier — full styling, in person or by video (+$349, incl. 5,975,000₫ credit)</option>
               </select>
               <label class="quiz-q" for="payMethod" style="margin-top:0.8rem" data-i18n="est.pay">How will you pay?</label>
-              <p class="quiz-help small muted" data-i18n="est.pay.help">Bank transfer, Wise &amp; Zelle are fee-free. Card (via Stripe) adds a processing fee — shown as its own line, never hidden in prices.</p>
+              <p class="quiz-help small muted" data-i18n="est.pay.help">Bank transfer, Wise &amp; Zelle add no card-processing fee. Card (via Stripe) adds a processing fee — shown as its own line, never hidden in prices. Either way, a small 3% currency-transfer allowance covers moving your payment into Vietnam — its own line too, at cost, never marked up.</p>
               <select id="payMethod">
-                <option value="bank" selected data-i18n="est.pay.bank">Bank transfer / Wise / Zelle — no extra fee</option>
+                <option value="bank" selected data-i18n="est.pay.bank">Bank transfer / Wise / Zelle — no card fee</option>
                 <option value="card" data-i18n="est.pay.card">Card via Stripe — adds ~5.4% + $0.30 (international rate)</option>
               </select>
               <div class="quiz-nav"><button class="quiz-back" type="button" data-back data-i18n="est.back">Back</button><button class="btn btn-primary quiz-next" type="button" data-next data-i18n="est.see">See my estimate</button></div>
@@ -197,13 +207,18 @@
                 <div class="result-row" id="rComplexRow" style="display:none"><span data-i18n="est.complexline">Complex sourcing</span><span class="v" id="rComplex">0₫</span></div>
                 <div class="result-row" id="rGreenRow" style="display:none"><span data-i18n="est.greenline">Green shopping discount</span><span class="v green-v" id="rGreen">0₫</span></div>
                 <div class="result-row"><span><span data-i18n="est.shiplbl">Est. shipping</span> <span class="muted small" id="rShipNote"></span></span><span class="v" id="rShip">—</span></div>
-                <div class="result-row" id="rCardRow" style="display:none"><span><span data-i18n="est.cardline">Card processing (Stripe)</span> <span class="tip" tabindex="0" aria-label="About the card processing fee" aria-describedby="tipe8">i<span class="tip-box" role="tooltip" id="tipe8" data-i18n="est.card.tip">Passed through at cost, never marked up. Stripe takes 2.9% + $0.30, plus 1.5% for an international card and 1% when it converts currency. I cannot tell whose card is which from an estimate, so this line is priced at the full international rate — a ceiling, not a surprise. If your card turns out to be domestic, your payment link costs less than this. Bank transfer, Wise &amp; Zelle skip the fee entirely.</span></span></span><span class="v" id="rCard">0₫</span></div>
+                <div class="result-row" id="rFxRow" style="display:none"><span><span data-i18n="est.fxline">Currency transfer (3%)</span> <span class="tip" tabindex="0" aria-label="About the currency transfer allowance" aria-describedby="tipe9">i<span class="tip-box" role="tooltip" id="tipe9" data-i18n="est.fx.tip">Moving your payment into Vietnam has a real cost — Wise&#8217;s transfer fee. This small allowance covers it at cost, never marked up; any difference is reconciled in your written quote. It applies whichever way you pay.</span></span></span><span class="v" id="rFx">0₫</span></div>
+                <div class="result-row" id="rCardRow" style="display:none"><span><span data-i18n="est.cardline">Card processing (Stripe)</span> <span class="tip" tabindex="0" aria-label="About the card processing fee" aria-describedby="tipe8">i<span class="tip-box" role="tooltip" id="tipe8" data-i18n="est.card.tip">Passed through at cost, never marked up. Stripe takes 2.9% + $0.30, plus 1.5% for an international card and 1% when it converts currency. I cannot tell whose card is which from an estimate, so this line is priced at the full international rate — a ceiling, not a surprise. If your card turns out to be domestic, your payment link costs less than this. Bank transfer, Wise &amp; Zelle skip the card-processing fee; the 3% currency-transfer line covers moving funds into Vietnam for every payment method.</span></span></span><span class="v" id="rCard">0₫</span></div>
                 <div class="result-row total" role="status" aria-live="polite"><span data-i18n="est.total">Total (VND)</span><span class="v" id="rTotal">—</span></div>
                 <div class="result-row" style="border:none"><span class="muted"><span data-i18n="est.usd">Approx. in</span> <select id="estCurrency" class="cur-select" aria-label="Currency"><option>USD</option><option>EUR</option><option>GBP</option><option>AUD</option><option>CAD</option><option>SGD</option><option>JPY</option><option>KRW</option><option>CNY</option><option>THB</option><option>AED</option><option>INR</option></select></span><span class="v usd" id="rUsd">—</span></div>
                 <div class="result-row split-row" id="rDepositRow" style="display:none"><span><span data-i18n="est.deposit">Deposit — due to start</span> <span class="tip" tabindex="0" aria-label="What the deposit covers" aria-describedby="tipe9">i<span class="tip-box" role="tooltip" id="tipe9" data-i18n="est.deposit.tip">Your pieces, my service fees and the base fee — everything I can price exactly today. Paid once you have approved the real photographs, so I can buy the pieces.</span></span></span><span class="v" id="rDeposit">—</span></div>
                 <p class="split-cur" id="rDepositCur"></p>
+                <p class="split-card" id="rDepositCard" style="display:none"><span><span data-i18n="est.split.card">Card processing</span> <span class="tip" tabindex="0" aria-label="How the card fee on the deposit is calculated" aria-describedby="tipDepCard">i<span class="tip-box tip-math" role="tooltip" id="tipDepCard"></span></span></span><span class="v" id="rDepositCardV"></span></p>
+                <p class="split-card split-total" id="rDepositTot" style="display:none"><span data-i18n="est.split.deptotal">Deposit total, paid by card</span><span class="v" id="rDepositTotV"></span></p>
                 <div class="result-row split-row" id="rBalanceRow" style="display:none"><span><span data-i18n="est.balance">Balance — before it ships</span> <span class="tip" tabindex="0" aria-label="What the balance covers" aria-describedby="tipe10">i<span class="tip-box" role="tooltip" id="tipe10" data-i18n="est.balance.tip">Shipping only, sent once your parcel is packed and weighed — so you pay the real courier price, not a guess. This is the part of the estimate that moves.</span></span></span><span class="v" id="rBalance">—</span></div>
                 <p class="split-cur" id="rBalanceCur"></p>
+                <p class="split-card" id="rBalanceCard" style="display:none"><span><span data-i18n="est.split.card">Card processing</span> <span class="tip" tabindex="0" aria-label="How the card fee on the balance is calculated" aria-describedby="tipBalCard">i<span class="tip-box tip-math" role="tooltip" id="tipBalCard"></span></span></span><span class="v" id="rBalanceCardV"></span></p>
+                <p class="split-card split-total" id="rBalanceTot" style="display:none"><span data-i18n="est.split.baltotal">Balance total, paid by card</span><span class="v" id="rBalanceTotV"></span></p>
                 <p class="fx-status" id="fxStatus" role="status" aria-live="polite" style="margin-top:0.5rem">Loading live rate…</p>
                 <p class="estimate-note" id="estEmptyMsg" style="display:none" data-i18n="est.empty">Nothing to estimate yet — add an item price, or choose a styling tier.</p>
               </div>

@@ -21,9 +21,9 @@ var CONFIG = {
   /* Optional styling-service add-ons (VND) — the SAME prices as the gift tiers
      ($49 / $149 / $349 = 1,225,000 / 3,725,000 / 8,725,000₫), and like the gifts
      each includes a piece CREDIT ($34 / $104 / $239 = 850,000 / 2,600,000 /
-     5,975,000₫) applied against the itemized pieces in the estimate
-     (capped at the items subtotal, never negative;
-     with no items yet, it applies once pieces are added). The remainder is my
+     5,975,000₫) applied against the itemized pieces in the estimate (capped at
+     the items subtotal, never negative; with no items yet, it applies once
+     pieces are added). The remainder is my
      styling TIME. Keep prices, credits and the gift-card split lines in step. */
   styling: {
     discovery: { vnd: 1225000, credit: 850000,  label: 'The Discovery' },
@@ -33,18 +33,28 @@ var CONFIG = {
   },
 
   /* The one FX dial. `spread` is the margin held back from the live mid-market
-     rate — it covers what it actually costs to move money into Vietnam (Wise
-     ~0.5%) plus the 2–7 days between quoting and payment landing. Raised to
+     rate — it covers what it actually costs to move money into Vietnam plus the
+     2–7 days between quoting and payment landing. REAL Wise USD→VND costs:
+     $3.97 on $125 = 3.18% (July 2026 receipt, bank-funded) and Wise's own
+     comparison API, 14 Aug 2026: $8.55/$125 = 6.8% · $10.56/$500 = 2.1% ·
+     $13.26/$1,000 = 1.3% · $18.62/$2,000 = 0.9%. Shape: a FIXED fee ($3–8
+     depending on funding method) + ~0.5% variable — never budget the
+     "from 0.24%" headline, and never send small. The effective margin is
+     spread PLUS the maxVndPerUsd cap below: at mid 26,034 the charged 25,000
+     rate holds back ~4% total — enough for BATCHED transfers ($500+, ~1–2%
+     cost), not solo per-order sends. Ops rule + ledger:
+     ~/Desktop/Seraphic Styler Internal/wise-payout-playbook.md.
+     WATCH RULE: if mid-market falls below ~25,600₫/$, the margin thins to
+     ~2% and stops covering the batch cost comfortably — re-peg maxVndPerUsd
+     down per the FX-peg policy (USD-anchored ₫ figures move down). Raised to
      2.5% on 7 Aug 2026; the page discloses it as "transfer costs included".
      `step` floors the result to a calm figure (26,148 → 25,450) so the printed
      rate IS the charged rate. Flooring never rounds toward the client.
      `fallbackVndPerUsd` is only used if both live feeds fail — keep it near
      the real market so an offline estimate is not wildly off.
-     `maxVndPerUsd` is the ceiling on the PRINTED rate, set 14 Aug 2026 to
-     match the 25,000₫/$1 peg every published credit is now quoted at. A
-     weakening đồng can no longer push an estimate above the peg — it can only
-     ever move the printed rate down, in my favour. Scaled by the client's
-     currency, so it caps EUR and KRW quotes in exactly the same proportion. */
+     `maxVndPerUsd` is the upper bound on the printed rate, so an estimate and
+     a published price always agree. Scaled by the client's currency, so EUR
+     and KRW quotes are bounded in the same proportion. */
   fx: { fallbackVndPerUsd: 26150, spread: 0.025, step: 50, maxVndPerUsd: 25000 },
 
   /* Card (Stripe) processing pass-through: charged = (amount + fixedUsd*fx) / (1 - rate).
@@ -58,6 +68,16 @@ var CONFIG = {
      manualEntry (+0.5%) applies only to cards typed in by hand — payment links and
      Checkout are never manually entered, so it stays 0. Set it if that ever changes. */
   card: { rate: 0.029, intl: 0.015, fx: 0.01, manualEntry: 0, fixedUsd: 0.30 },
+
+  /* Explicit currency-transfer allowance (her call; raised 1.5% → 3% on
+     15 Aug 2026): 3% of the payable amount before shipping, its own line on
+     every estimate. Sized for the REAL operating model — Ba often needs the
+     money within ~30 minutes, so sends are solo and instant-funded (debit
+     card, the expensive Wise tier ≈ $8 fixed + 0.5%). Peg (~4%) + this line
+     (3%) ≈ 7% total covers a solo instant send down to ~$125; batching is
+     pure upside, never required. At cost, never marked up; applies to all
+     payment methods (cash-out to ₫ happens regardless of how the client pays). */
+  fxFee: 0.03,
 
   /* Payment is taken in two parts, so the card fee lands on each part separately
      (Stripe charges its fixed $0.30 per charge, not per order):
@@ -101,7 +121,7 @@ var CONFIG = {
    ceiling into the client's currency; omit it and the cap is read as USD. */
 function SS_allInRate(vndPerUnit, unitsPerUsd) {
   var v = vndPerUnit * (1 - CONFIG.fx.spread);
-  /* Never print above the published peg, whatever the market does. */
+  /* Bounded so an estimate never exceeds the published rate. */
   var cap = CONFIG.fx.maxVndPerUsd;
   if (cap) { cap = cap / (unitsPerUsd || 1); if (v > cap) v = cap; }
   /* Coarse steps on big numbers, finer on small ones, so 25,450₫/USD and
@@ -128,7 +148,7 @@ function SS_fmtRate(v) {
 
   var el = {};
   ['lineItems','addItem','region','region2','compareDest','compareWrap','destCompare','weight','stops','complex','green','styling','payMethod','estCurrency','rSubtotal','rFee','rFeeNote','rBase','rStopsRow','rStops',
-   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rLeftoverRow','rLeftover','rLeftoverUsd','rComplexRow','rComplex','rGreenRow','rGreen','rCardRow','rCard','rShip','rShipNote','rDepositRow','rDeposit','rDepositCur','rBalanceRow','rBalance','rBalanceCur','rTotal','rUsd','fxStatus','sendBasket','copiedMsg','estEmptyMsg']
+   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rLeftoverRow','rLeftover','rLeftoverUsd','rComplexRow','rComplex','rGreenRow','rGreen','rFxRow','rFx','rCardRow','rCard','rShip','rShipNote','rDepositRow','rDeposit','rDepositCur','rBalanceRow','rBalance','rBalanceCur','rDepositCard','rDepositCardV','tipDepCard','rDepositTot','rDepositTotV','rBalanceCard','rBalanceCardV','tipBalCard','rBalanceTot','rBalanceTotV','rTotal','rUsd','fxStatus','sendBasket','copiedMsg','estEmptyMsg']
     .forEach(function (id) { el[id] = document.getElementById(id); });
   if (!el.lineItems) return; // not on a page with the estimator
 
@@ -152,7 +172,7 @@ function SS_fmtRate(v) {
     var c = curCode();
     var line = ' · 1 ' + c + ' ≈ ' + SS_fmtRate(chargeRate(c)) + '₫ · ';
     el.fxStatus.textContent = fxLive
-      ? t('est.fx.live2', "Today's rate") + line + t('est.fx.incl', 'transfer costs included · refreshed daily')
+      ? t('est.fx.live2', "Today's rate") + line + t('est.fx.incl', 'refreshed daily')
       : t('est.fx.offline2', 'Offline estimate') + line + t('est.fx.confirm', 'exact rate confirmed in your written quote');
   }
 
@@ -312,19 +332,48 @@ function SS_fmtRate(v) {
       hi: nonShip + depFee + ship[1] + balFeeHi
     };
   }
+  /* The written maths behind one card charge, for the ⓘ beside the fee line.
+     net = what must arrive; gross = what the card is charged; fee = the difference. */
+  function cardMath(netVnd, feeVnd) {
+    var cc = CONFIG.card, pct = cardRatePct();
+    var fixed = cc.fixedUsd * fxRate, gross = netVnd + feeVnd;
+    var parts = '<ul><li>' + esc(t('est.card.m1', '2.9% + $0.30 — Stripe\'s standard card rate')) + '</li>' +
+      '<li>' + esc(t('est.card.m2', '+1.5% if the card is international')) + '</li>' +
+      '<li>' + esc(t('est.card.m3', '+1% when currency conversion is required')) + '</li></ul>';
+    var line = '(' + fmtCur(toCur(netVnd)) + ' + ' + fmtCur(toCur(fixed)) + ') ÷ (1 − ' + pct + ') = ' + fmtCur(toCur(gross));
+    return '<b>' + esc(t('est.card.mh', 'Assumed at the full rate: ' + pct + ' + $0.30 of the amount charged')) + '</b>' + parts +
+      esc(t('est.card.m4', 'The percentage comes off what the card is charged, so the charge is sized to net the amount due:')) +
+      '<span class="m">' + line + '</span>' +
+      '<span class="m">' + fmtCur(toCur(gross)) + ' − ' + fmtCur(toCur(netVnd)) + ' = ' + fmtCur(toCur(feeVnd)) + '</span>' +
+      esc(t('est.card.m5', 'A ceiling, not a surprise — a domestic card costs less than this.'));
+  }
   function showSplit(s) {
     if (!el.rDepositRow) return;
     el.rDepositRow.style.display = '';
     el.rBalanceRow.style.display = '';
-    el.rDeposit.textContent = fmtVnd(s.deposit);
-    el.rDepositCur.textContent = '≈ ' + fmtCur(toCur(s.deposit));
-    el.rBalance.textContent = fmtVnd(s.balLo) + ' – ' + fmtVnd(s.balHi);
-    el.rBalanceCur.textContent = '≈ ' + fmtCur(toCur(s.balLo)) + ' – ' + fmtCur(toCur(s.balHi));
+    var depNet = s.deposit - s.depositFee;
+    var balFeeLo = s.feeLo - s.depositFee, balFeeHi = s.feeHi - s.depositFee;
+    var balNetLo = s.balLo - balFeeLo, balNetHi = s.balHi - balFeeHi;
+    el.rDeposit.textContent = fmtVnd(depNet);
+    el.rDepositCur.textContent = '≈ ' + fmtCur(toCur(depNet));
+    el.rBalance.textContent = fmtVnd(balNetLo) + ' – ' + fmtVnd(balNetHi);
+    el.rBalanceCur.textContent = '≈ ' + fmtCur(toCur(balNetLo)) + ' – ' + fmtCur(toCur(balNetHi));
+    var card = s.depositFee > 0;
+    ['rDepositCard','rDepositTot','rBalanceCard','rBalanceTot'].forEach(function (id) { if (el[id]) el[id].style.display = card ? '' : 'none'; });
+    if (!card || !el.rDepositCardV) return;
+    el.rDepositCardV.textContent = '≈ ' + fmtCur(toCur(s.depositFee));
+    el.rDepositTotV.textContent = '≈ ' + fmtCur(toCur(s.deposit));
+    if (el.tipDepCard) el.tipDepCard.innerHTML = cardMath(depNet, s.depositFee);
+    el.rBalanceCardV.textContent = '≈ ' + fmtCur(toCur(balFeeLo)) + ' – ' + fmtCur(toCur(balFeeHi));
+    el.rBalanceTotV.textContent = '≈ ' + fmtCur(toCur(s.balLo)) + ' – ' + fmtCur(toCur(s.balHi));
+    if (el.tipBalCard) el.tipBalCard.innerHTML = cardMath(balNetLo, balFeeLo) +
+      '<span class="m">' + esc(t('est.card.m6', 'Upper end of the shipping range:')) + ' ' + fmtCur(toCur(balNetHi)) + ' → ' + esc(t('est.card.m7', 'fee')) + ' ' + fmtCur(toCur(balFeeHi)) + '</span>';
   }
   function hideSplit() {
     if (!el.rDepositRow) return;
     el.rDepositRow.style.display = 'none';
     el.rBalanceRow.style.display = 'none';
+    ['rDepositCard','rDepositTot','rBalanceCard','rBalanceTot'].forEach(function (id) { if (el[id]) el[id].style.display = 'none'; });
   }
 
   function esc(s) {
@@ -425,6 +474,14 @@ function SS_fmtRate(v) {
       } else { el.rLeftoverRow.style.display = 'none'; }
     }
     var nonShip = c.subtotal + c.fees + c.base + c.complex + c.stopsFee - c.green + c.styling - c.credit;
+    /* Currency-transfer allowance rides on the payable amount, so it flows
+       into the deposit, the card fee and every total below automatically. */
+    var fxAllow = Math.round(nonShip * (CONFIG.fxFee || 0));
+    nonShip += fxAllow;
+    if (el.rFxRow) {
+      if (fxAllow > 0) { el.rFxRow.style.display = ''; el.rFx.textContent = fmtVnd(fxAllow); }
+      else { el.rFxRow.style.display = 'none'; }
+    }
     renderCompare(c, nonShip);
     // When two destinations are in play, name the one this card is priced for.
     if (el.rShipNote) el.rShipNote.textContent = compareOn() ? '(' + regionLabel(el.region.value) + ')' : '';
@@ -481,6 +538,8 @@ function SS_fmtRate(v) {
   function summary() {
     var c = compute();
     var nonShip = c.subtotal + c.fees + c.base + c.complex + c.stopsFee - c.green + c.styling - c.credit;
+    var fxAllow = Math.round(nonShip * (CONFIG.fxFee || 0));
+    nonShip += fxAllow;
     var region = el.region.options[el.region.selectedIndex].text;
     var links = readLinks();
     var lines = ['Hi! Here is my Seraphic Styler basket estimate:', ''];
@@ -499,8 +558,9 @@ function SS_fmtRate(v) {
     if (c.stopsFee > 0) lines.push('Additional stops (beyond 2 boutiques): +' + fmtVnd(c.stopsFee));
     if (c.complex > 0) lines.push('Complex sourcing: ' + fmtVnd(c.complex));
     if (c.green > 0) lines.push('Green shopping discount: −' + fmtVnd(c.green) + ' (sustainable brand)');
+    if (fxAllow > 0) lines.push('Currency transfer allowance (3%, at cost): ' + fmtVnd(fxAllow));
     lines.push('Ship to: ' + region + ' (' + el.weight.value + ')');
-    lines.push('Payment: ' + (c.card ? 'Card via Stripe (processing fee below)' : 'Bank transfer / Wise / Zelle (fee-free)'));
+    lines.push('Payment: ' + (c.card ? 'Card via Stripe (processing fee below)' : 'Bank transfer / Wise / Zelle (no card fee)'));
     if (c.nItems === 0 && c.styling > 0) {
       var cfS = c.card ? cardFee(nonShip) : 0;
       if (cfS > 0) lines.push('Card processing (Stripe ' + cardRatePct() + ' + $0.30 intl rate, at cost): ' + fmtVnd(cfS));
