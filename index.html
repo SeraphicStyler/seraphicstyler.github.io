@@ -56,6 +56,12 @@
     html.explore-open .nav-explore-i { transform: rotate(45deg); }
     .nav .hamburger { display: none; }
     .nav-cue { display: none !important; }
+    /* header = centred brand + one trigger pinned right; the hover-revealed link rows retire into Explore */
+    .nav-inner { position: relative; justify-content: center; }
+    .nav-links-l, .nav-links-r { display: none !important; }
+    .nav-menu { display: none !important; }
+    .nav-explore { position: absolute; right: clamp(1rem, 4vw, 3rem); top: 50%; transform: translateY(-50%); margin: 0; }
+    @media (max-width: 520px) { .nav-explore { right: 0.9rem; padding: 0 0.45rem 0 0.8rem; font-size: 0.68rem; } }
     .rail { display: none !important; }              /* the dot navigator's job moves into Explore */
     .btn-text { color: var(--text-primary); text-decoration: none; font-family: var(--font-brand); font-size: 0.82rem; letter-spacing: 0.06em; padding: 0.95rem 0.2rem;
       border-bottom: 1px solid color-mix(in srgb, var(--text-primary) 35%, transparent); transition: border-color .18s ease, color .18s ease; }
