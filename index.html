@@ -164,51 +164,6 @@
     </div>
   </section>
 
-  <!-- ===== Flight promo — the one offer with a deadline; the count self-expires ===== -->
-  <style>
-    .flight-band { display: block; max-width: 720px; margin: clamp(1.2rem, 3vw, 2rem) auto 0; padding: 1.15rem 1.25rem 1.05rem;
-      border-radius: 18px; text-decoration: none; color: var(--text-primary); position: relative; overflow: hidden;
-      border: 1.5px solid var(--accent);
-      background: linear-gradient(135deg, rgba(201,182,232,0.5), rgba(174,196,246,0.4) 46%, rgba(238,243,251,0.94));
-      box-shadow: 0 12px 30px -18px rgba(35,58,114,0.65); transition: transform .18s ease, box-shadow .18s ease; }
-    html.dark .flight-band { background: linear-gradient(135deg, rgba(169,184,238,0.18), rgba(46,84,173,0.18) 50%, rgba(36,40,55,0.86)); }
-    .flight-band:hover { transform: translateY(-2px); box-shadow: 0 16px 36px -18px rgba(35,58,114,0.7); }
-    html.rm .flight-band { transition: none; }
-    .flight-band .fb-flag { display: inline-flex; align-items: center; gap: 0.45rem; font-family: var(--font-accent);
-      font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--cta-text, #fff); background: var(--accent); border-radius: 999px; padding: 0.28rem 0.7rem; }
-    .flight-band .fb-t { display: block; margin: 0.55rem 0 0.2rem; font-family: var(--font-display); font-weight: 400;
-      font-size: clamp(1.15rem, 3.6vw, 1.4rem); line-height: 1.2; }
-    .flight-band .fb-t em { font-family: var(--font-script); font-style: normal; color: var(--accent); font-size: 1.15em; }
-    .flight-band .fb-s { margin: 0; font-size: 0.84rem; line-height: 1.6; color: var(--text-primary); max-width: 54ch; }
-    .flight-band .fb-go { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; flex-wrap: wrap;
-      margin-top: 0.75rem; padding-top: 0.7rem; border-top: 1px solid rgba(46,84,173,0.2); }
-    html.dark .flight-band .fb-go { border-top-color: rgba(169,184,238,0.22); }
-    .flight-band .fb-when { font-size: 0.78rem; color: var(--accent); font-weight: 500; }
-    .flight-band .fb-btn { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 44px; padding: 0 1.05rem;
-      border-radius: 999px; background: var(--accent); color: var(--cta-text, #fff); font-family: var(--font-brand); font-size: 0.84rem; white-space: nowrap; }
-  </style>
-  <div class="wrap">
-    <a class="flight-band reveal" href="free-international-shipping" data-track="home-flight-promo">
-      <span class="fb-flag">Limited — one flight</span>
-      <strong class="fb-t">Free international <em>shipping</em></strong>
-      <p class="fb-s">Your pieces fly home in my suitcase on 18 August. No courier, no per-kilo bill. Free OC pickup.</p>
-      <span class="fb-go"><span class="fb-when" id="fbCount">Orders close 15 August</span><span class="fb-btn">Read the details →</span></span>
-    </a>
-  </div>
-  <script>
-    (function () {
-      var el = document.getElementById('fbCount'); if (!el) return;
-      var now = new Date();
-      var d = Math.ceil((new Date(2026, 7, 15, 23, 59, 59) - now) / 86400000);
-      var flown = Math.ceil((new Date(2026, 7, 18, 23, 59, 59) - now) / 86400000);
-      if (d > 1) el.textContent = d + ' days left — orders close 15 August';
-      else if (d === 1) el.textContent = 'Orders close tomorrow, 15 August';
-      else if (d === 0) el.textContent = 'Last day — orders close tonight';
-      else if (flown >= 0) el.textContent = 'Orders closed — DM for the next flight';
-      else el.textContent = 'This flight has landed — ask about the next';
-    })();
-  </script>
 
   <!-- ===== ABOUT ===== -->
   <style>
@@ -575,9 +530,9 @@
             <option value="atelier" data-i18n="est.styling.atelier">The Atelier — full styling, in person or by video (+$349, incl. 5,975,000₫ credit)</option>
           </select>
           <label class="quiz-q" for="payMethod" style="margin-top:0.8rem" data-i18n="est.pay">How will you pay?</label>
-          <p class="quiz-help small muted" data-i18n="est.pay.help">Bank transfer, Wise &amp; Zelle are fee-free. Card (via Stripe) adds a processing fee — shown as its own line, never hidden in prices.</p>
+          <p class="quiz-help small muted" data-i18n="est.pay.help">Bank transfer, Wise &amp; Zelle add no card-processing fee. Card (via Stripe) adds a processing fee — shown as its own line, never hidden in prices. Either way, a small 3% currency-transfer allowance covers moving your payment into Vietnam — its own line too, at cost, never marked up.</p>
           <select id="payMethod">
-            <option value="bank" selected data-i18n="est.pay.bank">Bank transfer / Wise / Zelle — no extra fee</option>
+            <option value="bank" selected data-i18n="est.pay.bank">Bank transfer / Wise / Zelle — no card fee</option>
             <option value="card" data-i18n="est.pay.card">Card via Stripe — adds ~5.4% + $0.30 (international rate)</option>
           </select>
           <div class="quiz-nav"><button class="quiz-back" type="button" data-back data-i18n="est.back">Back</button><button class="btn btn-primary quiz-next" type="button" data-next data-i18n="est.see">See my estimate</button></div>
@@ -599,7 +554,8 @@
             <div class="result-row" id="rComplexRow" style="display:none"><span data-i18n="est.complexline">Complex sourcing</span><span class="v" id="rComplex">0₫</span></div>
             <div class="result-row" id="rGreenRow" style="display:none"><span data-i18n="est.greenline">Green shopping discount</span><span class="v green-v" id="rGreen">0₫</span></div>
             <div class="result-row"><span><span data-i18n="est.shiplbl">Est. shipping</span> <span class="muted small" id="rShipNote"></span></span><span class="v" id="rShip">—</span></div>
-            <div class="result-row" id="rCardRow" style="display:none"><span><span data-i18n="est.cardline">Card processing (Stripe)</span> <span class="tip" tabindex="0" aria-label="About the card processing fee" aria-describedby="tipx8">i<span class="tip-box" role="tooltip" id="tipx8" data-i18n="est.card.tip">Passed through at cost, never marked up. Stripe takes 2.9% + $0.30, plus 1.5% for an international card and 1% when it converts currency. I cannot tell whose card is which from an estimate, so this line is priced at the full international rate — a ceiling, not a surprise. If your card turns out to be domestic, your payment link costs less than this. Bank transfer, Wise &amp; Zelle skip the fee entirely.</span></span></span><span class="v" id="rCard">0₫</span></div>
+            <div class="result-row" id="rFxRow" style="display:none"><span><span data-i18n="est.fxline">Currency transfer (3%)</span> <span class="tip" tabindex="0" aria-label="About the currency transfer allowance" aria-describedby="tipx9">i<span class="tip-box" role="tooltip" id="tipx9" data-i18n="est.fx.tip">Moving your payment into Vietnam has a real cost — Wise&#8217;s transfer fee. This small allowance covers it at cost, never marked up; any difference is reconciled in your written quote. It applies whichever way you pay.</span></span></span><span class="v" id="rFx">0₫</span></div>
+            <div class="result-row" id="rCardRow" style="display:none"><span><span data-i18n="est.cardline">Card processing (Stripe)</span> <span class="tip" tabindex="0" aria-label="About the card processing fee" aria-describedby="tipx8">i<span class="tip-box" role="tooltip" id="tipx8" data-i18n="est.card.tip">Passed through at cost, never marked up. Stripe takes 2.9% + $0.30, plus 1.5% for an international card and 1% when it converts currency. I cannot tell whose card is which from an estimate, so this line is priced at the full international rate — a ceiling, not a surprise. If your card turns out to be domestic, your payment link costs less than this. Bank transfer, Wise &amp; Zelle skip the card-processing fee; the 3% currency-transfer line covers moving funds into Vietnam for every payment method.</span></span></span><span class="v" id="rCard">0₫</span></div>
             <div class="result-row total" role="status" aria-live="polite"><span data-i18n="est.total">Total (VND)</span><span class="v" id="rTotal">—</span></div>
             <div class="result-row" style="border:none"><span class="muted"><span data-i18n="est.usd">Approx. in</span> <select id="estCurrency" class="cur-select" aria-label="Currency"><option>USD</option><option>EUR</option><option>GBP</option><option>AUD</option><option>CAD</option><option>SGD</option><option>JPY</option><option>KRW</option><option>CNY</option><option>THB</option><option>AED</option><option>INR</option></select></span><span class="v usd" id="rUsd">—</span></div>
             <div class="result-row split-row" id="rDepositRow" style="display:none"><span><span data-i18n="est.deposit">Deposit — due to start</span> <span class="tip" tabindex="0" aria-label="What the deposit covers" aria-describedby="tipx9">i<span class="tip-box" role="tooltip" id="tipx9" data-i18n="est.deposit.tip">Your pieces, my service fees and the base fee — everything I can price exactly today. Paid once you have approved the real photographs, so I can buy the pieces.</span></span></span><span class="v" id="rDeposit">—</span></div>
@@ -786,7 +742,7 @@
     .gift-transition::after{margin-top:1.7rem}
     .gift-transition p{max-width:38rem;margin:0.8rem auto 0;line-height:1.65;color:var(--text-secondary)}
     .gift-gesture{text-align:center;margin:0 0 1.2rem}
-    .gift-gesture p{color:var(--text-secondary);font-size:0.92rem;margin:0.35rem 0 0}
+    .gift-gesture p{color:var(--text-secondary);font-size:0.92rem;margin:0.35rem auto 0}
     .gift-special{text-align:center;margin:2.6rem 0 1.1rem}
     .gift-special p{color:var(--text-secondary);font-size:0.92rem;margin:0.35rem 0 0}
     .gift-grid-2{grid-template-columns:repeat(2,1fr);max-width:820px;margin-inline:auto}
@@ -1239,7 +1195,6 @@
         <div class="tier"><p class="range" data-i18n="btq.t10r">Research rate</p><div class="fee">$26<span style="font-size:0.42em;letter-spacing:0.04em;opacity:0.72"> /hr</span></div><p class="muted" data-i18n="btq.t10s">650,000₫ an hour, two-hour minimum — for market surveys, option-hunting, or exploratory research before a buy brief is defined. Prepaid and credited in full against your next buy.</p></div>
       </div>
       <p class="small muted center narrow reveal" style="margin-top:0.9rem" data-i18n="btq.tierline">One written number before any deposit, whichever tier your budget lands in — and the tier is set by the whole buy, not per designer. <strong>Your fee is never more than it would be at the next tier's opening</strong>, so landing just under a threshold never costs you more than landing just over it.</p>
-      <p class="small muted center narrow reveal" style="margin-top:0.55rem"><strong>Free international shipping</strong> on buys placed before 15 August — pieces fly home on the 18th, the courier leg on us. Your written quote will confirm it.</p>
 
       <!-- The convinced reader converts here, at the numbers — not after another
            two screens of caveats and a worked example. Distinct source tag so
@@ -1442,7 +1397,7 @@ Tissue-wrapped presentation packing, one consolidated parcel, full tracking</div
               <div class="service"><h3 data-i18n="price.base.h2">Base fee · 250,000₫ / order</h3><div class="body" data-i18n="price.base.b2">A flat per-order fee covering messaging, coordination, rides between boutiques, and careful packing. Shipping is passed through at cost — no hidden margin.</div></div>
               <div class="service"><h3 data-i18n="price.stops.h">Additional stops · +150,000₫ / store</h3><div class="body" data-i18n="price.stops.b">The first two boutiques on your list are included. Each additional store adds 150,000₫ for the extra travel and time — always shown before I set out.</div></div>
               <div class="service"><h3 data-i18n="price.complex.h2">Complex sourcing · + from 200,000₫</h3><div class="body" data-i18n="price.complex.b2">Added only for rare or limited drops, tight deadlines, or many changes after sourcing begins. Agreed with you in advance.</div></div>
-              <div class="service"><h3 data-i18n="price.card.h">Card payments · + ~5.4%</h3><div class="body" data-i18n="price.card.b">Prefer a card? Stripe's fee is passed through at cost and always shown as its own line — never folded into prices. Estimates use Stripe's full international rate (2.9% + $0.30, plus 1.5% international and 1% currency conversion), because I cannot tell whose card is domestic before you pay. It is a ceiling: if yours is domestic, your link costs less. Bank transfer, Wise &amp; Zelle are fee-free.</div></div>
+              <div class="service"><h3 data-i18n="price.card.h">Card payments · + ~5.4%</h3><div class="body" data-i18n="price.card.b">Prefer a card? Stripe's fee is passed through at cost and always shown as its own line — never folded into prices. Estimates use Stripe's full international rate (2.9% + $0.30, plus 1.5% international and 1% currency conversion), because I cannot tell whose card is domestic before you pay. It is a ceiling: if yours is domestic, your link costs less. Bank transfer, Wise &amp; Zelle add no card fee; a small 3% currency-transfer allowance on your estimate covers moving funds into Vietnam.</div></div>
             </div>
             <p class="assure" data-i18n="price.min2">Yes, there is a minimum: orders of about $100–150, or several items together. You will always see a clear breakdown before anything is purchased.</p>
             <div class="grid grid-3">

@@ -145,48 +145,6 @@
     .lp-gift-paths a:hover { border-bottom-color: currentColor; }
     .lp-gift-when { margin: 0.35rem 0 0; font-size: 0.68rem; letter-spacing: 0.02em; color: var(--text-secondary); }
 
-    /* ===== The flight promotion — the one thing on this page with a deadline =====
-       Deliberately louder than the cards around it: filled rather than tinted,
-       its own hairline frame, and a live count that stops the scroll. */
-    .lp-promo { position: relative; display: block; margin-top: 1.6rem; padding: 1.15rem 1.15rem 1.05rem;
-      border-radius: 18px; text-decoration: none; color: var(--text-primary); overflow: hidden;
-      border: 1.5px solid var(--accent);
-      background: linear-gradient(135deg, rgba(201,182,232,0.62), rgba(174,196,246,0.5) 46%, rgba(238,243,251,0.94));
-      box-shadow: 0 12px 30px -18px rgba(35,58,114,0.65); }
-    html.dark .lp-promo { background: linear-gradient(135deg, rgba(169,184,238,0.20), rgba(46,84,173,0.20) 50%, rgba(36,40,55,0.86)); }
-    .lp-promo::after { content: ''; position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(420px 150px at 88% -10%, rgba(255,255,255,0.55), transparent 70%); }
-    html.dark .lp-promo::after { background: radial-gradient(420px 150px at 88% -10%, rgba(169,184,238,0.16), transparent 70%); }
-    .lp-promo-flag { display: inline-flex; align-items: center; gap: 0.45rem;
-      font-family: var(--font-brand); font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--cta-text, #fff); background: var(--accent); border-radius: 999px; padding: 0.28rem 0.7rem; }
-    .lp-promo-flag .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-    @media (prefers-reduced-motion: no-preference) {
-      html:not(.rm) .lp-promo-flag .dot { animation: lp-blink 2.2s ease-in-out infinite; }
-    }
-    @keyframes lp-blink { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
-    .lp-promo-t { display: block; margin: 0.6rem 0 0; font-family: var(--font-display); font-weight: 400;
-      font-size: clamp(1.3rem, 5.4vw, 1.7rem); line-height: 1.15; }
-    .lp-promo-t em { font-family: var(--font-script); font-style: normal; color: var(--accent); font-size: 1.15em; }
-    .lp-promo-s { margin: 0.4rem 0 0; font-size: 0.82rem; line-height: 1.6; color: var(--text-primary); max-width: 44ch; }
-    .lp-promo-facts { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.8rem; }
-    .lp-promo-facts span { font-family: var(--font-accent); font-size: 0.66rem; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--accent); background: rgba(255,255,255,0.6);
-      border: 1px solid rgba(46,84,173,0.22); border-radius: 999px; padding: 0.3rem 0.62rem; }
-    html.dark .lp-promo-facts span { background: rgba(36,40,55,0.55); border-color: rgba(169,184,238,0.28); }
-    .lp-promo-go { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem;
-      margin-top: 0.95rem; padding-top: 0.8rem; border-top: 1px solid rgba(46,84,173,0.2); }
-    html.dark .lp-promo-go { border-top-color: rgba(169,184,238,0.22); }
-    .lp-promo-when { font-size: 0.72rem; line-height: 1.4; color: var(--text-primary); }
-    .lp-promo-when strong { display: block; color: var(--accent); font-size: 0.8rem; font-weight: 500; }
-    .lp-promo-btn { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 0.4rem; min-height: 44px;
-      padding: 0 1.05rem; border-radius: 999px; background: var(--accent); color: var(--cta-text, #fff);
-      font-family: var(--font-brand); font-size: 0.82rem; white-space: nowrap;
-      transition: transform .18s ease, box-shadow .18s ease; }
-    .lp-promo:hover .lp-promo-btn { transform: translateY(-1px); box-shadow: 0 8px 18px -10px rgba(35,58,114,0.7); }
-    .lp-promo:active { transform: translateY(0) scale(0.996); }
-    .lp-promo:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-    html.rm .lp-promo, html.rm .lp-promo-btn { transition: none; }
 
     /* ===== Motion — cultivated, not decorative =====
        Group titles are unveiled by a clip mask (clip-path shifts nothing in the
@@ -567,7 +525,7 @@
             <span class="lp-pc-e" data-i18n="lp2.pc1e">Sourcing</span>
             <span class="lp-pc-t" data-i18n="lp2.pc1t">I know the piece</span>
             <p class="lp-pc-s" data-i18n="lp2.pc1s">Send a link and I go buy it. Send a photo with no source and I trace it first.</p>
-            <span class="lp-pc-w"><span data-i18n="lp2.pc1w">Pieces at cost — my fee starts at about $23 once you order</span><span class="go" aria-hidden="true">↓</span></span>
+            <span class="lp-pc-w"><span data-i18n="lp2.pc1w">Pieces at cost — my fee starts at about $24 once you order</span><span class="go" aria-hidden="true">↓</span></span>
           </a>
           <a class="lp-path-card is-styling" href="#lp-styling" data-track="choose-styling">
             <span class="lp-pc-e" data-i18n="lp2.pc2e">Styling</span>
@@ -608,21 +566,6 @@
     </div>
 
 
-    <!-- ===== Featured promotion — the flight home, while the window is open ===== -->
-    <a class="lp-promo" href="free-international-shipping" data-track="promo-flight">
-      <span class="lp-promo-flag"><span class="dot" aria-hidden="true"></span><span data-i18n="lp.promo_flag">Limited — one flight</span></span>
-      <strong class="lp-promo-t" data-i18n="lp.promo_t">Free international <em>shipping</em></strong>
-      <p class="lp-promo-s" data-i18n="lp.promo_s">Your pieces fly home in my suitcase on 18 August — no courier, no per-kilo bill.</p>
-      <div class="lp-promo-facts">
-        <span data-i18n="lp.promo_f1">$0 shipping</span>
-        <span data-i18n="lp.promo_f2">Free OC pickup</span>
-        <span data-i18n="lp.promo_f3">Photos before you pay</span>
-      </div>
-      <div class="lp-promo-go">
-        <span class="lp-promo-when"><strong id="lpPromoCount">Orders close 15 August</strong><span data-i18n="lp.promo_ans">Everything answered before you order</span></span>
-        <span class="lp-promo-btn" data-i18n="lp.promo_btn">Read the details →</span>
-      </div>
-    </a>
 
     <!-- ===== Sourcing — you name the piece =====
          Fee copy mirrors CONFIG in js/estimator.js (8%/7%, min 350k, base 250k) — update together. -->
@@ -643,7 +586,7 @@
       </ol>
 
       <div class="lp-whisper reveal">
-        <strong data-i18n="lp2.src_w1">From <b>about $23</b> in fees once you order.</strong>
+        <strong data-i18n="lp2.src_w1">From <b>about $24</b> in fees once you order.</strong>
         <span data-i18n="lp2.src_w2">That's 600,000₫, where most simple requests stay. The piece and shipping cost what they cost.</span>
         <div class="lp-chips" role="group" aria-label="House promises">
           <span data-i18n="lp2.c1">Receipt-price pieces</span>
@@ -666,13 +609,14 @@
         <summary data-i18n="lp2.drawer">See the exact fee breakdown</summary>
         <div class="lp-dbody">
           <p class="lp-dcare" data-i18n="lp2.src_care">The fee is just my legwork — finding the piece, visiting the boutiques, checking it with my own hands, photos for your yes, and careful packing for the trip home. I'd rather get one piece exactly right than make any bill bigger.</p>
-          <p data-i18n="lp2.d0"><b>The Trace — $25 ≈ 640,000₫</b> Only when you send a photo with no source, and only before anything is ordered. Credited in full against your order total, so if you go ahead it costs you nothing. A link is never charged for it.</p>
+          <p data-i18n="lp2.d0"><b>The Trace — $25 ≈ 625,000₫</b> Only when you send a photo with no source, and only before anything is ordered. Credited in full against your order total, so if you go ahead it costs you nothing. A link is never charged for it.</p>
           <p data-i18n="lp2.d0b"><b>What the trace buys</b> One of three answers inside 48 hours: the shop and the price · the closest piece I can actually buy here · or why it can’t be sourced — usually a wholesale or dropship listing — with the nearest alternative. You’re paying for the answer, not the outcome.</p>
           <p data-i18n="lp2.d1"><b>Per-item sourcing fee</b> 8% of the piece (7% above 5,000,000₫), minimum 350,000₫ per item</p>
           <p data-i18n="lp2.d2"><b>Per-order coordination</b> 250,000₫ flat — rides, boutique visits &amp; packing</p>
-          <p data-i18n="lp2.d3"><b>Typical minimum</b> 600,000₫ ≈ $23 before the piece and shipping</p>
+          <p data-i18n="lp2.d3"><b>Typical minimum</b> 600,000₫ ≈ $24 before the piece and shipping</p>
           <p data-i18n="lp2.d4"><b>Optional</b> Rare-find or rush sourcing +200,000₫ · beyond two boutiques +150,000₫ per stop · green shopping takes 10% off the sourcing fees</p>
           <p data-i18n="lp2.d5"><b>Always</b> Pieces and shipping at cost, never marked up</p>
+          <p data-i18n="lp2.d6"><b>Payment costs</b> Cards itemize Stripe&#8217;s ~5.4% + $0.30 at cost · bank transfer, Wise &amp; Zelle add no card fee · a small 3% currency-transfer allowance covers moving funds into Vietnam, at cost, never marked up</p>
         </div>
       </details>
 
@@ -747,7 +691,7 @@
         <li data-i18n="lp2.hb1"><b>Pieces at the real receipt price</b> — never marked up</li>
         <li data-i18n="lp2.hb2"><b>Shipping at the carrier's actual cost</b>, billed once your parcel is weighed</li>
         <li data-i18n="lp2.hb3"><b>You never pay everything up front</b> — first a simple deposit, then the real shipping once your parcel is weighed</li>
-        <li data-i18n="lp2.hb4"><b>Bank transfer, Wise &amp; Zelle are fee-free</b> · cards add Stripe's own ~5.4% + $0.30, itemized on your link</li>
+        <li data-i18n="lp2.hb4"><b>Bank transfer, Wise &amp; Zelle add no card fee</b> · cards add Stripe's own ~5.4% + $0.30, itemized on your link · a small 3% allowance covers transfer-into-Vietnam costs, at cost</li>
         <li data-i18n="lp2.hb5"><b>The exact total is confirmed before any payment</b> — see your estimate before you commit</li>
         <li data-i18n="lp2.hb6"><b>Nothing is bought without your yes</b></li>
       </ul>
@@ -966,7 +910,7 @@
       <div class="qe-result" id="qeResult" hidden>
         <span class="qe-range" id="qeRange">—</span>
         <span class="qe-rnote" data-i18n="qe.rnote">all-in estimate · items + sourcing fee + shipping</span>
-        <span class="qe-rnote" data-i18n="qe.cardnote">cards add Stripe's own ~5.4% + $0.30 · bank transfer, Wise &amp; Zelle are fee-free</span>
+        <span class="qe-rnote" data-i18n="qe.cardnote">cards add Stripe's own ~5.4% + $0.30 · bank transfer, Wise &amp; Zelle add no card fee</span>
       </div>
 
       <div class="qe-cta">
@@ -1241,24 +1185,5 @@
 
   <script src="js/nav-voice.js"></script>
   <script src="js/discover-brand.js"></script>
-  <!-- Flight promo: a live count, so the deadline is never stale -->
-  <script>
-    (function () {
-      var el = document.getElementById('lpPromoCount'); if (!el) return;
-      function render() {
-        var now = new Date();
-        var d = Math.ceil((new Date(2026, 7, 15, 23, 59, 59) - now) / 86400000);   // 15 Aug 2026
-        var flown = Math.ceil((new Date(2026, 7, 18, 23, 59, 59) - now) / 86400000); // 18 Aug 2026
-        var TF = window.SS_TF || function (k, en, v) { return en.replace('{n}', v && v.n); };
-        if (d > 1) el.textContent = TF('lp.promo_c_many', '{n} days left — orders close 15 August', { n: d });
-        else if (d === 1) el.textContent = TF('lp.promo_c_tmrw', 'Orders close tomorrow, 15 August');
-        else if (d === 0) el.textContent = TF('lp.promo_c_today', 'Last day — orders close tonight');
-        else if (flown >= 0) el.textContent = TF('lp.promo_c_closed', 'Orders closed — DM for the next flight');
-        else el.textContent = TF('lp.promo_c_landed', 'This flight has landed — ask about the next');
-      }
-      render();
-      document.addEventListener('ss:lang', render);
-    })();
-  </script>
 </body>
 </html>
