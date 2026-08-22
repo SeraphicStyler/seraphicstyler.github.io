@@ -40,6 +40,85 @@
       } catch (e) {}
     })();
   </script>
+<style>
+    /* ===== Explore — a quiet, temporary navigation layer. Closed, the page is uninterrupted;
+       open, a 360px drawer on desktop, a bottom sheet on phones. The hero keeps the one filled
+       action; the drawer orients and offers secondary access only. ===== */
+    :root { --xp-w: 360px; --xp-ms: 240ms; --xp-ease: cubic-bezier(.25,1,.5,1); }
+    .nav-explore { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 40px; padding: 0 0.55rem 0 1rem; border-radius: 999px;
+      border: 1px solid var(--surface-border); background: color-mix(in srgb, var(--surface-solid) 70%, transparent); color: var(--text-primary);
+      font-family: var(--font-brand); font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; margin-left: auto;
+      transition: border-color .18s ease, background .18s ease; }
+    .nav-explore:hover { border-color: var(--accent); }
+    .nav-explore:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .nav-explore-i { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: var(--cta-text, #fff);
+      font-size: 1rem; line-height: 1; transition: transform var(--xp-ms) var(--xp-ease); }
+    html.explore-open .nav-explore-i { transform: rotate(45deg); }
+    .nav .hamburger { display: none; }
+    .nav-cue { display: none !important; }
+    .rail { display: none !important; }              /* the dot navigator's job moves into Explore */
+    .btn-text { color: var(--text-primary); text-decoration: none; font-family: var(--font-brand); font-size: 0.82rem; letter-spacing: 0.06em; padding: 0.95rem 0.2rem;
+      border-bottom: 1px solid color-mix(in srgb, var(--text-primary) 35%, transparent); transition: border-color .18s ease, color .18s ease; }
+    .btn-text:hover { border-bottom-color: currentColor; }
+    .hero-how { margin: 0.35rem 0 0; font-size: 0.8rem; }
+    .hero-how a { color: var(--text-secondary); text-decoration: none; border-bottom: 1px solid transparent; }
+    .hero-how a:hover { color: var(--text-primary); border-bottom-color: currentColor; }
+    .btn-row { justify-content: center; }
+    .btn-primary:hover { transform: none; filter: brightness(0.96); }   /* subtle contrast change, no lift */
+
+    .xp-scrim { position: fixed; inset: 0; z-index: 330; background: transparent; display: none; }
+    html.explore-open .xp-scrim { display: block; }
+    .xp { position: fixed; top: 0; right: 0; bottom: 0; z-index: 340; width: var(--xp-w); max-width: 100vw; display: flex; flex-direction: column;
+      padding: 1.1rem 1.35rem 1.2rem; background: color-mix(in srgb, var(--surface-solid) 94%, transparent); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+      border-left: 1px solid var(--surface-border); box-shadow: -24px 0 60px -48px rgba(35,58,114,0.5);
+      opacity: 0; transform: translateX(20px); visibility: hidden;
+      transition: opacity var(--xp-ms) var(--xp-ease), transform var(--xp-ms) var(--xp-ease), visibility 0s linear var(--xp-ms); overflow-y: auto; }
+    html.explore-open .xp { opacity: 1; transform: none; visibility: visible; transition-delay: 0s; }
+    html.rm .xp, html.rm main, html.rm .chub, html.rm .nav-explore-i { transition: none !important; }
+    .xp-head { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; margin-bottom: 0.2rem; }
+    .xp-brand { font-family: var(--font-display); font-size: 1.02rem; color: var(--text-primary); }
+    .xp-close { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--surface-border); background: transparent; color: var(--text-secondary); cursor: pointer; font-size: 1.1rem; line-height: 1; display: grid; place-items: center; }
+    .xp-close:hover { color: var(--text-primary); border-color: var(--accent); }
+    .xp-close:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .xp-eyebrow { font-family: var(--font-brand); text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.64rem; color: var(--eyebrow-ink); margin: 0.2rem 0 1rem; }
+    .xp-group { display: flex; flex-direction: column; }
+    .xp-group + .xp-group { margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px solid var(--surface-border); }
+    .xp-gh { font-family: var(--font-brand); text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.6rem; color: var(--text-secondary); margin: 0 0 0.35rem 0.2rem; }
+    .xp-item { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; min-height: 46px; padding: 0 0.3rem 0 0.9rem; border-radius: 10px;
+      color: var(--text-primary); text-decoration: none; font-size: 0.98rem; background: none; border: 0; width: 100%; text-align: left; font-family: inherit; cursor: pointer;
+      transition: background .18s ease, color .18s ease; }
+    .xp-item:hover { background: color-mix(in srgb, var(--surface-border) 45%, transparent); }
+    .xp-item:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+    .xp-item::before { content: ''; position: absolute; left: 0; top: 50%; width: 2px; height: 18px; transform: translateY(-50%) scaleY(0); border-radius: 2px; background: var(--accent); transition: transform .28s var(--xp-ease); }
+    .xp-item.is-active { color: var(--accent); font-weight: 500; }
+    .xp-item.is-active::before { transform: translateY(-50%) scaleY(1); }
+    .xp-item small { color: var(--text-secondary); font-size: 0.74rem; }
+    .xp-item .xp-chev { color: var(--text-secondary); font-size: 1rem; padding-right: 0.4rem; }
+    .xp-util .xp-item { min-height: 42px; font-size: 0.9rem; color: var(--text-secondary); }
+    .xp-util .xp-item:hover { color: var(--text-primary); }
+    .xp-help { margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--surface-border); }
+    .xp-help p { margin: 0 0 0.3rem 0.2rem; font-size: 0.78rem; color: var(--text-secondary); }
+    .xp-help a { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 40px; padding: 0 0.2rem; color: var(--accent); text-decoration: none; font-family: var(--font-brand); font-size: 0.86rem; letter-spacing: 0.03em; }
+    .xp-help a:hover { text-decoration: underline; }
+    .xp-grab { display: none; }
+    /* the page answers the drawer: a 12px shift and a touch of recession — no blur */
+    main { transition: transform var(--xp-ms) var(--xp-ease), opacity var(--xp-ms) var(--xp-ease); }
+    @media (min-width: 960px) { html.explore-open main { transform: translateX(-12px); opacity: 0.94; } }
+    /* one floating support control; it steps aside and softens while the drawer is open */
+    .chub { transition: right var(--xp-ms) var(--xp-ease), opacity var(--xp-ms) var(--xp-ease); }
+    @media (min-width: 960px) { html.explore-open .chub { right: calc(var(--xp-w) + 24px); opacity: 0.6; } html.explore-open .chub:hover { opacity: 1; } }
+    @media (min-width: 960px) { .nv-fab { display: none !important; } }    /* "Take me to…" lives inside Explore on desktop */
+    /* ---- phone: a bottom sheet, 82vh, a glimpse of the page kept above it ---- */
+    @media (max-width: 959px) {
+      .nav .hamburger { display: none; }
+      .xp { top: auto; left: 0; right: 0; bottom: 0; width: 100%; height: 82vh; height: 82dvh; border-left: 0; border-top: 1px solid var(--surface-border);
+        border-radius: 22px 22px 0 0; transform: translateY(100%); padding: 0.6rem 1.1rem calc(1.2rem + env(safe-area-inset-bottom)); box-shadow: 0 -24px 60px -40px rgba(35,58,114,0.5); }
+      html.explore-open .xp { transform: none; }
+      .xp-scrim { background: rgba(20,24,40,0.18); }
+      .xp-grab { display: block; width: 44px; height: 4px; border-radius: 2px; background: var(--surface-border); margin: 0.2rem auto 0.8rem; }
+      html.explore-open .chub { opacity: 0; pointer-events: none; }
+    }
+  </style>
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -74,9 +153,8 @@
           <a href="#contact" data-i18n="nav.contact">Contact</a>
         </div>
       </nav>
-      <button class="nav-cue" type="button" aria-controls="navMenu" aria-expanded="false" title="Show navigation">
-        <span data-i18n="nav.menu">Menu</span>
-        <svg class="nav-cue-caret" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      <button class="nav-explore" id="exploreBtn" type="button" aria-controls="explore" aria-expanded="false" aria-haspopup="dialog">
+        <span class="nav-explore-l">Explore</span><span class="nav-explore-i" aria-hidden="true">+</span>
       </button>
     </div>
   </header>
@@ -143,6 +221,42 @@
     </div>
   </div>
 
+
+  <!-- ===== Explore — the navigation layer ===== -->
+  <div class="xp-scrim" id="xpScrim" aria-hidden="true"></div>
+  <aside class="xp" id="explore" role="dialog" aria-modal="false" aria-labelledby="xpTitle" aria-hidden="true">
+    <span class="xp-grab" aria-hidden="true"></span>
+    <div class="xp-head">
+      <span class="xp-brand" id="xpTitle">Seraphic Styler</span>
+      <button class="xp-close" id="xpClose" type="button" aria-label="Close">×</button>
+    </div>
+    <p class="xp-eyebrow">Explore</p>
+    <nav class="xp-group" id="xpNav" aria-label="Sections">
+      <a class="xp-item" href="#hero" data-xp="top">Overview</a>
+      <a class="xp-item" href="#services" data-xp="services">Services</a>
+      <a class="xp-item" href="#process" data-xp="process">How it works</a>
+      <a class="xp-item" href="#lookbook" data-xp="lookbook">Lookbook</a>
+      <a class="xp-item" href="#directory" data-xp="directory">Directory</a>
+    </nav>
+    <nav class="xp-group" aria-label="Planning">
+      <p class="xp-gh">Planning</p>
+      <a class="xp-item" href="#estimate">Estimate <small>before you commit</small></a>
+      <a class="xp-item" href="#gift">Gift styling <small>from $49</small></a>
+      <a class="xp-item" href="#bulk">Group orders</a>
+      <a class="xp-item" href="#boutique">For boutiques</a>
+    </nav>
+    <div class="xp-group xp-util">
+      <button class="xp-item" type="button" id="xpLang">English <span class="xp-chev" aria-hidden="true">›</span></button>
+      <button class="xp-item" type="button" id="xpTheme">Appearance <span class="xp-chev" aria-hidden="true">›</span></button>
+      <button class="xp-item" type="button" id="xpA11y">Accessibility <span class="xp-chev" aria-hidden="true">›</span></button>
+      <a class="xp-item" href="links">All links <span class="xp-chev" aria-hidden="true">›</span></a>
+    </div>
+    <div class="xp-help">
+      <p>Need help?</p>
+      <a href="#contact" id="xpInquiry">Send an inquiry <span aria-hidden="true">→</span></a>
+    </div>
+  </aside>
+
   <main id="main">
 
   <!-- ===== HERO ===== -->
@@ -156,9 +270,9 @@
       <p class="lead lead-sub reveal" data-i18n="hero.lead2b">Every piece <mark class="hl">verified in person</mark> before it ships.</p>
       <div class="btn-row reveal">
         <a class="btn btn-primary btn-lg" href="#contact" data-i18n="hero.ctaSource">Source a piece</a>
-        <a class="btn btn-ghost" href="https://tally.so/r/gD10Kl?about=I%20want%20to%20book%20a%20styling%20service&amp;source=home-hero" target="_blank" rel="noopener" data-i18n="hero.ctaStyle2">Book styling · from $49</a>
-        <a class="btn btn-ghost" href="#process" data-i18n="hero.cta2">How it works</a>
+        <a class="btn-text" href="https://tally.so/r/gD10Kl?about=I%20want%20to%20book%20a%20styling%20service&amp;source=home-hero" target="_blank" rel="noopener" data-i18n="hero.ctaStyle2">Book styling · from $49</a>
       </div>
+      <p class="hero-how reveal"><a href="#process" data-i18n="hero.cta2">How it works</a></p>
       <div class="assure reveal" style="justify-content:center;margin-top:1.2rem"><span data-i18n="hero.assure3"><a href="#directory" style="color:inherit">320 houses verified in person</a> · replies within a business day</span></div>
       <div class="scroll-cue reveal" aria-hidden="true"><span class="lbl" data-i18n="hero.scroll">Scroll</span><span class="line"></span></div>
     </div>
@@ -1724,5 +1838,51 @@ const ICONS={"11 Garmentory":"icons/11 Garmentory.jpg","18 Again":"icons/18 Agai
   </script>
   <script src="js/discover-brand.js"></script>
   <script src="js/nav-voice.js" defer></script><!-- page concierge: say/type/tap a destination; jumps and moves focus there -->
+  <!-- Explore: one trigger, a temporary layer; Esc / scrim / any link closes it; focus is handed in and back -->
+  <script>
+    (function () {
+      var root = document.documentElement, xp = document.getElementById('explore'), btn = document.getElementById('exploreBtn');
+      var scrim = document.getElementById('xpScrim'), close = document.getElementById('xpClose'); if (!xp || !btn) return;
+      var items = Array.prototype.slice.call(xp.querySelectorAll('[data-xp]'));
+      var ids = items.map(function (a) { return a.getAttribute('data-xp'); }).filter(function (id) { return id !== 'top'; });
+      var lastFocus = null;
+      function isOpen() { return root.classList.contains('explore-open'); }
+      function open() {
+        if (isOpen()) return; lastFocus = document.activeElement;
+        root.classList.add('explore-open'); xp.setAttribute('aria-hidden', 'false'); btn.setAttribute('aria-expanded', 'true');
+        var l = btn.querySelector('.nav-explore-l'); if (l) l.textContent = 'Close';
+        mark(); var first = xp.querySelector('.xp-item'); setTimeout(function () { if (first) first.focus(); }, 60);
+      }
+      function shut(returnFocus) {
+        if (!isOpen()) return;
+        root.classList.remove('explore-open'); xp.setAttribute('aria-hidden', 'true'); btn.setAttribute('aria-expanded', 'false');
+        var l = btn.querySelector('.nav-explore-l'); if (l) l.textContent = 'Explore';
+        if (returnFocus !== false && lastFocus && lastFocus.focus) lastFocus.focus();
+      }
+      btn.addEventListener('click', function (e) { e.stopPropagation(); isOpen() ? shut() : open(); });
+      if (close) close.addEventListener('click', function () { shut(); });
+      if (scrim) scrim.addEventListener('click', function () { shut(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOpen()) { e.preventDefault(); shut(); } });
+      xp.addEventListener('click', function (e) { var a = e.target.closest('a'); if (a) shut(false); });
+      /* the hamburger (phones) opens the same sheet; its old dropdown handler is bypassed in capture */
+      var ham = document.querySelector('.hamburger');
+      if (ham) ham.addEventListener('click', function (e) { e.stopPropagation(); e.preventDefault(); open(); }, true);
+      /* utilities proxy the page's own controls */
+      function proxy(id, target) { var b = document.getElementById(id); if (!b) return; b.addEventListener('click', function () { var t = document.getElementById(target); if (t) t.click(); }); }
+      proxy('xpLang', 'langFab'); proxy('xpTheme', 'themeFab');
+      var ab = document.getElementById('xpA11y'); if (ab) ab.addEventListener('click', function () { shut(false); var t = document.getElementById('a11yBtn'); if (t) t.click(); });
+      /* where you are */
+      function current() {
+        var line = window.innerHeight * 0.38, best = 'top';
+        ids.forEach(function (id) { var el = document.getElementById(id); if (el && el.getBoundingClientRect().top <= line) best = id; });
+        return best;
+      }
+      var last = null;
+      function mark() { var id = current(); if (id === last) return; last = id; items.forEach(function (a) { a.classList.toggle('is-active', a.getAttribute('data-xp') === id); }); }
+      var ticking = false;
+      window.addEventListener('scroll', function () { if (ticking) return; ticking = true; requestAnimationFrame(function () { mark(); ticking = false; }); }, { passive: true });
+      mark();
+    })();
+  </script>
 </body>
 </html>
