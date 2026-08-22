@@ -27,6 +27,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Tenor+Sans&family=Merriweather+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css?v=2026-08-07" />
   <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
+  <script>try{if(localStorage.getItem('ss-rail')==='hidden')document.documentElement.classList.add('lp-rail-hidden');}catch(e){}</script>
   <script>
     (function () { var d = document.documentElement, s = window.localStorage;
       try {
@@ -539,6 +540,47 @@
     .lp-steps-3 { margin-top: 1rem; }
     @media (min-width: 480px) { .lp-steps-3 { grid-template-columns: 1fr 1fr 1fr; } }
     .lp-steps-3 li { opacity: 1; transform: none; }
+    /* ===== Side rail — a thin right-hand panel of section jumps, collapsible (desktop only) ===== */
+    .lp-rail { position: fixed; top: 0; right: 0; bottom: 0; z-index: 310; width: 64px; display: none; flex-direction: column; align-items: center;
+      padding: 0.9rem 0 0.9rem; gap: 0.35rem; background: var(--surface-solid); border-left: 1px solid var(--surface-border);
+      box-shadow: -10px 0 30px -24px rgba(35,58,114,0.45); transition: transform .32s cubic-bezier(.25,1,.5,1); }
+    @media (min-width: 760px) { .lp-rail { display: flex; } }
+    html.rm .lp-rail { transition: none; }
+    .lp-rail.is-hidden { transform: translateX(100%); box-shadow: none; }
+    .lp-rail-mark { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 12px; border: 1px solid var(--surface-border);
+      background: var(--surface-soft, transparent); color: var(--accent); margin-bottom: 0.6rem; text-decoration: none; }
+    .lp-rail-mark svg { width: 24px; height: 24px; }
+    .lp-rail-nav { display: flex; flex-direction: column; align-items: center; gap: 0.35rem; }
+    .lp-rail-btn { position: relative; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 12px; border: 1px solid transparent;
+      background: transparent; color: var(--text-secondary); text-decoration: none; cursor: pointer; font: inherit; padding: 0;
+      transition: background .18s ease, color .18s ease, border-color .18s ease; }
+    .lp-rail-btn svg { width: 20px; height: 20px; display: block; }
+    .lp-rail-btn:hover, .lp-rail-btn:focus-visible { background: var(--accent-soft, rgba(46,84,173,0.08)); color: var(--accent); }
+    .lp-rail-btn.is-active { background: linear-gradient(135deg, rgba(201,182,232,0.45), rgba(138,147,222,0.32)); color: var(--accent); border-color: rgba(46,84,173,0.22); }
+    html.dark .lp-rail-btn.is-active { background: linear-gradient(135deg, rgba(201,182,232,0.18), rgba(46,84,173,0.18)); }
+    .lp-rail-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    /* tooltip — the black pill to the left, like the one you liked */
+    .lp-rail-btn[data-tip]::before { content: attr(data-tip); position: absolute; right: calc(100% + 12px); top: 50%; transform: translateY(-50%) translateX(4px);
+      background: #111318; color: #fff; font-family: var(--font-body, inherit); font-size: 0.86rem; line-height: 1; padding: 0.62rem 0.85rem; border-radius: 8px;
+      white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .15s ease, transform .15s ease; }
+    .lp-rail-btn[data-tip]::after { content: ''; position: absolute; right: calc(100% + 6px); top: 50%; transform: translateY(-50%);
+      border: 6px solid transparent; border-left-color: #111318; opacity: 0; pointer-events: none; transition: opacity .15s ease; }
+    .lp-rail-btn:hover::before, .lp-rail-btn:focus-visible::before { opacity: 1; transform: translateY(-50%) translateX(0); }
+    .lp-rail-btn:hover::after, .lp-rail-btn:focus-visible::after { opacity: 1; }
+    .lp-rail-sep { width: 22px; height: 1px; background: var(--surface-border); margin: 0.3rem 0; }
+    .lp-rail-toggle { margin-top: auto; border: 1px solid rgba(46,84,173,0.28); background: var(--surface-solid); color: var(--accent); }
+    .lp-rail-toggle svg { transition: transform .32s ease; }
+    /* the "show" stub that remains at the right edge when the rail is hidden */
+    .lp-rail-show { position: fixed; right: 0.6rem; bottom: 0.9rem; z-index: 311; width: 40px; height: 40px; display: none; place-items: center;
+      border-radius: 12px; border: 1px solid var(--surface-border); background: var(--surface-solid); color: var(--text-secondary); cursor: pointer; padding: 0;
+      box-shadow: 0 8px 20px -14px rgba(35,58,114,0.5); }
+    .lp-rail-show svg { width: 20px; height: 20px; display: block; }
+    .lp-rail-show:hover, .lp-rail-show:focus-visible { color: var(--accent); }
+    @media (min-width: 760px) { html.lp-rail-hidden .lp-rail-show { display: grid; } }
+    .lp-rail-show[data-tip]::before { content: attr(data-tip); position: absolute; right: calc(100% + 12px); top: 50%; transform: translateY(-50%);
+      background: #111318; color: #fff; font-size: 0.86rem; line-height: 1; padding: 0.62rem 0.85rem; border-radius: 8px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .15s ease; }
+    .lp-rail-show[data-tip]::after { content: ''; position: absolute; right: calc(100% + 6px); top: 50%; transform: translateY(-50%); border: 6px solid transparent; border-left-color: #111318; opacity: 0; pointer-events: none; }
+    .lp-rail-show:hover::before, .lp-rail-show:hover::after, .lp-rail-show:focus-visible::before, .lp-rail-show:focus-visible::after { opacity: 1; }
   </style>
 </head>
 <body>
@@ -589,6 +631,25 @@
       </div>
     </div>
   </div>
+
+  <!-- ===== Side rail — section jumps on the right, collapsible like a mail client's app panel ===== -->
+  <aside class="lp-rail" id="lpRail" aria-label="Page sections">
+    <a class="lp-rail-mark" href="./" title="Seraphic Styler" aria-label="Seraphic Styler home"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.3,27.0 C18.4,18.0 21.6,8.4 31.6,6.6 C38.2,5.4 41.0,11.4 37.8,18.0 C35.0,24.2 28.6,27.4 23.0,28.6 Z"/><path d="M22.6,29.4 C26.8,31.2 32.2,33.0 35.0,38.0 C36.6,40.8 36.0,43.8 33.6,43.4 C29.6,42.7 25.0,35.6 22.4,30.4 Z"/><path d="M22.3,27.0 C21.5,28.8 21.5,30.6 22.6,32.2"/><path d="M22.3,27.0 C19.9,22.2 17.2,18.4 13.4,16.4"/><path d="M22.3,27.0 C20.6,21.8 18.8,17.2 16.0,13.8"/><circle cx="13.4" cy="16.4" r="1.2" fill="currentColor" stroke="none"/><circle cx="16.0" cy="13.8" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+    <nav class="lp-rail-nav" aria-label="Jump to a section">
+      <a class="lp-rail-btn" href="#main" data-tip="Top" data-rail="top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></a>
+      <a class="lp-rail-btn" href="#lp-sourcing" data-tip="Sourcing" data-rail="lp-sourcing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></a>
+      <a class="lp-rail-btn" href="#lp-styling" data-tip="Styling" data-rail="lp-styling"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.5a2 2 0 0 1 2 2c0 1.2-2 1.7-2 3.2"/><path d="M3.5 18.5 12 9.7l8.5 8.8c.6.6.2 1.5-.7 1.5H4.2c-.9 0-1.3-.9-.7-1.5Z"/></svg></a>
+      <a class="lp-rail-btn" href="#lp-rules" data-tip="Terms" data-rail="lp-rules"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5 5 6.2v5.3c0 4.3 3 7.6 7 8.9 4-1.3 7-4.6 7-8.9V6.2Z"/><path d="m9.3 12 1.9 1.9 3.6-3.8"/></svg></a>
+      <a class="lp-rail-btn" href="#lp-free" data-tip="Free style profile" data-rail="lp-free"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4.5h14v15l-7-3.2-7 3.2z"/><path d="M9 9h6M9 12.5h4"/></svg></a>
+      <a class="lp-rail-btn" href="#lp-browse" data-tip="Explore Seraphic" data-rail="lp-browse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2.2 5.3-5.3 2.2 2.2-5.3z"/></svg></a>
+      <a class="lp-rail-btn" href="#lp-gift" data-tip="Gifts &amp; groups" data-rail="lp-gift"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12v9H4v-9"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7S9 3 6.5 4.5 8 7 12 7zM12 7s3-4 5.5-2.5S16 7 12 7z"/></svg></a>
+      <span class="lp-rail-sep" aria-hidden="true"></span>
+      <a class="lp-rail-btn" href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener" data-tip="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></a>
+      <a class="lp-rail-btn" href="mailto:seraphicstyler@gmail.com" data-tip="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 7 12 13l8.5-6"/></svg></a>
+    </nav>
+    <button class="lp-rail-btn lp-rail-toggle" id="lpRailHide" type="button" data-tip="Hide side panel" aria-label="Hide side panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 17 5-5-5-5"/><path d="m13 17 5-5-5-5"/></svg></button>
+  </aside>
+  <button class="lp-rail-show" id="lpRailShow" type="button" data-tip="Show side panel" aria-label="Show side panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 17-5-5 5-5"/><path d="m11 17-5-5 5-5"/></svg></button>
 
   <main class="lp" id="main" tabindex="-1">
     <h1 class="sr-only">Seraphic Styler — Saigon styling & sourcing, all links</h1>
@@ -1287,5 +1348,35 @@
   </script>
 
   <script src="js/nav-voice.js"></script>
+  <!-- Side rail: collapse state persists; the active section is tracked as you scroll -->
+  <script>
+    (function () {
+      var rail = document.getElementById('lpRail'), hide = document.getElementById('lpRailHide'), show = document.getElementById('lpRailShow');
+      if (!rail || !hide || !show) return;
+      var root = document.documentElement;
+      function set(hidden) {
+        rail.classList.toggle('is-hidden', hidden);
+        root.classList.toggle('lp-rail-hidden', hidden);
+        rail.setAttribute('aria-hidden', hidden ? 'true' : 'false');
+        try { localStorage.setItem('ss-rail', hidden ? 'hidden' : 'shown'); } catch (e) {}
+      }
+      set(root.classList.contains('lp-rail-hidden'));
+      hide.addEventListener('click', function () { set(true); show.focus(); });
+      show.addEventListener('click', function () { set(false); hide.focus(); });
+
+      var btns = Array.prototype.slice.call(rail.querySelectorAll('[data-rail]'));
+      var ids = btns.map(function (b) { return b.getAttribute('data-rail'); }).filter(function (id) { return id !== 'top'; });
+      function mark(id) { btns.forEach(function (b) { b.classList.toggle('is-active', b.getAttribute('data-rail') === id); }); }
+      function current() {
+        var line = window.innerHeight * 0.35, best = 'top';
+        ids.forEach(function (id) { var el = document.getElementById(id); if (el && el.getBoundingClientRect().top <= line) best = id; });
+        return best;
+      }
+      var ticking = false;
+      function onScroll() { if (ticking) return; ticking = true; requestAnimationFrame(function () { mark(current()); ticking = false; }); }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      mark(current());
+    })();
+  </script>
 </body>
 </html>
