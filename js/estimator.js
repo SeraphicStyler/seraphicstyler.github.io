@@ -707,7 +707,6 @@ function SS_fmtRate(v) {
       .then(function (j) {
         if (!j || !j.ok || !j.estimate) throw new Error('gone');
         preview = j.estimate; restore(preview); recalc();
-        if (el.shareCard) el.shareCard.hidden = true;
         if (el.previewNote) el.previewNote.textContent = t('est.preview.note', 'A preview prepared for you by Seraphic Styler — the exact inputs and the rate quoted. It expires ') + fmtWhen(preview.expiresAt) + '.';
       })
       .catch(function () {
