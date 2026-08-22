@@ -453,6 +453,27 @@
     .qe-email { background: var(--surface-soft); color: var(--text-primary); border: 1px solid var(--surface-border); }
     .qe-copied { font-size: 0.76rem; color: var(--accent); text-align: center; margin: 0.75rem 0 0; }
     .qe-full { display: block; text-align: center; font-size: 0.78rem; color: var(--text-secondary); margin-top: 1rem; }
+    /* ===== Centred composition — every section reads from the middle out ===== */
+    .lp-sec-h, .lp-group-h { justify-content: center; text-align: center; }
+    .lp-sec-h::before, .lp-group-h::before { content: ''; flex: 1; height: 1px; background: var(--surface-border); }
+    .lp-sec-t, .lp-lead, .lp-safe, .lp-group-sub, .lp-yes, .lp-sty-note, .lp-startsmall, .lp-bulk-note,
+    .lp-whisper, .lp-whisper span, .lp-honest, .lp-houses-sub, .lp-dcare { text-align: center; margin-left: auto; margin-right: auto; }
+    .lp-chips, .lp-gift-paths { justify-content: center; }
+    .lp-ctarow { justify-items: center; }
+    .lp-cta-soft { width: 100%; max-width: 340px; }
+    .lp-tryfree, .lp-ctarow + .lp-tryfree { text-align: center; }
+    .lp-drawer summary { justify-content: center; }
+    .lp-drawer summary::after { margin-left: 0.35rem; }
+    .lp-honest ul { max-width: 40rem; margin-left: auto; margin-right: auto; }
+    .lp-honest li { text-align: left; }
+    .lp-drawer .lp-dbody p:not(.lp-dcare) { text-align: left; }
+    .lp-gift { flex-direction: column; align-items: center; text-align: center; }
+    .lp-gift .lp-meta { align-items: center; text-align: center; }
+    .lp-gift-hook { margin-left: auto; margin-right: auto; }
+    .lp-choose { text-align: center; }
+    .lp-path-card .lp-pc-w { justify-content: center; flex-wrap: wrap; }
+    .lp-steps li { text-align: center; }
+    .lp-foot { max-width: 40ch; margin-left: auto; margin-right: auto; }
   </style>
 </head>
 <body>
@@ -523,23 +544,23 @@
         <div class="lp-choose">
           <a class="lp-path-card" href="#lp-sourcing" data-track="choose-sourcing">
             <span class="lp-pc-e" data-i18n="lp2.pc1e">Sourcing</span>
-            <span class="lp-pc-t" data-i18n="lp2.pc1t">I know the piece</span>
-            <p class="lp-pc-s" data-i18n="lp2.pc1s">Send a link and I go buy it. Send a photo with no source and I trace it first.</p>
-            <span class="lp-pc-w"><span data-i18n="lp2.pc1w">Pieces at cost — my fee starts at about $24 once you order</span><span class="go" aria-hidden="true">↓</span></span>
+            <span class="lp-pc-t" data-i18n="lp2.pc1t">You know the piece</span>
+            <p class="lp-pc-s" data-i18n="lp2.pc1s">Send a link or a photo. I locate the piece, verify it in person, and ship it.</p>
+            <span class="lp-pc-w"><span data-i18n="lp2.pc1w">Pieces at cost · fees from about $24 per order</span><span class="go" aria-hidden="true">↓</span></span>
           </a>
           <a class="lp-path-card is-styling" href="#lp-styling" data-track="choose-styling">
             <span class="lp-pc-e" data-i18n="lp2.pc2e">Styling</span>
-            <span class="lp-pc-t" data-i18n="lp2.pc2t">Dress me for the moment</span>
-            <p class="lp-pc-s" data-i18n="lp2.pc2s">A moodboard, a feeling, an occasion — I choose, you approve.</p>
-            <span class="lp-pc-w"><span data-i18n="lp2.pc2w">From $49 — most of it becomes your clothes</span><span class="go" aria-hidden="true">↓</span></span>
+            <span class="lp-pc-t" data-i18n="lp2.pc2t">You want a stylist</span>
+            <p class="lp-pc-s" data-i18n="lp2.pc2s">Share an occasion, a moodboard, or a budget. I select; you approve.</p>
+            <span class="lp-pc-w"><span data-i18n="lp2.pc2w">From $49 · most of the fee becomes your clothing credit</span><span class="go" aria-hidden="true">↓</span></span>
           </a>
         </div>
-        <p class="lp-startsmall" data-i18n="lp2.startsmall">Start free or small — most clients begin with one piece.</p>
+        <p class="lp-startsmall" data-i18n="lp2.startsmall">Most clients begin with a single piece. The style intake is free.</p>
         <div class="lp-paths" style="margin-top:0.55rem">
           <a class="lp-path2" href="https://tally.so/r/gD10Kl?about=I%20need%20corporate%20%2F%20group%20%2F%20bulk%20buying%20support&amp;source=links-hero" target="_blank" rel="noopener" data-track="path-bulk" data-i18n="lp.path3">Group &amp; bulk orders</a>
         </div>
-        <p class="lp-bulk-note" data-i18n="lp2.bulknote">Custom coordination quote · items always at cost · large builds (weddings, productions) quoted as a small share of budget</p>
-        <button class="lp-cta2" id="qeOpen" type="button" data-track="estimate-open" data-i18n="lp2.estlink">or see your estimate before you commit →</button>
+        <p class="lp-bulk-note" data-i18n="lp2.bulknote">Custom quote · items always at cost · large builds (weddings, productions) priced as a small share of budget</p>
+        <button class="lp-cta2" id="qeOpen" type="button" data-track="estimate-open" data-i18n="lp2.estlink">See an estimate first →</button>
       </div>
     </header>
 
@@ -550,17 +571,17 @@
           <span data-i18n="lp2.tk1">Verified in person</span>
           <span data-i18n="lp2.tk2">Pieces at cost</span>
           <span data-i18n="lp2.tk3">Ships worldwide</span>
-          <span data-i18n="lp2.tk4">Honest fit advice</span>
+          <span data-i18n="lp2.tk4">Straight fit advice</span>
           <span data-i18n="lp2.tk5">Replies in 1–2 business days</span>
-          <span data-i18n="lp2.tk6">Nothing bought without your yes</span>
+          <span data-i18n="lp2.tk6">Nothing bought without your approval</span>
         </div>
         <div class="lp-tick-grp" aria-hidden="true">
           <span data-i18n="lp2.tk1">Verified in person</span>
           <span data-i18n="lp2.tk2">Pieces at cost</span>
           <span data-i18n="lp2.tk3">Ships worldwide</span>
-          <span data-i18n="lp2.tk4">Honest fit advice</span>
+          <span data-i18n="lp2.tk4">Straight fit advice</span>
           <span data-i18n="lp2.tk5">Replies in 1–2 business days</span>
-          <span data-i18n="lp2.tk6">Nothing bought without your yes</span>
+          <span data-i18n="lp2.tk6">Nothing bought without your approval</span>
         </div>
       </div>
     </div>
@@ -571,23 +592,23 @@
          Fee copy mirrors CONFIG in js/estimator.js (8%/7%, min 350k, base 250k) — update together. -->
     <section class="lp-sec" id="lp-sourcing" aria-labelledby="lps-h">
       <h2 class="lp-sec-h" id="lps-h" data-i18n="lp2.src_h">Sourcing</h2>
-      <p class="lp-sec-t" data-i18n="lp2.src_t">You name the piece.</p>
-      <p class="lp-lead" data-i18n="lp2.src_lead">Send a link and I go straight to the boutique. Send a photo with no source and I trace it first — either way, verified in person and shipped at the receipt price.</p>
+      <p class="lp-sec-t" data-i18n="lp2.src_t">You name the piece. I buy it.</p>
+      <p class="lp-lead" data-i18n="lp2.src_lead">Send a link or a photo. I verify the piece at the boutique and ship it at the receipt price.</p>
 
       <!-- The Trace is step 02 because that is genuinely where it sits: after an
            inquiry, before any deposit. It is charged only when there is something
            to identify — a link has nothing to trace, so a link never pays it. -->
       <ol class="lp-steps reveal" aria-label="How sourcing works">
-        <li><span class="lp-step-n">01</span><span class="lp-step-t" data-i18n="lp2.s1t">Send it over</span><p class="lp-step-d" data-i18n="lp2.s1d">A link, or a photo of the piece.</p></li>
-        <li><span class="lp-step-n">02</span><span class="lp-step-t" data-i18n="lp2.s0t">I trace it</span><p class="lp-step-d" data-i18n="lp2.s0d">Photos only — $25, credited in full to your order. Within 48 hours you know what it is, or why it can’t be had. Send a link and this step is skipped.</p></li>
-        <li><span class="lp-step-n">03</span><span class="lp-step-t" data-i18n="lp2.s2t">I go see it</span><p class="lp-step-d" data-i18n="lp2.s2d">Verified at the boutique, with my own hands.</p></li>
-        <li><span class="lp-step-n">04</span><span class="lp-step-t" data-i18n="lp2.s3t">You say yes</span><p class="lp-step-d" data-i18n="lp2.s3d">Photos first — nothing is bought without your approval. Your deposit places the order.</p></li>
-        <li><span class="lp-step-n">05</span><span class="lp-step-t" data-i18n="lp2.s4t">It comes home</span><p class="lp-step-d" data-i18n="lp2.s4d">Shipped to your door, tracked the whole way.</p></li>
+        <li><span class="lp-step-n">01</span><span class="lp-step-t" data-i18n="lp2.s1t">Send it over</span><p class="lp-step-d" data-i18n="lp2.s1d">A link or a photo.</p></li>
+        <li><span class="lp-step-n">02</span><span class="lp-step-t" data-i18n="lp2.s0t">I trace it</span><p class="lp-step-d" data-i18n="lp2.s0d">Photos only: $25, credited to your order. An answer within 48 hours. Links skip this step.</p></li>
+        <li><span class="lp-step-n">03</span><span class="lp-step-t" data-i18n="lp2.s2t">I inspect it</span><p class="lp-step-d" data-i18n="lp2.s2d">Checked in person at the boutique.</p></li>
+        <li><span class="lp-step-n">04</span><span class="lp-step-t" data-i18n="lp2.s3t">You approve</span><p class="lp-step-d" data-i18n="lp2.s3d">Photos first. Your deposit places the order.</p></li>
+        <li><span class="lp-step-n">05</span><span class="lp-step-t" data-i18n="lp2.s4t">It ships</span><p class="lp-step-d" data-i18n="lp2.s4d">Tracked to your door.</p></li>
       </ol>
 
       <div class="lp-whisper reveal">
-        <strong data-i18n="lp2.src_w1">From <b>about $24</b> in fees once you order.</strong>
-        <span data-i18n="lp2.src_w2">That's 600,000₫, where most simple requests stay. The piece and shipping cost what they cost.</span>
+        <strong data-i18n="lp2.src_w1">Fees from <b>about $24</b> per order.</strong>
+        <span data-i18n="lp2.src_w2">600,000₫ — where most single-piece requests land. The piece and shipping are billed at cost.</span>
         <div class="lp-chips" role="group" aria-label="House promises">
           <span data-i18n="lp2.c1">Receipt-price pieces</span>
           <span data-i18n="lp2.c2">Photos before purchase</span>
@@ -600,23 +621,23 @@
         <a class="star-border-container lp-cta" href="https://tally.so/r/gD10Kl?about=I%20want%20help%20sourcing%20or%20buying%20specific%20items&amp;source=links-sourcing" target="_blank" rel="noopener" data-track="path-sourcing">
           <div class="border-gradient-bottom"></div>
           <div class="border-gradient-top"></div>
-          <div class="inner-content" data-i18n="lp2.src_cta">Start sourcing a specific piece</div>
+          <div class="inner-content" data-i18n="lp2.src_cta">Start a sourcing request</div>
         </a>
       </div>
       <p class="lp-tryfree"><button class="lp-cta2" type="button" data-qe-open="sourcing" data-track="estimate-sourcing" data-i18n="lp2.src_est">Get a sourcing estimate →</button></p>
 
       <details class="lp-drawer">
-        <summary data-i18n="lp2.drawer">See the exact fee breakdown</summary>
+        <summary data-i18n="lp2.drawer">Full fee breakdown</summary>
         <div class="lp-dbody">
-          <p class="lp-dcare" data-i18n="lp2.src_care">The fee is just my legwork — finding the piece, visiting the boutiques, checking it with my own hands, photos for your yes, and careful packing for the trip home. I'd rather get one piece exactly right than make any bill bigger.</p>
-          <p data-i18n="lp2.d0"><b>The Trace — $25 ≈ 625,000₫</b> Only when you send a photo with no source, and only before anything is ordered. Credited in full against your order total, so if you go ahead it costs you nothing. A link is never charged for it.</p>
-          <p data-i18n="lp2.d0b"><b>What the trace buys</b> One of three answers inside 48 hours: the shop and the price · the closest piece I can actually buy here · or why it can’t be sourced — usually a wholesale or dropship listing — with the nearest alternative. You’re paying for the answer, not the outcome.</p>
+          <p class="lp-dcare" data-i18n="lp2.src_care">The fee covers the work only: locating the piece, boutique visits, inspection, approval photos, and packing. Pieces and shipping are passed through at cost.</p>
+          <p data-i18n="lp2.d0"><b>The Trace — $25 ≈ 625,000₫</b> Charged only for a photo with no source, before anything is ordered. Credited in full against your order. Links are never charged.</p>
+          <p data-i18n="lp2.d0b"><b>What the trace returns</b> One of three answers within 48 hours: the shop and price · the closest piece available here · or why it cannot be sourced, with the nearest alternative.</p>
           <p data-i18n="lp2.d1"><b>Per-item sourcing fee</b> 8% of the piece (7% above 5,000,000₫), minimum 350,000₫ per item</p>
-          <p data-i18n="lp2.d2"><b>Per-order coordination</b> 250,000₫ flat — rides, boutique visits &amp; packing</p>
+          <p data-i18n="lp2.d2"><b>Per-order coordination</b> 250,000₫ flat — transport, boutique visits and packing</p>
           <p data-i18n="lp2.d3"><b>Typical minimum</b> 600,000₫ ≈ $24 before the piece and shipping</p>
           <p data-i18n="lp2.d4"><b>Optional</b> Rare-find or rush sourcing +200,000₫ · beyond two boutiques +150,000₫ per stop · green shopping takes 10% off the sourcing fees</p>
-          <p data-i18n="lp2.d5"><b>Always</b> Pieces and shipping at cost, never marked up</p>
-          <p data-i18n="lp2.d6"><b>Payment costs</b> Cards itemize Stripe&#8217;s ~5.4% + $0.30 at cost · bank transfer, Wise &amp; Zelle add no card fee · a small 3% currency-transfer allowance covers moving funds into Vietnam, at cost, never marked up</p>
+          <p data-i18n="lp2.d5"><b>Always</b> Pieces and shipping at cost, no markup</p>
+          <p data-i18n="lp2.d6"><b>Payment costs</b> Card payments carry Stripe&#8217;s ~5.4% + $0.30, itemized · bank transfer, Wise and Zelle carry no card fee · a 3% allowance covers currency transfer into Vietnam, at cost</p>
         </div>
       </details>
 
@@ -624,24 +645,24 @@
 
     <!-- ===== Styling — I choose for you ===== -->
     <section class="lp-sec" id="lp-styling" aria-labelledby="lpy-h">
-      <h2 class="lp-sec-h" id="lpy-h" data-i18n="lp2.sty_h">Styling — I choose for you</h2>
-      <p class="lp-sec-t" data-i18n="lp2.sty_t">Where your money goes, in plain sight.</p>
-      <p class="lp-lead" data-i18n="lp2.sty_lead">Bring a moodboard, a feeling, a moment. Every tier splits openly: a flat styling fee, and a clothing credit spent entirely on your pieces.</p>
-      <p class="lp-safe" data-i18n="lp2.sty_safe"><b>You see the exact total before you say yes.</b></p>
+      <h2 class="lp-sec-h" id="lpy-h" data-i18n="lp2.sty_h">Styling</h2>
+      <p class="lp-sec-t" data-i18n="lp2.sty_t">I select. You approve.</p>
+      <p class="lp-lead" data-i18n="lp2.sty_lead">Share a moodboard, an occasion, or a budget. Every tier is split in the open: a flat styling fee plus a clothing credit spent entirely on your pieces.</p>
+      <p class="lp-safe" data-i18n="lp2.sty_safe"><b>The exact total is confirmed before you pay.</b></p>
 
       <div class="lp-tiers reveal">
         <article class="lp-tier">
           <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t1n">The Discovery</span><span class="lp-tier-p">$49</span></div>
           <div class="lp-meter" role="img" aria-label="$34 clothing credit, $15 styling fee"><i class="lp-meter-i" style="--pct:69%"></i></div>
           <ul class="lp-facts"><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="lp-fk" data-i18n="lp2.k.fee">Styling fee</span><span class="lp-fv">$15</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="lp-fk" data-i18n="lp2.k.credit">Piece credit</span><span class="lp-fv">$34</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="lp-fk" data-i18n="lp2.k.arrives">Arrives</span><span class="lp-fv" data-i18n="lp2.t1arr">One piece</span></li></ul>
-          <p class="lp-tier-d" data-i18n="lp2.t1d">The low-risk way to try this — one piece, found and sent. Where most new clients start.</p>
+          <p class="lp-tier-d" data-i18n="lp2.t1d">One piece, selected and shipped. The usual starting point.</p>
           <a class="lp-tier-buy" href="https://buy.stripe.com/9B6eVe5vF6Vh6og47waAw03?client_reference_id=links-styling" target="_blank" rel="noopener" data-track="buy-discovery" data-i18n="lp2.buy">Book this tier →</a>
         </article>
         <article class="lp-tier">
           <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t2n">The Edit</span><span class="lp-tier-p">$149</span></div>
           <div class="lp-meter" role="img" aria-label="$104 clothing credit, $45 styling fee"><i class="lp-meter-i" style="--pct:70%"></i></div>
           <ul class="lp-facts"><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="lp-fk" data-i18n="lp2.k.fee">Styling fee</span><span class="lp-fv">$45</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="lp-fk" data-i18n="lp2.k.credit">Piece credit</span><span class="lp-fv">$104</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="lp-fk" data-i18n="lp2.k.arrives">Arrives</span><span class="lp-fv" data-i18n="lp2.t2arr">Three to five pieces</span></li></ul>
-          <p class="lp-tier-d" data-i18n="lp2.t2d">More pieces, still contained — typically 3–5, fewer if you fall for something rarer.</p>
+          <p class="lp-tier-d" data-i18n="lp2.t2d">Three to five pieces, fewer if one is rarer.</p>
           <a class="lp-tier-buy" href="https://buy.stripe.com/bJecN65vF93p5kc5bAaAw04?client_reference_id=links-styling" target="_blank" rel="noopener" data-track="buy-edit" data-i18n="lp2.buy">Book this tier →</a>
         </article>
         <article class="lp-tier is-featured">
@@ -649,14 +670,14 @@
           <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t3n">The Capsule</span><span class="lp-tier-p">$249</span></div>
           <div class="lp-meter" role="img" aria-label="$174 clothing credit, $75 styling fee"><i class="lp-meter-i" style="--pct:70%"></i></div>
           <ul class="lp-facts"><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="lp-fk" data-i18n="lp2.k.fee">Styling fee</span><span class="lp-fv">$75</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="lp-fk" data-i18n="lp2.k.credit">Piece credit</span><span class="lp-fv">$174</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="lp-fk" data-i18n="lp2.k.arrives">Arrives</span><span class="lp-fv" data-i18n="lp2.t3arr">Eight to twelve pieces</span></li></ul>
-          <p class="lp-tier-d" data-i18n="lp2.t3d">A small wardrobe in one go — 8–12 mix-and-match pieces, with a lookbook to wear them together.</p>
+          <p class="lp-tier-d" data-i18n="lp2.t3d">Eight to twelve coordinated pieces, with a lookbook.</p>
           <a class="lp-tier-buy" href="https://buy.stripe.com/4gMeVe5vFfrNcME47waAw08?client_reference_id=links-styling" target="_blank" rel="noopener" data-track="buy-capsule" data-i18n="lp2.buy">Book this tier →</a>
         </article>
         <article class="lp-tier">
           <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t4n">The Atelier</span><span class="lp-tier-p">$349</span></div>
           <div class="lp-meter" role="img" aria-label="$239 clothing credit, $110 styling fee"><i class="lp-meter-i" style="--pct:68%"></i></div>
           <ul class="lp-facts"><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="lp-fk" data-i18n="lp2.k.fee">Styling fee</span><span class="lp-fv">$110</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="lp-fk" data-i18n="lp2.k.credit">Piece credit</span><span class="lp-fv">$239</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="lp-fk" data-i18n="lp2.k.arrives">Arrives</span><span class="lp-fv" data-i18n="lp2.t4arr">A try-on day — or live video</span></li></ul>
-          <p class="lp-tier-d" data-i18n="lp2.t4d">The full, hands-on experience — in Sài Gòn, or live on video from anywhere.</p>
+          <p class="lp-tier-d" data-i18n="lp2.t4d">In person in Sài Gòn, or live on video from anywhere.</p>
           <a class="lp-tier-buy" href="https://buy.stripe.com/aFacN68HRfrNbIA0VkaAw07?client_reference_id=links-styling" target="_blank" rel="noopener" data-track="buy-atelier" data-i18n="lp2.buy">Book this tier →</a>
         </article>
         <article class="lp-tier is-signature">
@@ -664,8 +685,8 @@
           <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t5n">The Signature</span><span class="lp-tier-p">$750</span></div>
           <div class="lp-meter" role="img" aria-label="$460 clothing credit, $290 styling fee"><i class="lp-meter-i" style="--pct:61%"></i></div>
           <ul class="lp-facts"><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="lp-fk" data-i18n="lp2.k.fee">Styling fee</span><span class="lp-fv">$290</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="lp-fk" data-i18n="lp2.k.credit">Piece credit</span><span class="lp-fv">$460</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="lp-fk" data-i18n="lp2.k.arrives">Arrives</span><span class="lp-fv" data-i18n="lp2.t5arr">Made-to-measure fittings</span></li></ul>
-          <p class="lp-tier-d" data-i18n="lp2.t5d">Pieces from the coveted houses — Fancì Club, GIA Studios, the ateliers — with made-to-measure fittings, a lookbook, and 60 days of support.</p>
-          <p class="lp-tier-d" data-i18n="lp2.t5ship">One written total before anything is bought. First claim on free flight-window shipping.</p>
+          <p class="lp-tier-d" data-i18n="lp2.t5d">Designer houses — Fancì Club, GIA Studios, the ateliers — with made-to-measure fittings, a lookbook, and 60 days of support.</p>
+          <p class="lp-tier-d" data-i18n="lp2.t5ship">One written total before anything is bought.</p>
           <a class="lp-tier-buy" href="https://tally.so/r/gD10Kl?about=I%20want%20to%20book%20a%20styling%20service&amp;source=links-signature" target="_blank" rel="noopener" data-track="book-signature" data-i18n="lp2.t5cta">Begin with a conversation →</a>
           <p class="lp-tryfree" style="text-align:left;margin-top:0.7rem;padding-top:0.65rem;border-top:1px solid var(--surface-border)"><a href="signature" data-track="sig-page" data-i18n="lp2.t5see">Explore in full →</a><span aria-hidden="true" style="color:var(--text-secondary)"> &nbsp;·&nbsp; </span><a href="https://buy.stripe.com/4gM6oIaPZ6VhdQIgUiaAw0b?client_reference_id=links-styling" target="_blank" rel="noopener" data-track="buy-signature" data-i18n="lp2.t5buy">Already talked with me? Book by card →</a></p>
         </article>
@@ -675,25 +696,25 @@
         <a class="star-border-container lp-cta" href="https://tally.so/r/gD10Kl?about=I%20want%20to%20book%20a%20styling%20service&amp;source=links-styling" target="_blank" rel="noopener" data-track="path-styling">
           <div class="border-gradient-bottom"></div>
           <div class="border-gradient-top"></div>
-          <div class="inner-content" data-i18n="lp2.sty_cta">Not sure? Tell me the moment first</div>
+          <div class="inner-content" data-i18n="lp2.sty_cta">Not sure which tier? Describe the occasion</div>
         </a>
-        <a class="lp-cta-soft" href="#lp-gift" data-track="gift-jump" data-i18n="lp2.sty_gift">Gift it instead →</a>
+        <a class="lp-cta-soft" href="#lp-gift" data-track="gift-jump" data-i18n="lp2.sty_gift">Give it as a gift →</a>
       </div>
-      <p class="lp-tryfree" data-i18n="lp2.tryfree">Not ready to spend? <a href="style-profile.html?tier=discovery&amp;from=links-soft">Start with the free style intake →</a></p>
-      <p class="lp-yes" data-i18n="lp2.yes">Nothing is bought without your yes — photos first, always.</p>
+      <p class="lp-tryfree" data-i18n="lp2.tryfree">Not ready to book? <a href="style-profile.html?tier=discovery&amp;from=links-soft">Start with the free style intake →</a></p>
+      <p class="lp-yes" data-i18n="lp2.yes">Nothing is bought without your approval. Photos first, always.</p>
     </section>
 
     <!-- ===== No-surprises pricing — a house note ===== -->
     <section class="lp-honest reveal" id="lp-rules" aria-labelledby="lph-h">
-      <h2 class="lp-sec-h" id="lph-h" data-i18n="lp2.hb_e">House rules</h2>
+      <h2 class="lp-sec-h" id="lph-h" data-i18n="lp2.hb_e">Terms</h2>
       <p class="lp-sec-t" style="margin-bottom:0" data-i18n="lp2.hb_h">No-surprises pricing</p>
       <ul>
-        <li data-i18n="lp2.hb1"><b>Pieces at the real receipt price</b> — never marked up</li>
-        <li data-i18n="lp2.hb2"><b>Shipping at the carrier's actual cost</b>, billed once your parcel is weighed</li>
-        <li data-i18n="lp2.hb3"><b>You never pay everything up front</b> — first a simple deposit, then the real shipping once your parcel is weighed</li>
-        <li data-i18n="lp2.hb4"><b>Bank transfer, Wise &amp; Zelle add no card fee</b> · cards add Stripe's own ~5.4% + $0.30, itemized on your link · a small 3% allowance covers transfer-into-Vietnam costs, at cost</li>
-        <li data-i18n="lp2.hb5"><b>The exact total is confirmed before any payment</b> — see your estimate before you commit</li>
-        <li data-i18n="lp2.hb6"><b>Nothing is bought without your yes</b></li>
+        <li data-i18n="lp2.hb1"><b>Pieces at the receipt price</b> — no markup</li>
+        <li data-i18n="lp2.hb2"><b>Shipping at the carrier's cost</b>, billed once the parcel is weighed</li>
+        <li data-i18n="lp2.hb3"><b>Paid in stages</b> — a deposit first, then the actual shipping once the parcel is weighed</li>
+        <li data-i18n="lp2.hb4"><b>Bank transfer, Wise and Zelle carry no card fee</b> · cards carry Stripe's ~5.4% + $0.30, itemized · a 3% allowance covers transfer into Vietnam, at cost</li>
+        <li data-i18n="lp2.hb5"><b>The exact total is confirmed in writing before any payment</b></li>
+        <li data-i18n="lp2.hb6"><b>Nothing is bought without your approval</b></li>
       </ul>
     </section>
 
@@ -704,18 +725,18 @@
         <div class="lp-gift">
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M20 12v9H4v-9"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7S9 3 6.5 4.5 8 7 12 7zM12 7s3-4 5.5-2.5S16 7 12 7z"/></svg></span>
           <div class="lp-meta">
-            <span class="lp-title" data-i18n="lp.gift_t">Gift styling — give a Saigon wardrobe</span>
-            <p class="lp-gift-hook" data-i18n="lp2.gift_s">From $49 — they get a clothing credit and their own stylist. You get the credit.</p>
+            <span class="lp-title" data-i18n="lp.gift_t">Gift a styling tier</span>
+            <p class="lp-gift-hook" data-i18n="lp2.gift_s">From $49. They receive a clothing credit and a stylist; you receive the credit.</p>
             <div class="lp-gift-paths">
-              <a href="./#gift" data-track="gift-tiers" data-i18n="lp.gift_p1">Pick a tier →</a>
-              <a href="./#giftQuiz" data-track="gift-finder" data-i18n="lp.gift_p2">Not sure? 4-question gift finder →</a>
+              <a href="./#gift" data-track="gift-tiers" data-i18n="lp.gift_p1">Choose a tier →</a>
+              <a href="./#giftQuiz" data-track="gift-finder" data-i18n="lp.gift_p2">Gift finder — four questions →</a>
             </div>
-            <p class="lp-gift-when" data-i18n="lp.gift_w">Their code and note arrive within 24 hours</p>
+            <p class="lp-gift-when" data-i18n="lp.gift_w">Code and note delivered within 24 hours</p>
           </div>
         </div>
         <a class="lp-card" href="redeem" data-track="redeem">
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M20 12v9H4v-9"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7S9 3 6.5 4.5 8 7 12 7zM12 7s3-4 5.5-2.5S16 7 12 7z"/></svg></span>
-          <span class="lp-meta"><span class="lp-title" data-i18n="lp.redeem_t">Redeem a gift</span><span class="lp-sub" data-i18n="lp.redeem_s">Got a gift code? See exactly what you'd pay</span></span>
+          <span class="lp-meta"><span class="lp-title" data-i18n="lp.redeem_t">Redeem a gift</span><span class="lp-sub" data-i18n="lp.redeem_s">Enter a gift code to see your balance</span></span>
           <span class="lp-go" aria-hidden="true">→</span>
         </a>
       </div>
@@ -726,25 +747,25 @@
 
       <section class="lp-group" id="lp-free" aria-labelledby="lpg-free">
         <h2 class="lp-group-h" id="lpg-free" data-i18n="lp.g.free">Free — no obligation</h2>
-        <p class="lp-group-sub" data-i18n="lp.g.free_s">Three depths of one style profile — each ends on a card you can send me.</p>
+        <p class="lp-group-sub" data-i18n="lp.g.free_s">One style profile, at three depths. Each ends with a card you can send me.</p>
         <div class="lp-links reveal">
           <a class="lp-card lp-card-timed" href="style-profile.html?tier=discovery&amp;from=links" data-track="profile-intake">
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M5 4.5h14v15l-7-3.2-7 3.2z"/><path d="M9 9h6M9 12.5h4"/></svg></span>
-          <span class="lp-meta"><span class="lp-title" data-i18n="lp.prof1_t">Free short style intake</span><span class="lp-sub" data-i18n="lp.prof1_s">Two minutes — I read your taste back to you</span></span>
+          <span class="lp-meta"><span class="lp-title" data-i18n="lp.prof1_t">Short style intake</span><span class="lp-sub" data-i18n="lp.prof1_s">Two minutes. A read of your taste.</span></span>
           <span class="lp-time" data-i18n="lp.time1">2 min</span>
           <span class="lp-go" aria-hidden="true">→</span>
       </a>
 
           <a class="lp-card lp-card-timed" href="style-profile.html?tier=edit&amp;from=links" data-track="profile-consult">
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7A2.5 2.5 0 0 1 17.5 16H9l-5 4z"/><path d="M8 8.5h8M8 12h5"/></svg></span>
-          <span class="lp-meta"><span class="lp-title" data-i18n="lp.prof2_t">Free consultation</span><span class="lp-sub" data-i18n="lp.prof2_s">Fit, fabric &amp; colour — four minutes, no obligation</span></span>
+          <span class="lp-meta"><span class="lp-title" data-i18n="lp.prof2_t">Consultation</span><span class="lp-sub" data-i18n="lp.prof2_s">Fit, fabric and colour. Four minutes.</span></span>
           <span class="lp-time" data-i18n="lp.time2">4 min</span>
           <span class="lp-go" aria-hidden="true">→</span>
       </a>
 
           <a class="lp-card lp-card-timed" href="style-profile.html?tier=capsule&amp;from=links" data-track="profile-match">
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 3.6 14.3 9l5.7.5-4.3 3.9 1.3 5.6L12 16l-5 3 1.3-5.6L4 9.5 9.7 9z"/></svg></span>
-          <span class="lp-meta"><span class="lp-title" data-i18n="lp.prof3_t">Full style match</span><span class="lp-sub" data-i18n="lp.prof3_s">The whole picture — ends on a card you can send me</span></span>
+          <span class="lp-meta"><span class="lp-title" data-i18n="lp.prof3_t">Full style match</span><span class="lp-sub" data-i18n="lp.prof3_s">The complete profile. Six minutes.</span></span>
           <span class="lp-time" data-i18n="lp.time3">6 min</span>
           <span class="lp-go" aria-hidden="true">→</span>
       </a>
@@ -757,25 +778,25 @@
         <div class="lp-links reveal">
           <a class="lp-card lp-card-feature" href="fashion-directory" data-track="directory">
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M9 20l-6 2V6l6-2 6 2 6-2v16l-6 2-6-2z"/><path d="M9 4v16M15 6v16"/></svg></span>
-          <span class="lp-meta"><span class="lp-title" data-i18n="lp.dir_t">The Saigon Fashion Directory</span><span class="lp-sub" data-i18n="lp.dir_s">320 verified houses, mapped by district</span></span>
+          <span class="lp-meta"><span class="lp-title" data-i18n="lp.dir_t">The Saigon Fashion Directory</span><span class="lp-sub" data-i18n="lp.dir_s">320 verified houses, by district</span></span>
           <span class="lp-go" aria-hidden="true">→</span>
       </a>
 
           <a class="lp-card" href="field-guide" data-track="field-guide">
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5H6.5A2.5 2.5 0 0 0 4 21V5.5z"/><path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20"/></svg></span>
-          <span class="lp-meta"><span class="lp-title" data-i18n="lp.fg_t">The Saigon Shopping Field Guide</span><span class="lp-sub" data-i18n="lp.fg_s">Getting around, dressing for the heat, and 1-to-30-day itineraries</span></span>
+          <span class="lp-meta"><span class="lp-title" data-i18n="lp.fg_t">The Saigon Shopping Field Guide</span><span class="lp-sub" data-i18n="lp.fg_s">Getting around, dressing for the heat, itineraries from one to thirty days</span></span>
           <span class="lp-go" aria-hidden="true">→</span>
       </a>
 
           <a class="lp-card" href="lookbook" data-track="lookbook">
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="3"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8.5 7 10 4.8h4L15.5 7"/></svg></span>
-          <span class="lp-meta"><span class="lp-title" data-i18n="nav.lookbook">Lookbook</span><span class="lp-sub" data-i18n="lp.look_s">Recent sources &amp; styling</span></span>
+          <span class="lp-meta"><span class="lp-title" data-i18n="nav.lookbook">Lookbook</span><span class="lp-sub" data-i18n="lp.look_s">Recent sourcing and styling work</span></span>
           <span class="lp-go" aria-hidden="true">→</span>
       </a>
 
           <a class="lp-card lp-card-timed" href="style-quiz" data-track="style-quiz">
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.2 9.2a2.8 2.8 0 1 1 3.9 2.6c-.8.35-1.1.9-1.1 1.7"/><circle cx="12" cy="16.8" r="0.4" fill="currentColor" stroke="none"/></svg></span>
-          <span class="lp-meta"><span class="lp-title" data-i18n="lp.quiz_t">The Style Quiz</span><span class="lp-sub" data-i18n="lp.quiz_s">Your style as a blend — matched to the houses that fit</span></span>
+          <span class="lp-meta"><span class="lp-title" data-i18n="lp.quiz_t">The Style Quiz</span><span class="lp-sub" data-i18n="lp.quiz_s">Your style as a blend, matched to the houses that fit</span></span>
           <span class="lp-time" data-i18n="lp.time1">2 min</span>
           <span class="lp-go" aria-hidden="true">→</span>
       </a>
@@ -787,13 +808,13 @@
         <div class="lp-links reveal">
           <a class="lp-card" href="https://instagram.com/seraphicstyler" target="_blank" rel="noopener" data-track="instagram">
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg></span>
-          <span class="lp-meta"><span class="lp-title">Instagram</span><span class="lp-sub" data-i18n="lp.ig_s">Daily finds &amp; fit videos · @seraphicstyler</span></span>
+          <span class="lp-meta"><span class="lp-title">Instagram</span><span class="lp-sub" data-i18n="lp.ig_s">Daily finds and fit videos · @seraphicstyler</span></span>
           <span class="lp-go" aria-hidden="true">→</span>
       </a>
 
           <a class="lp-card" href="https://tiktok.com/@seraphicstyler" target="_blank" rel="noopener" data-track="tiktok">
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 3c.35 2.3 1.8 3.95 4 4.2v2.7c-1.45.03-2.8-.4-4-1.15v6.05c0 3.2-2.55 5.2-5.35 5.2-2.6 0-4.8-1.9-4.8-4.6 0-2.95 2.55-4.95 5.55-4.4v2.75c-.42-.12-.83-.18-1.2-.18-1.2 0-2.15.9-2.15 2.05 0 1.2.92 2.02 2.12 2.02 1.32 0 2.33-1.02 2.33-2.62V3h3.5z"/></svg></span>
-          <span class="lp-meta"><span class="lp-title">TikTok</span><span class="lp-sub" data-i18n="lp.tt_s">Styling clips &amp; unboxings · @seraphicstyler</span></span>
+          <span class="lp-meta"><span class="lp-title">TikTok</span><span class="lp-sub" data-i18n="lp.tt_s">Styling clips and unboxings · @seraphicstyler</span></span>
           <span class="lp-go" aria-hidden="true">→</span>
       </a>
 
@@ -811,7 +832,7 @@
 
           <a class="lp-card" href="./" data-track="site">
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18"/></svg></span>
-          <span class="lp-meta"><span class="lp-title" data-i18n="lp.site_t">Visit the full site</span><span class="lp-sub" data-i18n="lp.site_s">Services, pricing &amp; policies</span></span>
+          <span class="lp-meta"><span class="lp-title" data-i18n="lp.site_t">Visit the full site</span><span class="lp-sub" data-i18n="lp.site_s">Services, pricing and policies</span></span>
           <span class="lp-go" aria-hidden="true">→</span>
       </a>
         </div>
@@ -822,13 +843,13 @@
     <section class="lp-houses" aria-label="A rotating selection of the brands available">
       <div class="lp-houses-head">
         <span class="lp-eyebrow" data-i18n="lp.houses_t">Browse the houses</span>
-        <p class="lp-houses-sub" data-i18n="lp.houses_s">Tap any label to open it in the directory</p>
+        <p class="lp-houses-sub" data-i18n="lp.houses_s">Tap a label to open it in the directory</p>
       </div>
       <div class="brand-strip"></div>
       <a class="lp-houses-all" href="fashion-directory" data-i18n="lp.houses_all">See the full directory →</a>
     </section>
 
-    <p class="lp-foot" data-i18n="lp2.foot">Pieces at cost · shipping at cost · nothing bought without your yes.<br />Saigon styling &amp; sourcing, shipped worldwide.</p>
+    <p class="lp-foot" data-i18n="lp2.foot">Pieces at cost · Shipping at cost · Nothing bought without your approval.<br />Saigon styling and sourcing, shipped worldwide.</p>
 
   </main>
 
