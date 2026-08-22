@@ -150,7 +150,7 @@ function SS_fmtRate(v) {
 
   var el = {};
   ['lineItems','addItem','region','region2','compareDest','compareWrap','destCompare','weight','stops','complex','green','styling','payMethod','estCurrency','rSubtotal','rFee','rFeeNote','rBase','rStopsRow','rStops',
-   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rLeftoverRow','rLeftover','rLeftoverUsd','rComplexRow','rComplex','rGreenRow','rGreen','rFxRow','rFx','rCardRow','rCard','rShip','rShipNote','rDepositRow','rDeposit','rDepositCur','rBalanceRow','rBalance','rBalanceCur','rDepositCard','rDepositCardV','tipDepCard','rDepositTot','rDepositTotV','rBalanceCard','rBalanceCardV','tipBalCard','rBalanceTot','rBalanceTotV','previewLink','previewMsg','previewNote','rTotal','rUsd','fxStatus','sendBasket','copiedMsg','estEmptyMsg']
+   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rLeftoverRow','rLeftover','rLeftoverUsd','rComplexRow','rComplex','rGreenRow','rGreen','rFxRow','rFx','rCardRow','rCard','rShip','rShipNote','rDepositRow','rDeposit','rDepositCur','rBalanceRow','rBalance','rBalanceCur','rDepositCard','rDepositCardV','tipDepCard','rDepositTot','rDepositTotV','rBalanceCard','rBalanceCardV','tipBalCard','rBalanceTot','rBalanceTotV','previewLink','previewMsg','previewNote','shareCard','shareRow','shareUrl','shareCopy','rTotal','rUsd','fxStatus','sendBasket','copiedMsg','estEmptyMsg']
     .forEach(function (id) { el[id] = document.getElementById(id); });
   if (!el.lineItems) return; // not on a page with the estimator
 
@@ -707,12 +707,19 @@ function SS_fmtRate(v) {
       .then(function (j) {
         if (!j || !j.ok || !j.estimate) throw new Error('gone');
         preview = j.estimate; restore(preview); recalc();
+        if (el.shareCard) el.shareCard.hidden = true;
         if (el.previewNote) el.previewNote.textContent = t('est.preview.note', 'A preview prepared for you by Seraphic Styler — the exact inputs and the rate quoted. It expires ') + fmtWhen(preview.expiresAt) + '.';
       })
       .catch(function () {
         if (el.previewNote) el.previewNote.textContent = t('est.preview.gone', 'This preview link has expired — links live 24 hours. Ask for a fresh one, or build your own estimate below.');
         loadFx(); recalc();
       });
+  }
+  var lastLink = '';
+  function copyLastLink() {
+    if (!lastLink || !el.shareCopy) return;
+    var done = function () { el.shareCopy.textContent = t('est.share.copied', 'Copied'); el.shareCopy.classList.add('is-done'); };
+    if (navigator.clipboard) navigator.clipboard.writeText(lastLink).then(done, done); else done();
   }
   function makePreviewLink() {
     var snap = snapshot();
@@ -728,9 +735,15 @@ function SS_fmtRate(v) {
       .then(function (r) { return r.json(); })
       .then(function (j) {
         if (!j || !j.ok || !j.url) throw new Error((j && j.error && j.error.message) || 'failed');
+        lastLink = j.url;
         if (navigator.clipboard) navigator.clipboard.writeText(j.url).catch(function () {});
-        el.previewMsg.innerHTML = '✓ ' + esc(t('est.preview.copied', 'Preview link copied')) + ' — <a href="' + esc(j.url) + '" target="_blank" rel="noopener">' + esc(j.url.replace(/^https?:\/\//, '')) + '</a>' +
-          '<br><span style="opacity:.75">' + esc(t('est.preview.until', 'Opens with these exact inputs and rate until ')) + esc(fmtWhen(j.expiresAt)) + '.</span>';
+        if (el.shareRow && el.shareUrl) {
+          el.shareUrl.innerHTML = esc(j.url.replace(/e=[a-z2-9]+$/, 'e=')) + '<b>' + esc(j.id) + '</b>';
+          el.shareRow.hidden = false;
+          if (el.shareCard) el.shareCard.classList.add('is-made');
+          if (el.shareCopy) { el.shareCopy.textContent = t('est.share.copied', 'Copied'); el.shareCopy.classList.add('is-done'); }
+        }
+        el.previewMsg.textContent = t('est.preview.until', 'Opens with these exact inputs and rate until ') + fmtWhen(j.expiresAt) + '.';
       })
       .catch(function (e) {
         el.previewMsg.textContent = t('est.preview.fail', 'Could not create the link — ') + (e && e.message ? e.message : '') + ' ' + t('est.preview.retry', 'Try again in a moment.');
@@ -801,6 +814,7 @@ function SS_fmtRate(v) {
   if (el.estCurrency) el.estCurrency.addEventListener('change', recalc);
   el.sendBasket.addEventListener('click', send);
   if (el.previewLink) el.previewLink.addEventListener('click', makePreviewLink);
+  if (el.shareCopy) el.shareCopy.addEventListener('click', copyLastLink);
   document.addEventListener('ss:lang', recalc);  // re-render computed strings (item count, custom-quote) in the new language
 
   var previewId = null;

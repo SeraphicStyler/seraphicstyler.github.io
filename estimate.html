@@ -75,6 +75,23 @@
     .preview-note { margin: 0.6rem 0 0.2rem; padding: 0.7rem 0.9rem; border-radius: 12px; border: 1px solid rgba(46,84,173,0.28);
       background: linear-gradient(135deg, rgba(201,182,232,0.32), rgba(238,243,251,0.9)); color: var(--text-primary); }
     html.dark .preview-note { background: linear-gradient(135deg, rgba(201,182,232,0.12), rgba(46,84,173,0.12)); }
+    /* the preview-link card — a distinct object on step 4, not another button in the stack */
+    .share-card { margin-top: 1rem; padding: 1rem 1.05rem 0.95rem; border-radius: 14px; border: 1px dashed rgba(46,84,173,0.38);
+      background: color-mix(in srgb, var(--surface-solid) 70%, transparent); }
+    .share-h { margin: 0; font-family: var(--font-brand); font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--eyebrow-ink); }
+    .share-s { margin: 0.35rem 0 0.7rem; font-size: 0.8rem; line-height: 1.55; color: var(--text-secondary); }
+    .share-row { display: flex; align-items: stretch; gap: 0.5rem; margin-bottom: 0.6rem; }
+    .share-url { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; padding: 0.6rem 0.75rem; border-radius: 10px;
+      border: 1px solid var(--surface-border); background: var(--surface-solid); font-family: var(--font-accent); font-size: 0.82rem;
+      letter-spacing: 0.01em; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; user-select: all; }
+    .share-url b { font-weight: 600; color: var(--accent-deep, var(--accent)); }
+    .share-copy { flex: 0 0 auto; min-width: 4.6rem; min-height: 44px; padding: 0 0.9rem; border-radius: 10px; border: 1px solid rgba(46,84,173,0.35);
+      background: var(--accent); color: var(--cta-text, #fff); font-family: var(--font-brand); font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; }
+    .share-copy:hover { background: var(--accent-hover); }
+    .share-copy.is-done { background: transparent; color: var(--accent-deep, var(--accent)); }
+    .share-make { width: 100%; margin: 0; }
+    .share-msg { margin-top: 0.4rem; }
+    .share-card.is-made .share-make { display: none; }
   </style>
 </head>
 <body>
@@ -238,8 +255,16 @@
               </details>
               <button class="btn btn-primary btn-lg" id="sendBasket" type="button" style="width:100%;margin-top:1rem"><span data-i18n="est.send">Send this estimate for confirmation</span></button>
               <p class="estimate-note" id="copiedMsg" style="display:none;color:var(--accent-deep)">✓ Basket summary copied — paste it into your DM to me.</p>
-              <button class="btn btn-ghost" id="previewLink" type="button" style="width:100%;margin-top:0.45rem" data-i18n="est.preview.btn">Copy a 24-hour preview link</button>
-              <p class="estimate-note" id="previewMsg" style="display:none;color:var(--accent-deep)"></p>
+              <div class="share-card" id="shareCard">
+                <p class="share-h" data-i18n="est.share.h">Preview link for your client</p>
+                <p class="share-s" data-i18n="est.share.s">Opens this estimate exactly as it stands — same inputs, same rate — straight on this page. It lives 24 hours, then the link dies.</p>
+                <div class="share-row" id="shareRow" hidden>
+                  <span class="share-url" id="shareUrl" aria-live="polite"></span>
+                  <button class="share-copy" id="shareCopy" type="button" data-i18n="est.share.copy">Copy</button>
+                </div>
+                <button class="btn btn-ghost share-make" id="previewLink" type="button" data-i18n="est.preview.btn">Create a 24-hour preview link</button>
+                <p class="estimate-note share-msg" id="previewMsg" style="display:none"></p>
+              </div>
               <p class="estimate-note" data-i18n="est.note">This is an estimate. Your final quote (exact shipping, current stock, store price) is confirmed by me before any payment.</p>
               <div class="quiz-nav"><button class="quiz-back" type="button" data-back data-i18n="est.back">Back</button><button class="quiz-back" id="quizRestart" type="button" data-i18n="est.restart">Start over</button></div>
             </div>
@@ -280,7 +305,7 @@
   <!-- i18n: shares the language the visitor picked on the main site (localStorage ss-lang), and powers the toggle above. -->
   <script src="js/translations.js"></script>
   <script src="js/i18n.js"></script>
-  <script src="js/estimator.js?v=60"></script>
+  <script src="js/estimator.js?v=61"></script>
   <script>
     /* Esc dismisses an open info tooltip (WCAG 1.4.13) */
     document.addEventListener('keydown', function (e) {
@@ -309,6 +334,8 @@
         if (head) { head.setAttribute('tabindex', '-1'); try { head.focus({ preventScroll: true }); } catch (e) { head.focus(); } }
         if (!noScroll) quiz.scrollIntoView({ behavior: rm ? 'auto' : 'smooth', block: 'start' });
       }
+      // A client opening a 24-hour preview link lands on the result, not on step 1.
+      if (/[?&]e=[a-z2-9]{7}(&|$)/.test(location.search)) show(total - 1, true);
       var warned = false;
       quiz.addEventListener('click', function (e) {
         var t = e.target.closest('[data-next],[data-back],#quizRestart');
