@@ -23,6 +23,9 @@
 (function(){var v=null;try{v=new URLSearchParams(location.search).get('nav');}catch(e){}
 try{if(v)localStorage.setItem('ss-nav-variant',v);else v=localStorage.getItem('ss-nav-variant');}catch(e){}
 if(['rail','drawer','spine','tabs'].indexOf(v)<0)v='drawer';document.documentElement.setAttribute('data-nav',v);
+var rv=null;try{rv=new URLSearchParams(location.search).get('rail');}catch(e){}
+try{if(rv)localStorage.setItem('ss-rail-variant',rv);else rv=localStorage.getItem('ss-rail-variant');}catch(e){}
+if(['slim','open','float'].indexOf(rv)<0)rv='slim';document.documentElement.setAttribute('data-rail',rv);
 try{if(v==='rail'&&localStorage.getItem('ss-rail')==='hidden')document.documentElement.classList.add('lp-rail-hidden');}catch(e){}})();
 </script>
 <link rel="icon" href="assets/favicon-48.png" type="image/png" sizes="48x48" />
@@ -211,6 +214,28 @@ try{if(v==='rail'&&localStorage.getItem('ss-rail')==='hidden')document.documentE
     @media (min-width: 960px) { html[data-nav="rail"]:not(.lp-rail-hidden) .chub { right: calc(var(--rail-w) + 20px); }
       html[data-nav="rail"]:not(.lp-rail-hidden) .lp-rail:hover ~ .chub, html[data-nav="rail"]:not(.lp-rail-hidden) .lp-rail:focus-within ~ .chub { right: calc(var(--rail-w-open) + 20px); } }
     .lp-rail:hover .lp-rail-proof, .lp-rail:focus-within .lp-rail-proof { white-space: normal; overflow: visible; text-overflow: clip; }
+    /* A2 — Open: the rail is always at full width with labels showing */
+    html[data-rail="open"] .lp-rail { width: var(--rail-w-open); }
+    html[data-rail="open"] .lp-rail-l { opacity: 1; transform: none; }
+    html[data-rail="open"] .lp-rail-ml { display: none; }
+    html[data-rail="open"] .lp-rail-cta .lp-rail-l { opacity: 1; width: auto; }
+    html[data-rail="open"] .lp-rail-proof { white-space: normal; overflow: visible; }
+    @media (min-width: 960px) { html[data-nav="rail"][data-rail="open"]:not(.lp-rail-hidden) .chub { right: calc(var(--rail-w-open) + 20px); } }
+    /* A3 — Float: a detached glass pill, centred on the right edge; orientation only */
+    html[data-rail="float"] .lp-rail { top: 50%; bottom: auto; transform: translateY(-50%); height: auto; width: 60px; right: 0.9rem; padding: 0.55rem 0.5rem;
+      border: 1px solid var(--surface-border); border-radius: 18px; box-shadow: 0 18px 44px -28px rgba(35,58,114,0.55); }
+    html[data-rail="float"] .lp-rail:hover, html[data-rail="float"] .lp-rail:focus-within { width: 60px; }
+    html[data-rail="float"] .lp-rail.is-hidden { transform: translateY(-50%) translateX(calc(100% + 1rem)); }
+    html[data-rail="float"] .lp-rail-mark, html[data-rail="float"] .lp-rail-act, html[data-rail="float"] .lp-rail-util .lp-rail-item:not(#lpRailHide), html[data-rail="float"] .lp-rail-l, html[data-rail="float"] .lp-rail-ml { display: none; }
+    html[data-rail="float"] .lp-rail-util { margin-top: 0.3rem; padding-top: 0.3rem; }
+    html[data-rail="float"] .lp-rail-item { justify-content: center; padding: 0; height: 42px; opacity: 0.55; }
+    html[data-rail="float"] .lp-rail-item.is-active { opacity: 1; }
+    html[data-rail="float"] .lp-rail-marker { right: -0.5rem; }
+    html[data-rail="float"] .lp-rail-item[data-tip]:hover::before, html[data-rail="float"] .lp-rail-item[data-tip]:hover::after { opacity: 1; }
+    @media (min-width: 960px) { html[data-nav="rail"][data-rail="float"] .theme-fab, html[data-nav="rail"][data-rail="float"] .lang-fab { display: inline-flex; }
+      html[data-nav="rail"][data-rail="float"]:not(.lp-rail-hidden) .chub { right: 1.25rem; bottom: 1.25rem; } }
+    .nvs .nvs-sub { display: none; align-items: center; gap: 0.15rem; padding-left: 0.3rem; margin-left: 0.2rem; border-left: 1px solid rgba(255,255,255,0.18); }
+    html[data-nav="rail"] .nvs .nvs-sub { display: inline-flex; }
     /* C — the spine: five labelled dots on the right edge; the label of the current section stays lit */
     .spine { position: fixed; right: clamp(1rem, 3vw, 2.2rem); top: 50%; transform: translateY(-50%); z-index: 305; display: none; flex-direction: column; gap: 0; }
     @media (min-width: 960px) { html[data-nav="spine"] .spine { display: flex; } }
@@ -395,7 +420,7 @@ try{if(v==='rail'&&localStorage.getItem('ss-rail')==='hidden')document.documentE
   </nav>
   <!-- preview switcher (local only) -->
   <div class="nvs" id="nvs" role="group" aria-label="Navigation variant"><span>Nav</span>
-    <button type="button" data-v="rail">A · Rail</button><button type="button" data-v="drawer">B · Drawer</button><button type="button" data-v="spine">C · Spine</button><button type="button" data-v="tabs">D · Tabs</button>
+    <button type="button" data-v="rail">A · Rail</button><button type="button" data-v="drawer">B · Drawer</button><button type="button" data-v="spine">C · Spine</button><button type="button" data-v="tabs">D · Tabs</button><span class="nvs-sub"><button type="button" data-r="slim">A1 Slim</button><button type="button" data-r="open">A2 Open</button><button type="button" data-r="float">A3 Float</button></span>
   </div>
 
   <!-- ===== Explore — the navigation layer ===== -->
@@ -2138,9 +2163,14 @@ const ICONS={"11 Garmentory":"icons/11 Garmentory.jpg","18 Again":"icons/18 Agai
       var root = document.documentElement, box = document.getElementById('nvs'); if (!box) return;
       root.classList.add('nvs-on');
       var cur = root.getAttribute('data-nav');
-      box.querySelectorAll('button').forEach(function (b) {
+      var curR = root.getAttribute('data-rail');
+      box.querySelectorAll('button[data-v]').forEach(function (b) {
         b.classList.toggle('is-on', b.getAttribute('data-v') === cur);
         b.addEventListener('click', function () { var v = b.getAttribute('data-v'); try { localStorage.setItem('ss-nav-variant', v); } catch (e) {} location.search = '?nav=' + v; });
+      });
+      box.querySelectorAll('button[data-r]').forEach(function (b) {
+        b.classList.toggle('is-on', b.getAttribute('data-r') === curR);
+        b.addEventListener('click', function () { var r = b.getAttribute('data-r'); try { localStorage.setItem('ss-rail-variant', r); } catch (e) {} location.search = '?nav=rail&rail=' + r; });
       });
     })();
   </script>
