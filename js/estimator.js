@@ -143,12 +143,14 @@ function SS_fmtRate(v) {
   var fxRate = CONFIG.fx.fallbackVndPerUsd;
   var allRates = null; // full USD-based rate table from the API
   var fxLive = false, fxWhen = '';
+  var API = 'https://api.seraphicstyler.com';
+  var preview = null;   // set when the page was opened from a 24h preview link: inputs + the quoted rate
   // approximate USD-based rates for offline fallback (only used if the API can't load)
   var FALLBACK_RATES = { USD:1, EUR:0.92, GBP:0.79, AUD:1.5, CAD:1.36, SGD:1.34, JPY:155, KRW:1350, CNY:7.2, THB:36, AED:3.67, INR:83 };
 
   var el = {};
   ['lineItems','addItem','region','region2','compareDest','compareWrap','destCompare','weight','stops','complex','green','styling','payMethod','estCurrency','rSubtotal','rFee','rFeeNote','rBase','rStopsRow','rStops',
-   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rLeftoverRow','rLeftover','rLeftoverUsd','rComplexRow','rComplex','rGreenRow','rGreen','rFxRow','rFx','rCardRow','rCard','rShip','rShipNote','rDepositRow','rDeposit','rDepositCur','rBalanceRow','rBalance','rBalanceCur','rDepositCard','rDepositCardV','tipDepCard','rDepositTot','rDepositTotV','rBalanceCard','rBalanceCardV','tipBalCard','rBalanceTot','rBalanceTotV','rTotal','rUsd','fxStatus','sendBasket','copiedMsg','estEmptyMsg']
+   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rLeftoverRow','rLeftover','rLeftoverUsd','rComplexRow','rComplex','rGreenRow','rGreen','rFxRow','rFx','rCardRow','rCard','rShip','rShipNote','rDepositRow','rDeposit','rDepositCur','rBalanceRow','rBalance','rBalanceCur','rDepositCard','rDepositCardV','tipDepCard','rDepositTot','rDepositTotV','rBalanceCard','rBalanceCardV','tipBalCard','rBalanceTot','rBalanceTotV','previewLink','previewMsg','previewNote','rTotal','rUsd','fxStatus','sendBasket','copiedMsg','estEmptyMsg']
     .forEach(function (id) { el[id] = document.getElementById(id); });
   if (!el.lineItems) return; // not on a page with the estimator
 
@@ -170,6 +172,10 @@ function SS_fmtRate(v) {
   function updateFxStatus() {
     if (!el.fxStatus) return;
     var c = curCode();
+    if (preview) {
+      el.fxStatus.textContent = t('est.fx.preview', 'Rate as quoted') + ' · 1 ' + c + ' ≈ ' + SS_fmtRate(chargeRate(c)) + '₫ · ' + (preview.fx.when || String(preview.createdAt || '').slice(0, 10));
+      return;
+    }
     var line = ' · 1 ' + c + ' ≈ ' + SS_fmtRate(chargeRate(c)) + '₫ · ';
     el.fxStatus.textContent = fxLive
       ? t('est.fx.live2', "Today's rate") + line + t('est.fx.incl', 'refreshed daily')
@@ -255,6 +261,7 @@ function SS_fmtRate(v) {
   }
 
   function save() {
+    if (preview) return;   // a preview is the client's view of my numbers — never overwrite their own basket with it
     try {
       localStorage.setItem('ss-basket', JSON.stringify({
         items: readItems(), links: readLinks(), region: el.region.value, weight: el.weight.value, stops: el.stops ? el.stops.value : '', complex: el.complex.checked, green: !!(el.green && el.green.checked), styling: (el.styling && el.styling.value) || 'none', pay: (el.payMethod && el.payMethod.value) || 'bank', cur: curCode(),
@@ -654,6 +661,82 @@ function SS_fmtRate(v) {
     }
     return false;
   }
+  /* ---- 24-hour preview links ----
+     snapshot() is exactly what the form holds plus the rate the numbers were
+     quoted at; restore() puts it back and pins that rate, so the client sees
+     the figures I saw, not tomorrow's. The Worker stores it for 24h and then
+     deletes it (api.seraphicstyler.com/v1/estimate-link). */
+  function snapshot() {
+    var prices = readItems(), links = readLinks(), items = [], lk = [];
+    prices.forEach(function (v, i) { if (v > 0) { items.push(Math.round(v)); lk.push(links[i] || ''); } });
+    var c = curCode();
+    return {
+      items: items, links: lk, region: el.region.value, region2: (el.region2 && el.region2.value) || '',
+      compare: !!(el.compareDest && el.compareDest.checked), weight: el.weight.value, stops: el.stops ? el.stops.value : '',
+      complex: !!el.complex.checked, green: !!(el.green && el.green.checked), styling: el.styling ? el.styling.value : '',
+      pay: (el.payMethod && el.payMethod.value) || 'bank', cur: c,
+      fx: { vndPerUsd: fxRate, rate: rateFor(c), when: fxWhen, live: fxLive }
+    };
+  }
+  function restore(d) {
+    el.lineItems.innerHTML = '';
+    (d.items || []).forEach(function (v, i) { addItem(String(v), (d.links && d.links[i]) || ''); });
+    if (!el.lineItems.children.length) addItem('');
+    if (d.region) el.region.value = d.region;
+    if (d.weight) el.weight.value = d.weight;
+    if (el.stops && d.stops) el.stops.value = d.stops;
+    el.complex.checked = !!d.complex;
+    if (el.green) el.green.checked = !!d.green;
+    if (el.styling && d.styling) el.styling.value = d.styling;
+    if (el.payMethod && d.pay) el.payMethod.value = d.pay;
+    if (el.estCurrency && d.cur) el.estCurrency.value = d.cur;
+    if (el.region2 && d.region2) el.region2.value = d.region2;
+    if (el.compareDest) { el.compareDest.checked = !!d.compare; if (el.compareWrap) el.compareWrap.hidden = !d.compare; }
+    if (d.fx && d.fx.vndPerUsd) {
+      fxRate = d.fx.vndPerUsd; fxWhen = d.fx.when || ''; fxLive = true;
+      allRates = { USD: 1, VND: d.fx.vndPerUsd }; allRates[d.cur || 'USD'] = d.fx.rate || 1;
+    }
+  }
+  function fmtWhen(iso) {
+    try { return new Date(iso).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' }); } catch (e) { return iso; }
+  }
+  function loadPreview(id) {
+    if (el.previewNote) { el.previewNote.style.display = 'block'; el.previewNote.textContent = t('est.preview.loading', 'Loading your preview…'); }
+    fetch(API + '/v1/estimate-link/' + encodeURIComponent(id))
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (!j || !j.ok || !j.estimate) throw new Error('gone');
+        preview = j.estimate; restore(preview); recalc();
+        if (el.previewNote) el.previewNote.textContent = t('est.preview.note', 'A preview prepared for you by Seraphic Styler — the exact inputs and the rate quoted. It expires ') + fmtWhen(preview.expiresAt) + '.';
+      })
+      .catch(function () {
+        if (el.previewNote) el.previewNote.textContent = t('est.preview.gone', 'This preview link has expired — links live 24 hours. Ask for a fresh one, or build your own estimate below.');
+        loadFx(); recalc();
+      });
+  }
+  function makePreviewLink() {
+    var snap = snapshot();
+    if (!el.previewMsg) return;
+    if (!snap.items.length && (!snap.styling || snap.styling === 'none')) {
+      el.previewMsg.style.display = 'block';
+      el.previewMsg.textContent = t('est.preview.empty', 'Nothing to share yet — add an item price, or choose a styling tier.');
+      return;
+    }
+    el.previewMsg.style.display = 'block';
+    el.previewMsg.textContent = t('est.preview.making', 'Creating the link…');
+    fetch(API + '/v1/estimate-link', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(snap) })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (!j || !j.ok || !j.url) throw new Error((j && j.error && j.error.message) || 'failed');
+        if (navigator.clipboard) navigator.clipboard.writeText(j.url).catch(function () {});
+        el.previewMsg.innerHTML = '✓ ' + esc(t('est.preview.copied', 'Preview link copied')) + ' — <a href="' + esc(j.url) + '" target="_blank" rel="noopener">' + esc(j.url.replace(/^https?:\/\//, '')) + '</a>' +
+          '<br><span style="opacity:.75">' + esc(t('est.preview.until', 'Opens with these exact inputs and rate until ')) + esc(fmtWhen(j.expiresAt)) + '.</span>';
+      })
+      .catch(function (e) {
+        el.previewMsg.textContent = t('est.preview.fail', 'Could not create the link — ') + (e && e.message ? e.message : '') + ' ' + t('est.preview.retry', 'Try again in a moment.');
+      });
+  }
+
   function storeFx(d) { try { sessionStorage.setItem('ss-fx', JSON.stringify({ t: Date.now(), d: d })); } catch (e) {} }
   function loadFx() {
     el.fxStatus.textContent = t('est.fx.loading', 'Loading live rate…');
@@ -717,11 +800,17 @@ function SS_fmtRate(v) {
   if (el.payMethod) el.payMethod.addEventListener('change', recalc);
   if (el.estCurrency) el.estCurrency.addEventListener('change', recalc);
   el.sendBasket.addEventListener('click', send);
+  if (el.previewLink) el.previewLink.addEventListener('click', makePreviewLink);
   document.addEventListener('ss:lang', recalc);  // re-render computed strings (item count, custom-quote) in the new language
 
+  var previewId = null;
+  try { previewId = new URLSearchParams(location.search).get('e'); } catch (e) {}
   var saved = null;
   try { saved = JSON.parse(localStorage.getItem('ss-basket')); } catch (e) {}
-  if (saved && saved.items && saved.items.length) {
+  if (previewId && /^[a-z2-9]{7}$/.test(previewId)) {
+    addItem('');
+    loadPreview(previewId);
+  } else if (saved && saved.items && saved.items.length) {
     saved.items.forEach(function (v, i) { addItem(v || '', (saved.links && saved.links[i]) || ''); });
     if (saved.region) el.region.value = saved.region;
     if (saved.weight) el.weight.value = saved.weight;
@@ -738,6 +827,6 @@ function SS_fmtRate(v) {
       if (el.region2 && el.region2.value === el.region.value) el.region2.value = firstOtherRegion(el.region.value);
     }
   } else { addItem(''); }
-  loadFx();
+  if (!(previewId && /^[a-z2-9]{7}$/.test(previewId))) loadFx();
   recalc();
 })();
