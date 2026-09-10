@@ -163,6 +163,22 @@
       to   { opacity: 1; clip-path: inset(0 0 -12% 0); }
     }
     .lp-card:active, .lp-gift-paths a:active { transform: translateY(0) scale(0.995); }
+    /* The decider — two sentences the reader can recognise themselves in. */
+    .lp-pick { display: grid; gap: 0.6rem; margin: 0 0 0.9rem; }
+    @media (min-width: 620px) { .lp-pick { grid-template-columns: 1fr 1fr; gap: 0.8rem; } }
+    .lp-pick a { display: block; text-decoration: none; padding: 0.95rem 1.05rem; border-radius: 14px;
+      border: 1px solid var(--surface-border); background: color-mix(in srgb, var(--surface-solid) 70%, transparent);
+      transition: border-color .2s ease, transform .2s ease; }
+    .lp-pick a:hover, .lp-pick a:focus-visible { border-color: var(--accent); transform: translateY(-2px); }
+    .lp-pick q { display: block; font-family: var(--font-display); font-weight: 300; font-style: italic;
+      font-size: 1.02rem; line-height: 1.45; color: var(--text-primary); quotes: '\201C' '\201D'; }
+    .lp-pick b { display: block; margin-top: 0.5rem; font-family: var(--font-accent); font-weight: 500;
+      font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-deep); }
+    html.dark .lp-pick b { color: var(--periwinkle); }
+    .lp-pick-n { margin: 0 0 1.6rem; font-size: 0.86rem; line-height: 1.7; color: var(--text-secondary); }
+    .lp-pick-n strong { color: var(--text-primary); font-weight: 500; }
+    .lp-scope { padding: 0.95rem 1.1rem; border-radius: 14px; border: 1px solid var(--surface-border);
+      background: color-mix(in srgb, var(--surface-solid) 55%, transparent); margin-bottom: 1rem; }
     html.rm .lp-group-h, html.rm .lp-group-sub { animation: none; }
     @media (prefers-reduced-motion: reduce) {
       .lp-group-h, .lp-group-sub { animation: none; }
@@ -614,8 +630,16 @@
     @media (min-width: 760px) and (max-width: 959px) { .lp-rail-pill { display: inline-flex; } .lp-rail.is-peek { display: flex; } }
     @media (min-width: 960px) { html.lp-rail-hidden .lp-rail-pill { display: inline-flex; } }
   </style>
+  <link rel="stylesheet" href="css/service-guide.css?v=2026-09-07" />
+  <link rel="stylesheet" href="css/links-atelier.css?v=2026-09-07b" />
+  <link rel="stylesheet" href="css/hero-concierge.css?v=2026-09-07c" />
+  <script src="js/service-guide.js?v=2026-09-07" defer></script>
+  <script src="js/section-nav.js?v=2026-09-07" defer></script>
+  <script src="js/links-atelier.js?v=2026-09-07b" defer></script>
+  <script type="module" src="js/hero-concierge.js?v=2026-09-07c" defer></script>
+  <link rel="stylesheet" href="css/editorial-rhythm.css?v=2026-09-07b">
 </head>
-<body>
+<body class="ss-ethereal ss-links">
   <div class="grain" aria-hidden="true"></div>
   <a class="skip-link" href="#main">Skip to content</a>
 
@@ -677,7 +701,7 @@
       <a class="lp-rail-item" href="#lp-how" data-rail="lp-how" data-tip="Process"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h2M10 7h9M5 12h2M10 12h9M5 17h2M10 17h9"/></svg><span class="lp-rail-l">Process</span><span class="lp-rail-ml" aria-hidden="true">Process</span></a>
     </nav>
     <div class="lp-rail-act">
-      <a class="lp-rail-cta" id="lpRailCta" href="https://tally.so/r/gD10Kl?about=I%20want%20help%20sourcing%20or%20buying%20specific%20items&amp;source=links-rail" target="_blank" rel="noopener" data-track="rail-start"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg><span class="lp-rail-l" id="lpRailCtaL">Start sourcing</span></a>
+      <a class="lp-rail-cta" id="lpRailCta" href="service-request.html?service=sourcing" data-track="rail-start"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg><span class="lp-rail-l" id="lpRailCtaL">Start sourcing</span></a>
       <span class="lp-rail-proof" id="lpRailProof">Approval before purchase</span>
     </div>
     <div class="lp-rail-util">
@@ -712,13 +736,13 @@
           <span class="brand-styler">Styler</span>
         </span>
         <p class="lp-tag" data-i18n="hero.lead">Personal styling and verified sourcing from Saigon, shipped worldwide.</p>
-        <p class="lp-trust">Nothing is bought before you approve it. The total is in writing before you pay.</p>
+        <p class="lp-trust">One person in Saigon, finding the pieces that belong in your life.</p>
 
         <div class="lp-ctarow lp-hero-cta">
-          <a class="star-border-container lp-cta" href="https://tally.so/r/gD10Kl?about=I%20want%20help%20sourcing%20or%20buying%20specific%20items&amp;source=links-hero" target="_blank" rel="noopener" data-track="hero-sourcing">
+          <a class="star-border-container lp-cta" href="service-request.html?service=sourcing" data-track="hero-sourcing">
             <div class="border-gradient-bottom"></div>
             <div class="border-gradient-top"></div>
-            <div class="inner-content">Start sourcing</div>
+            <div class="inner-content">Source a piece</div>
           </a>
           <a class="lp-cta-soft" href="#lp-styling" data-track="hero-styling">Book styling</a>
         </div>
@@ -732,35 +756,83 @@
       </div>
     </header>
 
+    <section class="ss-concierge lp-concierge" id="lp-guide" aria-labelledby="lp-concierge-title" lang="en">
+      <div class="ss-concierge-glow" aria-hidden="true"></div>
+      <header class="ss-concierge-head">
+        <p class="ss-concierge-label">English service guide · instant answers</p>
+        <h2 id="lp-concierge-title">Begin with what you have.</h2>
+        <button class="ss-concierge-reset" type="button" data-concierge-reset hidden>Start again</button>
+      </header>
+      <p class="ss-concierge-disclosure">Answers from the service guide. <a href="service-request.html?service=unsure">Send a personal request →</a></p>
+        <p class="ss-concierge-static">A specific piece, a saved photo, or a wardrobe you want to build—<a href="sourcingandstyling">find the right way in</a>.</p>
+      <div data-concierge-interactive hidden>
+        <div class="ss-concierge-thread" data-concierge-thread tabindex="0" aria-label="Service guide conversation">
+          <p class="ss-message ss-message-guide">A link, a photo, or a wardrobe idea—choose a starting point below.</p>
+        </div>
+        <div class="ss-concierge-prompts" aria-label="Suggested questions">
+          <button type="button" data-topic="sourcing">I know the exact piece</button>
+          <button type="button" data-topic="photo">I only have a photo</button>
+          <button type="button" data-topic="styling">I need styling direction</button>
+          <div class="ss-concierge-more" data-concierge-more hidden>
+            <button type="button" data-topic="pricing">How does pricing work?</button>
+            <button type="button" data-topic="gift">Can I gift this?</button>
+            <button type="button" data-topic="verification">How are pieces checked?</button>
+            <button type="button" data-topic="shipping">Do you ship internationally?</button>
+            <button type="button" data-topic="group">I’m buying for a group</button>
+            <button type="button" data-topic="boutique">I’m buying for a boutique</button>
+          </div>
+          <button class="ss-concierge-more-toggle" type="button" data-concierge-more-toggle aria-expanded="false">See all answers</button>
+        </div>
+        <form class="ss-concierge-form" data-concierge-form novalidate>
+          <label for="lp-concierge-question">Tell me what you’re looking for</label>
+          <div class="ss-concierge-inputrow">
+            <input id="lp-concierge-question" name="question" type="text" maxlength="300" autocomplete="off" placeholder="Describe what you have, or what you want to find…">
+            <button type="submit">Find the right service <span aria-hidden="true">→</span></button>
+          </div>
+          <p class="ss-concierge-error" data-concierge-error role="status"></p>
+        </form>
+      </div>
+      <p class="sr-only" data-concierge-live aria-live="polite" aria-atomic="true"></p>
+    </section>
+
     <!-- ===== Services — two outcome-led cards ===== -->
     <section class="lp-sec lp-services" aria-labelledby="lpsv-h">
       <h2 class="lp-sec-h" id="lpsv-h">Two ways to work together</h2>
-      <div class="lp-svc">
-        <a class="lp-svc-card" href="#lp-sourcing" data-track="svc-sourcing">
-          <span class="lp-pc-e" data-i18n="lp2.pc1e">Sourcing</span>
-          <span class="lp-svc-t">The piece you have already seen, bought in person and sent home.</span>
-          <span class="lp-svc-s">Send a link or a photo. I find it, check it at the boutique, and ship it at the receipt price.</span>
-          <span class="lp-svc-go">How sourcing works <span aria-hidden="true">↓</span></span>
-        </a>
-        <a class="lp-svc-card is-styling" href="#lp-styling" data-track="svc-styling">
-          <span class="lp-pc-e" data-i18n="lp2.pc2e">Styling</span>
-          <span class="lp-svc-t">A wardrobe chosen for your life, approved piece by piece.</span>
-          <span class="lp-svc-s">Share an occasion, a moodboard, or a budget. I select from Saigon's houses; you approve every piece.</span>
-          <span class="lp-svc-go">See the styling tiers <span aria-hidden="true">↓</span></span>
-        </a>
-      </div>
+      <!-- Which one am I? People were reading two service descriptions and still not
+           placing themselves. These are the reader's own sentences, not definitions. -->
+
+
+
+      <section class="ss-comparison" id="service-comparison" aria-labelledby="ss-compare-heading">
+        <div class="ss-section-intro"><span class="eyebrow">Find your service</span><h3 id="ss-compare-heading">A piece in mind.<br>Or a wardrobe to imagine.</h3><p>Sourcing purchases an identified, in-stock Vietnamese item. The Trace investigates its source. Styling interprets inspiration and chooses pieces.</p></div>
+        <div class="ss-definition-grid">
+          <article class="ss-definition ss-source"><span class="ss-service-tag">01 · Sourcing</span><h4>“Please buy this exact item.”</h4><p>You have chosen an in-stock item from an identified Vietnamese seller. I confirm the size, price, and availability, then coordinate the purchase. Finding its source or choosing alternatives is separate work.</p><dl><div><dt>You send</dt><dd>A direct product link or precise details identifying the exact in-stock item and Vietnamese seller, plus size and destination.</dd></div><div><dt>You receive</dt><dd>Purchase coordination for your identified items, with prices and approval photos before purchase.</dd></div><div><dt>Priced</dt><dd>Store price + sourcing and coordination fees + shipping. All itemized before you pay.</dd></div><div><dt>Begins with</dt><dd>A request, DM, or email. Unknown item or source? The Trace is $25 per item for investigation, credited toward your order. A match is not guaranteed.</dd></div></dl><p class="ss-boundary"><strong>Purchase assistance only.</strong> Outfit creation, capsule planning, wardrobe strategy, and ongoing advice on combining purchases belong to styling.</p><a class="ss-action" href="service-request.html?service=sourcing">Source a piece <span aria-hidden="true">↗</span></a></article>
+          <article class="ss-definition ss-style"><span class="ss-service-tag">02 · Styling</span><h4>“Help me find my style.”</h4><p><strong>You want help choosing what works for you.</strong> Share your taste, lifestyle, occasion, and budget. I choose pieces and, within your tier, create looks that work together.</p><dl><div><dt>You send</dt><dd>A moodboard, an event or trip, wardrobe goals, fit notes, and your total clothing budget.</dd></div><div><dt>You receive</dt><dd>A personal selection; complete outfits and a lookbook in the Capsule and fuller wardrobe projects. You approve every piece.</dd></div><div><dt>Priced</dt><dd>Core tiers $49–$750. Custom Wardrobe from $1,100; Wardrobe+ from $1,500. Styling fee + clothing credit; shipping separate.</dd></div><div><dt>Begins with</dt><dd>A confirmed tier, style questionnaire, and payment. Custom projects are quoted before booking.</dd></div></dl><p class="ss-boundary"><strong>Choose this for wardrobe direction.</strong> Coordinated outfits, fuller capsules, multiple occasions, and support across orders are scoped in your styling project.</p><a class="ss-action" href="#lp-styling">Book styling <span aria-hidden="true">↓</span></a></article>
+        </div>
+        <details class="ss-compare-details"><summary>Compare sourcing &amp; styling <span aria-hidden="true">+</span></summary><div class="ss-table-wrap" tabindex="0" role="region" aria-label="Sourcing and styling comparison"><table><thead><tr><th scope="col">At a glance</th><th scope="col">Sourcing</th><th scope="col">Styling</th></tr></thead><tbody>
+          <tr><th scope="row">Best for</th><td>Purchasing identified Vietnamese items</td><td>Choosing pieces, outfits, or a cohesive wardrobe</td></tr>
+          <tr><th scope="row">Your starting point</th><td>“Buy this in-stock coat from this Vietnamese shop.”</td><td>“Choose a coat that works with my wardrobe.”</td></tr>
+          <tr><th scope="row">My role</th><td>Confirm price, size and stock; arrange purchase</td><td>Choose, coordinate, and plan around your needs</td></tr>
+          <tr><th scope="row">Scope</th><td>An exact in-stock item and identified seller; no research</td><td>A defined selection, occasion, capsule, or custom wardrobe</td></tr>
+          <tr><th scope="row">Budget</th><td>Per item + service fees + shipping</td><td>Project fee + clothing credit; shipping separate</td></tr>
+          <tr><th scope="row">After recommendations</th><td>Purchase and delivery coordination</td><td>Refinement and styling support within your agreed package</td></tr>
+        </tbody></table></div><p>A photo can be an item reference or style inspiration. <strong>The help you need determines the service.</strong> Unknown-item identification is The Trace ($25 per item). Close matches, Vietnamese equivalents of non-Vietnamese references, and outfit direction are paid styling.</p></details>
+        <p class="ss-compare-foot">A piece is one garment; an outfit combines several. Piece counts depend on store prices and your clothing budget. <a href="service-request.html?service=unsure">Not sure? Let’s choose together →</a></p>
+      <p class="ss-compare-foot"><a href="sourcingandstyling">Read the full sourcing &amp; styling guide, prices, and boundaries →</a></p></section>
+
     </section>
 
     <!-- ===== Proof — the promises, orchestrated ===== -->
-    <section class="lp-sec lp-proofsec" id="lp-proof" aria-labelledby="lppf-h">
+    <section class="lp-sec lp-proofsec lp-tonal-night" id="lp-proof" aria-labelledby="lppf-h">
       <h2 class="lp-sec-h" id="lppf-h">Why clients trust the process</h2>
       <div class="lp-proofgrid reveal">
         <div class="lp-pf"><span class="lp-pf-t" data-i18n="lp2.tk1">Verified in person</span><span class="lp-pf-d">Every piece is inspected at the boutique before you decide.</span></div>
         <div class="lp-pf"><span class="lp-pf-t" data-i18n="lp2.tk2">Pieces at cost</span><span class="lp-pf-d">You pay the receipt price. My fee is itemized separately.</span></div>
         <div class="lp-pf"><span class="lp-pf-t" data-i18n="lp2.tk6">Nothing bought without your approval</span><span class="lp-pf-d">Photos and a written total arrive first. Your yes places the order.</span></div>
         <div class="lp-pf"><span class="lp-pf-t" data-i18n="lp2.tk5">Replies in 1–2 business days</span><span class="lp-pf-d">One person, in Saigon, answering you directly.</span></div>
+        <div class="lp-pf"><span class="lp-pf-t">A written answer if a piece sells out</span><span class="lp-pf-d">Unspent money back as money; money already spent back as credit worth 105%, which never expires. <a href="policy" data-track="policy-from-proof">The policy →</a></span></div>
       </div>
-      <div class="lp-sample reveal" aria-label="A sample written total">
+      <details class="lp-sample reveal"><summary>See a sample written total</summary><div class="lp-verification-detail">
         <span class="lp-sample-e">What a written total looks like</span>
         <dl class="lp-sample-l">
           <div><dt>Piece, at the receipt price</dt><dd>2,000,000₫</dd></div>
@@ -769,8 +841,8 @@
           <div><dt>Shipping</dt><dd>at carrier cost, once weighed</dd></div>
           <div class="lp-sample-sum"><dt>Confirmed before you pay</dt><dd>2,600,000₫ ≈ $104 + shipping</dd></div>
         </dl>
-        <span class="lp-sample-n">Figures follow the published fee table below. A real total is written for your piece before any deposit.</span>
-      </div>
+        <span class="lp-sample-n">An illustrative sourcing quote. Your own total is confirmed before any deposit.</span>
+      </div></details>
       <p class="lp-tryfree"><a href="lookbook" data-track="proof-lookbook">See recent sourcing and styling work →</a></p>
     </section>
 
@@ -795,12 +867,13 @@
 
 
       <div class="lp-ctarow">
-        <a class="star-border-container lp-cta" href="https://tally.so/r/gD10Kl?about=I%20want%20help%20sourcing%20or%20buying%20specific%20items&amp;source=links-sourcing" target="_blank" rel="noopener" data-track="path-sourcing">
+        <a class="star-border-container lp-cta" href="service-request.html?service=sourcing" data-track="path-sourcing">
           <div class="border-gradient-bottom"></div>
           <div class="border-gradient-top"></div>
-          <div class="inner-content" data-i18n="lp2.src_cta">Send me a link or photo</div>
+          <div class="inner-content" >Source a piece</div>
         </a>
       </div>
+      <p class="ss-scope-note"><strong>Item sourcing only:</strong> bring a specific item or wishlist. For complete outfits, capsule planning, or help deciding what to purchase, <a href="#lp-styling">choose styling</a>.</p>
       <p class="lp-tryfree"><button class="lp-cta2" type="button" data-qe-open="sourcing" data-track="estimate-sourcing" data-i18n="lp2.src_est">Get a sourcing estimate →</button></p>
 
       <details class="lp-drawer">
@@ -811,7 +884,7 @@
            to identify — a link has nothing to trace, so a link never pays it. -->
       <ol class="lp-steps reveal" aria-label="How sourcing works">
         <li><span class="lp-step-n">01</span><span class="lp-step-t" data-i18n="lp2.s1t">Send it over</span><p class="lp-step-d" data-i18n="lp2.s1d">A link or a photo.</p></li>
-        <li><span class="lp-step-n">02</span><span class="lp-step-t" data-i18n="lp2.s0t">I trace it</span><p class="lp-step-d" data-i18n="lp2.s0d">Photos only: $25, credited to your order. An answer within 48 hours. Links skip this step.</p></li>
+        <li><span class="lp-step-n">02</span><span class="lp-step-t" data-i18n="lp2.s0t">I trace it</span><p class="lp-step-d" lang="en">Identification research: $25 per item, credited to your order. An answer within 48 hours after scope confirmation and payment. Exact shoppable Vietnamese items skip research.</p></li>
         <li><span class="lp-step-n">03</span><span class="lp-step-t" data-i18n="lp2.s2t">I inspect it</span><p class="lp-step-d" data-i18n="lp2.s2d">Checked in person at the boutique.</p></li>
         <li><span class="lp-step-n">04</span><span class="lp-step-t" data-i18n="lp2.s3t">You approve</span><p class="lp-step-d" data-i18n="lp2.s3d">Photos first. Your deposit places the order.</p></li>
         <li><span class="lp-step-n">05</span><span class="lp-step-t" data-i18n="lp2.s4t">It ships</span><p class="lp-step-d" data-i18n="lp2.s4d">Tracked to your door.</p></li>
@@ -827,9 +900,9 @@
         <span data-i18n="lp2.src_w2">600,000₫ — where most single-piece requests land. The piece and shipping are billed at cost.</span>
       </div>
 
-          <p class="lp-dcare" data-i18n="lp2.src_care">The fee covers the work only: locating the piece, boutique visits, inspection, approval photos, and packing. Pieces and shipping are passed through at cost.</p>
-          <p data-i18n="lp2.d0"><b>The Trace — $25 ≈ 625,000₫</b> Charged only for a photo with no source, before anything is ordered. Credited in full against your order. Links are never charged.</p>
-          <p data-i18n="lp2.d0b"><b>What the trace returns</b> One of three answers within 48 hours: the shop and price · the closest piece available here · or why it cannot be sourced, with the nearest alternative.</p>
+          <p class="lp-dcare" lang="en">Purchase assistance covers coordination with the identified boutique, inspection, approval photos, and packing. Item research uses The Trace; alternatives and curation require styling. Pieces and shipping are billed at cost.</p>
+          <p lang="en"><b>The Trace — $25 per item</b> Paid identification research, credited in full toward your order. A rare group of up to 3–5 related items may share a fee only if confirmed in advance. More than five research items require a styling quote.</p>
+          <p lang="en"><b>What The Trace returns</b> Within 48 hours after scope confirmation and payment: an identified source and available price, or an explanation of why the item cannot be sourced. Alternatives and Vietnamese equivalents require paid styling; an exact match is not guaranteed.</p>
           <p data-i18n="lp2.d1"><b>Per-item sourcing fee</b> 8% of the piece (7% above 5,000,000₫), minimum 350,000₫ per item</p>
           <p data-i18n="lp2.d2"><b>Per-order coordination</b> 250,000₫ flat — transport, boutique visits and packing</p>
           <p data-i18n="lp2.d3"><b>Typical minimum</b> 600,000₫ ≈ $24 before the piece and shipping</p>
@@ -845,68 +918,38 @@
     <section class="lp-sec" id="lp-styling" aria-labelledby="lpy-h">
       <h2 class="lp-sec-h" id="lpy-h" data-i18n="lp2.sty_h">Styling, in detail</h2>
       <p class="lp-sec-t" data-i18n="lp2.sty_t">I select. You approve.</p>
-      <p class="lp-lead" data-i18n="lp2.sty_lead">Share a moodboard, an occasion, or a budget. Every tier is split in the open: a flat styling fee plus a clothing credit spent entirely on your pieces.</p>
-      <p class="lp-safe" data-i18n="lp2.sty_safe"><b>The exact total is confirmed before you pay.</b></p>
+      <p class="lp-lead" >For help deciding what to buy, choosing outfits, or building a wardrobe. Every tier separates the styling fee from your clothing credit. Fuller capsules and support across occasions are scoped as Custom Wardrobe projects.</p>
 
-      <div class="lp-tiers reveal">
-        <article class="lp-tier is-featured">
-          <span class="lp-tier-badge" data-i18n="lp2.most">Most requested</span>
-          <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t3n">The Capsule</span><span class="lp-tier-p">$249</span></div>
-          <div class="lp-meter" role="img" aria-label="$174 clothing credit, $75 styling fee"><i class="lp-meter-i" style="--pct:70%"></i></div>
-          <ul class="lp-facts"><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="lp-fk" data-i18n="lp2.k.fee">Styling fee</span><span class="lp-fv">$75</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="lp-fk" data-i18n="lp2.k.credit">Piece credit</span><span class="lp-fv">$174</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="lp-fk" data-i18n="lp2.k.arrives">Arrives</span><span class="lp-fv" data-i18n="lp2.t3arr">Eight to twelve pieces</span></li></ul>
-          <p class="lp-tier-d" data-i18n="lp2.t3d">Eight to twelve coordinated pieces, with a lookbook.</p>
-          <a class="lp-tier-buy" href="https://buy.stripe.com/4gMeVe5vFfrNcME47waAw08?client_reference_id=links-styling" target="_blank" rel="noopener" data-track="buy-capsule" data-i18n="lp2.buy">Book this tier →</a>
-        </article>
-        <article class="lp-tier">
-          <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t1n">The Discovery</span><span class="lp-tier-p">$49</span></div>
-          <div class="lp-meter" role="img" aria-label="$34 clothing credit, $15 styling fee"><i class="lp-meter-i" style="--pct:69%"></i></div>
-          <ul class="lp-facts"><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="lp-fk" data-i18n="lp2.k.fee">Styling fee</span><span class="lp-fv">$15</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="lp-fk" data-i18n="lp2.k.credit">Piece credit</span><span class="lp-fv">$34</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="lp-fk" data-i18n="lp2.k.arrives">Arrives</span><span class="lp-fv" data-i18n="lp2.t1arr">One piece</span></li></ul>
-          <p class="lp-tier-d" data-i18n="lp2.t1d">One piece, selected and shipped. The usual starting point.</p>
-          <a class="lp-tier-buy" href="https://buy.stripe.com/9B6eVe5vF6Vh6og47waAw03?client_reference_id=links-styling" target="_blank" rel="noopener" data-track="buy-discovery" data-i18n="lp2.buy">Book this tier →</a>
-        </article>
-        <article class="lp-tier">
-          <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t2n">The Edit</span><span class="lp-tier-p">$149</span></div>
-          <div class="lp-meter" role="img" aria-label="$104 clothing credit, $45 styling fee"><i class="lp-meter-i" style="--pct:70%"></i></div>
-          <ul class="lp-facts"><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="lp-fk" data-i18n="lp2.k.fee">Styling fee</span><span class="lp-fv">$45</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="lp-fk" data-i18n="lp2.k.credit">Piece credit</span><span class="lp-fv">$104</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="lp-fk" data-i18n="lp2.k.arrives">Arrives</span><span class="lp-fv" data-i18n="lp2.t2arr">Three to five pieces</span></li></ul>
-          <p class="lp-tier-d" data-i18n="lp2.t2d">Three to five pieces, fewer if one is rarer.</p>
-          <a class="lp-tier-buy" href="https://buy.stripe.com/bJecN65vF93p5kc5bAaAw04?client_reference_id=links-styling" target="_blank" rel="noopener" data-track="buy-edit" data-i18n="lp2.buy">Book this tier →</a>
-        </article>
-      </div>
-      <details class="lp-drawer lp-upper">
-        <summary>Upper tiers — The Atelier $349 · The Signature $750</summary>
-        <div class="lp-dbody">
-          <div class="lp-tiers in">
-        <article class="lp-tier">
-          <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t4n">The Atelier</span><span class="lp-tier-p">$349</span></div>
-          <div class="lp-meter" role="img" aria-label="$239 clothing credit, $110 styling fee"><i class="lp-meter-i" style="--pct:68%"></i></div>
-          <ul class="lp-facts"><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="lp-fk" data-i18n="lp2.k.fee">Styling fee</span><span class="lp-fv">$110</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="lp-fk" data-i18n="lp2.k.credit">Piece credit</span><span class="lp-fv">$239</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="lp-fk" data-i18n="lp2.k.arrives">Arrives</span><span class="lp-fv" data-i18n="lp2.t4arr">A try-on day — or live video</span></li></ul>
-          <p class="lp-tier-d" data-i18n="lp2.t4d">In person in Saigon, or live on video from anywhere.</p>
-          <a class="lp-tier-buy" href="https://buy.stripe.com/aFacN68HRfrNbIA0VkaAw07?client_reference_id=links-styling" target="_blank" rel="noopener" data-track="buy-atelier" data-i18n="lp2.buy">Book this tier →</a>
-        </article>
-        <article class="lp-tier is-signature">
-          <span class="lp-tier-badge" data-i18n="lp2.t5b">Designer only</span>
-          <div class="lp-tier-top"><span class="lp-tier-n" data-i18n="lp2.t5n">The Signature</span><span class="lp-tier-p">$750</span></div>
-          <div class="lp-meter" role="img" aria-label="$460 clothing credit, $290 styling fee"><i class="lp-meter-i" style="--pct:61%"></i></div>
-          <ul class="lp-facts"><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="lp-fk" data-i18n="lp2.k.fee">Styling fee</span><span class="lp-fv">$290</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="lp-fk" data-i18n="lp2.k.credit">Piece credit</span><span class="lp-fv">$460</span></li><li><span class="lp-fic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="lp-fk" data-i18n="lp2.k.arrives">Arrives</span><span class="lp-fv" data-i18n="lp2.t5arr">Made-to-measure fittings</span></li></ul>
-          <p class="lp-tier-d" data-i18n="lp2.t5d">Designer houses — Fancì Club, GIA Studios, the ateliers — with made-to-measure fittings, a lookbook, and 60 days of support.</p>
-          <p class="lp-tier-d" data-i18n="lp2.t5ship">One written total before anything is bought.</p>
-          <a class="lp-tier-buy" href="https://tally.so/r/gD10Kl?about=I%20want%20to%20book%20a%20styling%20service&amp;source=links-signature" target="_blank" rel="noopener" data-track="book-signature" data-i18n="lp2.t5cta">Begin with a conversation →</a>
-          <p class="lp-tryfree" style="text-align:left;margin-top:0.7rem;padding-top:0.65rem;border-top:1px solid var(--surface-border)"><a href="signature" data-track="sig-page" data-i18n="lp2.t5see">Explore in full →</a><span aria-hidden="true" style="color:var(--text-secondary)"> &nbsp;·&nbsp; </span><a href="https://buy.stripe.com/4gM6oIaPZ6VhdQIgUiaAw0b?client_reference_id=links-styling" target="_blank" rel="noopener" data-track="buy-signature" data-i18n="lp2.t5buy">Already talked with me? Book by card →</a></p>
-        </article>
-          </div>
-        </div>
-      </details>
 
+
+      <div class="lp-price-ledger" role="region" aria-label="Compare all styling tiers" tabindex="0">
+        <table><caption>Styling at a glance <span>All amounts in USD · select a tier to begin</span></caption>
+        <thead><tr><th scope="col">Tier</th><th scope="col">Total</th><th scope="col">Styling fee</th><th scope="col">Clothing credit</th><th scope="col">Scope</th></tr></thead><tbody>
+<tr><th scope="row"><a href="service-request.html?service=styling&amp;tier=discovery">Discovery</a></th><td data-label="Total">$49</td><td data-label="Styling fee">$15</td><td data-label="Clothing credit">$34</td><td data-label="Scope">1 piece</td></tr>
+<tr><th scope="row"><a href="service-request.html?service=styling&amp;tier=edit">Edit</a></th><td data-label="Total">$149</td><td data-label="Styling fee">$45</td><td data-label="Clothing credit">$104</td><td data-label="Scope">3–5 pieces</td></tr>
+<tr class="is-recommended"><th scope="row"><a href="service-request.html?service=styling&amp;tier=capsule">Capsule</a><span class="lp-ledger-pick">Most requested</span></th><td data-label="Total">$249</td><td data-label="Styling fee">$75</td><td data-label="Clothing credit">$174</td><td data-label="Scope">8–12 pieces</td></tr>
+<tr><th scope="row"><a href="service-request.html?service=styling&amp;tier=atelier">Atelier</a></th><td data-label="Total">$349</td><td data-label="Styling fee">$110</td><td data-label="Clothing credit">$239</td><td data-label="Scope">Live shopping</td></tr>
+<tr><th scope="row"><a href="service-request.html?service=styling&amp;tier=signature">Signature</a></th><td data-label="Total">$750</td><td data-label="Styling fee">$290</td><td data-label="Clothing credit">$460</td><td data-label="Scope">Designer commission</td></tr>
+<tr><th scope="row"><a href="service-request.html?service=styling&amp;tier=custom-wardrobe">Custom Wardrobe</a></th><td data-label="Total">From $1,100</td><td data-label="Styling fee">$475</td><td data-label="Clothing credit">$625</td><td data-label="Scope">15–20 pieces</td></tr>
+<tr><th scope="row"><a href="service-request.html?service=styling&amp;tier=custom-wardrobe-plus">Custom Wardrobe+</a></th><td data-label="Total">From $1,500</td><td data-label="Styling fee">From $750</td><td data-label="Clothing credit">Agreed in quote</td><td data-label="Scope">21–30+ pieces</td></tr>
+</tbody></table></div>
+      <p class="lp-ledger-note">Piece counts are selection targets, subject to store prices, fit, and your clothing budget. Shipping is separate. Atelier is a shopping experience; Signature is a designer or made-to-measure commission.</p>
+      <details class="lp-drawer" id="custom-wardrobe"><summary>A wardrobe, considered as a whole — project details</summary><div class="lp-dbody">
+        <p>Custom Wardrobe brings 15–20 pieces into one direction across occasions and Saigon labels. It includes a style profile, wardrobe plan, digital lookbook, sizing checks, approval photos, ordering coordination, and 60 days of post-order support.</p>
+        <p>Custom Wardrobe+ is for 21–30+ pieces or more complex work. Labels, fittings, refinement rounds, destinations, and support are agreed in your quote.</p>
+        <ul><li>Custom Wardrobe includes two refinement rounds before ordering and one consolidated shipment to one address.</li><li>Extra styling is $25 per added item, plus its store price. Larger scope changes, extra destinations, and extensive alteration support are quoted separately.</li><li>Rush projects add $100–$150, confirmed before booking.</li><li>A nonrefundable styling deposit secures the project and counts toward your quoted fee. Clothing credit is spent only on approved purchases.</li></ul>
+        <a href="sourcingandstyling#prices">Read the full service guide →</a>
+      </div></details>
       <div class="lp-ctarow">
-        <a class="star-border-container lp-cta" href="https://tally.so/r/gD10Kl?about=I%20want%20to%20book%20a%20styling%20service&amp;source=links-styling" target="_blank" rel="noopener" data-track="path-styling">
+        <a class="star-border-container lp-cta" href="service-request.html?service=styling" data-track="path-styling">
           <div class="border-gradient-bottom"></div>
           <div class="border-gradient-top"></div>
-          <div class="inner-content" data-i18n="lp2.sty_cta">Describe the occasion</div>
+          <div class="inner-content" >Book styling</div>
         </a>
         <a class="lp-cta-soft" href="#lp-gift" data-track="gift-jump" data-i18n="lp2.sty_gift">Give it as a gift →</a>
       </div>
       <p class="lp-tryfree" data-i18n="lp2.tryfree">Not ready to book? <a href="style-profile.html?tier=discovery&amp;from=links-soft">Start with the free style intake →</a></p>
-      <p class="lp-yes" data-i18n="lp2.yes">Nothing is bought without your approval. Photos first, always.</p>
+
     </section>
 
     <!-- ===== No-surprises pricing — a house note ===== -->
@@ -1016,7 +1059,7 @@
         </div>
       </section>
 
-      <section class="lp-group" id="lp-gift" aria-labelledby="lpg-more">
+      <section class="lp-group lp-tonal-night" id="lp-gift" aria-labelledby="lpg-more">
         <h2 class="lp-group-h" id="lpg-more">More ways to work together</h2>
         <div class="lp-links reveal">
           <a class="lp-card" href="./#gift" data-track="gift-tiers">
@@ -1040,9 +1083,11 @@
     </nav>
 
 
-    <p class="lp-foot" data-i18n="lp2.foot">Pieces at cost · Shipping at cost · Nothing bought without your approval.<br />Saigon styling and sourcing, shipped worldwide.</p>
+    <p class="lp-foot">Saigon styling and sourcing, shipped worldwide. <a href="policy">Read the house policies →</a></p>
 
   </main>
+
+  <aside class="ss-trust-ribbon" aria-label="Our buying promise"><span>Verified in person</span><span>Pieces at cost</span><span>Your approval first</span></aside>
 
   <!-- ===== Sticky mobile action bar =====
        ONE action, whose label follows the section being read. Two equal-weight
@@ -1054,7 +1099,7 @@
        default so it is never blank before the observer fires. -->
   <nav class="lp-stickybar" aria-label="Quick action">
     <a class="sb-go" id="sbGo"
-       href="https://tally.so/r/gD10Kl?about=I%20want%20help%20sourcing%20or%20buying%20specific%20items&amp;source=links-sticky"
+       href="service-request.html?service=sourcing"
        target="_blank" rel="noopener" data-track="sticky-sourcing">
       <span class="sb-label" id="sbLabel">Source a piece</span>
       <span class="sb-arrow" aria-hidden="true">→</span>
@@ -1095,7 +1140,7 @@
         </ul>
         <p class="qe-rnote" style="display:block;text-align:center;color:var(--text-secondary);font-size:0.7rem;margin:-0.4rem 0 0.8rem" data-i18n="lp2.qe_tap">Tap a tier to book it — payment opens on Stripe's secure page</p>
         <div class="qe-cta">
-          <a class="btn qe-dm" href="https://tally.so/r/gD10Kl?about=I%20want%20to%20book%20a%20styling%20service&amp;source=links-qe-styling" target="_blank" rel="noopener" data-track="qe-book-styling" data-i18n="lp2.qe_book">Not sure? Tell me the moment first</a>
+          <a class="btn qe-dm" href="service-request.html?service=styling" data-track="qe-book-styling" data-i18n="lp2.qe_book">Not sure? Tell me the moment first</a>
         </div>
         <p class="qe-rnote" style="display:block;text-align:center;color:var(--text-secondary);font-size:0.72rem;margin:0.7rem 0 0" data-i18n="lp2.qe_stynote">Part of every tier becomes your clothes — the credit is spent entirely on your pieces.</p>
       </div>
@@ -1319,10 +1364,10 @@
       var T = window.SS_T || function (k, en) { return en; };
       var TALLY = 'https://tally.so/r/gD10Kl?about=';
       var ACTIONS = {
-        'lp-sourcing': { key: 'lp2.sb1', en: 'Source a piece', track: 'sticky-sourcing', ext: true,
-          href: TALLY + encodeURIComponent('I want help sourcing or buying specific items') + '&source=links-sticky' },
-        'lp-styling': { key: 'lp2.sb2', en: 'Book styling', track: 'sticky-styling', ext: true,
-          href: TALLY + encodeURIComponent('I want to book a styling service') + '&source=links-sticky' },
+        'lp-sourcing': { key: 'lp2.sb1', en: 'Source a piece', track: 'sticky-sourcing', ext: false,
+          href: 'service-request.html?service=sourcing' },
+        'lp-styling': { key: 'lp2.sb2', en: 'Book styling', track: 'sticky-styling', ext: false,
+          href: 'service-request.html?service=styling' },
         'lp-gift': { key: 'lp2.sb3', en: 'Gift styling', track: 'sticky-gift', href: './#gift' },
         'lp-free': { key: 'lp2.sb4', en: 'Free style intake', track: 'sticky-free', href: 'style-profile.html?from=links-sticky' },
         'lp-browse': { key: 'lp2.sb5', en: 'Open the directory', track: 'sticky-directory', href: 'fashion-directory' }
@@ -1395,7 +1440,7 @@
     }, { passive: true });
   </script>
 
-  <script src="js/nav-voice.js"></script>
+
   <!-- Concierge rail: state-aware marker, contextual CTA, utilities proxy the existing controls -->
   <script>
     (function () {
@@ -1468,5 +1513,6 @@
       }
     })();
   </script>
+<noscript><nav class="ss-nojs" aria-label="Service navigation"><a href="index.html">Home</a><a href="#service-comparison">Compare services</a><a href="#custom-wardrobe">Custom Wardrobe</a><a href="service-request.html">Start a request</a></nav></noscript>
 </body>
 </html>

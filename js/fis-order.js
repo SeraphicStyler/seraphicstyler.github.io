@@ -15,7 +15,7 @@
 
    It also fixes what happens after the flight. This page is indexed, in the
    sitemap, and carries Open Graph tags, so it keeps earning visitors long
-   after 15 August — and on 16 August every one of them meets "orders
+   after the cut-off — and the day after it, every one of them meets "orders
    closed, DM me", which captures nothing. Past the cut-off the same button
    becomes a next-flight waitlist, so late traffic is still worth something.
 

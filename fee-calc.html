@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Seraphic Styler — Fee calculator (internal)</title>
+<link rel="icon" href="assets/favicon-48.png" type="image/png" sizes="48x48" />
+<link rel="icon" href="assets/favicon-192.png" type="image/png" sizes="192x192" />
+<link rel="apple-touch-icon" href="assets/favicon-192.png" />
+<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400;500&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{--ink:#233a72;--ink2:#51618f;--accent:#2e54ad;--bg:#eef3fb;--card:#fff;--border:rgba(46,71,115,.16);
+        --ok:#2f8f6a;--warn:#9a4b63;--soft:#f6f8fd}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Montserrat',system-ui,sans-serif;color:var(--ink);
+       background:linear-gradient(160deg,#eef3fb,#efeaf8 55%,#eaf0fb);min-height:100vh}
+  a{color:var(--accent)}
+  .wrap{max-width:880px;margin:0 auto;padding:2.2rem 1.1rem 5rem}
+  h1{font-family:'Merriweather Sans',sans-serif;font-weight:300;font-size:1.9rem;margin:0 0 .2rem}
+  h1 em{font-style:italic;color:var(--accent)}
+  h2{font-family:'Merriweather Sans',sans-serif;font-weight:400;font-size:1rem;margin:0 0 .8rem}
+  .muted{color:var(--ink2);font-size:.85rem;line-height:1.6}
+  .tag{display:inline-block;font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);
+       border:1px solid var(--border);border-radius:999px;padding:.18rem .55rem;vertical-align:.28rem;margin-left:.5rem}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:1.1rem;padding:1.2rem 1.25rem;
+        margin-top:1.1rem;box-shadow:0 22px 50px -34px rgba(46,71,115,.45)}
+  label.fl{font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink2);display:block;margin:0 0 .3rem}
+  input,select{font:inherit;font-size:.95rem;width:100%;padding:.6rem .7rem;border:1px solid var(--border);
+    border-radius:.6rem;background:#fff;color:var(--ink)}
+  input:focus,select:focus{outline:2px solid rgba(46,84,173,.35);outline-offset:1px}
+  input[type=checkbox]{width:auto}
+  .btn{font:inherit;font-weight:600;font-size:.82rem;border:1px solid var(--border);background:#fff;color:var(--ink);
+    border-radius:999px;padding:.45rem .95rem;cursor:pointer;transition:background .18s,color .18s}
+  .btn:hover{background:var(--bg)}
+  .btn.primary{background:var(--accent);color:#fff;border-color:transparent}
+  .btn.primary:hover{background:#26479a}
+  .btn.sm{padding:.28rem .6rem;font-size:.75rem}
+  .btn.ghost{border-color:transparent;background:transparent;color:var(--ink2)}
+  .seg{display:inline-flex;gap:.25rem;background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:.22rem}
+  .seg button{font:inherit;font-size:.8rem;font-weight:500;border:0;background:transparent;color:var(--ink2);
+    border-radius:999px;padding:.4rem .85rem;cursor:pointer}
+  .seg button[aria-pressed=true]{background:var(--accent);color:#fff;font-weight:600}
+  .row{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+  .charge{display:grid;grid-template-columns:1.1fr 1fr auto auto;gap:.55rem;align-items:end;margin-bottom:.6rem}
+  @media(max-width:640px){.charge{grid-template-columns:1fr 1fr;}.charge .xf,.charge .rm{grid-column:auto}}
+  .charge .xf{display:flex;align-items:center;gap:.35rem;font-size:.76rem;color:var(--ink2);padding-bottom:.62rem;white-space:nowrap}
+  .charge .rm{background:none;border:0;color:var(--ink2);font-size:1rem;cursor:pointer;padding:.35rem .4rem}
+  .out{background:var(--soft);border:1px solid var(--border);border-radius:.9rem;padding:1rem 1.1rem;margin-top:.9rem}
+  .big{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap;margin:.15rem 0 .1rem}
+  .big .n{font-family:'Merriweather Sans',sans-serif;font-size:2rem;font-weight:400;color:var(--accent);letter-spacing:-.01em}
+  .big .lbl{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
+  table{width:100%;border-collapse:collapse;font-size:.86rem;margin-top:.5rem}
+  td{padding:.34rem 0;vertical-align:top}
+  td.v{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  tr.tot td{border-top:1px solid var(--border);padding-top:.5rem;font-weight:600}
+  tr.sub td{color:var(--ink2)}
+  .vnd{font-size:.74rem;color:var(--ink2);font-variant-numeric:tabular-nums}
+  .note{font-size:.78rem;color:var(--ink2);line-height:1.6;margin-top:.7rem}
+  .note b{color:var(--ink)}
+  details{margin-top:1rem}
+  summary{cursor:pointer;font-size:.8rem;color:var(--ink2);font-weight:600}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-top:.7rem}
+  @media(max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+  .hist{list-style:none;margin:.5rem 0 0;padding:0;font-size:.82rem}
+  .hist li{display:flex;gap:.6rem;align-items:center;padding:.35rem 0;border-bottom:1px dashed var(--border)}
+  .hist li:last-child{border-bottom:0}
+  .hist .h-when{color:var(--ink2);font-size:.72rem;min-width:6.5rem}
+  .hist .h-amt{font-variant-numeric:tabular-nums;font-weight:600}
+  .hist .h-sp{flex:1}
+  .toast{position:fixed;left:50%;bottom:1.4rem;transform:translate(-50%,1.4rem);background:var(--ink);color:#fff;
+    font-size:.8rem;padding:.55rem 1rem;border-radius:999px;opacity:0;pointer-events:none;transition:.25s}
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+  /* live rate bar */
+  .rbar{display:flex;gap:.9rem;align-items:center;flex-wrap:wrap}
+  .rbar .pair{font-size:.66rem;letter-spacing:.11em;text-transform:uppercase;color:var(--ink2)}
+  .rbar .rate{font-family:'Merriweather Sans',sans-serif;font-size:1.45rem;color:var(--accent);font-variant-numeric:tabular-nums}
+  .rbar .delta{font-size:.76rem;font-weight:600;font-variant-numeric:tabular-nums}
+  .rbar .delta.up{color:var(--ok)} .rbar .delta.down{color:var(--warn)} .rbar .delta.flat{color:var(--ink2)}
+  .rbar .sp{flex:1}
+  .spark{display:block;height:26px;width:100%;max-width:230px;overflow:visible}
+  .spark path{fill:none;stroke:var(--accent);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+  .spark .fillp{fill:rgba(46,84,173,.10);stroke:none}
+  .n2{font-family:'Merriweather Sans',sans-serif;font-size:1.15rem;color:var(--ink2);font-variant-numeric:tabular-nums}
+  th{font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);font-weight:600;text-align:right;padding:0 0 .3rem}
+  th.l{text-align:left}
+  td.alt2{color:var(--ink2)}
+  .copybox{width:100%;min-height:7rem;font:inherit;font-size:.82rem;line-height:1.55;padding:.7rem;border-radius:.6rem;
+    border:1px solid var(--border);background:#fff;color:var(--ink);white-space:pre;overflow:auto;resize:vertical}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Fee <em>calculator</em><span class="tag">internal</span></h1>
+  <p class="muted">Passed through at cost, never marked up. Rates match <code>js/estimator.js</code> — change them in one place below and both stay honest.</p>
+
+  <!-- ============ LIVE RATE ============ -->
+  <div class="card">
+    <div class="rbar">
+      <div>
+        <div class="pair">Mid-market &middot; USD &rarr; VND</div>
+        <div class="row" style="gap:.5rem">
+          <span class="rate" id="fxRate">…</span>
+          <span class="delta flat" id="fxDelta"></span>
+        </div>
+        <div class="muted" id="fxWhen" style="font-size:.74rem">fetching live rate…</div>
+      </div>
+      <svg class="spark" id="fxSpark" viewBox="0 0 230 26" preserveAspectRatio="none" aria-hidden="true"></svg>
+      <span class="sp"></span>
+      <div>
+        <label class="fl">Convert at</label>
+        <div class="seg" id="fxSeg" role="group" aria-label="Conversion rate">
+          <button type="button" data-fx="peg" aria-pressed="true">Peg <span id="pegTxt"></span></button>
+          <button type="button" data-fx="live" aria-pressed="false">Live <span id="liveTxt">—</span></button>
+        </div>
+      </div>
+      <button type="button" class="btn sm" id="fxRefresh">Refresh</button>
+    </div>
+    <p class="note" id="fxGap"></p>
+  </div>
+
+  <!-- ============ MODE ============ -->
+  <div class="card">
+    <div class="row" style="justify-content:space-between">
+      <div class="seg" role="group" aria-label="Mode">
+        <button type="button" id="mFwd" aria-pressed="true">What to charge</button>
+        <button type="button" id="mRev" aria-pressed="false">What a charge nets</button>
+      </div>
+      <div class="seg" role="group" aria-label="Currency">
+        <button type="button" id="cUsd" aria-pressed="true">USD</button>
+        <button type="button" id="cVnd" aria-pressed="false">VND</button>
+      </div>
+    </div>
+
+    <!-- ---------- FORWARD ---------- -->
+    <div id="fwd" style="margin-top:1.1rem">
+      <label class="fl">Payment method</label>
+      <div class="seg" role="group" aria-label="Payment method" style="margin-bottom:1rem">
+        <button type="button" data-m="intl" aria-pressed="true">Card — international ceiling</button>
+        <button type="button" data-m="dom" aria-pressed="false">Card — domestic</button>
+        <button type="button" data-m="none" aria-pressed="false">Transfer / Wise / Zelle</button>
+      </div>
+
+      <label class="fl">Amounts you need to receive <span style="text-transform:none;letter-spacing:0">(before any card fee)</span></label>
+      <div id="charges"></div>
+      <button type="button" class="btn sm" id="addCharge">+ Add another charge</button>
+      <div class="row" style="margin-top:.9rem;gap:.5rem">
+        <label class="fl" style="margin:0">Rate buffer</label>
+        <div class="seg" id="bufSeg" role="group" aria-label="Rate buffer">
+          <button type="button" data-buf="0" aria-pressed="true">None</button>
+          <button type="button" data-buf="1">1%</button>
+          <button type="button" data-buf="2">2%</button>
+          <button type="button" data-buf="3">3%</button>
+        </div>
+        <span class="muted" id="bufNote" style="font-size:.76rem"></span>
+      </div>
+      <p class="muted" style="margin:.55rem 0 0">Each charge is its own Stripe transaction, so each carries its own $<span class="fixedTxt">0.30</span>. Tick <b>+3%</b> on pieces &amp; service; leave it off on a shipping balance — that matches the estimator.</p>
+
+      <div class="out" id="fwdOut"></div>
+
+      <div class="grid3">
+        <button type="button" class="btn" id="copyCharge">Copy charge amount</button>
+        <button type="button" class="btn" id="copyLines">Copy invoice lines</button>
+        <button type="button" class="btn" id="copyNote">Copy client note</button>
+      </div>
+    </div>
+
+    <!-- ---------- REVERSE ---------- -->
+    <div id="rev" style="display:none;margin-top:1.1rem">
+      <label class="fl">Payment method</label>
+      <div class="seg" role="group" aria-label="Payment method (reverse)" style="margin-bottom:1rem">
+        <button type="button" data-r="intl" aria-pressed="true">Card — international</button>
+        <button type="button" data-r="dom" aria-pressed="false">Card — domestic</button>
+      </div>
+      <label class="fl" for="revAmt">Amount charged to the card</label>
+      <input id="revAmt" type="text" inputmode="decimal" placeholder="e.g. 1,088.99" autocomplete="off" />
+      <div class="out" id="revOut"></div>
+    </div>
+  </div>
+
+  <!-- ============ COPY OUTPUT ============ -->
+  <div class="card" id="copyCard" style="display:none">
+    <h2 id="copyTitle">Invoice lines</h2>
+    <textarea class="copybox" id="copyText" readonly></textarea>
+    <div class="row" style="margin-top:.6rem">
+      <button type="button" class="btn primary sm" id="copyAgain">Copy to clipboard</button>
+      <button type="button" class="btn ghost sm" id="copyClose">Close</button>
+    </div>
+  </div>
+
+  <!-- ============ RATES ============ -->
+  <div class="card">
+    <details id="ratesBox">
+      <summary>Rates &amp; peg <span class="muted" id="ratesSummary"></span></summary>
+      <div class="grid3" style="margin-top:.9rem">
+        <div><label class="fl" for="rBase">Stripe base %</label><input id="rBase" type="text" inputmode="decimal" /></div>
+        <div><label class="fl" for="rIntl">International card %</label><input id="rIntl" type="text" inputmode="decimal" /></div>
+        <div><label class="fl" for="rConv">Currency conversion %</label><input id="rConv" type="text" inputmode="decimal" /></div>
+        <div><label class="fl" for="rFixed">Fixed per charge (USD)</label><input id="rFixed" type="text" inputmode="decimal" /></div>
+        <div><label class="fl" for="rXfer">Currency-transfer line %</label><input id="rXfer" type="text" inputmode="decimal" /></div>
+        <div><label class="fl" for="rFx">Planning peg ₫ / $1</label><input id="rFx" type="text" inputmode="numeric" /></div>
+        <div><label class="fl" for="rBuffer">Rate buffer %</label><input id="rBuffer" type="text" inputmode="decimal" /></div>
+      </div>
+      <p class="note">Defaults are the published Stripe rates (Aug 2026) and her own 3% transfer line at the 25,000₫ peg. Edited values save to this browser only. <button type="button" class="btn sm ghost" id="resetRates">Reset to defaults</button></p>
+    </details>
+  </div>
+
+  <!-- ============ HISTORY ============ -->
+  <div class="card">
+    <h2>Recent</h2>
+    <ul class="hist" id="hist"></ul>
+    <p class="muted" id="histEmpty">Nothing yet — calculated charges land here so you can check what you quoted.</p>
+    <div class="row" style="margin-top:.5rem"><button type="button" class="btn sm ghost" id="clearHist">Clear</button></div>
+  </div>
+
+  <p class="muted" style="margin-top:1.4rem">Works offline once loaded. Not linked from anywhere on the site and marked <code>noindex</code>.</p>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------------------------------------------------------------
+     Rates. Mirrors CONFIG.card / CONFIG.fxFee in js/estimator.js:
+       base 2.9% + $0.30 · +1.5% international card · +1% conversion
+     The international total (5.4%) is the CEILING we quote from, since
+     we cannot tell whose card is domestic before it is charged.
+     fxFee 3% is the currency-transfer line — every payment method pays
+     it, because the cash-out to đồng happens however the client pays.
+  --------------------------------------------------------------- */
+  var DEFAULTS = { base: 2.9, intl: 1.5, conv: 1.0, fixed: 0.30, xfer: 3.0, fx: 25000, buffer: 0 };
+  var KEY = 'ss_feecalc_v1';
+  var state = { rates: Object.assign({}, DEFAULTS), cur: 'USD', mode: 'fwd', method: 'intl', revMethod: 'intl',
+                charges: [], rev: '', hist: [],
+                fxMode: 'peg',        // 'peg' = her fixed 25,000₫ · 'live' = mid-market
+                live: null,           // { rate, when, src, ts }
+                fxHist: [] };         // sampled rates, so fluctuation is visible
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* ---------- persistence ---------- */
+  function save() {
+    try {
+      localStorage.setItem(KEY, JSON.stringify({
+        rates: state.rates, cur: state.cur, method: state.method, fxMode: state.fxMode,
+        charges: state.charges, hist: state.hist.slice(0, 12),
+        live: state.live, fxHist: state.fxHist.slice(-40)
+      }));
+    } catch (e) {}
+  }
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (!raw) return;
+      var d = JSON.parse(raw);
+      if (d.rates) state.rates = Object.assign({}, DEFAULTS, d.rates);
+      if (d.cur) state.cur = d.cur;
+      if (d.method) state.method = d.method;
+      if (d.fxMode) state.fxMode = d.fxMode;
+      if (d.live && d.live.rate > 0) state.live = d.live;
+      if (Array.isArray(d.fxHist)) state.fxHist = d.fxHist;
+      if (Array.isArray(d.charges) && d.charges.length) state.charges = d.charges;
+      if (Array.isArray(d.hist)) state.hist = d.hist;
+    } catch (e) {}
+  }
+
+  /* ---------- numbers ---------- */
+  function num(v) {
+    if (typeof v === 'number') return v;
+    var s = String(v == null ? '' : v).replace(/[^0-9.\-]/g, '');
+    var n = parseFloat(s);
+    return isFinite(n) ? n : 0;
+  }
+  /* "850k" / "1.2m" shorthand, and bare thousands in VND mode, read the way
+     the estimator's tray reads them. */
+  function parseAmt(raw) {
+    var s = String(raw == null ? '' : raw).trim().toLowerCase().replace(/[, đ$]/g, '');
+    if (!s) return 0;
+    var mult = 1;
+    if (/k$/.test(s)) { mult = 1e3; s = s.slice(0, -1); }
+    else if (/m$/.test(s)) { mult = 1e6; s = s.slice(0, -1); }
+    var n = parseFloat(s);
+    if (!isFinite(n) || n <= 0) return 0;
+    return n * mult;
+  }
+  function usd(n) {
+    return '$' + (Math.round(n * 100) / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function vnd(n) { return Math.round(n).toLocaleString('en-US') + '₫'; }
+  function ceilCent(n) { return Math.ceil(n * 100 - 1e-9) / 100; }
+  /* A typed-in value, formatted the way she would have typed it herself. */
+  function fmtEntry(n, isVnd) {
+    if (isVnd) return (Math.round(n / 1000) * 1000).toLocaleString('en-US');
+    return (Math.round(n * 100) / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  /* The rate everything converts at: her fixed planning peg by default, or the
+     live mid-market rate when she switches to it. The peg is what published
+     prices are anchored to, so it stays the default — the live figure sits
+     beside it so the gap is visible, never silently applied. */
+  function activeFx() {
+    if (state.fxMode === 'live' && state.live && state.live.rate > 0) return state.live.rate;
+    return state.rates.fx;
+  }
+  /* Amounts are held in USD internally; VND entry converts at the active rate. */
+  function toUsd(amount) { return state.cur === 'VND' ? amount / activeFx() : amount; }
+  function money(u) { return state.cur === 'VND' ? vnd(u * activeFx()) : usd(u); }
+  function alt(u) { return state.cur === 'VND' ? usd(u) : vnd(u * activeFx()); }
+  /* One figure in both currencies, primary first — the selected currency leads. */
+  function cells(u, cls) {
+    var c = cls ? ' class="v ' + cls + '"' : ' class="v"';
+    return '<td' + c + '>' + money(u) + '</td><td class="v alt2">' + alt(u) + '</td>';
+  }
+  function curHead() {
+    var a = state.cur, b = (a === 'USD' ? 'VND' : 'USD');
+    return '<tr><th class="l"></th><th>' + a + '</th><th>' + b + '</th></tr>';
+  }
+
+  /* ---------- fee maths ---------- */
+  function rateFor(m) {
+    var r = state.rates;
+    if (m === 'none') return 0;
+    if (m === 'dom') return r.base / 100;
+    return (r.base + r.intl + r.conv) / 100;   // international ceiling
+  }
+  function fixedFor(m) { return m === 'none' ? 0 : state.rates.fixed; }
+  function ratePct(m) {
+    var p = rateFor(m) * 100;
+    return (Math.round(p * 100) / 100).toString().replace(/\.00$/, '') + '%';
+  }
+  /* Gross-up: the percentage comes off what the card is charged, so the charge
+     is sized to NET the amount due — never amount x rate added on top. */
+  function grossFor(netUsd, m) {
+    if (netUsd <= 0) return 0;
+    var f = fixedFor(m), r = rateFor(m);
+    if (!r && !f) return ceilCent(netUsd);
+    return ceilCent((netUsd + f) / (1 - r));
+  }
+
+  function compute() {
+    var m = state.method, xfr = state.rates.xfer / 100, rows = [], t = { sub: 0, xfer: 0, buf: 0, due: 0, fee: 0, gross: 0, domGross: 0 };
+    state.charges.forEach(function (c) {
+      var sub = toUsd(parseAmt(c.amt));
+      if (sub <= 0) { rows.push(null); return; }
+      var xf = c.xfer ? sub * xfr : 0;
+      /* Buffer rides on the payable amount, BEFORE the card gross-up — the same
+         place the transfer line sits. It never touches the Stripe line, which is
+         published as at-cost and, being a percentage of a USD charge, carries no
+         FX risk to hedge in the first place. */
+      var buf = (sub + xf) * (state.rates.buffer / 100);
+      var due = sub + xf + buf;
+      var gross = grossFor(due, m);
+      var fee = gross - due;
+      var domGross = grossFor(due, m === 'none' ? 'none' : 'dom');
+      rows.push({ label: c.label || '', sub: sub, xf: xf, buf: buf, due: due, gross: gross, fee: fee, domGross: domGross });
+      t.sub += sub; t.xfer += xf; t.buf += buf; t.due += due; t.fee += fee; t.gross += gross; t.domGross += domGross;
+    });
+    return { rows: rows, t: t, m: m };
+  }
+
+  /* ---------- rendering ---------- */
+  function renderCharges() {
+    var box = $('charges');
+    box.innerHTML = '';
+    state.charges.forEach(function (c, i) {
+      var row = document.createElement('div');
+      row.className = 'charge';
+      row.innerHTML =
+        '<div><label class="fl">Label</label><input class="c-label" type="text" placeholder="' +
+          (i === 0 ? 'Deposit' : 'Balance / shipping') + '" autocomplete="off"></div>' +
+        '<div><label class="fl">Amount (' + state.cur + ')</label><input class="c-amt" type="text" inputmode="decimal" placeholder="' +
+          (state.cur === 'VND' ? 'e.g. 8,500,000 or 8.5m' : 'e.g. 1,000') + '" autocomplete="off"></div>' +
+        '<div class="xf"><input type="checkbox" class="c-xfer" id="xf' + i + '"><label for="xf' + i + '">+' +
+          (Math.round(state.rates.xfer * 100) / 100) + '% transfer</label></div>' +
+        '<button type="button" class="rm" aria-label="Remove this charge"' + (state.charges.length < 2 ? ' style="visibility:hidden"' : '') + '>&#10005;</button>';
+      var lab = row.querySelector('.c-label'), amt = row.querySelector('.c-amt'), xf = row.querySelector('.c-xfer');
+      lab.value = c.label || ''; amt.value = c.amt || ''; xf.checked = !!c.xfer;
+      lab.addEventListener('input', function () { c.label = lab.value; refresh(); });
+      amt.addEventListener('input', function () { c.amt = amt.value; refresh(); });
+      xf.addEventListener('change', function () { c.xfer = xf.checked; refresh(); });
+      row.querySelector('.rm').addEventListener('click', function () {
+        state.charges.splice(i, 1);
+        if (!state.charges.length) state.charges.push({ label: '', amt: '', xfer: true });
+        renderCharges(); refresh();
+      });
+      box.appendChild(row);
+    });
+  }
+
+  function renderFwd(r) {
+    var m = r.m, t = r.t, out = $('fwdOut');
+    if (t.due <= 0) {
+      out.innerHTML = '<p class="muted" style="margin:0">Enter an amount and the charge appears here.</p>';
+      return;
+    }
+    var live = r.rows.filter(Boolean);
+    var html = '';
+
+    live.forEach(function (row, i) {
+      var name = row.label || (live.length > 1 ? (i === 0 ? 'Deposit' : 'Charge ' + (i + 1)) : 'Charge on Stripe');
+      html += '<div class="big"><span class="n">' + money(row.gross) + '</span>' +
+              '<span class="n2">' + alt(row.gross) + '</span>' +
+              '<span class="lbl">' + esc(name) + '</span></div>' +
+              (m === 'none' ? '' : '<div class="vnd">fee ' + money(row.fee) + ' &middot; ' + alt(row.fee) + ' at ' + ratePct(m) + ' + ' + usd(fixedFor(m)) + '</div>');
+      if (live.length > 1) html += '<div style="height:.6rem"></div>';
+    });
+
+    html += '<table>' + curHead();
+    live.forEach(function (row, i) {
+      var name = row.label || (live.length > 1 ? 'Charge ' + (i + 1) : 'Pieces & service');
+      html += '<tr><td>' + esc(name) + '</td>' + cells(row.sub) + '</tr>';
+      if (row.xf > 0) html += '<tr class="sub"><td>&nbsp;&nbsp;Currency transfer (' + (Math.round(state.rates.xfer * 100) / 100) + '%, at cost)</td>' + cells(row.xf) + '</tr>';
+      if (row.buf > 0) html += '<tr class="sub"><td>&nbsp;&nbsp;Rate buffer (' + (Math.round(state.rates.buffer * 100) / 100) + '%)</td>' + cells(row.buf) + '</tr>';
+      if (row.fee > 0) html += '<tr class="sub"><td>&nbsp;&nbsp;Card processing (Stripe ' + ratePct(m) + ' + ' + usd(fixedFor(m)) + ', at cost)</td>' + cells(row.fee) + '</tr>';
+    });
+    html += '<tr class="tot"><td>Total charged</td>' + cells(t.gross) + '</tr>' +
+            '<tr class="sub"><td>You receive</td>' + cells(t.due) + '</tr>' +
+            '</table>';
+
+    if (m === 'intl') {
+      var diff = t.gross - t.domGross;
+      /* What is actually cushioning her, in money, so the buffer question is
+         answered with the headroom that already exists rather than guessed at. */
+      var pegGap = (state.live && state.live.rate > state.rates.fx)
+        ? t.due * ((state.live.rate - state.rates.fx) / state.live.rate) : 0;
+      var cushion = diff + t.xfer + t.buf + pegGap;
+      html += '<p class="note"><b>Ceiling, not a surprise.</b> Priced as if every card were international. If the card turns out to be domestic, the same order only needs <b>' +
+        money(t.domGross) + '</b> — ' + money(diff) + ' less. Reissue the link at the domestic figure once you know, or keep the surplus disclosed as the ceiling it is.</p>' +
+        '<p class="note"><b>Cushion on this order: ' + money(cushion) + '.</b> ' +
+        money(diff) + ' from quoting the international ceiling' +
+        (t.xfer > 0 ? ' &middot; ' + money(t.xfer) + ' transfer line' : '') +
+        (t.buf > 0 ? ' &middot; ' + money(t.buf) + ' rate buffer' : '') +
+        (pegGap > 0 ? ' &middot; ' + money(pegGap) + ' held back by the ' + Math.round(state.rates.fx).toLocaleString('en-US') + '₫ peg vs market' : '') +
+        '. The Stripe fee is a percentage of a USD charge, so it does not move with the đồng — a buffer belongs here, not on the card line.</p>';
+    } else if (m === 'none') {
+      html += '<p class="note"><b>No card-processing fee.</b> Bank transfer, Wise and Zelle skip it entirely — the ' +
+        (Math.round(state.rates.xfer * 100) / 100) + '% currency-transfer line still applies, because moving funds into Vietnam costs the same however they pay.</p>';
+    }
+    out.innerHTML = html;
+  }
+
+  function renderRev() {
+    var m = state.revMethod, out = $('revOut');
+    var gross = toUsd(parseAmt(state.rev));
+    if (gross <= 0) { out.innerHTML = '<p class="muted" style="margin:0">Enter what the card was charged.</p>'; return; }
+    var fee = gross * rateFor(m) + fixedFor(m);
+    var net = gross - fee;
+    out.innerHTML =
+      '<div class="big"><span class="n">' + money(net) + '</span><span class="n2">' + alt(net) + '</span>' +
+        '<span class="lbl">lands in Stripe</span></div>' +
+      '<table>' + curHead() +
+        '<tr><td>Charged</td>' + cells(gross) + '</tr>' +
+        '<tr class="sub"><td>Stripe fee (' + ratePct(m) + ' + ' + usd(fixedFor(m)) + ')</td>' + cells(fee) + '</tr>' +
+        '<tr class="tot"><td>Net</td>' + cells(net) + '</tr>' +
+      '</table>' +
+      '<p class="note">Use this to check a payout against what Stripe actually took, or to see what an amount a client offers really leaves you.</p>';
+  }
+
+  function renderHist() {
+    var ul = $('hist');
+    ul.innerHTML = '';
+    $('histEmpty').style.display = state.hist.length ? 'none' : '';
+    state.hist.slice(0, 12).forEach(function (h) {
+      var li = document.createElement('li');
+      li.innerHTML = '<span class="h-when">' + esc(h.when) + '</span>' +
+        '<span class="h-amt">' + esc(h.gross) + '</span>' +
+        '<span class="muted">nets ' + esc(h.net) + ' &middot; ' + esc(h.method) + '</span><span class="h-sp"></span>';
+      ul.appendChild(li);
+    });
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  /* ---------- copy helpers ---------- */
+  var METHOD_NAME = { intl: 'Card (international ceiling)', dom: 'Card (domestic)', none: 'Transfer / Wise / Zelle' };
+
+  function invoiceLines() {
+    var r = compute(), m = r.m, live = r.rows.filter(Boolean), L = [];
+    if (!live.length) return '';
+    live.forEach(function (row, i) {
+      var desc = row.label || (live.length > 1 ? 'Charge ' + (i + 1) : 'Pieces & service');
+      L.push(desc + ': ' + money(row.sub));
+      if (row.xf > 0) L.push('Currency transfer (' + (Math.round(state.rates.xfer * 100) / 100) + '%, at cost): ' + money(row.xf));
+      if (row.buf > 0) L.push('Rate buffer (' + (Math.round(state.rates.buffer * 100) / 100) + '%): ' + money(row.buf));
+      if (row.fee > 0) L.push('Card processing (Stripe ' + ratePct(m) + ' + ' + usd(fixedFor(m)) +
+        (m === 'intl' ? ' intl rate' : '') + ', at cost): ' + money(row.fee));
+      L.push(live.length > 1 ? 'Charge ' + (i + 1) + ' total: ' + money(row.gross) : 'Total charged: ' + money(row.gross));
+      L.push('');
+    });
+    if (live.length > 1) L.push('Total charged: ' + money(r.t.gross));
+    L.push('You receive: ' + money(r.t.due));
+    return L.join('\n').trim();
+  }
+
+  var CLIENT_NOTE =
+    'Passed through at cost, never marked up. Stripe takes 2.9% + $0.30, plus 1.5% for an international card ' +
+    'and 1% when it converts currency. I cannot tell whose card is which from an estimate, so this line is priced ' +
+    'at the full international rate — a ceiling, not a surprise. If your card turns out to be domestic, your payment ' +
+    'link costs less than this. Bank transfer, Wise & Zelle skip the card-processing fee; the 3% currency-transfer ' +
+    'line covers moving funds into Vietnam for every payment method.';
+
+  function copy(text, label) {
+    if (!text) { toast('Nothing to copy yet'); return; }
+    var done = function () { toast((label || 'Copied') + ' — copied'); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { fallbackCopy(text, done); });
+    } else fallbackCopy(text, done);
+  }
+  function fallbackCopy(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) { toast('Press ⌘C to copy'); }
+    document.body.removeChild(ta);
+  }
+  var toastTimer;
+  function toast(msg) {
+    var el = $('toast');
+    el.textContent = msg; el.classList.add('on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.classList.remove('on'); }, 1800);
+  }
+  function showCopyBox(title, text) {
+    $('copyTitle').textContent = title;
+    $('copyText').value = text;
+    $('copyCard').style.display = '';
+    $('copyCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  /* ---------- history ---------- */
+  var histTimer;
+  function noteHistory(r) {
+    clearTimeout(histTimer);
+    histTimer = setTimeout(function () {
+      if (r.t.gross <= 0) return;
+      var d = new Date();
+      var when = d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }) + ' ' +
+                 d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+      var entry = { when: when, gross: money(r.t.gross), net: money(r.t.due), method: METHOD_NAME[r.m] };
+      var top = state.hist[0];
+      if (top && top.gross === entry.gross && top.net === entry.net && top.method === entry.method) return;
+      state.hist.unshift(entry);
+      state.hist = state.hist.slice(0, 12);
+      renderHist(); save();
+    }, 1400);
+  }
+
+
+  /* ---------- live mid-market rate ----------
+     The same two feeds the public estimator uses — open.er-api.com first, the
+     jsdelivr currency-api mirror as backup — so an internal figure and a
+     client-facing one can never come from different sources. Cached 30 min;
+     Refresh forces a fetch. Fetching NEVER changes what she charges: the 25,000₫
+     peg stays the conversion default because published prices are anchored to
+     it. The live rate sits beside it so the gap is visible, not applied. */
+  var FX_TTL = 18e5;
+  var fxBusy = false;
+
+  function fxStamp(ts) {
+    try {
+      return new Date(ts).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+    } catch (e) { return ''; }
+  }
+
+  function sampleFx(rate, src) {
+    var last = state.fxHist.length ? state.fxHist[state.fxHist.length - 1] : null;
+    state.live = { rate: rate, src: src, ts: Date.now() };
+    /* Only record a point when the rate actually moved, so the sparkline shows
+       fluctuation rather than a flat line of identical readings. */
+    if (!last || Math.abs(last.r - rate) > 0.5) state.fxHist.push({ r: rate, t: Date.now() });
+    state.fxHist = state.fxHist.slice(-40);
+    refresh();
+  }
+
+  function fetchFx(force) {
+    if (fxBusy) return;
+    if (!force && state.live && (Date.now() - state.live.ts) < FX_TTL) { renderRateBar(); return; }
+    fxBusy = true;
+    var whenEl = $('fxWhen');
+    if (whenEl) whenEl.textContent = 'fetching live rate…';
+    var finish = function (rate, src) {
+      fxBusy = false;
+      if (rate > 0) sampleFx(rate, src);
+      else { renderRateBar(); toast('Could not reach the rate feed'); }
+    };
+    fetch('https://open.er-api.com/v6/latest/USD')
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var v = d && d.rates && d.rates.VND;
+        if (!(v > 0)) throw new Error('no VND');
+        finish(v, 'open.er-api.com');
+      })
+      .catch(function () {
+        fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.min.json')
+          .then(function (r) { return r.json(); })
+          .then(function (d) {
+            var v = d && d.usd && d.usd.vnd;
+            if (!(v > 0)) throw new Error('no VND');
+            finish(v, 'currency-api');
+          })
+          .catch(function () { finish(0, ''); });
+      });
+  }
+
+  function sparkPath() {
+    var h = state.fxHist;
+    if (h.length < 2) return '';
+    var W = 230, H = 26, pad = 3;
+    var vals = h.map(function (p) { return p.r; });
+    var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
+    var span = (hi - lo) || 1;
+    var pts = h.map(function (p, i) {
+      var x = (i / (h.length - 1)) * W;
+      var y = H - pad - ((p.r - lo) / span) * (H - pad * 2);
+      return [Math.round(x * 10) / 10, Math.round(y * 10) / 10];
+    });
+    var line = pts.map(function (pt, i) { return (i ? 'L' : 'M') + pt[0] + ' ' + pt[1]; }).join(' ');
+    var fill = line + ' L' + W + ' ' + H + ' L0 ' + H + ' Z';
+    return '<path class="fillp" d="' + fill + '"></path><path d="' + line + '"></path>';
+  }
+
+  function renderRateBar() {
+    var pegRate = state.rates.fx, l = state.live;
+    var pegTxt = $('pegTxt'), liveTxt = $('liveTxt');
+    if (pegTxt) pegTxt.textContent = Math.round(pegRate).toLocaleString('en-US') + '₫';
+    if (liveTxt) liveTxt.textContent = l ? Math.round(l.rate).toLocaleString('en-US') + '₫' : '—';
+
+    var rateEl = $('fxRate'), deltaEl = $('fxDelta'), whenEl = $('fxWhen');
+    if (!rateEl) return;
+    if (!l) {
+      rateEl.textContent = fxBusy ? '…' : 'unavailable';
+      deltaEl.textContent = '';
+      whenEl.textContent = fxBusy ? 'fetching live rate…' : 'No connection — the peg still works offline.';
+    } else {
+      rateEl.textContent = Math.round(l.rate).toLocaleString('en-US') + '₫';
+      var h = state.fxHist;
+      if (h.length > 1) {
+        var prev = h[h.length - 2].r, pct = ((l.rate - prev) / prev) * 100;
+        var dir = pct > 0.005 ? 'up' : (pct < -0.005 ? 'down' : 'flat');
+        deltaEl.className = 'delta ' + dir;
+        deltaEl.textContent = (dir === 'up' ? '▲ +' : dir === 'down' ? '▼ ' : '▪ ') +
+          (Math.round(pct * 100) / 100).toFixed(2) + '% since ' + fxStamp(h[h.length - 2].t);
+      } else {
+        deltaEl.className = 'delta flat';
+        deltaEl.textContent = 'first reading';
+      }
+      var stale = (Date.now() - l.ts) > FX_TTL;
+      whenEl.textContent = 'per $1 · ' + (stale ? 'saved ' : 'updated ') + fxStamp(l.ts) +
+        (l.src ? ' · ' + l.src : '') + (stale ? ' — tap Refresh for a fresh reading' : '');
+    }
+
+    var spark = $('fxSpark');
+    if (spark) { var pth = sparkPath(); spark.innerHTML = pth; spark.style.display = pth ? '' : 'none'; }
+
+    var liveBtn = document.querySelector('#fxSeg button[data-fx="live"]');
+    if (liveBtn) liveBtn.disabled = !l;
+    document.querySelectorAll('#fxSeg button[data-fx]').forEach(function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-fx') === state.fxMode ? 'true' : 'false');
+    });
+
+    var gap = $('fxGap');
+    if (gap) {
+      if (!l) {
+        gap.textContent = 'Converting at your ' + Math.round(pegRate).toLocaleString('en-US') + '₫ peg.';
+      } else {
+        var d = ((l.rate - pegRate) / pegRate) * 100;
+        var side = d >= 0 ? 'above' : 'below';
+        gap.innerHTML = '<b>Market is ' + Math.abs(Math.round(d * 10) / 10) + '% ' + side + ' your ' +
+          Math.round(pegRate).toLocaleString('en-US') + '₫ peg.</b> $100 is ' +
+          Math.round(100 * l.rate).toLocaleString('en-US') + '₫ at market, ' +
+          Math.round(100 * pegRate).toLocaleString('en-US') + '₫ at the peg. Converting at the <b>peg</b> keeps this tool agreeing with your published prices; <b>live</b> shows what the đồng is really worth on the day. Either way the Stripe fee is charged in USD, so the fee percentage never changes.';
+      }
+    }
+  }
+
+  /* ---------- refresh ---------- */
+  function renderBuffer() {
+    var b = state.rates.buffer;
+    document.querySelectorAll('#bufSeg button[data-buf]').forEach(function (btn) {
+      btn.setAttribute('aria-pressed', num(btn.getAttribute('data-buf')) === b ? 'true' : 'false');
+    });
+    var note = $('bufNote');
+    if (note) {
+      note.textContent = b > 0
+        ? 'Own line on the invoice. To keep it to one disclosed line instead, set the transfer line to ' +
+          (Math.round((state.rates.xfer + b) * 100) / 100) + '% and turn this off.'
+        : 'Optional. Rides with the transfer line, never on the Stripe line.';
+    }
+  }
+
+  function refresh() {
+    document.querySelectorAll('.fixedTxt').forEach(function (n) { n.textContent = state.rates.fixed.toFixed(2); });
+    $('ratesSummary').textContent = '— card ceiling ' + ratePct('intl') + ' + ' + usd(state.rates.fixed) +
+      ' · transfer ' + (Math.round(state.rates.xfer * 100) / 100) + '% · converting at ' +
+      Math.round(activeFx()).toLocaleString('en-US') + '₫ (' + (state.fxMode === 'live' ? 'live' : 'peg') + ')';
+    renderRateBar();
+    renderBuffer();
+    if (state.mode === 'fwd') {
+      var r = compute();
+      renderFwd(r);
+      noteHistory(r);
+    } else {
+      renderRev();
+    }
+    save();
+  }
+
+  /* ---------- wiring ---------- */
+  function segSet(group, attr, value) {
+    document.querySelectorAll(group + ' button[' + attr + ']').forEach(function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute(attr) === value ? 'true' : 'false');
+    });
+  }
+
+  function init() {
+    load();
+    if (!state.charges.length) state.charges = [{ label: '', amt: '', xfer: true }];
+
+    // rate inputs
+    var map = { rBase: 'base', rIntl: 'intl', rConv: 'conv', rFixed: 'fixed', rXfer: 'xfer', rFx: 'fx', rBuffer: 'buffer' };
+    Object.keys(map).forEach(function (id) {
+      var k = map[id], input = $(id);
+      input.value = state.rates[k];
+      input.addEventListener('input', function () {
+        var v = num(input.value);
+        if (k === 'fx' && v <= 0) v = DEFAULTS.fx;
+        state.rates[k] = v;
+        renderCharges(); refresh();
+      });
+    });
+    $('resetRates').addEventListener('click', function () {
+      state.rates = Object.assign({}, DEFAULTS);
+      Object.keys(map).forEach(function (id) { $(id).value = state.rates[map[id]]; });
+      renderCharges(); refresh(); toast('Rates reset');
+    });
+
+    // mode
+    $('mFwd').addEventListener('click', function () {
+      state.mode = 'fwd'; $('mFwd').setAttribute('aria-pressed', 'true'); $('mRev').setAttribute('aria-pressed', 'false');
+      $('fwd').style.display = ''; $('rev').style.display = 'none'; refresh();
+    });
+    $('mRev').addEventListener('click', function () {
+      state.mode = 'rev'; $('mRev').setAttribute('aria-pressed', 'true'); $('mFwd').setAttribute('aria-pressed', 'false');
+      $('rev').style.display = ''; $('fwd').style.display = 'none'; refresh();
+    });
+
+    // currency
+    /* Switching currency converts what is already typed at the peg, rather than
+       silently rereading "1,000" as 1,000₫. */
+    function setCur(c) {
+      if (c !== state.cur) {
+        var toVnd = (c === 'VND');
+        state.charges.forEach(function (ch) {
+          var v = parseAmt(ch.amt);
+          if (v > 0) ch.amt = fmtEntry(toVnd ? v * activeFx() : v / activeFx(), toVnd);
+        });
+        var rv = parseAmt(state.rev);
+        if (rv > 0) { state.rev = fmtEntry(toVnd ? rv * activeFx() : rv / activeFx(), toVnd); $('revAmt').value = state.rev; }
+        state.cur = c;
+      }
+      $('cUsd').setAttribute('aria-pressed', c === 'USD' ? 'true' : 'false');
+      $('cVnd').setAttribute('aria-pressed', c === 'VND' ? 'true' : 'false');
+      renderCharges(); refresh();
+    }
+    $('cUsd').addEventListener('click', function () { setCur('USD'); });
+    $('cVnd').addEventListener('click', function () { setCur('VND'); });
+
+    // method
+    document.querySelectorAll('#fwd button[data-m]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        state.method = b.getAttribute('data-m');
+        segSet('#fwd', 'data-m', state.method);
+        refresh();
+      });
+    });
+    document.querySelectorAll('#rev button[data-r]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        state.revMethod = b.getAttribute('data-r');
+        segSet('#rev', 'data-r', state.revMethod);
+        refresh();
+      });
+    });
+
+    $('addCharge').addEventListener('click', function () {
+      state.charges.push({ label: '', amt: '', xfer: false });
+      renderCharges(); refresh();
+      var inputs = document.querySelectorAll('#charges .c-amt');
+      if (inputs.length) inputs[inputs.length - 1].focus();
+    });
+
+    $('revAmt').addEventListener('input', function () { state.rev = this.value; refresh(); });
+
+    $('copyCharge').addEventListener('click', function () {
+      var r = compute(), live = r.rows.filter(Boolean);
+      if (!live.length) { toast('Nothing to copy yet'); return; }
+      var plain = live.map(function (row) {
+        return state.cur === 'VND' ? Math.round(row.gross * activeFx()) : (Math.round(row.gross * 100) / 100).toFixed(2);
+      }).join('\n');
+      copy(plain, 'Charge amount');
+    });
+    $('copyLines').addEventListener('click', function () {
+      var text = invoiceLines();
+      if (!text) { toast('Enter an amount first'); return; }
+      showCopyBox('Invoice lines', text); copy(text, 'Invoice lines');
+    });
+    $('copyNote').addEventListener('click', function () {
+      showCopyBox('Client note — card processing', CLIENT_NOTE); copy(CLIENT_NOTE, 'Client note');
+    });
+    $('copyAgain').addEventListener('click', function () { copy($('copyText').value, 'Text'); });
+    $('copyClose').addEventListener('click', function () { $('copyCard').style.display = 'none'; });
+
+    $('clearHist').addEventListener('click', function () { state.hist = []; renderHist(); save(); toast('Cleared'); });
+
+    document.querySelectorAll('#fxSeg button[data-fx]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var mode = b.getAttribute('data-fx');
+        if (mode === 'live' && !(state.live && state.live.rate > 0)) { toast('No live rate yet — tap Refresh'); return; }
+        /* Keep what she typed worth the same amount: re-express VND entries at
+           the new rate so switching the rate does not silently reprice an order. */
+        var oldFx = activeFx();
+        state.fxMode = mode;
+        var newFx = activeFx();
+        if (state.cur === 'VND' && oldFx !== newFx) {
+          state.charges.forEach(function (ch) {
+            var v = parseAmt(ch.amt);
+            if (v > 0) ch.amt = fmtEntry(v * (newFx / oldFx), true);
+          });
+          renderCharges();
+        }
+        refresh();
+      });
+    });
+    $('fxRefresh').addEventListener('click', function () { fetchFx(true); });
+
+    document.querySelectorAll('#bufSeg button[data-buf]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        state.rates.buffer = num(b.getAttribute('data-buf'));
+        $('rBuffer').value = state.rates.buffer;
+        refresh();
+      });
+    });
+
+    segSet('#fwd', 'data-m', state.method);
+    renderCharges();
+    renderHist();
+    refresh();
+    fetchFx(false);
+    var first = document.querySelector('#charges .c-amt');
+    if (first) first.focus();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+</body>
+</html>

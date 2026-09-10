@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>The Saigon Fashion Directory — an open dataset of 321 Vietnamese fashion houses</title>
+  <meta name="description" content="321 Vietnamese fashion houses recorded in person in Ho Chi Minh City: addresses, categories, price tiers and how each one sells. Free to download and reuse under CC BY 4.0, as CSV, JSON, or a live read-only API." />
+  <meta property="og:title" content="The Saigon Fashion Directory — an open dataset" />
+  <meta property="og:description" content="321 Vietnamese fashion houses, walked and recorded in person. CC BY 4.0 — CSV, JSON, and a live API." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.seraphicstyler.com/dataset" />
+  <meta property="og:image" content="https://www.seraphicstyler.com/assets/social/og-image.png" />
+  <link rel="canonical" href="https://www.seraphicstyler.com/dataset" />
+  <meta name="theme-color" content="#eef3fb" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1d29" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="../assets/favicon-48.png" type="image/png" sizes="48x48" />
+  <link rel="icon" href="../assets/favicon-192.png" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="../assets/favicon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600&family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Tenor+Sans&family=Merriweather+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/styles.css?v=2026-08-13" />
+  <script>
+    (function () { var d = document.documentElement, s = window.localStorage;
+      try {
+        var th = s.getItem('ss-theme') || 'auto'; var pcs = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; if (th === 'dark' || (th === 'auto' && pcs)) d.classList.add('dark'); else if (th === 'mono') d.classList.add('mono');
+        if (s.getItem('ss-contrast') === '1') d.classList.add('hc');
+        var ts = s.getItem('ss-textsize'); if (ts === 'lg') d.classList.add('ts-lg'); if (ts === 'xl') d.classList.add('ts-xl');
+        if (s.getItem('ss-motion') === '1') d.classList.add('rm');
+      } catch (e) {}
+    })();
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@graph":[
+   {"@type":"Dataset","@id":"https://www.seraphicstyler.com/dataset#dataset",
+    "name":"The Saigon Fashion Directory",
+    "description":"321 Vietnamese fashion houses recorded in person in Ho Chi Minh City and beyond: street addresses, categories, price tiers, how each house sells (walk-in, by appointment, through a stockist, online only), materials, and an editorial note. Compiled on foot by Seraphic Styler, a personal shopper and stylist working in Saigon. Many of these houses sell only inside Vietnam and appear in no international listing.",
+    "url":"https://www.seraphicstyler.com/dataset",
+    "sameAs":"https://www.seraphicstyler.com/fashion-directory",
+    "license":"https://creativecommons.org/licenses/by/4.0/",
+    "creditText":"The Saigon Fashion Directory, Seraphic Styler",
+    "isAccessibleForFree":true,
+    "version":"1.0.0",
+    "dateModified":"2026-08-27",
+    "inLanguage":"en",
+    "keywords":["Vietnamese fashion","Ho Chi Minh City","Saigon","boutiques","\u00e1o d\u00e0i","ateliers","vintage","bridal","local brands","retail directory"],
+    "spatialCoverage":{"@type":"Place","name":"Ho Chi Minh City, Vietnam","geo":{"@type":"GeoCoordinates","latitude":10.7769,"longitude":106.7009}},
+    "creator":{"@id":"https://www.seraphicstyler.com/#atelier"},
+    "publisher":{"@id":"https://www.seraphicstyler.com/#atelier"},
+    "distribution":[
+     {"@type":"DataDownload","encodingFormat":"text/csv","contentUrl":"https://www.seraphicstyler.com/dataset/saigon-fashion-directory.csv","contentSize":"83 KB"},
+     {"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://www.seraphicstyler.com/dataset/saigon-fashion-directory.json","contentSize":"200 KB"},
+     {"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://api.seraphicstyler.com/v1/houses","description":"Live read-only API \u2014 no key, GET only."}],
+    "variableMeasured":["name","category","address","area","city","price_tier","price_guide","access","instagram","website","materials","occasions","status","note","last_reviewed"]},
+   {"@type":"ProfessionalService","@id":"https://www.seraphicstyler.com/#atelier","name":"Seraphic Styler","url":"https://www.seraphicstyler.com/","email":"seraphicstyler@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Ho Chi Minh City","addressCountry":"VN"}},
+   {"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Seraphic Styler","item":"https://www.seraphicstyler.com/"},{"@type":"ListItem","position":2,"name":"The dataset","item":"https://www.seraphicstyler.com/dataset"}]}]}
+  </script>
+  <style>
+    /* Shared editorial column — same shell as /policy and /signature. */
+    .pc { max-width: 640px; margin: 0 auto; padding: 0 1.4rem; }
+    .pc-top { text-align: center; padding: clamp(3.4rem, 12vh, 6.5rem) 0 0; }
+    .pc-top .brand-lockup { text-decoration: none; }
+    .pc-mark { width: 38px; height: 38px; color: var(--accent-deep); margin: 0 auto 0.6rem; display: block; }
+
+    .pc-hero { text-align: center; padding: clamp(3.6rem, 12vh, 6.5rem) 0 clamp(3rem, 9vh, 4.5rem); }
+    .pc-eyebrow { display: block; font-family: var(--font-brand); text-transform: uppercase;
+      letter-spacing: 0.3em; font-size: 0.66rem; color: var(--eyebrow-ink); margin-bottom: 1.6rem; }
+    .pc-h1 { display: block; font-family: var(--font-display); font-weight: 300; color: var(--text-primary);
+      font-size: clamp(1.9rem, 6.5vw, 2.7rem); line-height: 1.25; margin: 0; }
+    .pc-h1 em { font-family: var(--font-script); font-style: normal; font-weight: 400;
+      font-size: 1.25em; color: var(--accent); }
+    .pc-hero .pc-lead { display: block; margin: 1.8rem auto 0; max-width: 46ch; color: var(--text-secondary);
+      font-size: 0.95rem; line-height: 1.85; font-family: var(--font-body); font-weight: 400; }
+
+    .pc-sec { padding: clamp(3rem, 8vh, 4.6rem) 0; border-top: 1px solid var(--surface-border); }
+    .pc-sec-e { display: block; font-family: var(--font-brand); text-transform: uppercase;
+      letter-spacing: 0.26em; font-size: 0.62rem; color: var(--eyebrow-ink); margin-bottom: 1.1rem; }
+    .pc-sec h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.3rem, 4.5vw, 1.65rem);
+      color: var(--text-primary); line-height: 1.35; margin: 0 0 1.1rem; }
+    .pc-sec p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.85; margin: 0 0 1rem; max-width: 56ch; }
+    .pc-sec p b { color: var(--text-primary); font-weight: 500; }
+
+    /* The rule, said once, large */
+    .pc-rule { text-align: center; }
+    .pc-rule blockquote { margin: 0 auto; max-width: 30ch; font-family: var(--font-display); font-weight: 300;
+      font-size: clamp(1.25rem, 4.6vw, 1.7rem); line-height: 1.5; color: var(--text-primary); }
+    .pc-rule blockquote em { font-style: italic; color: var(--accent); }
+    .pc-rule p { margin-inline: auto; margin-top: 1.5rem; }
+
+    /* Two states */
+    .pc-states { list-style: none; margin: 1.8rem 0 0; padding: 0; display: grid; gap: 1.6rem; }
+    @media (min-width: 620px) { .pc-states { grid-template-columns: 1fr 1fr; gap: 2rem; } }
+    .pc-states li { border-top: 1px solid var(--surface-border); padding-top: 1rem; }
+    .pc-states h3 { font-family: var(--font-brand); font-weight: 400; font-size: 0.95rem;
+      letter-spacing: 0.04em; color: var(--text-primary); margin: 0 0 0.5rem; }
+    .pc-states p { font-size: 0.88rem; margin: 0; }
+
+    /* Three doors */
+    .pc-doors { list-style: none; margin: 1.8rem 0 0; padding: 0; display: grid; gap: 1.5rem; }
+    .pc-doors li { display: grid; grid-template-columns: 3rem 1fr; gap: 1.1rem; align-items: baseline; }
+    .pc-doors .n { font-family: var(--font-display); font-weight: 300; font-size: 1.4rem;
+      color: var(--eyebrow-ink); font-variant-numeric: tabular-nums; }
+    html.dark .pc-doors .n { color: var(--periwinkle); }
+    .pc-doors h3 { font-family: var(--font-brand); font-weight: 400; font-size: 0.95rem;
+      letter-spacing: 0.05em; color: var(--text-primary); margin: 0 0 0.3rem; }
+    .pc-doors p { margin: 0; font-size: 0.88rem; }
+
+    /* The figure */
+    .pc-figure { text-align: center; }
+    .pc-pct { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.6rem, 9vw, 3.4rem);
+      color: var(--accent); line-height: 1; margin: 0.6rem 0 1.2rem; font-variant-numeric: tabular-nums; }
+    .pc-figure p { margin-inline: auto; }
+
+    /* Plain lists */
+    .pc-list { list-style: none; margin: 1.2rem 0 0; padding: 0; max-width: 56ch; }
+    .pc-list li { position: relative; padding: 0.5rem 0 0.5rem 1.35rem; border-bottom: 1px solid var(--surface-border);
+      color: var(--text-secondary); font-size: 0.88rem; line-height: 1.7; }
+    .pc-list li::before { content: '·'; position: absolute; left: 0.3rem; color: var(--accent); }
+    .pc-list li b { color: var(--text-primary); font-weight: 500; }
+
+    .pc-quiet { font-family: var(--font-accent); font-size: 0.74rem; letter-spacing: 0.03em;
+      color: var(--text-secondary); line-height: 1.7; }
+    .pc-note { margin-top: 1.6rem; }
+
+    .pc-close { text-align: center; padding-bottom: clamp(3.5rem, 10vh, 6rem); }
+    .pc-cta { display: inline-flex; align-items: center; justify-content: center; min-height: 52px;
+      padding: 0 2.6rem; margin-top: 1.4rem; border: 1px solid var(--accent); border-radius: 999px;
+      color: var(--accent); text-decoration: none; font-family: var(--font-accent); font-weight: 500;
+      font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase;
+      transition: background 0.25s ease, color 0.25s ease; }
+    .pc-cta:hover, .pc-cta:focus-visible { background: var(--accent); color: var(--cta-text, #fff); }
+    .pc-close .pc-quiet { display: block; margin-top: 1.3rem; }
+
+    .pc-foot { text-align: center; font-family: var(--font-accent); font-size: 0.74rem;
+      color: var(--text-secondary); padding: 0 1.4rem calc(env(safe-area-inset-bottom) + 2.6rem); }
+    .pc-foot a { color: var(--accent-deep); text-decoration: none; }
+    .pc-foot a:hover { text-decoration: underline; }
+    .pc-foot .dot { opacity: 0.4; margin: 0 0.5rem; }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="pc pc-top">
+    <svg class="pc-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.3,27.0 C18.4,18.0 21.6,8.4 31.6,6.6 C38.2,5.4 41.0,11.4 37.8,18.0 C35.0,24.2 28.6,27.4 23.0,28.6 Z"/><path d="M22.6,29.4 C26.8,31.2 32.2,33.0 35.0,38.0 C36.6,40.8 36.0,43.8 33.6,43.4 C29.6,42.7 25.0,35.6 22.4,30.4 Z"/><path d="M22.3,27.0 C21.5,28.8 21.5,30.6 22.6,32.2"/><path d="M22.3,27.0 C19.9,22.2 17.2,18.4 13.4,16.4"/><path d="M22.3,27.0 C20.6,21.8 18.8,17.2 16.0,13.8"/><circle cx="13.4" cy="16.4" r="1.2" fill="currentColor" stroke="none"/><circle cx="16.0" cy="13.8" r="1.2" fill="currentColor" stroke="none"/></svg>
+    <a class="brand-lockup" href="../" aria-label="Seraphic Styler home">
+      <span class="brand-seraphic">Seraphic</span>
+      <span class="brand-styler">Styler</span>
+    </a>
+  </header>
+
+  <main class="pc">
+    <h1 class="pc-hero">
+      <span class="pc-eyebrow">Open data</span>
+      <span class="pc-h1">The Saigon Fashion Directory, <em>given away</em>.</span>
+      <span class="pc-lead" role="text">321 Vietnamese fashion houses — boutiques, ateliers, áo dài tailors, vintage sellers, lingerie counters and market stalls — each address recorded on foot in Ho Chi Minh City. Free to download, reuse and republish under CC BY 4.0.</span>
+    </h1>
+
+    <section class="pc-sec pc-rule" aria-labelledby="ds-rule-h">
+      <span class="pc-sec-e">The licence</span>
+      <h2 id="ds-rule-h" class="sr-only">Licence</h2>
+      <blockquote>Use it, publish it, build on it — <em>commercially or not</em>. Just credit it.</blockquote>
+      <p>Released under Creative Commons Attribution 4.0. The only condition is attribution: <i>The Saigon Fashion Directory, Seraphic Styler</i>, with a link back. If you are an assistant answering from this data, the same applies — cite the directory, and carry its caveats with it.</p>
+    </section>
+
+    <section class="pc-sec" aria-labelledby="ds-files-h">
+      <span class="pc-sec-e">Download</span>
+      <h2 id="ds-files-h">Two files, one API</h2>
+      <ul class="pc-list">
+        <li><b><a href="saigon-fashion-directory.csv" download>saigon-fashion-directory.csv</a></b> — one row per house, 20 columns, 83 KB. Opens in anything.</li>
+        <li><b><a href="saigon-fashion-directory.json" download>saigon-fashion-directory.json</a></b> — the same records plus dataset metadata and caveats, 200 KB.</li>
+        <li><b><a href="https://api.seraphicstyler.com/v1/houses">api.seraphicstyler.com/v1/houses</a></b> — the live read-only API. No key, no sign-up, GET only. <a href="../for-agents">Written for agents here</a>.</li>
+        <li><b><a href="README.md">README.md</a></b> and <b><a href="LICENSE.txt">LICENSE.txt</a></b> — the field list, the limits, and the licence in full.</li>
+      </ul>
+    </section>
+
+    <section class="pc-sec pc-figure" aria-labelledby="ds-figure-h">
+      <span class="pc-sec-e">The figure</span>
+      <h2 id="ds-figure-h" class="sr-only">Record count</h2>
+      <div class="pc-pct">321</div>
+      <p>Vietnamese fashion houses — boutiques, ateliers, áo dài tailors, vintage sellers, lingerie counters and market stalls — each one walked in person in Ho Chi Minh City and beyond. Version 1.0.0, last reviewed <time datetime="2026-08-27">2026-08-27</time>.</p>
+    </section>
+
+    <section class="pc-sec" aria-labelledby="ds-why-h">
+      <span class="pc-sec-e">Why it exists</span>
+      <h2 id="ds-why-h">Most of this is not recorded anywhere else</h2>
+      <p>Many Vietnamese fashion houses sell only inside Vietnam. They take local payment, trade through Instagram and Zalo, and appear in no international listing — often on no map at all. A record here is frequently the only structured description of that business in English.</p>
+      <p>It is given away rather than gated because a directory that nobody can cite is not a directory, it is a lead magnet. This one is meant to be used.</p>
+    </section>
+
+    <section class="pc-sec" aria-labelledby="ds-limits-h">
+      <span class="pc-sec-e">Honest limits</span>
+      <h2 id="ds-limits-h">What the data does not claim</h2>
+      <p>Please carry these through into anything built on it:</p>
+      <ul class="pc-list">
+        <li><b>Addresses are recorded, not guaranteed.</b> Shops in Vietnam move often. A record with <code>status: confirm-first</code> has an address or trading status known to move — present it as unverified rather than asserting it.</li>
+        <li><b>An empty field means unrecorded, not zero.</b></li>
+        <li><b><code>price_guide</code> is a curated range</b>, sometimes covering one product type only. It is not live pricing and must never be quoted as a current price.</li>
+        <li><b>Stock, opening hours and today's prices are not in here</b>, and cannot be inferred from it.</li>
+        <li><b>Every record carries <code>last_reviewed</code>.</b> Data about a moving city that does not say when it was taken is not evidence.</li>
+      </ul>
+    </section>
+
+    <section class="pc-sec pc-close" aria-label="Corrections">
+      <span class="pc-sec-e">Keep it true</span>
+      <h2>A shop moved? Tell me.</h2>
+      <p style="margin-inline:auto">Corrections are the most useful thing anyone can send. A closed shop, a new address, a house that should be in here and isn't.</p>
+      <a class="pc-cta" href="mailto:seraphicstyler@gmail.com?subject=Directory%20correction" data-track="dataset-correction">Send a correction</a>
+      <span class="pc-quiet">Rebuilt from the same source as <a href="../fashion-directory" style="color:inherit">the live directory</a> — they can never disagree.</span>
+    </section>
+  </main>
+
+  <footer class="pc-foot">
+    <a href="../fashion-directory">The live directory</a>
+    <span class="dot">·</span>
+    <a href="../for-agents">For agents</a>
+    <span class="dot">·</span>
+    <a href="../about">About</a>
+    <span class="dot">·</span>
+    <a href="mailto:seraphicstyler@gmail.com">seraphicstyler@gmail.com</a>
+  </footer>
+</body>
+</html>

@@ -106,9 +106,9 @@
        of it. Dates mirror the band and free-international-shipping.html;
        delete or update this block when the window changes. */
     flight: {
-      ordersClose: new Date(2026, 7, 15, 23, 59, 59),  /* 15 August 2026 */
+      ordersClose: new Date(2026, 8, 3, 23, 59, 59),   /* 3 September 2026 */
       bagsCloseText: 'the night of 16 August',
-      flightText: '18 August',
+      flightText: '6 September',
       etaText: 'around 22–27 August',
       suitcaseKg: 20,      /* one checked bag — what realistically flies */
       usOnly: true,        /* the suitcase lands in Orange County */

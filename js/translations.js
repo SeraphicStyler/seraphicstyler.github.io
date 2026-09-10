@@ -443,7 +443,7 @@ window.SS_TRANSLATIONS = {
 
   "vi": {
     "est.fx.live2": "Tỷ giá hôm nay",
-    "est.fx.incl": "đã gồm phí chuyển khoản · cập nhật mỗi ngày",
+    "est.fx.incl": "cập nhật mỗi ngày",
     "est.fx.offline2": "Ước tính ngoại tuyến",
     "est.fx.confirm": "tỷ giá chính xác được chốt trong báo giá bằng văn bản",
     "gift.k.fee": "Phí styling",
@@ -7126,3 +7126,11 @@ window.SS_TRANSLATIONS = {
     "foot.tagline": "استایل سایگون، به هر جای دنیا."
   }
 };
+
+/* Shared strings added after the original translation pass. Keeping these in the
+   shared bundle makes the home page, lookbook, and standalone estimate agree. */
+window.SS_TRANSLATIONS.vi = Object.assign(window.SS_TRANSLATIONS.vi || {}, {
+  "hero.ctaGo": "Bắt đầu yêu cầu",
+  "look.h2b": "Những dự án gần đây",
+  "look.intro2": "Những món đồ Việt được tìm mua cho khách hàng trên khắp thế giới — cùng các trang phục được phối riêng theo yêu cầu, từ $49."
+});

@@ -1,0 +1,14 @@
+# Separate identity: never replace the product metadata or directory Workers.
+name = "seraphic-service-concierge"
+main = "src/concierge.js"
+compatibility_date = "2026-09-01"
+workers_dev = true
+[ai]
+binding = "AI"
+[vars]
+MODEL = "@cf/meta/llama-3.1-8b-instruct"
+# Fail closed until a rate limiter is configured; see docs/concierge-model.md.
+[[ratelimits]]
+name = "GUIDE_LIMITER"
+namespace_id = "1007"
+simple = { limit = 10, period = 60 }

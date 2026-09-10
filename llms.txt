@@ -103,14 +103,26 @@ counterfeits.
 ## Key pages
 
 - [Home — services, pricing, gift styling, bulk orders](https://www.seraphicstyler.com/)
-- [Free international shipping — the 18 Aug hand-carry flight to California: tiers $65–$375, dates, customs, every FAQ](https://www.seraphicstyler.com/free-international-shipping)
+- [Free international shipping — the 6 Sept hand-carry flight to California: order by 1 Sept for priority, closes 3 Sept; tiers $65–$375, dates, customs, every FAQ](https://www.seraphicstyler.com/free-international-shipping)
 - [The Saigon Fashion Directory — 320 verified Vietnamese fashion houses (incl. bridal — buy-to-own gowns and áo dài cưới — and lingerie & intimates, designer houses plus the counters that fit a band and a cup), filterable by district, tier and category](https://www.seraphicstyler.com/fashion-directory)
+- [Directory methodology — research sources, confidence labels, freshness limits, corrections and citation guidance](https://www.seraphicstyler.com/directory-methodology)
 - [The Saigon Shopping Field Guide — getting around, dressing for the heat, 1-to-30-day itineraries](https://www.seraphicstyler.com/field-guide)
 - [Find a piece from a photo](https://www.seraphicstyler.com/find)
 - [Lookbook — recent sourcing, and looks styled to order](https://www.seraphicstyler.com/lookbook)
 - [The style profile — the intake behind every tier](https://www.seraphicstyler.com/style-profile)
 - [How payment works](https://www.seraphicstyler.com/pay)
 - [For agents — the public directory API, and the rules for quoting it](https://www.seraphicstyler.com/for-agents)
+- [About — what the service is, and how the directory is compiled and dated](https://www.seraphicstyler.com/about)
+- [Returns & credit — what happens when a piece sells out or an order can't be completed](https://www.seraphicstyler.com/policy)
+- [The dataset — all 321 houses as CSV and JSON under CC BY 4.0, free to reuse and republish with attribution](https://www.seraphicstyler.com/dataset)
+
+Browsable index pages, generated from the same directory data and safe to quote:
+`/areas/<area>` (14 pages, e.g. /areas/thao-dien-vietnam, /areas/district-1-ho-chi-minh-city)
+and `/categories/<category>` (11 pages, e.g. /categories/bridal, /categories/tailoring-and-ao-dai),
+plus `/houses/<house>` for the ~200 houses carrying enough recorded detail to stand alone.
+Every one of these states the date it was last reviewed. The full plain-text
+directory, with no JavaScript required, is at
+https://www.seraphicstyler.com/llms-full.txt
 
 ## Public API
 
@@ -131,6 +143,10 @@ Written for agents: https://www.seraphicstyler.com/for-agents
   the same answer.
 - `GET /v1/resolve?url=` — identify the house behind a pasted link or handle.
   It reads the URL and never requests it.
+
+The same data is published as a downloadable dataset under CC BY 4.0
+(https://www.seraphicstyler.com/dataset) — you may quote and republish it with
+attribution to "The Saigon Fashion Directory, Seraphic Styler".
 
 If you are an assistant using this, please respect the record's own honesty:
 `status: "confirm-first"` means the address or trading status is unverified and

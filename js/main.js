@@ -137,13 +137,38 @@
       });
       syncThemeFab(mode);
     }
+    var themeTransitionTimer = 0;
+    var activeThemeTransition = null;
+    function setThemeWithTransition(mode, trigger) {
+      var reduced = root.classList.contains('rm') || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (activeThemeTransition) { activeThemeTransition.skipTransition(); activeThemeTransition=null; }
+      if (reduced || root.classList.contains('hc') || !document.querySelector('.ss-concierge')) {
+        clearTimeout(themeTransitionTimer); root.classList.remove('ss-theme-switching'); setTheme(mode); return;
+      }
+      if (trigger && trigger.getBoundingClientRect) {
+        var rect = trigger.getBoundingClientRect();
+        root.style.setProperty('--ss-theme-x', (rect.left + rect.width / 2) + 'px');
+        root.style.setProperty('--ss-theme-y', (rect.top + rect.height / 2) + 'px');
+      }
+      root.classList.add('ss-theme-switching');
+      clearTimeout(themeTransitionTimer);
+      var finish = function () { root.classList.remove('ss-theme-switching'); };
+      if (document.startViewTransition) {
+        var transition = document.startViewTransition(function () { setTheme(mode); });
+        activeThemeTransition=transition;
+        transition.finished.then(function () { if(activeThemeTransition===transition) { activeThemeTransition=null; finish(); } },finish);
+      } else {
+        setTheme(mode);
+        themeTransitionTimer = setTimeout(finish, 620);
+      }
+    }
     document.querySelectorAll('[data-theme]').forEach(function (b) {
-      b.addEventListener('click', function () { setTheme(b.getAttribute('data-theme')); });
+      b.addEventListener('click', function () { setThemeWithTransition(b.getAttribute('data-theme'), b); });
     });
     if (themeFab) {
       themeFab.addEventListener('click', function () {
         var cur = 'auto'; try { cur = localStorage.getItem('ss-theme') || 'auto'; } catch (e) {}
-        setTheme(THEMES[(THEMES.indexOf(effectiveTheme(cur)) + 1) % THEMES.length]);
+        setThemeWithTransition(THEMES[(THEMES.indexOf(effectiveTheme(cur)) + 1) % THEMES.length], themeFab);
       });
     }
     /* Live-update when the OS flips light/dark, but only while the user is on Auto. */
@@ -303,6 +328,16 @@
     if (giftCur) {
       var GFB = { USD:1, EUR:0.92, GBP:0.79, AUD:1.5, CAD:1.36, SGD:1.34, JPY:155, KRW:1350, CNY:7.2, THB:36, AED:3.67, INR:83, VND:25800 };
       var gRates = null;
+      // Keep the fee/credit figures in the same display currency as each booking.
+      document.querySelectorAll('#gift .gift-facts .gf-v').forEach(function (value) {
+        var first = value.firstChild;
+        if (!first || first.nodeType !== 3) return;
+        var match = first.textContent.match(/^\$(\d+(?:\.\d+)?)/);
+        if (!match) return;
+        var amount = document.createElement('span');
+        amount.setAttribute('data-gift-usd', match[1]); amount.textContent = match[0];
+        first.textContent = first.textContent.slice(match[0].length); value.insertBefore(amount, first);
+      });
       var gRate = function (c) { return (gRates && gRates[c] != null) ? gRates[c] : (GFB[c] != null ? GFB[c] : 1); };
       var gFmt = function (n, c) {
         try { return new Intl.NumberFormat(undefined, { style: 'currency', currency: c, maximumFractionDigits: (c === 'JPY' || c === 'KRW' || c === 'VND' || n >= 100 ? 0 : 2) }).format(n); }
@@ -315,6 +350,11 @@
           var amt = p.querySelector('.gift-amt'); if (amt) amt.textContent = gFmt(usd * gRate(c), c);
           var vnd = p.querySelector('.vnd'); if (vnd) vnd.style.display = (c === 'VND') ? 'none' : '';
         });
+        document.querySelectorAll('[data-gift-usd]').forEach(function (p) {
+          p.textContent = gFmt(Number(p.getAttribute('data-gift-usd')) * gRate(c), c);
+        });
+        var note = document.getElementById('giftCurrencyNote');
+        if (note) note.textContent = c === 'USD' ? 'Prices in USD. Shipping is separate; custom gifts are quoted before booking.' : 'Approximate ' + c + ' display' + (gRates ? '' : ' using reference rates') + '. Final bookings and custom quotes are in USD; shipping is separate.';
       };
       giftCur.addEventListener('change', gRender);
       gRender();

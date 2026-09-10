@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Find your service · Seraphic Styler</title>
+  <meta name="description" content="Start a sourcing request for specific pieces, or plan a personal styling and Custom Wardrobe project with Seraphic Styler.">
+  <link rel="canonical" href="https://www.seraphicstyler.com/service-request">
+  <meta name="theme-color" content="#efedf9">
+  <link rel="icon" href="assets/favicon-48.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Montserrat:wght@400;500&family=Pinyon+Script&family=Tenor+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=2026-08-13">
+  <link rel="stylesheet" href="css/service-guide.css?v=2026-09-06b">
+  <script src="js/service-request.js" defer>
+</script>
+</head>
+<body class="ss-ethereal ss-request">
+<a class="skip-link" href="#request-main">Skip to content</a>
+<header class="ss-request-header">
+<a href="index.html">Seraphic <span>Styler</span>
+</a>
+<a href="sourcingandstyling">Sourcing &amp; styling ↗</a>
+</header>
+<main id="request-main" class="ss-request-main">
+<div class="ss-section-intro">
+<span class="eyebrow">Seraphic Styler</span>
+<h1>How can we help?</h1>
+<p>Select the kind of help you need. We’ll confirm scope, availability, and any payment before work begins.</p>
+</div>
+<form id="service-request-form">
+<fieldset class="ss-request-choice">
+<legend>Choose your service</legend>
+<p class="ss-choice-intro">Start with the closest fit. You can change your selection at any time.</p>
+<label class="ss-service-choice">
+<input type="radio" name="service" value="sourcing" required>
+<span><strong>Buy from a Vietnamese shop</strong><small>You found the exact in-stock item; we help purchase it.</small></span>
+</label>
+<label class="ss-service-choice">
+<input type="radio" name="service" value="trace" required>
+<span><strong>Trace an item <em>$25 / item</em></strong><small>Find the source of one specific piece.</small></span>
+</label>
+<label class="ss-service-choice">
+<input type="radio" name="service" value="styling" required>
+<span><strong>Personal styling</strong><small>Similar pieces, outfits, capsules, and wardrobe direction.</small></span>
+</label>
+<label class="ss-service-choice">
+<input type="radio" name="service" value="gift" required>
+<span><strong>Gift a styling experience</strong><small>A private style experience shaped around someone you love.</small></span>
+</label>
+<label class="ss-service-choice">
+<input type="radio" name="service" value="bulk" required>
+<span><strong>Boutique or group buying</strong><small>A defined brief for an event, group, or resale order.</small></span>
+</label>
+<label class="ss-service-choice">
+<input type="radio" name="service" value="unsure" required>
+<span><strong>Not sure yet</strong><small>Tell us what you need and we’ll recommend the right service.</small></span>
+</label>
+</fieldset>
+<p id="service-context" class="ss-intake-context" aria-live="polite">
+</p>
+<fieldset data-fields="sourcing" disabled hidden>
+<legend>Your identified item</legend>
+<label>Where is the item from?<select name="Item source" id="item-source" required>
+<option value="">Select one</option>
+<option value="link">Vietnamese seller — I have a direct product link</option>
+<option value="precise">Vietnamese seller — I have precise seller and in-stock item details</option>
+<option value="unknown">Unknown item or seller / purchase link needs research</option>
+<option value="inspiration">Non-Vietnamese brand, inspiration, or a similar-piece request</option>
+</select>
+</label>
+<p id="source-guidance" role="status">
+</p>
+<fieldset id="direct-fields" disabled hidden>
+<legend>Purchase details</legend>
+<label>Direct product links, or exact seller, item identifier, size and colour<textarea name="Exact item and seller" rows="3" maxlength="2500" required>
+</textarea>
+</label>
+<label>What do you need?<select name="Purchase help" required>
+<option value="">Select one</option>
+<option value="Confirm price, size, stock and shipping">Confirm price, size, stock and shipping</option>
+<option value="Purchase and consolidate">Purchase and consolidate</option>
+<option value="Purchase several links I already selected">Purchase several links I already selected</option>
+<option value="Contact the identified boutique">Contact the identified boutique</option>
+</select>
+</label>
+<label>How many distinct items?<select name="Sourcing item count" required>
+<option value="">Select one</option>
+<option value="1">1</option>
+<option value="2–3">2–3</option>
+<option value="4–5">4–5</option>
+<option value="6+ — purchasing quote required">6+ — purchasing quote required</option>
+</select>
+</label>
+<label>Destination country<input type="text" name="Sourcing destination" required maxlength="1000">
+</label>
+</fieldset>
+</fieldset>
+<fieldset data-fields="trace" disabled hidden>
+<legend>The Trace · $25 per item</legend>
+<p>US$25 per item, credited toward an order if you proceed. The detailed scope is in the service terms below.</p>
+<label>Reference links or precise identification details (attach photos in the inquiry form)<textarea name="Trace references" rows="3" maxlength="2500" required>
+</textarea>
+</label>
+<label>How many items need research?<select name="Trace count" id="trace-count" required>
+<option value="">Select one</option>
+<option value="1">1</option>
+<option value="2–3">2–3</option>
+<option value="4–5">4–5</option>
+<option value="6+ — styling quote required">6+ — styling quote required</option>
+</select>
+</label>
+<p id="trace-guidance" role="status">
+</p>
+</fieldset>
+<fieldset data-fields="styling" disabled hidden>
+<legend>Your styling brief</legend>
+<p>We use your taste, needs, fit, budget, and available inventory to create a considered direction.</p>
+<label>Which tier are you considering?<select name="Styling tier" id="request-tier" required>
+<option value="">Select one</option>
+<option value="unsure">Recommend an appropriate paid tier</option>
+<option value="discovery">Discovery · $49 — Short style intake and one verified, photographed piece.</option>
+<option value="edit">Edit · $149 — A focused selection of 3–5 pieces.</option>
+<option value="capsule">Capsule · $249 — A coordinated direction of 8–12 pieces and a lookbook.</option>
+<option value="atelier">Atelier · $349 — Consultation and an in-person or live-video shopping experience.</option>
+<option value="signature">Signature · $750 — Designer commission direction and 60 days of support; scope agreed before booking.</option>
+<option value="custom-wardrobe">Custom Wardrobe · From $1,100 — A 15–20-piece wardrobe project, lookbook, two refinement rounds, and 60 days of support.</option>
+<option value="custom-wardrobe-plus">Custom Wardrobe+ · From $1,500 — A larger or more complex wardrobe project with a bespoke scope.</option>
+</select>
+</label>
+<label>What are you expecting to receive?<select name="Expected selection" required>
+<option value="">Select one</option>
+<option value="1–2 carefully selected alternatives">1–2 carefully selected alternatives</option>
+<option value="A focused edit of 3–5 pieces">A focused edit of 3–5 pieces</option>
+<option value="A coordinated capsule / wardrobe plan">A coordinated capsule / wardrobe plan</option>
+<option value="Recommend the appropriate paid scope">Recommend the appropriate paid scope</option>
+</select>
+</label>
+<label>Occasion, fit, style goals, and essential details<textarea name="Styling goals" rows="3" maxlength="2500" required>
+</textarea>
+</label>
+<label>Clothing budget and currency (excluding fee and shipping)<input type="text" name="Clothing budget" required maxlength="1000">
+</label>
+<label>Size and destination country<input type="text" name="Styling size and destination" required maxlength="1000">
+</label>
+<label>References (optional): links or moodboards; attach images in the inquiry form<textarea name="Styling references" rows="3" maxlength="2500" >
+</textarea>
+</label>
+</fieldset>
+<fieldset data-fields="gift" disabled hidden>
+<legend>Gift a styling experience</legend>
+<p>Choose a tier or budget. The recipient begins when they’re ready.</p>
+<label>Preferred gift tier<select name="Gift tier" id="gift-request-tier"><option value="unsure">Help me choose</option><option value="discovery">The Discovery · $49</option><option value="edit">The Edit · $149</option><option value="capsule">The Capsule · $249</option><option value="atelier">The Atelier · $349</option><option value="signature">The Signature · $750</option><option value="custom-wardrobe">The Custom Wardrobe · from $1,100</option><option value="custom-wardrobe-plus">The Custom Wardrobe+ · from $1,500</option></select></label>
+<label>Gift budget in USD, or request a quote<input type="text" name="Gift budget" required maxlength="1000">
+</label>
+<label>Occasion and timing<input type="text" name="Gift occasion" required maxlength="1000">
+</label>
+<label>A personal note for the recipient<textarea name="Gift note" rows="3" maxlength="1500"></textarea></label>
+</fieldset>
+<fieldset data-fields="bulk" disabled hidden>
+<legend>Boutique, group &amp; bulk buying</legend>
+<p>A professional buying engagement with a defined brief. We’ll quote the project before work begins.</p>
+<label>Request type<select name="Buying type" required>
+<option value="">Select one</option>
+<option value="Boutique resale">Boutique resale</option>
+<option value="Event or production">Event or production</option>
+<option value="Uniform">Uniform</option>
+<option value="Group gifting">Group gifting</option>
+<option value="Multi-person purchase">Multi-person purchase</option>
+</select>
+</label>
+<label>Total buy budget (USD)<select name="Buy budget" required>
+<option value="">Select one</option>
+<option value="Under $1,500">Under $1,500</option>
+<option value="$1,500–$4,999">$1,500–$4,999</option>
+<option value="$5,000–$9,999">$5,000–$9,999</option>
+<option value="$10,000+">$10,000+</option>
+</select>
+</label>
+<label>Quantity<select name="Quantity" required>
+<option value="">Select one</option>
+<option value="2–5">2–5</option>
+<option value="6–20">6–20</option>
+<option value="21–50">21–50</option>
+<option value="51+">51+</option>
+</select>
+</label>
+<label>Deadline<input type="date" name="Deadline" required maxlength="1000">
+</label>
+<label>Destination country<input type="text" name="Buying destination" required maxlength="1000">
+</label>
+<label>Categories needed<input type="text" name="Categories" required maxlength="1000">
+</label>
+<label>Do you have a defined brief?<select name="Defined brief" required>
+<option value="">Select one</option>
+<option value="Yes">Yes</option>
+<option value="Partly">Partly</option>
+<option value="No — paid research needed">No — paid research needed</option>
+</select>
+</label>
+</fieldset>
+<fieldset data-fields="unsure" disabled hidden>
+<legend>Service recommendation</legend>
+<p>Tell us where you are and what you hope to accomplish. We’ll point you to the right next step.</p>
+<label>What is already identified, and what would you like help deciding?<textarea name="Help choosing a service" rows="3" maxlength="2500" required>
+</textarea>
+</label>
+</fieldset>
+<section class="ss-request-terms" aria-labelledby="terms-heading">
+<p><strong>Before you continue:</strong> Purchase assistance is for an identified, in-stock item. Research, recommendations, and styling are separate paid services.</p>
+<details><summary id="terms-heading">Read service terms</summary><div><p>Sourcing is purchase assistance for a specific, in-stock item at an identified Vietnamese seller. The Trace is US$25 per item for research and identification; a match is not guaranteed. Styling includes interpreting references, selecting alternatives, and wardrobe direction.</p><p>We may recommend another service if it better fits your request. Scope, availability, price, and payment are confirmed before any paid work begins. <a href="policy">Read the full service policies →</a></p></div></details>
+<label class="ss-consent"><input name="Service terms understood" type="checkbox" required value="I understand that my request may be redirected to the appropriate service, with scope and payment confirmed before work begins."><span>I understand that my request may be redirected to the appropriate service, with scope and payment confirmed before work begins.</span></label>
+</section>
+<button class="ss-action" id="review-request" type="submit">Continue to review →</button>
+<p class="ss-intake-note">No payment is taken here. You’ll review and copy your brief before opening the inquiry form.</p>
+</form>    <section id="request-review" hidden aria-labelledby="review-heading">
+<span class="eyebrow">Your brief, ready to share</span>
+<h2 id="review-heading" tabindex="-1">One last look.</h2>
+<p>Copy your brief, then paste it into the message field in the inquiry form. Add your contact details and any photos there, and submit to send your request.</p>
+<label for="request-summary">Your request</label>
+<textarea id="request-summary" rows="12" readonly>
+</textarea>
+<div class="ss-review-actions">
+<button type="button" class="ss-action" id="copy-request">Copy my brief</button>
+<a class="ss-action" id="continue-request" href="https://tally.so/r/gD10Kl" target="_blank" rel="noopener">Open inquiry form ↗</a>
+<button type="button" id="edit-request">Edit answers</button>
+</div>
+<p id="copy-status" role="status">
+</p>
+<p class="ss-intake-note">Your request has not been sent yet. Prefer email? <a href="mailto:seraphicstyler@gmail.com">Paste your brief into an email</a>.</p>
+</section>
+<noscript>
+<p>Use the <a href="sourcingandstyling">service comparison</a>, then email your request to <a href="mailto:seraphicstyler@gmail.com">seraphicstyler@gmail.com</a>. This questionnaire requires JavaScript.</p>
+</noscript>
+</main>
+<footer class="ss-request-footer">Seraphic Styler · Saigon, sent worldwide.<br>
+<a href="policy">Service policies</a> · <a href="fashion-directory">Free fashion directory</a>
+</footer>
+</body>
+</html>
