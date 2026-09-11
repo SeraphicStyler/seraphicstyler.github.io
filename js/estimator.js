@@ -156,10 +156,11 @@ function SS_fmtRate(v) {
   function populateCurrencies() {
     if(!el.estCurrency)return;
     var selected=el.estCurrency.value||'USD';
-    var codes=typeof Intl.supportedValuesOf==='function'?Intl.supportedValuesOf('currency'):Array.from(el.estCurrency.options,function(o){return o.value;});
+    var codes=Array.from(el.estCurrency.options,function(o){return o.value;});
+    try{if(typeof Intl.supportedValuesOf==='function')codes=Intl.supportedValuesOf('currency');}catch(e){}
     codes=Array.from(new Set(codes.concat(Object.keys(allRates||{}),['USD','VND'],[selected]))).filter(function(c){return /^[A-Z]{3}$/.test(c);}).sort();
     var names;try{names=new Intl.DisplayNames([document.documentElement.lang||'en'],{type:'currency'});}catch(e){}
-    el.estCurrency.replaceChildren();
+    el.estCurrency.textContent='';
     codes.forEach(function(code){var option=document.createElement('option');option.value=code;option.textContent=code+(names?' — '+names.of(code):'');el.estCurrency.appendChild(option);});
     el.estCurrency.value=selected;
   }
@@ -328,10 +329,10 @@ function SS_fmtRate(v) {
     var styleCfg = (el.styling && CONFIG.styling[el.styling.value]) || null;
     var styling = styleCfg ? styleCfg.vnd : 0;
     var credit = styleCfg ? Math.min(styleCfg.credit || 0, subtotal) : 0; // piece credit, capped at items
+    var nItems = items.filter(function (v) { return v > 0; }).length;
     var creditLeft = (styleCfg && nItems > 0) ? Math.max(0, (styleCfg.credit || 0) - credit) : 0; // unused credit — carries to a future order
     var custom = CONFIG.customWeights.indexOf(el.weight.value) !== -1;
     var ship = shipRange(el.region.value, el.weight.value);
-    var nItems = items.filter(function (v) { return v > 0; }).length;
     var card = !!(el.payMethod && el.payMethod.value === 'card');
     return { items: items, subtotal: subtotal, fees: fees, base: base, complex: complex, stopsFee: stopsFee, green: green, styling: styling, credit: credit, creditLeft: creditLeft, styleCfg: styleCfg, ship: ship, custom: custom, nItems: nItems, card: card };
   }
@@ -676,8 +677,8 @@ function SS_fmtRate(v) {
      the links page ('ss-fx'), so every page shows the SAME number and a
      one-provider outage never silently drops quotes to the static fallback. */
   function applyFx(d) {
-    if (d && d.rates && d.rates.VND) {
-      fxRate = d.rates.VND; allRates = d.rates; fxLive = true; fxWhen = d.when || '';
+    if (d && d.rates && Number.isFinite(Number(d.rates.VND)) && Number(d.rates.VND)>0) {
+      fxRate = Number(d.rates.VND); allRates = d.rates; fxLive = true; fxWhen = d.when || '';
       populateCurrencies();
       return true;
     }
@@ -700,19 +701,22 @@ function SS_fmtRate(v) {
       fx: { vndPerUsd: fxRate, rate: rateFor(c), when: fxWhen, live: fxLive }
     };
   }
+  function restoreChoice(select,value) {
+    if(select&&Array.from(select.options).some(function(option){return option.value===String(value);}))select.value=String(value);
+  }
   function restore(d) {
     el.lineItems.innerHTML = '';
-    (d.items || []).forEach(function (v, i) { addItem(String(v), (d.links && d.links[i]) || ''); });
+    (Array.isArray(d.items)?d.items:[]).slice(0,100).forEach(function (v, i) { if((typeof v==='string'||typeof v==='number')&&Number.isFinite(parseVnd(v)))addItem(String(v), (Array.isArray(d.links)&&typeof d.links[i]==='string')?d.links[i]:''); });
     if (!el.lineItems.children.length) addItem('');
-    if (d.region) el.region.value = d.region;
-    if (d.weight) el.weight.value = d.weight;
-    if (el.stops && d.stops) el.stops.value = d.stops;
+    if (d.region) restoreChoice(el.region, d.region);
+    if (d.weight) restoreChoice(el.weight, d.weight);
+    if (el.stops && d.stops) restoreChoice(el.stops, d.stops);
     el.complex.checked = !!d.complex;
     if (el.green) el.green.checked = !!d.green;
-    if (el.styling && d.styling) el.styling.value = d.styling;
-    if (el.payMethod && d.pay) el.payMethod.value = d.pay;
-    if (el.estCurrency && d.cur) el.estCurrency.value = d.cur;
-    if (el.region2 && d.region2) el.region2.value = d.region2;
+    if (el.styling && d.styling) restoreChoice(el.styling, d.styling);
+    if (el.payMethod && d.pay) restoreChoice(el.payMethod, d.pay);
+    if (el.estCurrency && d.cur) restoreChoice(el.estCurrency, d.cur);
+    if (el.region2 && d.region2) restoreChoice(el.region2, d.region2);
     if (el.compareDest) { el.compareDest.checked = !!d.compare; if (el.compareWrap) el.compareWrap.hidden = !d.compare; }
     if (d.fx && d.fx.vndPerUsd) {
       fxRate = d.fx.vndPerUsd; fxWhen = d.fx.when || ''; fxLive = true;
@@ -732,6 +736,7 @@ function SS_fmtRate(v) {
         if (el.previewNote) el.previewNote.textContent = t('est.preview.note', 'A preview prepared for you by Seraphic Styler — the exact inputs and the rate quoted. It expires ') + fmtWhen(preview.expiresAt) + '.';
       })
       .catch(function () {
+        preview=null;
         if (el.previewNote) el.previewNote.textContent = t('est.preview.gone', 'This preview link has expired — links live 24 hours. Ask for a fresh one, or build your own estimate below.');
         loadFx(); recalc();
       });
@@ -846,17 +851,17 @@ function SS_fmtRate(v) {
   if (previewId && /^[a-z2-9]{7}$/.test(previewId)) {
     addItem('');
     loadPreview(previewId);
-  } else if (saved && saved.items && saved.items.length) {
-    saved.items.forEach(function (v, i) { addItem(v || '', (saved.links && saved.links[i]) || ''); });
-    if (saved.region) el.region.value = saved.region;
-    if (saved.weight) el.weight.value = saved.weight;
-    if (saved.stops && el.stops) el.stops.value = saved.stops; // absent (old baskets) → default 1–2 included
+  } else if (saved && Array.isArray(saved.items) && saved.items.length) {
+    saved.items.slice(0,100).forEach(function (v, i) { addItem((typeof v==='string'||typeof v==='number')?v:'', (Array.isArray(saved.links)&&typeof saved.links[i]==='string')?saved.links[i]:''); });
+    if (saved.region) restoreChoice(el.region, saved.region);
+    if (saved.weight) restoreChoice(el.weight, saved.weight);
+    if (saved.stops && el.stops) restoreChoice(el.stops, saved.stops); // absent (old baskets) → default 1–2 included
     if (saved.complex) el.complex.checked = true;
     if (saved.green && el.green) el.green.checked = true;
-    if (saved.styling && el.styling) el.styling.value = saved.styling; // absent (old baskets) → default 'none'
-    if (saved.pay && el.payMethod) el.payMethod.value = saved.pay; // absent (old baskets, tray handoff) → default 'bank'
-    if (saved.cur && el.estCurrency) el.estCurrency.value = saved.cur;
-    if (saved.region2 && el.region2) el.region2.value = saved.region2;
+    if (saved.styling && el.styling) restoreChoice(el.styling, saved.styling); // absent (old baskets) → default 'none'
+    if (saved.pay && el.payMethod) restoreChoice(el.payMethod, saved.pay); // absent (old baskets, tray handoff) → default 'bank'
+    if (saved.cur && el.estCurrency) restoreChoice(el.estCurrency, saved.cur);
+    if (saved.region2 && el.region2) restoreChoice(el.region2, saved.region2);
     if (saved.compare && el.compareDest) {                    // absent (older baskets) → comparison off
       el.compareDest.checked = true;
       if (el.compareWrap) el.compareWrap.hidden = false;

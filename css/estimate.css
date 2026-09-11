@@ -74,3 +74,7 @@ html[lang=ar] .est-page,html[lang=fa] .est-page,html[lang=km] .est-page,html[lan
 
 /* An embed sizes to its content, not the viewport supplied by its parent. */
 html.est-embedded,html.est-embedded body { min-height:0;height:auto; }
+
+.est-quick-result { display:grid;gap:12px;margin-top:24px; }
+.est-quick-result output { font:500 16px/1.6 var(--font-body);color:var(--text-primary); }
+#estimate-total { scroll-margin-top:24px; }

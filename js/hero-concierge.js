@@ -44,7 +44,6 @@ import { guideEndpoint } from './concierge-config.js';
   function makeActions(actions) {
     const panel=document.createElement('section'); panel.className='ss-recommendation'; panel.setAttribute('aria-label','Recommended next step');
     const eyebrow=document.createElement('p'); eyebrow.className='ss-recommendation-label'; eyebrow.textContent='Recommended next step';
-    const heading=document.createElement('h3'); heading.textContent=actions[0][0];
     const row=document.createElement('div'); row.className='ss-message-actions';
     actions.forEach(([label,href])=>{
       const a=document.createElement('a');
@@ -52,7 +51,7 @@ import { guideEndpoint } from './concierge-config.js';
       a.href=document.body.classList.contains('ss-links') && href.startsWith('#') ? (localRoutes[href] || './'+href) : href;
       a.textContent=label+' →'; row.append(a);
     });
-    panel.append(eyebrow,heading,row); return panel;
+    panel.append(eyebrow,row); return panel;
   }
   function setBusy(busy) {
     state=busy?'preparing':'complete'; input.readOnly=busy; submit.setAttribute('aria-disabled',String(busy));
@@ -72,6 +71,8 @@ import { guideEndpoint } from './concierge-config.js';
   }
   function completeAnswer(record,answerNode,group,wasNear) {
     const shouldFollow=nearEnd();
+    card.classList.remove('ss-answer-arrived');
+    if(!quiet()) requestAnimationFrame(()=>card.classList.add('ss-answer-arrived'));
     clearTimers(); pending=null; answerNode.textContent=record.answer; answerNode.classList.remove('ss-message-preparing');
     group.append(makeActions(record.actions)); prune(); follow(shouldFollow); setBusy(false); reset.hidden=false;
     live.textContent=record.answer+' '+record.actions.map(action=>action[0]).join('. ')+'.'; emphasize(record.scene);

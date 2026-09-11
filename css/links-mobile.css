@@ -215,3 +215,37 @@ html.mono .ss-links .lp-invitation h1::first-letter,html.hc .ss-links .lp-invita
 @media(max-width:600px) { .ss-links .lp-work-films { columns:2;gap:10px; }.lp-work-films figure { margin-bottom:10px; }.lp-work-films figcaption { font-size:14px; } }
 @media(max-width:359px) { .ss-links .lp-work-films { columns:1; } }
 @media(hover:hover) { .lp-film-toggle { opacity:0;transition:opacity 160ms ease; }.lp-work-films figure:hover .lp-film-toggle,.lp-work-films figure:focus-within .lp-film-toggle { opacity:1; } }
+
+/* Chapter titles share the homepage’s editorial scale and script initial. */
+.ss-links .lp-groups .lp-group-h,.ss-links :is(.lp-sec-h,.lp-group-h) {
+  font:400 clamp(30px,4.5vw,48px)/1.3 var(--font-display);
+  letter-spacing:-.02em; text-wrap:balance; overflow:visible;
+}
+.ss-links :is(.lp-sec-h,.lp-group-h)[data-chapter]::before { content:none; }
+.ss-links :is(.lp-sec-h,.lp-group-h)::first-letter {
+  font-family:var(--font-script);font-size:1.5em;color:var(--accent);
+  padding-right:.05em;text-shadow:0 1px 14px rgba(46,84,173,.22);
+}
+html.dark .ss-links :is(.lp-sec-h,.lp-group-h)::first-letter { text-shadow:0 1px 16px rgba(169,184,238,.3); }
+html:is(.mono,.hc) .ss-links :is(.lp-sec-h,.lp-group-h)::first-letter,
+.ss-links :is(.lp-sec-h,.lp-group-h):is(:lang(zh),:lang(ja),:lang(ko),:lang(ar),:lang(fa),:lang(hi),:lang(th),:lang(km),:lang(ru))::first-letter {
+  font:inherit;color:inherit;text-shadow:none;padding:0;
+}
+
+/* Explore is a list of destinations, with the whole row as its hit area. */
+.ss-links #lp-browse .lp-links { display:grid;grid-template-columns:1fr;gap:0;margin-top:8px; }
+.ss-links #lp-browse .lp-card {
+  display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:16px;
+  min-height:72px;padding:16px 12px;border-radius:8px;background:transparent;
+  text-decoration:none;transform:none;box-shadow:none;
+}
+.ss-links #lp-browse .lp-meta { min-width:0;gap:6px;text-align:start; }
+.ss-links #lp-browse .lp-title { font:500 17px/1.4 var(--font-body);color:var(--text-primary); }
+.ss-links #lp-browse .lp-sub { font:400 14px/1.6 var(--font-body);color:var(--text-secondary);overflow-wrap:anywhere; }
+.ss-links #lp-browse .lp-time { display:none; }
+.ss-links #lp-browse .lp-go { margin:0; }
+.ss-links #lp-browse .lp-card:is(:hover,:focus-visible) { background:var(--surface-soft); }
+.ss-links #lp-browse .lp-card:focus-visible { outline:2px solid var(--accent);outline-offset:3px; }
+
+.ss-links #lp-browse { background:transparent;padding-inline:8px; }
+.ss-recommendation .ss-message-actions { margin-top:12px; }

@@ -82,7 +82,7 @@
     .share-msg { margin-top: 0.4rem; }
     .share-card.is-made .share-make { display: none; }
   </style>
-<link href="css/estimate.css?v=2026-09-11c" rel="stylesheet"/>
+<link href="css/estimate.css?v=2026-09-11d" rel="stylesheet"/>
 </head>
 <body>
 <div aria-hidden="true" class="grain"></div>
@@ -120,6 +120,7 @@
 <p class="quiz-help small muted" data-i18n="est.items.note" id="estItemsNote">Enter each item's store price in VND.</p>
 <div class="line-items" id="lineItems"></div>
 <button class="btn btn-ghost" id="addItem" style="margin-top:0.4rem" type="button">+ <span data-i18n="est.add">Add item</span></button>
+<div class="est-quick-result"><output id="estQuickTotal" aria-live="off"></output><a class="btn btn-primary" href="#estimate-total" data-i18n="est.see">See my estimate</a></div>
 
 </div>
 <!-- Step 2 — destination -->
@@ -194,7 +195,7 @@
 </div>
 <!-- Step 4 — result -->
 <div aria-label="Your estimate" class="quiz-step est-receipt" data-step="4">
-<h2 class="quiz-q" data-i18n="est.result.h">Estimated total</h2>
+<h2 class="quiz-q" data-i18n="est.result.h" id="estimate-total" tabindex="-1">Estimated total</h2>
 <p class="quiz-help small muted" data-i18n="est.note">This is an estimate. The final quote is confirmed before payment.</p>
 <p class="estimate-note preview-note" id="previewNote" style="display:none"></p>
 <div class="result-card">
@@ -268,7 +269,7 @@
 <script src="js/translations.js"></script>
 <script src="js/i18n-dom.js"></script>
 <script src="js/estimate-i18n.js?v=2026-09-11"></script><script src="js/i18n.js"></script>
-<script src="js/estimator.js?v=2026-09-11b"></script>
+<script src="js/estimator.js?v=2026-09-11c"></script>
 <script>
     /* Esc dismisses an open info tooltip (WCAG 1.4.13) */
     document.addEventListener('keydown', function (e) {
@@ -277,7 +278,7 @@
       if (t) t.blur();
     });
   </script>
-<script src="js/estimate-page.js?v=2026-09-11c"></script>
+<script src="js/estimate-page.js?v=2026-09-11d"></script>
 <!-- Safety net: this page is served network-fresh, but js/i18n.js is cached (cache-first).
        If a returning visitor's cached i18n engine is older than the .ss-lang-select support,
        the selector renders empty ("No Options"). Populate it ourselves from SS_LANGS if so. -->

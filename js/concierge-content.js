@@ -21,7 +21,7 @@ export const topics = {
       actions:[['Identify this item','service-request.html?service=trace'],['Find similar pieces','service-request.html?service=styling']]
     },
     styling: {
-      answer:'Styling is for selection and direction: interpreting references, finding alternatives, coordinating outfits, or building a capsule or wardrobe. Styling begins at $49, with the fee, clothing credit, and scope shown before the project begins.',
+      answer:'For alternatives, outfits, or wardrobe direction, choose styling. Compare tiers from $49; each shows its styling fee, clothing credit, and scope before you book.',
       scene:'styling',
       actions:[['Book styling','service-request.html?service=styling'],['Compare styling tiers','sourcingandstyling#prices']]
     },
