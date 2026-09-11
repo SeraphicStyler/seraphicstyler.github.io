@@ -2,9 +2,10 @@
 (() => {
   'use strict';
   const linksPage = !!document.querySelector('.lp');
+  const bioPage = document.body.classList.contains('ss-bio');
   const comparisonPage = document.body.classList.contains('ss-service-comparison');
-  const sourcing = comparisonPage ? '#sourcing' : linksPage ? '#lp-sourcing' : '#lane-sourcing';
-  const styling = comparisonPage ? '#prices' : linksPage ? '#lp-styling' : '#lane-styling';
+  const sourcing = bioPage ? 'sourcingandstyling.html#sourcing' : comparisonPage ? '#sourcing' : linksPage ? '#lp-sourcing' : '#lane-sourcing';
+  const styling = bioPage ? 'sourcingandstyling.html#prices' : comparisonPage ? '#prices' : linksPage ? '#lp-styling' : '#lane-styling';
   const home = !!document.querySelector('#hero');
   const section = (id, alternate) => home ? '#' + id : linksPage ? alternate : 'index.html#' + id;
   const launcher = document.createElement('button');
@@ -31,6 +32,15 @@
   const mark = document.querySelector('.brand-mark, .lp-brand-mark');
   if (mark) dialog.querySelector('.ss-menu-brand').prepend(mark.cloneNode(true));
   document.body.append(dialog);
+  // A compact biography page sends detailed service routes to their full pages.
+  function bioDestination(href) {
+    if (!bioPage) return href;
+    if (href === '#custom-wardrobe') return 'index.html#custom-wardrobe';
+    if (href === 'links.html#lp-sourcing') return sourcing;
+    if (/^[a-z][a-z-]*$/.test(href)) return href + '.html';
+    return href;
+  }
+  if (bioPage) dialog.querySelectorAll('a[href]').forEach(a => a.setAttribute('href', bioDestination(a.getAttribute('href'))));
   const input = dialog.querySelector('input[type="search"]');
   const results = dialog.querySelector('.ss-guide-results');
   const prices = dialog.querySelector('[data-prices]');
@@ -76,7 +86,7 @@
     explore.hidden = searching || view !== 'explore'; prices.hidden = searching || view !== 'prices'; results.hidden = !searching;
     results.replaceChildren();
     matches.forEach(([title, href, detail]) => {
-      const a = document.createElement('a'); a.href = href; a.textContent = title;
+      const a = document.createElement('a'); a.href = bioDestination(href); a.textContent = title;
       const span = document.createElement('span'); span.textContent = detail.length > 125 ? detail.slice(0, 122) + '…' : detail;
       a.append(span); results.append(a);
     });
