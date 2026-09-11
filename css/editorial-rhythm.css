@@ -142,3 +142,19 @@ html.hc .ss-trust-ribbon { background:#000; color:#fff; border-color:#fff; }
  .ss-links:has(.ss-concierge:focus-within) .ss-trust-ribbon { visibility:hidden; }
 }
 html.hc .ss-service-choices>li { border:2px solid currentColor;background:var(--surface-solid);box-shadow:none; }
+/* Homepage service menu: one quiet card family; the lane heading names the service. */
+.ss-home #services [data-svc-cards] { display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:20px;align-items:stretch; }
+.ss-home #services [data-svc-cards]>.service { grid-column:span 2;display:flex;flex-direction:column;gap:16px;min-width:0;min-height:0;padding:28px;border:1px solid var(--surface-border);border-radius:24px;background:var(--surface-solid);box-shadow:none; }
+.ss-home #services [data-svc-cards]>.service::before { content:none; }
+.ss-home #services [data-svc-cards]>.service h3 { margin:0;font:400 clamp(21px,2vw,26px)/1.35 var(--font-display);letter-spacing:0; }
+.ss-home #services [data-svc-cards]>.service :is(.svc-atm,.body) { margin:0;min-height:0;font:400 16px/1.65 var(--font-body); }
+.ss-home #services [data-svc-cards]>.service .svc-atm { color:var(--text-primary); }
+.ss-home #services [data-svc-cards]>.service .svc-price { margin:8px 0 0;padding-top:16px;border-top:1px solid var(--surface-border);font:500 15px/1.6 var(--font-body); }
+.ss-home #services [data-svc-cards]>.service>p:last-child { margin-top:auto!important;margin-bottom:0;padding-top:8px; }
+.ss-home #services .svc-cta { display:inline-flex;align-items:center;min-height:44px;background:none;border-radius:0;padding:0;box-shadow:none;color:var(--accent);text-decoration:underline;text-underline-offset:5px; }
+.ss-home #services .svc-cta::after { content:none; }
+.ss-home #services #lane-styling+[data-svc-cards]>.service:nth-child(n+4) { grid-column:span 3; }
+.ss-home #services :is(#lane-sourcing,#lane-styling) { padding:24px 0;font:400 clamp(24px,3vw,32px)/1.4 var(--font-display); }
+@media(max-width:760px) { .ss-home #services [data-svc-cards] { grid-template-columns:1fr; }.ss-home #services [data-svc-cards]>.service,.ss-home #services #lane-styling+[data-svc-cards]>.service:nth-child(n+4) { grid-column:auto;padding:24px; } }
+.ss-home #services [data-svc-cards] .ss-service-tag { display:none; }
+.ss-home #services [data-svc-cards] .svc-book { background:none!important;box-shadow:none!important;border:0; }

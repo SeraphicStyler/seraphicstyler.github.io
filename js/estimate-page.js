@@ -12,11 +12,30 @@
  });
  labelItems();new MutationObserver(labelItems).observe(document.getElementById('lineItems'),{childList:true});
  const toolbar=document.querySelector('.quiz-toolbar');
- const label=document.createElement('label');label.textContent='Appearance ';
+ const label=document.createElement('label');const title=document.createElement('span');title.textContent='Appearance ';label.append(title);
  const select=document.createElement('select');select.setAttribute('aria-label','Appearance');
  for(const [value,text] of [['light','Light'],['dark','Dark'],['mono','Monochrome']]){const o=new Option(text,value);select.add(o);}
  select.value=root.classList.contains('dark')?'dark':root.classList.contains('mono')?'mono':'light';
  select.addEventListener('change',()=>{if(root.classList.contains('est-embedded')&&parent!==window)parent.SS_THEME?.set(select.value);else window.SS_THEME?.set(select.value);});label.append(select);toolbar.prepend(label);
+ const localize=()=>{
+   const c=window.SS_ESTIMATE_COPY?.[document.documentElement.lang]||window.SS_ESTIMATE_COPY?.en;
+   if(!c)return;
+   document.title=window.SS_T('est.h2','Build a rough estimate')+' — Seraphic Styler';
+   document.querySelector('#estLangSelect').setAttribute('aria-label',window.SS_T('a11y.language','Language'));
+   document.querySelector('#estQuiz').setAttribute('aria-label',window.SS_T('est.h2','Build a rough estimate'));
+   title.textContent=c.appearance+' ';select.setAttribute('aria-label',c.appearance);
+   for(const option of select.options)option.textContent=c[option.value];
+   document.querySelectorAll('#lineItems input').forEach(input=>{
+     const isPrice=input.classList.contains('item-price');
+     const text=isPrice?c.price:c.link+' · '+c.optional;
+     const fieldLabel=document.querySelector('label[for="'+input.id+'"]');if(fieldLabel)fieldLabel.textContent=text;
+     input.setAttribute('aria-label',text);input.placeholder=isPrice?'850000':c.link;
+   });
+   document.querySelectorAll('.remove-item').forEach(button=>button.setAttribute('aria-label',c.remove));
+   document.querySelector('#estCurrency').setAttribute('aria-label',window.SS_T('est.usd','Currency'));
+ };
+ document.addEventListener('ss:lang',localize);
+ new MutationObserver(localize).observe(document.getElementById('lineItems'),{childList:true});localize();
  if(root.classList.contains('est-embedded')&&parent!==window){
    let lastHeight=0;
    const resize=()=>{const height=Math.ceil(document.body.getBoundingClientRect().height);if(Math.abs(height-lastHeight)>1){lastHeight=height;parent.postMessage({type:'ss-estimate-height',height},location.origin);}};

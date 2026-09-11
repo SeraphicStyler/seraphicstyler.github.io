@@ -164,14 +164,6 @@ body.ss-links { background:var(--bg-primary); }
  .ss-links .lp-proofgrid { gap:24px; }
 }
 html.hc .ss-links :is(.ss-service-choices>li,.lp-tier-option) { border-color:currentColor; }
-.lp-work-films { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:24px;max-width:680px; }
-.lp-work-films figure { margin:0;min-width:0; }
-.lp-work-films video { display:block;width:100%;aspect-ratio:9/16;max-height:520px;object-fit:contain;background:var(--surface-solid);border-radius:var(--lp-radius-card); }
-.lp-work-films figcaption { margin-top:16px;font:500 18px/1.4 var(--font-body);color:var(--text-primary); }
-.lp-work-films p { margin:8px 0 0;font:400 14px/1.6 var(--font-body);color:var(--text-secondary); }
-.lp-work-films video:focus-visible { outline:2px solid var(--accent);outline-offset:4px; }
-@media(max-width:480px) { .lp-work-films { grid-template-columns:1fr;gap:24px; }.lp-work-films video { max-height:440px; } }
-
 /* The invitation uses the homepage's exact font families and tonal surfaces. */
 .ss-links .lp-brand-mark { width:40px;height:40px;margin-bottom:8px; }
 .ss-links .lp-brand { font-size:clamp(26px,4vw,36px);margin-bottom:32px; }
@@ -207,3 +199,19 @@ html.mono .ss-links .lp-invitation h1::first-letter,html.hc .ss-links .lp-invita
  html:not(.rm):not(.hc):not(.mono) .ss-links .lp-tier-breakdown[open]>dl { animation:lp-detail-in 200ms ease-out; }
  @keyframes lp-detail-in { from {opacity:.4;transform:translateY(4px)} to {opacity:1;transform:none} }
 }
+
+/* The same cropped, captioned masonry language as the lookbook. */
+.ss-links .lp-work-films { display:block;columns:3;column-gap:12px;max-width:none;margin:32px 0; }
+.lp-work-films figure { position:relative;break-inside:avoid;margin:0 0 12px;border-radius:14px;overflow:hidden;background:var(--surface-solid); }
+.lp-work-films video { display:block;width:100%;aspect-ratio:var(--film-aspect);object-fit:cover; }
+.lp-work-films figcaption { padding:12px;font:500 16px/1.4 var(--font-body); }
+.lp-work-films .film-enhanced figcaption { position:absolute;inset:auto 0 0;padding:44px 12px 14px;background:linear-gradient(transparent,rgba(0,0,0,.82));color:#fff;pointer-events:none; }
+.lp-film-toggle { position:absolute;top:8px;right:8px;min-width:44px;min-height:44px;padding:8px 12px;border:1px solid #ffffff80;border-radius:999px;background:#172033e6;color:#fff;font:500 14px/1.4 var(--font-body);cursor:pointer; }
+.lp-film-toggle:focus-visible { outline:3px solid white;outline-offset:-5px; }
+.ss-links #lp-browse .lp-group-h::before { content:none; }
+.ss-links #lp-browse .ic { display:none; }
+.ss-links #lp-browse .lp-explore-group { margin-top:24px; }
+.ss-links #lp-browse .lp-card { padding:12px 0; }
+@media(max-width:600px) { .ss-links .lp-work-films { columns:2;gap:10px; }.lp-work-films figure { margin-bottom:10px; }.lp-work-films figcaption { font-size:14px; } }
+@media(max-width:359px) { .ss-links .lp-work-films { columns:1; } }
+@media(hover:hover) { .lp-film-toggle { opacity:0;transition:opacity 160ms ease; }.lp-work-films figure:hover .lp-film-toggle,.lp-work-films figure:focus-within .lp-film-toggle { opacity:1; } }

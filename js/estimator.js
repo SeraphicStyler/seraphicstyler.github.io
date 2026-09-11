@@ -146,7 +146,6 @@ function SS_fmtRate(v) {
   var API = 'https://api.seraphicstyler.com';
   var preview = null;   // set when the page was opened from a 24h preview link: inputs + the quoted rate
   // approximate USD-based rates for offline fallback (only used if the API can't load)
-  var FALLBACK_RATES = { USD:1, EUR:0.92, GBP:0.79, AUD:1.5, CAD:1.36, SGD:1.34, JPY:155, KRW:1350, CNY:7.2, THB:36, AED:3.67, INR:83 };
 
   var el = {};
   ['lineItems','addItem','region','region2','compareDest','compareWrap','destCompare','weight','stops','complex','green','styling','payMethod','estCurrency','rSubtotal','rFee','rFeeNote','rBase','rStopsRow','rStops',
@@ -154,24 +153,38 @@ function SS_fmtRate(v) {
     .forEach(function (id) { el[id] = document.getElementById(id); });
   if (!el.lineItems) return; // not on a page with the estimator
 
+  function populateCurrencies() {
+    if(!el.estCurrency)return;
+    var selected=el.estCurrency.value||'USD';
+    var codes=typeof Intl.supportedValuesOf==='function'?Intl.supportedValuesOf('currency'):Array.from(el.estCurrency.options,function(o){return o.value;});
+    codes=Array.from(new Set(codes.concat(Object.keys(allRates||{}),['USD','VND'],[selected]))).filter(function(c){return /^[A-Z]{3}$/.test(c);}).sort();
+    var names;try{names=new Intl.DisplayNames([document.documentElement.lang||'en'],{type:'currency'});}catch(e){}
+    el.estCurrency.replaceChildren();
+    codes.forEach(function(code){var option=document.createElement('option');option.value=code;option.textContent=code+(names?' — '+names.of(code):'');el.estCurrency.appendChild(option);});
+    el.estCurrency.value=selected;
+  }
+  populateCurrencies();
+  document.addEventListener('ss:lang',populateCurrencies);
   function curCode() { return (el.estCurrency && el.estCurrency.value) || 'USD'; }
   function t(key, en) { return window.SS_T ? window.SS_T(key, en) : en; }
   function tf(key, en, vars) { return window.SS_TF ? window.SS_TF(key, en, vars) : en; }
   function fmtVnd(n) { return Math.round(n).toLocaleString('en-US') + '₫'; }
   function fmtCur(n) {
+    if(!Number.isFinite(n))return t('estimate.unavailable','Conversion unavailable');
     var c = curCode();
-    try { return new Intl.NumberFormat(undefined, { style: 'currency', currency: c, maximumFractionDigits: (c === 'JPY' || c === 'KRW' ? 0 : 2) }).format(n); }
+    try { return new Intl.NumberFormat(document.documentElement.lang||'en', { style: 'currency', currency: c, maximumFractionDigits: (c === 'JPY' || c === 'KRW' ? 0 : 2) }).format(n); }
     catch (e) { return '$' + n.toFixed(2); }
   }
-  function rateFor(c) { return (allRates && allRates[c] != null) ? allRates[c] : (FALLBACK_RATES[c] != null ? FALLBACK_RATES[c] : 1); }
+  function rateFor(c) { if(c==='USD')return 1;if(c==='VND')return fxRate;var rate=allRates&&Number(allRates[c]);return Number.isFinite(rate)&&rate>0?rate:NaN; }
   /* One rate, used for every figure on the page and printed in the status line
      verbatim. Showing a different number than the totals used is what made the
      old estimate read as confusing — clients compared the two and worried. */
-  function chargeRate(c) { return SS_allInRate(fxRate / rateFor(c), rateFor(c)); }
+  function chargeRate(c) { if(c==='VND')return 1;if(!Number.isFinite(rateFor(c)))return NaN;return SS_allInRate(fxRate / rateFor(c), rateFor(c)); }
   function toCur(vnd) { return vnd / chargeRate(curCode()); }
   function updateFxStatus() {
     if (!el.fxStatus) return;
     var c = curCode();
+    if(!Number.isFinite(chargeRate(c))){el.fxStatus.textContent=t('estimate.unavailable','Conversion unavailable')+' · '+c;return;}
     if (preview) {
       el.fxStatus.textContent = t('est.fx.preview', 'Rate as quoted') + ' · 1 ' + c + ' ≈ ' + SS_fmtRate(chargeRate(c)) + '₫ · ' + (preview.fx.when || String(preview.createdAt || '').slice(0, 10));
       return;
@@ -543,6 +556,15 @@ function SS_fmtRate(v) {
   }
 
   function summary() {
+    if(document.body.classList.contains('est-page')){
+      var rows=[t('est.h2','Build a rough estimate')+' — Seraphic Styler'];
+      readItems().forEach(function(price,i){if(price>0)rows.push((i+1)+'. '+fmtVnd(price)+(readLinks()[i]?' — '+readLinks()[i]:''));});
+      ['region','weight','stops','styling','payMethod'].forEach(function(id){var select=el[id];if(select)rows.push(select.options[select.selectedIndex].textContent);});
+      document.querySelectorAll('.result-row,.split-cur,.split-card').forEach(function(row){if(getComputedStyle(row).display!=='none'){var clone=row.cloneNode(true);clone.querySelectorAll('select').forEach(function(select){select.replaceWith(curCode());});rows.push(clone.textContent.replace(/\s+/g,' ').trim());}});
+      if(compareOn())rows.push(el.destCompare.textContent.replace(/\s+/g,' ').trim());
+      rows.push(el.fxStatus.textContent,t('est.note','Your final quote is confirmed before payment.'));
+      return rows.filter(Boolean).join('\n');
+    }
     var c = compute();
     var nonShip = c.subtotal + c.fees + c.base + c.complex + c.stopsFee - c.green + c.styling - c.credit;
     var fxAllow = Math.round(nonShip * (CONFIG.fxFee || 0));
@@ -637,8 +659,7 @@ function SS_fmtRate(v) {
     if (CONFIG.contact.whatsapp) parts.push('<a href="https://wa.me/' + CONFIG.contact.whatsapp + '?text=' + enc + '" target="_blank" rel="noopener">WhatsApp</a>');
     parts.push('<a href="' + CONFIG.contact.instagram + '" target="_blank" rel="noopener">Instagram</a>');
     if (el.copiedMsg) {
-      el.copiedMsg.innerHTML = '✓ Estimate copied &amp; opened pre-filled in ' + parts.join(' · ') +
-        '. <span style="opacity:.75">Instagram can\'t pre-fill messages — just paste (it\'s already copied).</span>';
+      el.copiedMsg.innerHTML = esc(t('est.share.copied','Copied'))+' · '+parts.join(' · ');
       el.copiedMsg.style.display = 'block';
     }
     // the form is the system of record: it always arrives (mailto/DM often don't)
@@ -657,6 +678,7 @@ function SS_fmtRate(v) {
   function applyFx(d) {
     if (d && d.rates && d.rates.VND) {
       fxRate = d.rates.VND; allRates = d.rates; fxLive = true; fxWhen = d.when || '';
+      populateCurrencies();
       return true;
     }
     return false;
@@ -721,6 +743,7 @@ function SS_fmtRate(v) {
     if (navigator.clipboard) navigator.clipboard.writeText(lastLink).then(done, done); else done();
   }
   function makePreviewLink() {
+    if(!Number.isFinite(chargeRate(curCode()))){el.previewMsg.textContent=t('estimate.unavailable','Conversion unavailable');el.previewMsg.style.display='block';return;}
     var snap = snapshot();
     if (!el.previewMsg) return;
     if (!snap.items.length && (!snap.styling || snap.styling === 'none')) {

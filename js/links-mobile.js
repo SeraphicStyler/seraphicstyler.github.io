@@ -5,6 +5,13 @@
   // Match the lookbook: muted, inline loops while visible. Native controls
   // remain available for pausing and for browsers that decline autoplay.
   const films=[...document.querySelectorAll('.lp-work-films video')];
+  films.forEach(video=>{
+    const button=document.createElement('button');button.type='button';button.className='lp-film-toggle';
+    const update=()=>{button.textContent=video.paused?'Play':'Pause';button.setAttribute('aria-label',(video.paused?'Play ':'Pause ')+video.getAttribute('aria-label'));};
+    button.addEventListener('click',()=>{if(video.paused)video.play()?.catch(()=>{});else video.pause();});
+    video.addEventListener('play',update);video.addEventListener('pause',update);update();
+    video.parentElement.append(button);video.parentElement.classList.add('film-enhanced');video.controls=false;
+  });
   const reduce=matchMedia('(prefers-reduced-motion: reduce)');
   const visibleFilms=new Set();
   const quiet=()=>reduce.matches||document.documentElement.matches('.rm, .hc, .mono')||navigator.connection?.saveData;

@@ -65,3 +65,9 @@
 .est-page :is(.quiz-help,.estimate-note,.result-row) { font-size:16px; }
 .est-page .result-row.total .v { font-family:var(--font-body);font-weight:500; }
 .est-page #addItem { margin-top:16px!important;border:1px solid var(--surface-border);background:var(--surface-solid);color:var(--text-primary); }
+.est-page #estCurrency { width:100%;max-width:210px; }
+.est-page .result-row:has(#estCurrency) { flex-wrap:wrap; }
+.est-page .result-row:has(#estCurrency)>span { max-width:100%; }
+.est-page [dir=rtl],html[dir=rtl] .est-page { text-align:start; }
+.est-page :is(.item-price,.item-link,.result-row .v,.split-cur) { direction:ltr;unicode-bidi:isolate; }
+html[lang=ar] .est-page,html[lang=fa] .est-page,html[lang=km] .est-page,html[lang=th] .est-page { letter-spacing:normal; }
