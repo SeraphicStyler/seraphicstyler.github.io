@@ -1,13 +1,13 @@
 /* Offline directory support. Pages and code stay fresh; images are cached on use. */
-const CACHE = 'ss-fd-v63';
+const CACHE = 'ss-fd-v64';
 const CORE = [
   './fashion-directory', './field-guide', './find', './manifest.webmanifest',
   './css/directory.css?v=2026-09-10', './css/field-guide.css?v=2026-09-10',
   './css/find.css?v=2026-09-10', './css/theme.css?v=2026-09-10',
-  './css/directory-workspace.css', './css/directory-discovery.css?v=2026-09-09',
+  './css/directory-workspace.css?v=2026-09-10b', './css/directory-discovery.css?v=2026-09-09',
   './css/directory-guide.css?v=2026-09-09c',
   './js/theme.js?v=2026-09-10', './js/directory.js?v=2026-09-10',
-  './js/directory-data.js', './js/directory-catalog.js', './js/directory-workspace.js',
+  './js/directory-data.js', './js/directory-catalog.js', './js/directory-workspace.js?v=2026-09-10b',
   './js/directory-discovery.js', './js/directory-reference.js', './js/directory-garments.js',
   './js/directory-guide.js?v=2026-09-09c',
   './js/fd-search.js', './js/route-solver.js', './js/store-coords.js',
