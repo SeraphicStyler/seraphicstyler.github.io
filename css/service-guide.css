@@ -299,3 +299,16 @@ html.ss-menu-open .ss-section-nav { visibility:hidden; }
  .ss-gift-custom h3 { font-size:1.9rem; }
  .ss-gift-breakdown>div { font-size:.8125rem; }
 }
+
+/* Small-screen dialog: a reachable close control and one internal scroll area. */
+@media(max-width:760px) {
+ .ss-guide { max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));padding:16px;scroll-padding-top:64px; }
+ .ss-menu-top { position:sticky;top:-16px;z-index:3;background:var(--surface-solid);padding:12px 0;margin-top:-16px; }
+ .ss-menu-top button { flex-shrink:0; }
+ .ss-search-wrap input { font-size:16px; }
+ .ss-menu-footer { font-size:12px; }
+ .ss-menu-footer button { min-height:44px; }
+}
+@media(hover:none) and (pointer:coarse) {
+ .ss-menu-footer label,.ss-menu-footer>span:last-child { display:none; }
+}

@@ -5,35 +5,45 @@
   // Match the lookbook: muted, inline loops while visible. Native controls
   // remain available for pausing and for browsers that decline autoplay.
   const films=[...document.querySelectorAll('.lp-work-films video')];
-  films.forEach(video=>{
-    const button=document.createElement('button');button.type='button';button.className='lp-film-toggle';
-    const update=()=>{button.textContent=video.paused?'Play':'Pause';button.setAttribute('aria-label',(video.paused?'Play ':'Pause ')+video.getAttribute('aria-label'));};
-    button.addEventListener('click',()=>{if(video.paused)video.play()?.catch(()=>{});else video.pause();});
-    video.addEventListener('play',update);video.addEventListener('pause',update);update();
-    video.parentElement.append(button);video.parentElement.classList.add('film-enhanced');video.controls=false;
-  });
   const reduce=matchMedia('(prefers-reduced-motion: reduce)');
-  const visibleFilms=new Set();
+  const visibleFilms=new Set(), userPaused=new WeakSet();
   const quiet=()=>reduce.matches||document.documentElement.matches('.rm, .hc, .mono')||navigator.connection?.saveData;
   const pauseFilms=()=>films.forEach(video=>video.pause());
   const playVisible=()=>{
-    if(document.hidden||quiet())return;
-    visibleFilms.forEach(video=>{video.muted=true;video.play()?.catch(()=>{});});
+    if(document.hidden||quiet()||document.documentElement.classList.contains('ss-menu-open')){pauseFilms();return;}
+    // Bound concurrent decoding on phones; all other posters remain usable.
+    let playing=0;
+    films.forEach(video=>{
+      if(visibleFilms.has(video)&&!userPaused.has(video)&&playing<2){
+        playing++;video.muted=true;video.play()?.catch(()=>{});
+      }else video.pause();
+    });
   };
-  document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseFilms();else playVisible();});
-  addEventListener('pagehide',pauseFilms);
-  addEventListener('pageshow',playVisible);
-  reduce.addEventListener('change',()=>{if(quiet())pauseFilms();});
-  new MutationObserver(()=>{if(quiet())pauseFilms();}).observe(document.documentElement,{attributes:true,attributeFilter:['class']});
+  films.forEach(video=>{
+    video.muted=true;video.defaultMuted=true;video.playsInline=true;
+    const button=document.createElement('button');button.type='button';button.className='lp-film-toggle';
+    const update=()=>{button.textContent=video.paused?'Play':'Pause';button.setAttribute('aria-label',(video.paused?'Play ':'Pause ')+video.getAttribute('aria-label'));};
+    button.addEventListener('click',()=>{
+      if(video.paused){
+        userPaused.delete(video);
+        films.filter(other=>other!==video).forEach(other=>other.pause());
+        video.play()?.catch(()=>{video.controls=true;update();});
+      }else{userPaused.add(video);video.pause();}
+    });
+    video.addEventListener('play',update);video.addEventListener('pause',update);update();
+    const fallback=document.createElement('a');fallback.href=video.currentSrc||video.src;fallback.textContent='Open video';fallback.className='lp-film-fallback';fallback.hidden=true;
+    video.addEventListener('error',()=>{fallback.hidden=false;button.hidden=true;});
+    video.parentElement.append(button,fallback);video.parentElement.classList.add('film-enhanced');video.controls=false;
+  });
+  document.addEventListener('visibilitychange',playVisible);
+  addEventListener('pagehide',pauseFilms);addEventListener('pageshow',playVisible);
+  reduce.addEventListener('change',playVisible);
+  new MutationObserver(playVisible).observe(document.documentElement,{attributes:true,attributeFilter:['class']});
   if('IntersectionObserver' in window){
-    const filmObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{
-      const video=entry.target;
-      if(entry.isIntersecting&&entry.intersectionRatio>=.25){
-        const entering=!visibleFilms.has(video);
-        visibleFilms.add(video);
-        if(entering&&!document.hidden&&!quiet()){video.muted=true;video.play()?.catch(()=>{});}
-      }else{visibleFilms.delete(video);video.pause();}
-    }),{threshold:[0,.25]});
+    const filmObserver=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{if(entry.isIntersecting&&entry.intersectionRatio>=.25)visibleFilms.add(entry.target);else visibleFilms.delete(entry.target);});
+      playVisible();
+    },{threshold:[0,.25]});
     films.forEach(video=>filmObserver.observe(video));
   }
   const estimateFrame=document.querySelector('.lp-estimate-frame');

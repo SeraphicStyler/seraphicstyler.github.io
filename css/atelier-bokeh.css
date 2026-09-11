@@ -1,0 +1,49 @@
+/* Defocused light: one soft colour field and one shallow-focus light layer.
+   CSS gradients keep the atmosphere lightweight and independent of image loading. */
+.ss-links .lp-top { isolation:isolate; }
+.hero .atelier-bokeh { z-index:0; }
+.atelier-bokeh {
+  position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden;
+  border-radius:0;opacity:.35;
+  mask-image:linear-gradient(transparent,#000 12%,#000 82%,transparent);
+}
+.atelier-bokeh::before,.atelier-bokeh::after {
+  content:'';position:absolute;inset:-4%;pointer-events:none;
+}
+.atelier-bokeh::before {
+  background:
+    radial-gradient(ellipse at 8% 30%,rgba(174,210,243,.65),transparent 38%),
+    radial-gradient(ellipse at 88% 22%,rgba(235,180,214,.55),transparent 36%),
+    radial-gradient(ellipse at 22% 82%,rgba(203,182,240,.65),transparent 40%),
+    radial-gradient(ellipse at 88% 78%,rgba(153,193,237,.5),transparent 36%);
+  filter:blur(32px);opacity:.8;
+  animation:atelier-defocus 24s ease-in-out infinite alternate;
+}
+.atelier-bokeh::after {
+  background:
+    radial-gradient(circle 54px at 10% 26%,rgba(255,249,225,.85) 0%,rgba(255,248,237,.45) 58%,transparent 100%),
+    radial-gradient(circle 82px at 88% 38%,rgba(255,233,245,.8) 0%,rgba(249,217,239,.35) 62%,transparent 100%),
+    radial-gradient(circle 36px at 25% 68%,rgba(255,255,255,.9) 0%,rgba(239,241,255,.5) 60%,transparent 100%),
+    radial-gradient(circle 62px at 78% 84%,rgba(224,243,255,.8) 0%,rgba(228,239,255,.35) 60%,transparent 100%),
+    radial-gradient(circle 30px at 91% 16%,rgba(255,251,234,.9) 0%,transparent 100%),
+    radial-gradient(circle 90px at 7% 91%,rgba(246,219,239,.6) 0%,transparent 100%);
+  filter:blur(9px);opacity:.8;
+  animation:atelier-defocus 20s ease-in-out -8s infinite alternate-reverse;
+}
+@keyframes atelier-defocus {
+  from { transform:translate3d(-1%,-1%,0) scale(1);opacity:.65; }
+  to { transform:translate3d(1%,2%,0) scale(1.035);opacity:.95; }
+}
+html.dark .atelier-bokeh { opacity:.2; }
+html:is(.mono,.hc) .atelier-bokeh { display:none; }
+html.rm .atelier-bokeh::before,html.rm .atelier-bokeh::after { animation:none;transform:none; }
+@media(prefers-reduced-motion:reduce) {
+  .atelier-bokeh::before,.atelier-bokeh::after { animation:none;transform:none; }
+}
+@media(max-width:600px) {
+  .atelier-bokeh::before { filter:blur(24px); }
+  .atelier-bokeh::after { background-size:140% 100%;background-position:center;opacity:.65; }
+}
+
+/* One soft layer replaces the old overlapping oval glows. */
+.ss-links .lp-top::before,.ss-links .lp-top::after { display:none; }
