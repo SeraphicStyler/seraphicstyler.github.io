@@ -14,7 +14,7 @@
     // Bound concurrent decoding on phones; all other posters remain usable.
     let playing=0;
     films.forEach(video=>{
-      if(visibleFilms.has(video)&&!userPaused.has(video)&&playing<2){
+      if(visibleFilms.has(video)&&!userPaused.has(video)&&playing<(matchMedia('(max-width:760px)').matches?1:2)){
         playing++;video.muted=true;video.play()?.catch(()=>{});
       }else video.pause();
     });
@@ -41,23 +41,32 @@
   new MutationObserver(playVisible).observe(document.documentElement,{attributes:true,attributeFilter:['class']});
   if('IntersectionObserver' in window){
     const filmObserver=new IntersectionObserver(entries=>{
-      entries.forEach(entry=>{if(entry.isIntersecting&&entry.intersectionRatio>=.25)visibleFilms.add(entry.target);else visibleFilms.delete(entry.target);});
+      entries.forEach(entry=>{if(entry.isIntersecting&&entry.intersectionRatio>=.6)visibleFilms.add(entry.target);else visibleFilms.delete(entry.target);});
       playVisible();
-    },{threshold:[0,.25]});
+    },{threshold:[0,.6]});
     films.forEach(video=>filmObserver.observe(video));
   }
-  const estimateFrame=document.querySelector('.lp-estimate-frame');
-  addEventListener('message',event=>{
-    if(event.origin!==location.origin||event.source!==estimateFrame?.contentWindow)return;
-    if(event.data?.type==='ss-estimate-height'&&Number.isFinite(event.data.height)&&event.data.height>0){
-      estimateFrame.style.height=Math.min(20000,event.data.height+4)+'px';
-    }
+  const gallery=document.querySelector('.lp-work-films');
+  const galleryNav=document.querySelector('.lp-film-nav');
+  const small=matchMedia('(max-width:760px)');
+  const syncGallery=()=>{
+    if(!galleryNav)return;
+    galleryNav.hidden=!small.matches;
+    const position=Math.abs(gallery.scrollLeft), end=gallery.scrollWidth-gallery.clientWidth;
+    galleryNav.querySelector('[data-film-step="-1"]').disabled=position<2;
+    galleryNav.querySelector('[data-film-step="1"]').disabled=position>=end-2;
+  };
+  galleryNav?.addEventListener('click',event=>{
+    const button=event.target.closest('[data-film-step]');if(!button)return;
+    const direction=getComputedStyle(gallery).direction==='rtl'?-1:1;
+    gallery.scrollBy({left:direction*Number(button.dataset.filmStep)*(gallery.querySelector('figure').getBoundingClientRect().width+12),behavior:reduce.matches?'instant':'smooth'});
   });
+  gallery?.addEventListener('scroll',syncGallery,{passive:true});small.addEventListener('change',syncGallery);syncGallery();
   function revealHash(){
     let id;try{id=decodeURIComponent(location.hash.slice(1));}catch{return;}
     const target=document.getElementById(id);if(!target)return;
     let opened=false;
-    for(let parent=target.parentElement;parent;parent=parent.parentElement){
+    for(let parent=target;parent;parent=parent.parentElement){
       if(parent.tagName==='DETAILS'&&!parent.open){parent.open=true;opened=true;}
     }
     if(opened)requestAnimationFrame(()=>target.scrollIntoView({block:'start',behavior:'instant'}));

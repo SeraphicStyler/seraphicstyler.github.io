@@ -6,7 +6,6 @@
   const root = document.documentElement, body = document.body;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const quiet = () => reduce.matches || root.matches('.rm, .hc, .mono');
-  const atmosphere = document.createElement('div'); atmosphere.className='lp-atmosphere'; atmosphere.setAttribute('aria-hidden','true'); body.prepend(atmosphere);
   const hero = page.querySelector('.lp-top');
   const stars = document.createElement('div'); stars.className='lp-hero-stars'; stars.setAttribute('aria-hidden','true'); stars.innerHTML='<span>✦</span><span>✦</span>'; hero.append(stars);
   hero.querySelectorAll('.lp-brand-mark path').forEach(path => path.setAttribute('pathLength','1'));
@@ -43,7 +42,6 @@
   reduce.addEventListener('change',syncMotion);
   new MutationObserver(syncMotion).observe(root,{attributes:true,attributeFilter:['class']});
   document.addEventListener('visibilitychange',() => {
-    body.classList.toggle('lp-ambient-paused',document.hidden);
     if (document.hidden) body.classList.add('lp-hero-paused');
     else { const r=hero.getBoundingClientRect(); body.classList.toggle('lp-hero-paused',r.bottom<0||r.top>innerHeight); }
   });
