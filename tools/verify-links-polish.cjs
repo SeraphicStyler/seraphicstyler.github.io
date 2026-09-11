@@ -16,7 +16,8 @@ function contrast(a,b) {const values=[luminance(a),luminance(b)].sort((x,y)=>y-x
   assert(await page.$eval('#lp-guide',e=>e.classList.contains('ss-concierge-ready')),'links service guide initialized');
   assert.equal(await page.$$eval('#lp-guide [data-topic]',nodes=>nodes.filter(node=>node.getClientRects().length).length),3,'three initial guide choices');
   await page.click('#lp-guide [data-topic="photo"]');
-  await page.waitForFunction(()=>document.querySelector('#lp-guide .ss-message-actions')?.textContent.includes('Identify this item'));
+  await page.click('#lp-guide .ss-followup-choices button');
+  await page.waitForFunction(()=>document.querySelector('#lp-guide .ss-message-actions')?.textContent.includes('Start The Trace'));
   assert(await page.$('#lp-guide a[href="service-request.html?service=trace"]'),'Trace route from photo answer');
   await page.click('#lp-guide [data-concierge-reset]');
   assert(await page.$eval('body',e=>e.classList.contains('lp-arrival-ready')));

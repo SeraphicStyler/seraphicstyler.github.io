@@ -30,7 +30,7 @@ const puppeteer=require(process.env.SS_PUPPETEER||'puppeteer');
  await p.evaluate(()=>SS_setLang('vi'));await p.waitForFunction(()=>document.documentElement.lang==='vi');
  await p.click('.fd-appearance>summary');
  assert.equal(await p.$eval('[data-theme-choice=dark]',e=>e.textContent),'Tối');
- await p.click('[data-theme-choice=dark]');await p.waitForFunction(()=>SS_THEME.effective()==='dark');
+ await p.click('[data-theme-choice=dark]');await p.waitForFunction(()=>SS_THEME.effective()==='dark'&&document.documentElement.classList.contains('dark')&&document.querySelector('.fd-appearance>summary').textContent==='Tối');
  assert.equal(await p.$eval('.fd-appearance>summary',e=>e.textContent),'Tối');
  await p.keyboard.press('Escape');
  await p.screenshot({path:'/private/tmp/ss-directory-vietnamese.png'});

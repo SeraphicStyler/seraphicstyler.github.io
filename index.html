@@ -40,12 +40,12 @@
     })();
   </script>
 <link rel="stylesheet" href="css/home.css?v=2026-09-10">
-  <link rel="stylesheet" href="css/service-guide.css?v=2026-09-10b" />
-  <link rel="stylesheet" href="css/hero-concierge.css?v=2026-09-09" />
-  <script src="js/service-guide.js?v=2026-09-10b" defer></script>
+  <link rel="stylesheet" href="css/service-guide.css?v=2026-09-10d" />
+  <link rel="stylesheet" href="css/hero-concierge.css?v=2026-09-10c" />
+  <script src="js/service-guide.js?v=2026-09-10d" defer></script>
   <script src="js/section-nav.js?v=2026-09-07" defer></script>
-  <script type="module" src="js/hero-concierge.js?v=2026-09-09" defer></script>
-  <link rel="stylesheet" href="css/editorial-rhythm.css?v=2026-09-09">
+  <script type="module" src="js/hero-concierge.js?v=2026-09-10c" defer></script>
+  <link rel="stylesheet" href="css/editorial-rhythm.css?v=2026-09-10c">
   <link rel="stylesheet" href="css/theme.css?v=2026-09-10">
   <script src="js/theme.js?v=2026-09-10"></script>
 </head>
@@ -272,9 +272,9 @@
             <p class="ss-message ss-message-guide">A link, a photo, or a wardrobe idea—choose a starting point below.</p>
           </div>
           <div class="ss-concierge-prompts" aria-label="Suggested questions">
-            <button type="button" data-topic="sourcing">I know the exact piece</button>
-            <button type="button" data-topic="photo">I only have a photo.</button>
-            <button type="button" data-topic="styling">I need styling direction</button>
+            <button type="button" data-topic="sourcing">Exact piece<small>Best when you have a shop link</small></button>
+            <button type="button" data-topic="photo">Photo only<small>Identify it, or use it as inspiration</small></button>
+            <button type="button" data-topic="styling">Styling help<small>Choose pieces, outfits, or a wardrobe</small></button>
             <div class="ss-concierge-more" data-concierge-more hidden>
               <button type="button" data-topic="pricing">How does pricing work?</button>
               <button type="button" data-topic="gift">Can I gift this?</button>
@@ -1405,14 +1405,17 @@
         <div class="service"><span class="feat-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m16.4 2.9 4.2 4.2L9.3 18.4l-5.2 1 1-5.2L16.4 2.9Z"/><path d="m14.3 5 4.2 4.2"/><path d="M4 21.6h16"/></svg></span><h3 data-i18n="btq.3h">Negotiated, in writing</h3><div class="body" data-i18n="btq.3b">Every designer's best stockist terms at your depth, in your written quote — before a single đồng is committed.</div></div>
       </div>
 
-      <div class="glass reveal" style="max-width:52rem;margin:clamp(1.6rem,4vw,2.4rem) auto 0;padding:1.15rem clamp(1rem,3vw,1.5rem)">
-        <p class="center" style="margin:0 0 1rem;font-family:var(--font-display);font-size:1.02rem;color:var(--text-primary);text-align:center" data-i18n="btq.calh">Built to run from both sides of the Pacific</p>
+      <div class="glass reveal boutique-calendar">
+        <p class="boutique-calendar-title" data-i18n="btq.calh">Built to run from both sides of the Pacific</p>
         <ol class="tl3">
           <li><span class="eyebrow tl3-k" data-i18n="btq.cal1h">Year-round</span><p class="small muted tl3-b" data-i18n="btq.cal1b">Briefs, quotes, negotiation and orders — by DM, Zalo and live video appointment.</p></li>
           <li><span class="eyebrow tl3-k" data-i18n="btq.cal2h">In a buying window</span><p class="small muted tl3-b" data-i18n="btq.cal2b">Announced Saigon dates — showroom rounds walked, fabric in hand, every piece checked by me.</p></li>
           <li><span class="eyebrow tl3-k" data-i18n="btq.cal3h">After the window</span><p class="small muted tl3-b" data-i18n="btq.cal3b">Every buy leaves as one consolidated export parcel, with the per-style commercial invoice.</p></li>
         </ol>
-        <p class="small muted" style="margin:1rem 0 0;text-align:center" data-i18n="btq.calc">Tell me your drop date; I'll tell you which window serves it. A window holds a small number of buys — briefs are served in the order deposits land.</p>
+        <div class="boutique-window-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="15" rx="2"/><path d="M7.5 3.5v4M16.5 3.5v4M3.5 10h17"/></svg>
+          <p data-i18n="btq.calc">Planning a drop? Tell me when the stock needs to land, and I’ll recommend the right buying window. Each window takes a limited number of buys, reserved in deposit order.</p>
+        </div>
       </div>
 
       <h3 class="gift-covers-h reveal" style="margin-top:clamp(2rem,5vw,3rem)" data-i18n="btq.stepsh">How a buy runs</h3>

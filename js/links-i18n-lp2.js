@@ -2671,6 +2671,109 @@
   });
 })();
 
+/* Complete the three service facts introduced after the original locale pass. */
+(function () {
+  var T = window.SS_TRANSLATIONS = window.SS_TRANSLATIONS || {};
+  var add = {
+    km: {
+      "lp2.d6": "<b>ថ្លៃបង់ប្រាក់</b> ការបង់តាមកាតមានថ្លៃ Stripe ប្រហែល 5.4% + $0.30 ដែលបង្ហាញដាច់ដោយឡែក · ការផ្ទេរតាមធនាគារ Wise និង Zelle មិនមានថ្លៃកាត · ប្រាក់បម្រុង 3% គ្របដណ្ដប់ថ្លៃផ្ទេរចូលវៀតណាមតាមចំណាយជាក់ស្តែង",
+      "lp2.qt5": "ឥណទានសម្លៀកបំពាក់ $460 · ថ្លៃសេវា $290",
+      "lp2.qe_trace": "មានតែរូបថត មិនស្គាល់ប្រភព? <a href=\"https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=links-qe\" target=\"_blank\" rel=\"noopener\" data-track=\"qe-buy-trace\">ចាប់ផ្តើម The Trace — $25 កាត់ចេញពីការបញ្ជាទិញ →</a>"
+    },
+    zh: {
+      "lp2.d6": "<b>付款成本</b> 刷卡另列 Stripe 约 5.4% + $0.30 手续费 · 银行转账、Wise 和 Zelle 不收卡费 · 另预留 3% 按实际成本支付汇入越南的转款费用",
+      "lp2.qt5": "$460 服装额度 · $290 服务费",
+      "lp2.qe_trace": "只有照片，不知道来源？<a href=\"https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=links-qe\" target=\"_blank\" rel=\"noopener\" data-track=\"qe-buy-trace\">开始 The Trace — $25，下单后按条款抵扣 →</a>"
+    },
+    es: {
+      "lp2.d6": "<b>Costes de pago</b> Los pagos con tarjeta llevan la comisión de Stripe de aprox. 5,4 % + $0,30, desglosada · transferencia bancaria, Wise y Zelle no llevan comisión de tarjeta · una provisión del 3 % cubre la transferencia a Vietnam al coste real",
+      "lp2.qt5": "$460 de crédito para ropa · $290 de servicio",
+      "lp2.qe_trace": "¿Solo tienes una foto y no conoces la fuente? <a href=\"https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=links-qe\" target=\"_blank\" rel=\"noopener\" data-track=\"qe-buy-trace\">Empieza The Trace — $25, acreditados al pedido según las condiciones →</a>"
+    },
+    ar: {
+      "lp2.d6": "<b>تكاليف الدفع</b> تُضاف رسوم Stripe البالغة نحو 5.4% + $0.30 إلى مدفوعات البطاقة بشكل منفصل · التحويل البنكي وWise وZelle بلا رسوم بطاقة · ويغطي احتياطي 3% تكلفة التحويل إلى فيتنام بالتكلفة الفعلية",
+      "lp2.qt5": "$460 رصيد ملابس · $290 رسوم خدمة",
+      "lp2.qe_trace": "لديك صورة فقط ولا تعرف المصدر؟ <a href=\"https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=links-qe\" target=\"_blank\" rel=\"noopener\" data-track=\"qe-buy-trace\">ابدأ The Trace — $25، تُحتسب للطلب وفق الشروط →</a>"
+    },
+    fr: {
+      "lp2.d6": "<b>Frais de paiement</b> Les paiements par carte ajoutent les frais Stripe d’environ 5,4 % + 0,30 $, détaillés séparément · virement bancaire, Wise et Zelle sans frais de carte · une provision de 3 % couvre le transfert vers le Vietnam au coût réel",
+      "lp2.qt5": "460 $ de crédit vêtements · 290 $ de service",
+      "lp2.qe_trace": "Vous n’avez qu’une photo, sans connaître la source ? <a href=\"https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=links-qe\" target=\"_blank\" rel=\"noopener\" data-track=\"qe-buy-trace\">Commencer The Trace — 25 $, crédités sur la commande selon les conditions →</a>"
+    },
+    pt: {
+      "lp2.d6": "<b>Custos de pagamento</b> Pagamentos por cartão incluem a taxa da Stripe de cerca de 5,4% + $0,30, discriminada · transferência bancária, Wise e Zelle não têm taxa de cartão · uma provisão de 3% cobre a transferência para o Vietname pelo custo real",
+      "lp2.qt5": "$460 de crédito para roupa · $290 de serviço",
+      "lp2.qe_trace": "Só tem uma fotografia e não conhece a origem? <a href=\"https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=links-qe\" target=\"_blank\" rel=\"noopener\" data-track=\"qe-buy-trace\">Começar The Trace — $25, creditados na encomenda segundo os termos →</a>"
+    },
+    ru: {
+      "lp2.d6": "<b>Расходы на оплату</b> При оплате картой отдельно указывается комиссия Stripe около 5,4% + $0,30 · банковский перевод, Wise и Zelle без комиссии карты · резерв 3% покрывает фактические расходы на перевод во Вьетнам",
+      "lp2.qt5": "$460 на одежду · $290 за услугу",
+      "lp2.qe_trace": "Есть только фото, а источник неизвестен? <a href=\"https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=links-qe\" target=\"_blank\" rel=\"noopener\" data-track=\"qe-buy-trace\">Начать The Trace — $25, засчитываются в заказ по условиям →</a>"
+    },
+    ja: {
+      "lp2.d6": "<b>決済費用</b> カード決済には Stripe の約5.4% + $0.30を別途明記 · 銀行振込、Wise、Zelleはカード手数料なし · 3%の予備費はベトナムへの送金実費に充当",
+      "lp2.qt5": "$460 衣服クレジット · $290 サービス料",
+      "lp2.qe_trace": "写真だけで出所が分からない場合は、<a href=\"https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=links-qe\" target=\"_blank\" rel=\"noopener\" data-track=\"qe-buy-trace\">The Traceを開始 — $25、規約に従い注文に充当 →</a>"
+    },
+    de: {
+      "lp2.d6": "<b>Zahlungskosten</b> Kartenzahlungen enthalten die separat ausgewiesene Stripe-Gebühr von ca. 5,4 % + $0,30 · Banküberweisung, Wise und Zelle ohne Kartengebühr · 3 % Reserve decken den Transfer nach Vietnam zu tatsächlichen Kosten",
+      "lp2.qt5": "$460 Kleidungsguthaben · $290 Servicegebühr",
+      "lp2.qe_trace": "Nur ein Foto, aber keine Quelle? <a href=\"https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=links-qe\" target=\"_blank\" rel=\"noopener\" data-track=\"qe-buy-trace\">The Trace starten — $25, gemäß Bedingungen auf die Bestellung angerechnet →</a>"
+    },
+    ko: {
+      "lp2.d6": "<b>결제 비용</b> 카드 결제에는 Stripe 수수료 약 5.4% + $0.30가 별도 표시됩니다 · 은행 송금, Wise, Zelle은 카드 수수료가 없습니다 · 3% 예비금은 베트남 송금의 실제 비용에 사용됩니다",
+      "lp2.qt5": "$460 의류 크레딧 · $290 서비스 수수료",
+      "lp2.qe_trace": "사진만 있고 출처를 모르시나요? <a href=\"https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=links-qe\" target=\"_blank\" rel=\"noopener\" data-track=\"qe-buy-trace\">The Trace 시작 — $25, 조건에 따라 주문 시 차감 →</a>"
+    },
+    hi: {
+      "lp2.d6": "<b>भुगतान लागत</b> कार्ड भुगतान पर Stripe का लगभग 5.4% + $0.30 शुल्क अलग दिखाया जाता है · बैंक ट्रांसफर, Wise और Zelle पर कार्ड शुल्क नहीं · 3% भत्ता वियतनाम में धन भेजने की वास्तविक लागत को कवर करता है",
+      "lp2.qt5": "$460 कपड़ों का क्रेडिट · $290 सेवा शुल्क",
+      "lp2.qe_trace": "सिर्फ़ फ़ोटो है, स्रोत नहीं पता? <a href=\"https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=links-qe\" target=\"_blank\" rel=\"noopener\" data-track=\"qe-buy-trace\">The Trace शुरू करें — $25, शर्तों के अनुसार ऑर्डर में समायोजित →</a>"
+    },
+    id: {
+      "lp2.d6": "<b>Biaya pembayaran</b> Pembayaran kartu dikenai biaya Stripe sekitar 5,4% + $0,30 yang dirinci terpisah · transfer bank, Wise, dan Zelle tanpa biaya kartu · cadangan 3% menutup biaya aktual transfer ke Vietnam",
+      "lp2.qt5": "Kredit pakaian $460 · biaya layanan $290",
+      "lp2.qe_trace": "Hanya punya foto tanpa tahu sumbernya? <a href=\"https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=links-qe\" target=\"_blank\" rel=\"noopener\" data-track=\"qe-buy-trace\">Mulai The Trace — $25, dikreditkan ke pesanan sesuai ketentuan →</a>"
+    },
+    th: {
+      "lp2.d6": "<b>ค่าใช้จ่ายในการชำระเงิน</b> การชำระด้วยบัตรมีค่าธรรมเนียม Stripe ประมาณ 5.4% + $0.30 แสดงแยกต่างหาก · โอนผ่านธนาคาร Wise และ Zelle ไม่มีค่าธรรมเนียมบัตร · เงินสำรอง 3% ครอบคลุมค่าโอนเข้าเวียดนามตามจริง",
+      "lp2.qt5": "เครดิตเสื้อผ้า $460 · ค่าบริการ $290",
+      "lp2.qe_trace": "มีเพียงรูปถ่ายแต่ไม่ทราบแหล่งที่มา? <a href=\"https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=links-qe\" target=\"_blank\" rel=\"noopener\" data-track=\"qe-buy-trace\">เริ่ม The Trace — $25 นำไปหักจากคำสั่งซื้อตามเงื่อนไข →</a>"
+    },
+    it: {
+      "lp2.d6": "<b>Costi di pagamento</b> I pagamenti con carta includono la commissione Stripe di circa 5,4% + $0,30, indicata separatamente · bonifico bancario, Wise e Zelle senza commissione carta · un margine del 3% copre il trasferimento in Vietnam al costo effettivo",
+      "lp2.qt5": "$460 di credito abbigliamento · $290 di servizio",
+      "lp2.qe_trace": "Hai solo una foto e non conosci la fonte? <a href=\"https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=links-qe\" target=\"_blank\" rel=\"noopener\" data-track=\"qe-buy-trace\">Inizia The Trace — $25, accreditati sull’ordine secondo i termini →</a>"
+    },
+    tr: {
+      "lp2.d6": "<b>Ödeme maliyetleri</b> Kart ödemelerinde Stripe’ın yaklaşık %5,4 + $0,30 ücreti ayrı gösterilir · banka havalesi, Wise ve Zelle için kart ücreti yoktur · %3 pay Vietnam’a para aktarımının gerçek maliyetini karşılar",
+      "lp2.qt5": "$460 giysi kredisi · $290 hizmet bedeli",
+      "lp2.qe_trace": "Yalnızca fotoğrafınız var ve kaynağı bilmiyor musunuz? <a href=\"https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=links-qe\" target=\"_blank\" rel=\"noopener\" data-track=\"qe-buy-trace\">The Trace’i başlatın — $25, koşullara göre siparişe sayılır →</a>"
+    },
+    tl: {
+      "lp2.d6": "<b>Gastos sa pagbabayad</b> Ang card payment ay may hiwalay na Stripe fee na humigit-kumulang 5.4% + $0.30 · walang card fee ang bank transfer, Wise, at Zelle · ang 3% allowance ay para sa aktuwal na gastos ng paglipat ng pera sa Vietnam",
+      "lp2.qt5": "$460 credit sa damit · $290 service fee",
+      "lp2.qe_trace": "Larawan lang ang mayroon at hindi alam ang pinagmulan? <a href=\"https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=links-qe\" target=\"_blank\" rel=\"noopener\" data-track=\"qe-buy-trace\">Simulan ang The Trace — $25, ibabawas sa order ayon sa mga tuntunin →</a>"
+    },
+    pl: {
+      "lp2.d6": "<b>Koszty płatności</b> Płatności kartą obejmują osobno wykazaną opłatę Stripe ok. 5,4% + $0,30 · przelew bankowy, Wise i Zelle bez opłaty kartowej · rezerwa 3% pokrywa rzeczywisty koszt transferu do Wietnamu",
+      "lp2.qt5": "$460 kredytu na ubrania · $290 opłaty za usługę",
+      "lp2.qe_trace": "Masz tylko zdjęcie i nie znasz źródła? <a href=\"https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=links-qe\" target=\"_blank\" rel=\"noopener\" data-track=\"qe-buy-trace\">Rozpocznij The Trace — $25, zaliczane na zamówienie zgodnie z warunkami →</a>"
+    },
+    nl: {
+      "lp2.d6": "<b>Betaalkosten</b> Kaartbetalingen bevatten de apart vermelde Stripe-kosten van circa 5,4% + $0,30 · bankoverschrijving, Wise en Zelle zonder kaartkosten · een opslag van 3% dekt de werkelijke overboekingskosten naar Vietnam",
+      "lp2.qt5": "$460 kledingtegoed · $290 servicekosten",
+      "lp2.qe_trace": "Alleen een foto en geen bron? <a href=\"https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=links-qe\" target=\"_blank\" rel=\"noopener\" data-track=\"qe-buy-trace\">Start The Trace — $25, volgens de voorwaarden verrekend met de bestelling →</a>"
+    },
+    fa: {
+      "lp2.d6": "<b>هزینه‌های پرداخت</b> کارمزد Stripe حدود ۵٫۴٪ + $0.30 برای پرداخت کارتی جداگانه درج می‌شود · انتقال بانکی، Wise و Zelle کارمزد کارت ندارند · ذخیرهٔ ۳٪ هزینهٔ واقعی انتقال وجه به ویتنام را پوشش می‌دهد",
+      "lp2.qt5": "$460 اعتبار پوشاک · $290 هزینهٔ خدمات",
+      "lp2.qe_trace": "فقط عکس دارید و منبع را نمی‌دانید؟ <a href=\"https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a?client_reference_id=links-qe\" target=\"_blank\" rel=\"noopener\" data-track=\"qe-buy-trace\">شروع The Trace — $25، طبق شرایط از سفارش کسر می‌شود →</a>"
+    }
+  };
+  Object.keys(add).forEach(function (lang) { T[lang] = Object.assign(T[lang] || {}, add[lang]); });
+})();
+
 /* Vietnamese coverage for copy added after the link-hub translation pass. */
 (function () {
   var T = window.SS_TRANSLATIONS = window.SS_TRANSLATIONS || {};

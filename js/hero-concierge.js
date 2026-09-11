@@ -27,6 +27,11 @@ import { guideEndpoint } from './concierge-config.js';
   let state = 'idle', timers = [], pending = null, exchanges = 0, composing = false;
   let controller=null, generation=0, history=[];
   const opening='A link, a photo, or a wardrobe idea—choose a starting point below.';
+  const guided = {
+    sourcing:{question:'Do you have a direct product or shop link?',choices:[['Yes, I have the link','sourcing'],['I only have a photo','photo']]},
+    photo:{question:'What would you like me to do with the photo?',choices:[['Identify that exact item','trace'],['Find pieces with a similar feeling','styling']]},
+    styling:{question:'How much direction would feel useful?',choices:[['One focused need','styling'],['Several pieces or outfits','styling'],['This is a gift','gift']]}
+  };
 
   function quiet() { return reduce.matches || document.documentElement.classList.contains('rm'); }
   function clearTimers() { timers.forEach(clearTimeout); timers=[]; }
@@ -37,6 +42,9 @@ import { guideEndpoint } from './concierge-config.js';
     const p=document.createElement('p'); p.className='ss-message ss-message-'+kind; p.textContent=text; return p;
   }
   function makeActions(actions) {
+    const panel=document.createElement('section'); panel.className='ss-recommendation'; panel.setAttribute('aria-label','Recommended next step');
+    const eyebrow=document.createElement('p'); eyebrow.className='ss-recommendation-label'; eyebrow.textContent='Recommended next step';
+    const heading=document.createElement('h3'); heading.textContent=actions[0][0];
     const row=document.createElement('div'); row.className='ss-message-actions';
     actions.forEach(([label,href])=>{
       const a=document.createElement('a');
@@ -44,7 +52,7 @@ import { guideEndpoint } from './concierge-config.js';
       a.href=document.body.classList.contains('ss-links') && href.startsWith('#') ? (localRoutes[href] || './'+href) : href;
       a.textContent=label+' →'; row.append(a);
     });
-    return row;
+    panel.append(eyebrow,heading,row); return panel;
   }
   function setBusy(busy) {
     state=busy?'preparing':'complete'; input.readOnly=busy; submit.setAttribute('aria-disabled',String(busy));
@@ -107,6 +115,22 @@ import { guideEndpoint } from './concierge-config.js';
       },index*145));
     },quiet()?0:260);
   }
+  function qualify(topic,question) {
+    if(state==='preparing'||state==='revealing') return;
+    const flow=guided[topic]; if(!flow){ answer(topic,question); return; }
+    generation++; controller?.abort(); controller=null; clearTimers(); pending=null; error.textContent='';
+    thread.replaceChildren(); state='choosing'; reset.hidden=false;
+    card.querySelectorAll('[data-topic]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.topic===topic)));
+    const group=document.createElement('div'); group.className='ss-guided-turn';
+    group.append(makeMessage('user',question),makeMessage('guide',flow.question));
+    const choices=document.createElement('div'); choices.className='ss-followup-choices'; choices.setAttribute('aria-label',flow.question);
+    flow.choices.forEach(([label,next])=>{
+      const button=document.createElement('button'); button.type='button'; button.textContent=label;
+      button.addEventListener('click',()=>next==='photo'?qualify('photo',label):answer(next,label)); choices.append(button);
+    });
+    group.append(choices); thread.append(group); follow(true); card.classList.add('ss-has-answer');
+    more.hidden=true; moreToggle.setAttribute('aria-expanded','false'); moreToggle.textContent='Choose another question'; live.textContent=flow.question;
+  }
   function has(text,terms) {
     return terms.some(term=>{
       if(term.includes(' ')) return text.includes(term);
@@ -154,7 +178,10 @@ import { guideEndpoint } from './concierge-config.js';
   }
   function finishPending() { if(pending) completeAnswer(pending.record,pending.answerNode,pending.group,pending.wasNear); }
 
-  card.querySelectorAll('[data-topic]').forEach(button=>button.addEventListener('click',()=>answer(button.dataset.topic,prompts[button.dataset.topic]||button.textContent.trim())));
+  card.querySelectorAll('[data-topic]').forEach(button=>button.addEventListener('click',()=>{
+    const topic=button.dataset.topic,question=prompts[topic]||button.textContent.trim();
+    if(guided[topic]) qualify(topic,question); else answer(topic,question);
+  }));
   moreToggle.addEventListener('click',()=>{ const open=more.hidden; more.hidden=!open;card.classList.toggle('ss-show-prompts',open); moreToggle.setAttribute('aria-expanded',String(open)); moreToggle.textContent=open?'Show fewer':card.classList.contains('ss-has-answer')?'Choose another question':'See all answers'; });
   input.addEventListener('compositionstart',()=>{composing=true;}); input.addEventListener('compositionend',()=>{composing=false;});
   form.addEventListener('submit',event=>{ event.preventDefault(); if(composing||state==='preparing'||state==='revealing')return; const question=input.value.trim(); if(!question){error.textContent='Write a short question, or choose one above.';input.focus();return;} answer(classify(question),question,true); input.value=''; });

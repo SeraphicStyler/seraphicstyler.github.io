@@ -80,12 +80,22 @@
 .ss-home :is(#services,#process,#gift,#bulk,#boutique) { padding-block:var(--space-7); }
 .ss-home :is(.ss-definition,.ss-project,.ss-gift-custom) { padding:var(--space-5); }
 .ss-home :is(.ss-section-intro,.ss-custom-gifts-intro) p { max-width:66ch; margin-inline:auto; }
+/* Boutique calendar: one centered frame, one left-aligned timeline, and a
+   distinct capacity note. Long operational copy should never hang as a
+   centered paragraph beneath otherwise scannable columns. */
+.ss-home #boutique .boutique-calendar { max-width:52rem; margin:clamp(1.75rem,4vw,2.5rem) auto 0; padding:clamp(1.25rem,3vw,1.75rem); }
+.ss-home #boutique .boutique-calendar-title { max-width:34rem; margin:0 auto clamp(1.25rem,3vw,1.75rem); color:var(--text-primary); font:400 clamp(1.15rem,2.2vw,1.35rem)/1.4 var(--font-display); text-align:center; text-wrap:balance; }
+.ss-home #boutique .boutique-calendar .tl3 { margin-top:0; }
+.ss-home #boutique .boutique-window-note { display:grid; grid-template-columns:1.25rem minmax(0,1fr); gap:.8rem; align-items:start; max-width:66ch; margin:clamp(1.25rem,3vw,1.75rem) auto 0; padding:clamp(1rem,2.5vw,1.25rem); border:1px solid var(--surface-border); border-inline-start:2px solid var(--accent); border-radius:.8rem; background:color-mix(in srgb,var(--surface-soft) 82%,transparent); }
+.ss-home #boutique .boutique-window-note svg { width:1.15rem; height:1.15rem; margin-top:.2rem; color:var(--accent-deep); }
+.ss-home #boutique .boutique-window-note p { margin:0; color:var(--text-secondary); font-size:var(--type-body); line-height:1.7; text-align:left; text-wrap:pretty; }
 @media(max-width:800px) {
  .ss-links :is(.lp-sec,.lp-group,.lp-honest) { margin-top:var(--space-7); padding:var(--space-4); }
  .ss-links .lp-services { padding:0; margin-top:var(--space-6); }
  .ss-links .ss-definition { padding:var(--space-4); }
  .ss-links .ss-definition dl { grid-template-columns:1fr; gap:var(--space-4); }
  .ss-links .ss-definition dt { margin-bottom:var(--space-2); }
+ .ss-home #boutique .boutique-calendar-title { margin-inline:0; text-align:left; }
  .lp-price-ledger table { table-layout:auto; }
  .lp-price-ledger thead { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
  .lp-price-ledger :is(tbody,tr,th,td) { display:block; }
