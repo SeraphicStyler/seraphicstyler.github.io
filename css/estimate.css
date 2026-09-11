@@ -1,0 +1,67 @@
+/* One calculator, standalone or embedded. Calculations stay in estimator.js. */
+.est-page { background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body); }
+.est-page .wrap { max-width:1120px;padding-inline:24px; }
+.est-page .section-head { margin:32px auto 40px;max-width:720px; }
+.est-page h1 { font:400 clamp(32px,5vw,56px)/1.2 var(--font-display);margin:20px 0; }
+.est-page .lead { font-size:20px; }
+.est-boundary { font-size:16px;line-height:1.7;color:var(--text-secondary); }
+.est-page #estQuiz { display:none; }
+.est-ready .est-page #estQuiz { display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;max-width:none;margin:0;padding:0;background:none;border:0;box-shadow:none;backdrop-filter:none; }
+.est-page .quiz-toolbar { grid-column:1/-1;display:flex;justify-content:flex-end;gap:16px;align-items:center;margin:0; }
+.est-page .quiz-toolbar label { font-size:14px; }
+.est-page .quiz-toolbar select { width:auto;max-width:200px; }
+.est-page .quiz-step { display:block;opacity:1;transform:none;animation:none;padding:0; }
+.est-inputs { min-width:0;display:grid;align-content:start;gap:24px; }
+.est-inputs>.quiz-step,.est-page .est-receipt { padding:24px;border:1px solid var(--surface-border);border-radius:24px;background:var(--surface-solid); }
+.est-page .quiz-q { display:block;font:500 20px/1.5 var(--font-body);margin:0 0 12px; }
+.est-page :is(.quiz-help,.estimate-note,.share-s,.fx-status) { font:400 14px/1.7 var(--font-body);color:var(--text-secondary);margin:8px 0 16px; }
+.est-page .line-item { display:flex;gap:8px;margin:16px 0;align-items:start; }
+.est-page .li-fields { display:grid;gap:8px;flex:1;min-width:0; }
+.est-page :is(input,select) { box-sizing:border-box;max-width:100%;width:100%;min-height:48px;border:1px solid var(--surface-border);border-radius:12px;background:var(--bg-primary);color:var(--text-primary);font:400 16px/1.5 var(--font-body);padding:12px; }
+.est-page .quiz-check { display:flex;align-items:start;gap:12px;font:400 16px/1.6 var(--font-body);margin-block:20px; }
+.est-page input[type=checkbox] { min-height:24px;width:24px!important;flex-shrink:0; }
+.est-page .remove-item { min-width:44px;min-height:48px;border:1px solid var(--surface-border);border-radius:12px;background:transparent;color:var(--text-primary); }
+.est-page :is(button,.btn) { min-height:48px;white-space:normal; }
+.est-page .btn { border-radius:999px;font:500 14px/1.5 var(--font-body);padding:12px 20px; }
+.est-page :is(input,select,button,a,summary):focus-visible { outline:2px solid var(--accent);outline-offset:3px; }
+.est-page .est-receipt { align-self:start;min-width:0; }
+.est-page .result-card { padding:0;border:0;background:none;box-shadow:none; }
+.est-page .result-row { display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--surface-border);font:400 14px/1.6 var(--font-body); }
+.est-page .result-row>span:first-child { min-width:0; }
+.est-page .result-row .v { font-variant-numeric:tabular-nums;text-align:right;white-space:normal;overflow-wrap:anywhere;flex-shrink:0;max-width:52%;color:var(--text-primary); }
+.est-page .result-row.total { margin-top:16px;padding:20px 0;font-weight:500; }
+.est-page .result-row.total .v { font-size:clamp(20px,2vw,28px); }
+.est-page .result-row select { margin-top:8px;width:100px; }
+.est-page .result-row .tip { display:none; }
+.est-page details { margin:20px 0;border:0;border-bottom:1px solid var(--surface-border);background:none;box-shadow:none;padding:0;border-radius:0; }
+.est-page summary { cursor:pointer;min-height:48px;padding:12px 0;font:500 16px/1.5 var(--font-body);color:var(--text-primary); }
+.est-page details :is(p,li) { font:400 14px/1.7 var(--font-body);color:var(--text-secondary); }
+.est-page details ul { padding-left:20px; }
+.est-page .est-options[open] { padding-bottom:16px; }
+.est-page .share-row { flex-wrap:wrap; }
+.est-page .share-url { min-width:180px; }
+.est-page .tip { flex-shrink:0; }
+.est-page .tip-box { max-width:min(280px,75vw); }
+.est-page #est-faq { padding:48px 0; }
+.est-page #est-faq h2 { font:400 28px/1.4 var(--font-display); }
+.est-skip { position:absolute;left:-10000px; }.est-skip:focus { position:fixed;left:16px;top:16px;z-index:100;background:var(--surface-solid);padding:16px; }
+.est-embedded .est-page { min-height:0; }
+.est-embedded :is(.est-top,.est-foot,#est-faq,.est-page .section-head,.est-skip) { display:none; }
+.est-embedded .est-page section#estimate { padding:0; }
+.est-embedded .est-page .wrap { padding:0; }
+.est-embedded .est-page #estQuiz { gap:16px; }
+.est-embedded .est-page .quiz-toolbar { justify-content:space-between; }
+@media(max-width:740px) {
+ .est-ready .est-page #estQuiz { grid-template-columns:minmax(0,1fr);gap:20px; }
+ .est-page .wrap { padding-inline:16px; }
+ .est-inputs>.quiz-step,.est-page .est-receipt { padding:20px; }
+ .est-page .quiz-toolbar { flex-wrap:wrap; }
+ .est-page .result-row .v { max-width:50%; }
+}
+@media(prefers-reduced-motion:reduce) { .est-page * { scroll-behavior:auto!important;animation:none!important;transition:none!important; } }
+.est-ready .est-fallback { display:none; }
+.est-page :is(section#estimate,section#est-faq) { background:none;border:0;box-shadow:none;border-radius:0; }
+.est-page .li-fields label { font:500 14px/1.5 var(--font-body);color:var(--text-primary); }
+.est-page :is(.quiz-help,.estimate-note,.result-row) { font-size:16px; }
+.est-page .result-row.total .v { font-family:var(--font-body);font-weight:500; }
+.est-page #addItem { margin-top:16px!important;border:1px solid var(--surface-border);background:var(--surface-solid);color:var(--text-primary); }

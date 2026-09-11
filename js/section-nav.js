@@ -8,7 +8,7 @@
     ['lane-styling','Styling'],['custom-wardrobe','Custom Wardrobe'],['process','How it works'],
     ['directory','Directory'],['lookbook','Lookbook'],['gift','Gift styling'],['bulk','Group orders'],['boutique','Boutiques'],['contact','Contact']
   ] : links ? [
-    ['service-comparison','Services'],['lp-proof','Proof'],['lp-how','How it works'],['lp-styling','Pricing'],['lp-free','Start']
+    ['service-comparison','Services'],['lp-styling','Styling prices'],['lp-sourcing','Sourcing fees'],['lp-how','Process'],['lp-proof','Proof'],['lp-free','Start']
   ] : [
     ['service-overview','Overview'],['sourcing','Sourcing'],['trace','The Trace'],['styling','Styling'],
     ['prices','Styling prices'],['buying-fees','Buying fees'],['when-work-begins','When work begins'],['service-recommendation','Find your service']

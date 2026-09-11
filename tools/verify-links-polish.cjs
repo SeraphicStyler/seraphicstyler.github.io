@@ -35,7 +35,7 @@ function contrast(a,b) {const values=[luminance(a),luminance(b)].sort((x,y)=>y-x
   await page.screenshot({path:'/private/tmp/ss-service-choices-desktop.png'});
   assert.equal(await page.$eval('.lp-mobile-actions',e=>getComputedStyle(e).display),'none','mobile actions stay off desktop');
   assert.equal(await page.$eval('.ss-trust-ribbon',e=>getComputedStyle(e).position),'static');
-  await page.$eval('.lp-sample',e=>e.open=true);
+  await page.$eval('.lp-estimator',e=>e.open=true);
   assert(await page.$('.ss-section-nav a[href="#lp-free"]'),'free tools navigation');
   for(const id of ['lp-proof','lp-sourcing','lp-styling','lp-gift']) {
    await page.$eval('#'+id,e=>e.scrollIntoView({behavior:'instant'})); await pause(1000);

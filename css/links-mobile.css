@@ -189,3 +189,21 @@ html.hc .ss-links :is(.ss-service-choices>li,.lp-tier-option) { border-color:cur
 .ss-links .lp-work-films { margin-inline:auto; }
 html.mono .ss-links .lp-invitation h1::first-letter,html.hc .ss-links .lp-invitation h1::first-letter { font:inherit;color:inherit;text-shadow:none; }
 @media(prefers-reduced-motion:reduce) { .ss-links :is(a,button,summary)::after,.ss-links :is(a,button,summary) { transition:none; } }
+.ss-links .lp-estimator { margin-top:32px;border-block:1px solid var(--surface-border); }
+.ss-links .lp-estimator>summary { cursor:pointer;padding:20px 0;min-height:48px;font:500 16px/1.5 var(--font-body); }
+.ss-links .lp-estimator>p { font:400 16px/1.7 var(--font-body);color:var(--text-secondary); }
+.lp-estimate-frame { display:block;width:100%;height:1800px;border:0;background:transparent; }
+.ss-links .lp-hero-cta { flex-wrap:wrap;gap:16px;align-items:center; }
+.ss-links .lp-starting-price { font:500 22px/1.4 var(--font-body);color:var(--text-primary); }
+.ss-links .lp-starting-price small { display:block;margin-top:8px;font:400 14px/1.6 var(--font-body);color:var(--text-secondary); }
+.ss-links .lp-tier-option .lp-tier-total { font-size:40px;line-height:1.2;margin-top:8px; }
+.ss-links .lp-tier-total span { margin-top:8px;font-size:14px; }
+.ss-links .lp-tier-option .lp-credit-note { font-size:16px; }
+.ss-links .lp-tier-breakdown { border-block:1px solid var(--surface-border);margin:0; }
+.ss-links .lp-tier-breakdown summary { cursor:pointer;min-height:48px;padding:14px 0;font:500 14px/1.5 var(--font-body); }
+.ss-links .lp-tier-breakdown p { font-size:14px;margin:12px 0; }
+@media(prefers-reduced-motion:no-preference) {
+ html:not(.rm):not(.hc):not(.mono) .ss-links details[open]>.lp-dbody,
+ html:not(.rm):not(.hc):not(.mono) .ss-links .lp-tier-breakdown[open]>dl { animation:lp-detail-in 200ms ease-out; }
+ @keyframes lp-detail-in { from {opacity:.4;transform:translateY(4px)} to {opacity:1;transform:none} }
+}
