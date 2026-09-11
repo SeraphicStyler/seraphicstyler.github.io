@@ -43,6 +43,7 @@
   reduce.addEventListener('change',syncMotion);
   new MutationObserver(syncMotion).observe(root,{attributes:true,attributeFilter:['class']});
   document.addEventListener('visibilitychange',() => {
+    body.classList.toggle('lp-ambient-paused',document.hidden);
     if (document.hidden) body.classList.add('lp-hero-paused');
     else { const r=hero.getBoundingClientRect(); body.classList.toggle('lp-hero-paused',r.bottom<0||r.top>innerHeight); }
   });
