@@ -300,6 +300,10 @@ html.rm .hero::before, html.rm .hero::after { animation: none; opacity: 0.7; }
   filter: blur(6px); opacity: 0.92; animation: aura-pulse 7s ease-in-out infinite;
 }
 @keyframes aura-pulse { 0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 0.85; } 50% { transform: translate(-50%,-50%) scale(1.07); opacity: 1; } }
+.hero-heading { position: relative; }
+.hero-heading h1 { position: relative; z-index: 1; }
+.hero-heading > .hero-aura { top: 50%; width: min(64rem, 145vw); z-index: -1; }
+html:is(.mono, .hc) .hero-heading > .hero-aura { display: none; }
 /* Dark mode: the bright white bloom shows a hard disc edge against the navy field.
    Soften it into a dim, cool, heavily-diffused moon-glow that dissolves with no edge. */
 html.dark .hero-aura {

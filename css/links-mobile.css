@@ -255,9 +255,8 @@ html:not(.mono):not(.hc) body.ss-links { background:linear-gradient(155deg,var(-
 .ss-links .lp { background:transparent;box-shadow:none;max-width:1040px;padding-inline:32px; }
 .ss-links .lp-top { isolation:isolate;padding:100px 0 48px; }
 .ss-links .lp-top::before,.ss-links .lp-top::after,.ss-links .lp-hero-stars { display:none; }
-.ss-links .lp-top>.hero-aura { top:45%; }
 .ss-links.lp-hero-paused .hero-aura { animation-play-state:paused; }
-.ss-links .lp-top>.lp-wrap { position:relative;z-index:1; }
+.ss-links .lp-top>.lp-wrap { position:relative;z-index:1;isolation:isolate; }
 .ss-links :is(.lp-positioning,.lp-tag,.lp-editorial-line) { text-align:center;margin-inline:auto; }
 .ss-links .lp-invitation h1 { text-wrap:balance; }
 .ss-links :is(.lp-sec-h,.lp-group-h) { text-align:center; }
