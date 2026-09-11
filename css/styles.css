@@ -294,7 +294,7 @@ html.rm .hero::before, html.rm .hero::after { animation: none; opacity: 0.7; }
 
 /* ---- Luminous Aura hero ---- */
 .hero-aura {
-  position: absolute; inset-inline-start: 50%; top: 40%; transform: translate(-50%, -50%);
+  position: absolute; left: 50%; right: auto; top: 40%; transform: translate(-50%, -50%);
   width: min(46rem, 92vw); aspect-ratio: 1; z-index: 0; pointer-events: none;
   background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(247,245,250,0.7) 18%, rgba(201,182,232,0.35) 40%, rgba(214,228,255,0.18) 62%, transparent 74%);
   filter: blur(6px); opacity: 0.92; animation: aura-pulse 7s ease-in-out infinite;

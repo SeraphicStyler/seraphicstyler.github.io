@@ -991,8 +991,10 @@
 };
 
  const dict=window.SS_TRANSLATIONS;
+ const estimateAction={en:'See my estimate',vi:'Xem ước tính của tôi',zh:'查看我的估算',es:'Ver mi estimación',ar:'عرض تقديري',fr:'Voir mon estimation',pt:'Ver minha estimativa',ru:'Посмотреть мой расчёт',ja:'見積もりを見る',de:'Meine Schätzung ansehen',ko:'내 예상 비용 보기',hi:'मेरा अनुमान देखें',id:'Lihat estimasi saya',th:'ดูประมาณการของฉัน',it:'Vedi la mia stima',tr:'Tahmini tutarımı gör',tl:'Tingnan ang aking tantiya',pl:'Zobacz moją wycenę',nl:'Bekijk mijn schatting',fa:'مشاهده برآورد من',km:'មើលការប៉ាន់ស្មានរបស់ខ្ញុំ'};
  for(const [lang,c] of Object.entries(copy)){
   const d=dict[lang]||(dict[lang]={});
+  d['est.see']=estimateAction[lang];
   for(const [key,value] of Object.entries(c))d['estimate.'+key]=value;
   const aliases={
    'est.compare':'compare','est.shipto2':'compare','est.stops':'stores','est.complex':'complex','est.green':'green',
