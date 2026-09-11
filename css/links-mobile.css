@@ -3,6 +3,8 @@
 html:not(.mono):not(.hc) body.ss-links { background:linear-gradient(155deg,var(--bg-secondary) 0%,var(--bg-primary) 65%,#e4e9fb 100%);background-attachment:scroll; }
 html.dark:not(.hc) body.ss-links { background:linear-gradient(155deg,var(--bg-secondary),var(--bg-primary) 70%); }
 .ss-links::before,.ss-links::after,.ss-links .lp-top::before,.ss-links .lp-top::after,.ss-links .lp-hero-stars { display:none; }
+.ss-links .lp-top>.hero-aura { top:45%; }
+html:is(.mono,.hc) .ss-links .hero-aura { display:none; }
 .ss-links .lp { background:transparent;box-shadow:none;max-width:900px;padding-inline:24px; }
 .ss-links .lp-top { padding:96px 0 24px; }
 .ss-links .lp-brand { margin:0 auto 16px; }

@@ -1,5 +1,5 @@
 /* Offline directory support. Pages and code stay fresh; images are cached on use. */
-const CACHE = 'ss-fd-v75';
+const CACHE = 'ss-fd-v76';
 const CORE = [
   './fashion-directory', './field-guide', './find', './manifest.webmanifest',
   './css/directory.css?v=2026-09-10', './css/field-guide.css?v=2026-09-10',
