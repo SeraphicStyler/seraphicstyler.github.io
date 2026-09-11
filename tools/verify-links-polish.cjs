@@ -34,7 +34,7 @@ function contrast(a,b) {const values=[luminance(a),luminance(b)].sort((x,y)=>y-x
   await page.$eval('#service-comparison',node=>node.scrollIntoView({behavior:'instant'}));await pause(500);
   await page.screenshot({path:'/private/tmp/ss-service-choices-desktop.png'});
   assert.equal(await page.$eval('.lp-mobile-actions',e=>getComputedStyle(e).display),'none','mobile actions stay off desktop');
-  assert.equal(await page.$eval('.ss-trust-ribbon',e=>getComputedStyle(e).position),'fixed');
+  assert.equal(await page.$eval('.ss-trust-ribbon',e=>getComputedStyle(e).position),'static');
   await page.$eval('.lp-sample',e=>e.open=true);
   assert(await page.$('.ss-section-nav a[href="#lp-free"]'),'free tools navigation');
   for(const id of ['lp-proof','lp-sourcing','lp-styling','lp-gift']) {
@@ -44,8 +44,9 @@ function contrast(a,b) {const values=[luminance(a),luminance(b)].sort((x,y)=>y-x
    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   }
   const nightColors=await page.$$eval('#lp-proof .lp-pf-t,#lp-proof .lp-pf-d',els=>els.map(e=>getComputedStyle(e).color.match(/\d+/g).slice(0,3).map(Number)));
-  // Conservative lightest point of the cobalt wash, including its lavender glow.
-  nightColors.forEach(rgb=>assert(contrast(rgb,[61,73,122])>=4.5,'cobalt-panel text contrast'));
+  // Trust now sits on the same pale canvas as the other chapters.
+  const canvas=await page.$eval('body',e=>getComputedStyle(e).backgroundColor.match(/\d+/g).slice(0,3).map(Number));
+  nightColors.forEach(rgb=>assert(contrast(rgb,canvas)>=4.5,'trust text contrast'));
   assert(contrast([81,97,143],[239,234,248])>=4.5,'secondary text against lavender');
   assert(contrast([35,58,114],[238,243,251])>=4.5,'primary text against ice');
   for(const width of [390,320]) {

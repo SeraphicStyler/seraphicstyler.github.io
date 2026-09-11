@@ -48,8 +48,8 @@
   <script src="js/links-atelier.js?v=2026-09-07b" defer></script>
   <script type="module" src="js/hero-concierge.js?v=2026-09-10c" defer></script>
   <link rel="stylesheet" href="css/editorial-rhythm.css?v=2026-09-10c">
-  <link rel="stylesheet" href="css/links-mobile.css?v=2026-09-09b">
-  <script src="js/links-mobile.js?v=2026-09-09" defer></script>
+  <link rel="stylesheet" href="css/links-mobile.css?v=2026-09-11">
+  <script src="js/links-mobile.js?v=2026-09-11" defer></script>
   <link rel="stylesheet" href="css/theme.css?v=2026-09-10">
   <script src="js/theme.js?v=2026-09-10"></script>
 </head>
@@ -138,7 +138,6 @@
   <button class="lp-rail-pill" id="lpRailPill" type="button" aria-label="Show side panel"><span>Reading</span><b id="lpRailPillL">Overview</b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 17-5-5 5-5"/></svg></button>
 
   <main class="lp" id="main" tabindex="-1">
-    <h1 class="sr-only">Seraphic Styler — Saigon styling & sourcing, all links</h1>
 
     <!-- ===== Above the fold: brand + value + primary CTA ===== -->
     <header class="lp-top">
@@ -149,8 +148,11 @@
           <span class="brand-seraphic">Seraphic</span>
           <span class="brand-styler">Styler</span>
         </span>
-        <p class="lp-tag" data-i18n="hero.lead">Personal styling and verified sourcing from Saigon, shipped worldwide.</p>
-        <p class="lp-trust">One person in Saigon, finding the pieces that belong in your life.</p>
+        <div class="section-head center lp-invitation">
+          <span class="eyebrow" data-i18n="inq2.eyebrow">Begin</span>
+          <h1 data-i18n="inq2.h2">Choose your path</h1>
+          <p class="lp-tag" lang="en">A precise piece in mind, or a wardrobe to imagine. Begin with the kind of guidance you need.</p>
+        </div>
 
         <div class="lp-ctarow lp-hero-cta">
           <a class="lp-cta" href="#service-comparison">Find your service <span aria-hidden="true">↓</span></a>
@@ -158,7 +160,7 @@
         <ul class="lp-proof" aria-label="House promises">
           <li data-i18n="lp2.tk1">Verified in person</li>
           <li data-i18n="lp2.tk2">Pieces at cost</li>
-          <li data-i18n="lp2.tk5">Replies in 1–2 business days</li>
+          <li data-i18n="lp2.tk6">Your approval first</li>
         </ul>
 
         <button class="lp-cta2 sr-only" id="qeOpen" type="button" data-track="estimate-open" tabindex="-1" aria-hidden="true">See an estimate first →</button>
@@ -169,7 +171,7 @@
 
     <!-- ===== Services — two outcome-led cards ===== -->
     <section class="lp-sec lp-services" aria-labelledby="lpsv-h" lang="en">
-      <h2 class="lp-sec-h" id="lpsv-h" data-section-label="Services">Choose your service</h2>
+      <h2 class="lp-sec-h" id="lpsv-h" data-section-label="Services">Three clear beginnings</h2>
       <!-- Which one am I? People were reading two service descriptions and still not
            placing themselves. These are the reader's own sentences, not definitions. -->
 
@@ -228,18 +230,32 @@
     </section>
     </details>
 
+    <section class="lp-sec lp-selected-work" id="lp-selected-work" aria-labelledby="lp-work-title">
+      <h2 class="lp-sec-h" id="lp-work-title" data-section-label="Lookbook" data-i18n="look.h2">Selected work</h2>
+      <p class="lp-lead" data-i18n="lp.look_s">Recent sourcing and styling work</p>
+      <div class="lp-work-films">
+        <figure>
+          <video controls playsinline muted preload="none" poster="assets/lookbook/posters/lane-1.jpg" aria-labelledby="lp-film-lane" aria-describedby="lp-film-lane-note" src="assets/lookbook/lane-1.mp4"><a href="assets/lookbook/lane-1.mp4">Lane Cì — video</a></video>
+          <figcaption id="lp-film-lane">Lane Cì</figcaption>
+          <p id="lp-film-lane-note" lang="en">Silent lookbook clip. Blush and ivory pieces with floral detailing.</p>
+        </figure>
+        <figure>
+          <video controls playsinline muted preload="none" poster="assets/lookbook/posters/kathy-1.jpg" aria-labelledby="lp-film-kathy" aria-describedby="lp-film-kathy-note" src="assets/lookbook/kathy-1.mp4"><a href="assets/lookbook/kathy-1.mp4">Kathy Atelier — video</a></video>
+          <figcaption id="lp-film-kathy">Kathy Atelier</figcaption>
+          <p id="lp-film-kathy-note" lang="en">Silent lookbook clip. A boutique visit, with pieces on display.</p>
+        </figure>
+      </div>
+      <a class="lp-simple-action" href="lookbook"><span data-i18n="nav.lookbook">Lookbook</span> <span aria-hidden="true"> →</span></a>
+    </section>
+
     <section class="lp-sec lp-howsec" id="lp-how" aria-labelledby="lphw-h">
-      <h2 class="lp-sec-h" id="lphw-h" data-section-label="Process">How it works</h2>
+      <h2 class="lp-sec-h" id="lphw-h" data-section-label="Process">A considered way of working</h2>
       <ol class="lp-steps lp-steps-3 in" aria-label="How it works">
         <li><span class="lp-step-n">01</span><span class="lp-step-t">Tell me what you want</span><p class="lp-step-d">A link, a photo, or an occasion.</p></li>
         <li><span class="lp-step-n">02</span><span class="lp-step-t">Agree the scope and fees</span><p class="lp-step-d">Research and styling begin after their payment is confirmed. Garment purchases follow your approval.</p></li>
         <li><span class="lp-step-n">03</span><span class="lp-step-t">Approve your pieces, then arrange delivery</span><p class="lp-step-d">See approval photos and itemized costs. Final shipping is confirmed for the packed parcel and your destination.</p></li>
       </ol>
-      <p class="lp-yes">Your profile stays on file, so the next piece is one message away.</p>
-    </section>
-
-    <section class="lp-sec lp-proofsec lp-tonal-night" id="lp-proof" aria-labelledby="lppf-h">
-      <h2 class="lp-sec-h" id="lppf-h" data-section-label="Trust">Why clients trust the process</h2>
+      <div class="lp-proofsec" id="lp-proof" aria-label="The atelier’s commitments">
       <div class="lp-proofgrid reveal">
         <div class="lp-pf"><span class="lp-pf-t" data-i18n="lp2.tk1">Verified in person</span><span class="lp-pf-d">Every piece is inspected at the boutique before you decide.</span></div>
         <div class="lp-pf"><span class="lp-pf-t" data-i18n="lp2.tk2">Pieces at cost</span><span class="lp-pf-d">You pay the receipt price. My fee is itemized separately.</span></div>
@@ -256,7 +272,7 @@
         </dl>
         <span class="lp-sample-n">An illustrative sourcing quote. Your own total is confirmed before any deposit.</span>
       </div></details>
-      <p class="lp-tryfree"><a href="lookbook" data-track="proof-lookbook">See recent sourcing and styling work →</a></p>
+      </div>
     </section>
 
     <!-- ===== How it works — three steps, no accounting ===== -->
@@ -363,7 +379,7 @@
       </section>
 
       <section class="lp-group" id="lp-browse" aria-labelledby="lpg-browse">
-        <h2 class="lp-group-h" id="lpg-browse" data-section-label="Explore">Explore Seraphic</h2>
+        <h2 class="lp-group-h" id="lpg-browse" data-section-label="Explore">Atelier notes</h2>
         <div class="lp-explore-group"><h3>Discover &amp; learn</h3><div class="lp-links">
           <a class="lp-card lp-card-feature" href="fashion-directory" data-track="directory">
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M9 20l-6 2V6l6-2 6 2 6-2v16l-6 2-6-2z"/><path d="M9 4v16M15 6v16"/></svg></span>
@@ -423,7 +439,7 @@
         </div></div>
       </section>
 
-      <section class="lp-group lp-tonal-night" id="lp-gift" aria-labelledby="lpg-more">
+      <section class="lp-group" id="lp-gift" aria-labelledby="lpg-more">
         <h2 class="lp-group-h" id="lpg-more" data-section-label="Other occasions">More ways to work together</h2>
         <div class="lp-links reveal">
           <a class="lp-card" href="./#gift" data-track="gift-tiers">
@@ -447,6 +463,10 @@
     </nav>
 
 
+    <section class="lp-closing" aria-labelledby="lp-closing-title" lang="en">
+      <h2 id="lp-closing-title">One person in Saigon, finding the pieces that belong in your life.</h2>
+      <a class="lp-cta" href="service-request.html?service=unsure">Start a request <span aria-hidden="true">→</span></a>
+    </section>
     <p class="lp-foot">Saigon styling and sourcing, shipped worldwide. <a href="policy">Read the house policies →</a></p>
 
   </main>
