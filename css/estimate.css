@@ -71,3 +71,6 @@
 .est-page [dir=rtl],html[dir=rtl] .est-page { text-align:start; }
 .est-page :is(.item-price,.item-link,.result-row .v,.split-cur) { direction:ltr;unicode-bidi:isolate; }
 html[lang=ar] .est-page,html[lang=fa] .est-page,html[lang=km] .est-page,html[lang=th] .est-page { letter-spacing:normal; }
+
+/* An embed sizes to its content, not the viewport supplied by its parent. */
+html.est-embedded,html.est-embedded body { min-height:0;height:auto; }

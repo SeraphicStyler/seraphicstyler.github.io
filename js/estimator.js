@@ -556,7 +556,7 @@ function SS_fmtRate(v) {
   }
 
   function summary() {
-    if(document.body.classList.contains('est-page')){
+    if(document.querySelector('.est-page')){
       var rows=[t('est.h2','Build a rough estimate')+' — Seraphic Styler'];
       readItems().forEach(function(price,i){if(price>0)rows.push((i+1)+'. '+fmtVnd(price)+(readLinks()[i]?' — '+readLinks()[i]:''));});
       ['region','weight','stops','styling','payMethod'].forEach(function(id){var select=el[id];if(select)rows.push(select.options[select.selectedIndex].textContent);});

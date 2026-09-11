@@ -37,11 +37,13 @@
  document.addEventListener('ss:lang',localize);
  new MutationObserver(localize).observe(document.getElementById('lineItems'),{childList:true});localize();
  if(root.classList.contains('est-embedded')&&parent!==window){
+   const content=document.querySelector('.est-page');
    let lastHeight=0;
-   const resize=()=>{const height=Math.ceil(document.body.getBoundingClientRect().height);if(Math.abs(height-lastHeight)>1){lastHeight=height;parent.postMessage({type:'ss-estimate-height',height},location.origin);}};
-   new ResizeObserver(resize).observe(document.body);
+   // Measure intrinsic content, never the iframe viewport (body min-height:100vh).
+   const resize=()=>{const height=Math.ceil(content.getBoundingClientRect().height);if(height>0&&height!==lastHeight){lastHeight=height;parent.postMessage({type:'ss-estimate-height',height},location.origin);}};
+   new ResizeObserver(resize).observe(content);
    const sync=()=>{
-     if(parent.SS_THEME&&window.SS_THEME)window.SS_THEME.set(parent.SS_THEME.mode,{persist:false,animate:false});
+     if(parent.SS_THEME&&window.SS_THEME&&parent.SS_THEME.mode!==window.SS_THEME.mode)window.SS_THEME.set(parent.SS_THEME.mode,{persist:false,animate:false});
      for(const name of ['hc','rm','ts-lg','ts-xl'])root.classList.toggle(name,parent.document.documentElement.classList.contains(name));
      select.value=root.classList.contains('dark')?'dark':root.classList.contains('mono')?'mono':'light';
    };
