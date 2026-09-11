@@ -8,10 +8,15 @@
    ========================================================================== */
 (function () {
   'use strict';
+  var routeState = null, bindings = null;
   function boot() {
     var R = window.SS_ROUTE, DIR = window.SS_DIRECTORY, CO = window.SS_COORDS;
     if (!R || !DIR || !CO) { console.warn('[route-panel] missing deps (SS_ROUTE/SS_DIRECTORY/SS_COORDS)'); return; }
     var FD = window.SS_FD || {};
+    var wasOpen = document.querySelector('.ssrp-ov')?.hidden === false;
+    var focused = document.querySelector('.ssrp-ov')?.contains(document.activeElement) ? document.activeElement.id : null;
+    if (bindings) bindings.abort();
+    bindings = new AbortController();
 
     /* Labels are baked into the markup at build time, so a language switch has to
        rebuild the widget. Drop any previous instance before creating a new one. */
@@ -199,7 +204,7 @@
     var openBtn = document.createElement('button');
     openBtn.className = 'ssrp-open'; openBtn.type = 'button';
     openBtn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 20l-5.4 1.8L4 4l5 3 6-3 5.4-1.8L19 20l-5 3-5-3z"/><path d="M9 7v13M15 4v13"/></svg><span>' + T('Plan a route', 'Lên lộ trình') + '</span>';
-    document.body.appendChild(openBtn);
+    (document.querySelector('.fdmap-head') || document.body).appendChild(openBtn);
 
     var ov = document.createElement('div'); ov.className = 'ssrp-ov'; ov.hidden = true;
     ov.innerHTML =
@@ -213,7 +218,7 @@
       '<div><div class="ssrp-lab">' + T('Stops from', 'Nguồn điểm dừng') + '</div><div class="ssrp-row" id="ssrp-seed"></div></div>' +
       '<div class="ssrp-row" id="ssrp-opts"></div>' +
       '<div class="ssrp-row"><button class="ssrp-go" id="ssrp-run">' + T('Optimize route', 'Tối ưu lộ trình') + '</button>' +
-      '<span id="ssrp-seedcount" class="ssrp-field"></span></div>' +
+      '<div id="ssrp-seedcount" class="ssrp-field"></div></div>' +
       '<div class="ssrp-out" id="ssrp-out"></div>' +
       '</div></div>';
     document.body.appendChild(ov);
@@ -227,7 +232,7 @@
        it unconditionally left a first-time visitor looking at a selected-but-
        disabled chip and a dead "Optimize route · 0 routeable stops". Fall back to
        whatever they are already looking at. */
-    var state = { seed: seedSaved().length ? 'saved' : 'filter', zone: 'd1', mode: 'bike', start: 'benthanh', startMin: 540, roundTrip: true, dwell: 25, geo: null };
+    var state = routeState || (routeState = { seed: seedSaved().length ? 'saved' : 'filter', zone: 'd1', mode: 'bike', start: 'benthanh', startMin: 540, roundTrip: true, dwell: 25, geo: null });
 
     function currentStops() {
       if (state.seed === 'saved') return seedSaved();
@@ -281,7 +286,20 @@
       var wrap = document.createElement('span'); wrap.className = 'ssrp-field'; wrap.appendChild(zc); wrap.appendChild(zoneSel);
       seedWrap.appendChild(wrap);
     }
-    function syncSeed() { renderSeed(); var n = currentStops().length; seedCountEl.textContent = n + ' ' + T('routeable stop' + (n === 1 ? '' : 's'), 'điểm dừng'); }
+    function syncSeed() {
+      renderSeed();var n=currentStops().length;
+      seedCountEl.textContent=n+' '+T('routeable stop'+(n===1?'':'s'),'điểm dừng');
+      var saved=savedIds(), basket={};
+      if(state.seed==='basket')try{(JSON.parse(localStorage.getItem('fd-basket')||'{}').items||[]).forEach(function(it){if(it.brandId&&it.state!=='saved')basket[it.brandId]=true;});}catch(e){}
+      var missing=DIR.filter(function(b){
+        if(coordFor(b)||b.city!=='SGN'||b.st==='online')return false;
+        if(state.seed==='saved')return saved.has(bid(b));
+        if(state.seed==='basket')return basket[bid(b)];
+        if(state.seed==='district')return zoneOf(b)===state.zone;
+        return !FD.match||FD.match(b);
+      });
+      if(missing.length){var note=document.createElement('details'),summary=document.createElement('summary'),names=document.createElement('p');note.className='ssrp-location-gaps';note.lang='en';summary.textContent=missing.length+' listings need a location before routing';names.textContent=missing.map(function(b){return b.n;}).join(', ')+'.';note.appendChild(summary);note.appendChild(names);seedCountEl.appendChild(note);}
+    }
 
     function renderOpts() {
       optsWrap.innerHTML = '';
@@ -392,7 +410,7 @@
     document.addEventListener('keydown', function (e) {
       if (!document.body.contains(ov)) return;   // a rebuilt widget owns the keyboard now
       if (e.key === 'Escape' && !ov.hidden) close();
-    });
+    }, { signal: bindings.signal });
     ov.querySelector('#ssrp-run').addEventListener('click', run);
 
     // deep-link: open automatically on #route or ?route
@@ -403,7 +421,8 @@
       open();
     }
     maybeAutoOpen();
-    window.addEventListener('hashchange', maybeAutoOpen);
+    window.addEventListener('hashchange', maybeAutoOpen, { signal: bindings.signal });
+    if (wasOpen) { open(); if (focused) ov.querySelector('#' + CSS.escape(focused))?.focus({ preventScroll: true }); }
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

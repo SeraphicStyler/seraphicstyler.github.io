@@ -1,0 +1,1805 @@
+{
+  "brands": 321,
+  "locations": 259,
+  "exact_geocodes": 0,
+  "street_geocodes": 108,
+  "structured_hours": 0,
+  "verified_last_90_days": 0,
+  "unresolved_flags": 244,
+  "missing_geocode": 127,
+  "missing_district": 84,
+  "alias_collisions": [
+    {
+      "alias": "josephineofficial.vn",
+      "brand_ids": [
+        "josephine",
+        "josephine-hanoi"
+      ]
+    },
+    {
+      "alias": "routine_official",
+      "brand_ids": [
+        "routine",
+        "routine-u-space"
+      ]
+    },
+    {
+      "alias": "daphalestudios",
+      "brand_ids": [
+        "daphale-studios-lingerie-line",
+        "daphale-studios"
+      ]
+    }
+  ],
+  "review_queue": [
+    {
+      "id": "huelley-rose",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "huelley",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "stress-mama",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "dawn-vintage",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "1998-before-the-dawn",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "depass",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "mangata",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "josephine",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "lsoul",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "jubin-studio",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "moodswings",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "cem-chi-em-minh",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "pomelo-flower",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "clothes-bar",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "jenea-by-jenny",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "calista-de-minh-thanh",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "enuff-studio",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "gout-de-jun",
+      "issues": [
+        "unresolved_location",
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "hoang-studios",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Sparse online presence — check it's still trading as fashion before you go."
+    },
+    {
+      "id": "de-pure",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "arya",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "babie-club",
+      "issues": [
+        "unresolved_location",
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "elena-ngn",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "teddy-and",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "whose-studio",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "firefly-studio",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "daniv-dear",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "resel-studio",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "resel-bridal",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "moulin-rose",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "tartan-studios",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "sassy-sis",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "so-dope-club",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "18-again",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Orders routed via @eighteen.loveyou for now. 10:00–21:45."
+    },
+    {
+      "id": "baabeeboo",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "cherieon",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "caleelilou",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "la-vierge",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "chan-club",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "rever",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "mooris",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "11-garmentory",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "duu-stu",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "badchoices",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "moon-me",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "l-espoir",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "liniss",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "by-vee",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "tiela",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "chou-chou",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "the-fance",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "nosbyn-studio",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "the-country-boutiques",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "glamdoll",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "olv",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "joven",
+      "issues": [
+        "unresolved_location"
+      ],
+      "reason": null
+    },
+    {
+      "id": "ivy-moda",
+      "issues": [
+        "unresolved_location"
+      ],
+      "reason": null
+    },
+    {
+      "id": "laviem",
+      "issues": [
+        "unresolved_location"
+      ],
+      "reason": null
+    },
+    {
+      "id": "hapas",
+      "issues": [
+        "unresolved_location"
+      ],
+      "reason": null
+    },
+    {
+      "id": "dirtycoins",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "icondenim",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "degrey",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "bad-habits",
+      "issues": [
+        "unresolved_location",
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "hades-studio",
+      "issues": [
+        "historical_note",
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "routine",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Menswear-rooted, now VN's benchmark for office-to-weekend basics; 1,000 m² keystone store (May 2025) + Aeon Bình Tân & Tân Phú Celadon malls. 9:00–22:00 daily. See also Routine U Space (Q10) for the two-floor concept version."
+    },
+    {
+      "id": "routine-u-space",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Routine's two-floor concept space, and the rare Saigon store that is a whole afternoon rather than a stop — budget 2 hours. Ground: casual wear, accessories, café. Upstairs: streetwear, linen & silk pieces, plus a jewellery counter, bakery and ice cream. Pair it with DirtyCoins' destination flagship at 561, a few doors down."
+    },
+    {
+      "id": "aristino",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "moi-dien",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Tom Trandt's cult experimental label — deconstructed tailoring, upcycling, unisex statement pieces. Call ahead ☎ 090 395 12 12."
+    },
+    {
+      "id": "cao-minh-saigon",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "sir-tailor",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "h-and-d-tailor",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Third-generation master tailor Tạ Quốc Hưng — an expat & business-traveler standby for 20 years; tropical-weight wools a specialty. Mon–Sat ~9:00–19:00."
+    },
+    {
+      "id": "le-thanh-hoa",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "chung-thanh-phong",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "phan-huy",
+      "issues": [
+        "unresolved_location"
+      ],
+      "reason": null
+    },
+    {
+      "id": "sixdo",
+      "issues": [
+        "unresolved_location"
+      ],
+      "reason": null
+    },
+    {
+      "id": "valenciani",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "vungoc-and-son",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "do-long",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "linh-nga-couture",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "li-lam-lam",
+      "issues": [
+        "unresolved_location",
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "gia-studios",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "fanci-club",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "minh-tuan-couture",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "nguyen-hoang-tu",
+      "issues": [
+        "unresolved_location"
+      ],
+      "reason": null
+    },
+    {
+      "id": "metiseko",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "caostu",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "subtle-le-nguyen",
+      "issues": [
+        "unresolved_location"
+      ],
+      "reason": null
+    },
+    {
+      "id": "la-pham",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "rue-des-chats",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "ao-dai-vo-viet-chung",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "thuy-design-house",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "kinzu-ao-dai-song-toan",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "le-saigonais",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "thai-tuan-silk",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "dong-dong-sai-gon",
+      "issues": [
+        "unresolved_location"
+      ],
+      "reason": null
+    },
+    {
+      "id": "sh-silk-embroidery",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "mangii-custom-shoes",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "dung-tailor",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "maydo-saigon",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "duan-tailor",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "a-dong-silk",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "olaben",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "eql-apparel",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "fitme",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "the-gioi-do-tap",
+      "issues": [
+        "unresolved_location"
+      ],
+      "reason": null
+    },
+    {
+      "id": "shamdi",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "supersports",
+      "issues": [
+        "unresolved_location",
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "uv100-sun-protection",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "ARPANSA-certified UPF 50+ — the measurable one. Taiwanese, distributed by Smarttex."
+    },
+    {
+      "id": "hinlet-sun-protection",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Sun-resistant fashion since 2016."
+    },
+    {
+      "id": "momiu-sun-protection",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "The beloved local sun-jacket house."
+    },
+    {
+      "id": "tokyolife-sun-protection",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Japanese-tech UV “SunStop” shirts, UPF 50+ claimed. Also 73/4b Lê Văn Khương, D12 (outside the mapped zones)."
+    },
+    {
+      "id": "seeson-eyewear",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "the-purists-club-eyewear",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "ananas-shoes",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "shondo-shoes",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "vascara-shoes",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "juno-shoes",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "cnes-shoemaker-shoes",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "chautfifth-bags",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "curnon-watches",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "shimmer-silver-jewelry",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "ame-jewellery-jewelry",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "floralpunk-jewelry",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "lace-lingerie-lover",
+      "issues": [
+        "confirm_first",
+        "historical_note",
+        "address_normalization_needed"
+      ],
+      "reason": "Handmade since 2018 and the name most clients already know — lace, embroidered mesh, ribbon straps; 227k on IG, ships worldwide. ☎ 090 691 3207. Its own posts have shown a door at 51 Trần Quang Diệu and older lists give 249 Huỳnh Văn Bánh (Phú Nhuận) — the strip is small, but confirm the number on IG before you go."
+    },
+    {
+      "id": "the-clothe",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Designed-lingerie house since 2015 — bralettes, push-ups and briefs in lace, cotton, linen and silk. 11:00–21:00; orders also run through Shopee and Facebook. The older 339/58B Lê Văn Sỹ (D3) door still shows on listings."
+    },
+    {
+      "id": "fragile-spine",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Elegant handmade lingerie line since 2014, up in the 26 Lý Tự Trọng apartment block (the New Playground building). Facebook-led — message before you climb."
+    },
+    {
+      "id": "pur-braslove",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "bralette-s-house",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Vietnamese-made end to end — fabric, cut and QC in house; creative cuts, lace panels and embroidery. 9:00–21:00."
+    },
+    {
+      "id": "cornpink-house",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Self-designed and hand-sewn sets at the softest prices in the city. Three home-studio doors down alleys — message first, don't just turn up."
+    },
+    {
+      "id": "mustoto",
+      "issues": [
+        "confirm_first",
+        "historical_note",
+        "address_normalization_needed"
+      ],
+      "reason": "Wire-free bras and loungewear in Lyocell — ask for the Easy Lyocell line. Studio hours 8:00–17:00, so it's a morning stop; the 187 Nguyễn Đình Chiểu (D3) address on listicles is stale."
+    },
+    {
+      "id": "sexy-forever",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "lamluy",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Cotton-first designer lingerie for younger frames, 8:00–22:00. The lamluy.vn site was down when I checked in Aug 2026 — confirm on Facebook it's still trading before making the trip."
+    },
+    {
+      "id": "seti-house",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Bralettes by the wall — plain everyday cuts through to themed seasonal drops. Facebook-led; ring ahead."
+    },
+    {
+      "id": "linari",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Bralette specialist off the tourist grid, run through Instagram; frequent buy-a-bra-get-a-brief promos. Q4 is a short bridge hop from D1."
+    },
+    {
+      "id": "thong-tha-lingerie",
+      "issues": [
+        "confirm_first"
+      ],
+      "reason": "Saigon IG lingerie studio, 10:00–21:00 by message. ☎ 07 6747 0109."
+    },
+    {
+      "id": "daphale-studios-lingerie-line",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "lace-the-label",
+      "issues": [
+        "confirm_first"
+      ],
+      "reason": "Handmade basic bralettes, made in Vietnam. Hanoi-based — nationwide shipping; DM about overseas."
+    },
+    {
+      "id": "corele-v",
+      "issues": [
+        "confirm_first",
+        "unresolved_location",
+        "address_normalization_needed"
+      ],
+      "reason": "French house (Corèle International) that opened its first Vietnam store in 2017 — the upmarket fitting alternative to Wacoal. ☎ 0932 665 523."
+    },
+    {
+      "id": "triumph",
+      "issues": [
+        "unresolved_location",
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "pandemos",
+      "issues": [
+        "unresolved_location",
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "vera",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Vietnam's best-known homegrown lingerie label (Sonkim) — conservative cuts, wide size run, sold in department stores nationwide."
+    },
+    {
+      "id": "ibasic",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "The everyday basics chain, women's and men's — cheap, everywhere, and fine for filler in a bulk order. Fibre content varies by line; ask rather than assume cotton."
+    },
+    {
+      "id": "ladali",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Trend-led young lingerie with gift-worthy packaging. 9:00–22:00."
+    },
+    {
+      "id": "bom-sister",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Fixed-price budget racks — bralettes around 88k₫. Same Võ Văn Tần block as Sexy Forever, so the two pair on one walk."
+    },
+    {
+      "id": "vincy-homewear",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "onoff",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Cotton-first underwear & homewear chain (est. 2005) — sleepwear for women and men; 8 HCMC-area stores, live locator at onoff.vn."
+    },
+    {
+      "id": "mialala",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Lingerie + sleepwear house, 54 stores nationwide — ask for the cotton and đũi pieces; the “lụa” sets are synthetic satin."
+    },
+    {
+      "id": "metiseko-silk-and-lounge-line",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "catherine-denoual-maison",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "wacoal-bra-fitting",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "tricia-and-verona",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "thomas-nguyen-tailor",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Bespoke house since 2012 — treat pyjamas as a custom shirt-and-trouser commission in your fabric; alterations up to 3 years."
+    },
+    {
+      "id": "mira-emb",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "germe",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "ce-ce",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "happy-hahaha-studio",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "striped-t",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "josephine-hanoi",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "lan-huong-fashion-house",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "tan-my-design",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "kilomet109",
+      "issues": [
+        "unresolved_location"
+      ],
+      "reason": null
+    },
+    {
+      "id": "chats-by-c-dam",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "hoang-minh-ha",
+      "issues": [
+        "unresolved_location"
+      ],
+      "reason": null
+    },
+    {
+      "id": "ha-linh-thu",
+      "issues": [
+        "unresolved_location",
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "tran-hung",
+      "issues": [
+        "unresolved_location",
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "phan-dang-hoang",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "shu-shi",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "mayhem",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "maintwo",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "hebe-vintage",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "the-normal",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "2-abnormal",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "cho-ban-co-do-si",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Classic đồ si alley market — dig-for-it secondhand piles. Go morning, bargain gently."
+    },
+    {
+      "id": "nhat-tao-secondhand-shops",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "A strip of đồ si houses; quality varies rack to rack — a hunting ground, not a boutique."
+    },
+    {
+      "id": "rue-miche-l-edition",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "the-new-playground",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "hello-weekend-market",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "the-box-market",
+      "issues": [
+        "unresolved_location",
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "saigon-flea-market",
+      "issues": [
+        "unresolved_location"
+      ],
+      "reason": null
+    },
+    {
+      "id": "saigon-vintage-market",
+      "issues": [
+        "unresolved_location"
+      ],
+      "reason": null
+    },
+    {
+      "id": "saigon-urban-flea",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "thiso-mall-pop-ups",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "ononmm",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "cocosin",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "libe",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "wephobia",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "nosbyn",
+      "issues": [
+        "unresolved_location",
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "daphale-studios",
+      "issues": [
+        "unresolved_location",
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "whenever-atelier",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "kathy-atelier",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "laneci",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "so-vintage",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "anna-clothes",
+      "issues": [
+        "unresolved_location",
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "levents",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "hangkao-closet",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "veos",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "thao-bibi",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "i-sport",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Gray-import boutique (Alo / Lorna Jane / Lululemon) — verify each piece."
+    },
+    {
+      "id": "coolmate",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "onways",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "alva-activewear",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "jula",
+      "issues": [
+        "unresolved_location",
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "the-31",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "ginkgo-t-shirts",
+      "issues": [
+        "unresolved_location"
+      ],
+      "reason": null
+    },
+    {
+      "id": "cuddle",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "emdash",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "timtay",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "rustea",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Unisex linen, cotton & silk since 2017. A second Thảo Điền door is listed — call 0899 899 767."
+    },
+    {
+      "id": "meman",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "moriko-saigon",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "leinne-hats-and-bags",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "xeo-xo",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Hanoi-born silk label with a D1 door; fibre % not published — ask. 10:00–21:00."
+    },
+    {
+      "id": "canary-linen",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Linen-look daily wear; 100% cotton tees confirmed, linen % not published — ask."
+    },
+    {
+      "id": "bao-loc-silk",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "100% silk by the metre from the Bảo Lộc silk capital — bring it to a tailor."
+    },
+    {
+      "id": "toan-thinh-silk",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Silk by the metre, 9:00–21:00. They also sell satin — check it is silk satin, not poly."
+    },
+    {
+      "id": "mui-the-label",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Hội An boho boutique since 2016 — hand-made small batches, linen. 9:30–22:30."
+    },
+    {
+      "id": "lo-silk",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "byfas",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "bon-bon-underwear",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Lingerie chain with a real cotton line; fibre % not published — ask. On the HBT strip."
+    },
+    {
+      "id": "voga-underwear",
+      "issues": [
+        "confirm_first"
+      ],
+      "reason": "Men's briefs, vests & tanks in 90% Lenzing Modal. Modal is regenerated cellulose, not cotton."
+    },
+    {
+      "id": "decathlon-kimjaly",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "in-the-mood-saigon",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Multi-brand concept store — stocks Nora Linen and local linen labels. 10:00–18:00."
+    },
+    {
+      "id": "phuong-my",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "hacchic-couture",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "cee-s-bridal",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "meera-meera",
+      "issues": [
+        "unresolved_location"
+      ],
+      "reason": null
+    },
+    {
+      "id": "nicole-bridal",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "calla-bridal",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "joli-poli",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "linh-phung",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "Romantic heritage áo dài + white bridal ('Légende Blanche'); RTW sells online, bridal on inquiry. Call ahead — visit policy unpublished."
+    },
+    {
+      "id": "ao-dai-couture-by-anna-hanh",
+      "issues": [
+        "unresolved_location"
+      ],
+      "reason": null
+    },
+    {
+      "id": "ao-dai-minh-chau",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "lahava",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "quyen-nguyen-bridal",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "ao-dai-thim-ba",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "phu-kien-cuoi-minh-tam",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "long-beach-pearl",
+      "issues": [
+        "unresolved_location"
+      ],
+      "reason": null
+    },
+    {
+      "id": "tierra-diamond",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "seo-studio",
+      "issues": [
+        "confirm_first",
+        "address_normalization_needed"
+      ],
+      "reason": "VN TikTok's coquette leader 2026 — ribbons, bows, corset tops, silk skirts; ships worldwide. Hanoi only."
+    },
+    {
+      "id": "dottie",
+      "issues": [
+        "unresolved_location",
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "bunny-hill-concept",
+      "issues": [
+        "confirm_first",
+        "unresolved_location"
+      ],
+      "reason": "Gallery-like boutique — minimalist chic, calculated tailoring; ELLE VN & Her World 2026 picks."
+    },
+    {
+      "id": "latui-atelier",
+      "issues": [
+        "unresolved_location",
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "mean-blvd",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    },
+    {
+      "id": "cho-ba-chieu",
+      "issues": [
+        "address_normalization_needed"
+      ],
+      "reason": null
+    }
+  ]
+}

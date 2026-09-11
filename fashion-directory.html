@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-i18n-page="fd">
+<html data-ss-theme-tokens lang="en" data-i18n-page="fd">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -76,657 +76,12 @@
    var dark=t==="dark"||((!t||t==="auto")&&matchMedia("(prefers-color-scheme: dark)").matches);
    if(dark)document.documentElement.setAttribute("data-theme","dark");})();
   </script>
-  <style>
-
-:root{
-  /* Seraphic V2 "Ethereal Lavender / Aurora" — directory token set.
-     Proof + WCAG-AA audit for every pair: tools/design-test.html */
-  --ice:#eef3fb; --mist:#efeaf8; --paper:#ffffff;
-  --ink:#233a72; --ink-soft:#51618f; --ink-mute:#55638e; --ink-faint:#8b97b8; /* faint = decorative only, never text */
-  --cobalt:#2e54ad; --cobalt-deep:#234193;
-  --lav:#c9b6e8; --peri:#8a93de; --orchid:#c98fc4; --mauve:#cf9bb4;
-  --peri-text:#5560b5; /* AA-safe periwinkle for small text; --peri itself is decorative */
-  --ok:#1b6b4a;   --ok-bg:rgba(31,122,84,.10);
-  --warn:#7d541e; --warn-bg:rgba(176,122,31,.12);
-  --danger:#b0451f; --danger-bg:rgba(176,69,31,.09);
-  --stale:#55638e; --stale-bg:rgba(46,71,115,.08);
-  --line:rgba(46,71,115,.14); --line-soft:rgba(46,71,115,.08);
-  --card:rgba(255,255,255,.72); --card-solid:#fff;
-  --shadow:0 22px 48px -34px rgba(35,58,114,.45);
-  --shadow-sm:0 8px 22px -16px rgba(35,58,114,.4);
-  --halo:0 0 22px rgba(201,182,232,.5),0 0 54px rgba(46,84,173,.14);
-  --font-display:"Merriweather Sans","Tenor Sans",Cambria,serif;
-  --font-script:"Pinyon Script","Snell Roundhand",cursive;
-  --font-body:"Montserrat","Helvetica Neue","Segoe UI",system-ui,sans-serif;
-  --maxw:1240px;
-  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:20px; --s6:24px; --s8:32px; --s10:40px; --s12:48px;
-  --r:18px; --r-sm:12px; --r-lg:22px; --r-pill:999px;
-  --ease:cubic-bezier(.16,1,.3,1);
-  --ctrl-h:64px; --tabbar-h:0px;
-}
-[data-theme=dark]{
-  --ice:#161a26; --mist:#1b2030; --paper:#1f2536;
-  --ink:#f2f0f7; --ink-soft:#aab6cc; --ink-mute:#93a0bd; --ink-faint:#7d8aa6;
-  --cobalt:#a9b8ee; --cobalt-deep:#c2cdf5;
-  --lav:#b9a6dd; --peri:#8f98df; --orchid:#c98fc4; --mauve:#cf9bb4;
-  --peri-text:#8f98df;
-  --ok:#6fc79b;   --ok-bg:rgba(91,189,143,.14);
-  --warn:#e0aa6a; --warn-bg:rgba(217,160,91,.14);
-  --danger:#e79b7c; --danger-bg:rgba(176,69,31,.18);
-  --stale:#9caac8; --stale-bg:rgba(220,224,240,.08);
-  --line:rgba(220,224,240,.14); --line-soft:rgba(220,224,240,.08);
-  --card:rgba(36,42,60,.62); --card-solid:#232a3d;
-  --shadow:0 24px 54px -34px rgba(0,0,0,.7);
-  --shadow-sm:0 10px 24px -18px rgba(0,0,0,.65);
-  --halo:0 0 24px rgba(169,184,238,.22),0 0 56px rgba(180,168,215,.14);
-}
-*{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{
-  margin:0;background:var(--ice);color:var(--ink);
-  font-family:var(--font-body);font-weight:400;line-height:1.55;
-  font-size:15px;-webkit-font-smoothing:antialiased;letter-spacing:.005em;
-  transition:background .5s ease,color .3s ease;
-  padding-bottom:var(--tabbar-h);
-}
-h1,h2,h3{font-family:var(--font-display);font-weight:400;line-height:1.12;
-  text-wrap:balance;letter-spacing:.01em;margin:0;}
-a{color:inherit;text-decoration:none;}
-img{max-width:100%;}
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(18px,4vw,44px);}
-.vh{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
-:focus-visible{outline:2px solid var(--cobalt);outline-offset:2px;border-radius:4px;}
-
-/* ---------- Skip links ----------
-   Hidden by clipping, not by left:-9999px: in an RTL document that negative offset
-   becomes *scrollable* overflow and adds ~10,000px to the page width. Clipping is
-   direction-agnostic, and inset-inline-start puts the focused link on the reading
-   side in both directions. Only one can hold focus, so they share one position. */
-.skiplink{position:absolute;top:10px;inset-inline-start:12px;z-index:100;
-  background:var(--card-solid);color:var(--cobalt);border:0;
-  border-radius:var(--r-pill);font-size:.8rem;box-shadow:var(--shadow);
-  width:1px;height:1px;padding:0;overflow:hidden;white-space:nowrap;
-  clip:rect(0 0 0 0);clip-path:inset(50%);}
-.skiplink:focus{width:auto;height:auto;padding:8px 16px;overflow:visible;
-  border:1px solid var(--cobalt);clip:auto;clip-path:none;}
-
-/* ---------- Top bar + page nav ---------- */
-.fd-topbar{display:flex;justify-content:space-between;align-items:center;gap:var(--s3);
-  padding:11px clamp(18px,4vw,44px);background:var(--mist);border-bottom:1px solid var(--line);}
-.fd-back{font-family:var(--font-body);font-size:.82rem;color:var(--cobalt);text-decoration:none;letter-spacing:.02em;}
-.fd-back:hover{color:var(--cobalt-deep);text-decoration:underline;}
-.fd-topbar .fd-brand{font-family:var(--font-display);letter-spacing:.28em;text-transform:uppercase;font-size:.8rem;color:var(--ink);}
-.fd-topbar select{font:inherit;font-size:.8rem;color:var(--ink);background:var(--card-solid);
-  border:1px solid var(--line);border-radius:var(--r-pill);padding:6px 12px;cursor:pointer;}
-.secnav{background:color-mix(in srgb,var(--ice) 92%,transparent);border-bottom:1px solid var(--line);padding:10px 0;}
-.secnav .wrap{display:flex;gap:var(--s2);flex-wrap:wrap;align-items:center;}
-.secnav a{font-family:var(--font-body);font-size:.78rem;border:1px solid var(--line);
-  background:var(--card-solid);color:var(--ink-soft);padding:6px 15px;border-radius:var(--r-pill);
-  transition:.18s var(--ease);letter-spacing:.01em;white-space:nowrap;}
-.secnav a:hover{border-color:var(--peri);color:var(--ink);}
-.secnav a[aria-current="page"]{background:var(--cobalt);border-color:var(--cobalt);color:#fff;}
-[data-theme=dark] .secnav a[aria-current="page"]{color:#161a26;}
-
-/* ---------- Masthead ---------- */
-.masthead{position:relative;overflow:hidden;isolation:isolate;
-  padding:clamp(34px,6vw,68px) 0 clamp(30px,5vw,52px);}
-#aurora{position:absolute;inset:-20% -10% auto -10%;height:150%;width:120%;z-index:-2;
-  filter:blur(46px) saturate(1.15);opacity:.72;}
-.masthead::after{content:"";position:absolute;inset:0;z-index:-1;
-  background:linear-gradient(180deg,rgba(238,243,251,0) 40%,var(--ice) 100%);}
-[data-theme=dark] .masthead::after{background:linear-gradient(180deg,rgba(22,26,38,0) 40%,var(--ice) 100%);}
-.brandrow{display:flex;align-items:center;gap:14px;margin-bottom:clamp(20px,4vw,34px);}
-.mark{width:42px;height:42px;flex:none;filter:drop-shadow(0 4px 10px rgba(46,84,173,.28));}
-.lockup{display:flex;flex-direction:column;line-height:1;}
-.lockup .s{font-family:var(--font-display);font-size:1.32rem;letter-spacing:.34em;
-  text-transform:uppercase;padding-left:.34em;}
-.lockup .t{font-family:var(--font-script);font-size:1.9rem;color:var(--cobalt);
-  margin-top:-.14em;margin-left:-.02em;}
-.eyebrow{font-family:var(--font-body);text-transform:uppercase;letter-spacing:.32em;
-  font-size:.66rem;font-weight:500;color:var(--ink-mute);}
-.title{font-size:clamp(2.5rem,7vw,5.1rem);margin:.28em 0 .1em;}
-.title .script{font-family:var(--font-script);color:var(--cobalt);font-size:1.14em;letter-spacing:0;}
-.lede{max-width:60ch;color:var(--ink-soft);font-size:clamp(.95rem,1.6vw,1.06rem);margin:.7em 0 0;}
-.statline{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:26px;}
-.stat{display:flex;flex-direction:column;gap:2px;}
-.stat b{font-family:var(--font-display);font-size:1.85rem;color:var(--ink);
-  font-variant-numeric:tabular-nums;line-height:1;}
-.stat span{font-size:.66rem;text-transform:uppercase;letter-spacing:.2em;color:var(--ink-mute);}
-
-/* ---------- Now ribbon (auto-expiring) ---------- */
-.nowbar{margin:26px 0 0;border:1px solid var(--line);border-radius:var(--r);
-  background:var(--card);backdrop-filter:blur(12px);box-shadow:var(--shadow-sm);
-  padding:var(--s4) 18px;display:flex;gap:var(--s4);align-items:flex-start;flex-wrap:wrap;}
-.nowbar[hidden]{display:none;}
-.nowbar .tag{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;
-  color:#fff;background:var(--cobalt);padding:5px 10px;border-radius:var(--r-pill);white-space:nowrap;}
-[data-theme=dark] .nowbar .tag{color:#161a26;}
-.nowbar .items{display:flex;flex-wrap:wrap;gap:6px 20px;flex:1;min-width:220px;}
-.nowbar .it{font-size:.82rem;color:var(--ink-soft);}
-.nowbar .it b{color:var(--ink);font-weight:600;}
-.nowbar .it .til{color:var(--ink-mute);font-size:.74rem;white-space:nowrap;}
-
-/* ---------- Quick browse (the index) ---------- */
-.browse{padding:clamp(26px,4vw,42px) 0 6px;}
-.browse-grid-wrap{display:grid;gap:var(--s5);grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr);align-items:start;margin-top:var(--s4);}
-.browse h2{font-size:clamp(1.5rem,3vw,2.05rem);}
-.browse .sub{color:var(--ink-soft);margin:.4em 0 0;max-width:64ch;font-size:.9rem;}
-.qbgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:var(--s3);}
-.qb{font:inherit;cursor:pointer;text-align:left;border:1px solid var(--line);border-radius:var(--r-sm);
-  background:var(--card);backdrop-filter:blur(8px);box-shadow:var(--shadow-sm);
-  padding:var(--s4) var(--s4) var(--s3);display:flex;flex-direction:column;gap:3px;min-height:104px;
-  color:var(--ink);transition:transform .2s var(--ease),border-color .2s,box-shadow .2s;opacity:0;}
-.qb:hover{transform:translateY(-2px);border-color:var(--lav);box-shadow:var(--shadow);}
-.qb .n{font-family:var(--font-display);font-size:1.7rem;line-height:1;font-variant-numeric:tabular-nums;}
-.qb .t{font-size:.84rem;font-weight:500;line-height:1.25;}
-.qb .a{margin-top:auto;font-size:.68rem;color:var(--cobalt);letter-spacing:.06em;}
-.qb.sig{border-color:var(--peri);}
-.qb.sig .t{color:var(--cobalt);} /* peri is decorative-tier contrast; keep it on the border, not .84rem text */
-.qb.all{background:var(--cobalt);border-color:var(--cobalt);color:#fff;}
-.qb.all .a{color:#fff;opacity:.85;}
-[data-theme=dark] .qb.all{color:#161a26;}
-[data-theme=dark] .qb.all .a{color:#161a26;}
-.qb.all:hover{background:var(--cobalt-deep);border-color:var(--cobalt-deep);}
-
-/* ---------- Cluster map ---------- */
-.fdmap-sec{padding:24px 0 4px;}
-.fdmap-head{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--s4);flex-wrap:wrap;margin-bottom:var(--s3);}
-.fdmap-title{font-size:clamp(1.4rem,3vw,2rem);}
-.fdmap-sub{color:var(--ink-soft);font-size:.9rem;max-width:62ch;margin:.4em 0 0;}
-.fdmap-clear{font:inherit;font-size:.74rem;cursor:pointer;border:1px solid var(--cobalt);
-  background:rgba(46,84,173,.09);color:var(--cobalt);padding:7px 13px;border-radius:var(--r-pill);white-space:nowrap;}
-[data-theme=dark] .fdmap-clear{background:rgba(169,184,238,.14);}
-.fdmap-clear b{font-weight:600;}
-.maptoggle{display:none;font:inherit;font-size:.8rem;cursor:pointer;border:1px solid var(--line);
-  background:var(--card-solid);color:var(--cobalt);padding:9px 18px;border-radius:var(--r-pill);box-shadow:var(--shadow-sm);}
-.mapbody{display:grid;grid-template-rows:1fr;transition:grid-template-rows .3s var(--ease);}
-.mapbody>div{min-height:0;overflow:hidden;}
-.fdmap-wrap{border:1px solid var(--line);border-radius:var(--r);
-  background:radial-gradient(120% 100% at 70% 20%,var(--mist),var(--paper));
-  box-shadow:var(--shadow-sm);padding:6px;overflow-x:auto;}
-#fdmap{width:100%;height:auto;display:block;min-width:520px;max-height:56vh;}
-.fdmap-river-lbl{fill:var(--peri);font-size:11px;font-family:var(--font-body);letter-spacing:.14em;text-transform:uppercase;opacity:.65;}
-.fdmap-node{cursor:pointer;}
-.fdmap-node circle{transition:.2s var(--ease);stroke:#fff;stroke-width:1.5;}
-[data-theme=dark] .fdmap-node circle{stroke:rgba(255,255,255,.22);}
-.fdmap-node:hover circle{filter:brightness(1.09);}
-.fdmap-node.active circle{stroke:var(--ink);stroke-width:3;}
-.fdmap-node:focus-visible circle{stroke:var(--cobalt);stroke-width:3;}
-.fdmap-node .z-n{fill:#fff;font-family:var(--font-display);text-anchor:middle;dominant-baseline:central;pointer-events:none;}
-.fdmap-node .z-l{fill:var(--ink-soft);font-family:var(--font-body);font-size:11.5px;text-anchor:middle;font-weight:500;letter-spacing:.02em;pointer-events:none;}
-.fdmap-foot{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);flex-wrap:wrap;padding:9px 4px 5px;}
-.fdmap-legend{display:flex;align-items:center;gap:var(--s2);flex-wrap:wrap;margin:0;
-  font-size:.72rem;color:var(--ink-mute);font-variant-numeric:tabular-nums;}
-.fdmap-legend .lgd{display:inline-block;width:var(--d);height:var(--d);border-radius:50%;
-  border:1px solid var(--ink-faint);opacity:.7;flex:none;}
-.onlinechip{font:inherit;font-size:.76rem;cursor:pointer;border:1px solid var(--line);
-  background:var(--card-solid);color:var(--cobalt);padding:6px 14px;border-radius:var(--r-pill);
-  transition:.18s var(--ease);white-space:nowrap;font-variant-numeric:tabular-nums;}
-.onlinechip:hover{border-color:var(--peri);}
-.onlinechip[aria-pressed=true]{background:var(--cobalt);border-color:var(--cobalt);color:#fff;}
-[data-theme=dark] .onlinechip[aria-pressed=true]{color:#161a26;}
-.fdmap-note{font-size:.75rem;color:var(--ink-soft);margin:8px 4px 0;line-height:1.5;}
-.fdmap-note b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;}
-.fdtip{position:fixed;z-index:80;pointer-events:none;background:color-mix(in srgb,var(--card-solid) 92%,transparent);
-  backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:13px;padding:9px 13px;box-shadow:var(--shadow);
-  max-width:198px;display:flex;flex-direction:column;gap:2px;}
-.fdtip[hidden]{display:none;} /* hidden must beat the flex display, or the tip never goes away */
-.fdtip b{font-family:var(--font-display);font-size:.98rem;color:var(--ink);line-height:1.1;}
-.fdtip span{font-size:.72rem;color:var(--cobalt);font-variant-numeric:tabular-nums;}
-.fdtip em{font-size:.72rem;color:var(--ink-soft);font-style:normal;margin-top:2px;line-height:1.35;}
-.fdtip i{font-size:.63rem;color:var(--ink-mute);font-style:normal;margin-top:3px;letter-spacing:.04em;text-transform:uppercase;}
-.fdtip::after{content:"";position:absolute;left:var(--caret,50%);top:100%;transform:translateX(-50%);width:0;height:0;
-  border:7px solid transparent;border-top-color:color-mix(in srgb,var(--card-solid) 92%,transparent);
-  filter:drop-shadow(0 3px 2px rgba(35,58,114,.12));}
-.fdtip.below::after{top:auto;bottom:100%;border-top-color:transparent;
-  border-bottom-color:color-mix(in srgb,var(--card-solid) 92%,transparent);}
-
-/* ---------- Controls (sticky) ---------- */
-.controls{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--ice) 88%,transparent);
-  backdrop-filter:blur(14px);border-bottom:1px solid var(--line);
-  padding:var(--s3) 0;margin-top:30px;transition:box-shadow .25s ease;}
-.controls.stuck{box-shadow:0 1px 0 var(--line),var(--shadow-sm);}
-.controls .wrap{display:flex;flex-direction:column;gap:var(--s3);}
-.searchrow{display:flex;gap:var(--s3);align-items:center;flex-wrap:wrap;}
-.search{flex:1;min-width:200px;display:flex;align-items:center;gap:9px;
-  background:var(--card-solid);border:1px solid var(--line);border-radius:var(--r-pill);
-  padding:8px 10px 8px 16px;box-shadow:var(--shadow-sm);}
-.search input{border:0;outline:0;background:none;font:inherit;color:var(--ink);width:100%;min-width:0;}
-.search:focus-within{outline:2px solid var(--cobalt);outline-offset:2px;}
-.search svg{flex:none;opacity:.55;}
-.qclear{all:unset;cursor:pointer;flex:none;display:grid;place-items:center;width:26px;height:26px;
-  border-radius:50%;color:var(--ink-mute);font-size:.9rem;line-height:1;}
-.qclear:hover{background:var(--mist);color:var(--ink);}
-.qclear:focus-visible{outline:2px solid var(--cobalt);outline-offset:1px;}
-.qclear[hidden]{display:none;}
-.count{font-size:.72rem;letter-spacing:.06em;color:var(--ink-mute);font-variant-numeric:tabular-nums;}
-.updated{flex:none;font-size:.62rem;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-mute);
-  border:1px solid var(--line);border-radius:var(--r-pill);padding:4px 10px;background:var(--card-solid);white-space:nowrap;}
-.util{display:flex;gap:var(--s2);align-items:center;margin-left:auto;}
-.utilbtn{font:inherit;font-size:.76rem;cursor:pointer;border:1px solid var(--line);
-  background:var(--card-solid);color:var(--ink-soft);padding:6px 14px;border-radius:var(--r-pill);
-  transition:.18s var(--ease);display:inline-flex;align-items:center;gap:6px;white-space:nowrap;}
-.utilbtn:hover{border-color:var(--peri);color:var(--ink);}
-.utilbtn[aria-pressed=true]{background:var(--cobalt);border-color:var(--cobalt);color:#fff;}
-[data-theme=dark] .utilbtn[aria-pressed=true]{color:#161a26;}
-.utilbtn svg{flex:none;}
-.qtip{display:none;font-size:.72rem;color:var(--ink-mute);margin:-4px 0 0;}
-.fset{border:0;padding:0;margin:0;min-width:0;} /* fieldsets that lay out like plain rows */
-legend.mlabel{float:left;padding:0;} /* float releases legend's special rendering into the flex row */
-.chips{display:flex;gap:var(--s2);flex-wrap:wrap;}
-.chip{font:inherit;font-size:.78rem;cursor:pointer;border:1px solid var(--line);
-  background:var(--card-solid);color:var(--ink-soft);padding:6px 14px;border-radius:var(--r-pill);
-  transition:.18s var(--ease);letter-spacing:.01em;white-space:nowrap;}
-.chip:hover{border-color:var(--peri);color:var(--ink);}
-.chip[aria-pressed=true]{background:var(--cobalt);border-color:var(--cobalt);color:#fff;}
-[data-theme=dark] .chip[aria-pressed=true]{color:#161a26;}
-.fchipbtn{display:none;}
-.row2{display:flex;gap:var(--s3);align-items:center;flex-wrap:wrap;}
-.selwrap{display:inline-flex;align-items:center;gap:7px;font-size:.72rem;color:var(--ink-mute);text-transform:uppercase;letter-spacing:.1em;}
-.sel{font:inherit;font-size:.8rem;color:var(--ink);background:var(--card-solid);
-  border:1px solid var(--line);border-radius:var(--r-pill);padding:7px 13px;cursor:pointer;max-width:220px;}
-.morebtn{font:inherit;font-size:.78rem;cursor:pointer;border:1px solid var(--cobalt);
-  background:rgba(46,84,173,.09);color:var(--cobalt);padding:7px 15px;border-radius:var(--r-pill);}
-[data-theme=dark] .morebtn{background:rgba(169,184,238,.14);}
-.morepanel{display:none;padding:var(--s3) var(--s4);border:1px solid var(--line);border-radius:var(--r-sm);
-  background:var(--card);backdrop-filter:blur(8px);flex-direction:column;gap:var(--s3);}
-.morepanel.open{display:flex;}
-.morepanel .mrow{display:flex;gap:var(--s3) var(--s4);align-items:center;flex-wrap:wrap;}
-.mlabel{font-size:.68rem;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-mute);min-width:120px;}
-.switch{display:inline-flex;gap:8px;align-items:center;font-size:.78rem;color:var(--ink-soft);cursor:pointer;}
-.switch input{appearance:none;width:36px;height:20px;border-radius:99px;margin:0;
-  background:color-mix(in srgb,var(--ink) 14%,var(--paper));border:1px solid var(--ink-mute);
-  position:relative;cursor:pointer;transition:.2s;flex:none;}
-.switch input:checked{background:var(--cobalt);border-color:var(--cobalt);}
-.switch input::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;
-  border-radius:50%;background:var(--paper);transition:.2s var(--ease);}
-.switch input:checked::after{transform:translateX(15px);background:#fff;}
-[data-theme=dark] .switch input:checked::after{background:#161a26;}
-/* active filters bar */
-.activebar{display:none;gap:var(--s2);align-items:center;flex-wrap:wrap;}
-.activebar.on{display:flex;}
-.fchip{display:inline-flex;align-items:center;gap:7px;font-size:.76rem;
-  background:rgba(46,84,173,.09);border:1px solid color-mix(in srgb,var(--cobalt) 40%,transparent);
-  color:var(--cobalt);padding:4px 6px 4px 13px;border-radius:var(--r-pill);
-  animation:chipin .2s var(--ease) both;}
-[data-theme=dark] .fchip{background:rgba(169,184,238,.14);}
-@keyframes chipin{from{opacity:0;transform:scale(.9);}to{opacity:1;transform:scale(1);}}
-.fchip b{font-weight:500;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.fchip .x{all:unset;cursor:pointer;display:grid;place-items:center;width:22px;height:22px;
-  border-radius:50%;font-size:.82rem;line-height:1;}
-.fchip .x:hover{background:color-mix(in srgb,var(--cobalt) 18%,transparent);}
-.fchip .x:focus-visible{outline:2px solid var(--cobalt);outline-offset:1px;}
-.showall{font:inherit;cursor:pointer;border:1px solid var(--cobalt);background:var(--cobalt);color:#fff;
-  font-size:.78rem;font-weight:500;padding:7px 16px;border-radius:var(--r-pill);transition:.18s var(--ease);white-space:nowrap;}
-[data-theme=dark] .showall{color:#161a26;}
-.showall:hover{background:var(--cobalt-deep);border-color:var(--cobalt-deep);}
-
-/* ---------- Group headers (sticky) ---------- */
-.group{padding:var(--s8) 0 var(--s1);}
-main>.group:not(:first-child){border-top:1px solid var(--line-soft);margin-top:26px;}
-.group .ghead{position:sticky;top:var(--ctrl-h);z-index:10;
-  background:color-mix(in srgb,var(--ice) 90%,transparent);backdrop-filter:blur(10px);
-  padding:10px 0 8px;margin:0 0 2px;}
-.group h2{font-size:clamp(1.5rem,3vw,2.05rem);display:flex;align-items:center;gap:var(--s3);}
-.group h2 .n{font-family:var(--font-body);font-size:.68rem;color:var(--ink-soft);
-  font-variant-numeric:tabular-nums;letter-spacing:.08em;background:var(--mist);
-  border:1px solid var(--line);padding:3px 10px;border-radius:var(--r-pill);flex:none;}
-.group p{color:var(--ink-soft);margin:.4em 0 0;max-width:70ch;font-size:.9rem;}
-
-/* ---------- Card grid ----------
-   Every card is a self-contained unit: name, handle, note, ADDRESS and district are
-   all on the face, at every width. That is deliberate — the directory is screenshotted
-   and sent, so a card must survive being cropped out of the page. Nothing hides behind
-   a tap. `dense` lets the wide cards slot in without leaving holes. */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));
-  gap:var(--s4);padding:18px 0 8px;grid-auto-flow:dense;}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
-  padding:var(--s4) var(--s4) 13px var(--s5);position:relative;overflow:hidden;
-  display:flex;flex-direction:column;gap:9px;backdrop-filter:blur(8px);opacity:0;
-  box-shadow:0 1px 2px rgba(35,58,114,.05),0 10px 26px -20px rgba(35,58,114,.42);
-  transition:transform .22s var(--ease),box-shadow .22s var(--ease),border-color .22s var(--ease);}
-/* Each group arrives as a wave when it scrolls into view — the middle of a row leads,
-   the outer columns trail, and every row follows the one above (--i is set in JS).
-   Fill is `backwards`, not `both`: once the card lands it releases transform back to :hover. */
-.card.in,.qb.in{opacity:1;
-  animation:cardin .46s var(--ease) backwards;animation-delay:calc(var(--i,0)*38ms);}
-@keyframes cardin{from{opacity:0;transform:translateY(12px) rotate(-1.6deg);}to{opacity:1;transform:none;}}
-.card:hover{transform:translateY(-3px);
-  border-color:color-mix(in srgb,var(--tier,var(--lav)) 50%,var(--line));
-  box-shadow:0 2px 4px rgba(35,58,114,.06),0 26px 50px -28px rgba(35,58,114,.5);}
-/* depth: the tier spine falls away down the card, and lights the corner it starts in */
-.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;z-index:1;
-  background:linear-gradient(180deg,var(--tier,var(--lav)),
-    color-mix(in srgb,var(--tier,var(--lav)) 22%,transparent) 72%,transparent);}
-.card::after{content:"";position:absolute;inset:0;pointer-events:none;transition:opacity .22s var(--ease);
-  background:radial-gradient(150px 120px at 0% 0%,color-mix(in srgb,var(--tier,var(--lav)) 30%,transparent),transparent 68%);
-  opacity:.5;}
-.card:hover::after{opacity:.85;}
-
-/* The wide card — the page's punctuation. Earned, never decorative: couture and luxury
-   houses, anything you have marked `pick:true`, and houses whose story needs the room. */
-.card.wide{grid-column:span 2;}
-.card.wide .nm{font-size:1.34rem;}
-.card.wide .note{-webkit-line-clamp:3;}
-/* an editor's pick — the only place the atelier speaks in its own hand */
-.card .pick{display:block;font-family:var(--font-script);font-size:1.2rem;line-height:1;
-  color:var(--peri-text);margin-bottom:1px;}
-.card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;position:relative;z-index:1;}
-.card .tt{flex:1;min-width:0;}
-.blogo{flex:none;width:44px;height:44px;border-radius:11px;object-fit:cover;
-  border:1px solid var(--line);box-shadow:0 2px 6px -2px rgba(35,58,114,.28);background:var(--paper);}
-/* The name gets the whole line. The status pill used to sit beside it and, on a house with
-   a long name and an "Appointment" pill, squeezed the title into a one-letter-per-line
-   column — so the pill now lives in the foot with the other chips, where it reads anyway. */
-.card .nm{font-family:var(--font-display);font-size:1.18rem;line-height:1.14;color:var(--ink);
-  overflow-wrap:break-word;}
-/* the handle is a real link to the house's Instagram — the first thing anyone wants */
-.card .hd{font-size:.74rem;color:var(--cobalt);letter-spacing:.01em;margin-top:2px;
-  display:inline-flex;align-items:center;gap:4px;overflow-wrap:anywhere;text-decoration:none;max-width:100%;
-  padding:4px 0;}                                  /* 24px tall: a thumb can hit it (WCAG 2.5.8) */
-.card a.hd:hover{text-decoration:underline;text-underline-offset:2px;}
-.card .hd svg{flex:none;opacity:.75;}
-.card .st{flex:none;font-size:.58rem;text-transform:uppercase;letter-spacing:.13em;
-  padding:4px 8px;border-radius:var(--r-pill);white-space:nowrap;
-  border:1px solid var(--line);color:var(--ink-soft);background:var(--paper);}
-.card .st.walk{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 30%,transparent);background:var(--ok-bg);}
-.card .st.appt{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 30%,transparent);background:var(--warn-bg);}
-.card .st.online{color:var(--ink-mute);}
-.card .st.hub{color:var(--cobalt);border-color:color-mix(in srgb,var(--cobalt) 30%,transparent);background:rgba(46,84,173,.08);}
-[data-theme=dark] .card .st.hub{background:rgba(169,184,238,.12);}
-.card .sv{flex:none;font:inherit;background:none;border:0;cursor:pointer;padding:8px;color:var(--ink-mute);
-  display:grid;place-items:center;transition:.18s var(--ease);border-radius:50%;}
-.card .sv:hover{color:var(--orchid);transform:scale(1.1);}
-.card .sv.on{color:var(--orchid);}
-.card .sv.on svg{fill:var(--orchid);}
-/* the basket bag sits beside the heart — same quiet button, cobalt when it's in */
-.card .bk{flex:none;font:inherit;background:none;border:0;cursor:pointer;padding:8px;color:var(--ink-mute);
-  display:grid;place-items:center;transition:.18s var(--ease);border-radius:50%;}
-.card .bk:hover{color:var(--cobalt);transform:scale(1.1);}
-.card .bk.on{color:var(--cobalt);}
-.card .bk.on svg{fill:color-mix(in srgb,var(--cobalt) 25%,transparent);}
-.cd-more{display:flex;flex-direction:column;gap:9px;position:relative;z-index:1;}
-/* The address is the point of the whole page — it is what gets screenshotted and
-   handed to a driver. Full weight, full contrast, never truncated, never hidden. */
-.card .addr{font-size:.84rem;color:var(--ink);font-weight:500;display:flex;gap:6px;align-items:flex-start;
-  flex-wrap:wrap;row-gap:8px;}
-/* the address takes the line it needs and the actions drop beneath it — a 272px column is
-   too narrow to hold "214 Hai Bà Trưng · Vincom Đồng Khởi · Thảo Điền" AND two buttons.
-   Share and Map travel together so they never split across two lines. */
-.card .addr>span{flex:1 1 11rem;}
-.card .acts{display:flex;gap:6px;flex:0 0 auto;margin-left:auto;}
-.card .acts .shr{margin-left:0;}
-.card .addr svg{flex:none;margin-top:3px;opacity:.55;}
-.maplink,.shr{font-size:.66rem;font-weight:500;color:var(--cobalt);white-space:nowrap;text-decoration:none;
-  border:1px solid var(--line);padding:2px 9px;border-radius:var(--r-pill);transition:background .15s,border-color .15s,color .15s;}
-.maplink:hover,.shr:hover{background:rgba(46,84,173,.09);border-color:var(--cobalt);text-decoration:none;}
-.shr{font-family:inherit;cursor:pointer;background:none;margin-left:auto;flex:none;}
-.shr.ok{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 45%,transparent);background:var(--ok-bg);}
-.card .note{font-size:.82rem;color:var(--ink-soft);line-height:1.45;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.card .foot{margin-top:auto;padding-top:4px;display:flex;gap:7px;align-items:center;flex-wrap:wrap;
-  position:relative;z-index:1;}
-/* A house that shares its street with others is a walk, not a stop. Tapping the strip
-   searches the street — the route view, folded into the grid instead of bolted beside it. */
-.strip{display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:.66rem;
-  letter-spacing:.06em;color:var(--peri-text);cursor:pointer;
-  border:1px dashed color-mix(in srgb,var(--peri) 50%,transparent);background:none;
-  padding:3px 9px;border-radius:var(--r-pill);transition:.16s var(--ease);white-space:nowrap;
-  max-width:100%;overflow:hidden;text-overflow:ellipsis;}
-.strip:hover{border-style:solid;background:color-mix(in srgb,var(--peri) 12%,transparent);}
-.strip svg{flex:none;opacity:.8;}
-/* The card travels: cropped out of the page and sent in a chat, it should still say
-   where it came from. Decorative — the real attribution is in the page itself. */
-.card .credit{display:none;position:absolute;right:12px;bottom:9px;z-index:1;
-  font-size:.52rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-faint);
-  opacity:.62;pointer-events:none;}
-.card .area{font-size:.62rem;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-mute);}
-.card .price{font-size:.62rem;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-soft);}
-.tierchip{display:inline-flex;align-items:center;gap:6px;font-size:.6rem;text-transform:uppercase;
-  letter-spacing:.14em;color:var(--ink);border:1px solid var(--line);background:var(--paper);
-  padding:3px 9px;border-radius:var(--r-pill);}
-.tierchip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--tier,var(--lav));}
-.card .vibe{font-size:.58rem;text-transform:uppercase;letter-spacing:.13em;color:var(--peri-text);
-  border:1px solid color-mix(in srgb,var(--peri) 45%,transparent);border-radius:var(--r-pill);padding:3px 8px;}
-/* the fibre the house itself names — the one chip a polyester-averse client reads first */
-.card .fib{display:inline-flex;align-items:center;gap:5px;font-size:.58rem;text-transform:uppercase;
-  letter-spacing:.11em;color:var(--ok);background:var(--ok-bg);border-radius:var(--r-pill);padding:3px 9px;
-  white-space:nowrap;}
-.card .fib::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;flex:none;}
-/* the occasions a house dresses — Seraphic's editorial read, filterable from the Occasion select */
-.card .occ{display:inline-flex;align-items:center;gap:5px;font-size:.58rem;text-transform:uppercase;
-  letter-spacing:.11em;color:var(--peri-text);border:1px solid color-mix(in srgb,var(--orchid) 50%,transparent);
-  border-radius:var(--r-pill);padding:3px 9px;white-space:nowrap;}
-.card .occ::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--orchid);flex:none;}
-/* Signature-eligible designer houses — the $750 commission pool */
-.card .sigb{display:inline-flex;align-items:center;gap:4px;font-size:.58rem;text-transform:uppercase;
-  letter-spacing:.08em;color:var(--peri);border:1px solid var(--peri);border-radius:999px;padding:2px 8px;}
-.badge{display:inline-flex;align-items:center;gap:6px;font-size:.6rem;font-weight:600;
-  text-transform:uppercase;letter-spacing:.08em;padding:3px 9px;border-radius:var(--r-pill);white-space:nowrap;}
-.badge::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;flex:none;}
-.badge.ok{color:var(--ok);background:var(--ok-bg);}
-.badge.warn{color:var(--warn);background:var(--warn-bg);}
-.badge.stale{color:var(--stale);background:var(--stale-bg);}
-.badge.soon{color:var(--warn);background:var(--warn-bg);}
-.badge.closed{color:var(--stale);background:var(--stale-bg);}
-.savebar{display:flex;gap:var(--s3);align-items:center;flex-wrap:wrap;margin:18px 0 0;
-  background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);
-  padding:10px 14px;font-size:.82rem;color:var(--ink-soft);box-shadow:var(--shadow-sm);}
-.savebar button{font:inherit;font-size:.76rem;cursor:pointer;border:1px solid var(--cobalt);
-  background:rgba(46,84,173,.09);color:var(--cobalt);padding:5px 12px;border-radius:var(--r-pill);}
-[data-theme=dark] .savebar button{background:rgba(169,184,238,.14);}
-.fg-banner{background:var(--mist);border:1px solid var(--line);border-radius:var(--r);
-  padding:15px 18px;margin:28px 0 12px;font-size:.88rem;color:var(--ink-soft);
-  line-height:1.55;box-shadow:var(--shadow-sm);}
-.fg-banner a{color:var(--cobalt);}
-.fg-banner a:hover{text-decoration:underline;color:var(--cobalt-deep);}
-.fd-tools{display:flex;gap:14px;align-items:center;}
-/* single-result + empty states */
-.onehit{display:flex;gap:var(--s3) var(--s4);align-items:center;flex-wrap:wrap;margin:18px 0 0;
-  background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);
-  padding:12px 16px;font-size:.86rem;color:var(--ink-soft);box-shadow:var(--shadow-sm);}
-.empty{grid-column:1/-1;text-align:center;color:var(--ink-soft);padding:44px 16px 50px;font-size:.92rem;}
-.empty svg{color:var(--ink-faint);margin-bottom:10px;animation:drift 4s ease-in-out infinite alternate;}
-@keyframes drift{from{transform:translateY(0) rotate(-3deg);}to{transform:translateY(-7px) rotate(4deg);}}
-.empty h3{font-size:1.3rem;color:var(--ink);margin-bottom:4px;}
-.empty .acts{display:flex;gap:var(--s2);justify-content:center;flex-wrap:wrap;margin-top:var(--s4);}
-/* skeletons */
-.skcard{border:1px solid var(--line-soft);border-radius:var(--r);padding:var(--s4);
-  display:flex;flex-direction:column;gap:11px;background:var(--card);}
-.skcard i{display:block;border-radius:6px;height:12px;
-  background:linear-gradient(90deg,var(--mist) 25%,var(--paper) 50%,var(--mist) 75%);
-  background-size:200% 100%;animation:shimmer 1.5s ease-in-out infinite;}
-.skcard .a{width:46%;height:16px;}.skcard .b{width:84%;}.skcard .c{width:62%;}.skcard .d{width:38%;height:10px;margin-top:6px;}
-@keyframes shimmer{from{background-position:200% 0;}to{background-position:-200% 0;}}
-
-/* ---------- Streets panel ---------- */
-.streets{background:var(--mist);border:1px solid var(--line);border-radius:var(--r);
-  padding:clamp(20px,3vw,30px);margin:20px 0;box-shadow:var(--shadow-sm);}
-.streets h3{font-size:1.35rem;margin-bottom:4px;}
-.streets .sub{color:var(--ink-soft);font-size:.86rem;margin-bottom:18px;max-width:64ch;}
-.stgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:var(--s3);}
-.stcard{background:var(--card-solid);border:1px solid var(--line);border-radius:var(--r-sm);
-  padding:13px 14px;box-shadow:var(--shadow-sm);}
-.stcard .h{font-family:var(--font-display);font-size:1rem;color:var(--ink);display:flex;
-  justify-content:space-between;align-items:baseline;gap:8px;}
-.stcard .h b{font-family:var(--font-body);font-size:.7rem;color:var(--cobalt);font-weight:600;
-  font-variant-numeric:tabular-nums;background:rgba(46,84,173,.09);
-  padding:2px 7px;border-radius:99px;white-space:nowrap;}
-[data-theme=dark] .stcard .h b{background:rgba(169,184,238,.14);}
-.stcard .d{font-size:.62rem;text-transform:uppercase;letter-spacing:.15em;color:var(--ink-mute);margin:3px 0 7px;}
-.stcard .l{font-size:.8rem;color:var(--ink-soft);line-height:1.5;}
-
-/* ---------- Footer ---------- */
-footer{margin-top:44px;border-top:1px solid var(--line);background:var(--mist);}
-footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4fr 1fr;}
-.legend{display:flex;flex-direction:column;gap:9px;}
-.legend h3,.contact h3{font-size:.68rem;text-transform:uppercase;letter-spacing:.24em;
-  color:var(--ink-mute);margin:0 0 4px;font-weight:600;font-family:var(--font-body);}
-.legend .row{display:flex;gap:9px;align-items:center;font-size:.8rem;color:var(--ink-soft);}
-.dot{width:11px;height:11px;border-radius:3px;flex:none;}
-.legend .cd{width:9px;height:9px;border-radius:50%;flex:none;}
-.legend .meta{font-size:.76rem;color:var(--ink-mute);margin-top:6px;line-height:1.55;max-width:60ch;}
-.contact a{color:var(--cobalt);}
-footer .sig{font-family:var(--font-script);font-size:1.7rem;color:var(--cobalt);} /* footer signature only — a bare .sig also styled the "Signature houses" browse tile into unreadable cursive */
-
-/* ---------- Floating controls ---------- */
-.themebtn{position:fixed;right:1.25rem;bottom:4.6rem;z-index:40;width:44px;height:44px;border-radius:50%;
-  border:1px solid var(--line);background:var(--card-solid);color:var(--ink);cursor:pointer;
-  box-shadow:var(--shadow);display:grid;place-items:center;transition:.2s;}
-.themebtn:hover{transform:scale(1.06);border-color:var(--peri);}
-.themebtn .sun{display:none;}
-[data-theme=dark] .themebtn .sun{display:block;}
-[data-theme=dark] .themebtn .moon{display:none;}
-
-/* ---------- Mobile bottom tab bar ---------- */
-.tabbar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:50;
-  background:color-mix(in srgb,var(--card-solid) 94%,transparent);backdrop-filter:blur(16px);
-  border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);}
-.tabbar button{font:inherit;background:none;border:0;cursor:pointer;color:var(--ink-soft);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
-  min-height:52px;padding:6px 2px;font-size:.56rem;text-transform:uppercase;letter-spacing:.08em;
-  transition:color .15s,background .15s;position:relative;}
-.tabbar button:active{background:var(--mist);}
-.tabbar button[aria-pressed=true],.tabbar button.here{color:var(--cobalt);}
-.tabbar svg{flex:none;}
-.tabbar .bub{position:absolute;top:4px;right:calc(50% - 20px);min-width:15px;height:15px;border-radius:99px;
-  background:var(--orchid);color:#fff;font-size:.56rem;font-weight:600;display:grid;place-items:center;
-  padding:0 4px;letter-spacing:0;}
-
-/* ---------- Filter sheet (mobile) ---------- */
-.scrim{position:fixed;inset:0;z-index:60;background:rgba(20,28,54,.44);backdrop-filter:blur(3px);
-  opacity:0;transition:opacity .28s ease;}
-.scrim.open{opacity:1;}
-.sheet{position:fixed;left:0;right:0;bottom:0;z-index:61;background:var(--paper);
-  border-radius:var(--r-lg) var(--r-lg) 0 0;border:1px solid var(--line);border-bottom:0;
-  box-shadow:0 -18px 50px -20px rgba(20,28,54,.4);max-height:82vh;display:flex;flex-direction:column;
-  transform:translateY(102%);transition:transform .34s var(--ease);
-  padding-bottom:calc(env(safe-area-inset-bottom) + 10px);touch-action:none;}
-.sheet[hidden]{display:none;} /* hidden must beat the flex display: off-screen ≠ gone for keyboards/AT */
-.sheet.open{transform:none;}
-.sheet-grab{padding:10px 0 2px;display:grid;place-items:center;cursor:grab;}
-.sheet-grab span{width:42px;height:5px;border-radius:99px;background:var(--line);display:block;}
-.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);
-  padding:4px var(--s5) var(--s3);border-bottom:1px solid var(--line-soft);}
-.sheet-head h2{font-size:1.15rem;}
-.sheet-done{font:inherit;font-size:.8rem;font-weight:500;cursor:pointer;border:1px solid var(--cobalt);
-  background:var(--cobalt);color:#fff;padding:7px 18px;border-radius:var(--r-pill);}
-[data-theme=dark] .sheet-done{color:#161a26;}
-.sheet-body{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:var(--s4) var(--s5) var(--s5);
-  display:flex;flex-direction:column;gap:var(--s4);touch-action:pan-y;}
-.sheet-body .row2{flex-direction:column;align-items:stretch;}
-.sheet-body .selwrap{justify-content:space-between;}
-.sheet-body .sel{max-width:none;flex:1;}
-.sheet-body .morebtn{display:none;}
-.sheet-body .morepanel{display:flex;border:0;padding:0;background:none;backdrop-filter:none;}
-
-/* ---------- Card overflow menu (⋯) ----------
-   Share / Map / street-strip live behind one quiet button at the end of the
-   address line — exactly where the Share/Map pair used to sit — so the card
-   face keeps its screenshot job: name, handle, note, address, district. */
-.card .cm-btn{flex:none;font:inherit;font-size:1rem;line-height:1;background:none;border:1px solid var(--line);
-  cursor:pointer;padding:2px 10px;color:var(--ink-mute);display:grid;place-items:center;
-  transition:.18s var(--ease);border-radius:var(--r-pill);}
-.card .cm-btn:hover{color:var(--cobalt);border-color:var(--cobalt);}
-.card .cm-btn[aria-expanded=true]{color:var(--cobalt);border-color:var(--cobalt);background:var(--mist);}
-/* the card clips its overflow, so the menu opens *inside* the card, beside the
-   button (top set by JS; flips above when it would clip the card's bottom) */
-.card .cm-pop{position:absolute;top:52px;right:12px;z-index:6;display:flex;flex-direction:column;
-  gap:6px;align-items:stretch;background:var(--card-solid);border:1px solid var(--line);
-  border-radius:var(--r-sm);box-shadow:var(--shadow-sm);padding:8px;min-width:150px;max-width:calc(100% - 24px);}
-.card .cm-pop[hidden]{display:none;}
-.card .cm-pop .shr,.card .cm-pop .maplink,.card .cm-pop .strip{margin:0;width:100%;justify-content:flex-start;
-  text-align:left;font-size:.72rem;padding:7px 11px;}
-
-/* ---------- Side rail (desktop section dots — same pattern as index.html) ---------- */
-.fd-rail{display:none;}
-@media(min-width:1400px) and (min-height:640px){
-  .fd-rail{display:flex;align-items:center;position:fixed;right:2.6rem;top:76px;bottom:8.5rem;z-index:45;
-    pointer-events:none;opacity:.72;transition:opacity .4s ease,right .32s var(--ease);
-    animation:fdRailIn .7s ease .95s backwards;}
-  @keyframes fdRailIn{from{opacity:0;transform:translateX(8px);}to{opacity:.72;transform:none;}}
-  .fd-rail:hover,.fd-rail:focus-within{opacity:1;}
-  .fd-rail ul{list-style:none;margin:0;padding:0;pointer-events:auto;}
-  .fd-rail li{position:relative;}
-  .fd-rail li:not(:last-child)::after{content:"";position:absolute;right:3.5px;top:calc(50% + 8px);
-    width:1px;height:calc(100% - 16px);background:var(--line);}
-  .fd-rail a{display:flex;align-items:center;justify-content:flex-end;gap:.95rem;padding:.7rem 0;
-    text-decoration:none;color:var(--ink-soft);}
-  .fd-rail .rail-label{font-family:var(--font-body);font-weight:500;font-size:.66rem;letter-spacing:.25em;
-    text-transform:uppercase;white-space:nowrap;opacity:0;transform:translateX(5px);
-    transition:opacity .3s ease,transform .3s ease,color .3s ease;}
-  .fd-rail .rail-dot{flex:none;width:8px;height:8px;border-radius:50%;border:1px solid currentColor;
-    background:transparent;opacity:.4;
-    transition:background .3s ease,opacity .3s ease,box-shadow .3s ease,transform .3s ease;}
-  .fd-rail a:hover .rail-label,.fd-rail a:focus-visible .rail-label,.fd-rail a.active .rail-label{opacity:1;transform:none;}
-  .fd-rail a:hover .rail-dot,.fd-rail a:focus-visible .rail-dot{opacity:.8;transform:scale(1.15);}
-  .fd-rail a.active{color:var(--cobalt);}
-  .fd-rail a.active .rail-label{color:var(--ink);}
-  .fd-rail a.active .rail-dot{background:currentColor;opacity:.78;
-    box-shadow:0 0 0 4px color-mix(in srgb,var(--lav) 45%,transparent),0 0 10px rgba(201,182,232,.4);}
-  .fd-rail a:focus-visible{outline:1px solid var(--cobalt);outline-offset:4px;border-radius:6px;}
-  /* the docked tray owns the right edge — the rail steps left of it */
-  body.bk-dock .fd-rail{right:calc(340px + 1.5rem);}
-  html.rm .fd-rail{animation:none;}
-  html.rm .fd-rail,html.rm .fd-rail .rail-label,html.rm .fd-rail .rail-dot{transition:none;}
-}
-
-/* ---------- Motion & responsive ---------- */
-@media(prefers-reduced-motion:reduce){
-  *{scroll-behavior:auto;}
-  #aurora{animation:none;}
-  /* cards/tiles start at opacity:0 for the entrance — with motion off they must
-     simply be there, animation or not */
-  .card,.qb,.card.in,.qb.in{animation:none;opacity:1;}
-  .card:hover{transform:none;}
-  .fchip{animation:none;}
-  .skcard i{animation:none;background:var(--mist);}
-  .empty svg{animation:none;}
-  .mapbody,.sheet,.scrim,.cd-more{transition:none;}
-  .fd-rail{animation:none;transition:none;}
-}
-@media(max-width:1024px){
-  .browse-grid-wrap{grid-template-columns:1fr;}
-}
-@media(max-width:720px){
-  :root{--tabbar-h:calc(58px + env(safe-area-inset-bottom));}
-  footer .wrap{grid-template-columns:1fr;}
-  .title{font-size:clamp(2.2rem,10vw,3rem);}
-  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);}
-  .themebtn{bottom:calc(var(--tabbar-h) + 12px)!important;}
-  .ssrp-open{bottom:calc(var(--tabbar-h) + 66px)!important;}
-  /* condensed controls: search row + one scrollable chip row */
-  .controls{padding:10px 0;}
-  .controls .wrap{gap:9px;}
-  .updated,.util{display:none;}
-  .qtip.on{display:block;}
-  .chips.cats{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;
-    -webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);mask-image:linear-gradient(90deg,#000 92%,transparent);}
-  .chips.cats::-webkit-scrollbar{display:none;}
-  .fchipbtn{display:inline-flex;align-items:center;gap:6px;flex:none;}
-  .row2,.morepanel{display:none!important;} /* they live in the sheet on mobile */
-  .sheet-body .row2{display:flex!important;}
-  .sheet-body .morepanel{display:flex!important;}
-  /* Phone: the card IS the deliverable. Nothing collapses — a screenshot has to carry
-     the name, the handle, the address and the district on its own. One column, so every
-     card is the same width and the page screenshots square. */
-  .grid{grid-template-columns:1fr;gap:12px;}
-  .card{gap:8px;padding-bottom:22px;}       /* room under the foot for the credit */
-  .card.wide{grid-column:span 1;}           /* no spans to break the rhythm on a phone */
-  .card.wide .nm{font-size:1.24rem;}
-  .card .credit{display:block;}
-  .card .note{-webkit-line-clamp:3;}
-  .card .addr{font-size:.86rem;}                    /* legible in a screenshot, always */
-  .maplink,.shr{padding:7px 13px;font-size:.7rem;}  /* thumb-sized, not mouse-sized */
-  /* map collapsed behind a toggle */
-  .maptoggle{display:inline-flex;}
-  .mapbody:not(.open){grid-template-rows:0fr;}
-  .fdmap-sec .fdmap-head{margin-bottom:8px;}
-}
-@media(min-width:721px){
-  .mapbody{grid-template-rows:1fr!important;}
-}
-  </style>
+  <link rel="stylesheet" href="css/directory.css?v=2026-09-10">
+  <link rel="stylesheet" href="css/directory-discovery.css?v=2026-09-09">
+  <link rel="stylesheet" href="css/directory-guide.css?v=2026-09-09c">
+<link rel="stylesheet" href="css/directory-workspace.css">
+  <link rel="stylesheet" href="css/theme.css?v=2026-09-10">
+  <script src="js/theme.js?v=2026-09-10"></script>
 </head>
 <body>
   <a class="skiplink" href="#q" data-i18n="fd.skipsearch">Skip to search</a>
@@ -752,8 +107,11 @@ footer .sig{font-family:var(--font-script);font-size:1.7rem;color:var(--cobalt);
   <!-- ===== SIDE RAIL — desktop section dots (index.html pattern) ===== -->
   <nav class="fd-rail" id="fdrail" aria-label="Sections" data-i18n-al="fd.rail.a11y">
     <ul>
+      <li><a href="#fd-guide"><span class="rail-label" lang="en">Ask the directory</span><span class="rail-dot" aria-hidden="true"></span></a></li>
       <li><a href="#browse"><span class="rail-label" data-i18n="fd.rail.browse">Browse</span><span class="rail-dot" aria-hidden="true"></span></a></li>
       <li><a href="#map"><span class="rail-label" data-i18n="fd.rail.map">Map</span><span class="rail-dot" aria-hidden="true"></span></a></li>
+      <li><a href="#house-compare"><span class="rail-label" lang="en">Compare</span><span class="rail-dot" aria-hidden="true"></span></a></li>
+      <li><a href="#piece-board"><span class="rail-label" lang="en">Piece board</span><span class="rail-dot" aria-hidden="true"></span></a></li>
       <li><a href="#filters"><span class="rail-label" data-i18n="fd.rail.filters">Filters</span><span class="rail-dot" aria-hidden="true"></span></a></li>
       <li><a href="#main"><span class="rail-label" data-i18n="fd.rail.houses">Houses</span><span class="rail-dot" aria-hidden="true"></span></a></li>
     </ul>
@@ -777,9 +135,7 @@ footer .sig{font-family:var(--font-script);font-size:1.7rem;color:var(--cobalt);
     </div>
     <div class="eyebrow" data-i18n="fd.eye2">The atelier's open directory</div>
     <h1 class="title" data-i18n="fd.title">The Saigon <span class="script">Fashion</span> Directory</h1>
-    <p class="lede" data-i18n="fd.lede2">320 verified boutiques, ateliers, designer labels and markets, mapped by district.
-      Filter by what you're looking for, where you'll be, and how it's priced — free to browse,
-      and every house sourceable through Seraphic Styler.</p>
+    <p class="lede" lang="en">Discover Vietnamese labels by fabric, occasion, budget, and district. Compare the houses, plan a visit, or bring an exact piece to Seraphic for purchase assistance.</p>
     <div class="statline" id="statline"></div>
     <div class="nowbar" id="nowbar" hidden>
       <span class="tag" id="nowtag">On now</span>
@@ -788,6 +144,37 @@ footer .sig{font-family:var(--font-script);font-size:1.7rem;color:var(--cobalt);
   </div>
 </div>
 
+<section class="fd-guide wrap" id="fd-guide" aria-labelledby="fd-guide-title" lang="en">
+  <div class="fd-guide-shell">
+    <p class="fd-guide-static"><strong>Ask the directory</strong><br>Explore <a href="#cat=women">womenswear</a>, <a href="#fib=linen">linen</a>, or <a href="#cat=tailor">áo dài &amp; tailoring</a>. House notes are a starting point; prices and stock need confirmation.</p>
+    <div data-fd-interactive hidden>
+      <div class="fd-guide-head" id="fd-guide-head" hidden>
+        <div><h2 id="fd-guide-title">Ask the directory</h2><p id="fd-guide-scope">Directory notes · English · Not live stock</p></div>
+        <button type="button" id="fd-guide-minimize" aria-label="Close directory assistant" title="Close (Escape)">×</button>
+      </div>
+      <div class="fd-guide-content" id="fd-guide-content" hidden>
+        <div class="fd-guide-suggestions" aria-label="Starting questions">
+          <button type="button" data-fd-ask="Show me houses with linen">Linen</button>
+          <button type="button" data-fd-ask="Show me áo dài tailors">Áo dài</button>
+          <button type="button" data-fd-ask="Show me houses in District 1">District 1</button>
+        </div>
+        <div id="fd-guide-answer" tabindex="0" role="region" aria-label="Directory answer" hidden></div>
+        <div class="fd-guide-utilities"><button type="button" id="fd-guide-reset" hidden>New discovery</button><a href="#piece-board">Your piece board</a></div>
+        <p class="fd-guide-status" id="fd-guide-status" role="status" aria-live="polite" aria-atomic="true"></p>
+      </div>
+      <form id="fd-guide-form" class="fd-guide-compose">
+        <label class="vh" for="fd-guide-question">Ask the directory in English</label>
+        <button type="button" id="fd-guide-voice" aria-label="Open voice filters" title="Open voice filters"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/></svg></button>
+        <input id="fd-guide-question" type="text" maxlength="400" autocomplete="off" placeholder="Ask the directory…" aria-label="Ask the directory in English" aria-controls="fd-guide-content" aria-expanded="false">
+        <button type="submit" aria-label="Find matching houses" title="Find matching houses"><span aria-hidden="true">→</span></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<nav class="fd-journey wrap" aria-label="Your discovery journey" lang="en">
+  <a href="#browse">Discover</a><a href="#house-compare">Compare <span data-compare-count></span></a><a href="#map">Visit</a><a href="#piece-board">Buy</a>
+</nav>
 <section class="browse" id="browse" aria-labelledby="browseh">
   <div class="wrap">
     <div class="eyebrow" data-i18n="fd.browse.eye">Start here</div>
@@ -806,14 +193,14 @@ footer .sig{font-family:var(--font-script);font-size:1.7rem;color:var(--cobalt);
       <div>
         <div class="eyebrow" data-i18n="fd.mapeye">The lay of the land</div>
         <h2 class="fdmap-title" id="mapth" data-i18n="fd.maptitle">Where the houses cluster</h2>
-        <p class="fdmap-sub" data-i18n="fd.mapsub">Saigon's fashion concentrates in a handful of districts — and often single streets. Tap an area to filter the directory to it.</p>
+        <p class="fdmap-sub" lang="en">Tap a district to filter the directory. Larger circles mean more houses.</p>
       </div>
       <button class="maptoggle" id="maptoggle" aria-expanded="false" aria-controls="mapbody"><span data-i18n="fd.mapshow">Show map</span></button>
-      <button class="fdmap-clear" id="fdmapclear" hidden><span data-i18n="fd.showing">Showing</span> <b id="fdmapzone"></b> · <span data-i18n="fd.clear">clear ✕</span></button>
+      <button class="fdmap-clear" id="fdmapclear" disabled lang="en">Clear district<span class="vh" id="fdmapzone"></span></button>
     </div>
     <div class="mapbody" id="mapbody"><div>
       <div class="fdmap-wrap">
-        <svg id="fdmap" viewBox="0 0 720 470" role="img" aria-label="Stylized map of Saigon fashion districts, sized by number of stores" data-i18n-al="fd.a11y.map">
+        <svg id="fdmap" viewBox="0 0 720 470" role="group" aria-label="Choose a Saigon district">
           <defs>
             <linearGradient id="riverg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a93de"/><stop offset="1" stop-color="#c9b6e8"/></linearGradient>
             <radialGradient id="nodeg" cx="46%" cy="42%" r="72%"><stop offset="0" stop-color="#234193"/><stop offset=".55" stop-color="#2e54ad"/><stop offset="1" stop-color="#8a93de"/></radialGradient>
@@ -823,16 +210,18 @@ footer .sig{font-family:var(--font-script);font-size:1.7rem;color:var(--cobalt);
           <g id="fdmapnodes"></g>
         </svg>
         <div class="fdmap-foot">
-          <p class="fdmap-legend"><span class="lgd" style="--d:8px"></span>5 <span class="lgd" style="--d:16px"></span>20 <span class="lgd" style="--d:28px"></span>60 <span data-i18n="fd.maplegend">houses — circle area ∝ house count</span></p>
-          <button class="onlinechip" id="onlinechip" aria-pressed="false"></button>
+          <p id="fdmap-selection" role="status" aria-live="polite" lang="en">Choose a district to begin.</p>
+          <a href="#main" class="fdmap-results" lang="en">View matching houses →</a>
         </div>
       </div>
+      <div class="fdmap-districts" id="fdmap-districts" role="group" aria-label="Districts and recorded house counts" lang="en"></div>
       <p class="fdmap-note" id="fdmapnote"></p>
     </div></div>
   </div>
 </section>
 <div class="fdtip" id="fdtip" hidden></div>
 
+<div class="fd-results-zone">
 <div id="stickysentinel" aria-hidden="true"></div>
 <div class="controls" id="filters" tabindex="-1" role="region" aria-label="Search and filters" data-i18n-al="fd.a11y.filters">
   <div class="wrap">
@@ -895,19 +284,47 @@ footer .sig{font-family:var(--font-script);font-size:1.7rem;color:var(--cobalt);
     <div class="skcard"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></div>
   </div>
 </main>
+</div>
+<section class="fd-decisions wrap" id="house-compare" aria-labelledby="fd-compare-title" lang="en">
+  <header><p class="eyebrow">Your shortlist</p><h2 id="fd-compare-title">Compare before you choose.</h2><p>Choose up to three houses from the directory. Compare what is recorded, and see what still needs checking.</p></header>
+  <div id="fd-house-comparison"><p>Use the house channels to explore collections, or <a href="#main">browse the directory</a> below.</p></div>
+</section>
+<section class="fd-decisions wrap" id="piece-board" aria-labelledby="fd-board-title" lang="en">
+  <header><p class="eyebrow">From a house to a piece</p><h2 id="fd-board-title">A board for what draws you in.</h2><p>Collect exact links, note what you know, and compare pieces across houses. Saved in this browser; availability still needs confirmation.</p></header>
+  <div id="fd-piece-workspace" hidden>
+    <div class="fd-board-tools"><button type="button" id="fd-open-tray">Open your tray</button><button type="button" id="fd-plan-route">Plan a Saigon visit</button></div>
+    <details class="fd-piece-add"><summary>Add a piece from a website, Instagram, or Shopee</summary>
+      <form id="fd-piece-form">
+        <label>Source link<input name="link" type="url" required maxlength="1200" placeholder="https://…"></label>
+        <label>Piece name<input name="title" required maxlength="160" placeholder="The name you saved"></label>
+        <label>House or seller <span>(optional)</span><input name="brandName" maxlength="120"></label>
+        <label>Observed price in VND <span>(optional)</span><input name="priceVnd" type="number" min="1" step="1" placeholder="Leave blank if unknown"></label>
+        <button type="submit">Save this reference</button>
+      </form><p>Saving a link does not fetch the page or confirm the seller, stock, or price.</p>
+    </details>
+    <div id="fd-curated-edit" hidden></div>
+    <label class="fd-board-filter">Occasion board<select id="fd-board-occasion"><option value="">All saved pieces</option></select></label>
+    <div id="fd-piece-list"></div>
+    <div id="fd-piece-compare" hidden></div>
+    <details id="fd-piece-request"><summary>Prepare a request from this board</summary>
+      <p>Review a brief, then copy it into your request. Nothing is sent from this board.</p>
+      <label>What help do you need?<select id="fd-piece-intent"><option value="sourcing">Check exact pieces from identified sellers</option><option value="trace">Identify an unknown original item</option><option value="styling">Choose alternatives or style these ideas</option></select></label>
+      <button type="button" id="fd-build-brief">Review my brief</button><div id="fd-piece-brief" hidden></div>
+    </details>
+    <p id="fd-discovery-status" role="status" aria-live="polite"></p>
+  </div>
+  <noscript><p>Save your product links, sizes, and seller names, then <a href="service-request.html?service=unsure">send a service request</a>.</p></noscript>
+</section>
+
+
 <!-- SS:STATIC-INDEX:START (generated by tools/build-seo-pages.cjs — do not edit by hand) -->
 <section class="wrap si" id="ss-static-index" aria-labelledby="si-h">
-  <h2 id="si-h">The directory in plain text</h2>
-  <p class="si-lead">All 321 houses as one readable list, with the areas and categories they belong to. The filters above are faster; this is here so the directory can be read, quoted and indexed without running anything — by a screen reader, a saved page, or an assistant answering a question about Vietnamese fashion.</p>
-  <p class="si-lead"><strong>Walked and recorded in person in Ho Chi Minh City. Last reviewed <time datetime="2026-08-28">2026-08-28</time>.</strong> Shops in Vietnam move and change hours often — confirm before you travel. The same data is available as a <a href="dataset">CC BY-licensed dataset</a> and a <a href="for-agents">public JSON API</a>.</p>
-
-  <h3>By area</h3>
-  <ul class="si-hubs"><li><a href="areas/district-1-ho-chi-minh-city">District 1, Ho Chi Minh City</a> <i>88</i></li><li><a href="areas/district-3-ho-chi-minh-city">District 3, Ho Chi Minh City</a> <i>45</i></li><li><a href="areas/hanoi-vietnam">Hanoi, Vietnam</a> <i>21</i></li><li><a href="areas/phu-nhuan-vietnam">Phú Nhuận, Vietnam</a> <i>20</i></li><li><a href="areas/thu-duc-vietnam">Thủ Đức, Vietnam</a> <i>8</i></li><li><a href="areas/binh-thanh-vietnam">Bình Thạnh, Vietnam</a> <i>7</i></li><li><a href="areas/thao-dien-vietnam">Thảo Điền, Vietnam</a> <i>7</i></li><li><a href="areas/tan-binh-vietnam">Tân Bình, Vietnam</a> <i>5</i></li><li><a href="areas/nationwide-vietnam">Nationwide, Vietnam</a> <i>5</i></li><li><a href="areas/go-vap-vietnam">Gò Vấp, Vietnam</a> <i>3</i></li><li><a href="areas/q10-vietnam">Q10, Vietnam</a> <i>3</i></li><li><a href="areas/q5-vietnam">Q5, Vietnam</a> <i>2</i></li><li><a href="areas/tan-phu-vietnam">Tân Phú, Vietnam</a> <i>2</i></li><li><a href="areas/district-7-ho-chi-minh-city">District 7, Ho Chi Minh City</a> <i>2</i></li></ul>
-
-  <h3>By category</h3>
-  <ul class="si-hubs"><li><a href="categories/womenswear">Womenswear</a> <i>153</i></li><li><a href="categories/lingerie-and-intimates">Lingerie &amp; intimates</a> <i>26</i></li><li><a href="categories/activewear">Activewear</a> <i>23</i></li><li><a href="categories/luxury">Luxury</a> <i>22</i></li><li><a href="categories/bridal">Bridal</a> <i>20</i></li><li><a href="categories/tailoring-and-ao-dai">Tailoring &amp; áo dài</a> <i>17</i></li><li><a href="categories/accessories">Accessories</a> <i>15</i></li><li><a href="categories/menswear">Menswear</a> <i>13</i></li><li><a href="categories/vintage">Vintage</a> <i>12</i></li><li><a href="categories/market">Market</a> <i>11</i></li><li><a href="categories/sleepwear">Sleepwear</a> <i>9</i></li></ul>
-
-  <details class="si-all">
+  <div class="si-panel">
+  <h2 id="si-h">Plain-text directory</h2>
+  <p class="si-lead">A readable reference to all 321 houses, for screen readers, saved pages, and quick lookup.</p>
+  <p class="si-meta">321 houses · Last reviewed <time datetime="2026-08-28">2026-08-28</time> · Confirm before travel.<br><a href="dataset">Dataset</a> · <a href="for-agents">JSON API</a> · <a href="directory-methodology">Methodology</a></p>
+  <nav class="si-jumps" aria-label="Plain directory sections"><a href="#plain-az">A–Z list</a><a href="#plain-area">By area</a><a href="#plain-category">By category</a></nav>
+  <details class="si-all" id="plain-az">
     <summary>Every house, A–Z (321)</summary>
     <ul class="si-list">
 <li><a href="https://instagram.com/11garmentory" rel="noopener nofollow">11 Garmentory</a><span>117B Nguyễn Đình Chính, P. Cầu Kiệu, Phú Nhuận · Phú Nhuận · Womenswear · Sold via a stockist or hub · Premium — Multi-brand creative hub + café. 10:00–21:30.</span></li>
@@ -1233,29 +650,35 @@ footer .sig{font-family:var(--font-script);font-size:1.7rem;color:var(--cobalt);
 <li><a href="https://instagram.com/xinhhaofficial" rel="noopener nofollow">Xinh Hà</a><span>WhatsApp +84 964 989898 · Online · Womenswear · Online only · Mid — RTW design; PayPal accepted.</span></li>
     </ul>
   </details>
+  <div class="si-support">
+    <details id="plain-area"><summary>By area</summary><ul class="si-hubs"><li><a href="areas/district-1-ho-chi-minh-city">District 1, Ho Chi Minh City <span>88</span></a></li><li><a href="areas/district-3-ho-chi-minh-city">District 3, Ho Chi Minh City <span>45</span></a></li><li><a href="areas/hanoi-vietnam">Hanoi, Vietnam <span>21</span></a></li><li><a href="areas/phu-nhuan-vietnam">Phú Nhuận, Vietnam <span>20</span></a></li><li><a href="areas/thu-duc-vietnam">Thủ Đức, Vietnam <span>8</span></a></li><li><a href="areas/binh-thanh-vietnam">Bình Thạnh, Vietnam <span>7</span></a></li><li><a href="areas/thao-dien-vietnam">Thảo Điền, Vietnam <span>7</span></a></li><li><a href="areas/tan-binh-vietnam">Tân Bình, Vietnam <span>5</span></a></li><li><a href="areas/nationwide-vietnam">Nationwide, Vietnam <span>5</span></a></li><li><a href="areas/go-vap-vietnam">Gò Vấp, Vietnam <span>3</span></a></li><li><a href="areas/q10-vietnam">Q10, Vietnam <span>3</span></a></li><li><a href="areas/q5-vietnam">Q5, Vietnam <span>2</span></a></li><li><a href="areas/tan-phu-vietnam">Tân Phú, Vietnam <span>2</span></a></li><li><a href="areas/district-7-ho-chi-minh-city">District 7, Ho Chi Minh City <span>2</span></a></li></ul></details>
+    <details id="plain-category"><summary>By category</summary><ul class="si-hubs"><li><a href="categories/womenswear">Womenswear <span>153</span></a></li><li><a href="categories/lingerie-and-intimates">Lingerie &amp; intimates <span>26</span></a></li><li><a href="categories/activewear">Activewear <span>23</span></a></li><li><a href="categories/luxury">Luxury <span>22</span></a></li><li><a href="categories/bridal">Bridal <span>20</span></a></li><li><a href="categories/tailoring-and-ao-dai">Tailoring &amp; áo dài <span>17</span></a></li><li><a href="categories/accessories">Accessories <span>15</span></a></li><li><a href="categories/menswear">Menswear <span>13</span></a></li><li><a href="categories/vintage">Vintage <span>12</span></a></li><li><a href="categories/market">Market <span>11</span></a></li><li><a href="categories/sleepwear">Sleepwear <span>9</span></a></li></ul></details>
+  </div>
+  <p class="si-end"><a href="#fd-reference-notes">Confidence &amp; research notes</a></p>
+  </div>
 </section>
 <style>
-.si{padding:2.6rem 0 3.4rem;border-top:1px solid var(--surface-border);margin-top:2rem}
-.si h2{font-family:"Tenor Sans",serif;font-weight:400;font-size:1.35rem;margin:0 0 .7rem;color:var(--text-primary)}
-.si h3{font-family:"Montserrat",sans-serif;font-weight:500;font-size:.76rem;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--text-secondary);margin:2rem 0 .8rem}
-.si-lead{font-size:.9rem;line-height:1.75;color:var(--text-secondary);max-width:62ch;margin:0 0 .8rem}
-.si-hubs{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:.5rem}
-.si-hubs li{border:1px solid var(--surface-border);border-radius:999px;padding:.3rem .8rem;font-size:.84rem}
-.si-hubs a{color:var(--accent);text-decoration:none}
-.si-hubs i{font-style:normal;color:var(--text-secondary);font-size:.76rem;margin-left:.3rem}
-.si-all{margin-top:2rem;border-top:1px solid var(--surface-border);padding-top:1rem}
-.si-all summary{cursor:pointer;font-family:"Montserrat",sans-serif;font-size:.8rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--text-secondary)}
-.si-list{list-style:none;padding:0;margin:1.2rem 0 0;columns:2;column-gap:2.2rem}
-@media(max-width:720px){.si-list{columns:1}}
-.si-list li{break-inside:avoid;padding:.5rem 0;border-bottom:1px solid var(--surface-border);
-  font-size:.88rem;color:var(--text-primary)}
-.si-list li span{display:block;font-size:.79rem;color:var(--text-secondary);line-height:1.55;margin-top:.15rem}
-.si-list a{color:var(--accent);text-decoration:none}
+.si{padding-block:32px;margin-top:24px;scroll-margin-top:96px}
+.si-panel{border:1px solid var(--line);border-radius:18px;background:var(--paper);padding:clamp(20px,4vw,32px)}
+.si h2{font-family:var(--font-display);font-weight:400;font-size:24px;margin:0 0 16px;color:var(--ink)}
+.si-lead{font-size:16px;line-height:1.6;color:var(--ink);max-width:66ch;margin:0 0 12px}
+.si-meta,.si-end{font-size:14px;line-height:1.6;color:var(--ink-soft);max-width:70ch;margin:0 0 16px}
+.si a{color:var(--cobalt);text-decoration:underline;text-underline-offset:3px;min-height:44px;display:inline-flex;align-items:center}
+.si-jumps{display:flex;gap:8px 24px;flex-wrap:wrap;margin-bottom:16px;font-size:14px}
+.si details{border-top:1px solid var(--line);scroll-margin-top:96px}
+.si summary{cursor:pointer;font-family:var(--font-body);font-size:16px;min-height:48px;align-content:center;padding:12px 4px;color:var(--ink)}
+.si-support{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:16px}
+.si-hubs{list-style:none;padding:0;margin:8px 0 16px}
+.si-hubs a{display:flex;justify-content:space-between;gap:16px;font-size:14px;padding:8px 4px;text-decoration:none;border-bottom:1px solid var(--line-soft)}
+.si-hubs span{color:var(--ink-soft)}
+.si-list{list-style:none;padding:0;margin:16px 0;columns:2;column-gap:32px}
+.si-list li{break-inside:avoid;padding:12px 0;border-bottom:1px solid var(--line);font-size:16px;color:var(--ink);overflow-wrap:anywhere}
+.si-list li>span{display:block;font-size:16px;color:var(--ink-soft);line-height:1.6;margin-top:4px}
+.si :is(a,summary):focus-visible{outline:3px solid var(--cobalt);outline-offset:3px}
+@media(max-width:720px){.si-list{columns:1}.si-support{grid-template-columns:1fr;gap:8px}}
 </style>
 <!-- SS:STATIC-INDEX:END -->
-<noscript><div class="wrap" style="padding:30px 0"><p>The directory is interactive and needs JavaScript to filter its 320 houses. Please enable it, or write to seraphicstyler@gmail.com for a copy.</p></div></noscript>
+<noscript><div class="wrap" style="padding:30px 0"><p>Use the plain-text A–Z list above without JavaScript, or enable JavaScript for interactive filters.</p></div></noscript>
 
 <button class="themebtn" id="theme" aria-label="Toggle dark mode" data-i18n-al="fd.a11y.theme" aria-pressed="false" title="Toggle light / dark" data-i18n-ti="fd.a11y.themeTi">
   <svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
@@ -1263,11 +686,11 @@ footer .sig{font-family:var(--font-script);font-size:1.7rem;color:var(--cobalt);
 </button>
 
 <nav class="tabbar" aria-label="Directory quick actions" data-i18n-al="fd.a11y.tabbar">
-  <button type="button" data-act="search"><svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="M14 14l4 4"/></svg><span data-i18n="fd.tb.search">Search</span></button>
+  <button type="button" data-act="search"><svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="M14 14l4 4"/></svg><span lang="en">Search</span></button>
   <button type="button" data-act="sheet"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg><span data-i18n="fd.tb.filters">Filters</span></button>
-  <button type="button" data-act="map"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg><span data-i18n="fd.tb.map">Map</span></button>
-  <button type="button" data-act="tray" id="tbtray"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/><path d="M12 17.2c-1.7-1.5-3-2.6-3-4 0-.9.7-1.7 1.6-1.7.6 0 1.1.3 1.4.8.3-.5.8-.8 1.4-.8.9 0 1.6.8 1.6 1.7 0 1.4-1.3 2.5-3 4Z" fill="currentColor" stroke="none"/></svg><span data-i18n="fd.tb.tray">Tray</span><span class="bub" id="tbtrayn" hidden></span></button>
-  <button type="button" data-act="all"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg><span data-i18n="fd.tb.all">All</span></button>
+  <button type="button" data-act="map"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg><span lang="en">Visit</span></button>
+  <button type="button" data-act="compare" id="tbtray"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/><path d="M12 17.2c-1.7-1.5-3-2.6-3-4 0-.9.7-1.7 1.6-1.7.6 0 1.1.3 1.4.8.3-.5.8-.8 1.4-.8.9 0 1.6.8 1.6 1.7 0 1.4-1.3 2.5-3 4Z" fill="currentColor" stroke="none"/></svg><span lang="en">Compare</span><span class="bub" id="tbtrayn" hidden></span></button>
+  <button type="button" data-act="board"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg><span lang="en">Buy</span></button>
 </nav>
 
 <div class="scrim" id="scrim" hidden></div>
@@ -1281,7 +704,7 @@ footer .sig{font-family:var(--font-script);font-size:1.7rem;color:var(--cobalt);
 </div>
 
 <footer><div class="wrap">
-  <div class="legend">
+  <details class="fd-reference-notes" id="fd-reference-notes"><summary>Confidence &amp; research notes</summary><div class="legend">
     <h3 data-i18n="fd.legendh">How to read this guide</h3>
     <div class="row"><span class="dot" style="background:var(--lav)"></span> Mid — accessible local design</div>
     <div class="row"><span class="dot" style="background:var(--peri)"></span> Premium — elevated local labels</div>
@@ -1297,7 +720,7 @@ footer .sig{font-family:var(--font-script);font-size:1.7rem;color:var(--cobalt);
       Hearts save to this browser only — no account, nothing leaves your device.</p>
     <p class="meta"><a href="directory-methodology">Read the research methodology, confidence definitions and correction policy →</a></p>
     <p class="meta" data-i18n="fd.transnote">The interface is available in the languages listed in the menu above. House notes, addresses, brand names and district names stay in their original language — those are the words you show a driver or a shop assistant.</p>
-  </div>
+  </div></details>
   <div class="contact">
     <h3>Seraphic Styler</h3>
     <p style="color:var(--ink-soft);font-size:.85rem;line-height:1.6;margin:.2em 0 .6em" data-i18n="fd.contactp">Personal styling &amp;
@@ -1314,1030 +737,12 @@ footer .sig{font-family:var(--font-script);font-size:1.7rem;color:var(--cobalt);
        one file, js/i18n/fd.<lang>.js — this page uses none of the 341 homepage keys,
        so the 597KB translations.js is gone. -->
   <script src="js/i18n/manifest.js"></script>
+  <script src="js/i18n-dom.js"></script>
   <script src="js/i18n-page.js"></script>
   <script src="js/directory-data.js"></script>
-  <script src="js/fd-search.js"></script><!-- diacritic-blind, alias-aware search over the directory; offline -->
-  <script>
-/* ============ DATA ============ */
-const B=window.SS_DIRECTORY; // data lives in js/directory-data.js (shared with the route planner)
-/* One pass to stamp each house with its folded search key (js/fd-search.js). */
-if(window.SS_SEARCH)SS_SEARCH.index(B);
-
-/* — Retail clusters (streets panel) — */
-const STREETS=[
-{h:"Trần Quang Diệu",d:"District 3 · the design strip",c:"13 shops",l:"Goût De Jun (1) · Kathy Atelier + BaaBeeBoo (6) · Laneci (27) · Moulin Rose + Lace Lingerie Lover (48) · 18 Again (52) · Tartan (70) · Chérieon (76) · Rêver (91) · So Dópe Club (97) · caleélilou (136/5) · Chan Club (154)"},
-{h:"42 Tôn Thất Thiệp",d:"District 1 · Bến Nghé",c:"3 in one building",l:"Dawn Vintage + 1998 Before The Dawn (2F) · Depass (Rm 38E)"},
-{h:"Võ Văn Tần",d:"District 3",c:"7 shops",l:"Mooris (234) · Résel + Résel Bridal (245) · Sexy Forever (291) · LAVIEM (289) · So Dópe Club (353) · Cocosin (365) · Bom Sister (422)"},
-{h:"214 Hai Bà Trưng",d:"District 1 · Tân Định",c:"3 labels",l:"Huelley Rose · Huelley · Stress Mama — one address, three brands"},
-{h:"Hai Bà Trưng · Tân Định",d:"District 1 · the sleepwear corridor",c:"3 doors",l:"VINCY Homewear (248) · Wacoal (232) · ONOFF (366) — all within ~300 m of the 214 Hai Bà Trưng stop"},
-{h:"11 Garmentory",d:"Phú Nhuận · 117B Nguyễn Đình Chính",c:"multi-brand hub",l:"Duu Stu flagship · Babie Club · Badchoices · The Fancé + rotating local creatives & The Muse café"},
-{h:"Lý Tự Trọng",d:"District 1",c:"4 shops",l:"The New Playground (26) · Wephobia (98) · Enuff Studio (261) · Calista de Minh Thanh (265)"},
-{h:"Lê Thánh Tôn",d:"District 1 · the tailor & shoe strip",c:"MTM row",l:"Dung Tailor (221) · ManGii custom shoes (228) · Shimmer Silver (128 Lê Lai nearby) — Saigon's made-to-measure heart"}
-];
-
-/* ============ BRAND ICONS (icons/ folder, matched to entry names) ============ */
-const ICONS={"11 Garmentory":"icons/11 Garmentory.jpg","18 Again":"icons/18 Again.jpg","1998 Before The Dawn":"icons/1998beforethedawn.png","Aeva Atelier":"icons/AEVA Atelier.jpg","Aguja Studio":"icons/Aguja Studio.jpg","Aimee":"icons/Aimee.jpg","Aisytum":"icons/Aisytum.jpg","AME Jewellery":"icons/AME Jewellery.jpg","Amory":"icons/Amory.jpg","Ananas":"icons/Ananas.jpg","Anna Clothes":"icons/Anna Clothes.jpg","Arya":"icons/Arya.jpg","Augety":"icons/Augety.jpg","BaaBeeBoo":"icons/BaaBeeBoo.jpg","Babie Club":"icons/Babie Club.jpg","Badchoices":"icons/Bad Choices.webp","Brown VN":"icons/Brown.png","Bubble":"icons/Bubble.jpg","Bupbes":"icons/Bupbes.png","By Cotno":"icons/By Cotno.jpg","By Fairy":"icons/By Fairy.jpg","By Vee":"icons/By Vee.jpg","caleélilou":"icons/caleelilou.jpg","Calista de Minh Thanh":"icons/Calista de Minh Thanh.png","Cao Minh Saigon":"icons/Cao Minh Saigon.png","CAOSTU":"icons/CAOSTU.jpg","CE CE":"icons/Ce Ce.jpg","CEM — Chị Em Mình":"icons/CEM - Chi Em Minh.jpg","Chan Club":"icons/Chan Club.jpg","CHATS by C.DAM":"icons/Chats by C.Dam.jpg","Chautfifth":"icons/Chautfifth.jpg","Chérieon":"icons/Cherieon.webp","Chou Chou":"icons/Chou Chou.png","Chung Thanh Phong":"icons/Chung Thanh Phong.jpg","Clothes Bar":"icons/Clothes Bar.jpg","Cocosin":"icons/Cocosin.jpg","Curnon":"icons/Curnon.jpg","Daniv Dear":"icons/Daniv Dear.jpg","Daphale Studios":"icons/427607833_358377757122119_2907036623528799797_n.jpg","Dawn Vintage":"icons/Dawn.png","De Pure":"icons/De Pure.jpg","Depass":"icons/Depass.png","Dimo":"icons/Dimo.jpg","Đỗ Long":"icons/Do Long.jpg","Dòng Dòng Sài Gòn":"icons/Dong Dong Sai Gon.jpg","Dune De Label":"icons/Dune De Label.jpg","Duu Stu":"icons/Duu Stu.jpg","Elena NGN":"icons/Elena NGN.jpg","Enuff Studio":"icons/Enuff Studio.jpg","EQL Apparel":"icons/EQL Apparel .jpg","Fancì Club":"icons/Fanci Club.jpg","Feiin Atelier":"icons/Feiin Atelier.jpg","Firefly Studio":"icons/Firefly Studio.jpg","Fitme":"icons/Fitme .jpg","Floralpunk":"icons/Floralpunk.jpg","Gèrme":"icons/Germe.jpg","GIA Studios":"icons/GIA Studios .jpg","Glamdoll":"icons/Glamdoll.png","Goût De Jun":"icons/Gout De Jun.webp","Guvie":"icons/Guvie.webp","Hà Linh Thu":"icons/Ha Linh Thu.jpg","Hangkao Closet":"icons/Hangkao Closet.jpg","Hapas":"icons/Hapas.jpg","Happy Hahaha Studio":"icons/Happy Hahaha Studio.jpg","Hello Weekend Market":"icons/Hello Weekend Market.jpg","Her Day Off":"icons/Her Day Off.jpg","Hoang Studios":"icons/Hoang Studios.jpg","Huelley":"icons/Huelley.jpg","Huelley Rose":"icons/Huelley Rose.jpg","Is Flourish":"icons/Is Flourish.jpg","IVY moda":"icons/IVY moda.jpg","Jenéa by Jenny":"icons/Jenea by Jenny.jpg","Jennie Choo":"icons/Jennie Choo.jpg","Josephine":"icons/Josephine.png","Josephine (Hanoi)":"icons/Josephine (Hanoi).jpg","Joven":"icons/Joven.jpg","Jubin Studio":"icons/Jubin Studio.jpg","Jujubae":"icons/Jujubae.jpg","Jula":"icons/Jula.png","Juno":"icons/Juno.jpg","Kae":"icons/Kae.jpg","Kaiiros":"icons/Kaiiros.jpg","Katherine Studio":"icons/Katherine Studio.jpg","Kathy Atelier":"icons/Kathy Atelier.jpeg","Keira Tong":"icons/Keira Tong.jpg","Kistiny":"icons/Kistiny.jpg","L'Espoir":"icons/L'Espoir.jpg","La Phạm":"icons/La Pham.jpg","La Vierge":"icons/la Vierge.jpg","Lace Lingerie Lover":"icons/Lace Lingerie Lover .webp","LaLune":"icons/LaLune.png","Laneci":"icons/Laneci.jpg","LAVIEM":"icons/Laviem.jpg","Le Thanh Hoa":"icons/Le Thanh Hoa .jpg","Levents":"icons/Levents.png","LI LAM / LAM":"icons/LI LAM LAM.jpg","Libé":"icons/Libe.jpg","Linh Nga Couture":"icons/Linh Nga Couture.jpg","Liniss":"icons/Liniss.png","Lovelyn":"icons/Lovelyn.jpg","LSOUL":"icons/LSOUL.jpg","Lụa Là by Diễm":"icons/Lua La by Diem.jpg","Lussera":"icons/Lussera.jpg","Mael Femme":"icons/Mael Femme.jpg","Mangata":"icons/Mangata.jpg","Matemade":"icons/Mate Made.jpg","Metiseko":"icons/Metiseko.jpg","Miah Noir":"icons/miah.noir.jpg","Mimilys":"icons/Mimilys.jpg","Minh Tuan Couture":"icons/Minh Tuan Couture.jpg","Mira Emb":"icons/Mira Emb.jpg","Mood Emode":"icons/Mood Emode.jpg","Moodswings":"icons/Moodswings.jpg","Moon Me":"icons/Moon Me.jpg","Mooris":"icons/Mooris.jpg","Morris":"icons/Morris.jpg","Moulin Rose":"icons/Moulin Rose.jpg","Nguyễn Hoàng Tú":"icons/Nguyen Hoang Tu.jpg","Nosbyn":"icons/Nosbyn.jpg","Nosbyn Studio":"icons/Nosbyn Studio.jpg","OAK — Wear of a Kind":"icons/OAK.jpg","OCÉARA":"icons/OCEARA.jpg","Olaben":"icons/Olaben.jpg","OLV":"icons/OLV.png","OnOnMM ®":"icons/OnOnMM.jpg","ONWAYS":"icons/ONWAYS.jpg","Perpearl":"icons/Per Pearl.png","Phan Đăng Hoàng":"icons/Phan Dang Hoang.jpg","Phan Huy":"icons/Phan Huy .jpg","Pomelo Flower":"icons/Pomelo Flower.jpg","Poppy Babi":"icons/Poppy Babi.jpg","Punch":"icons/Punch.jpg","REBN":"icons/REBN Official.jpg","Rêver":"icons/REVER.jpg","Rid Kid Closet":"icons/Rid Kid Closet.jpg","Rosie":"icons/Rosie.jpg","Rue Des Chats":"icons/Rue Des Chats.jpg","Rue Miche L'Édition":"icons/Rue Miche L'Edition.jpg","Sassy Sis":"icons/Sassy Sis.png","SEESON":"icons/SEESON.jpg","Sensore":"icons/Sensore.jpg","Shimmer Silver":"icons/Shimmer Silver.jpg","Shondo":"icons/Shondo.jpg","Shu Shi":"icons/Shu Shi.jpg","Sister Sister by Min":"icons/Sister Sister by Min.jpg","SIXDO":"icons/SIXDO .jpg","So Dópe Club":"icons/So Dope Club.jpg","Sò Vintage":"icons/So Vintage.jpg","Some Official":"icons/Some Official.jpg","Sonancy Mood":"icons/So Nancy Mood.webp","Stress Mama":"icons/Stress Mama.jpg","Striped T":"icons/Striped T.jpg","Subtle Le Nguyen":"icons/Subtle Le Nguyen.jpg","Sundei":"icons/Sundei.jpg","Swessy":"icons/Swessy.jpg","Szombies":"icons/Szombies.jpg","Tartan Studios":"icons/Tartan Studios.png","Teddy And":"icons/Teddy And.jpg","Thao Bibi":"icons/Thao Bibi .jpg","The Country Boutiques":"icons/The Country Boutiques .jpg","The Fancé":"icons/The Fance.webp","The New Playground":"icons/The New Playground.jpg","The Nicolette House":"icons/The Nicolette House.jpg","The Purists Club":"icons/The Purists Club.jpg","Tiela":"icons/Tiela.png","Trần Hùng":"icons/Tran Hung.jpg","Valenciani":"icons/Valenciani.jpg","Vanila Gals":"icons/Vanila Gals.jpg","Vascara":"icons/Vascara.jpg","Velia Co":"icons/Velia Co.jpg","Velvet Venom":"icons/Velvet Venom.png","Veos":"icons/Veos.jpg","Vintage Angel Tailor":"icons/Vintage Angel.jpg","VUNGOC&SON":"icons/VUNGOC&SON.jpg","Wabitales":"icons/WabiTales.jpg","Wephobia":"icons/Wephobia.png","Whenever Atelier":"icons/Where Atelier.png","Whose Studio":"icons/Whose Studio.webp","Xinh Hà":"icons/Xinh Ha.jpg"};
-
-/* ============ CONFIG ============ */
-const TIERCOL={mid:"var(--lav)",premium:"var(--peri)",luxury:"var(--orchid)",couture:"var(--mauve)",none:"var(--ink-faint)"};
-const STLAB={walk:["Walk-in","walk"],appt:["Appointment","appt"],online:["Online","online"],hub:["In a hub","hub"],popup:["Pop-up","hub"]};
-/* chip / option tuples: [value, i18n key, English default, indent?]
-   Place names (Phú Nhuận, Thảo Điền, Q5 · Chợ Lớn…) are proper nouns: they stay
-   verbatim in every language — you say them to a driver, you don't translate them.
-   A null key means "never translate this label". */
-const CATS=[["all","fd.cat.all","All"],["women","fd.cat.women","Womenswear"],["men","fd.cat.men","Menswear"],["luxury","fd.cat.luxury","Luxury & Couture"],["bridal","fd.cat.bridal","Bridal"],["tailor","fd.cat.tailor","Áo dài & Tailors"],["active","fd.cat.active","Athleisure"],["access","fd.cat.access","Accessories"],["lingerie","fd.cat.lingerie","Lingerie & intimates"],["sleep","fd.cat.sleep","Sleep & loungewear"],["vintage","fd.cat.vintage","Vintage & preloved"],["market","fd.cat.market","Markets"]];
-/* Location taxonomy = exactly the map's zones, so filters and card areas finally agree. */
-const LOCS=[
- ["all","fd.loc.all","Everywhere"],
- ["SGN","fd.loc.sgn","Saigon — all"],
- ["z:d1","fd.loc.d1","District 1",1],
- ["z:d3","fd.loc.d3","District 3",1],
- ["z:pn",null,"Phú Nhuận",1],
- ["z:td",null,"Thảo Điền · Thủ Đức",1],
- ["z:bt",null,"Bình Thạnh",1],
- ["z:tb",null,"Tân Bình",1],
- ["z:tp",null,"Tân Phú",1],
- ["z:gv",null,"Gò Vấp",1],
- ["z:q5",null,"Q5 · Chợ Lớn",1],
- ["z:other","fd.loc.other","Online & multi-brand",1],
- ["HAN","fd.loc.han","Hanoi"],
- ["VN","fd.loc.vn","Other Vietnam"],
- ["INTL","fd.loc.intl","Overseas"]];
-const TIERS=[["all","fd.tiersel.all","All tiers"],["mid","fd.tiersel.mid","Mid"],["premium","fd.tiersel.premium","Premium"],["luxury","fd.tiersel.luxury","Luxury"],["couture","fd.tiersel.couture","Couture"]];
-/* — Fabric. The question clients now ask first: "is it polyester?"
-   A house is tagged only where the fibre is stated by the house itself (`fib` in
-   directory-data.js). No tag is not an accusation — it means unstated, and unstated
-   is exactly what you have to ask about in the shop. `natural` is the union of the
-   plant/animal fibres; `circular` is upcycled, deadstock and secondhand. — */
-const FIBERS=[["all","fd.fib.all","All fabrics"],["natural","fd.fib.natural","Natural fibre"],
-  ["plant","fd.fib.plant","Plant-based · no silk"],
-  ["linen","fd.fib.linen","Linen"],["cotton","fd.fib.cotton","Cotton"],["silk","fd.fib.silk","Silk"],
-  ["hemp","fd.fib.hemp","Hemp"],["tencel","fd.fib.tencel","TENCEL & modal"],
-  ["circular","fd.fib.circular","Upcycled & secondhand"]];
-/* TENCEL/modal/lyocell is regenerated cellulose — not polyester, and it breathes, but it is not
-   a natural fibre either. It gets its own tag rather than being smuggled into `natural`. */
-const NATURAL=["linen","cotton","silk","hemp"];
-/* — Plant-based. Silk is a natural fibre but an animal one, so a vegan wardrobe
-   can't read the `natural` tag: it sweeps silk in. `plant` is the vegan-facing
-   cut — a house that names a plant or plant-derived fibre and does not name
-   silk. Same evidentiary rule as every fibre tag: it reflects what the house
-   states, so it is a shortlist to start from, not a certification. Leather,
-   wool and fur aren't tracked in `fib` at all — still ask in the shop. — */
-const PLANT=["linen","cotton","hemp","tencel"];
-const fibOf=b=>Array.isArray(b.fib)?b.fib:(b.fib?[b.fib]:[]);
-const fibMatch=(b,f)=>{
-  const t=fibOf(b);
-  if(!t.length)return false;
-  if(f==="natural")return t.some(x=>NATURAL.includes(x));
-  if(f==="plant")return t.some(x=>PLANT.includes(x))&&!t.includes("silk");
-  return t.includes(f);
-};
-const fibLabel=b=>fibOf(b).map(k=>{const t=FIBERS.find(x=>x[0]===k);return t?tlabel(t):k;}).join(" · ");
-/* — Occasion. A use-case lens, not a wardrobe group: a gown house is still "Luxury &
-   couture", a party label is still "Womenswear" — this select cuts across those groups.
-   `occ` in directory-data.js is tagged editorially, only where a house's own work
-   clearly dresses the moment: gowns/formal for balls & galas, statement pieces for
-   nights out, dress-forward feminine RTW for birthdays. Untagged = unreviewed, not
-   unsuitable — same philosophy as the fabric facet. — */
-const OCCS=[["all","fd.occ.all","Any occasion"],
-  ["event","fd.occ.event","Balls, galas & formal"],
-  ["night","fd.occ.night","Nightlife & parties"],
-  ["bday","fd.occ.bday","Birthdays & celebrations"]];
-const occOf=b=>Array.isArray(b.occ)?b.occ:(b.occ?[b.occ]:[]);
-const occLabel=b=>occOf(b).map(k=>{const t=OCCS.find(x=>x[0]===k);return t?tlabel(t):k;}).join(" · ");
-const VIBES=[["all","fd.vibe.all","All vibes"],["coastal","fd.vibe.coastal","Coastal"],["studio","fd.vibe.studio","Studio"],["performance","fd.vibe.performance","Performance"]];
-const SORTS=[["rec","fd.sort.rec","Curated order"],["az",null,"A → Z"],["tierup","fd.sort.tierup","Price tier: low → high"],["tierdn","fd.sort.tierdn","Price tier: high → low"]];
-/* Tuple label: translated when it carries a key, verbatim when it doesn't. */
-const OPT_INDENT=" ";
-function tlabel(t){return t[1]?SS_T(t[1],t[2]):t[2];}
-const TIER_RANK={mid:0,premium:1,luxury:2,couture:3,none:4};
-/* On-now ribbon — every item carries an end date and hides itself the day after.
-   These are operational notes (sales, pop-ups), not chrome: like house notes and
-   addresses they stay in their source language. The footer says so plainly. */
-const NOW=[
- {t:"Vincom Red Sale",d:"up to 70% off, all Vincom malls",dv:"giảm đến 70%, mọi TTTM Vincom",until:"2026-07-20"},
- {t:"7.7 mid-year mega-sale",d:"Shopee / Lazada / TikTok Shop",dv:"Shopee / Lazada / TikTok Shop",until:"2026-07-07"},
- {t:"Rue Miche L'Édition",d:"rotating PULSE pop-ups, Union Square",dv:"pop-up PULSE luân phiên, Union Square",until:"2026-08-31"}
-];
-
-/* ---------- Dynamic-string i18n ----------
-   Strings built in JS (not markup) can't carry a data-i18n attribute, so they
-   resolve through the same per-language bundle at call time:
-     T(key, english)                     → plain lookup
-     TF(key, english, {a:1,b:2})         → lookup + {placeholder} interpolation
-   The English text lives here as the literal fallback, so a missing key in any
-   bundle degrades to English rather than to a blank. Card notes, addresses and
-   brand names are data and are never translated.                                */
-const T=(k,en)=>window.SS_T?window.SS_T(k,en):en;
-const TF=(k,en,v)=>window.SS_TF?window.SS_TF(k,en,v):String(en).replace(/\{(\w+)\}/g,(m,x)=>v&&v[x]!=null?v[x]:m);
-function isVI(){return document.documentElement.getAttribute("lang")==="vi";}
-function curLang(){return window.SS_LANG?window.SS_LANG():"en";}
-
-/* Every dynamic string the page can render, as key + English default. */
-const LX=()=>({
-  houses:T("fd.dyn.houses","houses"),
-  pct:T("fd.dyn.pct","% of Saigon"),
-  showAll:n=>TF("fd.dyn.showAll","Showing all {n} houses",{n}),
-  showSome:(a,b)=>TF("fd.dyn.showSome","Showing {a} of {b} houses",{a,b}),
-  banner:T("fd.dyn.banner",`Planning a trip around these houses? Read <a href="field-guide">the field guide</a> — getting around, dressing for the heat, and 1-to-30-day shopping itineraries.`),
-  st:{walk:T("fd.dyn.st.walk","Walk-in"),appt:T("fd.dyn.st.appt","Appointment"),online:T("fd.dyn.st.online","Online"),hub:T("fd.dyn.st.hub","In a hub"),popup:T("fd.dyn.st.popup","Pop-up")},
-  tier:{mid:T("fd.dyn.tier.mid","mid"),premium:T("fd.dyn.tier.premium","premium"),luxury:T("fd.dyn.tier.luxury","luxury"),couture:T("fd.dyn.tier.couture","couture")},
-  conf:{ok:T("fd.dyn.conf.ok","Verified"),warn:T("fd.dyn.conf.warn","Confirm first"),stale:T("fd.dyn.conf.stale","May be outdated")},
-  map:T("fd.dyn.map","Map ↗"),
-  mapFor:n=>TF("fd.dyn.mapFor","Open Google Maps for {n}",{n}),
-  byAppt:T("fd.dyn.byAppt","By appointment"),
-  listing:T("fd.dyn.listing","Directory listing"),
-  share:T("fd.dyn.share","Share"),
-  shared:T("fd.dyn.shared","Link copied ✓"),
-  shareFor:n=>TF("fd.dyn.shareFor","Share a link to {n}",{n}),
-  moreF:T("fd.morefilters","More filters"),
-  stat:[T("fd.dyn.stat.1","houses catalogued"),T("fd.dyn.stat.2","in Saigon"),T("fd.dyn.stat.3","walk-in stores"),T("fd.dyn.stat.4","districts mapped")],
-  streetsH:T("fd.dyn.streetsH","The retail clusters"),
-  streetsSub:T("fd.dyn.streetsSub","Saigon's fashion isn't spread evenly — these streets and buildings each hold several boutiques, the highest-value stops on any styling route."),
-  showAllBtn:n=>TF("fd.dyn.showAllBtn","Show all {n} houses",{n}),
-  removeF:l=>TF("fd.dyn.removeF","Remove filter: {l}",{l}),
-  searchF:q=>TF("fd.dyn.searchF","Search: “{q}”",{q}),
-  walkF:T("fd.dyn.walkF","Walk-in only"),
-  savedF:T("fd.dyn.savedF","Saved only"),
-  sigF:T("fd.dyn.sigF","Signature houses"),sigB:T("fd.dyn.sigB","Signature"),
-  one:T("fd.dyn.one","Exactly one house matches."),
-  oneBtn:n=>TF("fd.dyn.showAllBtn","Show all {n} houses",{n}),
-  emptyH:T("fd.dyn.emptyH","No houses match"),
-  emptyP:T("fd.dyn.emptyP","Nothing in the directory fits that combination — Saigon's scene moves fast, but not that fast."),
-  actClear:T("fd.dyn.actClear","Clear search"),
-  actAll:n=>TF("fd.dyn.showAllBtn","Show all {n} houses",{n}),
-  actWomen:T("fd.dyn.actWomen","Browse womenswear"),
-  shortlist:T("fd.dyn.shortlist","Your shortlist — saved to this browser only"),
-  copy:T("fd.dyn.copy","Copy as text"),
-  copied:T("fd.dyn.copied","Copied ✓"),
-  onlineChip:n=>TF("fd.dyn.onlineChip","{n} online & multi-brand →",{n}),
-  qbAll:T("fd.dyn.qbAll","The full directory"),
-  qbBrowse:T("fd.dyn.qbBrowse","Browse →"),
-  nowTag:T("fd.dyn.nowTag","On now"),
-  to:T("fd.dyn.to","to"),
-  savedTip:T("fd.dyn.savedTip","Saved to this browser — no account needed."),
-  expandFor:n=>TF("fd.dyn.expandFor","Show details for {n}",{n}),
-  saveFor:n=>TF("fd.dyn.saveFor","Save {n}",{n}),
-  openNow:T("fd.dyn.openNow","Open now"),
-  opensAt:t=>TF("fd.dyn.opensAt","Opens {t}",{t}),
-  closedNow:T("fd.dyn.closedNow","Closed now"),
-  mapShow:T("fd.mapshow","Show map"),
-  mapHide:T("fd.maphide","Hide map"),
-  moreFilters:T("fd.morefilters","More filters"),
-  fewerFilters:T("fd.lessfilters","Fewer filters"),
-  tapFilter:T("fd.dyn.tapFilter","Tap to filter"),
-  more:n=>TF("fd.dyn.more","+{n} more",{n}),
-  mapNote:(d,o,s)=>TF("fd.dyn.mapNote",
-    `Symbol <b>area</b> is proportional to house count (r = k·√n). The nine districts hold <b>{d}</b> walk-able houses; the chip above adds the <b>{o}</b> online &amp; multi-brand names — together the <b>{s}</b> in Saigon.`,{d,o,s})
-});
-const VI_RE=/[àáảãạăằắẳẵặâầấẩẫậđèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵĐ]/;
-const viAttr=s=>VI_RE.test(s||"")?' lang="vi"':'';
-/* aesthetic vibe for activewear — coastal=California/laid-back-luxe, studio=Pilates/yoga, performance=gym/run */
-const VIBEMAP={Olaben:"coastal","EQL Apparel":"coastal",REBN:"studio","Hibi Sports":"studio",Kydra:"performance",Supersports:"performance",Fitme:"performance","Thế Giới Đồ Tập":"performance",Shamdi:"performance",Coolmate:"performance","I.Sport":"performance"};
-function vibeOf(b){return b.vibe||VIBEMAP[b.n]||"";}
-/* group tuples: [key, EN title, EN desc, VI title] — descs stay EN (data precedent) */
-/* group tuples: [key] — title + description resolve from the bundle at render time */
-const GROUPS=[
- ["women","Contemporary womenswear","Local design houses and boutiques — the heart of the Saigon scene, plus a few chains and Hanoi names."],
- ["men","Menswear & streetwear","Local menswear labels, streetwear flagships (most unisex-leaning) and made-to-measure suiting."],
- ["luxury","Luxury & couture","Designer labels and made-to-order houses. Most work by appointment; several show internationally."],
- ["bridal","Bridal — gowns & áo dài cưới","Wedding dresses and áo dài cưới made to buy and keep — couture houses, made-to-measure studios and the accessories that finish the look. Buy-to-own only: everything here can ship home with you."],
- ["tailor","Áo dài, tailors & craft studios","Bespoke áo dài, made-to-measure ateliers, embroidery and upcycling — what's distinctive to Vietnam."],
- ["active","Premium athleisure","Studio-to-street activewear and functional sun-wear. No official Lululemon or Alo store exists in Vietnam yet."],
- ["access","Eyewear, shoes, bags & jewelry","Vietnamese accessory labels with real HCMC stores."],
- ["lingerie","Lingerie & intimates","Designer and handmade lingerie houses first, then the counters that actually fit a band and a cup — most Vietnamese labels sell S/M/L only, which is the thing to know before you go. Sizes run small; the fitting group is the safer start above ~34C."],
- ["sleep","Sleep & loungewear","Cotton, linen and silk nightwear built for tropical nights — the natural-fibre houses, not the polyester-satin mass market."],
- ["vintage","Vintage & preloved","Curated secondhand houses, reworked one-offs and đồ si hunting grounds — Saigon's circular wardrobe. I can pair finds with a trusted tailor for repairs and resizing."],
- ["market","Markets & pop-ups","Where many brands gather at once — highest value per trip. Dates roam; check socials first."]
-];
-const grpTitle=g=>T("fd.grp."+g[0]+".t",g[1]);
-const grpDesc =g=>T("fd.grp."+g[0]+".d",g[2]);
-
-/* ============ STATE ============ */
-let fCat="all",fCity="all",fWalk=false,fQ="",fZone="",fTier="all",fVibe="all",fFib="all",fOcc="all",fSaved=false,fSig=false,fSort="rec";
-
-/* — Saved shortlist (localStorage; hearts never leave this browser) — */
-let SAVED=new Set();
-try{SAVED=new Set(JSON.parse(localStorage.getItem("fd-saved")||"[]"));}catch(e){}
-function bid(b){return b.h||b.n;}
-function isSaved(b){return SAVED.has(bid(b));}
-function persistSaved(){try{localStorage.setItem("fd-saved",JSON.stringify([...SAVED]));}catch(e){}}
-function updateSavedCount(){
-  const n=SAVED.size;
-  const el=document.getElementById("savedcount");if(el)el.textContent="("+n+")";
-}
-/* the tray (js/fd-basket.js) rewrites fd-saved on every change — including undo —
-   so the page's SAVED set follows the tray, never the other way round */
-document.addEventListener("ss:tray",()=>{
-  try{SAVED=new Set(JSON.parse(localStorage.getItem("fd-saved")||"[]"));}catch(e){}
-  updateSavedCount();
-  if(fSaved)render(); /* the saved-only lens must reflect the new set */
-});
-
-/* — Confidence normalisation: standardised badges instead of inline ⚠️ text — */
-function confOf(b){
-  if(b.conf)return b.conf; /* future data override: "ok"|"warn"|"stale" */
-  if(b.flag)return "warn";
-  const t=(b.no||"")+" "+(b.area||"");
-  if(/⚠️|confirm|verify|unconfirmed|coming soon|opening soon/i.test(t))return "warn";
-  if(b.st==="popup")return "warn";
-  return "ok";
-}
-function cleanNote(s){return (s||"").replace(/⚠️\s*/g,"");}
-
-/* — Shareable URL state (#cat=…&zone=… etc.) — */
-function syncHash(){
-  const p=new URLSearchParams();
-  if(fCat!=="all")p.set("cat",fCat);
-  if(fCity!=="all")p.set("city",fCity);
-  if(fTier!=="all")p.set("tier",fTier);
-  if(fVibe!=="all")p.set("vibe",fVibe);
-  if(fFib!=="all")p.set("fib",fFib);
-  if(fOcc!=="all")p.set("occ",fOcc);
-  if(fZone)p.set("zone",fZone);
-  if(fWalk)p.set("walk","1");
-  if(fSaved)p.set("saved","1");
-  if(fSig)p.set("sig","1");
-  if(fSort!=="rec")p.set("sort",fSort);
-  if(fQ)p.set("q",fQ);
-  const s=p.toString();
-  try{history.replaceState(null,"",s?"#"+s:location.pathname+location.search);}catch(e){}
-}
-
-/* — Google Maps link helpers — */
-function cityLabel(b){return b.city==="SGN"?"Ho Chi Minh City":b.city==="HAN"?"Hanoi":"Vietnam";}
-function mapsUrl(b){
-  const a1=(b.a||"").split(/\s*[+·]\s*/)[0];
-  return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(b.n+", "+a1+", "+cityLabel(b));
-}
-function hasStreet(b){return b.st!=="online"&&["walk","hub","popup","appt"].includes(b.st)&&["SGN","HAN","VN"].includes(b.city);}
-
-function statChips(){
-  const sl=document.getElementById("statline");
-  const walk=B.filter(b=>b.st==="walk").length,sgn=B.filter(b=>b.city==="SGN").length;
-  const lab=LX().stat,vals=[B.length,sgn,walk,DISTRICTS];
-  sl.innerHTML=vals.map((v,i)=>`<div class="stat"><b>${v}</b><span>${lab[i]}</span></div>`).join("");
-}
-function chipbar(id,arr,cur,cls){
-  document.getElementById(id).innerHTML=arr.map(t=>
-    `<button class="chip ${cls}" data-v="${t[0]}" aria-pressed="${cur===t[0]}">${tlabel(t)}</button>`).join("")
-   /* mobile only (CSS): the chip row ends in a More-filters chip that opens the sheet */
-   +(id==="catchips"?`<button class="chip fchipbtn" id="fchipbtn" aria-haspopup="dialog" aria-controls="sheet">${LX().moreF}</button>`:"");
-}
-function fillSel(id,arr,cur){
-  const el=document.getElementById(id);
-  el.innerHTML=arr.map(t=>`<option value="${t[0]}"${cur===t[0]?" selected":""}>${t[3]?OPT_INDENT:""}${tlabel(t)}</option>`).join("");
-}
-function locValue(){return fZone?("z:"+fZone):fCity;}
-function setLoc(v){
-  if(v.startsWith("z:")){fZone=v.slice(2);fCity="all";}
-  else{fCity=v;fZone="";}
-}
-function match(b){
-  if(fCat!=="all"&&b.cat!==fCat)return false;
-  if(fCity!=="all"&&b.city!==fCity)return false;
-  if(fWalk&&b.st!=="walk")return false;
-  if(fTier!=="all"&&b.tier!==fTier)return false;
-  if(fVibe!=="all"&&vibeOf(b)!==fVibe)return false;
-  if(fFib!=="all"&&!fibMatch(b,fFib))return false;
-  if(fOcc!=="all"&&!occOf(b).includes(fOcc))return false;
-  if(fSaved&&!isSaved(b))return false;
-  if(fSig&&!b.sig)return false;
-  if(fZone&&zoneOf(b)!==fZone)return false;
-  if(fQ&&!qMatch(b))return false;
-  return true;
-}
-/* — Text search. fd-search.js folds the tone marks off both sides, so a client
-     typing "ao dai", "phu nhuan" or "district 3" on a US keyboard reaches
-     "áo dài", "Phú Nhuận" and "D3". Parsing the query is memoised on fQ: it
-     runs once per keystroke, not once per house per keystroke. If the module
-     ever fails to load the page falls back to the old substring behaviour. — */
-let _qk=null,_qt=null;
-function qTerms(){
-  if(_qk!==fQ){_qk=fQ;_qt=window.SS_SEARCH?SS_SEARCH.parse(fQ):null;}
-  return _qt;
-}
-function qMatch(b){
-  const terms=qTerms();
-  if(!terms)return (b.n+" "+(b.h||"")+" "+(b.a||"")+" "+(b.no||"")+" "+b.area).toLowerCase().includes(fQ);
-  if(!terms.length)return true; /* nothing but stopwords — show everything */
-  return SS_SEARCH.test(b._sk||SS_SEARCH.keyOf(b),terms);
-}
-function sortList(arr){
-  if(fSort==="az")return [...arr].sort((a,b)=>a.n.localeCompare(b.n,"vi"));
-  if(fSort==="tierup")return [...arr].sort((a,b)=>(TIER_RANK[a.tier]??4)-(TIER_RANK[b.tier]??4));
-  if(fSort==="tierdn")return [...arr].sort((a,b)=>(TIER_RANK[b.tier]??4)-(TIER_RANK[a.tier]??4));
-  /* Searching replaces the curated order with relevance — a house whose NAME is
-     what you typed should not sit below one that merely mentions it in a note.
-     Sort is stable, so equal scores keep the curated order. An explicit sort
-     (az/tier) still wins; this only fills in for "rec". */
-  if(fQ&&window.SS_SEARCH){
-    const t=qTerms();
-    if(t&&t.length)return [...arr].sort((a,b)=>SS_SEARCH.score(b,t)-SS_SEARCH.score(a,t));
-  }
-  return arr; /* rec = curated data order */
-}
-/* Live open/closed status from a store's stated hours (walk-in / hub only) */
-function openState(b){
-  if(b.st!=="walk"&&b.st!=="hub")return null;
-  const m=(b.no||"").match(/(\d{1,2})[:h](\d{2})\s*[–\-—]\s*(\d{1,2})[:h](\d{2})/);
-  if(!m)return null;
-  const open=+m[1]*60+ +m[2],close=+m[3]*60+ +m[4];
-  const now=new Date(),cur=now.getHours()*60+now.getMinutes();
-  const L=LX();
-  if(cur>=open&&cur<close)return{cls:"ok",label:L.openNow};
-  if(cur<open)return{cls:"soon",label:L.opensAt(("0"+m[1]).slice(-2)+":"+m[2])};
-  return{cls:"closed",label:L.closedNow};
-}
-/* — Strips: streets that hold three or more houses. Read straight off the addresses, so
-     it can never drift from the data. A strip is a walk you can do in one go, which is how
-     a stylist actually moves through the city — so the card says so, and tapping it searches
-     the street. This is the route view folded into the grid. — */
-const STRIP_STREETS=["Trần Quang Diệu","Võ Văn Tần","Lý Tự Trọng","Lê Thánh Tôn","Tôn Thất Thiệp",
-  "Hai Bà Trưng","Nguyễn Trãi","Đồng Khởi","Nguyễn Đình Chính","Lê Thị Riêng"];
-const STRIPS=(()=>{
-  const m=new Map();
-  for(const s of STRIP_STREETS){
-    const n=B.filter(b=>(b.a||"").includes(s)).length;
-    if(n>=3)m.set(s,n);
-  }
-  return m;
-})();
-const stripOf=b=>{
-  for(const [s,n] of STRIPS) if((b.a||"").includes(s)) return {street:s,n};
-  return null;
-};
-/* A wide card is punctuation, and it has to be earned: a couture or luxury house, a house
-   you have marked `pick:true` in js/directory-data.js, or one whose note needs the room.
-   Nothing is featured for decoration — a fake "editor's pick" would be a lie on the page. */
-const isWide=b=>b.pick===true||b.tier==="couture"||b.tier==="luxury"||(b.no||"").length>=100;
-
-function card(b,i){
-  const L=LX(),st=STLAB[b.st]||["",""],stl=(L.st[b.st]||st[0]);
-  const ost=openState(b),openbadge=ost?`<span class="badge ${ost.cls}">${ost.label}</span>`:"";
-  const cf=confOf(b);
-  const confbadge=cf!=="ok"?`<span class="badge ${cf}">${L.conf[cf]||cf}</span>`:"";
-  const note=cleanNote(b.no);
-  const ig=`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>`;
-  const handle=b.w?`<a class="hd" href="${b.w}" target="_blank" rel="noopener noreferrer">${new URL(b.w).hostname}</a>`
-    :b.h?`<a class="hd" href="https://instagram.com/${b.h}" target="_blank" rel="noopener noreferrer">${ig}@${b.h}</a>`
-    :`<span class="hd" style="color:var(--ink-mute)">${b.area.includes("appointment")||b.st==="appt"?L.byAppt:L.listing}</span>`;
-  const tier=b.tier&&b.tier!=="none"?`<span class="tierchip" style="--tier:${TIERCOL[b.tier]}">${L.tier[b.tier]||b.tier}</span>`:"";
-  const sub=b.sub?`<span class="area"${viAttr(b.sub)}>${b.sub}</span>`:"";
-  const vb=vibeOf(b),vibe=vb?`<span class="vibe">${vb}</span>`:"";
-  const fl=fibLabel(b),fib=fl?`<span class="fib">${fl}</span>`:"";  /* what the house says its cloth is */
-  const ol=occLabel(b),occ=ol?`<span class="occ">${ol}</span>`:"";  /* the occasions it dresses */
-  const sigb=b.sig?`<span class="sigb">✦ ${L.sigB}</span>`:"";
-  const price=b.price?`<span class="price">${b.price}</span>`:"";
-  const on=isSaved(b);
-  const sv=`<button class="sv${on?" on":""}" data-id="${bid(b)}" aria-pressed="${on}" aria-label="${L.saveFor(b.n)}">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21C7 16.5 3 13 3 8.8 3 6.1 5.1 4 7.7 4c1.7 0 3.2.9 4.3 2.4C13.1 4.9 14.6 4 16.3 4 18.9 4 21 6.1 21 8.8c0 4.2-4 7.7-9 12.2Z"/></svg></button>`;
-  const inBk=window.SS_BASKET?SS_BASKET.has(bid(b)):false; /* fd-basket.js re-syncs after boot */
-  const bk=`<button class="bk${inBk?" on":""}" data-id="${bid(b)}" aria-pressed="${inBk}" aria-label="Add ${b.n} to basket">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></button>`;
-  const nDis=b.sub?`${b.n} (${b.sub})`:b.n; /* sub disambiguates same-name records (e.g. the two Metiseko doors) */
-  const map=hasStreet(b)?`<a class="maplink" target="_blank" rel="noopener noreferrer" href="${mapsUrl(b)}" aria-label="${L.mapFor(nDis)}">${L.map}</a>`:"";
-  const shr=`<button class="shr" data-n="${b.n}" aria-label="${L.shareFor(nDis)}">${L.share}</button>`;
-  const logo=ICONS[b.n]?`<img class="blogo" src="${encodeURI(ICONS[b.n])}" alt="" width="44" height="44" loading="lazy" decoding="async">`:"";
-  const wide=isWide(b);
-  const pick=b.pick===true?`<span class="pick">${L.pick||"Editor's pick"}</span>`:"";
-  const walkIcon=`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
-  const strip=stripOf(b);
-  const stripChip=strip?`<button class="strip" data-street="${strip.street}" aria-label="${L.searchF(strip.street)}">${walkIcon}${strip.street} · ${strip.n}</button>`:"";
-  /* one primary action (bag) + the heart; share/map/street fold into a quiet ⋯ menu */
-  const cm=`<button class="cm-btn" aria-haspopup="true" aria-expanded="false" aria-label="${T("fd.cd.more","More actions")} — ${nDis}">⋯</button>`;
-  const cmPop=`<div class="cm-pop" hidden>${shr}${map}${stripChip}</div>`;
-  return `<article class="card${wide?" wide":""}" style="--tier:${TIERCOL[b.tier]||'var(--lav)'}">
-    <div class="top">${logo}<div class="tt">${pick}<div class="nm"${viAttr(b.n)}>${b.n}</div>${handle}</div>${bk}${sv}</div>
-    <div class="cd-more">
-      <div class="note"${viAttr(note)}>${note}</div>
-      <div class="addr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg><span${viAttr(b.a)}>${b.a}</span><span class="acts">${cm}</span></div>
-      <div class="foot"><span class="st ${st[1]}">${stl}</span>${openbadge}${confbadge}${price}${tier}${sigb}${fib}${occ}${vibe}${sub}<span class="area"${viAttr(b.area)}>${b.area}</span></div>
-    </div>
-    ${cmPop}
-    <span class="credit" aria-hidden="true">seraphicstyler.com</span>
-  </article>`;
-}
-/* — Active-filter chips: every narrowed state shows removable chips + one primary escape hatch — */
-function activeFilters(){
-  const L=LX(),out=[];
-  const lbl=(arr,v)=>{const t=arr.find(x=>x[0]===v);return t?tlabel(t):v;};
-  if(fQ){const raw=(document.getElementById("q").value||"").trim();
-    out.push({k:"q",label:L.searchF(raw||fQ)});} /* chip echoes what was typed, not the lowercased match key */
-  if(fCat!=="all")out.push({k:"cat",label:lbl(CATS,fCat)});
-  if(fZone)out.push({k:"loc",label:lbl(LOCS,"z:"+fZone).trim()});
-  else if(fCity!=="all")out.push({k:"loc",label:lbl(LOCS,fCity)});
-  if(fTier!=="all")out.push({k:"tier",label:lbl(TIERS,fTier)});
-  if(fVibe!=="all")out.push({k:"vibe",label:lbl(VIBES,fVibe)});
-  if(fFib!=="all")out.push({k:"fib",label:lbl(FIBERS,fFib)});
-  if(fOcc!=="all")out.push({k:"occ",label:lbl(OCCS,fOcc)});
-  if(fWalk)out.push({k:"walk",label:L.walkF});
-  if(fSaved)out.push({k:"saved",label:L.savedF});
-  if(fSig)out.push({k:"sig",label:L.sigF});
-  return out;
-}
-function removeFilter(k){
-  if(k==="q"){fQ="";const q=document.getElementById("q");q.value="";document.getElementById("qclear").hidden=true;}
-  if(k==="cat")fCat="all";
-  if(k==="loc"){fCity="all";fZone="";}
-  if(k==="tier")fTier="all";
-  if(k==="vibe")fVibe="all";
-  if(k==="fib")fFib="all";
-  if(k==="occ")fOcc="all";
-  if(k==="walk")fWalk=false;
-  if(k==="saved")fSaved=false;
-  if(k==="sig"){fSig=false;const sb=document.getElementById("sigbtn");if(sb)sb.setAttribute("aria-pressed","false");}
-  syncHash();syncUI();
-}
-function resetAll(){
-  fCat="all";fCity="all";fTier="all";fVibe="all";fFib="all";fOcc="all";fZone="";fWalk=false;fSaved=false;fSig=false;fQ="";
-  const q=document.getElementById("q");q.value="";document.getElementById("qclear").hidden=true;
-  syncHash();syncUI();
-}
-function renderActivebar(){
-  const bar=document.getElementById("activebar"),L=LX(),af=activeFilters();
-  if(!af.length){bar.classList.remove("on");bar.innerHTML="";return;}
-  bar.classList.add("on");
-  bar.innerHTML=af.map(f=>`<span class="fchip"><b>${f.label}</b><button class="x" data-k="${f.k}" aria-label="${L.removeF(f.label)}">✕</button></span>`).join("")
-   +`<button class="showall" data-act="reset">${L.showAllBtn(B.length)}</button>`;
-}
-/* — Wave reveal: a group of cards enters when it scrolls into view, not all 300 at load — */
-/* Cards reveal one by one as they scroll in, not a whole group at a time: the womenswear
-   grid is ~30,000px tall on a phone, and no viewport can ever intersect enough of that for
-   a group-level trigger to fire. Watching each card also means a row's cards land together,
-   which is what makes the wave read.
-   The delay is the card's distance from the centre COLUMN, measured from where it actually
-   sits — wide cards span two columns and `dense` reorders the flow, so index maths would
-   scatter it. */
-function waveIndex(g){
-  const t=getComputedStyle(g).gridTemplateColumns;
-  const tracks=(t&&t!=="none")?t.split(" ").filter(Boolean).map(parseFloat):[];
-  const colW=(tracks.length&&tracks[0]>0)?tracks[0]:g.clientWidth;
-  const mid=g.offsetLeft+g.clientWidth/2;
-  for(const c of g.children){
-    const x=c.offsetLeft+c.offsetWidth/2;
-    const cols=Math.min(Math.abs(x-mid)/Math.max(colW,1),3); /* columns out from the centre */
-    c.style.setProperty("--i",(cols*1.3).toFixed(2));
-  }
-}
-const waveIO=("IntersectionObserver"in window)?new IntersectionObserver(es=>{
-  es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add("in");waveIO.unobserve(e.target);});
-},{threshold:0,rootMargin:"0px 0px -40px 0px"}):null;
-function cascade(root){
-  const grids=[...root.querySelectorAll(".grid,.qbgrid")];
-  if(root.matches&&root.matches(".grid,.qbgrid"))grids.unshift(root);
-  grids.forEach(g=>{
-    if(!g.children.length)return;
-    waveIndex(g);
-    for(const c of g.children){
-      c.classList.remove("in");
-      if(waveIO)waveIO.observe(c); else c.classList.add("in"); /* no IO: just show them */
-    }
-  });
-}
-function render(){
-  const main=document.getElementById("main");
-  const shown=B.filter(match);
-  const L=LX();
-  document.getElementById("count").textContent=
-    shown.length===B.length?L.showAll(B.length):L.showSome(shown.length,B.length);
-  document.getElementById("qtip").classList.toggle("on",!!fQ);
-  renderActivebar();
-  let html="";
-  if(shown.length===1)
-    html+=`<div class="onehit"><span>${L.one}</span><button class="showall" data-act="reset">${L.oneBtn(B.length)}</button></div>`;
-  const useGroups=(fCat==="all");
-  const order=useGroups?GROUPS:GROUPS.filter(g=>g[0]===fCat);
-  for(const g of order){
-    const key=g[0];
-    const items=sortList(shown.filter(b=>b.cat===key));
-    if(!items.length)continue;
-    html+=`<section class="group"><div class="ghead"><h2>${grpTitle(g)} <span class="n">${items.length}</span></h2></div><p>${grpDesc(g)}</p>`;
-    html+=`<div class="grid">${items.map(card).join("")}</div>`;
-    if(key==="women"&&fCity!=="HAN"&&fCity!=="INTL"&&fCity!=="VN")html+=streetsPanel();
-    html+=`</section>`;
-  }
-  if(!shown.length)html=emptyState();
-  if(fSaved&&shown.length)html=`<div class="savebar">${L.shortlist} · <button id="copylist">${L.copy}</button></div>`+html;
-  html+=`<div class="fg-banner">${L.banner}</div>`;
-  main.innerHTML=html;
-  cascade(main);
-}
-function emptyState(){
-  const L=LX();
-  const acts=[
-    fQ?`<button class="chip" data-act="clearq">${L.actClear}</button>`:"",
-    `<button class="showall" data-act="reset">${L.actAll(B.length)}</button>`,
-    fCat!=="women"?`<button class="chip" data-act="women">${L.actWomen}</button>`:""
-  ].join("");
-  return `<div class="grid"><div class="empty">
-    <svg width="44" height="44" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M22.3,27 C18.4,18 21.6,8.4 31.6,6.6 C38.2,5.4 41,11.4 37.8,18 C35,24.2 28.6,27.4 23,28.6 Z"/>
-      <path d="M22.6,29.4 C26.8,31.2 32.2,33 35,38 C36.6,40.8 36,43.8 33.6,43.4 C29.6,42.7 25,35.6 22.4,30.4 Z"/>
-      <path d="M22.3,27 C19.9,22.2 17.2,18.4 13.4,16.4"/></svg>
-    <h3>${L.emptyH}</h3><p>${L.emptyP}</p>
-    <div class="acts">${acts}</div>
-  </div></div>`;
-}
-function streetsPanel(){
-  const L=LX();
-  return `<div class="streets"><h3>${L.streetsH}</h3>
-    <p class="sub">${L.streetsSub}</p>
-    <div class="stgrid">${STREETS.map(s=>`<div class="stcard">
-      <div class="h"${viAttr(s.h)}>${s.h} <b>${s.c}</b></div><div class="d">${s.d}</div><div class="l">${s.l}</div></div>`).join("")}</div></div>`;
-}
-
-/* ---- Cluster map: proportional-symbol, area ∝ count (r = k·√n) ---- */
-const ZONES=[
- {k:"gv",x:120,y:58,n:"Gò Vấp"},
- {k:"tb",x:214,y:86,n:"Tân Bình"},
- {k:"tp",x:118,y:150,n:"Tân Phú"},
- {k:"pn",x:262,y:172,n:"Phú Nhuận"},
- {k:"bt",x:430,y:112,n:"Bình Thạnh"},
- {k:"d3",x:332,y:258,n:"District 3"},
- {k:"d1",x:452,y:262,n:"District 1"},
- {k:"td",x:634,y:168,n:"Thảo Điền"},
- {k:"q5",x:256,y:384,n:"Q5 · Chợ Lớn"}
-];
-const ZONE_OTHER={k:"other",n:"Online & multi-brand"};
-const DISTRICTS=ZONES.length;
-/* Every Saigon record maps to exactly one node → node counts sum to the "in Saigon" total. */
-function zoneOf(b){
- if(b.city!=="SGN")return null;
- const a=b.area||"";
- if(/Thảo Điền|Thủ Đức/.test(a))return "td";
- if(/Phú Nhuận/.test(a))return "pn";
- if(/Tân Phú/.test(a))return "tp";
- if(/Tân Bình/.test(a))return "tb";
- if(/Gò Vấp/.test(a))return "gv";
- if(/Bình Thạnh/.test(a))return "bt";
- if(/Q5|Chợ Lớn|Chợ Quán/.test(a))return "q5";
- if(/D1|Đồng Khởi|Bến Thành|Bến Nghé|Tân Định|Đa Kao|Sài Gòn ward|Ký Con/.test(a))return "d1";
- if(/D3|Bàn Cờ|Nhiêu Lộc|Võ Thị Sáu/.test(a))return "d3";
- return "other";
-}
-function zoneCounts(){const c={};B.forEach(b=>{const z=zoneOf(b);if(z)c[z]=(c[z]||0)+1;});return c;}
-function zoneName(k){return k==="other"?ZONE_OTHER.n:(ZONES.find(z=>z.k===k)||{}).n||"";}
-function topHouses(zk){return B.filter(b=>zoneOf(b)===zk&&b.st!=="online").slice(0,3).map(b=>b.n);}
-const R_MAX=44;
-function renderMap(){
- const g=document.getElementById("fdmapnodes");if(!g)return;
- const counts=zoneCounts(),max=Math.max(1,...Object.values(counts)),K=R_MAX/Math.sqrt(max);
- g.innerHTML=ZONES.map(z=>{
-   const c=counts[z.k]||0,r=c?Math.max(5,K*Math.sqrt(c)):4,act=fZone===z.k?" active":"";
-   const fs=r>=20?16:r>=11?12:0; /* numerals only where they can sit legibly on the cobalt core */
-   return `<g class="fdmap-node${act}" data-z="${z.k}" tabindex="0" role="button" aria-pressed="${fZone===z.k}" aria-label="${z.n}: ${c} ${LX().houses}">
-     <circle cx="${z.x}" cy="${z.y}" r="${r.toFixed(1)}" fill="url(#nodeg)" opacity="${c?0.92:0.2}"/>
-     ${fs?`<text class="z-n" x="${z.x}" y="${z.y}" font-size="${fs}" dominant-baseline="central">${c||""}</text>`:""}
-     <text class="z-l" x="${z.x}" y="${(z.y+r+15).toFixed(1)}"${viAttr(z.n)}>${z.n}</text>
-   </g>`;
- }).join("");
- const oc=document.getElementById("onlinechip");
- if(oc){oc.textContent=LX().onlineChip(counts.other||0);oc.setAttribute("aria-pressed",String(fZone==="other"));}
-}
-function setZone(z){
- fZone=(!z||fZone===z)?"":z;
- if(fZone)fCity="all";
- updateMapClear();
- syncHash();renderMap();fillSel("locsel",LOCS,locValue());render();
- if(fZone){const m=document.getElementById("main");if(m)m.scrollIntoView({behavior:"smooth",block:"start"});}
-}
-function updateMapClear(){
- const cl=document.getElementById("fdmapclear");if(!cl)return;
- if(fZone){document.getElementById("fdmapzone").textContent=zoneName(fZone);cl.hidden=false;}
- else cl.hidden=true;
-}
-function fdTip(n){
- const tip=document.getElementById("fdtip");if(!tip||!n)return;
- const zk=n.dataset.z,sgn=B.filter(b=>b.city==="SGN").length;
- const c=B.filter(b=>zoneOf(b)===zk).length,pct=Math.round(c/sgn*100),tops=topHouses(zk);
- const more=c-tops.length,L=LX();
- tip.innerHTML=`<b>${zoneName(zk)}</b><span>${c} ${LX().houses} · ${pct}${LX().pct}</span>`
-   +(tops.length?`<em>${tops.join(" · ")}${more>0?" "+L.more(more):""}</em>`:"")
-   +`<i>${L.tapFilter}</i>`;
- tip.hidden=false; /* reveal before measuring */
- const circle=n.querySelector("circle")||n,r=circle.getBoundingClientRect();
- const cx=r.left+r.width/2,tw=tip.offsetWidth,th=tip.offsetHeight,gap=11,pad=12;
- const left=Math.max(pad,Math.min(cx-tw/2,window.innerWidth-tw-pad));
- let top=r.top-th-gap,below=false;
- if(top<pad){top=r.bottom+gap;below=true;}
- tip.style.left=left+"px";tip.style.top=top+"px";
- tip.style.setProperty("--caret",Math.max(14,Math.min(cx-left,tw-14))+"px");
- tip.classList.toggle("below",below);
-}
-function fdHideTip(){const t=document.getElementById("fdtip");if(t)t.hidden=true;}
-
-/* ============ QUICK BROWSE ============ */
-function renderBrowse(){
-  const g=document.getElementById("qbgrid");if(!g)return;
-  const L=LX();
-  g.innerHTML=GROUPS.map(g2=>{
-    const n=B.filter(b=>b.cat===g2[0]).length;
-    return `<button class="qb" data-cat="${g2[0]}"><span class="n">${n}</span><span class="t">${grpTitle(g2)}</span><span class="a">${L.qbBrowse}</span></button>`;
-  }).join("")+`<button class="qb sig" data-sig="1"><span class="n">${B.filter(b=>b.sig).length}</span><span class="t">✦ ${L.sigF}</span><span class="a">${L.qbBrowse}</span></button>`+`<button class="qb all" data-cat="all"><span class="n">${B.length}</span><span class="t">${L.qbAll}</span><span class="a">${L.qbBrowse}</span></button>`;
-  cascade(g);
-}
-
-/* ============ NOW RIBBON (auto-expiring) ============ */
-function renderNow(){
-  const bar=document.getElementById("nowbar"),items=document.getElementById("nowitems");
-  if(!bar)return;
-  const today=new Date().toISOString().slice(0,10);
-  const live=NOW.filter(x=>today<=x.until);
-  if(!live.length){bar.hidden=true;return;}
-  const vi=isVI(),L=LX(),loc=curLang()==="en"?"en-GB":curLang();
-  const mon=new Date().toLocaleDateString(loc,{month:"long",year:"numeric"});
-  document.getElementById("nowtag").textContent=L.nowTag+" · "+mon;
-  items.innerHTML=live.map(x=>{
-    const until=new Date(x.until+"T12:00:00").toLocaleDateString(loc,{day:"numeric",month:"short"});
-    return `<span class="it"><b>${x.t}</b> — ${vi&&x.dv?x.dv:x.d} <span class="til">· ${L.to} ${until}</span></span>`;
-  }).join("");
-  bar.hidden=false;
-}
-
-/* ============ EVENTS ============ */
-document.getElementById("catchips").addEventListener("click",e=>{
-  const b=e.target.closest(".chip");if(!b)return;
-  if(b.id==="fchipbtn"){sheetCtl.open(b);return;}
-  fCat=b.dataset.v;
-  chipbar("catchips",CATS,fCat,"cat");syncHash();render();});
-document.getElementById("vibechips").addEventListener("click",e=>{
-  const b=e.target.closest(".chip");if(!b)return;fVibe=b.dataset.v;
-  chipbar("vibechips",VIBES,fVibe,"vibe");syncHash();render();});
-document.getElementById("locsel").addEventListener("change",e=>{setLoc(e.target.value);updateMapClear();syncHash();renderMap();render();});
-document.getElementById("tiersel").addEventListener("change",e=>{fTier=e.target.value;syncHash();render();});
-document.getElementById("fibsel").addEventListener("change",e=>{fFib=e.target.value;syncHash();render();});
-document.getElementById("occsel").addEventListener("change",e=>{fOcc=e.target.value;syncHash();render();});
-document.getElementById("sortsel").addEventListener("change",e=>{fSort=e.target.value;syncHash();render();});
-document.getElementById("walkonly").addEventListener("change",e=>{fWalk=e.target.checked;syncHash();render();});
-document.getElementById("savedbtn").addEventListener("click",e=>{
-  fSaved=!fSaved;e.currentTarget.setAttribute("aria-pressed",String(fSaved));
-  syncHash();render();});
-document.getElementById("sigbtn").addEventListener("click",e=>{
-  fSig=!fSig;e.currentTarget.setAttribute("aria-pressed",String(fSig));
-  syncHash();render();});
-document.getElementById("morebtn").addEventListener("click",e=>{
-  const p=document.getElementById("morepanel"),open=!p.classList.contains("open");
-  p.classList.toggle("open",open);e.currentTarget.setAttribute("aria-expanded",String(open));
-  const s=e.currentTarget.querySelector("span");
-  if(s)s.textContent=open?LX().fewerFilters:LX().moreFilters;
-});
-/* search: 300ms debounce; ✕ clears instantly; UI stays put on focus */
-(function(){
-  const q=document.getElementById("q"),x=document.getElementById("qclear");let t;
-  q.addEventListener("input",()=>{
-    x.hidden=!q.value;
-    clearTimeout(t);t=setTimeout(()=>{fQ=q.value.trim().toLowerCase();syncHash();render();},300);
-  });
-  x.addEventListener("click",()=>{q.value="";x.hidden=true;clearTimeout(t);fQ="";syncHash();render();q.focus();});
-})();
-/* active-chip bar: remove single filters or reset everything */
-document.getElementById("activebar").addEventListener("click",e=>{
-  const x=e.target.closest(".x");if(x){removeFilter(x.dataset.k);return;}
-  const r=e.target.closest("[data-act=reset]");if(r)resetAll();
-});
-/* quick browse */
-document.getElementById("qbgrid").addEventListener("click",e=>{
-  const b=e.target.closest(".qb");if(!b)return;
-  if(b.dataset.sig){fSig=true;syncHash();syncUI();
-    document.getElementById("main").scrollIntoView({behavior:"smooth",block:"start"});return;}
-  fCat=b.dataset.cat;
-  chipbar("catchips",CATS,fCat,"cat");syncHash();render();
-  document.getElementById("main").scrollIntoView({behavior:"smooth",block:"start"});
-});
-/* card ⋯ menus: one open at a time; outside click and Esc close */
-function closeAllPops(){
-  document.querySelectorAll(".cm-pop:not([hidden])").forEach(p=>{
-    p.hidden=true;
-    const b=p.closest(".card")?.querySelector(".cm-btn");
-    if(b)b.setAttribute("aria-expanded","false");
-  });
-}
-document.addEventListener("click",e=>{
-  if(!e.target.closest(".cm-btn")&&!e.target.closest(".cm-pop"))closeAllPops();
-});
-addEventListener("keydown",e=>{if(e.key==="Escape")closeAllPops();});
-/* results: hearts, expanders, copy, state actions — delegated; heart clicks never re-render */
-document.getElementById("main").addEventListener("click",e=>{
-  const sv=e.target.closest(".sv");
-  if(sv){
-    const id=sv.dataset.id;
-    if(window.SS_TRAY){ /* the tray owns saved-state; fd-saved stays written as its mirror */
-      if(SS_TRAY.isSaved(id))SS_TRAY.removeSaved(id);else SS_TRAY.addSaved(id);
-      try{SAVED=new Set(JSON.parse(localStorage.getItem("fd-saved")||"[]"));}catch(err){}
-    }else{ /* module failed to load — plain localStorage hearts still work */
-      if(SAVED.has(id))SAVED.delete(id);else SAVED.add(id);
-      persistSaved();
-    }
-    const on=SAVED.has(id);
-    sv.classList.toggle("on",on);sv.setAttribute("aria-pressed",on);
-    updateSavedCount();
-    return;
-  }
-  const cmb=e.target.closest(".cm-btn");
-  if(cmb){
-    const card=cmb.closest(".card"),pop=card.querySelector(".cm-pop");
-    const wasOpen=pop&&!pop.hidden;
-    closeAllPops();
-    if(pop&&!wasOpen){
-      pop.hidden=false;cmb.setAttribute("aria-expanded","true");
-      /* sit just under the ⋯; flip above it when the card's clipped bottom is too close */
-      const below=cmb.offsetTop+cmb.offsetHeight+4;
-      if(below+pop.offsetHeight>card.clientHeight-6){
-        pop.style.top="auto";pop.style.bottom=(card.clientHeight-cmb.offsetTop+4)+"px";
-      }else{pop.style.bottom="auto";pop.style.top=below+"px";}
-    }
-    return;
-  }
-  const bk=e.target.closest(".bk");
-  if(bk){ /* basket: fd-basket.js owns the state; the card button just relays */
-    if(window.SS_BASKET){
-      const on=SS_BASKET.addOrOpen(bk.dataset.id);
-      bk.classList.toggle("on",on);bk.setAttribute("aria-pressed",String(on));
-    }
-    return;
-  }
-  const strip=e.target.closest(".strip");
-  if(strip){ /* the whole walk, in one tap: search the street the house stands on */
-    const q=document.getElementById("q");
-    q.value=strip.dataset.street;
-    q.dispatchEvent(new Event("input",{bubbles:true}));
-    document.querySelector(".controls")?.scrollIntoView({block:"start"});
-    return;
-  }
-  const sh=e.target.closest(".shr");
-  if(sh){ /* share a deep link that lands as a pre-filled search + removable chip */
-    const url=location.href.split("#")[0]+"#q="+encodeURIComponent(sh.dataset.n);
-    if(navigator.share)navigator.share({title:sh.dataset.n+" — The Saigon Fashion Directory",url}).catch(()=>{});
-    else if(navigator.clipboard)navigator.clipboard.writeText(url).then(()=>{
-      const L=LX();sh.classList.add("ok");sh.textContent=L.shared;
-      setTimeout(()=>{sh.classList.remove("ok");sh.textContent=LX().share;},1500);
-    });
-    return;
-  }
-  const act=e.target.closest("[data-act]");
-  if(act){
-    const a=act.dataset.act;
-    if(a==="reset")resetAll();
-    if(a==="clearq")removeFilter("q");
-    if(a==="women"){fCat="women";fQ="";document.getElementById("q").value="";syncHash();syncUI();}
-    return;
-  }
-  const cp=e.target.closest("#copylist");
-  if(cp&&navigator.clipboard){
-    const L=LX();
-    const rows=B.filter(match).map(b=>
-      b.n+" — "+b.a+" ("+b.area+")"+(hasStreet(b)?" — "+mapsUrl(b):"")+(b.h?" — @"+b.h:""));
-    navigator.clipboard.writeText(rows.join("\n")).then(()=>{
-      cp.textContent=L.copied;setTimeout(()=>{cp.textContent=L.copy;},1600);
-    });
-  }
-});
-/* map: click / keyboard filter; hover tips on fine pointers only (they blocked taps on touch) */
-(function(){const fdmap=document.getElementById("fdmap");
- if(fdmap){
-  fdmap.addEventListener("click",e=>{const n=e.target.closest(".fdmap-node");if(n){setZone(n.dataset.z);fdHideTip();}});
-  fdmap.addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const n=e.target.closest(".fdmap-node");if(n){e.preventDefault();setZone(n.dataset.z);fdHideTip();}});
-  if(matchMedia("(hover:hover) and (pointer:fine)").matches){
-    fdmap.addEventListener("mousemove",e=>{const n=e.target.closest(".fdmap-node");if(n)fdTip(n);else fdHideTip();});
-    fdmap.addEventListener("mouseleave",fdHideTip);
-  }
-  fdmap.addEventListener("focusin",e=>{const n=e.target.closest(".fdmap-node");if(n)fdTip(n);});
-  fdmap.addEventListener("focusout",fdHideTip);
-  addEventListener("keydown",e=>{if(e.key==="Escape")fdHideTip();});
-  /* capture: scroll doesn't bubble, and the map sits in an overflow-x container */
-  addEventListener("scroll",fdHideTip,{passive:true,capture:true});
-  addEventListener("resize",fdHideTip,{passive:true});
- }
- const fdc=document.getElementById("fdmapclear");if(fdc)fdc.addEventListener("click",()=>setZone(null));
- const oc=document.getElementById("onlinechip");if(oc)oc.addEventListener("click",()=>setZone("other"));
-})();
-/* map collapse on mobile */
-(function(){
-  const t=document.getElementById("maptoggle"),body=document.getElementById("mapbody");
-  if(!t||!body)return;
-  function setOpen(open){
-    body.classList.toggle("open",open);
-    t.setAttribute("aria-expanded",String(open));
-    const s=t.querySelector("span");
-    if(s)s.textContent=open?LX().mapHide:LX().mapShow;
-  }
-  t.addEventListener("click",()=>setOpen(!body.classList.contains("open")));
-  window.__fdMapOpen=setOpen;
-  setOpen(!!fZone); /* deep-linked zone → arrive with the map visible */
-})();
-/* theme */
-document.getElementById("theme").addEventListener("click",function(){
-  const d=document.documentElement.getAttribute("data-theme")==="dark";
-  const next=d?"light":"dark";
-  document.documentElement.setAttribute("data-theme",next);
-  this.setAttribute("aria-pressed",String(next==="dark"));
-  try{localStorage.setItem("ss-theme",next);}catch(e){}});
-document.getElementById("theme").setAttribute("aria-pressed",
-  String(document.documentElement.getAttribute("data-theme")==="dark"));
-/* ============ FILTER SHEET (mobile) ============ */
-const sheetCtl=(function(){
-  const sheet=document.getElementById("sheet"),scrim=document.getElementById("scrim"),
-        body=document.getElementById("sheetbody"),row2=document.getElementById("row2"),
-        more=document.getElementById("morepanel"),controls=document.querySelector(".controls .wrap");
-  let opener=null,startY=null,curY=0;
-  const mq=matchMedia("(max-width:720px)");
-  function relocate(){ /* one set of controls, two homes: controls row on desktop, sheet on mobile */
-    if(mq.matches){body.appendChild(row2);body.appendChild(more);more.classList.add("open");}
-    else{const ab=document.getElementById("activebar");controls.insertBefore(row2,ab);controls.insertBefore(more,ab);
-      more.classList.remove("open");
-      const mbn=document.getElementById("morebtn");mbn.setAttribute("aria-expanded","false");
-      const ms=mbn.querySelector("span");if(ms)ms.textContent=LX().moreFilters;}
-  }
-  mq.addEventListener?mq.addEventListener("change",relocate):mq.addListener(relocate);
-  relocate();
-  function open(from){
-    opener=from||null;
-    sheet.hidden=false;scrim.hidden=false;
-    requestAnimationFrame(()=>{sheet.classList.add("open");scrim.classList.add("open");});
-    document.body.style.overflow="hidden";
-    document.getElementById("sheetdone").focus();
-  }
-  function close(){
-    sheet.classList.remove("open");scrim.classList.remove("open");
-    document.body.style.overflow="";
-    setTimeout(()=>{sheet.hidden=true;scrim.hidden=true;},340);
-    if(opener&&opener.focus)opener.focus();
-  }
-  document.getElementById("sheetdone").addEventListener("click",close);
-  scrim.addEventListener("click",close);
-  addEventListener("keydown",e=>{if(e.key==="Escape"&&!sheet.hidden)close();});
-  /* simple focus trap */
-  sheet.addEventListener("keydown",e=>{
-    if(e.key!=="Tab")return;
-    const f=sheet.querySelectorAll("button,select,input,[tabindex]:not([tabindex='-1'])");
-    if(!f.length)return;
-    const first=f[0],last=f[f.length-1];
-    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
-    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
-  });
-  /* drag-down to dismiss */
-  const grab=document.getElementById("sheetgrab");
-  grab.addEventListener("touchstart",e=>{startY=e.touches[0].clientY;curY=0;},{passive:true});
-  grab.addEventListener("touchmove",e=>{
-    if(startY==null)return;
-    curY=Math.max(0,e.touches[0].clientY-startY);
-    sheet.style.transform=`translateY(${curY}px)`;
-  },{passive:true});
-  grab.addEventListener("touchend",()=>{
-    sheet.style.transform="";
-    if(curY>70)close();
-    startY=null;
-  });
-  return{open,close};
-})();
-/* ============ BOTTOM TAB BAR ============ */
-document.querySelector(".tabbar").addEventListener("click",e=>{
-  const b=e.target.closest("button");if(!b)return;
-  const act=b.dataset.act;
-  if(act==="search"){
-    document.querySelector(".controls").scrollIntoView({behavior:"smooth",block:"start"});
-    setTimeout(()=>document.getElementById("q").focus({preventScroll:true}),450);
-  }
-  if(act==="sheet")sheetCtl.open(b);
-  if(act==="tray"&&window.SS_BASKET)SS_BASKET.open(b);
-  if(act==="map"){
-    if(window.__fdMapOpen)window.__fdMapOpen(true);
-    document.getElementById("map").scrollIntoView({behavior:"smooth",block:"start"});
-  }
-  if(act==="all"){
-    resetAll();
-    document.getElementById("main").scrollIntoView({behavior:"smooth",block:"start"});
-  }
-});
-
-/* ============ AURORA (the one bold moment) ============ */
-(function(){
-  const c=document.getElementById("aurora");if(!c)return;
-  const rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
-  const ctx=c.getContext("2d");let W,H,t=0;
-  const blobs=[["#c9b6e8",.55],["#8a93de",.5],["#c98fc4",.42],["#cf9bb4",.4]];
-  function size(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}
-  function draw(){
-    ctx.clearRect(0,0,W,H);ctx.globalCompositeOperation="lighter";
-    blobs.forEach((b,i)=>{
-      const x=W*(.25+.28*Math.sin(t*.0004+i*1.7))+ (i%2?W*.3:0);
-      const y=H*(.4+.34*Math.cos(t*.0005+i*2.1));
-      const r=Math.max(W,H)*(.34+.06*Math.sin(t*.0006+i));
-      const g=ctx.createRadialGradient(x,y,0,x,y,r);
-      g.addColorStop(0,b[0]);g.addColorStop(1,"transparent");
-      ctx.globalAlpha=b[1];ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill();
-    });
-    ctx.globalAlpha=1;
-  }
-  size();draw();addEventListener("resize",()=>{size();draw();});
-  if(!rm){(function loop(){t+=16;draw();requestAnimationFrame(loop);})();}
-})();
-
-/* — Map-note numbers computed from B/zoneOf — */
-function renderMapNote(){
-  const c=zoneCounts(),o=c.other||0,s=B.filter(b=>b.city==="SGN").length,d=s-o;
-  const el=document.getElementById("fdmapnote");
-  if(el)el.innerHTML=LX().mapNote(d,o,s);
-}
-
-/* — Re-localize all dynamic UI whenever the i18n engine switches <html lang> — */
-new MutationObserver(()=>{
-  statChips();renderBrowse();renderNow();renderMapNote();
-  chipbar("catchips",CATS,fCat,"cat");chipbar("vibechips",VIBES,fVibe,"vibe");
-  fillSel("locsel",LOCS,locValue());fillSel("tiersel",TIERS,fTier);fillSel("fibsel",FIBERS,fFib);fillSel("occsel",OCCS,fOcc);fillSel("sortsel",SORTS,fSort);
-  render();renderMap();
-  /* stateful labels the data-i18n pass can't know about */
-  const sb=document.getElementById("savedbtn");if(sb)sb.title=LX().savedTip;
-  const mb=document.getElementById("mapbody");
-  if(window.__fdMapOpen&&mb)window.__fdMapOpen(mb.classList.contains("open"));
-  const mp=document.getElementById("morepanel");
-  if(mp&&mp.classList.contains("open")){
-    const s=document.getElementById("morebtn").querySelector("span");
-    if(s)s.textContent=LX().fewerFilters;
-  }
-}).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
-
-/* — Hairline shadow on the sticky controls once they stick; expose height for sticky subheaders — */
-(function(){
-  const s=document.getElementById("stickysentinel"),c=document.querySelector(".controls");
-  if(!s||!c)return;
-  if("IntersectionObserver"in window)
-    new IntersectionObserver(es=>c.classList.toggle("stuck",!es[0].isIntersecting),
-      {rootMargin:"30px 0px 0px 0px"}).observe(s);
-  function h(){document.documentElement.style.setProperty("--ctrl-h",c.offsetHeight+"px");}
-  if("ResizeObserver"in window)new ResizeObserver(h).observe(c);else addEventListener("resize",h);
-  h();
-})();
-
-/* — Side-rail scroll-spy: same IntersectionObserver recipe as index.html, but over an
-     explicit id list (#filters is a div and #main is <main>, so section[id] would miss them) — */
-(function(){
-  const rail=document.querySelectorAll(".fd-rail a");
-  if(!rail.length||!("IntersectionObserver"in window))return;
-  const spy=new IntersectionObserver(es=>{
-    es.forEach(en=>{
-      if(!en.isIntersecting)return;
-      const id=en.target.getAttribute("id");
-      rail.forEach(a=>{
-        const on=a.getAttribute("href")==="#"+id;
-        a.classList.toggle("active",on);
-        if(on)a.setAttribute("aria-current","true");else a.removeAttribute("aria-current");
-      });
-    });
-  },{rootMargin:"-45% 0px -50% 0px",threshold:0});
-  ["browse","map","filters","main"].forEach(id=>{
-    const el=document.getElementById(id);if(el)spy.observe(el);
-  });
-})();
-
-/* — Restore state from a shared deep link (#cat=men&tier=mid, #zone=d3, #q=…) — */
-function applyHash(){
-  const h=location.hash.replace(/^#/,"");
-  fCat="all";fCity="all";fTier="all";fVibe="all";fFib="all";fOcc="all";fZone="";fWalk=false;fSaved=false;fSig=false;fQ="";fSort="rec";
-  const q=document.getElementById("q");q.value="";
-  if(h){
-    const p=new URLSearchParams(h);
-    if(p.get("cat"))fCat=p.get("cat");
-    if(p.get("city"))fCity=p.get("city");
-    if(p.get("tier"))fTier=p.get("tier");
-    if(p.get("vibe"))fVibe=p.get("vibe");
-    if(p.get("fib"))fFib=p.get("fib");
-    if(p.get("occ"))fOcc=p.get("occ");
-    if(p.get("sort"))fSort=p.get("sort");
-    fZone=p.get("zone")||"";
-    fWalk=p.get("walk")==="1";
-    fSaved=p.get("saved")==="1";
-    fSig=p.get("sig")==="1";const _sb=document.getElementById("sigbtn");if(_sb)_sb.setAttribute("aria-pressed",String(fSig));
-    const qs=p.get("q")||"";
-    if(qs){fQ=qs.toLowerCase();q.value=qs;}
-  }
-  document.getElementById("qclear").hidden=!fQ;
-  document.getElementById("walkonly").checked=fWalk;
-  document.getElementById("savedbtn").setAttribute("aria-pressed",String(fSaved));
-  var _sg=document.getElementById("sigbtn");if(_sg)_sg.setAttribute("aria-pressed",String(fSig));
-  updateMapClear();
-}
-function syncUI(){
-  chipbar("catchips",CATS,fCat,"cat");chipbar("vibechips",VIBES,fVibe,"vibe");
-  fillSel("locsel",LOCS,locValue());fillSel("tiersel",TIERS,fTier);fillSel("fibsel",FIBERS,fFib);fillSel("occsel",OCCS,fOcc);fillSel("sortsel",SORTS,fSort);
-  document.getElementById("walkonly").checked=fWalk;
-  document.getElementById("savedbtn").setAttribute("aria-pressed",String(fSaved));
-  var _sg=document.getElementById("sigbtn");if(_sg)_sg.setAttribute("aria-pressed",String(fSig));
-  statChips();updateSavedCount();updateMapClear();render();renderMap();
-}
-applyHash();
-renderBrowse();renderNow();renderMapNote();
-syncUI();
-if(fZone&&window.__fdMapOpen)window.__fdMapOpen(true);
-addEventListener("hashchange",function(){
-  applyHash();syncUI();
-  const m=document.getElementById("main");if(m)m.scrollIntoView({behavior:"smooth",block:"start"});
-});
-
-/* — Reusable hooks for the route planner (js/route-panel.js): reuse the real zoneOf/match/mapsUrl — */
-window.SS_FD={zoneOf:zoneOf,match:match,mapsUrl:mapsUrl};
-</script>
+  <script src="js/directory-catalog.js"></script>
+<script src="js/fd-search.js"></script><!-- diacritic-blind, alias-aware search over the directory; offline -->
+  <script src="js/directory.js?v=2026-09-10"></script>
 
   <script src="js/route-solver.js"></script>
   <script src="js/store-coords.js"></script>
@@ -2357,7 +762,12 @@ window.SS_FD={zoneOf:zoneOf,match:match,mapsUrl:mapsUrl};
   <script src="js/fd-atelier.js"></script>
   <script>if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("rm");</script>
   <!-- Inquiry beacon (js/contact-hub.js) intentionally not loaded on the directory page -->
-  <script src="js/fd-voice.js"></script><!-- voice concierge: speech/typed → deep-link hash; all client-side, no API keys -->
+  <script src="js/fd-voice.js?v=2026-09-09"></script><!-- voice concierge: speech/typed → deep-link hash; all client-side, no API keys -->
 
+  <script src="js/directory-garments.js"></script>
+  <script src="js/directory-discovery.js"></script>
+  <script src="js/directory-reference.js"></script>
+  <script src="js/directory-guide.js?v=2026-09-09c"></script>
+<script src="js/directory-workspace.js"></script>
 </body>
 </html>

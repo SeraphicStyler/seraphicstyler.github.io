@@ -73,3 +73,7 @@ unverified rather than asserting it.
 ## Corrections
 
 A shop moved, closed, or was recorded wrong? Please write: seraphicstyler@gmail.com
+
+## Normalized catalog
+
+See [catalog.md](catalog.md) for the directory query contract and [catalog-review.html](catalog-review.html) for evidence gaps. Regenerate the catalog snapshots with `node tools/build-directory-catalog.cjs`.

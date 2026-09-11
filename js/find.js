@@ -703,14 +703,6 @@ INTL=international · ⚑ = listing needs re-verification`;
   renderHist();
   setState('idle');
 
-  /* ---------- theme toggle (verbatim from fashion-directory.html) ---------- */
-  document.getElementById("theme").addEventListener("click",function(){
-    const d=document.documentElement.getAttribute("data-theme")==="dark";
-    const next=d?"light":"dark";
-    document.documentElement.setAttribute("data-theme",next);
-    this.setAttribute("aria-pressed",String(next==="dark"));
-    try{localStorage.setItem("ss-theme",next);}catch(e){}});
-  document.getElementById("theme").setAttribute("aria-pressed",
-    String(document.documentElement.getAttribute("data-theme")==="dark"));
+  /* Appearance is handled by the shared js/theme.js controller. */
 
 })();

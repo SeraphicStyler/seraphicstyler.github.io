@@ -32,6 +32,9 @@ const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
    ['Can you identify this exact dress?','The Trace investigates','trace'],
    ['Find something with this feeling.','Styling is for selection','styling'],
    ['I have a photo.','Would you like that exact item','photo'],
+   ['What is the difference between identifying an exact dress and styling?','Sourcing is for',''],
+   ['I want similar pieces, not the exact dress.','Styling is for selection','styling'],
+   ['Identify this exact dress, no alternatives.','The Trace investigates','trace'],
    ['I need outfits for a wedding.','Styling is for selection','styling'],
    ['How much is shipping to my country?','Tracked international delivery','shipping'],
    ['Is this item in stock?','Live availability needs','stock'],
@@ -51,6 +54,14 @@ const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   const stored=await page.evaluate(()=>Object.keys(localStorage).map(key=>localStorage.getItem(key)).join(' ')+' '+Object.keys(sessionStorage).map(key=>sessionStorage.getItem(key)).join(' '));
   assert(!stored.includes('shop link for this dress'),'visitor question not persisted');
   await page.click('[data-concierge-reset]');assert.equal(await page.$$eval('[data-exchange]',nodes=>nodes.length),0);
+  await page.focus('#ss-concierge-question');await page.type('#ss-concierge-question','How does pricing work?');await page.keyboard.press('Enter');
+  await page.waitForFunction(()=>document.querySelector('[data-concierge-live]').textContent.includes('A sourcing quote separates'));
+  assert.equal(await page.evaluate(()=>document.activeElement.id),'ss-concierge-question','input focus preserved while answering');
+  await page.click('[data-concierge-reset]');
+  await page.focus('[data-topic="photo"]');await page.keyboard.press('Enter');
+  await page.waitForFunction(()=>document.querySelector('[data-concierge-live]').textContent.includes('Would you like'));
+  assert(await page.$eval('[data-concierge-more-toggle]',node=>node===document.activeElement),'focus remains on visible prompt control');
+  await page.click('[data-concierge-reset]');
   await page.click('.ss-concierge-inputrow button');assert.equal(await page.$eval('[data-concierge-error]',node=>node.textContent),'Write a short question, or choose one above.');
   await page.click('[data-topic="photo"]');await page.waitForFunction(()=>document.querySelector('.ss-message-actions')?.textContent.includes('Identify this item'));
   assert(await page.$('.ss-message-actions a[href="service-request.html?service=trace"]'));
@@ -71,6 +82,6 @@ const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   assert.equal(await page.$eval('[data-concierge-interactive]',node=>getComputedStyle(node).display),'none');
   assert.equal(await page.$$eval('.ss-story-card',nodes=>nodes.length),6);
   assert.deepEqual(errors,[]);
-  console.log('PASS hero guide: 5 breakpoints, 11 intents, privacy, reset, bounded history, scene linking, reduced motion, dark/high contrast, no-JS; no browser errors');
+  console.log('PASS hero guide: 5 breakpoints, 14 intents, keyboard focus, privacy, reset, bounded history, scene linking, reduced motion, dark/high contrast, no-JS; no browser errors');
  }finally{await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

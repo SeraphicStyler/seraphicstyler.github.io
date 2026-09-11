@@ -26,7 +26,7 @@
    breadcrumbs, and JSON-LD. Nothing is invented: a field that is not recorded
    is simply absent, and `confirm-first` houses say so on the page.
 
-   Usage:  node tools/build-seo-pages.cjs [--dry]
+   Usage:  node tools/build-seo-pages.cjs [--dry] [--index-only]
 */
 'use strict';
 const fs = require('fs');
@@ -35,6 +35,9 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const SITE = 'https://www.seraphicstyler.com';
 const DRY = process.argv.includes('--dry');
+const INDEX_ONLY = process.argv.includes('--index-only');
+// A rebuild is not a new source review. Preserve the approved reference date.
+const INDEX_REVIEWED = '2026-08-28';
 /* One build date, stamped on every generated page and into the sitemap. The
    directory's value is that it was walked in person; a page that never says
    when is a page an answer engine cannot date. */
@@ -435,44 +438,45 @@ function staticIndex() {
 
   return `${MARK_A}
 <section class="wrap si" id="ss-static-index" aria-labelledby="si-h">
-  <h2 id="si-h">The directory in plain text</h2>
-  <p class="si-lead">All ${all.length} houses as one readable list, with the areas and categories they belong to. The filters above are faster; this is here so the directory can be read, quoted and indexed without running anything — by a screen reader, a saved page, or an assistant answering a question about Vietnamese fashion.</p>
-  <p class="si-lead"><strong>Walked and recorded in person in Ho Chi Minh City. Last reviewed <time datetime="${BUILT}">${BUILT}</time>.</strong> Shops in Vietnam move and change hours often — confirm before you travel. The same data is available as a <a href="dataset">CC BY-licensed dataset</a> and a <a href="for-agents">public JSON API</a>.</p>
-
-  <h3>By area</h3>
-  <ul class="si-hubs">${areaIndex.sort((a, b) => b.n - a.n).map((a) =>
-    `<li><a href="areas/${a.slug}">${esc(a.label)}</a> <i>${a.n}</i></li>`).join('')}</ul>
-
-  <h3>By category</h3>
-  <ul class="si-hubs">${catIndex.sort((a, b) => b.n - a.n).map((c) =>
-    `<li><a href="categories/${c.slug}">${esc(c.label)}</a> <i>${c.n}</i></li>`).join('')}</ul>
-
-  <details class="si-all">
+  <div class="si-panel">
+  <h2 id="si-h">Plain-text directory</h2>
+  <p class="si-lead">A readable reference to all ${all.length} houses, for screen readers, saved pages, and quick lookup.</p>
+  <p class="si-meta">${all.length} houses · Last reviewed <time datetime="${INDEX_REVIEWED}">${INDEX_REVIEWED}</time> · Confirm before travel.<br><a href="dataset">Dataset</a> · <a href="for-agents">JSON API</a> · <a href="directory-methodology">Methodology</a></p>
+  <nav class="si-jumps" aria-label="Plain directory sections"><a href="#plain-az">A–Z list</a><a href="#plain-area">By area</a><a href="#plain-category">By category</a></nav>
+  <details class="si-all" id="plain-az">
     <summary>Every house, A–Z (${all.length})</summary>
     <ul class="si-list">
 ${rows}
     </ul>
   </details>
+  <div class="si-support">
+    <details id="plain-area"><summary>By area</summary><ul class="si-hubs">${areaIndex.sort((a, b) => b.n - a.n).map((a) =>
+      `<li><a href="areas/${a.slug}">${esc(a.label)} <span>${a.n}</span></a></li>`).join('')}</ul></details>
+    <details id="plain-category"><summary>By category</summary><ul class="si-hubs">${catIndex.sort((a, b) => b.n - a.n).map((c) =>
+      `<li><a href="categories/${c.slug}">${esc(c.label)} <span>${c.n}</span></a></li>`).join('')}</ul></details>
+  </div>
+  <p class="si-end"><a href="#fd-reference-notes">Confidence &amp; research notes</a></p>
+  </div>
 </section>
 <style>
-.si{padding:2.6rem 0 3.4rem;border-top:1px solid var(--surface-border);margin-top:2rem}
-.si h2{font-family:"Tenor Sans",serif;font-weight:400;font-size:1.35rem;margin:0 0 .7rem;color:var(--text-primary)}
-.si h3{font-family:"Montserrat",sans-serif;font-weight:500;font-size:.76rem;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--text-secondary);margin:2rem 0 .8rem}
-.si-lead{font-size:.9rem;line-height:1.75;color:var(--text-secondary);max-width:62ch;margin:0 0 .8rem}
-.si-hubs{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:.5rem}
-.si-hubs li{border:1px solid var(--surface-border);border-radius:999px;padding:.3rem .8rem;font-size:.84rem}
-.si-hubs a{color:var(--accent);text-decoration:none}
-.si-hubs i{font-style:normal;color:var(--text-secondary);font-size:.76rem;margin-left:.3rem}
-.si-all{margin-top:2rem;border-top:1px solid var(--surface-border);padding-top:1rem}
-.si-all summary{cursor:pointer;font-family:"Montserrat",sans-serif;font-size:.8rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--text-secondary)}
-.si-list{list-style:none;padding:0;margin:1.2rem 0 0;columns:2;column-gap:2.2rem}
-@media(max-width:720px){.si-list{columns:1}}
-.si-list li{break-inside:avoid;padding:.5rem 0;border-bottom:1px solid var(--surface-border);
-  font-size:.88rem;color:var(--text-primary)}
-.si-list li span{display:block;font-size:.79rem;color:var(--text-secondary);line-height:1.55;margin-top:.15rem}
-.si-list a{color:var(--accent);text-decoration:none}
+.si{padding-block:32px;margin-top:24px;scroll-margin-top:96px}
+.si-panel{border:1px solid var(--line);border-radius:18px;background:var(--paper);padding:clamp(20px,4vw,32px)}
+.si h2{font-family:var(--font-display);font-weight:400;font-size:24px;margin:0 0 16px;color:var(--ink)}
+.si-lead{font-size:16px;line-height:1.6;color:var(--ink);max-width:66ch;margin:0 0 12px}
+.si-meta,.si-end{font-size:14px;line-height:1.6;color:var(--ink-soft);max-width:70ch;margin:0 0 16px}
+.si a{color:var(--cobalt);text-decoration:underline;text-underline-offset:3px;min-height:44px;display:inline-flex;align-items:center}
+.si-jumps{display:flex;gap:8px 24px;flex-wrap:wrap;margin-bottom:16px;font-size:14px}
+.si details{border-top:1px solid var(--line);scroll-margin-top:96px}
+.si summary{cursor:pointer;font-family:var(--font-body);font-size:16px;min-height:48px;align-content:center;padding:12px 4px;color:var(--ink)}
+.si-support{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:16px}
+.si-hubs{list-style:none;padding:0;margin:8px 0 16px}
+.si-hubs a{display:flex;justify-content:space-between;gap:16px;font-size:14px;padding:8px 4px;text-decoration:none;border-bottom:1px solid var(--line-soft)}
+.si-hubs span{color:var(--ink-soft)}
+.si-list{list-style:none;padding:0;margin:16px 0;columns:2;column-gap:32px}
+.si-list li{break-inside:avoid;padding:12px 0;border-bottom:1px solid var(--line);font-size:16px;color:var(--ink);overflow-wrap:anywhere}
+.si-list li>span{display:block;font-size:16px;color:var(--ink-soft);line-height:1.6;margin-top:4px}
+.si :is(a,summary):focus-visible{outline:3px solid var(--cobalt);outline-offset:3px}
+@media(max-width:720px){.si-list{columns:1}.si-support{grid-template-columns:1fr;gap:8px}}
 </style>
 ${MARK_B}`;
 }
@@ -487,7 +491,7 @@ function sitemap(urls) {
 }
 
 /* ---------- write ---------- */
-if (!DRY) {
+if (!DRY && !INDEX_ONLY) {
   for (const dir of ['houses', 'areas', 'categories']) fs.mkdirSync(path.join(ROOT, dir), { recursive: true });
   for (const p of pages) fs.writeFileSync(p.file, p.html);
 
@@ -500,6 +504,8 @@ if (!DRY) {
 
   fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), sitemap(pages.map((p) => p.url)));
 
+}
+if (!DRY) {
   const fdPath = path.join(ROOT, 'fashion-directory.html');
   let fd = fs.readFileSync(fdPath, 'utf8');
   const block = staticIndex();
@@ -522,8 +528,8 @@ console.log('  total           : ' + pages.length + (DRY ? '  [dry run, nothing 
 const bytes = pages.reduce((n, p) => n + p.html.length, 0);
 console.log('  avg page size   : ' + Math.round(bytes / pages.length / 1024 * 10) / 10 + ' KB');
 if (!DRY) {
-  console.log('  sitemap.xml     : ' + (STATIC_URLS.length + pages.length) + ' urls');
+  if(!INDEX_ONLY) console.log('  sitemap.xml     : ' + (STATIC_URLS.length + pages.length) + ' urls');
   console.log('  static index    : written into fashion-directory.html (' + D.length + ' houses)');
 }
-fs.writeFileSync(path.join(__dirname, 'seo-pages.json'), JSON.stringify(pages.map((p) => p.url), null, 1));
-console.log('  url list        : tools/seo-pages.json');
+if (!DRY && !INDEX_ONLY) fs.writeFileSync(path.join(__dirname, 'seo-pages.json'), JSON.stringify(pages.map((p) => p.url), null, 1));
+if(!DRY&&!INDEX_ONLY) console.log('  url list        : tools/seo-pages.json');

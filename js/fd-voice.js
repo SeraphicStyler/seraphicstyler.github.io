@@ -1318,7 +1318,7 @@
     panel.classList.add('off');
     hideTimer = setTimeout(function () { if (!isOpen) panel.hidden = true; }, RM ? 0 : 240);
     fab.setAttribute('aria-expanded', 'false');
-    fab.focus();
+    (document.getElementById('fd-guide-launcher') || document.getElementById('fd-guide-voice') || fab).focus();
   }
   fab.addEventListener('click', function () { isOpen ? close() : open(); });
 
@@ -1333,6 +1333,7 @@
     if (e.code === 'Space' && (e.metaKey || e.ctrlKey)) {
       e.preventDefault();
       if (e.shiftKey) { if (!isOpen) open(); toggleListen(); }
+      else if (window.SS_DIRECTORY_GUIDE) window.SS_DIRECTORY_GUIDE.open();
       else if (!isOpen) open(); else input.focus();
     }
   });
@@ -1341,6 +1342,15 @@
      spoken rewrite of a house is useful to anything that needs to say one out
      loud, and it is the seam tools/verify-voice.mjs checks. */
   window.SS_VOICE = {
+    // Read-only discovery seam: no URL mutation, saved question, or speech request.
+    query: function(text, previous) {
+      var parsed = parseFacets(text), it = Object.assign({}, previous || {}, parsed);
+      var brand = facetCount(parsed) ? null : findBrand(norm(text));
+      if(brand) it = {brand:brand};
+      else if(facetCount(parsed)) delete it.brand;
+      return {intent:it, recognized:!!(brand || facetCount(parsed) || parsed.mode), houses:ranked(it), labels:activeChips(it)};
+    },
+    apply: applyIntent,
     open: open,
     readOut: readOut,
     toSpokenListing: function (b, opts) {

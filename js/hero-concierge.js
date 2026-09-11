@@ -47,8 +47,8 @@ import { guideEndpoint } from './concierge-config.js';
     return row;
   }
   function setBusy(busy) {
-    state=busy?'preparing':'complete'; input.disabled=busy; submit.disabled=busy;
-    card.querySelectorAll('[data-topic]').forEach(button=>button.disabled=busy);
+    state=busy?'preparing':'complete'; input.readOnly=busy; submit.setAttribute('aria-disabled',String(busy));
+    card.querySelectorAll('[data-topic]').forEach(button=>button.setAttribute('aria-disabled',String(busy)));
   }
   function emphasize(topic) {
     if (!scene) return;
@@ -63,9 +63,11 @@ import { guideEndpoint } from './concierge-config.js';
     while(groups.length>1) groups.shift().remove();
   }
   function completeAnswer(record,answerNode,group,wasNear) {
+    const shouldFollow=nearEnd();
     clearTimers(); pending=null; answerNode.textContent=record.answer; answerNode.classList.remove('ss-message-preparing');
-    group.append(makeActions(record.actions)); prune(); follow(wasNear); setBusy(false); reset.hidden=false;
+    group.append(makeActions(record.actions)); prune(); follow(shouldFollow); setBusy(false); reset.hidden=false;
     live.textContent=record.answer+' '+record.actions.map(action=>action[0]).join('. ')+'.'; emphasize(record.scene);
+    if(card.querySelector('.ss-concierge-prompts').contains(document.activeElement)&&document.activeElement!==moreToggle)moreToggle.focus({preventScroll:true});
     card.classList.add('ss-has-answer');card.classList.remove('ss-show-prompts');more.hidden=true;moreToggle.setAttribute('aria-expanded','false');moreToggle.textContent='Choose another question';
     history.push({role:'assistant',content:record.answer});history=history.slice(-4);
   }
@@ -91,8 +93,6 @@ import { guideEndpoint } from './concierge-config.js';
         if(turn!==generation)return;
         error.textContent='The AI guide is unavailable. Here is the saved service answer; you can also send a personal request.';
       } finally { clearTimeout(timeout);if(controller===currentController)controller=null; }
-    } else if(useModel && topic==='fallback') {
-      error.textContent='Flexible AI replies are not connected yet. These answers cover the published services.';
     }
     if(turn!==generation)return;
     history.push({role:'user',content:question});
@@ -102,7 +102,7 @@ import { guideEndpoint } from './concierge-config.js';
       if(quiet()){ completeAnswer(record,answerNode,group,wasNear); return; }
       const phrases=record.answer.match(/[^.!?]+[.!?]+|[^.!?]+$/g)||[record.answer];
       phrases.forEach((phrase,index)=>later(()=>{
-        if(!pending)return; answerNode.textContent+=(index?' ':'')+phrase.trim(); follow(wasNear);
+        if(!pending)return; const shouldFollow=nearEnd();answerNode.textContent+=(index?' ':'')+phrase.trim(); follow(shouldFollow);
         if(index===phrases.length-1) completeAnswer(record,answerNode,group,wasNear);
       },index*145));
     },quiet()?0:260);
@@ -119,6 +119,11 @@ import { guideEndpoint } from './concierge-config.js';
     const photo=has(text,['photo','picture','screenshot','image']);
     const identify=has(text,['identify','exact item','exact dress','who made','what brand','where is this from','find the source']);
     const inspiration=has(text,['similar','inspiration','vibe','feeling','like this','alternatives','outfit','outfits','wardrobe','style me','wedding look']);
+    // Comparisons and explicit intent matter more than the presence of an item word.
+    if(has(text,['difference','versus','sourcing or styling','which service',' vs '])) return 'difference';
+    if(inspiration&&has(text,['not the exact','not that exact','rather than the exact','don t need the exact','do not need the exact']))return 'styling';
+    if(identify&&has(text,['no alternatives','not alternatives','not similar','not inspiration']))return 'trace';
+    if(identify&&inspiration)return 'photo';
     const group=has(text,['group','team','sorority','bridal party','matching outfits','twenty people','20 people','bulk']);
     const gift=has(text,['gift','present','recipient']);
     if(has(text,['boutique','resale','reseller','stock my store','wholesale'])) return 'boutique';
@@ -132,7 +137,6 @@ import { guideEndpoint } from './concierge-config.js';
     if(photo&&!identify&&!inspiration) return 'photo';
     if(identify) return 'trace';
     if(inspiration) return 'styling';
-    if(has(text,['difference','versus',' vs ','sourcing or styling','which service'])) return 'difference';
     if(has(text,['shop link','product link','seller link','already found','buy this','purchase this'])) return 'sourcing';
     if(has(text,['trace'])) return 'trace';
     if(has(text,['styling','stylist'])) return 'styling';
@@ -142,7 +146,7 @@ import { guideEndpoint } from './concierge-config.js';
   function restart() {
     generation++;controller?.abort();controller=null;history=[];
     card.classList.remove('ss-has-answer','ss-show-prompts');
-    clearTimers(); pending=null; state='idle'; exchanges=0; input.disabled=false; submit.disabled=false; input.value=''; error.textContent=''; live.textContent='';
+    clearTimers(); pending=null; setBusy(false);state='idle'; exchanges=0; input.readOnly=false; input.value=''; error.textContent=''; live.textContent='';
     thread.replaceChildren(makeMessage('guide',opening));
     card.querySelectorAll('[data-topic]').forEach(button=>button.setAttribute('aria-pressed','false'));
     more.hidden=true;moreToggle.setAttribute('aria-expanded','false');moreToggle.textContent='See all answers';

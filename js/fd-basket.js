@@ -720,7 +720,7 @@
   tab.className = 'bk-tab'; tab.type = 'button'; tab.hidden = true;
   document.body.appendChild(tab);
   tab.addEventListener('click', function () { open(tab); });
-  function dockPref() { try { return localStorage.getItem('fd-basket-dock') !== '0'; } catch (e) { return true; } }
+  function dockPref() { try { return localStorage.getItem('fd-basket-dock') === '1'; } catch (e) { return false; } }
   function setDockPref(v) { try { localStorage.setItem('fd-basket-dock', v ? '1' : '0'); } catch (e) {} }
   function tabLabel() { tab.textContent = t('fd.tr.title', 'Your tray') + (active().length ? ' (' + active().length + ')' : ''); }
 
@@ -938,7 +938,23 @@
      "1.290.000₫", "350k" and "1,2tr" exactly the way the tray's own inputs do —
      one money parser, never two that drift apart. */
   window.SS_BASKET = { has: has, addOrOpen: addOrOpen, addStructured: addStructured, open: open, close: close, count: count, parsePrice: parsePrice };
+  /* Piece boards use the same tray records, never a second basket or fee model. */
+  function addReference(data) {
+    var url;try { url=new URL(data.link);if(!/^https?:$/.test(url.protocol))return null; }catch(e){return null;}
+    var existing=items.find(function(it){return it.link===url.href;});
+    if(existing)return existing.id;
+    var item={id:uid(),brandId:null,brandName:String(data.brandName||url.hostname).slice(0,120),title:String(data.title||'Saved piece').slice(0,160),link:url.href,priceVnd:Number.isFinite(Number(data.priceVnd))&&Number(data.priceVnd)>0?Math.round(Number(data.priceVnd)):null,state:'shortlist',addedAt:Date.now()};
+    items.push(item);save();renderCounts();if(!panel.hidden)renderAll();return item.id;
+  }
+  function annotateReference(id, values) {
+    var item=items.find(function(it){return it.id===id;});if(!item)return false;
+    var allowed=['material','silhouette','occasion','fit','size','observedAt','note'];
+    item.discovery=item.discovery||{};
+    allowed.forEach(function(key){if(Object.prototype.hasOwnProperty.call(values,key))item.discovery[key]=String(values[key]||'').slice(0,300);});
+    save();return true;
+  }
   window.SS_TRAY = {
+    entries: function(){return JSON.parse(JSON.stringify(items));}, addReference:addReference, annotateReference:annotateReference,
     addSaved: addSaved, removeSaved: removeSaved, isSaved: isSavedBrand,
     setState: setState, countByState: countByState, open: open, close: close
   };

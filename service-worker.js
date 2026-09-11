@@ -1,77 +1,49 @@
-/* Seraphic Styler — offline support for the fashion directory + route planner.
-   Network-first for pages (so edits show immediately), cache-first for static
-   assets. Lets you browse the directory and your saved route on the street with
-   no signal. Bump CACHE to invalidate. */
-const CACHE = 'ss-fd-v62'; /* bumped: preview-link card stays visible on a preview */
+/* Offline directory support. Pages and code stay fresh; images are cached on use. */
+const CACHE = 'ss-fd-v63';
 const CORE = [
-  './fashion-directory',
-  './field-guide',
-  './find',
-  './js/directory-data.js',
-  './js/fd-search.js',
-  './js/fis-order.js',
-  './js/nav-voice.js',
-  './js/route-solver.js',
-  './js/store-coords.js',
-  './js/route-panel.js',
-  './js/discover-brand.js',
-  './js/i18n-page.js',
-  './js/find.js',
-  './js/fd-basket.js',
-  './js/fd-atelier.js',
-  './js/fd-voice.js',
-  './js/fd-smartpaste.js',
-  './js/estimator.js',
-  './js/gift-redeem.js',
-  './manifest.webmanifest'
+  './fashion-directory', './field-guide', './find', './manifest.webmanifest',
+  './css/directory.css?v=2026-09-10', './css/field-guide.css?v=2026-09-10',
+  './css/find.css?v=2026-09-10', './css/theme.css?v=2026-09-10',
+  './css/directory-workspace.css', './css/directory-discovery.css?v=2026-09-09',
+  './css/directory-guide.css?v=2026-09-09c',
+  './js/theme.js?v=2026-09-10', './js/directory.js?v=2026-09-10',
+  './js/directory-data.js', './js/directory-catalog.js', './js/directory-workspace.js',
+  './js/directory-discovery.js', './js/directory-reference.js', './js/directory-garments.js',
+  './js/directory-guide.js?v=2026-09-09c',
+  './js/fd-search.js', './js/route-solver.js', './js/store-coords.js',
+  './js/route-panel.js', './js/discover-brand.js', './js/i18n-page.js',
+  './js/i18n-dom.js', './js/i18n/manifest.js', './js/find.js', './js/fd-basket.js',
+  './js/fd-atelier.js', './js/fd-voice.js?v=2026-09-09',
+  './js/fd-smartpaste.js', './js/estimator.js'
 ];
-/* Language bundles (js/i18n/<page>.<lang>.js) are deliberately NOT precached:
-   there are 38 of them and a reader wants one. The cache-first fetch handler
-   below stores whichever one they actually choose, so it works offline after. */
-
-self.addEventListener('install', function (e) {
-  // resilient precache — one missing URL must not fail the whole install
-  e.waitUntil(caches.open(CACHE).then(function (c) {
-    return Promise.all(CORE.map(function (u) { return c.add(u).catch(function () {}); }));
-  }).then(function () { return self.skipWaiting(); }));
+// Language bundles and photographs are cached only when requested.
+self.addEventListener('install', event => {
+  event.waitUntil(caches.open(CACHE).then(cache => Promise.allSettled(
+    CORE.map(url => cache.add(url))
+  )).then(() => self.skipWaiting()));
 });
-
-self.addEventListener('activate', function (e) {
-  e.waitUntil(caches.keys().then(function (keys) {
-    return Promise.all(keys.filter(function (k) { return k !== CACHE; }).map(function (k) { return caches.delete(k); }));
-  }).then(function () { return self.clients.claim(); }));
+self.addEventListener('activate', event => {
+  event.waitUntil(caches.keys().then(keys => Promise.all(
+    keys.filter(key => key.startsWith('ss-fd-') && key !== CACHE).map(key => caches.delete(key))
+  )).then(() => self.clients.claim()));
 });
-
-self.addEventListener('fetch', function (e) {
-  const req = e.request;
-  if (req.method !== 'GET') return;
-  const url = new URL(req.url);
-  if (url.origin !== location.origin) return; // leave cross-origin (fonts, map tiles) alone
-
-  const isPage = req.mode === 'navigate' || (req.headers.get('accept') || '').indexOf('text/html') !== -1;
-  if (isPage) {
-    // network-first: fresh when online, cached page when offline
-    e.respondWith(fetch(req).then(function (r) {
-      const cp = r.clone(); caches.open(CACHE).then(function (c) { c.put(req, cp); });
-      return r;
-    }).catch(function () {
-      return caches.match(req).then(function (m) { return m || caches.match('./fashion-directory'); });
-    }));
-  } else if (url.pathname.endsWith('.js')) {
-    // network-first for scripts: a deploy shows on the NEXT load, not two loads
-    // later — cache-first here made new directory data invisible until visitors
-    // reloaded twice. Cache stays as the offline fallback.
-    e.respondWith(fetch(req).then(function (r) {
-      const cp = r.clone(); caches.open(CACHE).then(function (c) { c.put(req, cp); });
-      return r;
-    }).catch(function () { return caches.match(req); }));
-  } else {
-    // cache-first for the rest (logos, svg, icons) — speed on the street
-    e.respondWith(caches.match(req).then(function (m) {
-      return m || fetch(req).then(function (r) {
-        const cp = r.clone(); caches.open(CACHE).then(function (c) { c.put(req, cp); });
-        return r;
-      });
-    }));
+self.addEventListener('fetch', event => {
+  const request = event.request, url = new URL(request.url);
+  if (request.method !== 'GET' || url.origin !== self.location.origin) return;
+  const page = request.mode === 'navigate' || (request.headers.get('accept') || '').includes('text/html');
+  const fresh = page || /\.(?:js|css)$/.test(url.pathname);
+  async function network() {
+    const response = await fetch(request);
+    if (response.ok) {
+      const cache = await caches.open(CACHE);
+      await cache.put(request, response.clone()).catch(() => {});
+    }
+    return response;
   }
+  async function cached() {
+    return await caches.match(request) || (page && await caches.match('./fashion-directory')) || Response.error();
+  }
+  event.respondWith(fresh
+    ? network().catch(cached)
+    : caches.match(request).then(hit => hit || network()).catch(() => Response.error()));
 });

@@ -1,0 +1,57 @@
+/* Local integration only. Synthetic references never leave this browser. */
+const assert=require('node:assert/strict'),puppeteer=require(process.env.SS_PUPPETEER||'puppeteer');
+const origin=process.env.SS_PREVIEW||'http://127.0.0.1:8731';
+(async()=>{const b=await puppeteer.launch({headless:true});try{
+ const p=await b.newPage(),errors=[],requests=[];p.on('pageerror',e=>errors.push(e.message));p.on('request',r=>{if(r.url().includes('test-piece'))requests.push(r.url());});
+ await p.emulateMediaFeatures([{name:'prefers-reduced-motion',value:'reduce'},{name:'prefers-color-scheme',value:'light'}]);
+ for(const width of [320,390,768,1024,1440]){
+  await p.setViewport({width,height:960});await p.goto(origin+'/fashion-directory',{waitUntil:'networkidle2'});
+  await p.waitForSelector('.fd-guide-ready');await p.waitForSelector('.fdmap-head .ssrp-open');
+  await p.evaluate(()=>document.documentElement.setAttribute('data-theme','light'));
+  assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'page overflow '+width);
+  await p.evaluate(()=>{SS_WORKSPACE.go('visit',null,false,false);window.__fdMapOpen(true);document.querySelector('#map').scrollIntoView({behavior:'instant'});});
+  const map=await p.$eval('#fdmap',e=>({w:e.getBoundingClientRect().width,parent:e.parentElement.clientWidth}));assert(map.w<=map.parent,'map fits '+width);
+  assert.equal(await p.$$eval('#fdmap-districts button',es=>es.length),10);
+  const counts=await p.$$eval('#fdmap-districts button',es=>es.reduce((sum,e)=>sum+parseInt(e.lastElementChild.textContent),0));
+  assert.equal(counts,await p.evaluate(()=>SS_DIRECTORY.filter(h=>h.city==='SGN').length),'counts reflect data');
+  assert(await p.$$eval('#fdmap-districts button',es=>es.every(e=>e.getBoundingClientRect().height>=44)));
+  await p.focus('#fdmap-districts [data-z=d3]');const before=await p.evaluate(()=>scrollY);await p.keyboard.press('Enter');
+  assert.equal(await p.evaluate(()=>document.activeElement.dataset.z),'d3','district focus retained');
+  assert.equal(await p.$eval('#fdmap-districts [data-z=d3]',e=>e.getAttribute('aria-pressed')),'true');
+  assert(Math.abs((await p.evaluate(()=>scrollY))-before)<4,'map selection stays in place '+width+' before '+before+' after '+(await p.evaluate(()=>scrollY)));
+  assert(await p.$eval('#fdmap-selection',e=>e.textContent.includes('District 3')));
+  await p.screenshot({path:'/private/tmp/ss-directory-map-'+width+'.png'});
+  await p.click('#fd-guide-launcher');await p.focus('#fd-guide-question');await p.type('#fd-guide-question','linen');await p.keyboard.press('Enter');
+  assert(await p.$eval('#fd-guide-answer',e=>!e.textContent.includes('Your direction: Libé')),'fabric does not become fuzzy house name');
+  assert(await p.$eval('#fd-guide',e=>e.getBoundingClientRect().height<=innerHeight*.65));
+  await p.screenshot({path:'/private/tmp/ss-directory-dock-'+width+'.png'});
+  await p.keyboard.press('Escape');assert(await p.$eval('#fd-guide-launcher',e=>e.getAttribute('aria-expanded')==='false'));
+ }
+ await p.goto(origin+'/fashion-directory?check=route',{waitUntil:'networkidle2'});await p.waitForSelector('.fdmap-head .ssrp-open');await p.evaluate(()=>SS_TRAY.close());
+ await p.$eval('.fdmap-head .ssrp-open',e=>e.click());assert((await p.$eval('#ssrp-seedcount',e=>e.textContent)).includes('Routine U Space'),'missing route location disclosed');await p.click('.ssrp-x');
+ await p.evaluate(()=>SS_DIRECTORY_GUIDE.ask('linen under premium pricing in D1 or Thao Dien'));assert((await p.$eval('#fd-guide-answer',e=>e.textContent)).includes('Choose one area'));await p.$$eval('.fd-guide-followups button',es=>es[0].click());assert((await p.$eval('#fd-guide-answer',e=>e.textContent)).includes('No records match')||await p.$$eval('.fd-guide-match',es=>es.every(e=>e.textContent.includes('mid'))));await p.evaluate(()=>SS_DIRECTORY_GUIDE.close());
+ await p.$eval('[data-compare-house]',e=>e.click());assert.equal(await p.$$eval('#fd-house-comparison .fd-compare-grid article',es=>es.length),1);
+ await p.$eval('[data-compare-house="1"]',e=>e.click());assert.equal(await p.$$eval('#fd-house-comparison .fd-compare-grid article',es=>es.length),2);
+ await p.evaluate(()=>SS_WORKSPACE.go('search'));await p.click('[data-format=rich]');await p.$eval('[data-similar-house="0"]',e=>e.click());assert((await p.$eval('#fd-house-comparison',e=>e.textContent)).includes('Shared directory attributes'));
+ const add=async(title,link)=>{await p.evaluate(()=>SS_WORKSPACE.go('buy'));await p.$eval('.fd-piece-add',e=>e.open=true);await p.$eval('#fd-piece-form',(e,{title,link})=>{e.elements.title.value=title;e.elements.link.value=link;e.elements.brandName.value='Test seller';e.requestSubmit();},{title,link});};
+ await add('Test piece A','https://example.com/test-piece-a');await add('Test piece B','https://example.com/test-piece-b');
+ assert.equal(await p.$$eval('.fd-piece-card',es=>es.length),2);
+ const ids=await p.evaluate(()=>SS_TRAY.entries().filter(i=>i.link.includes('test-piece')).map(i=>i.id));
+ await p.evaluate(ids=>ids.forEach(id=>SS_TRAY.annotateReference(id,{material:'linen',occasion:'Trip',fit:'Not measured'})),ids);
+ assert.equal(await p.$$eval('#fd-board-occasion option',es=>es.length),2);
+ await p.$$eval('.fd-compare-choice input',es=>es.forEach(e=>e.click()));assert.equal(await p.$$eval('#fd-piece-compare .fd-compare-grid article',es=>es.length),2);
+ assert((await p.$eval('#fd-piece-compare',e=>e.textContent)).includes('Not confirmed'));
+ await p.$$eval('.fd-piece-card>button',es=>es[0].click());assert((await p.$eval('#fd-piece-compare',e=>e.textContent)).includes('material: linen'));
+ await p.evaluate(()=>navigator.clipboard.writeText=async value=>window.copiedBoard=value);
+ await p.$eval('#fd-piece-request',e=>e.open=true);await p.click('#fd-build-brief');
+ assert(await p.$('#fd-piece-brief a[href="service-request.html?service=sourcing"]'));
+ await p.click('#fd-piece-brief button');assert((await p.evaluate(()=>window.copiedBoard)).includes('test-piece-a'));
+ await p.select('#fd-piece-intent','styling');assert(await p.$eval('#fd-piece-brief',e=>e.hidden),'old request invalidated');await p.click('#fd-build-brief');assert(await p.$('#fd-piece-brief a[href="service-request.html?service=styling"]'));
+ await p.select('#fd-piece-intent','trace');await p.click('#fd-build-brief');assert(await p.$('#fd-piece-brief a[href="service-request.html?service=trace"]'));
+ await p.$eval('#piece-board',e=>e.scrollIntoView({behavior:'instant'}));await p.screenshot({path:'/private/tmp/ss-piece-board-desktop.png'});
+ await p.setViewport({width:390,height:960});await p.$eval('#piece-board',e=>e.scrollIntoView({behavior:'instant'}));await p.screenshot({path:'/private/tmp/ss-piece-board-mobile.png'});
+ await p.reload({waitUntil:'networkidle2'});assert.equal(await p.$$eval('.fd-piece-card',es=>es.length),2,'same tray references restored');
+ await p.evaluate(()=>document.documentElement.style.zoom='2');assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'zoom fits');
+ assert.equal(requests.length,0,'source links are not fetched');assert.deepEqual(errors,[]);
+ console.log('PASS directory decisions: five widths; map counts, keyboard selection and no scrolling; dock and fabric retrieval; house comparison; shared tray, occasion notes, garment comparisons, similarity reasons, review/copy and three intake routes; reload and 200% zoom.');
+}finally{await b.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

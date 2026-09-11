@@ -42,20 +42,20 @@
 .ss-concierge-inputrow button { min-height:48px;padding:.8rem 1rem;border:1px solid var(--accent);border-radius:999px;background:var(--accent);color:var(--cta-text,#fff);font:500 .78rem/1.4 var(--font-body);cursor:pointer; }
 html.dark .ss-concierge-inputrow button { color:var(--bg-primary); }
 .ss-concierge-inputrow button:hover { background:var(--accent-hover); }
-.ss-concierge button:disabled { opacity:.6;cursor:wait; }
+.ss-concierge button:disabled,.ss-concierge button[aria-disabled="true"] { opacity:.6;cursor:wait; }
 .ss-concierge-error { margin:.5rem 0 0;color:var(--text-secondary);font:.78rem/1.6 var(--font-body); }
 .ss-concierge-error:empty { display:none; }
 .ss-concierge :is(button,a,input,.ss-concierge-thread):focus-visible { outline:2px solid var(--accent);outline-offset:3px; }
 @media(max-width:700px) { .ss-concierge-inputrow { grid-template-columns:1fr; } }
 /* The service scene uses normal-flow markup first; positioning is a wide-screen enhancement. */
-.ss-service-story>.wrap { overflow:hidden; }
+.ss-service-story>.wrap { overflow:visible; }
 .ss-story-head { max-width:44rem; margin:0 auto 2.5rem; text-align:center; }
 .ss-story-head h2 { margin:.65rem 0 1rem; }
 .ss-story-head p { margin:0 auto; color:var(--text-secondary); line-height:1.7; }
 .ss-story-scene {
   position:relative;
   isolation:isolate;
-  overflow:hidden;
+  overflow:visible;
   border:1px solid var(--surface-border);
   border-radius:1.6rem;
   background:
@@ -121,18 +121,15 @@ html.dark .ss-concierge-inputrow button { color:var(--bg-primary); }
 .ss-story-foot { margin:1.8rem auto 0; text-align:center; font-size:.85rem; }
 .ss-story-foot a { color:var(--accent); text-underline-offset:.25em; }
 
-@media(min-width:980px) {
-  .ss-story-scene { min-height:61rem; }
-  .ss-story-cards { position:absolute; inset:0; padding:0; }
-  .ss-story-card { position:absolute; margin:0; }
-  .ss-story-source { z-index:5; width:42%; left:7%; top:7%; padding:1.7rem; transform:rotate(-1.1deg); }
-  .ss-story-style { z-index:6; width:42%; right:7%; top:9%; padding:1.7rem; transform:rotate(.8deg); }
-  .ss-story-trace { z-index:3; width:31%; left:5%; top:39%; transform:rotate(.8deg); }
-  .ss-story-verify { z-index:4; width:31%; left:34.5%; top:41%; transform:rotate(-.55deg); }
-  .ss-story-price { z-index:3; width:31%; right:5%; top:39%; transform:rotate(.65deg); }
-  .ss-story-other { z-index:7; width:48%; left:26%; bottom:4%; text-align:center; }
+@media(min-width:1200px) {
+  .ss-story-cards { display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1.7rem;padding:2.5rem; }
+  .ss-story-card { position:relative;margin:0;grid-column:span 2; }
+  .ss-story-source,.ss-story-style { grid-column:span 3;padding:1.7rem; }
+  .ss-story-source { transform:rotate(-.5deg); }
+  .ss-story-style { transform:rotate(.5deg); }
+  .ss-story-trace { grid-column:1/-1; }
 }
-@media(max-width:979px) {
+@media(max-width:1199px) {
   .ss-story-cards { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
   .ss-story-card { margin:0; }
   .ss-story-source,.ss-story-style { grid-column:span 1; padding:1.5rem; }
@@ -176,12 +173,6 @@ html.ts-xl .ss-story-card,html.ts-lg .ss-story-card { position:relative; inset:a
 .ss-story-card:nth-child(1){--ss-card-order:1}.ss-story-card:nth-child(2){--ss-card-order:2}.ss-story-card:nth-child(3){--ss-card-order:3}.ss-story-card:nth-child(4){--ss-card-order:4}.ss-story-card:nth-child(5){--ss-card-order:5}.ss-story-card:nth-child(6){--ss-card-order:6}
 @keyframes ss-concierge-arrive { from { opacity:0; transform:translateY(8px); filter:blur(5px); } to { opacity:1; transform:none; filter:none; } }
 @keyframes ss-card-settle { from { opacity:.35; transform:translateY(7px) scale(.99); } to { opacity:1; } }
-html.ss-theme-switching .ss-concierge { transform:translateY(2px) scale(.992); }
-html.ss-theme-switching .ss-concierge::after { opacity:1; transform:scale(1.12); }
-::view-transition-old(root) { animation:ss-theme-old .28s ease both; }
-::view-transition-new(root) { animation:ss-theme-new .62s cubic-bezier(.22,1,.36,1) both; }
-@keyframes ss-theme-old { to { opacity:.28; filter:blur(2px); } }
-@keyframes ss-theme-new { from { clip-path:circle(0 at var(--ss-theme-x,50%) var(--ss-theme-y,50%)); } to { clip-path:circle(150vmax at var(--ss-theme-x,50%) var(--ss-theme-y,50%)); } }
 @media(prefers-reduced-motion:reduce) {
   .ss-concierge *, .ss-service-story * { animation:none!important; transition:none!important; scroll-behavior:auto!important; }
   ::view-transition-old(root),::view-transition-new(root) { animation:none!important; }

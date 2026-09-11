@@ -97,9 +97,24 @@ if (process.argv[2] === '--build') {
     .filter(([k]) => k.startsWith(page + '.') || k.startsWith('db.'));
 
   fs.mkdirSync(OUT, { recursive: true });
+  const context = { window: {} };
+  const vm = require('node:vm');
+  vm.createContext(context);
+  vm.runInContext(fs.readFileSync(path.join(REPO, 'js/translations.js'), 'utf8'), context);
+  const shared = context.window.SS_TRANSLATIONS;
+  const workspace = JSON.parse(fs.readFileSync(path.join(S, 'workspace.all.json'), 'utf8'));
+  const workspaceKeys = ['search','explore','compare','visit','board','filters','compact','rich','previous','next','save','materials','unknown','why','count','page','intro','observations'];
+  for (const [lang, values] of Object.entries(workspace)) {
+    if (values.length !== workspaceKeys.length || values.some(value => typeof value !== 'string' || !value.trim())) throw new Error('Incomplete workspace labels: ' + lang);
+    if (values.some((value, index) => ph(value) !== ph(workspace.en[index]))) throw new Error('Workspace placeholders differ: ' + lang);
+  }
   let total = 0;
   for (const page of PAGES) for (const lang of SHIPPED[page]) {
     const d = JSON.parse(fs.readFileSync(`${S}/out/${lang}/${page}.json`, 'utf8'));
+    for (const key of ['theme.auto','theme.light','theme.dark','theme.mono','a11y.theme','a11y.motion','a11y.contrast','ui.on','ui.off','ui.menu']) {
+      if (shared[lang]?.[key]) d[key] = shared[lang][key];
+    }
+    if (page === 'fd' && workspace[lang]) workspaceKeys.forEach((key, i) => { d['fd.ws.' + key] = workspace[lang][i]; });
     /* fold in this page's widget strings */
     for (const [k, v] of forPage(delta,  lang, page)) d[k] = v;
     for (const [k, v] of forPage(delta2, lang, page)) d[k] = v;

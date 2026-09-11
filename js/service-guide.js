@@ -35,6 +35,22 @@
   const results = dialog.querySelector('.ss-guide-results');
   const prices = dialog.querySelector('[data-prices]');
   const explore = dialog.querySelector('[data-explore]');
+  const tabs = dialog.querySelector('.ss-menu-tabs');
+  const underline = document.createElement('span');
+  underline.className = 'ss-menu-tab-indicator'; underline.setAttribute('aria-hidden', 'true'); tabs.append(underline);
+  function syncTabIndicator() {
+    if (!dialog.open) return;
+    const active = tabs.querySelector('[aria-pressed="true"]');
+    underline.style.width = active.offsetWidth + 'px';
+    underline.style.transform = 'translateX(' + active.offsetLeft + 'px)';
+  }
+  // Re-measure only when labels or the available width change, including zoom.
+  const tabObserver = new ResizeObserver(syncTabIndicator);
+  tabObserver.observe(tabs); tabs.querySelectorAll('button').forEach(b => tabObserver.observe(b));
+  dialog.querySelectorAll('.ss-menu-primary a').forEach(a => {
+    const arrow = document.createElement('i'); arrow.className = 'ss-menu-row-arrow';
+    arrow.textContent = '↗'; arrow.setAttribute('aria-hidden', 'true'); a.append(arrow);
+  });
   const entries = [
     ['Sourcing or styling?', 'sourcingandstyling', 'Compare identified-item purchase assistance, paid research, and styling'],
     ['Sourcing services & fees', sourcing, 'Exact in-stock Vietnamese item purchase fees; unknown-item research uses The Trace'],
@@ -66,6 +82,7 @@
     });
     dialog.querySelector('[data-empty]').hidden = !searching || matches.length > 0;
     dialog.querySelectorAll('[data-view]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === view)));
+    syncTabIndicator();
   }
   function open(mode = 'explore') {
     if (document.querySelector('dialog[open]') && !dialog.open) return;
@@ -116,13 +133,8 @@
     dialog.addEventListener('close', () => document.getElementById('a11yBtn')?.click(), {once:true}); close();
   });
   else {
-    settings.textContent = 'Switch light / dark';
-    settings.addEventListener('click', () => {
-      const root = document.documentElement;
-      root.classList.remove('mono');
-      const dark = root.classList.toggle('dark');
-      try { localStorage.setItem('ss-theme', dark ? 'dark' : 'light'); } catch (_) {}
-    });
+    settings.textContent = 'Switch light / dark / mono';
+    settings.addEventListener('click', () => window.SS_THEME.cycle());
   }
   input.addEventListener('input', render);
   input.addEventListener('keydown', e => {

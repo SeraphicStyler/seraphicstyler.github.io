@@ -84,8 +84,7 @@ window.SS_LANGS = [
   {
     "code": "fa",
     "name": "فارسی"
-  }
-,
+  },
   {
     "code": "km",
     "name": "ភាសាខ្មែរ"
@@ -438,9 +437,14 @@ window.SS_TRANSLATIONS = {
     "foot.connect": "ភ្ជាប់ទំនាក់ទំនង",
     "foot.linkhub": "មជ្ឈមណ្ឌលតំណភ្ជាប់",
     "foot.chat": "WhatsApp &amp; Zalo តាមសំណើ",
-    "foot.tagline": "ស្ទីល Saigon ដឹកជញ្ជូនគ្រប់ទីកន្លែង។"
-},
-
+    "foot.tagline": "ស្ទីល Saigon ដឹកជញ្ជូនគ្រប់ទីកន្លែង។",
+    "hero.ctaGo": "ផ្ញើសំណើរបស់អ្នក",
+    "look.h2b": "ស្នាដៃថ្មីៗ",
+    "look.intro2": "សម្លៀកបំពាក់វៀតណាមដែលបានស្វែងរក និងទិញជូនអតិថិជនទូទាំងពិភពលោក និងការរៀបចំសម្លៀកបំពាក់តាមតម្រូវការ ចាប់ពី $49។",
+    "ui.on": "បើក",
+    "ui.off": "បិទ",
+    "ui.menu": "ម៉ឺនុយ"
+  },
   "vi": {
     "est.fx.live2": "Tỷ giá hôm nay",
     "est.fx.incl": "cập nhật mỗi ngày",
@@ -472,14 +476,14 @@ window.SS_TRANSLATIONS = {
     "nav.directory": "Danh mục",
     "dir.eyebrow": "Danh mục",
     "dir.h2": "Danh mục Thời trang Sài Gòn",
-    "dir.lead": "Bản đồ sống về các nhà mốt của thành phố — hơn 230 cửa hàng, atelier, nhãn thiết kế và chợ phiên đã xác minh, lọc theo quận, phân khúc và danh mục. Đây là nền tảng cho mọi yêu cầu tìm nguồn.",
+    "dir.lead": "Bản đồ sống về các nhà mốt của thành phố — 320 cửa hàng, atelier, nhãn thiết kế và chợ phiên đã xác minh, lọc theo quận, phân khúc và danh mục. Đây là nền tảng cho mọi yêu cầu tìm nguồn.",
     "dir.s1": "thương hiệu",
     "dir.s2": "tại Sài Gòn",
     "dir.s3": "quận",
     "dir.cta": "Khám phá 320 thương hiệu",
     "dir.cta2": "Đọc cẩm nang mua sắm →",
     "dir.legend": "nhà mốt — diện tích vòng tròn tỉ lệ với số lượng",
-    "dir.cap": "Chín quận có 207 nhà mốt ghé được tận nơi; 43 nhà mốt khác bán trực tuyến hoặc đa chi nhánh — tổng 250 tại Sài Gòn.",
+    "dir.cap": "Diện tích vòng tròn tỉ lệ số lượng nhà mốt. 9 quận có 207 nhà; 43 nhà còn lại trực tuyến hoặc đa chi nhánh — tổng 250 tại Sài Gòn.",
     "a11y.title": "Cài đặt",
     "a11y.language": "Ngôn ngữ",
     "a11y.textsize": "Cỡ chữ",
@@ -857,7 +861,138 @@ window.SS_TRANSLATIONS = {
     "foot.connect": "Kết nối",
     "foot.linkhub": "Trung tâm liên kết",
     "foot.chat": "WhatsApp &amp; Zalo theo yêu cầu",
-    "foot.tagline": "Phong cách Sài Gòn, giao đến mọi nơi."
+    "foot.tagline": "Phong cách Sài Gòn, giao đến mọi nơi.",
+    "hero.ctaGo": "Bắt đầu yêu cầu",
+    "look.h2b": "Những dự án gần đây",
+    "look.intro2": "Những món đồ Việt được tìm mua cho khách hàng trên khắp thế giới — cùng các trang phục được phối riêng theo yêu cầu, từ $49.",
+    "hero.ctaSource": "Tìm mua một món đồ",
+    "hero.ctaStyle2": "Đặt dịch vụ phối đồ · từ $49",
+    "hero.lead2b": "Mỗi món đồ đều được <mark class=\"hl\">kiểm tra trực tiếp</mark> trước khi gửi đi.",
+    "hero.assure3": "<a href=\"#directory\" style=\"color:inherit\">320 thương hiệu đã được kiểm tra trực tiếp</a> · phản hồi trong một ngày làm việc",
+    "svc2.h2": "Hai cách làm việc cùng mình",
+    "svc2.laneA": "Tìm mua — bạn đã chọn món đồ",
+    "svc.1a": "Món đồ cụ thể bạn chọn, được tìm mua tại Sài Gòn và kiểm tra trực tiếp.",
+    "svc.1b2": "Gửi đường dẫn, kích cỡ và nơi nhận — mình chụp ảnh để bạn duyệt trước khi mua, trong 1–3 ngày.",
+    "svc.1p": "Giá cửa hàng + phí tìm mua + phí vận chuyển",
+    "svc.7a": "Mỹ phẩm và sản phẩm chăm sóc da sản xuất tại Việt Nam, ít được bán ở nước ngoài.",
+    "svc.7b2": "Kiểm tra niêm phong và thông tin lô sản xuất; lưu ý quy định hải quan trước khi mua.",
+    "svc.7p": "Giá sản phẩm + phí tìm mua + phí vận chuyển",
+    "svc2.findh": "Tìm nguồn món đồ bạn đã thấy",
+    "svc2.finda": "Dành cho món đồ bạn đã thấy nhưng chưa biết nguồn.",
+    "svc2.findb2": "Gửi ảnh; mình điều tra thương hiệu, tìm nguồn món đồ và báo giá trước khi đặt mua.",
+    "svc2.findp": "The Trace — $25, được khấu trừ toàn bộ vào đơn hàng",
+    "svc2.findcta": "Bắt đầu với The Trace",
+    "svc2.laneB": "Phối đồ — mình lựa chọn cho bạn",
+    "svc2.t1h": "The Discovery — $49",
+    "svc2.t1a": "Một lần định hướng phong cách đầu tiên, hoặc một món quà chu đáo.",
+    "svc2.t1b2": "Lựa chọn 1–2 món đồ cho bạn.",
+    "svc2.t1p": "$15 phí phối đồ + $34 ngân sách mua đồ",
+    "svc2.t1cta": "Đặt The Discovery",
+    "svc2.t2h": "The Edit — $149",
+    "svc2.t2a": "Định hướng phong cách rõ hơn, với nhiều lựa chọn để cân nhắc.",
+    "svc2.t2b2": "Thường gồm 3–5 món, được chụp ảnh kèm giá thực tế để bạn duyệt.",
+    "svc2.t2p": "$45 phí phối đồ + $104 ngân sách mua đồ",
+    "svc2.t2cta": "Đặt The Edit",
+    "svc2.t3h": "The Capsule — $249",
+    "svc2.t3a": "Một tủ đồ gọn, với các món được chọn để phối cùng nhau.",
+    "svc2.t3b2": "Thường gồm 8–12 món dễ phối và mặc nhiều lớp, kèm cẩm nang phối đồ.",
+    "svc2.t3p": "$75 phí phối đồ + $174 ngân sách mua đồ",
+    "svc2.t3cta": "Đặt The Capsule",
+    "svc2.t4h": "The Atelier — $349",
+    "svc2.t4a": "Trải nghiệm đầy đủ hơn — trao đổi sâu hơn, tinh chỉnh kỹ hơn.",
+    "svc2.t4b2": "Tại Sài Gòn hoặc qua cuộc gọi video trực tiếp.",
+    "svc2.t4p": "$110 phí phối đồ + $239 ngân sách mua đồ",
+    "svc2.t4cta": "Đặt The Atelier",
+    "svc2.t5h": "The Signature — $750",
+    "svc2.t5a": "Dịch vụ đặt thiết kế — Fancì Club, GIA Studios và các atelier.",
+    "svc2.t5b2": "Thử đồ may theo số đo, cẩm nang phối đồ và 60 ngày hỗ trợ.",
+    "svc2.t5p": "$290 phí phối đồ + $460 ngân sách mua quần áo",
+    "svc2.t5book": "Đặt The Signature",
+    "svc2.t5cta2": "hoặc đọc thông tin đầy đủ trước",
+    "step.1b2": "Gửi đường dẫn, ảnh chụp màn hình hoặc ảnh món đồ — mình sẽ đánh giá thẳng thắn khả năng tìm mua.",
+    "step.2h2": "Thông tin đơn hàng",
+    "step.2b2": "Kích cỡ, ngân sách và nơi nhận — đối chiếu với bảng kích cỡ của chính thương hiệu.",
+    "step.7b2": "Sau khi hàng đến, mình hỏi thăm để chắc rằng mọi thứ đều ổn.",
+    "inq2.eyebrow": "Bắt đầu",
+    "inq2.h2": "Chọn dịch vụ phù hợp",
+    "inq2.intro": "Món đồ cụ thể được mua theo giá gốc cộng phí dịch vụ rõ ràng. Phối đồ cá nhân — định hướng, tuyển chọn và xây dựng tủ đồ gọn — là dịch vụ trả phí từ $49, với phần lớn khoản đặt dịch vụ được dành để mua đồ. Chọn dịch vụ phù hợp; mình sẽ phản hồi trong một ngày làm việc.",
+    "inq2.src": "Tìm mua một món đồ",
+    "inq2.srcSub": "Bạn biết món đồ, thương hiệu hoặc cửa hàng — mình tìm mua, kiểm tra trực tiếp và gửi đi.",
+    "inq2.sty": "Đặt dịch vụ phối đồ",
+    "inq2.stySub": "Định hướng trang phục, tuyển chọn và xây dựng tủ đồ gọn — từ $49, có ngân sách dành để mua đồ.",
+    "inq2.blk": "Đơn nhóm và số lượng lớn",
+    "inq2.blkSub": "Dành cho văn phòng, sự kiện và bạn bè đặt hàng cùng nhau.",
+    "inq2.moodnote": "Bạn gửi ảnh cảm hứng hoặc bảng ý tưởng? Đây là dịch vụ phối đồ — bắt đầu với Discovery, $49.",
+    "inq2.giftlink": "Tặng một trải nghiệm phối đồ",
+    "gr.badge": "Sử dụng mã quà tặng",
+    "gr.pageh": "Sử dụng món quà của bạn",
+    "gr.pagesub": "Bạn được tặng một món quà Seraphic Styler. Tại đây, bạn có thể xem rõ chi phí khi sử dụng quà tặng cho những món đồ mình đang cân nhắc. Khi sẵn sàng, hãy gửi mã quà tặng và lựa chọn của bạn — đường dẫn, ảnh hoặc hồ sơ phong cách — mình sẽ hỗ trợ các bước tiếp theo.",
+    "ui.on": "Bật",
+    "ui.off": "Tắt",
+    "ui.menu": "Danh mục",
+    "dir.houses": "Các nhà mốt",
+    "dir.sig": "✦ Xem 24 nhà Signature →",
+    "est.items.hint": "Chưa có món đồ nào — bạn vẫn có thể thêm một gói phối đồ ở bước 3.",
+    "est.stops": "Mình cần ghé bao nhiêu cửa hàng?",
+    "est.stops.help": "Hai điểm đầu đã bao gồm trong phí. Mỗi cửa hàng thêm tính 150,000₫ — việc đi tìm qua nhiều quận cần thêm thời gian.",
+    "est.stops.o1": "1–2 cửa hàng — đã bao gồm",
+    "est.stops.o2": "3 cửa hàng (+150,000₫)",
+    "est.stops.o3": "4 cửa hàng (+300,000₫)",
+    "est.stops.o4": "5 cửa hàng (+450,000₫)",
+    "est.stops.o5": "6+ cửa hàng (+600,000₫, xác nhận trước với bạn)",
+    "est.complex.tip3": "Chỉ áp dụng cho món hiếm hoặc đợt mở bán giới hạn, thời hạn gấp, hoặc nhiều thay đổi sau khi bắt đầu tìm mua — luôn được thống nhất trước với bạn.",
+    "est.styling": "Thêm dịch vụ phối đồ? (không bắt buộc)",
+    "est.styling.help": "Mua một món bạn đã tìm được chỉ tính phí tìm mua. Nếu muốn thêm buổi tư vấn hoặc một bộ tuyển chọn, hãy thêm gói phối đồ tại đây — cùng mức giá với các gói quà tặng, mỗi gói có ngân sách mua đồ được trừ trực tiếp vào các món bên dưới. Thao tác này chỉ thêm vào ước tính; mình vẫn trao đổi qua tin nhắn để xác nhận và đặt dịch vụ cùng bạn.",
+    "est.styling.none": "Không phối đồ — chỉ tìm mua các món của mình",
+    "est.styling.discovery2": "The Discovery — định hướng phong cách đầu tiên, chọn 1–2 món (+$49, gồm 850,000₫ ngân sách mua đồ)",
+    "est.styling.edit": "The Edit — tư vấn + bộ tuyển chọn (+$149, gồm 2,600,000₫ ngân sách mua đồ)",
+    "est.styling.capsule": "The Capsule — hồ sơ phong cách + tủ đồ gọn (+$249, gồm 4,350,000₫ ngân sách mua đồ)",
+    "est.styling.atelier": "The Atelier — phối đồ đầy đủ, gặp trực tiếp hoặc qua video (+$349, gồm 5,975,000₫ ngân sách mua đồ)",
+    "est.pay": "Bạn muốn thanh toán bằng cách nào?",
+    "est.pay.help": "Chuyển khoản, Wise và Zelle không có phí xử lý thẻ. Thanh toán thẻ qua Stripe có phí xử lý — hiển thị thành một dòng riêng, không ẩn trong giá. Với mọi phương thức, khoản dự trù 3% cho việc chuyển tiền vào Việt Nam cũng được ghi riêng, theo chi phí thực tế và không cộng thêm lợi nhuận.",
+    "est.pay.bank": "Chuyển khoản / Wise / Zelle — không có phí thẻ",
+    "est.pay.card": "Thẻ qua Stripe — thêm khoảng 5.4% + $0.30 (mức quốc tế)",
+    "est.fee.tip2": "Phí tìm mua mỗi món: 8% giá món đồ (7% nếu trên 5,000,000₫), tối thiểu 350,000₫ mỗi món. Đã bao gồm vận chuyển nội địa Việt Nam.",
+    "est.base.tip2": "250,000₫ cố định cho mỗi đơn, gồm điều phối, đi lại, trao đổi và đóng gói cẩn thận. Phí vận chuyển được tính theo chi phí thực tế.",
+    "est.styleline": "Dịch vụ phối đồ",
+    "est.style.tip": "Buổi tư vấn hoặc bộ tuyển chọn tùy chọn — cùng gói và giá như quà tặng (Discovery $49, Edit $149, Capsule $249, Atelier $349). Mỗi gói có ngân sách mua đồ ($34 / $104 / $174 / $239), hiển thị riêng bên dưới. Món đồ vẫn tính theo giá gốc; vận chuyển tính riêng.",
+    "est.creditline": "Ngân sách mua đồ đã áp dụng",
+    "est.credit.tip": "Mỗi gói phối đồ có một khoản ngân sách mua đồ cố định — cùng khoản có trong gói quà tặng ($34 / $104 / $174 / $239). Khoản này được trừ tại đây, tối đa bằng tổng giá trị các món đồ.",
+    "est.leftoverline": "Ngân sách quà tặng còn lại",
+    "est.leftover.tip": "Phần ngân sách chưa dùng không mất đi — được giữ lại trong quà tặng cho đơn sau. Nhắc mình khi gửi yêu cầu tiếp theo để áp dụng trước khi mua.",
+    "est.stopsline": "Điểm ghé thêm",
+    "est.stops.tip": "Hai cửa hàng đầu đã bao gồm trong phí dịch vụ. Mỗi cửa hàng thêm trong danh sách tính 150,000₫ cho thời gian và đi lại — luôn thống nhất trước khi mình lên đường.",
+    "est.fxline": "Chuyển tiền (3%)",
+    "est.fx.tip": "Chuyển khoản thanh toán vào Việt Nam có chi phí thực tế — phí chuyển tiền của Wise. Khoản dự trù nhỏ này bù chi phí, không cộng thêm lợi nhuận; chênh lệch được đối chiếu trong báo giá bằng văn bản. Áp dụng cho mọi phương thức thanh toán.",
+    "est.cardline": "Xử lý thẻ (Stripe)",
+    "est.card.tip": "Tính theo chi phí thực tế, không cộng thêm lợi nhuận. Stripe thu 2.9% + $0.30, thêm 1.5% cho thẻ quốc tế và 1% khi chuyển đổi tiền tệ. Ước tính chưa xác định được loại thẻ nên dùng mức quốc tế đầy đủ — đây là mức trần. Nếu thẻ của bạn là thẻ nội địa, số tiền trên đường dẫn thanh toán sẽ thấp hơn. Chuyển khoản, Wise và Zelle không có phí xử lý thẻ; dòng chuyển tiền 3% áp dụng cho việc chuyển tiền vào Việt Nam với mọi phương thức.",
+    "est.split.card": "Xử lý thẻ",
+    "est.split.deptotal": "Tổng tiền đặt cọc khi trả bằng thẻ",
+    "est.split.baltotal": "Tổng số dư khi trả bằng thẻ",
+    "est.empty": "Chưa có gì để ước tính — hãy thêm giá món đồ hoặc chọn một gói phối đồ.",
+    "est.acc.sum": "Ước tính này chính xác đến đâu?",
+    "est.acc.p1": "<strong>Khoảng 95% là phần xác định được.</strong> Giá món đồ bạn nhập, phí dịch vụ và phí cơ bản cố định được tính theo công thức — phép tính trên dữ liệu bạn nhập là chính xác, và vận chuyển nội địa Việt Nam đã được bao gồm.",
+    "est.acc.complex": "<strong>Một khoản có thể phát sinh:</strong> 200,000₫ cố định cho yêu cầu tìm mua món hiếm hoặc qua nhiều cửa hàng — đợt mở bán khó tìm, nhiều điểm ghé hoặc thời hạn gấp. Luôn thống nhất trước với bạn, không bất ngờ thêm vào báo giá cuối.",
+    "est.acc.p2": "<strong>Khoảng 5% còn lại được xác nhận trước khi bạn trả tiền:</strong> giá thực tế tại cửa hàng hôm mua, phí gửi quốc tế chính xác (cân nặng và đơn vị vận chuyển), tỷ giá hiện tại, tình trạng hàng và thuế hoặc phí hải quan tại nước nhận.",
+    "est.acc.p3": "Không thu tiền trước khi bạn duyệt báo giá cuối.",
+    "est.share.h": "Đường dẫn xem trước cho khách hàng",
+    "est.share.s": "Mở đúng ước tính hiện tại — cùng dữ liệu nhập và tỷ giá — ngay trên trang này. Đường dẫn có hiệu lực 24 giờ rồi hết hạn.",
+    "est.share.copy": "Sao chép",
+    "est.preview.btn": "Tạo đường dẫn xem trước có hiệu lực 24 giờ",
+    "est.faq.eyebrow": "Trước khi gửi",
+    "est.faq.h2": "Giải đáp những điều bạn cần biết",
+    "est.faq.q1": "Đây có phải báo giá không? Mình có đang cam kết đặt hàng không?",
+    "est.faq.a1": "Không. Ước tính là phép tính, chưa phải đơn hàng — không tìm mua, giữ hàng hay thu tiền cho đến khi bạn duyệt báo giá cuối do mình xác nhận trực tiếp.",
+    "est.faq.q2": "Điều gì xảy ra sau khi mình bấm gửi?",
+    "est.faq.a2": "Mình nhận bản tóm tắt qua biểu mẫu; một bản sao cũng được lưu vào bộ nhớ tạm của bạn để dự phòng. Trong vòng một ngày, mình phản hồi giá thực tế, tình trạng hàng và phí gửi chính xác tới địa chỉ của bạn — đó là báo giá cuối.",
+    "est.faq.q3": "Khi nào mình thực sự thanh toán?",
+    "est.faq.a3": "Sau khi bạn duyệt báo giá cuối, thanh toán chia làm hai phần: đặt cọc gồm tiền đồ và phí để mình mua hàng, rồi thanh toán phí vận chuyển sau khi kiện hàng được đóng gói và cân. Như vậy, phí gửi là giá thực tế của đơn vị vận chuyển. Trang này không yêu cầu bạn thanh toán.",
+    "est.faq.q4": "Thanh toán có an toàn không?",
+    "est.faq.a4": "Chuyển khoản, Wise, PayPal hoặc Payoneer — chọn PayPal Goods &amp; Services nếu muốn có cơ chế bảo vệ người mua. Bạn nhận ảnh xác nhận của từng món trước khi gửi và mã theo dõi ngay khi hàng được gửi đi.",
+    "est.faq.q5": "Vì sao phí vận chuyển chiếm phần lớn tổng tiền?",
+    "est.faq.a5": "Đơn vị vận chuyển tính theo cân nặng và thể tích; cước quốc tế thực tế vốn cao — một kiện 0.5–1&nbsp;kg gần đây có phí 1,950,000₫. Phí gửi được tính đúng chi phí, không cộng thêm lợi nhuận, và mình đóng gói lại cẩn thận để giảm thể tích tính cước.",
+    "est.faq.q6": "Nếu đồ không vừa hoặc nhận nhầm hàng thì sao?",
+    "est.faq.a6": "Kích cỡ được đối chiếu với số đo thực tế của món đồ trước khi mua — đây là một phần dịch vụ. Nếu nhận sai món hoặc hàng hư hỏng, hãy báo mình trong 48 giờ kèm video mở kiện để mình xử lý."
   },
   "zh": {
     "ask.eyebrow": "常见疑问",
@@ -1202,7 +1337,13 @@ window.SS_TRANSLATIONS = {
     "foot.connect": "联系方式",
     "foot.linkhub": "链接中心",
     "foot.chat": "WhatsApp与Zalo可应询提供",
-    "foot.tagline": "西贡风格，送达世界任何角落。"
+    "foot.tagline": "西贡风格，送达世界任何角落。",
+    "hero.ctaGo": "提交需求",
+    "look.h2b": "近期作品",
+    "look.intro2": "为世界各地的客户寻购越南单品，并按需求搭配造型，$49 起。",
+    "ui.on": "开启",
+    "ui.off": "关闭",
+    "ui.menu": "菜单"
   },
   "es": {
     "ask.eyebrow": "Preguntas frecuentes",
@@ -1547,7 +1688,13 @@ window.SS_TRANSLATIONS = {
     "foot.connect": "Conecta",
     "foot.linkhub": "Hub de enlaces",
     "foot.chat": "WhatsApp y Zalo a petición",
-    "foot.tagline": "El estilo de Saigon, a cualquier rincón del mundo."
+    "foot.tagline": "El estilo de Saigon, a cualquier rincón del mundo.",
+    "hero.ctaGo": "Envía tu solicitud",
+    "look.h2b": "Trabajos recientes",
+    "look.intro2": "Prendas vietnamitas conseguidas para clientes de todo el mundo y conjuntos creados por encargo, desde $49.",
+    "ui.on": "Activado",
+    "ui.off": "Desactivado",
+    "ui.menu": "Menú"
   },
   "ar": {
     "ask.eyebrow": "أسئلة شائعة",
@@ -1892,7 +2039,13 @@ window.SS_TRANSLATIONS = {
     "foot.connect": "تواصلي",
     "foot.linkhub": "مركز الروابط",
     "foot.chat": "WhatsApp وZalo عند الطلب",
-    "foot.tagline": "أناقة سايغون، تصلك أينما كنت."
+    "foot.tagline": "أناقة سايغون، تصلك أينما كنت.",
+    "hero.ctaGo": "ابدأ طلبك",
+    "look.h2b": "أعمال حديثة",
+    "look.intro2": "قطع فيتنامية نوفّرها لعملاء حول العالم، وإطلالات ننسّقها حسب الطلب، بدءًا من $49.",
+    "ui.on": "مفعّل",
+    "ui.off": "غير مفعّل",
+    "ui.menu": "القائمة"
   },
   "fr": {
     "ask.eyebrow": "Questions fréquentes",
@@ -2237,7 +2390,13 @@ window.SS_TRANSLATIONS = {
     "foot.connect": "Rester en contact",
     "foot.linkhub": "Hub de liens",
     "foot.chat": "WhatsApp &amp; Zalo sur demande",
-    "foot.tagline": "Le style de Saigon, livré partout."
+    "foot.tagline": "Le style de Saigon, livré partout.",
+    "hero.ctaGo": "Envoyer une demande",
+    "look.h2b": "Réalisations récentes",
+    "look.intro2": "Des pièces vietnamiennes dénichées pour des clients du monde entier et des tenues composées sur demande, à partir de $49.",
+    "ui.on": "Activé",
+    "ui.off": "Désactivé",
+    "ui.menu": "Menu"
   },
   "pt": {
     "ask.eyebrow": "Perguntas frequentes",
@@ -2582,7 +2741,13 @@ window.SS_TRANSLATIONS = {
     "foot.connect": "Contactar",
     "foot.linkhub": "Hub de links",
     "foot.chat": "WhatsApp &amp; Zalo sob pedido",
-    "foot.tagline": "O estilo de Saigon, entregue em qualquer lugar."
+    "foot.tagline": "O estilo de Saigon, entregue em qualquer lugar.",
+    "hero.ctaGo": "Envie seu pedido",
+    "look.h2b": "Trabalhos recentes",
+    "look.intro2": "Peças vietnamitas encontradas para clientes no mundo todo e looks montados sob encomenda, a partir de $49.",
+    "ui.on": "Ativado",
+    "ui.off": "Desativado",
+    "ui.menu": "Menu"
   },
   "ru": {
     "ask.eyebrow": "Частые вопросы",
@@ -2927,7 +3092,13 @@ window.SS_TRANSLATIONS = {
     "foot.connect": "Связь",
     "foot.linkhub": "Хаб ссылок",
     "foot.chat": "WhatsApp и Zalo по запросу",
-    "foot.tagline": "Стиль Сайгона — доставка по всему миру."
+    "foot.tagline": "Стиль Сайгона — доставка по всему миру.",
+    "hero.ctaGo": "Отправить запрос",
+    "look.h2b": "Недавние работы",
+    "look.intro2": "Вьетнамские вещи, найденные для клиентов по всему миру, и образы по индивидуальному запросу — от $49.",
+    "ui.on": "Вкл.",
+    "ui.off": "Выкл.",
+    "ui.menu": "Меню"
   },
   "ja": {
     "nav.directory": "ディレクトリ",
@@ -3328,7 +3499,13 @@ window.SS_TRANSLATIONS = {
     "foot.connect": "つながる",
     "foot.linkhub": "リンク集",
     "foot.chat": "WhatsApp ＆ Zalo はご依頼に応じて",
-    "foot.tagline": "サイゴンのスタイルを、世界中のあなたへ。"
+    "foot.tagline": "サイゴンのスタイルを、世界中のあなたへ。",
+    "hero.ctaGo": "リクエストを送る",
+    "look.h2b": "最近の実例",
+    "look.intro2": "世界各地のお客様のために買い付けたベトナムのアイテムと、ご要望に合わせたスタイリング。$49から。",
+    "ui.on": "オン",
+    "ui.off": "オフ",
+    "ui.menu": "メニュー"
   },
   "de": {
     "ask.eyebrow": "Häufige Fragen",
@@ -3673,7 +3850,13 @@ window.SS_TRANSLATIONS = {
     "foot.connect": "Verbinden",
     "foot.linkhub": "Link-Hub",
     "foot.chat": "WhatsApp &amp; Zalo auf Anfrage",
-    "foot.tagline": "Saigon-Stil, weltweit geliefert."
+    "foot.tagline": "Saigon-Stil, weltweit geliefert.",
+    "hero.ctaGo": "Anfrage senden",
+    "look.h2b": "Aktuelle Arbeiten",
+    "look.intro2": "Vietnamesische Mode, beschafft für Kundinnen und Kunden weltweit, und individuell zusammengestellte Outfits — ab $49.",
+    "ui.on": "Ein",
+    "ui.off": "Aus",
+    "ui.menu": "Menü"
   },
   "ko": {
     "ask.eyebrow": "자주 묻는 질문",
@@ -4018,7 +4201,13 @@ window.SS_TRANSLATIONS = {
     "foot.connect": "연결하기",
     "foot.linkhub": "링크 허브",
     "foot.chat": "WhatsApp &amp; Zalo는 요청 시",
-    "foot.tagline": "사이공의 스타일을, 어디로든."
+    "foot.tagline": "사이공의 스타일을, 어디로든.",
+    "hero.ctaGo": "요청 보내기",
+    "look.h2b": "최근 작업",
+    "look.intro2": "전 세계 고객을 위해 구매를 도운 베트남 패션 아이템과 요청에 맞춰 구성한 스타일링. $49부터 시작합니다.",
+    "ui.on": "켜짐",
+    "ui.off": "꺼짐",
+    "ui.menu": "메뉴"
   },
   "hi": {
     "ask.eyebrow": "आम सवाल",
@@ -4363,7 +4552,13 @@ window.SS_TRANSLATIONS = {
     "foot.connect": "जुड़ें",
     "foot.linkhub": "लिंक हब",
     "foot.chat": "माँगने पर WhatsApp &amp; Zalo",
-    "foot.tagline": "सायगॉन की शैली, हर जगह पहुँचाई जाती है।"
+    "foot.tagline": "सायगॉन की शैली, हर जगह पहुँचाई जाती है।",
+    "hero.ctaGo": "अपना अनुरोध भेजें",
+    "look.h2b": "हाल के काम",
+    "look.intro2": "दुनिया भर के ग्राहकों के लिए वियतनामी परिधान जुटाना और अनुरोध के अनुसार लुक तैयार करना — $49 से।",
+    "ui.on": "चालू",
+    "ui.off": "बंद",
+    "ui.menu": "मेन्यू"
   },
   "id": {
     "ask.eyebrow": "Pertanyaan umum",
@@ -4708,7 +4903,13 @@ window.SS_TRANSLATIONS = {
     "foot.connect": "Terhubung",
     "foot.linkhub": "Pusat tautan",
     "foot.chat": "WhatsApp &amp; Zalo saat diminta",
-    "foot.tagline": "Gaya Saigon, diantar ke mana pun."
+    "foot.tagline": "Gaya Saigon, diantar ke mana pun.",
+    "hero.ctaGo": "Kirim permintaan",
+    "look.h2b": "Karya terbaru",
+    "look.intro2": "Busana Vietnam yang dicarikan untuk klien di seluruh dunia, serta padu padan sesuai permintaan, mulai $49.",
+    "ui.on": "Aktif",
+    "ui.off": "Nonaktif",
+    "ui.menu": "Menu"
   },
   "th": {
     "ask.eyebrow": "คำถามที่พบบ่อย",
@@ -5053,7 +5254,13 @@ window.SS_TRANSLATIONS = {
     "foot.connect": "ติดต่อเรา",
     "foot.linkhub": "รวมลิงก์",
     "foot.chat": "WhatsApp &amp; Zalo ตามคำขอ",
-    "foot.tagline": "สไตล์ไซ่ง่อน ส่งตรงถึงคุณทุกที่ทั่วโลก"
+    "foot.tagline": "สไตล์ไซ่ง่อน ส่งตรงถึงคุณทุกที่ทั่วโลก",
+    "hero.ctaGo": "ส่งคำขอของคุณ",
+    "look.h2b": "ผลงานล่าสุด",
+    "look.intro2": "จัดหาสินค้าแฟชั่นเวียดนามให้ลูกค้าทั่วโลก พร้อมจัดลุคตามความต้องการ เริ่มต้น $49",
+    "ui.on": "เปิด",
+    "ui.off": "ปิด",
+    "ui.menu": "เมนู"
   },
   "it": {
     "ask.eyebrow": "Domande frequenti",
@@ -5398,7 +5605,13 @@ window.SS_TRANSLATIONS = {
     "foot.connect": "Contatti",
     "foot.linkhub": "Hub dei link",
     "foot.chat": "WhatsApp e Zalo su richiesta",
-    "foot.tagline": "Lo stile di Saigon, ovunque tu sia."
+    "foot.tagline": "Lo stile di Saigon, ovunque tu sia.",
+    "hero.ctaGo": "Invia la tua richiesta",
+    "look.h2b": "Lavori recenti",
+    "look.intro2": "Capi vietnamiti reperiti per clienti di tutto il mondo e look composti su richiesta, a partire da $49.",
+    "ui.on": "Attivo",
+    "ui.off": "Disattivo",
+    "ui.menu": "Menu"
   },
   "tr": {
     "ask.eyebrow": "Sık sorulan sorular",
@@ -5743,7 +5956,13 @@ window.SS_TRANSLATIONS = {
     "foot.connect": "Bağlan",
     "foot.linkhub": "Bağlantı merkezi",
     "foot.chat": "Talep üzerine WhatsApp &amp; Zalo",
-    "foot.tagline": "Saygon zarafeti, dünyanın her yerine."
+    "foot.tagline": "Saygon zarafeti, dünyanın her yerine.",
+    "hero.ctaGo": "Talebinizi gönderin",
+    "look.h2b": "Son çalışmalar",
+    "look.intro2": "Dünyanın dört bir yanındaki müşteriler için tedarik edilen Vietnam tasarımları ve kişiye özel kombinler — $49’dan başlayan fiyatlarla.",
+    "ui.on": "Açık",
+    "ui.off": "Kapalı",
+    "ui.menu": "Menü"
   },
   "tl": {
     "ask.eyebrow": "Mga karaniwang tanong",
@@ -6088,7 +6307,13 @@ window.SS_TRANSLATIONS = {
     "foot.connect": "Kumonekta",
     "foot.linkhub": "Link hub",
     "foot.chat": "WhatsApp at Zalo kapag hiniling",
-    "foot.tagline": "Estilong Saigon, ipinadadala kahit saan."
+    "foot.tagline": "Estilong Saigon, ipinadadala kahit saan.",
+    "hero.ctaGo": "Ipadala ang iyong kahilingan",
+    "look.h2b": "Mga kamakailang gawa",
+    "look.intro2": "Mga kasuotang Vietnamese na hinanap at binili para sa mga kliyente sa buong mundo, at mga estilong binuo ayon sa kahilingan, mula $49.",
+    "ui.on": "Naka-on",
+    "ui.off": "Naka-off",
+    "ui.menu": "Menu"
   },
   "pl": {
     "ask.eyebrow": "Częste pytania",
@@ -6433,7 +6658,13 @@ window.SS_TRANSLATIONS = {
     "foot.connect": "Kontakt",
     "foot.linkhub": "Centrum linków",
     "foot.chat": "WhatsApp i Zalo na życzenie",
-    "foot.tagline": "Styl Sajgonu, dostarczony wszędzie."
+    "foot.tagline": "Styl Sajgonu, dostarczony wszędzie.",
+    "hero.ctaGo": "Wyślij zapytanie",
+    "look.h2b": "Ostatnie realizacje",
+    "look.intro2": "Wietnamskie ubrania sprowadzane dla klientów na całym świecie i stylizacje tworzone na zamówienie — od $49.",
+    "ui.on": "Wł.",
+    "ui.off": "Wył.",
+    "ui.menu": "Menu"
   },
   "nl": {
     "ask.eyebrow": "Veelgestelde vragen",
@@ -6778,7 +7009,13 @@ window.SS_TRANSLATIONS = {
     "foot.connect": "Verbind",
     "foot.linkhub": "Link hub",
     "foot.chat": "WhatsApp &amp; Zalo op aanvraag",
-    "foot.tagline": "Saigon-stijl, overal bezorgd."
+    "foot.tagline": "Saigon-stijl, overal bezorgd.",
+    "hero.ctaGo": "Stuur je aanvraag",
+    "look.h2b": "Recent werk",
+    "look.intro2": "Vietnamese kleding gevonden voor klanten wereldwijd en outfits samengesteld op verzoek, vanaf $49.",
+    "ui.on": "Aan",
+    "ui.off": "Uit",
+    "ui.menu": "Menu"
   },
   "fa": {
     "ask.eyebrow": "پرسش‌های پرتکرار",
@@ -7123,14 +7360,12 @@ window.SS_TRANSLATIONS = {
     "foot.connect": "ارتباط",
     "foot.linkhub": "مرکز لینک‌ها",
     "foot.chat": "WhatsApp و Zalo با درخواست",
-    "foot.tagline": "استایل سایگون، به هر جای دنیا."
+    "foot.tagline": "استایل سایگون، به هر جای دنیا.",
+    "hero.ctaGo": "درخواست خود را بفرستید",
+    "look.h2b": "کارهای اخیر",
+    "look.intro2": "تهیهٔ پوشاک ویتنامی برای مشتریان سراسر جهان و هماهنگ‌کردن استایل بر اساس سفارش، از $49.",
+    "ui.on": "روشن",
+    "ui.off": "خاموش",
+    "ui.menu": "منو"
   }
 };
-
-/* Shared strings added after the original translation pass. Keeping these in the
-   shared bundle makes the home page, lookbook, and standalone estimate agree. */
-window.SS_TRANSLATIONS.vi = Object.assign(window.SS_TRANSLATIONS.vi || {}, {
-  "hero.ctaGo": "Bắt đầu yêu cầu",
-  "look.h2b": "Những dự án gần đây",
-  "look.intro2": "Những món đồ Việt được tìm mua cho khách hàng trên khắp thế giới — cùng các trang phục được phối riêng theo yêu cầu, từ $49."
-});

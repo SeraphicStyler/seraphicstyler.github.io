@@ -1,0 +1,30 @@
+/* One brief, composited crossfade. No circular wipe, blur, or content movement. */
+html.ss-theme-snapshot *,html.ss-theme-snapshot *::before,html.ss-theme-snapshot *::after,
+html.ss-theme-instant *,html.ss-theme-instant *::before,html.ss-theme-instant *::after {
+  transition-duration:0s!important; transition-delay:0s!important;
+}
+html.ss-theme-snapshot::view-transition-group(root) { animation-duration:240ms; }
+html.ss-theme-snapshot::view-transition-old(root) { animation:none; mix-blend-mode:normal; }
+html.ss-theme-snapshot::view-transition-new(root) { animation:ss-appearance-in 240ms ease-out both; mix-blend-mode:normal; }
+html.ss-theme-snapshot::view-transition { pointer-events:none; }
+@keyframes ss-appearance-in { from { opacity:0; } to { opacity:1; } }
+html.ss-theme-fallback :is(body,header,nav,main,section,article,footer,button,input,select,textarea,.ss-concierge,.lp-card,.fd-result-row,.fd-chat-panel) {
+  transition-property:background-color,color,border-color;
+  transition-duration:220ms; transition-timing-function:ease-out; transition-delay:0s;
+}
+html.rm::view-transition-group(root),html.hc::view-transition-group(root),
+html.rm::view-transition-old(root),html.rm::view-transition-new(root),
+html.hc::view-transition-old(root),html.hc::view-transition-new(root) { animation:none!important; }
+@media(prefers-reduced-motion:reduce),(forced-colors:active) {
+  html::view-transition-group(root),html::view-transition-old(root),html::view-transition-new(root) { animation:none!important; }
+}
+/* Directory-family pages use the same blue monochrome palette as the atelier. */
+html[data-ss-theme-tokens][data-theme=mono] {
+  --ice:#dce8f6;--mist:#cfe0f2;--paper:#f4f8fd;--card-solid:#f4f8fd;
+  --ink:#173451;--ink-soft:#3a5d86;--ink-mute:#3a5d86;--ink-faint:#6683a3;
+  --cobalt:#2c6bb0;--cobalt-deep:#1f5290;--line:rgba(40,72,112,.42);
+  --lav:#bdd6f0;--peri:#6797c8;--orchid:#8db2d6;--mauve:#9cbcd9;
+}
+html[data-ss-theme-tokens].hc { --ice:Canvas;--mist:Canvas;--paper:Canvas;--card-solid:Canvas;--ink:CanvasText;--ink-soft:CanvasText;--ink-mute:CanvasText;--cobalt:LinkText;--line:CanvasText; }
+html[data-ss-theme-tokens].rm *,html[data-ss-theme-tokens].rm *::before,html[data-ss-theme-tokens].rm *::after { animation:none!important;transition:none!important;scroll-behavior:auto!important; }
+[data-theme-cycle] { width:auto;min-width:44px;min-height:44px;max-width:calc(100vw - 32px);padding:10px 14px;border-radius:999px;font:inherit;font-size:14px;line-height:1.4;overflow-wrap:anywhere; }

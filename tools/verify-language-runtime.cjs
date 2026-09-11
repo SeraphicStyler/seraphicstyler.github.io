@@ -1,0 +1,47 @@
+const assert=require('node:assert/strict');
+const puppeteer=require(process.env.SS_PUPPETEER||'puppeteer');
+(async()=>{const browser=await puppeteer.launch({headless:true});try{
+ const p=await browser.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
+ await p.setViewport({width:390,height:844});
+ await p.goto('http://127.0.0.1:8731/index.html',{waitUntil:'networkidle2'});
+ await p.evaluate(()=>SS_setLang('en'));
+ const original=await p.$eval('[data-i18n="hero.ctaSource"]',e=>e.innerHTML);
+ await p.evaluate(()=>SS_setLang('vi'));
+ assert.equal(await p.$eval('[data-i18n="hero.ctaSource"]',e=>e.textContent),'Tìm mua một món đồ');
+ assert.equal(await p.$eval('#contrastBtn',e=>e.getAttribute('aria-label')),'Tương phản cao');
+ await p.evaluate(()=>SS_setLang('en'));
+ assert.equal(await p.$eval('[data-i18n="hero.ctaSource"]',e=>e.innerHTML),original);
+ // Same key with different original fallbacks must not overwrite another node's content.
+ await p.evaluate(()=>{for(const text of ['First original','Second original']){const e=document.createElement('p');e.dataset.i18n='test.missing';e.textContent=text;document.body.append(e);}SS_setLang('vi');});
+ assert.deepEqual(await p.$$eval('[data-i18n="test.missing"]',es=>es.map(e=>[e.textContent,e.lang])),[['First original','en'],['Second original','en']]);
+ await p.evaluate(()=>SS_setLang('en'));
+ assert.deepEqual(await p.$$eval('[data-i18n="test.missing"]',es=>es.map(e=>e.textContent)),['First original','Second original']);
+ // Unsupported languages retain the visitor's preference across pages.
+ await p.evaluate(()=>{localStorage.setItem('ss-lang','zgh');SS_setLang('zgh');});
+ assert.equal(await p.evaluate(()=>localStorage.getItem('ss-lang')),'zgh');
+ assert.equal(await p.evaluate(()=>document.documentElement.lang),'en');
+ await p.goto('http://127.0.0.1:8731/fashion-directory',{waitUntil:'networkidle2'});
+ await p.waitForFunction(()=>document.documentElement.lang==='zgh');
+ await p.setRequestInterception(true);
+ p.on('request',r=>{if(r.url().endsWith('/fd.fr.js'))setTimeout(()=>r.continue(),300);else r.continue();});
+ await p.evaluate(()=>{SS_setLang('fr');SS_setLang('de');});
+ await p.waitForFunction(()=>document.documentElement.lang==='de');await new Promise(r=>setTimeout(r,500));
+ assert.equal(await p.evaluate(()=>document.documentElement.lang),'de','latest language wins');
+ await p.evaluate(()=>SS_setLang('vi'));await p.waitForFunction(()=>document.documentElement.lang==='vi');
+ await p.click('.fd-appearance>summary');
+ assert.equal(await p.$eval('[data-theme-choice=dark]',e=>e.textContent),'Tối');
+ await p.click('[data-theme-choice=dark]');await p.waitForFunction(()=>SS_THEME.effective()==='dark');
+ assert.equal(await p.$eval('.fd-appearance>summary',e=>e.textContent),'Tối');
+ await p.keyboard.press('Escape');
+ await p.screenshot({path:'/private/tmp/ss-directory-vietnamese.png'});
+ await p.evaluate(()=>SS_setLang('ar'));await p.waitForFunction(()=>document.documentElement.lang==='ar');
+ assert.equal(await p.evaluate(()=>document.documentElement.dir),'rtl');
+ await p.waitForFunction(()=>!document.documentElement.classList.contains('ss-theme-snapshot'));
+ assert(await p.$$eval('.fd-topbar,.fd-search-top,.fd-workspace-tools',es=>es.every(e=>{const r=e.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth;})),'RTL control bounds');
+ assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'RTL overflow');
+ await p.screenshot({path:'/private/tmp/ss-directory-arabic.png'});
+ await p.evaluate(()=>SS_setLang('en'));
+ assert.equal(await p.evaluate(()=>document.documentElement.dir),'ltr');
+ assert.deepEqual(errors,[]);
+ console.log('PASS translation runtime: Vietnamese copy, accessibility labels, English restoration, per-node fallback, preference preservation, async race, appearance controls, RTL.');
+}finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

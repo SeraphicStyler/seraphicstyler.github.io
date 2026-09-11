@@ -97,23 +97,12 @@
     setText(root.classList.contains('ts-xl') ? 'xl' : root.classList.contains('ts-lg') ? 'lg' : 'md');
 
     /* ---- Theme (Auto follows the OS day/night setting; Light/Dark/Mono are manual) ---- */
-    var mqDark = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
-    function applyTheme(mode) {
-      var effective = mode;
-      if (mode === 'auto') effective = (mqDark && mqDark.matches) ? 'dark' : 'light';
-      root.classList.remove('dark', 'mono');
-      if (effective === 'dark') root.classList.add('dark');
-      else if (effective === 'mono') root.classList.add('mono');
-      /* light => no class */
-    }
     /* Theme FAB: one tap moves you along light -> dark -> mono. Auto is not in the
        cycle (it isn't a look, it's a rule) but stays available in the panel — and
        an Auto visitor entering the cycle starts from whatever Auto resolved to. */
     var THEMES = ['light', 'dark', 'mono'];
     var themeFab = document.getElementById('themeFab');
-    function effectiveTheme(mode) {
-      return mode === 'auto' ? ((mqDark && mqDark.matches) ? 'dark' : 'light') : mode;
-    }
+    function effectiveTheme(mode) { return window.SS_THEME.effective(mode); }
     /* Name a theme in the visitor's language by borrowing the panel button's own
        label, which i18n already translates — no second set of strings to maintain. */
     function themeName(mode) {
@@ -130,72 +119,42 @@
       themeFab.setAttribute('aria-label', label);
     }
     function setTheme(mode) {
-      applyTheme(mode);
-      save('ss-theme', mode);
-      document.querySelectorAll('[data-theme]').forEach(function (b) {
+      document.querySelectorAll('button[data-theme]').forEach(function (b) {
         var on = b.getAttribute('data-theme') === mode; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
       });
       syncThemeFab(mode);
     }
-    var themeTransitionTimer = 0;
-    var activeThemeTransition = null;
-    function setThemeWithTransition(mode, trigger) {
-      var reduced = root.classList.contains('rm') || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-      if (activeThemeTransition) { activeThemeTransition.skipTransition(); activeThemeTransition=null; }
-      if (reduced || root.classList.contains('hc') || !document.querySelector('.ss-concierge')) {
-        clearTimeout(themeTransitionTimer); root.classList.remove('ss-theme-switching'); setTheme(mode); return;
-      }
-      if (trigger && trigger.getBoundingClientRect) {
-        var rect = trigger.getBoundingClientRect();
-        root.style.setProperty('--ss-theme-x', (rect.left + rect.width / 2) + 'px');
-        root.style.setProperty('--ss-theme-y', (rect.top + rect.height / 2) + 'px');
-      }
-      root.classList.add('ss-theme-switching');
-      clearTimeout(themeTransitionTimer);
-      var finish = function () { root.classList.remove('ss-theme-switching'); };
-      if (document.startViewTransition) {
-        var transition = document.startViewTransition(function () { setTheme(mode); });
-        activeThemeTransition=transition;
-        transition.finished.then(function () { if(activeThemeTransition===transition) { activeThemeTransition=null; finish(); } },finish);
-      } else {
-        setTheme(mode);
-        themeTransitionTimer = setTimeout(finish, 620);
-      }
-    }
-    document.querySelectorAll('[data-theme]').forEach(function (b) {
+    function setThemeWithTransition(mode) { window.SS_THEME.set(mode); }
+    document.addEventListener('ss:themechange', function (e) { setTheme(e.detail.mode); });
+    document.querySelectorAll('button[data-theme]').forEach(function (b) {
       b.addEventListener('click', function () { setThemeWithTransition(b.getAttribute('data-theme'), b); });
     });
     if (themeFab) {
       themeFab.addEventListener('click', function () {
-        var cur = 'auto'; try { cur = localStorage.getItem('ss-theme') || 'auto'; } catch (e) {}
+        var cur = window.SS_THEME.mode;
         setThemeWithTransition(THEMES[(THEMES.indexOf(effectiveTheme(cur)) + 1) % THEMES.length], themeFab);
       });
     }
-    /* Live-update when the OS flips light/dark, but only while the user is on Auto. */
-    var onScheme = function () {
-      var cur = 'auto'; try { cur = localStorage.getItem('ss-theme') || 'auto'; } catch (e) {}
-      if (cur === 'auto') { applyTheme('auto'); syncThemeFab('auto'); }
-    };
-    if (mqDark) { if (mqDark.addEventListener) mqDark.addEventListener('change', onScheme); else if (mqDark.addListener) mqDark.addListener(onScheme); }
     /* The FAB's tooltip is built from translated text, so re-read it after a language swap. */
     if (typeof window.SS_setLang === 'function') {
       var _setLang = window.SS_setLang;
       window.SS_setLang = function () {
         var r = _setLang.apply(this, arguments);
-        var cur = 'auto'; try { cur = localStorage.getItem('ss-theme') || 'auto'; } catch (e) {}
+        var cur = window.SS_THEME.mode;
         syncThemeFab(cur);
         return r;
       };
     }
-    var storedTheme = 'auto'; try { storedTheme = localStorage.getItem('ss-theme') || 'auto'; } catch (e) {}
+    var storedTheme = window.SS_THEME.mode;
     setTheme(storedTheme);
 
     /* ---- Toggles: high contrast + reduced motion ---- */
     function wireToggle(btnId, cls, key) {
       var b = document.getElementById(btnId);
       if (!b) return;
-      function sync() { var on = root.classList.contains(cls); b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); b.textContent = on ? 'On' : 'Off'; }
+      function sync() { var on = root.classList.contains(cls); b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); b.textContent = window.SS_T(on ? 'ui.on' : 'ui.off', on ? 'On' : 'Off'); }
       b.addEventListener('click', function () { root.classList.toggle(cls); save(key, root.classList.contains(cls) ? '1' : '0'); sync(); });
+      document.addEventListener('ss:lang', sync);
       sync();
     }
     wireToggle('contrastBtn', 'hc', 'ss-contrast');

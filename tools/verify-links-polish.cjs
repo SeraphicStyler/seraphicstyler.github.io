@@ -12,6 +12,7 @@ function contrast(a,b) {const values=[luminance(a),luminance(b)].sort((x,y)=>y-x
   await page.emulateMediaFeatures([{name:'prefers-color-scheme',value:'light'},{name:'prefers-reduced-motion',value:'no-preference'}]);
   await page.setViewport({width:1440,height:1000});
   await page.goto(origin+'/links.html',{waitUntil:'networkidle2'});
+  await page.click('.lp-guide-disclosure>summary');
   assert(await page.$eval('#lp-guide',e=>e.classList.contains('ss-concierge-ready')),'links service guide initialized');
   assert.equal(await page.$$eval('#lp-guide [data-topic]',nodes=>nodes.filter(node=>node.getClientRects().length).length),3,'three initial guide choices');
   await page.click('#lp-guide [data-topic="photo"]');
@@ -24,10 +25,14 @@ function contrast(a,b) {const values=[luminance(a),luminance(b)].sort((x,y)=>y-x
   await pause(2200);
   assert.equal(await page.$eval('.lp-brand-mark path',e=>parseFloat(getComputedStyle(e).strokeDashoffset)),0);
   await page.screenshot({path:'/private/tmp/ss-links-polished-hero.png'});
-  assert.equal(await page.$$eval('.lp-price-ledger tbody tr',els=>els.length),7);
+  assert.equal(await page.$$eval('.lp-tier-option',els=>els.length),7);
   assert.equal(await page.$$eval('#lp-styling .lp-tier',els=>els.length),0,'no duplicate tier cards');
-  assert.equal(await page.$$eval('.ss-definition dl>div',els=>els.length),8,'four facts per service');
-  assert.equal(await page.$eval('.lp-stickybar',e=>getComputedStyle(e).display),'none','one persistent promise, no competing CTA');
+  assert.equal(await page.$$eval('.ss-service-choices .lp-facts-short li',els=>els.length),9,'three facts per service');
+  assert.deepEqual(await page.$$eval('.ss-service-choices a',nodes=>nodes.map(node=>node.getAttribute('href'))),['service-request.html?service=sourcing','service-request.html?service=trace','#lp-styling']);
+  assert.equal(await page.$eval('#all-styling-options',node=>node.open),false,'operational details initially collapsed');
+  await page.$eval('#service-comparison',node=>node.scrollIntoView({behavior:'instant'}));await pause(500);
+  await page.screenshot({path:'/private/tmp/ss-service-choices-desktop.png'});
+  assert.equal(await page.$eval('.lp-mobile-actions',e=>getComputedStyle(e).display),'none','mobile actions stay off desktop');
   assert.equal(await page.$eval('.ss-trust-ribbon',e=>getComputedStyle(e).position),'fixed');
   await page.$eval('.lp-sample',e=>e.open=true);
   assert(await page.$('.ss-section-nav a[href="#lp-free"]'),'free tools navigation');
@@ -45,6 +50,15 @@ function contrast(a,b) {const values=[luminance(a),luminance(b)].sort((x,y)=>y-x
   for(const width of [390,320]) {
    await page.setViewport({width,height:900});await page.goto(origin+'/links.html',{waitUntil:'networkidle2'});await pause(2000);
    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'hero overflow '+width);
+   await page.click('.lp-guide-disclosure>summary');
+   await page.$eval('#service-comparison',node=>node.scrollIntoView({behavior:'instant'}));await pause(500);
+   const choiceBounds=await page.$$eval('.ss-service-choices>li',nodes=>nodes.every(node=>{const r=node.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth&&node.scrollWidth<=node.clientWidth;}));
+   assert(choiceBounds,'individual service cards fit '+width);
+   await page.screenshot({path:'/private/tmp/ss-service-choices-'+width+'.png'});
+   await page.click('#all-styling-options>summary');
+   assert(await page.$eval('#all-styling-options',node=>node.open),'service details expand');
+   await page.click('#all-styling-options>summary');
+   await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
    assert.equal(await page.$$eval('#lp-guide [data-topic]',nodes=>nodes.filter(node=>node.getClientRects().length).length),3,'mobile guide choices '+width);
    assert(await page.$$eval('#lp-guide button,#lp-guide input',nodes=>nodes.filter(node=>node.getClientRects().length).every(node=>node.getBoundingClientRect().height>=44)),'mobile guide targets '+width);
    assert(await page.$eval('body',e=>!e.classList.contains('lp-arrival-ready')),'entrance only once per session');
@@ -69,7 +83,7 @@ function contrast(a,b) {const values=[luminance(a),luminance(b)].sort((x,y)=>y-x
   await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('.ss-guide').open);
   await page.setJavaScriptEnabled(false);
   await page.goto(origin+'/links.html',{waitUntil:'networkidle2'});
-  assert.equal(await page.$$eval('.lp-price-ledger tbody tr',els=>els.length),7,'pricing available without JavaScript');
+  assert.equal(await page.$$eval('.lp-tier-option',els=>els.length),7,'pricing available without JavaScript');
   assert(await page.$eval('#custom-wardrobe',e=>e.tagName==='DETAILS'),'native project disclosure');
   assert.deepEqual(errors,[]);
   console.log('PASS links: butterfly/wordmark entrance, section captures, text contrast, 320/390 layouts, expanded details, dark/high-contrast/reduced-motion, shared menu; no JavaScript errors');

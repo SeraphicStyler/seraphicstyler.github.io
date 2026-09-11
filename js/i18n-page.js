@@ -1,36 +1,7 @@
-/* Seraphic Styler — per-page i18n engine (directory + field guide)
-   ----------------------------------------------------------------------
-   Why this exists instead of js/i18n.js + js/translations.js:
-   those two pages use NONE of the 341 homepage keys, yet were loading the
-   whole 597KB dictionary. Here each page loads exactly one bundle for the
-   language actually chosen: js/i18n/<page>.<lang>.js (~10–20KB).
-
-   Bundles are .js (not .json) on purpose — a <script> injection works over
-   file:// and is cached by the service worker like any other static asset,
-   whereas fetch() of a JSON file fails on file:// preview.
-
-   Markup hooks:
-     data-i18n="key"      → element.innerHTML
-     data-i18n-ph="key"   → placeholder
-     data-i18n-al="key"   → aria-label
-     data-i18n-ti="key"   → title
-   English lives inline in the HTML and is cached on load as the fallback,
-   so a missing key degrades to English rather than to an empty node.
-
-   Dynamic strings (built in JS, not markup) read window.SS_T(key, enDefault)
-   and interpolate {placeholders} via window.SS_TF(key, enDefault, vars).
-
-   Page declares itself with <html data-i18n-page="fd">.
-
-   HONESTY RULE: the selector lists a language only if a validated bundle for THIS
-   page actually shipped. js/i18n/manifest.js (generated) sets
-   window.SS_I18N_AVAILABLE = {fd:[…], fg:[…]}. A language complete on one page and
-   not the other is offered only where it is complete — never offered and then
-   silently rendered in English. A missing manifest means English only.
-
-   A preference the current page can't honour (chosen on a page that does have it)
-   renders English WITHOUT overwriting the stored choice, so it survives navigation.
-   ====================================================================== */
+/* Directory/field-guide language loader. The manifest covers validated source
+   bundles, not every new passage on a page. Load only the selected language;
+   preserve unsupported preferences and reject stale asynchronous selections.
+   DOM text, placeholders, accessible names, and titles use js/i18n-dom.js. */
 (function () {
   'use strict';
   var root = document.documentElement;
@@ -63,7 +34,7 @@
   var DICT = {};                 // lang -> { key: string }
   var loaded = { en: true };     // en needs no bundle
   var pending = {};              // lang -> [callbacks]
-  var cache = { html: {}, ph: {}, al: {}, ti: {} };
+  var revision = 0;
   var cur = 'en';
 
   /* Bundles call this on load. */
@@ -88,17 +59,7 @@
   window.SS_LANG = function () { return cur; };
   window.SS_LANGS_LIST = LANGS;
 
-  function cacheEnglish() {
-    var pairs = [['data-i18n', 'html'], ['data-i18n-ph', 'ph'], ['data-i18n-al', 'al'], ['data-i18n-ti', 'ti']];
-    pairs.forEach(function (p) {
-      document.querySelectorAll('[' + p[0] + ']').forEach(function (el) {
-        var k = el.getAttribute(p[0]);
-        if (cache[p[1]][k] != null) return;
-        cache[p[1]][k] = p[1] === 'html' ? el.innerHTML
-          : el.getAttribute(p[1] === 'ph' ? 'placeholder' : p[1] === 'al' ? 'aria-label' : 'title') || '';
-      });
-    });
-  }
+  function cacheEnglish() { window.SS_I18N_DOM.cache(); }
 
   function load(code, cb) {
     if (loaded[code]) return cb(true);
@@ -119,24 +80,7 @@
   function paint(code, persist) {
     cur = code;
     var t = code === 'en' ? null : (DICT[code] || null);
-    var pick = function (store, k) { var v = t && t[k]; return (v == null || v === '') ? store[k] : v; };
-
-    document.querySelectorAll('[data-i18n]').forEach(function (el) {
-      var v = pick(cache.html, el.getAttribute('data-i18n'));
-      if (v != null) el.innerHTML = v;
-    });
-    document.querySelectorAll('[data-i18n-ph]').forEach(function (el) {
-      var v = pick(cache.ph, el.getAttribute('data-i18n-ph'));
-      if (v != null) el.setAttribute('placeholder', v);
-    });
-    document.querySelectorAll('[data-i18n-al]').forEach(function (el) {
-      var v = pick(cache.al, el.getAttribute('data-i18n-al'));
-      if (v != null) el.setAttribute('aria-label', v);
-    });
-    document.querySelectorAll('[data-i18n-ti]').forEach(function (el) {
-      var v = pick(cache.ti, el.getAttribute('data-i18n-ti'));
-      if (v != null) el.setAttribute('title', v);
-    });
+    window.SS_I18N_DOM.paint(t, code);
 
     /* Only record a language the reader actually got. Falling back to English
        must not clobber a preference they set on a page that does support it. */
@@ -148,13 +92,15 @@
        fire that only once the dictionary is in place. */
     root.setAttribute('dir', RTL[code] ? 'rtl' : 'ltr');
     root.setAttribute('lang', code);
+    document.dispatchEvent(new CustomEvent('ss:lang', { detail: { lang: code } }));
   }
 
   /* Public: switch language (loads the bundle first, falls back to English). */
   function apply(code, persist) {
+    var ticket = ++revision;
     if (!VALID[code]) return paint('en', false);   // not shipped → English, pref untouched
     if (code === 'en') return paint('en', persist);
-    load(code, function (ok) { paint(ok ? code : 'en', ok ? persist : false); });
+    load(code, function (ok) { if (ticket === revision) paint(ok ? code : 'en', ok ? persist : false); });
   }
   window.SS_setLang = apply;
 

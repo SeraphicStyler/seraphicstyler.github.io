@@ -18,7 +18,9 @@
   function choose(service) {
     form.querySelector(`[name="service"][value="${service}"]`).checked = true;
     update();
-    form.querySelector(`[data-fields="${service}"]`).scrollIntoView({block:'start'});
+    const fields=form.querySelector(`[data-fields="${service}"]`);
+    fields.setAttribute('tabindex','-1');fields.focus({preventScroll:true});
+    fields.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches||document.documentElement.classList.contains('rm')?'instant':'smooth'});
   }
   function update() {
     const choice = form.querySelector('[name="service"]:checked')?.value;

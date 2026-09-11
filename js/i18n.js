@@ -14,37 +14,15 @@
   var LANGS = window.SS_LANGS || [{ code: 'en', name: 'English' }];
   var DICT = window.SS_TRANSLATIONS || {};
   var RTL = { ar: 1, he: 1, fa: 1, ur: 1 }; // right-to-left languages
-  var cache = { html: {}, ph: {} };
-  var cached = false;
   var cur = 'en';
-
-  function cacheEnglish() {
-    document.querySelectorAll('[data-i18n]').forEach(function (el) {
-      cache.html[el.getAttribute('data-i18n')] = el.innerHTML;
-    });
-    document.querySelectorAll('[data-i18n-ph]').forEach(function (el) {
-      cache.ph[el.getAttribute('data-i18n-ph')] = el.getAttribute('placeholder') || '';
-    });
-    cached = true;
-  }
-
-  function apply(code) {
-    if (!cached) cacheEnglish();
+  function cacheEnglish() { window.SS_I18N_DOM.cache(); }
+  function apply(code, persist) {
+    if (code !== 'en' && !DICT[code]) { code = 'en'; persist = false; }
     cur = code;
-    var t = (code === 'en') ? null : (DICT[code] || null);
-    document.querySelectorAll('[data-i18n]').forEach(function (el) {
-      var k = el.getAttribute('data-i18n');
-      var v = t && t[k] != null ? t[k] : cache.html[k];
-      if (v != null) el.innerHTML = v;
-    });
-    document.querySelectorAll('[data-i18n-ph]').forEach(function (el) {
-      var k = el.getAttribute('data-i18n-ph');
-      var v = t && t[k] != null ? t[k] : cache.ph[k];
-      if (v != null) el.setAttribute('placeholder', v);
-    });
+    window.SS_I18N_DOM.paint(code === 'en' ? null : DICT[code], code);
     root.setAttribute('lang', code);
     root.setAttribute('dir', RTL[code] ? 'rtl' : 'ltr');
-    try { localStorage.setItem('ss-lang', code); } catch (e) {}
+    if (persist !== false) { try { localStorage.setItem('ss-lang', code); } catch (e) {} }
     document.querySelectorAll('#langSelect, .ss-lang-select').forEach(function (s) {
       if (s.value !== code) s.value = code;
     });
@@ -81,7 +59,6 @@
     document.querySelectorAll('.ss-lang-select').forEach(fillSelect);
     var saved = 'en';
     try { saved = localStorage.getItem('ss-lang') || 'en'; } catch (e) {}
-    if (!DICT[saved] && saved !== 'en') saved = 'en';
     apply(saved);
   }
 
