@@ -294,7 +294,7 @@ html.rm .hero::before, html.rm .hero::after { animation: none; opacity: 0.7; }
 
 /* ---- Luminous Aura hero ---- */
 .hero-aura {
-  position: absolute; left: 50%; top: 40%; transform: translate(-50%, -50%);
+  position: absolute; inset-inline-start: 50%; top: 40%; transform: translate(-50%, -50%);
   width: min(46rem, 92vw); aspect-ratio: 1; z-index: 0; pointer-events: none;
   background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(247,245,250,0.7) 18%, rgba(201,182,232,0.35) 40%, rgba(214,228,255,0.18) 62%, transparent 74%);
   filter: blur(6px); opacity: 0.92; animation: aura-pulse 7s ease-in-out infinite;
@@ -308,7 +308,7 @@ html.dark .hero-aura {
   filter: blur(40px); opacity: 0.7; animation: aura-pulse-dark 7s ease-in-out infinite;
 }
 @keyframes aura-pulse-dark { 0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 0.62; } 50% { transform: translate(-50%,-50%) scale(1.06); opacity: 0.8; } }
-.hero > .wrap { position: relative; z-index: 1; max-width: 44rem; } /* curated frame — keep the hero stack in one composed column */
+.hero > .wrap { position: relative; z-index: 1; width: min(100%, 44rem); margin-inline: auto; } /* curated frame — keep the hero stack in one composed column */
 .hero-sparkles { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0; animation: hero-amb-in 1.6s ease 0.9s forwards; }
 @keyframes hero-amb-in { to { opacity: 0.6; } } /* ambient effects appear only once the content has settled, and stay quiet */
 .hero-sparkles .spark { position: absolute; color: #fff; line-height: 1; text-shadow: 0 0 8px rgba(255,255,255,0.95), 0 0 18px rgba(46,84,173,0.6); animation: spark-tw 4.2s ease-in-out infinite; }
@@ -828,7 +828,7 @@ html.rm .a11y-panel.open { animation: none; }
   backdrop-filter: blur(2px);
   z-index: -1;
 }
-.hero .eyebrow { display: block; margin-bottom: 0.7rem; }
+.hero .eyebrow { display: block; width: 100%; margin: 0 auto 0.7rem; text-align: center; }
 .hero h1 { font-family: var(--font-script); font-weight: 400; font-size: clamp(3rem, 8vw, 5.4rem); line-height: 1.14; letter-spacing: 0.01em; margin: 0 auto 0.85rem; max-width: 16ch; padding: 0.08em 0 0.26em; color: #ffffff; text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15); }
 .hero .lead { margin: 0 auto 2.2rem; color: #ffffff; text-shadow: 0 1px 3px rgba(0,0,0,0.08); }
 .hero .btn-row { justify-content: center; }

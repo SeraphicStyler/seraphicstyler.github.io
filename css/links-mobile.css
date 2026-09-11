@@ -68,6 +68,14 @@ html:is(.mono,.hc) .ss-links :is(.lp-sec-h,.lp-group-h,h1)::first-letter { font:
 .lp-film-nav button:disabled { opacity:.35;cursor:default; }
 .lp-footer-links { display:flex;flex-wrap:wrap;column-gap:20px;margin:8px 0; }
 .lp-footer-links a { display:inline-flex;align-items:center;min-height:44px;font:400 14px/1.5 var(--font-body);color:var(--text-primary);text-underline-offset:4px; }
+.lp-footer-links .lp-visit-site {
+  flex:1 1 100%;justify-content:center;gap:12px;margin-top:16px;padding:13px 20px;
+  border:1px solid var(--accent);border-radius:999px;background:var(--accent);color:var(--cta-text,#fff);
+  font-weight:500;text-decoration:none;box-shadow:0 10px 24px -16px rgba(35,58,114,.7);
+  transition:background-color 180ms ease,border-color 180ms ease,transform 180ms ease;
+}
+.lp-footer-links .lp-visit-site:hover,.lp-footer-links .lp-visit-site:focus-visible { background:var(--accent-hover);border-color:var(--accent-hover);transform:translateY(-1px); }
+.lp-footer-links .lp-visit-site:focus-visible { outline:2px solid var(--accent);outline-offset:3px; }
 .ss-links .lp-closing { padding:32px 24px;margin:40px 0;text-align:center;color:#eef3fb;background:linear-gradient(155deg,#29395f,#141b32);border-radius:var(--card-radius); }
 .ss-links .lp-closing h2 { font:400 24px/1.5 var(--font-display);max-width:28em;margin:0 auto 24px;color:inherit; }
 .ss-links .lp-closing>.lp-cta { max-width:320px;margin:auto;background:var(--surface-solid);border-color:var(--surface-border);color:var(--text-primary); }
