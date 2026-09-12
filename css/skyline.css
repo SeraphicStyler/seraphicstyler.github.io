@@ -1,0 +1,116 @@
+/* Skyline — the home page's scroll journey: a clear sky from dawn-white at the
+   hero to dusk-navy at the footer, with chapter glows, drifting clouds, blossoms,
+   filigree swirls, and a falling-star layer that wakes as you scroll deeper.
+   Light mode, home page only. Dark mode keeps its starfield; hc/mono stay plain. */
+
+/* The journey itself — a full-height layer at the bottom of the decorative
+   stack (z-index:-1, first in tree order): above the canvas, below the aurora
+   wash, orbs, sparkles and meteors, and below all content. A body background
+   would paint OVER those negative layers and hide them; an html background
+   would size the gradient against the viewport instead of the document. */
+html:not(.dark):not(.hc) .ss-home .sky-gradient {
+  position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(180deg,
+    #fbfcff 0%,
+    #f5f3fd 9%,
+    #ecebfc 20%,
+    #e0e5fc 31%,
+    #d0d9fa 42%,
+    #c5d0f8 54%,
+    #bcc9f6 66%,
+    #aab9f2 78%,
+    #8b9ee9 88%,
+    #6879d8 93%,
+    #3f4da9 96%,
+    #273583 98.5%,
+    #1c2863 100%);
+}
+
+/* The sky lives in the root's negative z-layer — an opaque body background
+   paints above it and hides the whole journey (service-guide.css gives
+   .ss-ethereal pages one). Clear the body canvas on the homepage in light
+   mode so the dusk gradient is actually visible; dark/mono/hc keep their own
+   body backgrounds, where the starfield carries the night sky instead. */
+html:not(.dark):not(.hc):not(.mono) body.ss-home { background: transparent; }
+
+/* Document-flow layer for everything that lives at a certain depth of the page */
+.ss-home .skyline { position: absolute; inset: 0; pointer-events: none; }
+
+/* Chapter glows — iridescent two-tone blooms anchored at story beats.
+   Only transforms animate; the blur stays static (compositor-friendly). */
+.ss-home .sky-glow { position: absolute; width: 88vw; max-width: 1100px; aspect-ratio: 1.5/1;
+  border-radius: 50%; filter: blur(80px); opacity: .7; }
+html.dark .ss-home .sky-glow { display: none; }
+.sky-glow.g1 { top: 0%;    left: -28vw; background: radial-gradient(closest-side, rgba(241,188,211,.55), rgba(226,215,246,.35) 55%, transparent 75%); }
+.sky-glow.g2 { top: 13%;   right: -30vw; left: auto; background: radial-gradient(closest-side, rgba(214,228,255,.6), rgba(201,182,232,.32) 55%, transparent 75%); }
+.sky-glow.g3 { top: 30%;   left: -26vw; background: radial-gradient(closest-side, rgba(255,255,255,.65), rgba(174,210,243,.3) 55%, transparent 75%); }
+.sky-glow.g4 { top: 48%;   right: -30vw; left: auto; background: radial-gradient(closest-side, rgba(226,215,246,.55), rgba(255,255,255,.3) 55%, transparent 75%); }
+.sky-glow.g5 { top: 66%;   left: -28vw; background: radial-gradient(closest-side, rgba(201,182,232,.5), rgba(174,210,243,.28) 55%, transparent 75%); }
+.sky-glow.g6 { top: 84%;   right: -32vw; left: auto; background: radial-gradient(closest-side, rgba(153,193,237,.5), rgba(138,147,222,.32) 55%, transparent 75%); opacity: .6; }
+@media (min-width: 1100px) {
+  .sky-glow.g1 { left: -320px; } .sky-glow.g2 { right: -340px; } .sky-glow.g3 { left: -300px; }
+  .sky-glow.g4 { right: -340px; } .sky-glow.g5 { left: -320px; } .sky-glow.g6 { right: -360px; }
+}
+
+/* Cloud wisps — soft white drifts across the powder-blue middle */
+.ss-home .sky-cloud { position: absolute; display: flex; gap: 26px; opacity: .6; }
+html.dark .ss-home .sky-cloud { display: none; }
+.sky-cloud i { display: block; width: 190px; height: 56px; border-radius: 999px; background: rgba(255,255,255,.85); filter: blur(26px); }
+.sky-cloud i:nth-child(2) { width: 130px; height: 44px; margin-top: 16px; }
+.sky-cloud i:nth-child(3) { width: 90px; height: 36px; margin-top: -8px; }
+.sky-cloud.c1 { top: 36%; left: 6vw;  animation: sky-drift 84s ease-in-out infinite alternate; }
+.sky-cloud.c2 { top: 55%; right: 4vw; animation: sky-drift 96s ease-in-out -30s infinite alternate-reverse; }
+@keyframes sky-drift { from { transform: translate3d(-3vw, 0, 0); } to { transform: translate3d(4vw, -6px, 0); } }
+
+/* Blossoms — drifting petals in the dawn zone (reuse the footer bloom) */
+.ss-home .sky-flora { position: absolute; inset: 0; }
+html.dark .ss-home .sky-flora { display: none; }
+.ss-home .sky-bloom { position: absolute; left: var(--x, 10%); top: var(--y, 10%); width: var(--s, 20px); height: var(--s, 20px); color: #e5a4c4; opacity: .4; animation: sky-bob var(--d,32s) ease-in-out var(--dl,0s) infinite alternate; }
+.ss-home .sky-bloom.rose { color: #d98bb1; }
+.ss-home .sky-bloom.pale { color: #eec3d8; opacity: .5; }
+@keyframes sky-bob {
+  from { transform: translate3d(0, 0, 0) rotate(var(--r,0deg)); }
+  to   { transform: translate3d(var(--dx,20px), var(--dy,-18px), 0) rotate(calc(var(--r,0deg) + 10deg)); }
+}
+
+/* Filigree swirls — faint scrollwork marking two chapter turns */
+.ss-home .sky-swirl { position: absolute; width: min(520px, 72vw); color: #7c8fd6; opacity: .14; }
+html.dark .ss-home .sky-swirl { display: none; }
+.ss-home .sky-swirl.s1 { top: 23%; right: 2vw; transform: rotate(6deg); }
+.ss-home .sky-swirl.s2 { top: 73%; left: 0; transform: rotate(-4deg) scaleX(-1); }
+
+/* Falling stars — the sky answers scrolling: brighter and busier as you descend.
+   The layer is fed by js/sky-stars.js; meteors are spawned, animated, removed. */
+.ss-home .sky-stars { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .55;
+  transition: opacity .8s ease; }
+.ss-home .sky-stars.shimmer { opacity: 1; transition-duration: .3s; }
+.ss-home .meteor { position: absolute; left: var(--x); top: var(--y); opacity: 0; }
+.ss-home .meteor.go { animation: meteor-fall var(--t,1.2s) cubic-bezier(.3,.6,.6,1) forwards; }
+.ss-home .meteor i { display: block; position: absolute; left: 0; top: 0; }
+.ss-home .m-head { width: 5px; height: 5px; border-radius: 50%; background: #fff;
+  box-shadow: 0 0 10px 3px rgba(255,255,255,.95), 0 0 22px 8px rgba(138,147,222,.75); }
+.ss-home .m-tail { width: var(--len,140px); height: 2.5px; border-radius: 2px;
+  transform: rotate(var(--ang,35deg)); transform-origin: 1px 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,.95) 0%, rgba(196,205,246,.8) 35%, rgba(138,147,222,.45) 60%, rgba(138,147,222,0) 100%);
+  filter: drop-shadow(0 0 6px rgba(255,255,255,.95)) drop-shadow(0 0 12px rgba(138,147,222,.7)); }
+@keyframes meteor-fall {
+  0%   { opacity: 0; transform: translate3d(0,0,0); }
+  10%  { opacity: 1; }
+  78%  { opacity: .9; }
+  100% { opacity: 0; transform: translate3d(var(--dx,220px), var(--dy,150px), 0); }
+}
+
+/* Night falls at the footer — the page's only dark chapter, in light mode.
+   Flip the footer's ink to frost so it reads against the navy sky. */
+html.ss-home:not(.dark):not(.hc) .footer {
+  --text-primary: #f5f7ff;
+  --text-secondary: #c6cff2;
+  --surface-border: rgba(255,255,255,.16);
+}
+
+/* Stillness for reduced motion; plain sky for high-contrast */
+html.rm .ss-home .sky-cloud, html.rm .ss-home .sky-bloom { animation: none; }
+html.rm .ss-home .sky-glow { opacity: .5; }
+@media (prefers-reduced-motion: reduce) {
+  .ss-home .sky-cloud, .ss-home .sky-bloom { animation: none; }
+}

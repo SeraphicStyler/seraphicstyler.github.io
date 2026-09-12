@@ -168,6 +168,10 @@ footer .wrap{padding:38px 0 46px;display:grid;gap:26px;grid-template-columns:1.4
   .pl-days{min-width:0;}
   .plan summary{flex-wrap:wrap;gap:6px 14px;}
   .drow{grid-template-columns:52px 1fr;}
+  .fd-topbar{flex-wrap:wrap;row-gap:8px;}
+  .fd-right{gap:10px;flex-wrap:wrap;}
+  .fd-right .fd-back{white-space:nowrap;}
+  .fd-topbar select{max-width:150px;}
 }
 /* ---------- Skip link ---------- */
 .skip{position:fixed;inset-inline-start:12px;top:-64px;z-index:60;background:var(--cobalt-solid);color:#fff;

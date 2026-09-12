@@ -38,11 +38,11 @@
     'html.rm .aura-orbs,html.hc .aura-orbs{display:none}' +
     '.aura-orb{position:absolute;will-change:transform;animation:orb-life ease-in-out infinite}' +
     '@keyframes orb-life{' +
-      '0%{transform:translate(0,0) scale(1) rotate(0deg)}' +
-      '25%{transform:translate(3vw,-2.5vh) scale(1.1) rotate(10deg)}' +
-      '50%{transform:translate(-2.5vw,3vh) scale(.92) rotate(-7deg)}' +
-      '75%{transform:translate(2.5vw,2vh) scale(1.06) rotate(8deg)}' +
-      '100%{transform:translate(0,0) scale(1) rotate(0deg)}}' +
+      '0%{transform:translate(0,0)}' +
+      '25%{transform:translate(3vw,-2.5vh)}' +
+      '50%{transform:translate(-2.5vw,3vh)}' +
+      '75%{transform:translate(2.5vw,2vh)}' +
+      '100%{transform:translate(0,0)}}' +
     '@media (prefers-reduced-motion: reduce){.aura-orbs{display:none}}';
   var style = document.createElement('style');
   style.textContent = css;

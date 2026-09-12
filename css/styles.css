@@ -51,6 +51,9 @@
   --aurora-a:#E6F1FC; --aurora-b:#DCEBF8; --aurora-c:#D0E4F5; --aurora-d:#E0EFF8;
   --aurora-e:#CFE6EE; --aurora-f:#DAEAF7; --aurora-g:#D6E6F6; --aurora-h:#E9F3FD;
 
+  /* Lilac tint ramp (lightest → darkest) — ethereal accent scale */
+  --lilac-100:#F5F0FC; --lilac-200:#D4CBE3; --lilac-300:#A89BBD; --lilac-400:#695F77;
+
   --maxw: 1200px; --maxw-prose: 65ch; --maxw-narrow: 760px;
   --nav-h: clamp(80px, 8vh, 100px);
   --btn-radius: 999px; --card-radius: 1.25rem; --tile-radius: 1rem;

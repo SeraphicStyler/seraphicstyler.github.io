@@ -202,6 +202,9 @@ html.hc .ss-guide,html.mono .ss-guide { background:var(--surface-solid); } html.
 .ss-review-actions { display:flex; flex-wrap:wrap; gap:.7rem; margin-top:1rem; }
 #edit-request { border:0; background:none; font:inherit; font-size:.8rem; color:var(--text-primary); cursor:pointer; text-decoration:underline; }
 .ss-request-footer { text-align:center; font-size:.7rem; line-height:2; color:var(--text-secondary); margin:2rem 0; }
+/* The global prose cap (p { max-width:65ch }) leaves the tagline box hugging the
+   left edge while its text centers inside it — center the box under the heading. */
+.ss-request-footer p { margin-inline:auto; }
 
 /* The request is a calm service picker first, and a form only after a choice. */
 .ss-request-main { max-width:680px; margin:3.5rem auto 5rem; }

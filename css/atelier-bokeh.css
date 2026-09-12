@@ -17,7 +17,6 @@
     radial-gradient(ellipse at 22% 82%,rgba(203,182,240,.65),transparent 40%),
     radial-gradient(ellipse at 88% 78%,rgba(153,193,237,.5),transparent 36%);
   filter:blur(32px);opacity:.8;
-  animation:atelier-defocus 24s ease-in-out infinite alternate;
 }
 .atelier-bokeh::after {
   background:
@@ -28,8 +27,9 @@
     radial-gradient(circle 30px at 91% 16%,rgba(255,251,234,.9) 0%,transparent 100%),
     radial-gradient(circle 90px at 7% 91%,rgba(246,219,239,.6) 0%,transparent 100%);
   filter:blur(9px);opacity:.8;
-  animation:atelier-defocus 20s ease-in-out -8s infinite alternate-reverse;
 }
+/* Static defocused field — the breathing scale/opacity loop read as a pulsing
+   screen, so the layers stay fixed at their midpoint look. */
 @keyframes atelier-defocus {
   from { transform:translate3d(-1%,-1%,0) scale(1);opacity:.65; }
   to { transform:translate3d(1%,2%,0) scale(1.035);opacity:.95; }

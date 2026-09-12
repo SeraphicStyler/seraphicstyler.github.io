@@ -19,7 +19,7 @@
   <link rel="canonical" href="https://www.seraphicstyler.com/" />
   <meta name="theme-color" content="#eef3fb" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#1a1d29" media="(prefers-color-scheme: dark)" />
-  <script>document.documentElement.setAttribute("data-nav", "drawer");</script>
+  <script>document.documentElement.setAttribute("data-nav", "drawer");document.documentElement.classList.add("ss-home");</script>
 <link rel="icon" href="assets/favicon-48.png" type="image/png" sizes="48x48" />
   <link rel="icon" href="assets/favicon-192.png" type="image/png" sizes="192x192" />
   <link rel="apple-touch-icon" href="assets/favicon-192.png" />
@@ -48,10 +48,11 @@
   <link rel="stylesheet" href="css/editorial-rhythm.css?v=2026-09-11">
   <link rel="stylesheet" href="css/theme.css?v=2026-09-10">
   <script src="js/theme.js?v=2026-09-10"></script>
-  <link rel="stylesheet" href="css/atelier-bokeh.css?v=2026-09-11">
+  <link rel="stylesheet" href="css/atelier-bokeh.css?v=2026-09-11b">
 </head>
 <body class="ss-ethereal ss-home">
   <div class="grain" aria-hidden="true"></div>
+  </div>
   <a class="skip-link" href="#main">Skip to content</a>
   <a class="sticky-cta" href="#contact" data-i18n="hero.ctaGo">Start your request</a>
 
@@ -353,7 +354,7 @@
 
   <!-- ===== ABOUT ===== -->
   <style>
-  #about .about-grid{display:grid;gap:clamp(1.7rem,4vw,3rem);align-items:start;}
+  #about .about-grid{display:grid;gap:clamp(1.7rem,4vw,3rem);align-items:start;grid-template-columns:minmax(0,1fr);}
   @media(min-width:900px){
     #about .about-grid{grid-template-columns:minmax(0,1fr) minmax(0,340px);}
     #about .about-aside{position:sticky;top:96px;}
@@ -1920,6 +1921,7 @@ Tissue-wrapped presentation packing, one consolidated parcel, full tracking</div
           <a href="#gift" data-i18n="foot.gift">Gift styling</a>
           <a href="#bulk" data-i18n="bulk.nav">Group orders</a>
           <a href="#sizing" data-i18n="foot.sizing">Sizing &amp; fit</a>
+          <a href="opportunities">Collaborate with us</a>
         </div>
         <div>
           <h4 data-i18n="foot.legal">Help &amp; legal</h4>
@@ -1967,7 +1969,6 @@ Tissue-wrapped presentation packing, one consolidated parcel, full tracking</div
   <script src="js/style-profile.js"></script>
   <script src="js/contact-hub.js"></script>
   <!-- Ambient whimsy (each self-contained · reduced-motion aware · delete any line to disable) -->
-  <script src="js/aura-orbs.js"></script>
   <script src="js/aura-butterflies.js"></script>
   <script src="js/aura-sparkle.js"></script>
   <script>
