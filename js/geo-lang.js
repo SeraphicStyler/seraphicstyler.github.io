@@ -1,6 +1,8 @@
-/* Location-based language detection. Asks once via a soft consent card, never
-   overrides a language the visitor picked manually. Only the country code is
-   used; coordinates are never stored. Exposes window.SS_GEO_LANG for tests. */
+/* Language suggestion. From the visitor's time zone (no permission prompt), it
+   offers the matching language once in a small card and never switches by
+   itself or overrides a language the visitor picked. "Detect from location"
+   in Settings still uses the browser's location, on request only.
+   Exposes window.SS_GEO_LANG for tests. */
 (function () {
   'use strict';
   if (window.SS_GEO_LANG) return;
@@ -36,6 +38,24 @@
     KH: 'km'
   };
 
+  /* The visitor's time zone names their country closely enough to suggest a
+     language, with no permission prompt and nothing sent anywhere. */
+  var TZ_COUNTRY = {
+    'Asia/Ho_Chi_Minh':'VN','Asia/Saigon':'VN','Asia/Shanghai':'CN','Asia/Chongqing':'CN','Asia/Urumqi':'CN','Asia/Hong_Kong':'HK','Asia/Macau':'MO','Asia/Taipei':'TW',
+    'Asia/Tokyo':'JP','Asia/Seoul':'KR','Asia/Bangkok':'TH','Asia/Jakarta':'ID','Asia/Makassar':'ID','Asia/Jayapura':'ID','Asia/Pontianak':'ID','Asia/Manila':'PH',
+    'Asia/Phnom_Penh':'KH','Asia/Kolkata':'IN','Asia/Calcutta':'IN','Asia/Tehran':'IR','Asia/Riyadh':'SA','Asia/Dubai':'AE','Asia/Qatar':'QA','Asia/Kuwait':'KW',
+    'Asia/Bahrain':'BH','Asia/Muscat':'OM','Asia/Amman':'JO','Asia/Beirut':'LB','Asia/Baghdad':'IQ','Asia/Aden':'YE','Africa/Cairo':'EG','Africa/Casablanca':'MA',
+    'Africa/Algiers':'DZ','Africa/Tunis':'TN','Africa/Tripoli':'LY','Africa/Khartoum':'SD','Europe/Paris':'FR','Europe/Brussels':'BE','Europe/Luxembourg':'LU',
+    'Europe/Monaco':'MC','Europe/Berlin':'DE','Europe/Vienna':'AT','Europe/Zurich':'CH','Europe/Madrid':'ES','Europe/Lisbon':'PT','Europe/Rome':'IT',
+    'Europe/Warsaw':'PL','Europe/Amsterdam':'NL','Europe/Istanbul':'TR','Europe/Moscow':'RU','Europe/Minsk':'BY','Asia/Almaty':'KZ','Asia/Bishkek':'KG',
+    'America/Mexico_City':'MX','America/Bogota':'CO','America/Lima':'PE','America/Santiago':'CL','America/Caracas':'VE','America/Guayaquil':'EC',
+    'America/Argentina/Buenos_Aires':'AR','America/Buenos_Aires':'AR','America/Montevideo':'UY','America/Asuncion':'PY','America/La_Paz':'BO',
+    'America/Sao_Paulo':'BR','America/Guatemala':'GT','America/Havana':'CU','America/Santo_Domingo':'DO','America/Panama':'PA','America/Costa_Rica':'CR'
+  };
+  function countryFromTimeZone() {
+    var tz = ''; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (_) {}
+    return TZ_COUNTRY[tz] || null;
+  }
   function langForCountry(cc) { return MAP[String(cc || '').toUpperCase()] || 'en'; }
   function read(key) { try { return localStorage.getItem(key); } catch (_) { return null; } }
   function store(key, value) { try { localStorage.setItem(key, value); } catch (_) {} }
@@ -119,6 +139,27 @@
     }, { timeout: 8000, maximumAge: 86400000 });
   }
 
+  function offer(code) {
+    if (card) return;
+    card = document.createElement('div');
+    card.className = 'geo-lang-card';
+    card.setAttribute('role', 'dialog');
+    card.setAttribute('aria-label', 'Language');
+    var p = document.createElement('p');
+    p.textContent = 'View this site in ' + (NAMES[code] || code) + '?';
+    var actions = document.createElement('div');
+    actions.className = 'geo-lang-actions';
+    var yes = document.createElement('button');
+    yes.type = 'button'; yes.className = 'geo-lang-yes'; yes.lang = code; yes.textContent = NAMES[code] || code;
+    yes.addEventListener('click', function () { store(ASK_KEY, 'accepted'); var previous = current(); dismiss(); setLang(code); showToast('Switched to ' + (NAMES[code] || code) + ' — change anytime in Settings.', previous); });
+    var no = document.createElement('button');
+    no.type = 'button'; no.className = 'geo-lang-no'; no.textContent = 'Keep English';
+    no.addEventListener('click', function () { store(ASK_KEY, 'declined'); dismiss(); });
+    actions.appendChild(yes); actions.appendChild(no);
+    card.appendChild(p); card.appendChild(actions);
+    document.body.appendChild(card);
+  }
+
   function showCard() {
     if (card) return;
     card = document.createElement('div');
@@ -172,13 +213,14 @@
     var debug = /[?&]geolang=([A-Za-z]{2})\b/.exec(location.search);
     if (debug && (host === '127.0.0.1' || host === 'localhost')) { apply(debug[1]); return; }
     if (read(LANG_KEY) || read(ASK_KEY)) return;
-    if (!navigator.geolocation) { store(ASK_KEY, 'unavailable'); return; }
-    setTimeout(showCard, 1500);
+    var code = langForCountry(countryFromTimeZone());
+    if (SUPPORTED.indexOf(code) < 0 || code === 'en' || code === current()) return;   // English-speaking or unknown time zone: say nothing
+    setTimeout(function () { offer(code); }, 1500);
   }
 
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') dismiss(); });
 
-  window.SS_GEO_LANG = { ask: showCard, detect: detect, langForCountry: langForCountry };
+  window.SS_GEO_LANG = { ask: showCard, offer: offer, detect: detect, langForCountry: langForCountry, countryFromTimeZone: countryFromTimeZone };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();

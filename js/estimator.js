@@ -200,6 +200,30 @@ function SS_fmtRate(v) {
   populateCurrencies();
   document.addEventListener('ss:lang',populateCurrencies);
   function curCode() { return (el.estCurrency && el.estCurrency.value) || 'USD'; }
+  /* The starting currency comes from the visitor's time zone (no permission,
+     no pop-up): Asia/Bahrain → BHD, Europe/London → GBP, and so on; anywhere
+     not on the short list starts in US dollars. A currency the visitor picks
+     themselves is remembered and wins; a shared link keeps the one it was
+     made in. */
+  var PICKED_KEY = 'ss-est-cur';
+  var EURO_TZ = /^Europe\/(Paris|Berlin|Madrid|Rome|Amsterdam|Brussels|Vienna|Lisbon|Athens|Helsinki|Dublin|Luxembourg|Bratislava|Ljubljana|Tallinn|Riga|Vilnius|Malta|Zagreb|Monaco|Andorra|San_Marino|Vatican)$|^Atlantic\/(Madeira|Canary|Azores)$|^Asia\/(Nicosia|Famagusta)$/;
+  function timeZoneCurrency() {
+    var tz = ''; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+    var exact = { 'Europe/London': 'GBP', 'Europe/Belfast': 'GBP', 'Asia/Singapore': 'SGD', 'Asia/Hong_Kong': 'HKD', 'Asia/Tokyo': 'JPY', 'Asia/Seoul': 'KRW',
+      'Asia/Shanghai': 'CNY', 'Asia/Chongqing': 'CNY', 'Asia/Harbin': 'CNY', 'Asia/Urumqi': 'CNY', 'Asia/Bangkok': 'THB', 'Asia/Dubai': 'AED',
+      'Asia/Riyadh': 'SAR', 'Asia/Bahrain': 'BHD', 'Asia/Kolkata': 'INR', 'Asia/Calcutta': 'INR', 'Asia/Ho_Chi_Minh': 'VND', 'Asia/Saigon': 'VND' };
+    var code = exact[tz] || (/^Australia\//.test(tz) ? 'AUD' : EURO_TZ.test(tz) ? 'EUR'
+      : /^America\/(Toronto|Vancouver|Edmonton|Winnipeg|Halifax|St_Johns|Regina|Montreal|Moncton|Whitehorse|Yellowknife|Iqaluit|Glace_Bay|Goose_Bay|Swift_Current|Dawson_Creek|Fort_Nelson)$/.test(tz) ? 'CAD' : 'USD');
+    return CURRENCIES.indexOf(code) >= 0 ? code : 'USD';
+  }
+  function pickedCurrency() { try { return localStorage.getItem(PICKED_KEY); } catch (e) { return null; } }
+  /* Their currency first, then dollars: "≈ BHD 243 – BHD 283 · ≈ $647 – $753". */
+  function usdTail(lo, hi) {
+    if (curCode() === 'USD') return '';
+    var r = chargeRate('USD'); if (!Number.isFinite(r) || !Number.isFinite(chargeRate(curCode()))) return '';
+    var f = function (v) { return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(v / r); };
+    return ' · ≈ ' + f(lo) + (hi != null ? ' – ' + f(hi) : '');
+  }
   function t(key, en) { return window.SS_T ? window.SS_T(key, en) : en; }
   function tf(key, en, vars) { return window.SS_TF ? window.SS_TF(key, en, vars) : en; }
   function fmtVnd(n) { return Math.round(n).toLocaleString('en-US') + '₫'; }
@@ -572,7 +596,7 @@ function SS_fmtRate(v) {
       }
       el.rShip.textContent = t('est.ship.later', 'Added with your pieces');
       el.rTotal.textContent = fmtVnd(nonShip + cfS);
-      el.rUsd.textContent = '≈ ' + fmtCur(toCur(nonShip + cfS));
+      el.rUsd.textContent = '≈ ' + fmtCur(toCur(nonShip + cfS)) + usdTail(nonShip + cfS);
       hideSplit();                       // styling only — one payment, nothing to ship
       updateFxStatus(); save(); return;
     }
@@ -584,7 +608,7 @@ function SS_fmtRate(v) {
       }
       el.rShip.textContent = t('est.customquote', 'Custom quote');
       el.rTotal.textContent = fmtVnd(nonShip + cf) + t('est.plusship', ' + shipping');
-      el.rUsd.textContent = '≈ ' + fmtCur(toCur(nonShip + cf)) + t('est.customhaul', ' + shipping (custom quote, 10kg+)');
+      el.rUsd.textContent = '≈ ' + fmtCur(toCur(nonShip + cf)) + usdTail(nonShip + cf) + t('est.customhaul', ' + shipping (custom quote, 10kg+)');
       hideSplit();                       // shipping is hand-quoted, so no balance figure yet
     } else {
       // Two charges, so the card fee is calculated on each part separately.
@@ -595,7 +619,7 @@ function SS_fmtRate(v) {
       }
       el.rShip.textContent = fmtVnd(c.ship[0]) + ' – ' + fmtVnd(c.ship[1]);
       el.rTotal.textContent = fmtVnd(s.lo) + ' – ' + fmtVnd(s.hi);
-      el.rUsd.textContent = '≈ ' + fmtCur(toCur(s.lo)) + ' – ' + fmtCur(toCur(s.hi));
+      el.rUsd.textContent = '≈ ' + fmtCur(toCur(s.lo)) + ' – ' + fmtCur(toCur(s.hi)) + usdTail(s.lo, s.hi);
       showSplit(s);
     }
     updateFxStatus();
@@ -918,7 +942,10 @@ function SS_fmtRate(v) {
   if (el.green) el.green.addEventListener('change', recalc);
   if (el.styling) el.styling.addEventListener('change', recalc);
   if (el.payMethod) el.payMethod.addEventListener('change', recalc);
-  if (el.estCurrency) el.estCurrency.addEventListener('change', recalc);
+  if (el.estCurrency) el.estCurrency.addEventListener('change', function () {
+    try { localStorage.setItem(PICKED_KEY, el.estCurrency.value); } catch (e) {}   // a choice the visitor made themselves
+    recalc();
+  });
   el.sendBasket.addEventListener('click', send);
   if (el.previewLink) el.previewLink.addEventListener('click', makePreviewLink);
   if (el.shareCopy) el.shareCopy.addEventListener('click', copyLastLink);
@@ -948,6 +975,9 @@ function SS_fmtRate(v) {
       if (el.region2 && el.region2.value === el.region.value) el.region2.value = firstOtherRegion(el.region.value);
     }
   } else { addItem(''); }
-  if (!(previewId && /^[a-z2-9]{7}$/.test(previewId))) loadFx();
+  if (!(previewId && /^[a-z2-9]{7}$/.test(previewId))) {
+    restoreChoice(el.estCurrency, pickedCurrency() || timeZoneCurrency());
+    loadFx();
+  }
   recalc();
 })();

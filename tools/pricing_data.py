@@ -206,7 +206,7 @@ def page_head(slug, title, desc, extra_css=()):
     for css in ('css/legal.css?v=2026-10-01', 'css/pricing.css?v=2026-10-02c') + tuple(extra_css):
         head += f'  <link rel="stylesheet" href="{css}" />\n'
     head += '  <script src="js/pricing.js?v=2026-10-02c"></script>\n'
-    head += '  <script src="js/i18n-site.js?v=2026-09-12" defer></script>\n  <script src="js/geo-lang.js?v=2026-09-12" defer></script>\n</head>\n'
+    head += '  <script src="js/i18n-site.js?v=2026-09-12" defer></script>\n  <script src="js/geo-lang.js?v=2026-10-02" defer></script>\n</head>\n'
     return head
 
 

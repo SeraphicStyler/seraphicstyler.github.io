@@ -326,7 +326,7 @@ def render(doc):
     h = re.sub(r'(<meta property="og:description" content=")[^"]*', lambda m: m.group(1) + doc['desc'], h)
     h = h.replace('seraphicstyler.com/policy"', f'seraphicstyler.com/{s}"')
     h += f'  <link rel="stylesheet" href="css/legal.css?v=2026-10-01" />\n'
-    h += '  <script src="js/i18n-site.js?v=2026-09-12" defer></script>\n  <script src="js/geo-lang.js?v=2026-09-12" defer></script>\n</head>\n'
+    h += '  <script src="js/i18n-site.js?v=2026-09-12" defer></script>\n  <script src="js/geo-lang.js?v=2026-10-02" defer></script>\n</head>\n'
 
     toc = ''.join(f'<li><a href="#{a[0]}"><span>{i + 1}</span>{a[1]}</a></li>' for i, a in enumerate(doc['articles']))
     arts = ''
