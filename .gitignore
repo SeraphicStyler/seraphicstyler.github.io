@@ -9,3 +9,6 @@ docs/
 
 # carousel build output — 28MB of PNGs, not part of the site
 social/
+
+# local test helpers — never deploy
+.ss-verify/
