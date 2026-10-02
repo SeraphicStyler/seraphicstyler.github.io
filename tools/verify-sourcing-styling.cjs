@@ -11,7 +11,7 @@ const origin = process.env.SS_PREVIEW || 'http://127.0.0.1:8731';
    await page.setViewport({width,height:900});
    await page.goto(origin+'/sourcingandstyling.html',{waitUntil:'networkidle2'});
    assert.equal(await page.title(),'Sourcing & Styling: Services & Prices · Seraphic Styler');
-   assert.equal(await page.$$eval('.ss-styling-ledger tbody tr',els=>els.length),7);
+   assert.equal(await page.$$eval('.ss-styling-ledger tbody tr',els=>els.length),await page.evaluate(()=>SS_PRICING.data.styling.length));
    await page.$eval('details',e=>e.open=true);
    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'comparison overflow '+width);
    await page.screenshot({path:'/private/tmp/sourcing-styling-'+width+'.png',fullPage:true});

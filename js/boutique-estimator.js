@@ -116,6 +116,15 @@
     }
   };
 
+  /* Boutique rules come from js/pricing.js when it is loaded first (it is on
+     every page that loads this file); the literals above are the fallback. */
+  var PD = window.SS_PRICING && window.SS_PRICING.data;
+  if (PD) {
+    var pb = PD.boutique;
+    BTQ.minFeeUsd = pb.perBuyUsd; BTQ.perPieceMinUsd = pb.perPieceUsd; BTQ.pct = pb.pct; BTQ.rushPct = pb.rushPct;
+    BTQ.scoutFeeVnd = pb.scoutUsd * PD.fx.vndPerUsd; BTQ.scoutFeeUsdText = '$' + pb.scoutUsd.toLocaleString('en-US');
+  }
+
   var FX = BTQ.planFxVndPerUsd;
 
 
@@ -132,11 +141,11 @@
      $14-a-piece and $25-a-buy floors. One rule at every size. */
   function fee(totalVnd, totalUsd, rush, pieces) {
     var amount = totalVnd * (rush ? BTQ.rushPct : BTQ.pct);
-    var label = rush ? '20% — rush or made-to-measure, agreed in writing first' : '15% of the pieces';
+    var label = rush ? Math.round(BTQ.rushPct * 100) + '% — rush or made-to-measure, agreed in writing first' : Math.round(BTQ.pct * 100) + '% of the pieces';
     var pieceFloor = (pieces || 0) * BTQ.perPieceMinUsd * FX;
     if (amount < pieceFloor) { amount = pieceFloor; label = '$' + BTQ.perPieceMinUsd + ' per piece — the per-piece minimum, above the percentage here'; }
     var floor = BTQ.minFeeUsd * FX;
-    if (amount < floor) { amount = floor; label = '$25 minimum fee'; }
+    if (amount < floor) { amount = floor; label = '$' + BTQ.minFeeUsd + ' minimum fee'; }
     return { amount: amount, label: label };
   }
 

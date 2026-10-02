@@ -124,6 +124,24 @@ var CONFIG = {
   }
 };
 
+/* Fees and styling tiers come from js/pricing.js — the one source for every
+   price on the site — whenever it is loaded first (it is on every page that
+   loads this file). The literals above are the fallback and should match it;
+   tools/verify-pricing.cjs checks both. */
+(function () {
+  var P = window.SS_PRICING && window.SS_PRICING.data;
+  if (!P) return;
+  var s = P.sourcing, fx = P.fx.vndPerUsd;
+  CONFIG.fee.minFee = s.minFeeVnd; CONFIG.fee.midThreshold = s.highFromVnd;
+  CONFIG.fee.midRate = s.rate; CONFIG.fee.highRate = s.highRate;
+  CONFIG.baseFee = s.orderFeeVnd; CONFIG.complexFee = s.rareVnd; CONFIG.fxFee = s.transferPct;
+  CONFIG.stops.included = s.shopsIncluded; CONFIG.stops.perExtra = s.extraShopVnd;
+  P.styling.forEach(function (t) {
+    var c = CONFIG.styling[t.id];
+    if (c) { c.vnd = t.totalUsd * fx; c.credit = t.creditUsd * fx; }
+  });
+})();
+
 /* The rate the site both SHOWS and CHARGES, from a raw market rate in VND per
    one unit of the client's currency. Live mid-market, less the transfer margin,
    floored to a readable step — so a client who multiplies by the printed rate

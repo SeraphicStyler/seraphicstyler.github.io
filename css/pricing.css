@@ -1,0 +1,166 @@
+/* Prices — shared by /prices, /boutique-calculator and the site menu.
+   Components: money figures, the styling price table, the boutique fee trio,
+   the boutique calculator (with its payment schedule), the audience switch,
+   and the /prices page anatomy. Colours come from the theme tokens in
+   css/styles.css, so light, dark, mono and high contrast follow the site. */
+
+/* ---- Money ------------------------------------------------------------ */
+.money { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.money-alt { color: var(--text-secondary); font-size: .86em; font-weight: 400; }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ---- Styling price table (also in the menu) ---------------------------- */
+.price-table { width: 100%; border-collapse: collapse; font-family: var(--font-body); font-size: .84rem; }
+.price-table th, .price-table td { padding: .75rem .6rem; border-top: 1px solid var(--surface-border); vertical-align: top; text-align: left; line-height: 1.55; }
+.price-table thead th { border-top: 0; font-family: var(--font-brand); font-weight: 400; text-transform: uppercase; letter-spacing: .14em; font-size: .6rem; color: var(--eyebrow-ink); vertical-align: bottom; }
+.price-table tbody th { font-weight: 500; color: var(--text-primary); white-space: nowrap; }
+.price-table tbody th a { color: inherit; text-underline-offset: 3px; }
+.price-table td { color: var(--text-secondary); }
+.price-table .num { text-align: right; }
+.price-table td.num .money { color: var(--text-primary); }
+.price-table td.num .money-alt { display: block; color: var(--text-secondary); }
+@media (max-width: 640px) {
+  .price-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .price-table, .price-table tbody, .price-table tr, .price-table th, .price-table td { display: block; }
+  .price-table tr { padding: .8rem 0; border-top: 1px solid var(--surface-border); }
+  .price-table th, .price-table td { border: 0; padding: .15rem 0; }
+  .price-table td[data-l] { display: flex; justify-content: space-between; gap: 1rem; text-align: right; }
+  .price-table td[data-l]::before { content: attr(data-l); flex: none; text-align: left; font-family: var(--font-accent); font-size: .72rem; color: var(--eyebrow-ink); }
+  .price-table td.num .money-alt { display: inline; }
+  .price-table td[data-l="What you get"] { text-align: right; }
+}
+
+/* ---- Boutique fee trio ------------------------------------------------- */
+.fee-trio { list-style: none; margin: 1.2rem 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; }
+@media (max-width: 560px) { .fee-trio { grid-template-columns: 1fr; } }
+.fee-trio li { border: 1px solid var(--surface-border); border-radius: 16px; background: var(--surface); padding: .95rem .9rem; text-align: center; }
+.fee-trio b { display: block; font-family: 'Cormorant Garamond', var(--font-display); font-weight: 500; font-size: 2rem; line-height: 1; color: var(--accent); }
+.fee-trio span { display: block; margin-top: .4rem; font: 500 .84rem/1.35 var(--font-body); color: var(--text-primary); }
+.fee-trio small { display: block; margin-top: .25rem; font: .76rem/1.5 var(--font-body); color: var(--text-secondary); }
+
+/* ---- Boutique calculator ------------------------------------------------ */
+.bcalc { border: 1px solid var(--surface-border); border-radius: 20px; padding: clamp(1.1rem, 4vw, 1.7rem);
+  background: linear-gradient(135deg, var(--accent-soft), transparent 60%), var(--surface); font-family: var(--font-body); }
+.bcalc-in { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; }
+@media (max-width: 560px) { .bcalc-in { grid-template-columns: 1fr; } }
+.bcalc-in label { display: flex; flex-direction: column; gap: .4rem; font-family: var(--font-brand); text-transform: uppercase; letter-spacing: .14em; font-size: .62rem; color: var(--eyebrow-ink); }
+.bcalc-in input[type=number] { font: 500 1.25rem/1.2 var(--font-body); font-variant-numeric: tabular-nums; color: var(--text-primary); background: var(--surface-solid);
+  border: 1px solid var(--surface-border); border-radius: 12px; padding: .65rem .8rem; width: 100%; box-sizing: border-box; min-height: 48px; }
+.bcalc-in input[type=number]::placeholder { font-size: .8rem; font-weight: 400; color: var(--text-secondary); }
+.bcalc-in input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.bcalc-in small { text-transform: none; letter-spacing: 0; font-family: var(--font-body); font-size: .74rem; color: var(--text-secondary); }
+.bcalc-in .bcalc-rush { grid-column: 1 / -1; flex-direction: row; align-items: center; gap: .6rem; text-transform: none; letter-spacing: 0; font: .86rem/1.4 var(--font-body); color: var(--text-secondary); }
+.bcalc-rush input { width: 18px; height: 18px; flex: none; accent-color: var(--accent); }
+.bcalc-h { margin: 1.4rem 0 .35rem; font-family: var(--font-brand); font-weight: 400; text-transform: uppercase; letter-spacing: .18em; font-size: .64rem; color: var(--eyebrow-ink); }
+.bcalc-buy, .pay-sched { width: 100%; border-collapse: collapse; font-size: .9rem; color: var(--text-secondary); }
+.bcalc-buy th, .bcalc-buy td, .pay-sched th, .pay-sched td { padding: .55rem 0; border-top: 1px solid var(--surface-border); text-align: left; vertical-align: top; line-height: 1.5; }
+.bcalc-buy tbody tr:first-child th, .bcalc-buy tbody tr:first-child td { border-top: 0; }
+.bcalc-buy th { font-weight: 400; }
+.bcalc-buy td.num, .pay-sched td.num { text-align: right; color: var(--text-primary); font-weight: 500; white-space: nowrap; padding-left: 1rem; }
+.bcalc-buy tfoot th, .bcalc-buy tfoot td { border-top: 2px solid var(--accent); padding-top: .75rem; color: var(--text-primary); font-size: 1.08rem; font-weight: 600; }
+.pay-sched thead th { border-top: 0; padding-bottom: .4rem; font-family: var(--font-brand); font-weight: 400; text-transform: uppercase; letter-spacing: .14em; font-size: .58rem; color: var(--eyebrow-ink); }
+.pay-sched thead th.num { text-align: right; }
+.pay-sched tbody th { font-weight: 500; color: var(--text-primary); padding-right: 1rem; width: 34%; }
+.pay-sched td:not(.num) .money { color: var(--text-primary); }
+@media (max-width: 520px) {
+  .pay-sched thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .pay-sched tbody tr { display: grid; grid-template-columns: 1fr auto; column-gap: 1rem; padding: .6rem 0; border-top: 1px solid var(--surface-border); }
+  .pay-sched tbody th, .pay-sched tbody td { display: block; border: 0; padding: 0; width: auto; }
+  .pay-sched tbody th { grid-column: 1 / -1; margin-bottom: .2rem; }
+}
+.bcalc-note { margin: .5rem 0 0; font-size: .8rem; color: var(--text-secondary); font-style: italic; line-height: 1.6; }
+.bcalc-cta { margin: 1.3rem 0 0; display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
+.bcalc-btn { display: inline-flex; align-items: center; min-height: 46px; padding: 0 1.25rem; border-radius: 999px; text-decoration: none; cursor: pointer;
+  font: .8rem var(--font-accent); color: #fff; background: var(--accent); border: 1px solid var(--accent); }
+html.dark .bcalc-btn { color: #1a1d29; }
+.bcalc-btn.alt { background: none; color: var(--accent); }
+.bcalc-btn:focus-visible, .bcalc-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.bcalc-shareurl { flex: 1 1 260px; min-height: 40px; padding: 0 .7rem; border: 1px solid var(--surface-border); border-radius: 10px; background: var(--surface-solid); color: var(--text-primary); font: .78rem var(--font-body); }
+.bcalc-link { color: var(--accent); font-size: .8rem; }
+.bcalc-static-h { margin: 0; font: italic .86rem/1.6 var(--font-body); color: var(--text-secondary); }
+.bcalc-static-note { margin: .8rem 0 0; font-size: .74rem; color: var(--text-secondary); }
+/* Compact, for the menu. */
+.bcalc--compact { padding: .9rem; border-radius: 14px; }
+.bcalc--compact .bcalc-in input[type=number] { font-size: 1rem; min-height: 44px; padding: .45rem .65rem; }
+.bcalc--compact .bcalc-buy, .bcalc--compact .pay-sched { font-size: .76rem; }
+.bcalc--compact .bcalc-h { margin-top: 1rem; }
+.bcalc--compact .bcalc-buy tfoot th, .bcalc--compact .bcalc-buy tfoot td { font-size: .9rem; }
+
+/* ---- Good to know, grouped ---------------------------------------------- */
+.gtk { display: grid; gap: 1rem 2rem; }
+@media (min-width: 720px) { .gtk { grid-template-columns: 1fr 1fr; } }
+.gtk h3 { margin: 0 0 .2rem; font-family: var(--font-brand); font-weight: 400; text-transform: uppercase; letter-spacing: .16em; font-size: .62rem; color: var(--eyebrow-ink); }
+.gtk .lg-bul { margin-top: .2rem; }
+
+/* ---- Audience switch (role=tablist on /prices) --------------------------- */
+.aud-switch { display: inline-grid; grid-template-columns: 1fr 1fr; gap: .25rem; padding: .25rem; border: 1px solid var(--surface-border); border-radius: 999px; background: var(--surface); }
+.aud-switch button { min-height: 42px; padding: .45rem 1.15rem; border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  font: 500 .82rem var(--font-body); color: var(--text-secondary); }
+.aud-switch button[aria-selected="true"] { color: var(--accent); font-weight: 600; background: var(--surface-solid); box-shadow: inset 0 0 0 1px var(--accent); }
+.aud-switch button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+html:not(.pr-js) .pr-page .aud-switch { display: none; }
+
+/* ---- /prices ------------------------------------------------------------ */
+.pr-bar { position: sticky; top: 0; z-index: 30; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem 1.2rem;
+  max-width: 820px; margin: 0 auto; padding: .6rem 0; background: color-mix(in srgb, var(--bg-primary) 88%, transparent);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom: 1px solid var(--surface-border); }
+.pr-secnav { display: flex; gap: .2rem; overflow-x: auto; scrollbar-width: none; }
+.pr-secnav[hidden] { display: none; }
+.pr-secnav::-webkit-scrollbar { display: none; }
+.pr-secnav a { flex: none; padding: .5rem .7rem; border-radius: 999px; text-decoration: none; white-space: nowrap; font: .78rem var(--font-body); color: var(--text-secondary); }
+.pr-secnav a:hover { color: var(--text-primary); }
+.pr-secnav a[aria-current] { color: var(--accent); background: var(--accent-soft); }
+.pr-secnav a:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+@media (max-width: 700px) {
+  .pr-bar { justify-content: center; }
+  /* On phones the nav scrolls sideways; the fade says there is more. */
+  .pr-secnav { width: 100%; -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent); mask-image: linear-gradient(90deg, #000 88%, transparent); }
+}
+.pr-view { max-width: 820px; margin: 0 auto; overflow-wrap: anywhere; }
+.pr-view[hidden] { display: none; }
+.pr-cross { margin: 1.2rem 0 0; font: .9rem/1.6 var(--font-body); color: var(--text-secondary); }
+.pr-cross a { color: var(--accent); font-weight: 500; text-underline-offset: 3px; }
+.pr-cross--top { margin-top: 1.4rem; }
+.pr-curnote { margin: .5rem 0 0; max-width: 68ch; font: .78rem/1.6 var(--font-body); color: var(--text-secondary); }
+.pr-sec { padding: clamp(2rem, 6vh, 3rem) 0; border-top: 1px solid var(--surface-border); scroll-margin-top: 7.5rem; }
+.pr-view > .pr-sec:first-of-type { margin-top: 1.4rem; }
+.pr-who { margin: 0 0 .2rem; font-family: var(--font-brand); text-transform: uppercase; letter-spacing: .2em; font-size: .62rem; color: var(--eyebrow-ink); }
+.pr-sec h2 { margin: 0; font-family: 'Cormorant Garamond', var(--font-display); font-weight: 500; font-size: clamp(1.7rem, 4.6vw, 2.1rem); line-height: 1.1; color: var(--text-primary); }
+.pr-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .7rem; margin: .9rem 0 .4rem; padding: .85rem 1rem; border-radius: 14px;
+  background: linear-gradient(135deg, var(--accent-soft), transparent 70%); border: 1px solid var(--surface-border); }
+.pr-price b { font-family: 'Cormorant Garamond', var(--font-display); font-weight: 500; font-size: clamp(1.8rem, 6vw, 2.3rem); line-height: 1.05; color: var(--accent); }
+.pr-price b .money-alt { font-family: var(--font-body); font-size: .4em; letter-spacing: 0; }
+.pr-price > span { font: .84rem var(--font-body); color: var(--text-secondary); }
+.pr-sec p, .pr-sec li, .pr-sec figcaption { max-width: 68ch; }
+.pr-p { margin: .5rem 0 .6rem; font: .92rem/1.75 var(--font-body); color: var(--text-secondary); }
+.pr-points strong, .pr-p strong { color: var(--text-primary); font-weight: 500; }
+.pr-points a, .pr-ex a { color: var(--accent); }
+.pr-table-wrap { margin: 1rem 0 0; overflow-x: auto; }
+.pr-table-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pr-gift { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .4rem 1rem; margin: 1rem 0 0; padding: .85rem 1rem;
+  border: 1px solid var(--surface-border); border-left: 3px solid var(--accent); border-radius: 12px; background: var(--surface); scroll-margin-top: 8rem; }
+.pr-gift p { margin: 0; font: .88rem/1.6 var(--font-body); color: var(--text-secondary); }
+.pr-gift strong { color: var(--text-primary); font-weight: 500; }
+.pr-gift a { flex: none; color: var(--accent); font: 500 .82rem var(--font-body); }
+/* Worked examples — one shared, muted box. */
+.pr-ex { margin: 1.2rem 0 0; padding: .95rem 1.1rem; border-radius: 14px; border: 1px dashed color-mix(in srgb, var(--accent) 45%, transparent); background: var(--surface-soft); }
+.pr-ex figcaption { margin: 0 0 .45rem; font-family: var(--font-brand); text-transform: uppercase; letter-spacing: .16em; font-size: .6rem; color: var(--eyebrow-ink); line-height: 1.8; }
+.pr-ex-table { width: 100%; border-collapse: collapse; font: .86rem/1.5 var(--font-body); color: var(--text-secondary); }
+.pr-ex-table th, .pr-ex-table td { padding: .35rem 0; text-align: left; font-weight: 400; vertical-align: top; }
+.pr-ex-table td.num { text-align: right; padding-left: 1rem; color: var(--text-primary); }
+.pr-ex-table tfoot th, .pr-ex-table tfoot td { border-top: 1px solid var(--surface-border); padding-top: .6rem; color: var(--text-primary); font-weight: 600; font-size: .94rem; }
+.pr-exn { margin: .5rem 0 0; font-size: .76rem; color: var(--text-secondary); font-style: italic; }
+.pr-cta { margin-top: 1.2rem; display: flex; flex-wrap: wrap; gap: .6rem; }
+.pr-btn { display: inline-flex; align-items: center; min-height: 46px; padding: 0 1.25rem; border-radius: 999px; text-decoration: none; font: .8rem var(--font-accent); color: #fff; background: var(--accent); border: 1px solid var(--accent); }
+html.dark .pr-btn { color: #1a1d29; }
+.pr-btn.alt { background: none; color: var(--accent); }
+.pr-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.pr-always { max-width: 820px; margin: 1rem auto 0; }
+.pr-research { margin: 0 0 1.2rem; font: .88rem/1.7 var(--font-body); color: var(--text-secondary); max-width: 68ch; }
+.pr-research strong { color: var(--text-primary); font-weight: 500; }
+.pr-btq .gtk { margin-top: 1.6rem; }
+@media print { .pr-bar, .lg-top-link { display: none !important; } .pr-view[hidden] { display: block !important; } }
+
+/* ---- /boutique-calculator ------------------------------------------------ */
+.bc-wrap { max-width: 760px; margin: 0 auto; }
+.bc-fine { max-width: 760px; margin: 1.6rem auto 0; }

@@ -23,13 +23,21 @@ const origin = process.env.SS_PREVIEW || 'http://127.0.0.1:8731';
       // Native dialog keeps keyboard focus inside the active menu.
       for(let i=0;i<28;i++) { await page.keyboard.press('Tab'); assert(await page.$eval('.ss-guide',e=>e.contains(document.activeElement))); }
       await page.click('[data-view="prices"]');
-      assert(await page.$eval('[data-prices]', e => !e.hidden && e.textContent.includes('$1,250') && e.textContent.includes('$550') && e.textContent.includes('$1,750')));
+      // Prices come from js/pricing.js: the menu shows each tier's total and fee, đồng first with dollars in brackets.
+      assert(await page.$eval('[data-prices]', e => { const P = window.SS_PRICING, F = P.fmt; return !e.hidden && P.data.styling.every(t => e.textContent.includes(F.fromUsd(t.totalUsd)) && e.textContent.includes(F.fromUsd(t.feeUsd))); }));
       await page.focus('#ss-guide-query'); await page.type('#ss-guide-query','15 pieces');
       assert(await page.$eval('.ss-guide-results',e=>e.textContent.includes('Custom Wardrobe')));
       await page.keyboard.press('ArrowDown'); assert(await page.$eval('.ss-guide-results',e=>e.contains(document.activeElement)));
-      await page.keyboard.press('Enter'); await closed();
-      assert.equal(await page.evaluate(()=>document.activeElement.id),'custom-wardrobe');
-      await pause(1000); await page.screenshot({path:'/private/tmp/seraphic-' + route + '-wardrobe.png'});
+      if (route === 'links.html') {
+        // The bio page sends detailed routes to the homepage section.
+        await Promise.all([page.waitForNavigation({waitUntil:'networkidle2'}), page.keyboard.press('Enter')]);
+        assert(page.url().endsWith('/index.html#custom-wardrobe'), page.url());
+        await page.goto(origin + '/links.html', {waitUntil:'networkidle2'});
+      } else {
+        await page.keyboard.press('Enter'); await closed();
+        assert.equal(await page.evaluate(()=>document.activeElement.id),'custom-wardrobe');
+        await pause(1000); await page.screenshot({path:'/private/tmp/seraphic-' + route + '-wardrobe.png'});
+      }
       await page.keyboard.down('Control'); await page.keyboard.press('k'); await page.keyboard.up('Control');
       await page.focus('#ss-guide-query'); await page.type('#ss-guide-query','zzzzzzzzz');
       assert(await page.$eval('[data-empty]',e=>!e.hidden));
@@ -45,20 +53,23 @@ const origin = process.env.SS_PREVIEW || 'http://127.0.0.1:8731';
       await page.evaluate(()=>localStorage.removeItem('ss-letter-shortcuts'));
       const broken = await page.evaluate(()=>[...document.querySelectorAll('.ss-guide a[href^="#"]')].filter(a=>!document.getElementById(a.hash.slice(1))).map(a=>a.hash)); assert.deepEqual(broken,[]);
       // Required acknowledgement is enforced before an existing styling checkout.
-      const booking = route === 'index.html' ? '#lane-styling + .grid a[href^="https://buy.stripe.com/"]' : '.lp-tier a[href^="https://buy.stripe.com/"]';
-      await page.$eval(booking,e=>e.click());
-      assert(await page.$eval('.ss-booking',e=>e.open));
-      await page.click('.ss-booking button[value="continue"]');
-      assert(await page.$eval('.ss-booking',e=>e.open));
-      assert.equal(new URL(page.url()).pathname,'/' + route);
-      await page.keyboard.press('Escape');
+      // (The bio page links to the services page instead of carrying checkouts.)
+      if (route === 'index.html') {
+        await page.$eval('#lane-styling + .grid a[href^="https://buy.stripe.com/"]',e=>e.click());
+        assert(await page.$eval('.ss-booking',e=>e.open));
+        await page.click('.ss-booking button[value="continue"]');
+        assert(await page.$eval('.ss-booking',e=>e.open));
+        assert.equal(new URL(page.url()).pathname,'/' + route);
+        await page.keyboard.press('Escape');
+      }
       for (const width of [390,320]) {
         await page.setViewport({width,height:844});
-        await page.$eval('#service-comparison',e=>e.scrollIntoView({behavior:'instant'}));
-        await pause(300);
+        if (route === 'index.html') {
+          await page.$eval('#service-comparison',e=>e.scrollIntoView({behavior:'instant'}));
+          await pause(300);
+          await page.$eval('.ss-compare-details',e=>e.open=true);
+        }
         assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),route+' overflow at '+width);
-        await page.$eval('.ss-compare-details',e=>e.open=true);
-        assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'table overflow');
         if(width===390) await page.screenshot({path:'/private/tmp/seraphic-' + route + '-compare-mobile.png'});
         await page.click('.ss-guide-launch'); await pause(1300);
         assert(await page.$eval('.ss-guide',e=>e.scrollWidth<=e.clientWidth),'menu overflow');
@@ -75,10 +86,9 @@ const origin = process.env.SS_PREVIEW || 'http://127.0.0.1:8731';
       if(service==='styling') assert.equal(await page.$eval('#request-tier',e=>e.value),'custom-wardrobe');
       if(service==='sourcing') await page.select('#item-source','link');
       await page.evaluate(()=>{ for(const e of document.querySelectorAll('textarea[required]:not(:disabled), input[required]:not(:disabled):not([type="radio"]):not([type="checkbox"]), select[required]:not(:disabled)')) {if(e.id==='confirmed-service') continue; if(e.tagName==='SELECT') {if(!e.value) e.selectedIndex=1;} else e.value='Test brief: 18 pieces, US$625, trip in November, size M, Australia';} });
-      await page.select('#confirmed-service',service);
       await page.click('button[type="submit"]');
       assert(await page.$eval('#request-review',e=>e.hidden),'required acknowledgement');
-      for(const name of ['Styling understood','Sourcing understood','Research understood','Scope understood']) await page.click(`[name="${name}"]`);
+      await page.click('[name="Service terms understood"]');
       await page.click('button[type="submit"]');
       assert(await page.$eval('#request-review',e=>!e.hidden));
       const summary=await page.$eval('#request-summary',e=>e.value);
@@ -87,7 +97,7 @@ const origin = process.env.SS_PREVIEW || 'http://127.0.0.1:8731';
       assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
       await page.click('#copy-request'); await page.waitForFunction(()=>document.getElementById('copy-status').textContent.length>0);
       await page.click('#edit-request');assert(await page.$eval('#service-request-form',e=>!e.hidden));
-      assert(await page.$eval('[name="Scope understood"]',e=>e.checked));
+      assert(await page.$eval('[name="Service terms understood"]',e=>e.checked));
       console.log('PASS intake '+service+': conditional fields, validation, review, clipboard feedback, routing and edit');
     }
     await page.emulateMediaFeatures([{name:'prefers-reduced-motion',value:'reduce'}]);

@@ -12,14 +12,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Merriweather+Sans:wght@300;400;500;700&family=Montserrat:wght@400;500;600&family=Pinyon+Script&family=Tenor+Sans&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css?v=2026-08-13">
-  <link rel="stylesheet" href="css/service-guide.css?v=2026-09-12">
-  <link rel="stylesheet" href="css/sourcing-styling.css?v=2026-09-12b">
+  <link rel="stylesheet" href="css/service-guide.css?v=2026-10-02">
+  <link rel="stylesheet" href="css/pricing.css?v=2026-10-02">
+  <link rel="stylesheet" href="css/sourcing-styling.css?v=2026-10-02">
   <script>
     try { const r=document.documentElement, theme=localStorage.getItem('ss-theme')||'auto'; if(theme==='dark'||(theme==='auto'&&matchMedia('(prefers-color-scheme: dark)').matches))r.classList.add('dark'); if(theme==='mono')r.classList.add('mono'); if(localStorage.getItem('ss-motion')==='1')r.classList.add('rm'); if(localStorage.getItem('ss-contrast')==='1')r.classList.add('hc'); } catch (_) {}
   </script>
-  <script src="js/service-guide.js?v=2026-10-01p" defer></script>
-  <script src="js/section-nav.js?v=2026-09-12" defer></script>
-  <link rel="stylesheet" href="css/editorial-rhythm.css?v=2026-09-09">
+  <script src="js/pricing.js?v=2026-10-02"></script>
+  <script src="js/service-guide.js?v=2026-10-02" defer></script>
+  <script src="js/section-nav.js?v=2026-10-02" defer></script>
+  <link rel="stylesheet" href="css/editorial-rhythm.css?v=2026-10-02">
   <link rel="stylesheet" href="css/theme.css?v=2026-09-10">
   <script src="js/theme.js?v=2026-09-10"></script>
   <script src="js/i18n-site.js?v=2026-09-12" defer></script>
@@ -77,11 +79,11 @@
 <table>
 <thead>
 <tr>
-<th scope="col">Service</th>
-<th scope="col">Booking</th>
-<th scope="col">Fee</th>
-<th scope="col">Clothing credit</th>
-<th scope="col">Scope</th>
+<th scope="col">Tier</th>
+<th scope="col">You pay</th>
+<th scope="col">My styling fee</th>
+<th scope="col">Spent on your clothes</th>
+<th scope="col">What you get</th>
 </tr>
 </thead>
 <tbody>
@@ -89,55 +91,55 @@
 <th scope="row">
 <a href="service-request.html?service=styling&amp;tier=edit">Edit</a>
 </th>
-<td data-label="Booking">$235</td>
-<td data-label="Styling fee">$135</td>
-<td data-label="Clothing credit">$100</td>
-<td data-label="Scope">A first styling read and a focused selection of 3–4 pieces.</td>
+<td data-label="You pay">$235</td>
+<td data-label="My styling fee">$135</td>
+<td data-label="Spent on your clothes">$100</td>
+<td data-label="What you get">A first styling read and a focused selection of 3–4 pieces.</td>
 </tr>
 <tr class="ss-recommended">
 <th scope="row">
 <span class="ss-tier-pick">For coordinated looks</span><a href="service-request.html?service=styling&amp;tier=capsule">Capsule</a>
 </th>
-<td data-label="Booking">$460</td>
-<td data-label="Styling fee">$270</td>
-<td data-label="Clothing credit">$190</td>
-<td data-label="Scope">A coordinated direction of 6–8 pieces and a lookbook.</td>
+<td data-label="You pay">$460</td>
+<td data-label="My styling fee">$270</td>
+<td data-label="Spent on your clothes">$190</td>
+<td data-label="What you get">A coordinated direction of 6–8 pieces and a lookbook.</td>
 </tr>
 <tr>
 <th scope="row">
 <a href="service-request.html?service=styling&amp;tier=atelier">Atelier</a>
 </th>
-<td data-label="Booking">$600</td>
-<td data-label="Styling fee">$310</td>
-<td data-label="Clothing credit">$290</td>
-<td data-label="Scope">Consultation and an in-person or live-video shopping experience.</td>
+<td data-label="You pay">$600</td>
+<td data-label="My styling fee">$310</td>
+<td data-label="Spent on your clothes">$290</td>
+<td data-label="What you get">Consultation and an in-person or live-video shopping experience.</td>
 </tr>
 <tr>
 <th scope="row">
 <a href="service-request.html?service=styling&amp;tier=signature">Signature</a>
 </th>
-<td data-label="Booking">$790</td>
-<td data-label="Styling fee">$310</td>
-<td data-label="Clothing credit">$480</td>
-<td data-label="Scope">Designer commission direction and 60 days of support; scope agreed before booking.</td>
+<td data-label="You pay">$790</td>
+<td data-label="My styling fee">$310</td>
+<td data-label="Spent on your clothes">$480</td>
+<td data-label="What you get">Designer commission direction and 60 days of support; scope agreed before booking.</td>
 </tr>
 <tr id="custom-wardrobe">
 <th scope="row">
 <a href="service-request.html?service=styling&amp;tier=custom-wardrobe">Custom Wardrobe</a>
 </th>
-<td data-label="Booking">From $1,500</td>
-<td data-label="Styling fee">$800</td>
-<td data-label="Clothing credit">$700</td>
-<td data-label="Scope">A 15–20-piece wardrobe project, lookbook, two refinement rounds, and 60 days of support.</td>
+<td data-label="You pay">From $1,500</td>
+<td data-label="My styling fee">$800</td>
+<td data-label="Spent on your clothes">$700</td>
+<td data-label="What you get">A 15–20-piece wardrobe project, lookbook, two refinement rounds, and 60 days of support.</td>
 </tr>
 <tr>
 <th scope="row">
 <a href="service-request.html?service=styling&amp;tier=custom-wardrobe-plus">Custom Wardrobe+</a>
 </th>
-<td data-label="Booking">From $2,000</td>
-<td data-label="Styling fee">From $1,100</td>
-<td data-label="Clothing credit">Agreed in quote</td>
-<td data-label="Scope">A larger or more complex wardrobe project with a bespoke scope.</td>
+<td data-label="You pay">From $2,000</td>
+<td data-label="My styling fee">From $1,100</td>
+<td data-label="Spent on your clothes">Agreed in quote</td>
+<td data-label="What you get">A larger or more complex wardrobe project with a bespoke scope.</td>
 </tr>
 </tbody>
 </table>

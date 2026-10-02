@@ -16,7 +16,12 @@
   launcher.setAttribute('aria-label', 'Open menu. Command or Control K');
   launcher.innerHTML = '<span data-i18n="ui.menu">Menu</span> <span aria-hidden="true">⌄</span>';
   document.body.append(launcher);
-  const tiers = [['Edit', '$235', '$135', '$100'], ['Capsule', '$460', '$270', '$190'], ['Atelier', '$600', '$310', '$290'], ['Signature', '$790', '$310', '$480'], ['Custom Wardrobe', 'From $1,500', '$800', '$700'], ['Custom Wardrobe+', 'From $2,000', 'From $1,100', 'Agreed in quote']];
+  // Every figure in the menu comes from js/pricing.js (loaded first); without it the menu links to /prices instead.
+  const P = window.SS_PRICING || null;
+  const D = P && P.data, F = P && P.fmt;
+  const tierHref = t => t.from ? '#custom-wardrobe' : styling;
+  const individualPrices = P ? `<h3>Personal styling</h3><p>Choose the amount of direction you need. Every booking is my styling fee plus money spent on your clothes; shipping is added separately. Đồng first, dollars in brackets.</p><div class="ss-table-wrap" role="region" aria-label="Styling prices" tabindex="0">${P.html.stylingTable(tierHref)}</div><p>Item counts depend on fit, inventory, and garment prices.</p><h3>Item sourcing</h3><p>For an exact piece you've already found.</p><ul class="ss-facts">${P.html.sourcingFacts().map(f => `<li>${f}</li>`).join('')}</ul>` : '';
+  const boutiquePrices = P ? `<h3>Boutique buying <span class="ss-cur">US dollars</span></h3>${P.html.boutiqueTrio()}<div data-bcalc-menu></div>` : '';
   const dialog = document.createElement('dialog');
   dialog.id = 'ss-service-guide'; dialog.className = 'ss-guide';
   dialog.setAttribute('aria-labelledby', 'ss-guide-title');
@@ -26,10 +31,10 @@
     <div class="ss-menu-content"><label class="sr-only" for="ss-guide-query">Search services, prices, and answers</label><div class="ss-search-wrap"><span aria-hidden="true">⌕</span><input id="ss-guide-query" type="search" placeholder="Find a service, price, or answer…" autocomplete="off"><kbd>⌘ / Ctrl K</kbd></div>
     <div class="ss-audience" role="group" aria-label="Who is this for?"><button type="button" data-aud="individual" aria-pressed="true">For individuals</button><button type="button" data-aud="boutique" aria-pressed="false">For boutiques</button></div>
     <div class="ss-menu-tabs" role="group" aria-label="Menu view"><button type="button" data-view="explore" aria-pressed="true">Explore</button><button type="button" data-view="prices" aria-pressed="false" data-i18n="nav.services">Services &amp; prices</button></div>
-    <div data-explore><p class="ss-menu-prompt">What do you need today?</p><nav class="ss-menu-primary" aria-label="For individuals" data-for="individual"><a href="${styling}"><span>01</span>Personal styling <small>Choose a piece, an outfit, or a wardrobe</small></a><a href="${sourcing}"><span>02</span>Item sourcing <small>Buy an exact item from a known seller</small></a><a href="service-request.html?service=trace"><span>03</span>The Trace <small>Identify one item from a photo · $25</small></a><a href="service-request.html?service=bulk"><span>04</span>Group order <small>A sorority, bridal party, or team · 15% of the order</small></a><a href="sourcingandstyling#prices"><span>05</span>Pricing help <small>Compare services and booking totals</small></a></nav><nav class="ss-menu-primary" aria-label="For boutiques" data-for="boutique" hidden><a href="boutique-calculator"><span>01</span>Price your buy <small>Budget and pieces in, your whole buy out</small></a><a href="for-boutiques"><span>02</span>How a buying round works <small>Scouting, line sheet, approval, one shipment</small></a><a href="${section('boutique', 'index.html#boutique')}"><span>03</span>Boutique fees <small>$250 scouting fee · 15% buying fee · $0 markup</small></a><a href="service-request.html?service=bulk"><span>04</span>Start a buy brief <small>Tell me your shop, budget, and timeline</small></a></nav><nav class="ss-menu-secondary" aria-label="Explore more"><a href="${section('process', '#lp-how')}" data-i18n="nav.process">How it works</a><a href="fashion-directory" data-i18n="nav.directory">Fashion directory</a><a href="${section('lookbook', 'index.html#lookbook')}" data-i18n="nav.lookbook">Lookbook</a><a href="${section('gift', '#lp-gift')}" data-i18n="nav.gift">Gifting</a><a href="about" data-i18n="nav.about">About the atelier</a><a href="service-request.html" data-i18n="nav.contact">Start a request</a></nav></div>
+    <div data-explore><p class="ss-menu-prompt">What do you need today?</p><nav class="ss-menu-primary" aria-label="For individuals" data-for="individual"><a href="${styling}"><span>01</span>Personal styling <small>Choose a piece, an outfit, or a wardrobe</small></a><a href="${sourcing}"><span>02</span>Item sourcing <small>Buy an exact item from a known seller</small></a><a href="service-request.html?service=trace"><span>03</span>The Trace <small>Identify one item from a photo${P ? ' · ' + F.fromUsd(D.trace.usd) : ''}</small></a><a href="service-request.html?service=bulk"><span>04</span>Group order <small>A sorority, bridal party, or team${P ? ' · ' + F.pct(D.group.pct) + ' of the order' : ''}</small></a><a href="prices"><span>05</span>Every price <small>Sourcing, styling, gifts and group orders, worked out</small></a></nav><nav class="ss-menu-primary" aria-label="For boutiques" data-for="boutique" hidden><a href="boutique-calculator"><span>01</span>Price your buy <small>Budget and pieces in, your whole buy out</small></a><a href="for-boutiques"><span>02</span>How a buying round works <small>Scouting, line sheet, approval, one shipment</small></a><a href="prices?for=boutiques"><span>03</span>Boutique fees <small>${P ? P.boutiqueTrio().map(f => f.big + ' ' + f.label).join(' · ') : 'Scouting fee, buying fee, no markup'}</small></a><a href="service-request.html?service=bulk"><span>04</span>Start a buy brief <small>Tell me your shop, budget, and timeline</small></a></nav><nav class="ss-menu-secondary" aria-label="Explore more"><a href="${section('process', '#lp-how')}" data-i18n="nav.process">How it works</a><a href="fashion-directory" data-i18n="nav.directory">Fashion directory</a><a href="${section('lookbook', 'index.html#lookbook')}" data-i18n="nav.lookbook">Lookbook</a><a href="${section('gift', '#lp-gift')}" data-i18n="nav.gift">Gifting</a><a href="about" data-i18n="nav.about">About the atelier</a><a href="service-request.html" data-i18n="nav.contact">Start a request</a></nav></div>
     <div class="ss-guide-results" aria-label="Search results" hidden></div><p data-empty role="status" hidden>No matches. Try “wardrobe”, “shipping”, or “fees”.</p>
-    <section data-prices hidden><div data-for="individual"><h3>Personal styling <span class="ss-cur">USD</span></h3><p>Choose the amount of direction you need. Every booking splits into a styling fee and a clothing credit toward pieces you approve; shipping is added separately.</p><div class="ss-table-wrap" role="region" aria-label="Styling prices" tabindex="0"><table><thead><tr><th scope="col">Service</th><th scope="col">Booking</th><th scope="col">Styling fee</th><th scope="col">Clothing credit</th></tr></thead><tbody>${tiers.map((t,i) => `<tr><th scope="row"><a href="${i > 3 ? '#custom-wardrobe' : styling}">${t[0]}</a></th>${t.slice(1).map(v=>`<td>${v}</td>`).join('')}</tr>`).join('')}</tbody></table></div><p>Item counts depend on fit, inventory, and garment prices.</p><h3>Item sourcing <span class="ss-cur">VND</span></h3><p>For an exact piece you've already found. Per item: 8% of store price (7% above 5,000,000₫), minimum 350,000₫. Coordination: 250,000₫ per order. The Trace is US$25 per item for identification research and is credited toward an order under the current terms.</p><a href="links.html#lp-sourcing">Full sourcing fees &amp; payment costs →</a><p class="ss-aud-note">Buying a range to stock a shop? <button type="button" data-aud="boutique">See boutique pricing</button></p></div>
-    <div data-for="boutique" hidden><h3>Boutique buying <span class="ss-cur">USD</span></h3><div class="ss-btq-facts"><div><b>$250</b><span>Scouting fee, once per round</span></div><div><b>15%</b><span>Buying fee on the pieces you choose</span></div><div><b>$0</b><span>Markup. You pay the designer's price</span></div></div><form class="ss-btq-calc" onsubmit="return false"><label>Budget for pieces (USD)<input type="number" data-btq="budget" min="0" step="50" inputmode="decimal" value="3000"></label><label>Number of pieces<input type="number" data-btq="pieces" min="1" step="1" inputmode="numeric" value="30"></label><label class="ss-btq-rush"><input type="checkbox" data-btq="rush"> Rush or made-to-measure (20% instead of 15%)</label></form><p class="ss-btq-total" aria-live="polite">Your buy: <strong data-btq-out="total">$3,700</strong> + shipping</p><p class="ss-btq-note" data-btq-out="note" hidden></p><ol class="ss-btq-steps"><li><span>To start: scouting fee</span><b>$250</b></li><li><span>Pieces chosen: pieces + half the buying fee</span><b data-btq-out="s2">$3,225</b></li><li><span>All approved: rest of the fee + shipping</span><b data-btq-out="s3">$225 + shipping</b></li></ol><p>The buying fee is at least $14 a piece and $25 a buy. Shipping is the courier's actual cost.</p><a class="ss-action" href="boutique-calculator">Price your buy <span aria-hidden="true">↗</span></a><p class="ss-aud-note">Ordering a few pieces for yourself or a group? <button type="button" data-aud="individual">See individual pricing</button></p></div></section>
+    <section data-prices hidden><div data-for="individual">${individualPrices}<a href="prices">All prices, worked out →</a><p class="ss-aud-note">Buying a range to stock a shop? <button type="button" data-aud="boutique">See boutique pricing</button></p></div>
+    <div data-for="boutique" hidden>${boutiquePrices}<a class="ss-action" href="prices?for=boutiques">All boutique prices <span aria-hidden="true">↗</span></a><p class="ss-aud-note">Ordering a few pieces for yourself or a group? <button type="button" data-aud="individual">See individual pricing</button></p></div></section>
     <footer class="ss-menu-footer"><span>Thoughtfully chosen in Saigon. Sent worldwide.</span><button type="button" data-settings data-i18n="a11y.title">Display &amp; accessibility</button><label><input type="checkbox" data-shortcuts> Enable O / M shortcuts</label><span>Esc to close</span></footer></div></div>`;
   const mark = document.querySelector('.brand-mark, .lp-brand-mark');
   if (mark) dialog.querySelector('.ss-menu-brand').prepend(mark.cloneNode(true));
@@ -38,7 +43,6 @@
   function bioDestination(href) {
     if (!bioPage) return href;
     if (href === '#custom-wardrobe') return 'index.html#custom-wardrobe';
-    if (href === 'links.html#lp-sourcing') return sourcing;
     if (/^[a-z][a-z-]*$/.test(href)) return href + '.html';
     return href;
   }
@@ -66,43 +70,39 @@
   const entries = [
     ['Sourcing or styling?', 'sourcingandstyling', 'Compare identified-item purchase assistance, paid research, and styling'],
     ['Sourcing services & fees', sourcing, 'Exact in-stock Vietnamese item purchase fees; unknown-item research uses The Trace', 'individual'],
-    ['Personal styling · from $235', styling, 'Edit Capsule Atelier Signature outfits occasion trip capsule', 'individual'],
-    ['Custom Wardrobe · from $1,500', '#custom-wardrobe', '15 pieces to 20 pieces, multiple looks and occasions. $800 fee + $700 clothing credit. 60 days support', 'individual'],
-    ['Custom Wardrobe+ · from $2,000', '#custom-wardrobe', '21–30+ pieces, made to measure, rush timeline, complex ordering', 'individual'],
-    ['Signature · $790', 'signature', '$310 styling fee + $480 clothing credit, designer commission and 60 days support', 'individual'],
+    ...(P ? [
+      ['Personal styling · from ' + F.fromUsd(D.styling[0].totalUsd), styling, 'Edit Capsule Atelier Signature outfits occasion trip capsule', 'individual'],
+      ['Custom Wardrobe · from ' + F.fromUsd(P.tier('custom-wardrobe').totalUsd), '#custom-wardrobe', '15 pieces to 20 pieces, multiple looks and occasions. ' + F.fromUsd(P.tier('custom-wardrobe').feeUsd) + ' styling fee + ' + F.fromUsd(P.tier('custom-wardrobe').creditUsd) + ' spent on your clothes. 60 days support', 'individual'],
+      ['Custom Wardrobe+ · from ' + F.fromUsd(P.tier('custom-wardrobe-plus').totalUsd), '#custom-wardrobe', '21–30+ pieces, made to measure, rush timeline, complex ordering', 'individual'],
+      ['Signature · ' + F.fromUsd(P.tier('signature').totalUsd), 'signature', F.fromUsd(P.tier('signature').feeUsd) + ' styling fee + ' + F.fromUsd(P.tier('signature').creditUsd) + ' spent on your clothes, designer commission and 60 days support', 'individual']
+    ] : []),
     ['Style questionnaire', 'style-profile', 'Measurements lifestyle preferences body shape', 'individual'],
     ['Shipping & order process', section('process', '#lp-how'), 'Worldwide delivery tracking approval'],
     ['Fashion directory', 'fashion-directory', 'Browse Vietnamese brands boutiques designers'],
     ['Start a request', 'service-request.html', 'Sourcing styling unsure intake consultation contact'],
-    ['Group order · 15% of the order', 'service-request.html?service=bulk', 'Sorority bridal party team shared order, 20% with made-to-measure or rush', 'individual'],
-    ['Price your boutique buy', 'boutique-calculator', 'Budget pieces rush calculator: $250 scouting fee, 15% buying fee, total and when you pay', 'boutique'],
-    ['Boutique buying agent', 'for-boutiques', 'Stock Saigon designers: scouting round, line sheet, stockist terms, one export shipment', 'boutique'],
-    ['Boutique fees · $250 scouting + 15%', section('boutique', 'index.html#boutique'), 'Scouting fee once per round, 15% buying fee (20% rush), $0 markup, $14 a piece minimum', 'boutique']
+    ['Every price', 'prices', 'Prices fees costs sourcing styling The Trace gift cards group orders boutique buying'],
+    ...(P ? [
+      ['Group order · ' + F.pct(D.group.pct) + ' of the order', 'service-request.html?service=bulk', 'Sorority bridal party team shared order, ' + F.pct(D.group.rushPct) + ' with made-to-measure or rush', 'individual'],
+      ['Price your boutique buy', 'boutique-calculator', 'Budget pieces rush calculator: ' + F.usd0(D.boutique.scoutUsd) + ' scouting fee, ' + F.pct(D.boutique.pct) + ' buying fee, total and when you pay', 'boutique'],
+      ['Boutique fees · ' + F.usd0(D.boutique.scoutUsd) + ' scouting + ' + F.pct(D.boutique.pct), 'prices?for=boutiques', 'Scouting fee once per round, ' + F.pct(D.boutique.pct) + ' buying fee (' + F.pct(D.boutique.rushPct) + ' rush), $0 markup, ' + F.usd0(D.boutique.perPieceUsd) + ' a piece minimum', 'boutique']
+    ] : []),
+    ['Boutique buying agent', 'for-boutiques', 'Stock Saigon designers: scouting round, line sheet, stockist terms, one export shipment', 'boutique']
   ];
   document.querySelectorAll('section[id]').forEach(el => {
     const heading = el.querySelector('h2, h3');
     if (heading) entries.push([heading.textContent.trim(), '#' + el.id, el.textContent.replace(/\s+/g, ' ').trim(), /boutique|btq/.test(el.id) ? 'boutique' : '']);
   });
-  // Audience is a per-viewer convenience; the menu works the same without storage.
-  let audience = /boutique/.test(location.pathname) ? 'boutique' : 'individual';
-  try { if (!/boutique/.test(location.pathname)) audience = localStorage.getItem('ss-menu-audience') === 'boutique' ? 'boutique' : 'individual'; } catch (_) {}
+  // Audience ("For individuals | For boutiques") is shared with /prices through js/pricing.js:
+  // deep links (?for=boutiques), boutique pages and the stored choice all agree. Works without storage.
+  let audience = P ? P.audience.initial() : (/boutique/.test(location.pathname) ? 'boutique' : 'individual');
   const audLabel = { individual: 'Individual', boutique: 'Boutique' };
-  const btq = { scout: 250, pct: 0.15, rushPct: 0.20, perPiece: 14, perBuy: 25 }; // keep in step with boutique-calculator
-  const usd = x => '$' + Math.round(x).toLocaleString('en-US');
-  function priceBuy() {
-    const get = k => dialog.querySelector(`[data-btq="${k}"]`), out = k => dialog.querySelector(`[data-btq-out="${k}"]`);
-    const b = Math.max(0, parseFloat(get('budget').value) || 0), p = Math.max(0, parseInt(get('pieces').value, 10) || 0), rush = get('rush').checked;
-    const pct = rush ? btq.rushPct : btq.pct;
-    let fee = b * pct, note = '';
-    if (p * btq.perPiece > fee) { fee = p * btq.perPiece; note = `The $14-a-piece minimum applies: ${p} × $14 = ${usd(fee)}.`; }
-    if (b > 0 && fee < btq.perBuy) { fee = btq.perBuy; note = 'The $25 minimum buying fee applies.'; }
-    if (!(b > 0)) fee = 0;
-    out('total').textContent = usd(b + btq.scout + fee);
-    out('s2').textContent = usd(b + fee / 2); out('s3').textContent = usd(fee / 2) + ' + shipping';
-    out('note').textContent = note; out('note').hidden = !note;
-    const link = bioDestination('boutique-calculator') + `?budget=${b}&pieces=${p}${rush ? '&rush=1' : ''}`;
-    dialog.querySelectorAll('a[href^="boutique-calculator"]').forEach(a => a.setAttribute('href', link));
+  if (P) P.mountBoutiqueCalc(dialog.querySelector('[data-bcalc-menu]'), { compact: true, params: false, fullBase: bioDestination('boutique-calculator') });
+  function setAudience(next) {
+    audience = next;
+    if (P) P.audience.set(next); else try { localStorage.setItem('ss-menu-audience', next); } catch (_) {}
+    render();
   }
+  window.addEventListener('ss:audience', e => { if (e.detail.audience !== audience) { audience = e.detail.audience; render(); } });
   let view = 'explore', previousFocus, destination = null, closing = false, closeTimer;
   const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.matches('.rm, .hc, .mono');
   function render() {
@@ -165,7 +165,7 @@
   dialog.addEventListener('click', e => {
     const b = e.target.closest('[data-view]'); if (b) { view = b.dataset.view; input.value = ''; render(); }
     const aud = e.target.closest('button[data-aud]');
-    if (aud) { audience = aud.dataset.aud; try { localStorage.setItem('ss-menu-audience', audience); } catch (_) {} render(); if (!aud.closest('.ss-audience')) dialog.querySelector(`.ss-audience [data-aud="${audience}"]`).focus({preventScroll:true}); }
+    if (aud) { setAudience(aud.dataset.aud); if (!aud.closest('.ss-audience')) dialog.querySelector(`.ss-audience [data-aud="${audience}"]`).focus({preventScroll:true}); }
     if (e.target === dialog) { const r = dialog.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) close(); }
     const a = e.target.closest('a');
     if (a && a.getAttribute('href').startsWith('#')) { e.preventDefault(); close(a.hash); }
@@ -179,8 +179,14 @@
     settings.addEventListener('click', () => window.SS_THEME.cycle());
   }
   input.addEventListener('input', render);
-  dialog.querySelectorAll('[data-btq]').forEach(el => { el.addEventListener('input', priceBuy); el.addEventListener('change', priceBuy); });
-  priceBuy();
+  // The switch is a pair of toggle buttons; arrow keys move between them, like radio buttons.
+  dialog.querySelector('.ss-audience').addEventListener('keydown', e => {
+    if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(e.key)) return;
+    e.preventDefault();
+    const next = audience === 'individual' ? 'boutique' : 'individual';
+    setAudience(e.key === 'Home' ? 'individual' : e.key === 'End' ? 'boutique' : next);
+    dialog.querySelector(`.ss-audience [data-aud="${audience}"]`).focus();
+  });
   input.addEventListener('keydown', e => {
     if (e.key === 'ArrowDown') { e.preventDefault(); results.querySelector('a')?.focus(); }
     if (e.key === 'Enter') { e.preventDefault(); results.querySelector('a')?.click(); }

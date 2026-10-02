@@ -26,6 +26,8 @@ Open <http://127.0.0.1:8731>. The local server supports the same extensionless p
 
 Keep page markup separate from substantial styles and behavior. Load page styles before component refinements, and load directory data before `js/directory.js`. Small pre-paint preference scripts stay in HTML to avoid a theme flash.
 
+Prices live in one place: `js/pricing.js`. The site menu, the estimators and the boutique calculators read it at runtime; `/prices` and `/boutique-calculator` are generated from it, so after changing a price run `python3 tools/build-prices.py && python3 tools/build-boutique-calc.py`. `tools/verify-pricing.cjs` fails if any page disagrees with it.
+
 `js/theme.js` owns Auto/Light/Dark/Mono state and transitions across the primary pages. `css/theme.css` defines the short crossfade and reduced-motion behavior. Pages bind controls to that shared state rather than adding another theme switcher.
 
 `js/directory-data.js` is the maintained house source. Catalog exports are deterministic observations, not live inventory or verification events. See [the catalog contract](dataset/catalog.md).

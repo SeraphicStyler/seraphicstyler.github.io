@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Prices · Seraphic Styler</title>
-  <meta name="description" content="Every Seraphic Styler price in one place, in US dollars: buying a piece, The Trace, styling, gifts, group orders and boutique buying — with worked examples." />
+  <meta name="description" content="Every Seraphic Styler price in one place: buying a piece, The Trace, styling, gift cards and group orders in đồng with dollars, and boutique buying in dollars with a live calculator." />
   <meta property="og:title" content="Prices — Seraphic Styler" />
-  <meta property="og:description" content="Every Seraphic Styler price in one place, in US dollars: buying a piece, The Trace, styling, gifts, group orders and boutique buying — with worked examples." />
+  <meta property="og:description" content="Every Seraphic Styler price in one place: buying a piece, The Trace, styling, gift cards and group orders in đồng with dollars, and boutique buying in dollars with a live calculator." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.seraphicstyler.com/prices" />
   <meta property="og:image" content="https://www.seraphicstyler.com/assets/social/og-image.png" />
@@ -31,119 +31,87 @@
       } catch (e) {}
     })();
   </script>
-    <link rel="stylesheet" href="css/legal.css?v=2026-10-01" />
-  <style>
-    .pr-picks { display:grid; gap:0.7rem; grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr)); max-width:900px; margin:0 auto clamp(2.6rem,7vh,3.6rem); }
-    .pr-pick { display:flex; flex-direction:column; gap:0.25rem; padding:1rem 1.1rem; border:1px solid var(--surface-border); border-radius:16px; background:var(--surface); text-decoration:none; transition:border-color .2s, transform .2s; }
-    .pr-pick:hover, .pr-pick:focus-visible { border-color:var(--accent); transform:translateY(-2px); }
-    .pr-pick-q { font-family:'Cormorant Garamond',serif; font-size:1.15rem; color:var(--text-primary); line-height:1.25; }
-    .pr-pick-s { font-family:var(--font-body); font-size:0.76rem; color:var(--text-secondary); }
-    .pr-pick-a { margin-top:auto; padding-top:0.5rem; font-family:var(--font-accent); font-size:0.72rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent); }
-    .pr-wrap { max-width:820px; margin:0 auto; }
-    .pr-sec { padding:clamp(2rem,6vh,3rem) 0; border-top:1px solid var(--surface-border); scroll-margin-top:1rem; overflow-wrap:anywhere; }
-    .pr-head { display:grid; grid-template-columns:auto 1fr; gap:0.2rem 1rem; align-items:end; }
-    .pr-who { margin:0 0 0.2rem; font-family:var(--font-brand); text-transform:uppercase; letter-spacing:0.2em; font-size:0.62rem; color:var(--eyebrow-ink); }
-    .pr-head h2 { margin:0; font-family:'Cormorant Garamond',serif; font-weight:500; font-size:clamp(1.6rem,4.5vw,2rem); color:var(--text-primary); line-height:1.1; }
-    .pr-price { grid-column:1/-1; display:flex; align-items:baseline; gap:0.6rem; flex-wrap:wrap; margin-top:0.8rem; padding:0.8rem 1rem; border-radius:14px; background:linear-gradient(135deg,var(--accent-soft),transparent 70%); border:1px solid var(--surface-border); }
-    .pr-price b { font-family:'Cormorant Garamond',serif; font-weight:500; font-size:clamp(1.9rem,6vw,2.4rem); color:var(--accent); line-height:1; }
-    .pr-price span { font-family:var(--font-body); font-size:0.82rem; color:var(--text-secondary); }
-    @media (min-width:700px){ .pr-head { grid-template-columns:auto 1fr auto; } .pr-price { grid-column:auto; margin-top:0; flex-direction:column; align-items:flex-end; gap:0.2rem; text-align:right; } }
-    .pr-body { margin-top:1rem; }
-    .pr-p { margin:0.4rem 0 0.6rem; font-family:var(--font-body); font-size:0.9rem; line-height:1.75; color:var(--text-secondary); }
-    .pr-p strong, .pr-ex strong { color:var(--text-primary); font-weight:500; }
-    .pr-tbl td b { color:var(--text-primary); font-weight:600; }
-    .pr-tbl th a { color:var(--text-primary); }
-    .pr-narrow { max-width:420px; }
-    .pr-ex { margin-top:1.2rem; padding:1rem 1.15rem; border-radius:14px; border:1px dashed color-mix(in srgb,var(--accent) 45%,transparent); background:var(--surface-soft); }
-    .pr-exh { margin:0 0 0.5rem; font-family:var(--font-brand); text-transform:uppercase; letter-spacing:0.18em; font-size:0.62rem; color:var(--eyebrow-ink); }
-    .pr-ex dl { margin:0; }
-    .pr-ex dl > div { display:flex; justify-content:space-between; gap:1rem; padding:0.3rem 0; font-family:var(--font-body); font-size:0.86rem; color:var(--text-secondary); }
-    .pr-ex dd { margin:0; white-space:nowrap; color:var(--text-primary); font-variant-numeric:tabular-nums; }
-    .pr-ex .pr-tot { border-top:1px solid var(--surface-border); margin-top:0.3rem; padding-top:0.55rem; font-weight:600; }
-    .pr-ex .pr-tot dt, .pr-ex .pr-tot dd { color:var(--text-primary); font-size:0.95rem; }
-    .pr-exn { margin:0.5rem 0 0; font-size:0.76rem; color:var(--text-secondary); font-style:italic; }
-    .pr-cta { margin-top:1.2rem; display:flex; flex-wrap:wrap; gap:0.6rem; }
-    .pr-btn { display:inline-flex; align-items:center; min-height:46px; padding:0 1.3rem; border-radius:999px; text-decoration:none; font-family:var(--font-accent); font-size:0.8rem; letter-spacing:0.04em; color:#fff; background:var(--accent); }
-    html.dark .pr-btn { color:#1a1d29; }
-    .pr-btn + .pr-btn { background:none; color:var(--accent); border:1px solid var(--accent); }
-    .pr-always { max-width:820px; margin:1rem auto 0; }
-  </style>
+    <meta name="ss-pricing-data" content="40386ce3ee3f" />
+  <link rel="stylesheet" href="css/legal.css?v=2026-10-01" />
+  <link rel="stylesheet" href="css/pricing.css?v=2026-10-02" />
+  <script src="js/pricing.js?v=2026-10-02"></script>
   <script src="js/i18n-site.js?v=2026-09-12" defer></script>
   <script src="js/geo-lang.js?v=2026-09-12" defer></script>
 </head>
-<body id="top">
+<body id="top" class="pr-page">
   <div class="grain" aria-hidden="true"></div>
   <header class="lg lg-top">
     <svg class="lg-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.3,27.0 C18.4,18.0 21.6,8.4 31.6,6.6 C38.2,5.4 41.0,11.4 37.8,18.0 C35.0,24.2 28.6,27.4 23.0,28.6 Z"/><path d="M22.6,29.4 C26.8,31.2 32.2,33.0 35.0,38.0 C36.6,40.8 36.0,43.8 33.6,43.4 C29.6,42.7 25.0,35.6 22.4,30.4 Z"/><path d="M22.3,27.0 C21.5,28.8 21.5,30.6 22.6,32.2"/><path d="M22.3,27.0 C19.9,22.2 17.2,18.4 13.4,16.4"/><path d="M22.3,27.0 C20.6,21.8 18.8,17.2 16.0,13.8"/><circle cx="13.4" cy="16.4" r="1.2" fill="currentColor" stroke="none"/><circle cx="16.0" cy="13.8" r="1.2" fill="currentColor" stroke="none"/></svg>
     <a class="brand-lockup" href="./" aria-label="Seraphic Styler home"><span class="brand-seraphic">Seraphic</span><span class="brand-styler">Styler</span></a>
   </header>
   <main class="lg">
-    <div class="lg-hero">
+    <div class="lg-hero pr-hero">
       <span class="lg-eyebrow">Prices</span>
       <h1 class="lg-h1">Every price, <em>plainly</em></h1>
-      <p class="lg-lead">All in US dollars. Pick what you need below, and that’s the price, confirmed in writing before you pay.</p>
+      <p class="lg-lead">Choose who you’re buying for. Every price is confirmed in writing before you pay.</p>
     </div>
-    <nav class="pr-picks" aria-label="What do you need?"><a class="pr-pick" href="#buy"><span class="pr-pick-q">I know exactly what I want</span><span class="pr-pick-s">I have a link or the shop’s name</span><span class="pr-pick-a">Buy a piece →</span></a><a class="pr-pick" href="#trace"><span class="pr-pick-q">I have a photo, but no link</span><span class="pr-pick-s">Find out what it is and where to buy it</span><span class="pr-pick-a">The Trace →</span></a><a class="pr-pick" href="#styling"><span class="pr-pick-q">Choose pieces for me</span><span class="pr-pick-s">Outfits, a capsule, a wardrobe</span><span class="pr-pick-a">Styling →</span></a><a class="pr-pick" href="#gift"><span class="pr-pick-q">It’s a gift</span><span class="pr-pick-s">Give a styling experience</span><span class="pr-pick-a">Gift styling →</span></a><a class="pr-pick" href="#group"><span class="pr-pick-q">Buying with friends or a group</span><span class="pr-pick-s">Weddings, sororities, events — $1,000+</span><span class="pr-pick-a">Group orders →</span></a><a class="pr-pick" href="#boutique"><span class="pr-pick-q">I own a store</span><span class="pr-pick-s">Stock to resell</span><span class="pr-pick-a">Boutiques →</span></a></nav>
-    <div class="pr-wrap">
-    <section class="pr-sec" id="buy" aria-labelledby="buy-h">
-      <div class="pr-head">
-        <span class="lg-num" aria-hidden="true">1</span>
-        <div><p class="pr-who">You know exactly what you want</p><h2 id="buy-h">Buy a piece</h2></div>
-        <div class="pr-price"><b>$14</b><span>per item, most items</span></div>
+    <div class="pr-bar">
+      <div class="aud-switch" role="tablist" aria-label="Who are you buying for?">
+        <button type="button" role="tab" id="tab-individuals" data-aud="individual" aria-selected="true" aria-controls="view-individuals" tabindex="0">For individuals</button>
+        <button type="button" role="tab" id="tab-boutiques" data-aud="boutique" aria-selected="false" aria-controls="view-boutiques" tabindex="-1">For boutiques</button>
       </div>
-      <div class="pr-body"><ul class="lg-bul"><li><strong>The item</strong> at the shop’s own price. I never add a markup.</li><li><strong>My fee: $14 per item.</strong> Items over $175 are 8% of the price instead, and items over $200 are 7%.</li><li><strong>$10 per order</strong> for packing and coordination. Two shops are included; each extra shop is $6.</li><li><strong>3% currency transfer</strong> on the order, which covers sending your money to the shop in đồng.</li><li><strong>Shipping</strong> at the courier’s actual cost, quoted before it ships.</li></ul><div class="pr-ex"><p class="pr-exh">Example · one $60 dress</p><dl><div><dt>Dress</dt><dd>$60</dd></div><div><dt>My fee</dt><dd>$14</dd></div><div><dt>Order fee</dt><dd>$10</dd></div><div><dt>Currency transfer, 3%</dt><dd>$2.52</dd></div><div class="pr-tot"><dt>You pay</dt><dd>$86.52 + shipping</dd></div></dl></div></div>
-      <div class="pr-cta"><a class="pr-btn" href="service-request.html?service=sourcing">Buy a piece →</a></div>
-    </section>
-    <section class="pr-sec" id="trace" aria-labelledby="trace-h">
-      <div class="pr-head">
-        <span class="lg-num" aria-hidden="true">2</span>
-        <div><p class="pr-who">You have a photo, but no link</p><h2 id="trace-h">The Trace</h2></div>
-        <div class="pr-price"><b>$25</b><span>per item</span></div>
-      </div>
-      <div class="pr-body"><ul class="lg-bul"><li>I find out what the piece is and who sells it, and reply within 48 hours.</li><li><strong>If you then order it, the $25 comes off your order.</strong></li><li>If it can’t be found, I tell you why and what’s closest.</li></ul></div>
-      <div class="pr-cta"><a class="pr-btn" href="service-request.html?service=trace">Start The Trace →</a></div>
-    </section>
-    <section class="pr-sec" id="styling" aria-labelledby="styling-h">
-      <div class="pr-head">
-        <span class="lg-num" aria-hidden="true">3</span>
-        <div><p class="pr-who">You want me to choose</p><h2 id="styling-h">Styling</h2></div>
-        <div class="pr-price"><b>from $235</b><span>fee + money for your clothes</span></div>
-      </div>
-      <div class="pr-body"><p class="pr-p">Every tier has two parts: <strong>my styling fee</strong>, and <strong>money that is spent on your clothes</strong> at the shop’s price. If you love pieces that cost more than that, I ask before spending a cent more.</p><table class="lg-tbl pr-tbl"><thead><tr><th scope="col">Tier</th><th scope="col">You pay</th><th scope="col">My styling fee</th><th scope="col">Spent on your clothes</th><th scope="col">What you get</th></tr></thead><tbody><tr><th scope="row"><a href="service-request.html?service=styling&amp;tier=edit">The Edit</a></th><td data-l="You pay"><b>$235</b></td><td data-l="My styling fee">$135</td><td data-l="Spent on your clothes">$100</td><td data-l="What you get">3–4 pieces, one focused need</td></tr><tr><th scope="row"><a href="service-request.html?service=styling&amp;tier=capsule">The Capsule</a></th><td data-l="You pay"><b>$460</b></td><td data-l="My styling fee">$270</td><td data-l="Spent on your clothes">$190</td><td data-l="What you get">6–8 pieces that work together, with a lookbook</td></tr><tr><th scope="row"><a href="service-request.html?service=styling&amp;tier=atelier">The Atelier</a></th><td data-l="You pay"><b>$600</b></td><td data-l="My styling fee">$310</td><td data-l="Spent on your clothes">$290</td><td data-l="What you get">Consultation plus a shopping session, in Saigon or on live video</td></tr><tr><th scope="row"><a href="service-request.html?service=styling&amp;tier=signature">The Signature</a></th><td data-l="You pay"><b>$790</b></td><td data-l="My styling fee">$310</td><td data-l="Spent on your clothes">$480</td><td data-l="What you get">Designer pieces and 60 days of support</td></tr><tr><th scope="row"><a href="service-request.html?service=styling&amp;tier=custom-wardrobe">Custom Wardrobe</a></th><td data-l="You pay"><b>from $1,500</b></td><td data-l="My styling fee">$800</td><td data-l="Spent on your clothes">$700</td><td data-l="What you get">15–20 pieces for several occasions</td></tr><tr><th scope="row"><a href="service-request.html?service=styling&amp;tier=custom-wardrobe-plus">Custom Wardrobe+</a></th><td data-l="You pay"><b>from $2,000</b></td><td data-l="My styling fee">from $1,100</td><td data-l="Spent on your clothes">agreed together</td><td data-l="What you get">21–30+ pieces, made-to-measure, quoted for you</td></tr></tbody></table><div class="pr-ex"><p class="pr-exh">Example · The Capsule</p><dl><div><dt>My styling fee</dt><dd>$270</dd></div><div><dt>Spent on your clothes</dt><dd>$190</dd></div><div><dt>Your pieces come to $250, so you approve an extra</dt><dd>$60</dd></div><div class="pr-tot"><dt>You pay</dt><dd>$520 + shipping</dd></div></dl></div></div>
-      <div class="pr-cta"><a class="pr-btn" href="service-request.html?service=styling">Book styling →</a></div>
-    </section>
-    <section class="pr-sec" id="gift" aria-labelledby="gift-h">
-      <div class="pr-head">
-        <span class="lg-num" aria-hidden="true">4</span>
-        <div><p class="pr-who">For someone else</p><h2 id="gift-h">Gift styling</h2></div>
-        <div class="pr-price"><b>from $235</b><span>same tiers as styling</span></div>
-      </div>
-      <div class="pr-body"><ul class="lg-bul"><li>Give any styling tier above as a gift card. Same prices, same money toward their clothes.</li><li>Gift cards <strong>never expire</strong>, and keep the value they were bought at.</li></ul></div>
-      <div class="pr-cta"><a class="pr-btn" href="index.html#gift">Choose a gift →</a></div>
-    </section>
-    <section class="pr-sec" id="group" aria-labelledby="group-h">
-      <div class="pr-head">
-        <span class="lg-num" aria-hidden="true">5</span>
-        <div><p class="pr-who">Weddings, sororities, events, friends</p><h2 id="group-h">Group orders</h2></div>
-        <div class="pr-price"><b>15%</b><span>of the order, from $1,000</span></div>
-      </div>
-      <div class="pr-body"><ul class="lg-bul"><li><strong>Orders of $1,000 or more:</strong> my fee is 15% of the order, or 20% if pieces are made to measure or rushed.</li><li>Orders under $1,000 are priced like <a href="#buy">buying a piece</a>, item by item.</li><li>On orders under $3,000, every different piece costs at least $14 in fee. Multiples of the same piece don’t count.</li><li>Shipping is at cost, in one parcel.</li></ul><div class="pr-ex"><p class="pr-exh">Example · 8 bridesmaid dresses at $250</p><dl><div><dt>Dresses</dt><dd>$2,000</dd></div><div><dt>My fee, 15%</dt><dd>$300</dd></div><div class="pr-tot"><dt>You pay</dt><dd>$2,300 + shipping</dd></div></dl></div></div>
-      <div class="pr-cta"><a class="pr-btn" href="service-request.html?service=bulk">Ask for a group quote →</a></div>
-    </section>
-    <section class="pr-sec" id="boutique" aria-labelledby="boutique-h">
-      <div class="pr-head">
-        <span class="lg-num" aria-hidden="true">6</span>
-        <div><p class="pr-who">You own a store and buy to resell</p><h2 id="boutique-h">Boutiques</h2></div>
-        <div class="pr-price"><b>$250 + 15%</b><span>scouting, then 15% of the pieces</span></div>
-      </div>
-      <div class="pr-body"><p class="pr-p">I scout Vietnamese designers for you, negotiate stockist prices, check every piece and ship it all in one parcel. Pieces are at the designer’s price, never marked up.</p><ul class="lg-bul"><li><strong>Scouting fee: $250 per round.</strong> Three to four hours of finding designers and building you a line sheet of options. Paid before I start, and it’s mine to keep, like a styling fee. If you don’t buy, the line sheet is still yours.</li><li><strong>Buying fee: 15% of the pieces you choose</strong>, at every size. That’s the same rate as group orders. Rush or made-to-measure is 20% instead.</li><li>Every buy pays at least <strong>$14 per piece</strong> and <strong>$25 in total</strong> in buying fee, the same minimum as buying a single piece.</li><li>Research before you know what you want: <strong>$45 an hour</strong>, two-hour minimum, prepaid.</li></ul><div class="pr-ex"><p class="pr-exh">Example · a $3,000 first buy</p><dl><div><dt>1 · Scouting fee, to start</dt><dd>$250</dd></div><div><dt>2 · Once you’ve chosen your pieces: pieces + half the buying fee</dt><dd>$3,225</dd></div><div><dt>3 · Once every piece is photographed and approved: the rest of the buying fee + shipping</dt><dd>$225 + shipping</dd></div><div class="pr-tot"><dt>Total</dt><dd>$3,700 + shipping</dd></div></dl><p class="pr-exn">Buying fee: 15% of $3,000 = $450. Scouting fee: $250.</p></div></div>
-      <div class="pr-cta"><a class="pr-btn" href="boutique-calculator">Calculate your buy →</a><a class="pr-btn" href="for-boutiques">Full boutique details →</a><a class="pr-btn" href="https://buy.stripe.com/aFafZi2jtdjF9AsavUaAw0e?client_reference_id=prices-page">Pay the $250 scouting fee →</a></div>
-    </section>
+      <nav class="pr-secnav" aria-label="Sections">
+        <a href="#buy">Buy a piece</a><a href="#trace">The Trace</a><a href="#styling">Styling</a><a href="#group">Group orders</a><a href="?for=boutiques" data-aud-go="boutique">Boutiques →</a>
+      </nav>
     </div>
-    <section class="lg-glance pr-always" aria-labelledby="always-h">
-      <h2 id="always-h">True for every service</h2>
-      <ul class="lg-bul"><li><strong>Nothing is bought without your yes.</strong> You see the photo, price and size first.</li><li><strong>Your price is confirmed in writing</strong> before you pay. That written quote is what you pay.</li><li><strong>Shipping</strong> is the courier’s actual cost on the day it ships, including the fuel and peak-season surcharges couriers add (high this autumn). It’s quoted before you pay for it. <strong>Import duties and taxes</strong> in your country are yours.</li><li><strong>Paying:</strong> bank transfer, Zelle and Wise have no card fee. A card adds about 5.4% + $0.30, which is the processor’s fee, shown before you pay. Orders for pieces also carry the 3% currency transfer. <a href="pay">How payment works</a>.</li><li><strong>Prices are in US dollars.</strong> Shop prices in đồng are converted at 25,000₫ = $1.</li><li><strong>If a piece sells out</strong>, see <a href="policy">returns &amp; credit</a>.</li></ul>
-    </section>
+    <div class="pr-view" id="view-individuals" role="tabpanel" aria-labelledby="tab-individuals">
+      <p class="pr-cross pr-cross--top">Buying for a store? <a href="?for=boutiques" data-aud-go="boutique">Boutique pricing →</a></p>
+      <p class="pr-curnote">Prices are in đồng with US dollars in brackets, at 25,000₫ = $1. A ~ marks a conversion; without it, the dollar figure is what’s charged.</p>
+      
+      <section class="pr-sec" id="buy" aria-labelledby="buy-h">
+        <p class="pr-who">You know exactly what you want</p>
+        <h2 id="buy-h">Buy a piece</h2>
+        <div class="pr-price"><b><span class="money">350,000₫ <span class="money-alt">(~$14)</span></span></b><span>per item, most items</span></div>
+        <ul class="lg-bul pr-points"><li><strong>The item</strong> at the shop’s own price. I never add a markup.</li><li><strong>My fee: <span class="money">350,000₫ <span class="money-alt">(~$14)</span></span> per item.</strong> Items over <span class="money">4,375,000₫ <span class="money-alt">(~$175)</span></span> are 8% of the price instead, and items over <span class="money">5,000,000₫ <span class="money-alt">(~$200)</span></span> are 7%.</li><li><strong><span class="money">250,000₫ <span class="money-alt">(~$10)</span></span> per order</strong> for packing and coordination. Two shops are included; each extra shop is <span class="money">150,000₫ <span class="money-alt">(~$6)</span></span>.</li><li><strong>3% currency transfer</strong> on the order, which covers sending your money to the shop in đồng.</li><li><strong>Shipping</strong> at the courier’s actual cost, quoted before it ships.</li></ul><figure class="pr-ex"><figcaption>Example · one 1,500,000₫ (~$60) dress</figcaption><table class="pr-ex-table"><tbody><tr><th scope="row">Dress</th><td class="num"><span class="money">1,500,000₫ <span class="money-alt">(~$60)</span></span></td></tr><tr><th scope="row">My fee</th><td class="num"><span class="money">350,000₫ <span class="money-alt">(~$14)</span></span></td></tr><tr><th scope="row">Order fee</th><td class="num"><span class="money">250,000₫ <span class="money-alt">(~$10)</span></span></td></tr><tr><th scope="row">Currency transfer, 3%</th><td class="num"><span class="money">63,000₫ <span class="money-alt">(~$2.52)</span></span></td></tr></tbody><tfoot><tr><th scope="row">You pay</th><td class="num"><span class="money">2,163,000₫ <span class="money-alt">(~$86.52)</span></span> + shipping</td></tr></tfoot></table></figure>
+        <div class="pr-cta"><a class="pr-btn" href="service-request.html?service=sourcing">Buy a piece →</a><a class="pr-btn alt" href="estimate">Estimate your order →</a></div>
+      </section>
+      
+      <section class="pr-sec" id="trace" aria-labelledby="trace-h">
+        <p class="pr-who">You have a photo, but no link</p>
+        <h2 id="trace-h">The Trace</h2>
+        <div class="pr-price"><b><span class="money">625,000₫ <span class="money-alt">($25)</span></span></b><span>per item</span></div>
+        <ul class="lg-bul pr-points"><li>I find out what the piece is and who sells it, and reply within 48 hours.</li><li><strong>If you then order it, the <span class="money">625,000₫ <span class="money-alt">($25)</span></span> comes off your order.</strong></li><li>If it can’t be found, I tell you why and what’s closest.</li></ul><figure class="pr-ex"><figcaption>Example · a photo, then the same dress</figcaption><table class="pr-ex-table"><tbody><tr><th scope="row">The Trace, paid when you send the photo</th><td class="num"><span class="money">625,000₫ <span class="money-alt">($25)</span></span></td></tr><tr><th scope="row">Later, that dress, from <a href="#buy">Buy a piece</a></th><td class="num"><span class="money">2,163,000₫ <span class="money-alt">(~$86.52)</span></span></td></tr><tr><th scope="row">Less The Trace you already paid</th><td class="num"><span class="money">−625,000₫ <span class="money-alt">(−$25)</span></span></td></tr></tbody><tfoot><tr><th scope="row">You pay for the dress</th><td class="num"><span class="money">1,538,000₫ <span class="money-alt">(~$61.52)</span></span> + shipping</td></tr></tfoot></table></figure>
+        <div class="pr-cta"><a class="pr-btn" href="service-request.html?service=trace">Start The Trace →</a></div>
+      </section>
+      
+      <section class="pr-sec" id="styling" aria-labelledby="styling-h">
+        <p class="pr-who">You want me to choose</p>
+        <h2 id="styling-h">Styling</h2>
+        <div class="pr-price"><b>from <span class="money">5,875,000₫ <span class="money-alt">($235)</span></span></b><span>a fee, plus money for your clothes</span></div>
+        <ul class="lg-bul pr-points"><li>Every tier has two parts: <strong>my styling fee</strong>, and <strong>money that is spent on your clothes</strong> at the shop’s price.</li><li>If you love pieces that cost more, I ask before spending any more.</li><li>Styling is charged in US dollars. Shipping is added separately.</li></ul><div class="pr-table-wrap" role="region" aria-label="Styling tiers" tabindex="0"><table class="price-table"><caption class="sr-only">Styling tiers</caption><thead><tr><th scope="col">Tier</th><th scope="col" class="num">You pay</th><th scope="col" class="num">My styling fee</th><th scope="col" class="num">Spent on your clothes</th><th scope="col">What you get</th></tr></thead><tbody><tr><th scope="row"><a href="service-request.html?service=styling&amp;tier=edit">The Edit</a></th><td class="num" data-l="You pay"><span class="money">5,875,000₫ <span class="money-alt">($235)</span></span></td><td class="num" data-l="My styling fee"><span class="money">3,375,000₫ <span class="money-alt">($135)</span></span></td><td class="num" data-l="Spent on your clothes"><span class="money">2,500,000₫ <span class="money-alt">($100)</span></span></td><td data-l="What you get">3–4 pieces, one focused need</td></tr><tr><th scope="row"><a href="service-request.html?service=styling&amp;tier=capsule">The Capsule</a></th><td class="num" data-l="You pay"><span class="money">11,500,000₫ <span class="money-alt">($460)</span></span></td><td class="num" data-l="My styling fee"><span class="money">6,750,000₫ <span class="money-alt">($270)</span></span></td><td class="num" data-l="Spent on your clothes"><span class="money">4,750,000₫ <span class="money-alt">($190)</span></span></td><td data-l="What you get">6–8 pieces that work together, with a lookbook</td></tr><tr><th scope="row"><a href="service-request.html?service=styling&amp;tier=atelier">The Atelier</a></th><td class="num" data-l="You pay"><span class="money">15,000,000₫ <span class="money-alt">($600)</span></span></td><td class="num" data-l="My styling fee"><span class="money">7,750,000₫ <span class="money-alt">($310)</span></span></td><td class="num" data-l="Spent on your clothes"><span class="money">7,250,000₫ <span class="money-alt">($290)</span></span></td><td data-l="What you get">Consultation plus a shopping session, in Saigon or on live video</td></tr><tr><th scope="row"><a href="service-request.html?service=styling&amp;tier=signature">The Signature</a></th><td class="num" data-l="You pay"><span class="money">19,750,000₫ <span class="money-alt">($790)</span></span></td><td class="num" data-l="My styling fee"><span class="money">7,750,000₫ <span class="money-alt">($310)</span></span></td><td class="num" data-l="Spent on your clothes"><span class="money">12,000,000₫ <span class="money-alt">($480)</span></span></td><td data-l="What you get">Designer pieces and 60 days of support</td></tr><tr><th scope="row"><a href="service-request.html?service=styling&amp;tier=custom-wardrobe">Custom Wardrobe</a></th><td class="num" data-l="You pay">from <span class="money">37,500,000₫ <span class="money-alt">($1,500)</span></span></td><td class="num" data-l="My styling fee"><span class="money">20,000,000₫ <span class="money-alt">($800)</span></span></td><td class="num" data-l="Spent on your clothes"><span class="money">17,500,000₫ <span class="money-alt">($700)</span></span></td><td data-l="What you get">15–20 pieces for several occasions</td></tr><tr><th scope="row"><a href="service-request.html?service=styling&amp;tier=custom-wardrobe-plus">Custom Wardrobe+</a></th><td class="num" data-l="You pay">from <span class="money">50,000,000₫ <span class="money-alt">($2,000)</span></span></td><td class="num" data-l="My styling fee">from <span class="money">27,500,000₫ <span class="money-alt">($1,100)</span></span></td><td class="num" data-l="Spent on your clothes">agreed together</td><td data-l="What you get">21–30+ pieces, made-to-measure, quoted for you</td></tr></tbody></table></div><aside class="pr-gift" id="gift" aria-label="Gift cards"><p><strong>Giving it?</strong> Any tier as a gift card — same prices, never expire.</p><a href="index.html#gift">Choose a gift →</a></aside><figure class="pr-ex"><figcaption>Example · The Capsule</figcaption><table class="pr-ex-table"><tbody><tr><th scope="row">My styling fee</th><td class="num"><span class="money">6,750,000₫ <span class="money-alt">($270)</span></span></td></tr><tr><th scope="row">Spent on your clothes</th><td class="num"><span class="money">4,750,000₫ <span class="money-alt">($190)</span></span></td></tr><tr><th scope="row">Your pieces come to 6,250,000₫ ($250), so you approve an extra</th><td class="num"><span class="money">1,500,000₫ <span class="money-alt">($60)</span></span></td></tr></tbody><tfoot><tr><th scope="row">You pay</th><td class="num"><span class="money">13,000,000₫ <span class="money-alt">($520)</span></span> + shipping</td></tr></tfoot></table></figure>
+        <div class="pr-cta"><a class="pr-btn" href="service-request.html?service=styling">Book styling →</a></div>
+      </section>
+      
+      <section class="pr-sec" id="group" aria-labelledby="group-h">
+        <p class="pr-who">Weddings, sororities, events, friends</p>
+        <h2 id="group-h">Group orders</h2>
+        <div class="pr-price"><b>15%</b><span>of the order, from 25,000,000₫ ($1,000)</span></div>
+        <ul class="lg-bul pr-points"><li><strong>Orders of <span class="money">25,000,000₫ <span class="money-alt">($1,000)</span></span> or more:</strong> my fee is 15% of the order, or 20% if pieces are made to measure or rushed.</li><li>Orders under <span class="money">25,000,000₫ <span class="money-alt">($1,000)</span></span> are priced like <a href="#buy">buying a piece</a>, item by item.</li><li>On orders under <span class="money">75,000,000₫ <span class="money-alt">($3,000)</span></span>, every different piece costs at least <span class="money">350,000₫ <span class="money-alt">(~$14)</span></span> in fee. Multiples of the same piece don’t count.</li><li>Shipping is at cost, in one parcel.</li></ul><figure class="pr-ex"><figcaption>Example · 8 bridesmaid dresses at 6,250,000₫ ($250)</figcaption><table class="pr-ex-table"><tbody><tr><th scope="row">Dresses</th><td class="num"><span class="money">50,000,000₫ <span class="money-alt">($2,000)</span></span></td></tr><tr><th scope="row">My fee, 15%</th><td class="num"><span class="money">7,500,000₫ <span class="money-alt">($300)</span></span></td></tr></tbody><tfoot><tr><th scope="row">You pay</th><td class="num"><span class="money">57,500,000₫ <span class="money-alt">($2,300)</span></span> + shipping</td></tr></tfoot></table></figure>
+        <div class="pr-cta"><a class="pr-btn" href="service-request.html?service=bulk">Ask for a group quote →</a></div>
+      </section>
+      <section class="lg-glance pr-always" aria-labelledby="always-h">
+        <h2 id="always-h">True for every service</h2>
+        <ul class="lg-bul pr-points"><li><strong>Nothing is bought without your yes.</strong> You see the photo, price and size first.</li><li><strong>Your price is confirmed in writing</strong> before you pay. That written quote is what you pay.</li><li><strong>Shipping</strong> is the courier’s actual cost on the day it ships, including the fuel and peak-season surcharges couriers add (high this autumn). It’s quoted before you pay for it. <strong>Import duties and taxes</strong> in your country are yours.</li><li><strong>Paying:</strong> bank transfer, Zelle and Wise have no card fee. A card adds about 5.4% + 7,500₫ ($0.30), which is the processor’s fee, shown before you pay. Orders for pieces also carry the 3% currency transfer. <a href="pay">How payment works</a>.</li><li><strong>If a piece sells out</strong>, see <a href="policy">returns &amp; credit</a>.</li></ul>
+      </section>
+    </div>
+    <div class="pr-view" id="view-boutiques" role="tabpanel" aria-labelledby="tab-boutiques">
+      <section class="pr-sec pr-btq" id="boutique" aria-labelledby="boutique-h">
+        <p class="pr-who">You own a store and buy to resell</p>
+        <h2 id="boutique-h">Boutique buying</h2>
+        <p class="pr-p">I scout Vietnamese designers for you, negotiate stockist prices, check every piece and ship it all in one parcel. Every figure here is in US dollars.</p>
+        <ul class="fee-trio"><li><b class="money">$250</b><span>scouting fee</span><small>once per round, paid up front to start</small></li><li><b class="money">15%</b><span>buying fee</span><small>on the pieces you choose (20% for rush or made-to-measure)</small></li><li><b class="money">$0</b><span>markup</span><small>you pay the designer’s price</small></li></ul>
+        <p class="pr-research"><strong>Research before a brief:</strong> $45 an hour, two-hour minimum, prepaid — for market surveys or option-hunting before you know what you want.</p>
+        <div class="bcalc-mount" id="prices-calc"><div class="bcalc bcalc--static"><p class="bcalc-static-h">A $3,000 buy of about 30 pieces, worked out:</p><h3 class="bcalc-h">Your buy</h3><table class="bcalc-buy"><tbody><tr><th scope="row">Pieces, at the designer’s price</th><td class="num"><span class="money">$3,000</span></td></tr><tr><th scope="row">Scouting fee</th><td class="num"><span class="money">$250</span></td></tr><tr><th scope="row">Buying fee, 15%</th><td class="num"><span class="money">$450</span></td></tr></tbody><tfoot><tr><th scope="row">Total</th><td class="num"><span class="money">$3,700</span> + shipping</td></tr></tfoot></table><h3 class="bcalc-h">When you pay</h3><table class="pay-sched"><thead><tr><th scope="col">When</th><th scope="col">You pay</th><th scope="col" class="num">Amount</th></tr></thead><tbody><tr><th scope="row">To start</th><td>Scouting fee</td><td class="num"><span class="money">$250</span></td></tr><tr><th scope="row">Once you’ve chosen your pieces</th><td>Pieces <span class="money">$3,000</span> + half the buying fee <span class="money">$225</span></td><td class="num"><span class="money">$3,225</span></td></tr><tr><th scope="row">Once every piece is photographed and approved</th><td>The other half of the buying fee <span class="money">$225</span> + shipping at cost</td><td class="num"><span class="money">$225</span> + shipping</td></tr></tbody></table><p class="bcalc-static-note">Turn on JavaScript to work out your own numbers.</p></div></div>
+        <div class="gtk"><div class="gtk-group"><h3>Shipping &amp; duties</h3><ul class="lg-bul"><li>Shipping is the courier’s actual cost on the day it ships, including any fuel or peak-season surcharges. It’s quoted before you pay it.</li><li>Import duties and taxes in your country are yours.</li></ul></div><div class="gtk-group"><h3>Minimums</h3><ul class="lg-bul"><li>The buying fee is at least $14 per piece and $25 per buy, so very inexpensive pieces may cost a little more than 15%.</li></ul></div><div class="gtk-group"><h3>What scouting covers</h3><ul class="lg-bul"><li>Three to four hours of finding designers, and a line sheet of options with photos, prices and sizes.</li><li>It isn’t deducted from your order, and the line sheet is yours even if you don’t buy.</li></ul></div><div class="gtk-group"><h3>You’re in control</h3><ul class="lg-bul"><li>Nothing is bought without your yes. Your exact numbers come in a written quote first.</li></ul></div></div>
+        <div class="pr-cta"><a class="pr-btn alt" href="for-boutiques">How a buying round works →</a><a class="pr-btn alt" href="boutique-calculator">Open the calculator on its own page →</a></div>
+        <p class="pr-cross">Ordering for yourself or a group? <a href="?for=individuals" data-aud-go="individual">Individual pricing →</a></p>
+      </section>
+    </div>
     <section class="lg-close" aria-labelledby="close-h">
       <span class="lg-eyebrow">Still unsure?</span>
       <h2 id="close-h">Ask me. I’ll tell you the price.</h2>
@@ -152,8 +120,9 @@
     </section>
   </main>
   <footer class="lg-foot">
-    <a href="prices" aria-current="page">Prices</a><a href="sourcingandstyling">Services</a><a href="pay">Payment</a><a href="policy">Returns &amp; Credit</a><a href="terms">Terms</a><a href="privacy">Privacy</a><a href="./">Home</a>
+    <a href="prices" aria-current="page">Prices</a><a href="boutique-calculator">Boutique calculator</a><a href="sourcingandstyling">Services</a><a href="pay">Payment</a><a href="policy">Returns &amp; Credit</a><a href="terms">Terms</a><a href="privacy">Privacy</a><a href="./">Home</a>
   </footer>
   <a class="lg-top-link" href="#top" aria-label="Back to top">↑</a>
+  <script>SS_PRICING.initPricesPage();</script>
 </body>
 </html>

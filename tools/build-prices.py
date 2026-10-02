@@ -1,156 +1,166 @@
-import re
-src=open('policy.html').read()
-head=src.split('<script type="application/ld+json">')[0]
-mark=re.search(r'<svg class="pc-mark".*?</svg>',src,re.S).group(0).replace('pc-mark','lg-mark')
-desc='Every Seraphic Styler price in one place, in US dollars: buying a piece, The Trace, styling, gifts, group orders and boutique buying — with worked examples.'
-head=re.sub(r'<title>.*?</title>','<title>Prices · Seraphic Styler</title>',head)
-head=re.sub(r'(<meta name="description" content=")[^"]*',lambda m:m.group(1)+desc,head)
-head=re.sub(r'(<meta property="og:title" content=")[^"]*',lambda m:m.group(1)+'Prices — Seraphic Styler',head)
-head=re.sub(r'(<meta property="og:description" content=")[^"]*',lambda m:m.group(1)+desc,head)
-head=head.replace('seraphicstyler.com/policy"','seraphicstyler.com/prices"')
-SR='service-request.html?service='
-def btn(href,label): return f'<a class="pr-btn" href="{href}">{label}</a>'
-def ex(title,rows,total=None,note=None):
-    r=''.join(f'<div><dt>{a}</dt><dd>{b}</dd></div>' for a,b in rows)
-    t=f'<div class="pr-tot"><dt>{total[0]}</dt><dd>{total[1]}</dd></div>' if total else ''
-    n=f'<p class="pr-exn">{note}</p>' if note else ''
-    return f'<div class="pr-ex"><p class="pr-exh">Example · {title}</p><dl>{r}{t}</dl>{n}</div>'
-def bul(*x): return '<ul class="lg-bul">'+''.join(f'<li>{i}</li>' for i in x)+'</ul>'
-def sec(id,num,who,title,price,price_sub,body,cta):
+#!/usr/bin/env python3
+"""Builds prices.html from js/pricing.js (via tools/pricing_data.py).
+
+Two views behind a "For individuals | For boutiques" switch:
+  · individuals — Buy a piece, The Trace, Styling (gift cards folded in),
+    Group orders; đồng first with dollars in brackets;
+  · boutiques — the fee trio, research rate and the live calculator; dollars.
+Every section shares one anatomy: kicker → name → price → 3–5 points →
+worked example. Run from anywhere:  python3 tools/build-prices.py"""
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from pricing_data import (DATA, FX, ROOT, usd0, vnd, pct, from_vnd, from_usd, money, h_vnd, h_usd, esc,
+                          item_fee_vnd, tier, styling_table_html, boutique_trio_html, calc_fallback_html,
+                          good_to_know_html, page_head, brand_header)
+
+OUT = os.environ.get('SS_PRICES_OUT') or os.path.join(ROOT, 'prices.html')
+SR = 'service-request.html?service='
+
+
+def bul(*items):
+    return '<ul class="lg-bul pr-points">' + ''.join(f'<li>{i}</li>' for i in items) + '</ul>'
+
+
+def btn(href, label, alt=False):
+    return f'<a class="pr-btn{" alt" if alt else ""}" href="{href}">{label}</a>'
+
+
+def example(title, rows, total, note=None):
+    body = ''.join(f'<tr><th scope="row">{a}</th><td class="num">{b}</td></tr>' for a, b in rows)
+    foot = f'<tfoot><tr><th scope="row">{total[0]}</th><td class="num">{total[1]}</td></tr></tfoot>'
+    n = f'<p class="pr-exn">{note}</p>' if note else ''
+    return (f'<figure class="pr-ex"><figcaption>Example · {title}</figcaption>'
+            f'<table class="pr-ex-table"><tbody>{body}</tbody>{foot}</table>{n}</figure>')
+
+
+def section(sid, who, title, price, price_sub, body, cta):
     return f'''
-    <section class="pr-sec" id="{id}" aria-labelledby="{id}-h">
-      <div class="pr-head">
-        <span class="lg-num" aria-hidden="true">{num}</span>
-        <div><p class="pr-who">{who}</p><h2 id="{id}-h">{title}</h2></div>
+      <section class="pr-sec" id="{sid}" aria-labelledby="{sid}-h">
+        <p class="pr-who">{who}</p>
+        <h2 id="{sid}-h">{title}</h2>
         <div class="pr-price"><b>{price}</b><span>{price_sub}</span></div>
-      </div>
-      <div class="pr-body">{body}</div>
-      <div class="pr-cta">{cta}</div>
-    </section>'''
-
-choose=[('#buy','I know exactly what I want','I have a link or the shop’s name','Buy a piece'),
-        ('#trace','I have a photo, but no link','Find out what it is and where to buy it','The Trace'),
-        ('#styling','Choose pieces for me','Outfits, a capsule, a wardrobe','Styling'),
-        ('#gift','It’s a gift','Give a styling experience','Gift styling'),
-        ('#group','Buying with friends or a group','Weddings, sororities, events — $1,000+','Group orders'),
-        ('#boutique','I own a store','Stock to resell','Boutiques')]
-ch=''.join(f'<a class="pr-pick" href="{h}"><span class="pr-pick-q">{q}</span><span class="pr-pick-s">{s}</span><span class="pr-pick-a">{a} →</span></a>' for h,q,s,a in choose)
-
-tiers=[('The Edit','$235','$135','$100','3–4 pieces, one focused need','edit'),
-       ('The Capsule','$460','$270','$190','6–8 pieces that work together, with a lookbook','capsule'),
-       ('The Atelier','$600','$310','$290','Consultation plus a shopping session, in Saigon or on live video','atelier'),
-       ('The Signature','$790','$310','$480','Designer pieces and 60 days of support','signature'),
-       ('Custom Wardrobe','from $1,500','$800','$700','15–20 pieces for several occasions','custom-wardrobe'),
-       ('Custom Wardrobe+','from $2,000','from $1,100','agreed together','21–30+ pieces, made-to-measure, quoted for you','custom-wardrobe-plus')]
-trows=''.join(f'<tr><th scope="row"><a href="{SR}styling&amp;tier={k}">{n}</a></th><td data-l="You pay"><b>{p}</b></td><td data-l="My styling fee">{f}</td><td data-l="Spent on your clothes">{c}</td><td data-l="What you get">{w}</td></tr>' for n,p,f,c,w,k in tiers)
-ttable=f'<table class="lg-tbl pr-tbl"><thead><tr><th scope="col">Tier</th><th scope="col">You pay</th><th scope="col">My styling fee</th><th scope="col">Spent on your clothes</th><th scope="col">What you get</th></tr></thead><tbody>{trows}</tbody></table>'
+        {body}
+        <div class="pr-cta">{cta}</div>
+      </section>'''
 
 
-sections=''.join([
- sec('buy',1,'You know exactly what you want','Buy a piece','$14','per item, most items',
-   bul('<strong>The item</strong> at the shop’s own price. I never add a markup.',
-       '<strong>My fee: $14 per item.</strong> Items over $175 are 8% of the price instead, and items over $200 are 7%.',
-       '<strong>$10 per order</strong> for packing and coordination. Two shops are included; each extra shop is $6.',
-       '<strong>3% currency transfer</strong> on the order, which covers sending your money to the shop in đồng.',
-       '<strong>Shipping</strong> at the courier’s actual cost, quoted before it ships.')+
-   ex('one $60 dress',[('Dress','$60'),('My fee','$14'),('Order fee','$10'),('Currency transfer, 3%','$2.52')],('You pay','$86.52 + shipping')),
-   btn(SR+'sourcing','Buy a piece →')),
- sec('trace',2,'You have a photo, but no link','The Trace','$25','per item',
-   bul('I find out what the piece is and who sells it, and reply within 48 hours.',
-       '<strong>If you then order it, the $25 comes off your order.</strong>',
-       'If it can’t be found, I tell you why and what’s closest.'),
-   btn(SR+'trace','Start The Trace →')),
- sec('styling',3,'You want me to choose','Styling','from $235','fee + money for your clothes',
-   '<p class="pr-p">Every tier has two parts: <strong>my styling fee</strong>, and <strong>money that is spent on your clothes</strong> at the shop’s price. If you love pieces that cost more than that, I ask before spending a cent more.</p>'+ttable+
-   ex('The Capsule',[('My styling fee','$270'),('Spent on your clothes','$190'),('Your pieces come to $250, so you approve an extra','$60')],('You pay','$520 + shipping')),
-   btn(SR+'styling','Book styling →')),
- sec('gift',4,'For someone else','Gift styling','from $235','same tiers as styling',
-   bul('Give any styling tier above as a gift card. Same prices, same money toward their clothes.',
-       'Gift cards <strong>never expire</strong>, and keep the value they were bought at.'),
-   btn('index.html#gift','Choose a gift →')),
- sec('group',5,'Weddings, sororities, events, friends','Group orders','15%','of the order, from $1,000',
-   bul('<strong>Orders of $1,000 or more:</strong> my fee is 15% of the order, or 20% if pieces are made to measure or rushed.',
-       'Orders under $1,000 are priced like <a href="#buy">buying a piece</a>, item by item.',
-       'On orders under $3,000, every different piece costs at least $14 in fee. Multiples of the same piece don’t count.',
-       'Shipping is at cost, in one parcel.')+
-   ex('8 bridesmaid dresses at $250',[('Dresses','$2,000'),('My fee, 15%','$300')],('You pay','$2,300 + shipping')),
-   btn(SR+'bulk','Ask for a group quote →')),
- sec('boutique',6,'You own a store and buy to resell','Boutiques','$250 + 15%','scouting, then 15% of the pieces',
-   '<p class="pr-p">I scout Vietnamese designers for you, negotiate stockist prices, check every piece and ship it all in one parcel. Pieces are at the designer’s price, never marked up.</p>'+
-   bul('<strong>Scouting fee: $250 per round.</strong> Three to four hours of finding designers and building you a line sheet of options. Paid before I start, and it’s mine to keep, like a styling fee. If you don’t buy, the line sheet is still yours.',
-       '<strong>Buying fee: 15% of the pieces you choose</strong>, at every size. That’s the same rate as group orders. Rush or made-to-measure is 20% instead.',
-       'Every buy pays at least <strong>$14 per piece</strong> and <strong>$25 in total</strong> in buying fee, the same minimum as buying a single piece.',
-       'Research before you know what you want: <strong>$45 an hour</strong>, two-hour minimum, prepaid.')+
-   ex('a $3,000 first buy',[('1 · Scouting fee, to start','$250'),('2 · Once you’ve chosen your pieces: pieces + half the buying fee','$3,225'),('3 · Once every piece is photographed and approved: the rest of the buying fee + shipping','$225 + shipping')],('Total','$3,700 + shipping'),'Buying fee: 15% of $3,000 = $450. Scouting fee: $250.'),
-   btn('boutique-calculator','Calculate your buy →')+btn('for-boutiques','Full boutique details →')+btn('https://buy.stripe.com/aFafZi2jtdjF9AsavUaAw0e?client_reference_id=prices-page','Pay the $250 scouting fee →')),
-])
+s, b, g, tr = DATA['sourcing'], DATA['boutique'], DATA['group'], DATA['trace']
 
-always=bul('<strong>Nothing is bought without your yes.</strong> You see the photo, price and size first.',
- '<strong>Your price is confirmed in writing</strong> before you pay. That written quote is what you pay.',
- '<strong>Shipping</strong> is the courier’s actual cost on the day it ships, including the fuel and peak-season surcharges couriers add (high this autumn). It’s quoted before you pay for it. <strong>Import duties and taxes</strong> in your country are yours.',
- '<strong>Paying:</strong> bank transfer, Zelle and Wise have no card fee. A card adds about 5.4% + $0.30, which is the processor’s fee, shown before you pay. Orders for pieces also carry the 3% currency transfer. <a href="pay">How payment works</a>.',
- '<strong>Prices are in US dollars.</strong> Shop prices in đồng are converted at 25,000₫ = $1.',
- '<strong>If a piece sells out</strong>, see <a href="policy">returns &amp; credit</a>.')
+# 1 · Buy a piece -------------------------------------------------------------
+item = s['example']['itemVnd']
+fee = item_fee_vnd(item)
+order = s['orderFeeVnd']
+transfer = (item + fee + order) * s['transferPct']
+buy_total = item + fee + order + transfer
+buy = section('buy', 'You know exactly what you want', 'Buy a piece', h_vnd(s['minFeeVnd']), 'per item, most items',
+    bul('<strong>The item</strong> at the shop’s own price. I never add a markup.',
+        f'<strong>My fee: {h_vnd(s["minFeeVnd"])} per item.</strong> Items over {h_vnd(s["minFeeVnd"] / s["rate"])} are {pct(s["rate"])} of the price instead, and items over {h_vnd(s["highFromVnd"])} are {pct(s["highRate"])}.',
+        f'<strong>{h_vnd(order)} per order</strong> for packing and coordination. {["No", "One", "Two", "Three"][s["shopsIncluded"]]} shops are included; each extra shop is {h_vnd(s["extraShopVnd"])}.',
+        f'<strong>{pct(s["transferPct"])} currency transfer</strong> on the order, which covers sending your money to the shop in đồng.',
+        '<strong>Shipping</strong> at the courier’s actual cost, quoted before it ships.')
+    + example(f'one {from_vnd(item)} dress',
+              [('Dress', h_vnd(item)), ('My fee', h_vnd(fee)), ('Order fee', h_vnd(order)), (f'Currency transfer, {pct(s["transferPct"])}', h_vnd(transfer))],
+              ('You pay', h_vnd(buy_total) + ' + shipping')),
+    btn(SR + 'sourcing', 'Buy a piece →') + btn('estimate', 'Estimate your order →', alt=True))
 
-style='''  <style>
-    .pr-picks { display:grid; gap:0.7rem; grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr)); max-width:900px; margin:0 auto clamp(2.6rem,7vh,3.6rem); }
-    .pr-pick { display:flex; flex-direction:column; gap:0.25rem; padding:1rem 1.1rem; border:1px solid var(--surface-border); border-radius:16px; background:var(--surface); text-decoration:none; transition:border-color .2s, transform .2s; }
-    .pr-pick:hover, .pr-pick:focus-visible { border-color:var(--accent); transform:translateY(-2px); }
-    .pr-pick-q { font-family:'Cormorant Garamond',serif; font-size:1.15rem; color:var(--text-primary); line-height:1.25; }
-    .pr-pick-s { font-family:var(--font-body); font-size:0.76rem; color:var(--text-secondary); }
-    .pr-pick-a { margin-top:auto; padding-top:0.5rem; font-family:var(--font-accent); font-size:0.72rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent); }
-    .pr-wrap { max-width:820px; margin:0 auto; }
-    .pr-sec { padding:clamp(2rem,6vh,3rem) 0; border-top:1px solid var(--surface-border); scroll-margin-top:1rem; overflow-wrap:anywhere; }
-    .pr-head { display:grid; grid-template-columns:auto 1fr; gap:0.2rem 1rem; align-items:end; }
-    .pr-who { margin:0 0 0.2rem; font-family:var(--font-brand); text-transform:uppercase; letter-spacing:0.2em; font-size:0.62rem; color:var(--eyebrow-ink); }
-    .pr-head h2 { margin:0; font-family:'Cormorant Garamond',serif; font-weight:500; font-size:clamp(1.6rem,4.5vw,2rem); color:var(--text-primary); line-height:1.1; }
-    .pr-price { grid-column:1/-1; display:flex; align-items:baseline; gap:0.6rem; flex-wrap:wrap; margin-top:0.8rem; padding:0.8rem 1rem; border-radius:14px; background:linear-gradient(135deg,var(--accent-soft),transparent 70%); border:1px solid var(--surface-border); }
-    .pr-price b { font-family:'Cormorant Garamond',serif; font-weight:500; font-size:clamp(1.9rem,6vw,2.4rem); color:var(--accent); line-height:1; }
-    .pr-price span { font-family:var(--font-body); font-size:0.82rem; color:var(--text-secondary); }
-    @media (min-width:700px){ .pr-head { grid-template-columns:auto 1fr auto; } .pr-price { grid-column:auto; margin-top:0; flex-direction:column; align-items:flex-end; gap:0.2rem; text-align:right; } }
-    .pr-body { margin-top:1rem; }
-    .pr-p { margin:0.4rem 0 0.6rem; font-family:var(--font-body); font-size:0.9rem; line-height:1.75; color:var(--text-secondary); }
-    .pr-p strong, .pr-ex strong { color:var(--text-primary); font-weight:500; }
-    .pr-tbl td b { color:var(--text-primary); font-weight:600; }
-    .pr-tbl th a { color:var(--text-primary); }
-    .pr-narrow { max-width:420px; }
-    .pr-ex { margin-top:1.2rem; padding:1rem 1.15rem; border-radius:14px; border:1px dashed color-mix(in srgb,var(--accent) 45%,transparent); background:var(--surface-soft); }
-    .pr-exh { margin:0 0 0.5rem; font-family:var(--font-brand); text-transform:uppercase; letter-spacing:0.18em; font-size:0.62rem; color:var(--eyebrow-ink); }
-    .pr-ex dl { margin:0; }
-    .pr-ex dl > div { display:flex; justify-content:space-between; gap:1rem; padding:0.3rem 0; font-family:var(--font-body); font-size:0.86rem; color:var(--text-secondary); }
-    .pr-ex dd { margin:0; white-space:nowrap; color:var(--text-primary); font-variant-numeric:tabular-nums; }
-    .pr-ex .pr-tot { border-top:1px solid var(--surface-border); margin-top:0.3rem; padding-top:0.55rem; font-weight:600; }
-    .pr-ex .pr-tot dt, .pr-ex .pr-tot dd { color:var(--text-primary); font-size:0.95rem; }
-    .pr-exn { margin:0.5rem 0 0; font-size:0.76rem; color:var(--text-secondary); font-style:italic; }
-    .pr-cta { margin-top:1.2rem; display:flex; flex-wrap:wrap; gap:0.6rem; }
-    .pr-btn { display:inline-flex; align-items:center; min-height:46px; padding:0 1.3rem; border-radius:999px; text-decoration:none; font-family:var(--font-accent); font-size:0.8rem; letter-spacing:0.04em; color:#fff; background:var(--accent); }
-    html.dark .pr-btn { color:#1a1d29; }
-    .pr-btn + .pr-btn { background:none; color:var(--accent); border:1px solid var(--accent); }
-    .pr-always { max-width:820px; margin:1rem auto 0; }
-  </style>
-'''
-html=head+'  <link rel="stylesheet" href="css/legal.css?v=2026-10-01" />\n'+style+'''  <script src="js/i18n-site.js?v=2026-09-12" defer></script>
-  <script src="js/geo-lang.js?v=2026-09-12" defer></script>
-</head>
-<body id="top">
+# 2 · The Trace ---------------------------------------------------------------
+trace_rows = [('The Trace, paid when you send the photo', h_usd(tr['usd'])),
+              ('Later, that dress, from <a href="#buy">Buy a piece</a>', h_vnd(buy_total))]
+if tr['credited']:
+    trace_rows.append(('Less The Trace you already paid', money(vnd(-tr['usd'] * FX), usd0(-tr['usd']))))
+trace_due = buy_total - (tr['usd'] * FX if tr['credited'] else 0)
+trace = section('trace', 'You have a photo, but no link', 'The Trace', h_usd(tr['usd']), 'per item',
+    bul(f'I find out what the piece is and who sells it, and reply within {tr["replyHours"]} hours.',
+        (f'<strong>If you then order it, the {h_usd(tr["usd"])} comes off your order.</strong>' if tr['credited']
+         else 'It pays for the research, whether or not you order.'),
+        'If it can’t be found, I tell you why and what’s closest.')
+    + example('a photo, then the same dress', trace_rows, ('You pay for the dress', h_vnd(trace_due) + ' + shipping')),
+    btn(SR + 'trace', 'Start The Trace →'))
+
+# 3 · Styling (gift cards folded in) -----------------------------------------------
+ex = DATA['stylingExample']
+cap = tier(ex['tier'])
+extra = max(0, ex['piecesUsd'] - cap['creditUsd'])
+first = DATA['styling'][0]
+styling = section('styling', 'You want me to choose', 'Styling', 'from ' + h_usd(first['totalUsd']), 'a fee, plus money for your clothes',
+    bul('Every tier has two parts: <strong>my styling fee</strong>, and <strong>money that is spent on your clothes</strong> at the shop’s price.',
+        'If you love pieces that cost more, I ask before spending any more.',
+        'Styling is charged in US dollars. Shipping is added separately.')
+    + '<div class="pr-table-wrap" role="region" aria-label="Styling tiers" tabindex="0">'
+    + styling_table_html(lambda t: f'{SR}styling&tier={t["id"]}') + '</div>'
+    + '<aside class="pr-gift" id="gift" aria-label="Gift cards"><p><strong>Giving it?</strong> Any tier as a gift card — same prices, never expire.</p>'
+      '<a href="index.html#gift">Choose a gift →</a></aside>'
+    + example(cap['name'],
+              [('My styling fee', h_usd(cap['feeUsd'])), ('Spent on your clothes', h_usd(cap['creditUsd'])),
+               (f'Your pieces come to {from_usd(ex["piecesUsd"])}, so you approve an extra', h_usd(extra))],
+              ('You pay', h_usd(cap['feeUsd'] + cap['creditUsd'] + extra) + ' + shipping')),
+    btn(SR + 'styling', 'Book styling →'))
+
+# 4 · Group orders ---------------------------------------------------------------
+ge = g['example']
+pieces_usd = ge['pieces'] * ge['eachUsd']
+group = section('group', 'Weddings, sororities, events, friends', 'Group orders', pct(g['pct']), f'of the order, from {from_usd(g["fromUsd"])}',
+    bul(f'<strong>Orders of {h_usd(g["fromUsd"])} or more:</strong> my fee is {pct(g["pct"])} of the order, or {pct(g["rushPct"])} if pieces are made to measure or rushed.',
+        f'Orders under {h_usd(g["fromUsd"])} are priced like <a href="#buy">buying a piece</a>, item by item.',
+        f'On orders under {h_usd(g["minDistinctUnderUsd"])}, every different piece costs at least {h_vnd(s["minFeeVnd"])} in fee. Multiples of the same piece don’t count.',
+        'Shipping is at cost, in one parcel.')
+    + example(f'{ge["label"]} at {from_usd(ge["eachUsd"])}',
+              [('Dresses', h_usd(pieces_usd)), (f'My fee, {pct(g["pct"])}', h_usd(pieces_usd * g['pct']))],
+              ('You pay', h_usd(pieces_usd * (1 + g['pct'])) + ' + shipping')),
+    btn(SR + 'bulk', 'Ask for a group quote →'))
+
+always = bul(
+    '<strong>Nothing is bought without your yes.</strong> You see the photo, price and size first.',
+    '<strong>Your price is confirmed in writing</strong> before you pay. That written quote is what you pay.',
+    '<strong>Shipping</strong> is the courier’s actual cost on the day it ships, including the fuel and peak-season surcharges couriers add (high this autumn). It’s quoted before you pay for it. <strong>Import duties and taxes</strong> in your country are yours.',
+    f'<strong>Paying:</strong> bank transfer, Zelle and Wise have no card fee. A card adds about {DATA["card"]["pct"]} + {from_usd(DATA["card"]["fixedUsd"])}, which is the processor’s fee, shown before you pay. Orders for pieces also carry the {pct(s["transferPct"])} currency transfer. <a href="pay">How payment works</a>.',
+    '<strong>If a piece sells out</strong>, see <a href="policy">returns &amp; credit</a>.')
+
+boutiques = f'''
+      <section class="pr-sec pr-btq" id="boutique" aria-labelledby="boutique-h">
+        <p class="pr-who">You own a store and buy to resell</p>
+        <h2 id="boutique-h">Boutique buying</h2>
+        <p class="pr-p">I scout Vietnamese designers for you, negotiate stockist prices, check every piece and ship it all in one parcel. Every figure here is in US dollars.</p>
+        {boutique_trio_html()}
+        <p class="pr-research"><strong>Research before a brief:</strong> {usd0(b["researchUsdPerHour"])} an hour, {["", "one", "two", "three"][b["researchMinHours"]]}-hour minimum, prepaid — for market surveys or option-hunting before you know what you want.</p>
+        <div class="bcalc-mount" id="prices-calc">{calc_fallback_html()}</div>
+        {good_to_know_html()}
+        <div class="pr-cta">{btn("for-boutiques", "How a buying round works →", alt=True)}{btn("boutique-calculator", "Open the calculator on its own page →", alt=True)}</div>
+        <p class="pr-cross">Ordering for yourself or a group? <a href="?for=individuals" data-aud-go="individual">Individual pricing →</a></p>
+      </section>'''
+
+body = f'''<body id="top" class="pr-page">
   <div class="grain" aria-hidden="true"></div>
-  <header class="lg lg-top">
-    '''+mark+'''
-    <a class="brand-lockup" href="./" aria-label="Seraphic Styler home"><span class="brand-seraphic">Seraphic</span><span class="brand-styler">Styler</span></a>
-  </header>
+  {brand_header()}
   <main class="lg">
-    <div class="lg-hero">
+    <div class="lg-hero pr-hero">
       <span class="lg-eyebrow">Prices</span>
       <h1 class="lg-h1">Every price, <em>plainly</em></h1>
-      <p class="lg-lead">All in US dollars. Pick what you need below, and that’s the price, confirmed in writing before you pay.</p>
+      <p class="lg-lead">Choose who you’re buying for. Every price is confirmed in writing before you pay.</p>
     </div>
-    <nav class="pr-picks" aria-label="What do you need?">'''+ch+'''</nav>
-    <div class="pr-wrap">'''+sections+'''
+    <div class="pr-bar">
+      <div class="aud-switch" role="tablist" aria-label="Who are you buying for?">
+        <button type="button" role="tab" id="tab-individuals" data-aud="individual" aria-selected="true" aria-controls="view-individuals" tabindex="0">For individuals</button>
+        <button type="button" role="tab" id="tab-boutiques" data-aud="boutique" aria-selected="false" aria-controls="view-boutiques" tabindex="-1">For boutiques</button>
+      </div>
+      <nav class="pr-secnav" aria-label="Sections">
+        <a href="#buy">Buy a piece</a><a href="#trace">The Trace</a><a href="#styling">Styling</a><a href="#group">Group orders</a><a href="?for=boutiques" data-aud-go="boutique">Boutiques →</a>
+      </nav>
     </div>
-    <section class="lg-glance pr-always" aria-labelledby="always-h">
-      <h2 id="always-h">True for every service</h2>
-      '''+always+'''
-    </section>
+    <div class="pr-view" id="view-individuals" role="tabpanel" aria-labelledby="tab-individuals">
+      <p class="pr-cross pr-cross--top">Buying for a store? <a href="?for=boutiques" data-aud-go="boutique">Boutique pricing →</a></p>
+      <p class="pr-curnote">Prices are in đồng with US dollars in brackets, at {vnd(FX)} = $1. A ~ marks a conversion; without it, the dollar figure is what’s charged.</p>
+      {buy}
+      {trace}
+      {styling}
+      {group}
+      <section class="lg-glance pr-always" aria-labelledby="always-h">
+        <h2 id="always-h">True for every service</h2>
+        {always}
+      </section>
+    </div>
+    <div class="pr-view" id="view-boutiques" role="tabpanel" aria-labelledby="tab-boutiques">{boutiques}
+    </div>
     <section class="lg-close" aria-labelledby="close-h">
       <span class="lg-eyebrow">Still unsure?</span>
       <h2 id="close-h">Ask me. I’ll tell you the price.</h2>
@@ -159,10 +169,16 @@ html=head+'  <link rel="stylesheet" href="css/legal.css?v=2026-10-01" />\n'+styl
     </section>
   </main>
   <footer class="lg-foot">
-    <a href="prices" aria-current="page">Prices</a><a href="sourcingandstyling">Services</a><a href="pay">Payment</a><a href="policy">Returns &amp; Credit</a><a href="terms">Terms</a><a href="privacy">Privacy</a><a href="./">Home</a>
+    <a href="prices" aria-current="page">Prices</a><a href="boutique-calculator">Boutique calculator</a><a href="sourcingandstyling">Services</a><a href="pay">Payment</a><a href="policy">Returns &amp; Credit</a><a href="terms">Terms</a><a href="privacy">Privacy</a><a href="./">Home</a>
   </footer>
   <a class="lg-top-link" href="#top" aria-label="Back to top">↑</a>
+  <script>SS_PRICING.initPricesPage();</script>
 </body>
 </html>
 '''
-open('prices.html','w').write(html); print('ok')
+
+desc = ('Every Seraphic Styler price in one place: buying a piece, The Trace, styling, gift cards and group orders '
+        'in đồng with dollars, and boutique buying in dollars with a live calculator.')
+with open(OUT, 'w', encoding='utf-8') as f:
+    f.write(page_head('prices', 'Prices', desc) + body)
+print('wrote', os.path.relpath(OUT, ROOT))

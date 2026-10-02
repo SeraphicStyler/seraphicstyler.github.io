@@ -73,7 +73,7 @@
 .ss-service-comparison .ss-request-main h3 { font-size:var(--type-section); }
 .ss-service-comparison .ss-table-wrap tbody th { font:500 var(--type-body)/1.6 var(--font-body); }
 .ss-service-comparison .ss-table-wrap td[data-label="Scope"] { font-size:var(--type-body); }
-.ss-service-comparison .ss-table-wrap td[data-label="Booking"] { font-size:var(--type-body); font-weight:600; }
+.ss-service-comparison .ss-table-wrap td[data-label="You pay"] { font-size:var(--type-body); font-weight:600; }
 .ss-service-comparison .ss-tier-pick { font-size:var(--type-label); text-transform:none; letter-spacing:0; }
 .ss-service-comparison :is(.ss-path-trace>.ss-action,.ss-buying-section>.ss-action,.ss-styling-ledger>.ss-action) { background:none; color:var(--accent); border:0; box-shadow:none; text-decoration:underline; text-underline-offset:.25em; }
 .ss-service-comparison summary { min-height:44px; display:flex; align-items:center; }

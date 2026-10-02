@@ -31,15 +31,19 @@
   const links = !!document.querySelector('.lp');
   const paths = home ? [
     ['hero','Introduction'],['service-story','Service guide'],['about','About'],['services','Services'],['lane-sourcing','Sourcing'],
-    ['lane-styling','Styling'],['custom-wardrobe','Custom Wardrobe'],['process','How it works'],
-    ['directory','Directory'],['lookbook','Lookbook'],['gift','Gift styling'],['bulk','Group orders'],['boutique','Boutiques'],['contact','Contact']
+    ['lane-styling','Styling'],['custom-wardrobe','Custom Wardrobe'],['process','How it works'],['estimate','Estimate an order'],
+    ['directory','Directory'],['lookbook','Lookbook'],['gift','Gift styling'],['bulk','Group orders'],['boutique','Boutiques'],['details','Prices & policies'],['contact','Contact']
   ] : links ? [
     ['main','Introduction'],['links-services','Services'],['links-work','Selected work'],['links-styling','Styling prices'],['links-process','Process'],['links-sourcing','Sourcing & estimate'],['links-footer','Explore']
   ] : [
     ['service-overview','Overview'],['sourcing','Sourcing'],['trace','The Trace'],['styling','Styling'],
     ['prices','Styling prices'],['buying-fees','Buying fees'],['when-work-begins','When work begins'],['service-recommendation','Find your service']
   ];
-  const sections = paths.map(([id,label]) => ({id,label,labelIndex:english.indexOf(label),el:document.getElementById(id)})).filter(s => s.el);
+  const sections = paths.map(([id,label]) => ({id,label,base:label,labelIndex:english.indexOf(label),el:document.getElementById(id)})).filter(s => s.el);
+  // On the homepage the outline is grouped under the same parts as the numbered dividers (.ss-chapter).
+  const parts = home ? { hero:'Start here', 'service-story':'Start here', about:'Start here', services:'For you', 'lane-sourcing':'For you', 'lane-styling':'For you',
+    'custom-wardrobe':'For you', process:'For you', estimate:'For you', directory:'Inspiration', lookbook:'Inspiration', gift:'Gifts', bulk:'Groups & events',
+    boutique:'For boutiques', details:'The details', contact:'The details' } : {};
   if (!sections.length) return;
   sections.sort((a,b) => a.el.compareDocumentPosition(b.el) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1);
   const outline = document.createElement('details'); outline.className = 'ss-section-nav';
@@ -50,7 +54,12 @@
   const caption = summary.querySelector('.ss-section-caption');
   const wide = matchMedia('(min-width:1280px)');
   const reduced = () => matchMedia('(prefers-reduced-motion:reduce)').matches || document.documentElement.classList.contains('rm');
+  let part;
   sections.forEach(s => {
+    if (parts[s.id] && parts[s.id] !== part) {
+      part = parts[s.id];
+      const group = document.createElement('span'); group.className = 'ss-section-group'; group.textContent = part; nav.append(group);
+    }
     const a = document.createElement('a'); a.href = '#' + s.id; a.textContent = s.label;
     a.addEventListener('click', e => {
       e.preventDefault();
@@ -77,7 +86,7 @@
     const labels = (Object.prototype.hasOwnProperty.call(words,lang) ? words[lang] : words.en).split('|');
     caption.textContent = labels[0]; nav.setAttribute('aria-label',labels[0]);
     sections.forEach(s => {
-      s.label = labels[s.labelIndex] || english[s.labelIndex];
+      s.label = s.labelIndex < 0 ? s.base : (labels[s.labelIndex] || english[s.labelIndex]);
       s.link.textContent = s.label;
     });
     if (active) currentLabel.textContent = active.label;

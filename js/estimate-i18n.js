@@ -1018,11 +1018,14 @@
   d['est.plusship']=' + '+(d['est.shiplbl']||c.balance);
   d['est.itemcount']='({n})';
   d['est.share.s']=c.share+' · 24h';
-  for(const [id,total,credit] of [['edit',235,2500000],['capsule',460,4750000],['atelier',600,7250000]]){
+  const P=window.SS_PRICING&&window.SS_PRICING.data, fx=P?P.fx.vndPerUsd:25000;
+  const tiers=P?P.styling.filter(t=>['edit','capsule','atelier'].includes(t.id)).map(t=>[t.id,t.totalUsd,t.creditUsd*fx]):[['edit',235,2500000],['capsule',460,4750000],['atelier',600,7250000]];
+  for(const [id,total,credit] of tiers){
    const name=id.charAt(0).toUpperCase()+id.slice(1);
    d['est.styling.'+id]=name+' · US$'+total+' · '+c.credit+': '+credit.toLocaleString(lang)+'₫';
   }
-  for(let i=1;i<=5;i++)d['est.stops.o'+i]=(i===1?'1–2':i===5?'6+':String(i+1))+' · '+(i===1?c.included:'+'+((i-1)*150000).toLocaleString(lang)+'₫');
+  const extraShop=P?P.sourcing.extraShopVnd:150000;
+  for(let i=1;i<=5;i++)d['est.stops.o'+i]=(i===1?'1–2':i===5?'6+':String(i+1))+' · '+(i===1?c.included:'+'+((i-1)*extraShop).toLocaleString(lang)+'₫');
  }
  window.SS_ESTIMATE_COPY=copy;
 })();

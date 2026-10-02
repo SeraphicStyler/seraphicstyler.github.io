@@ -58,7 +58,7 @@ html:is(.mono,.hc) .ss-service-hero::before, html:is(.mono,.hc) .ss-editorial-he
 .ss-service-comparison .ss-table-wrap tbody th { width:21%; font:400 1.65rem/1.2 var(--font-display); }
 .ss-service-comparison .ss-table-wrap tbody th a { text-decoration:none; color:var(--text-primary); }
 .ss-service-comparison .ss-table-wrap tbody th a:hover { text-decoration:underline; text-underline-offset:.2em; }
-.ss-service-comparison .ss-table-wrap td[data-label="Booking"] { font:500 1.35rem/1.45 var(--font-body); color:var(--text-primary); }
+.ss-service-comparison .ss-table-wrap td[data-label="You pay"] { font:500 1.35rem/1.45 var(--font-body); color:var(--text-primary); }
 .ss-service-comparison .ss-table-wrap td:not([data-label="Scope"]),.ss-service-comparison .ss-table-wrap thead th:not(:first-child):not(:last-child) { text-align:right; }
 .ss-service-comparison .ss-table-wrap td[data-label="Scope"] { font-size:.9375rem; width:32%; }
 .ss-service-comparison .ss-table-wrap tr:last-child :is(th,td) { border-bottom:0; }

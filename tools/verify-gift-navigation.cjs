@@ -8,7 +8,8 @@ const origin = process.env.SS_PREVIEW || 'http://127.0.0.1:8731';
     const page = await browser.newPage(), errors=[];
     page.on('pageerror', e=>errors.push(e.message));
     await page.emulateMediaFeatures([{name:'prefers-color-scheme',value:'light'},{name:'prefers-reduced-motion',value:'reduce'}]);
-    for(const route of ['index.html','links.html','sourcingandstyling']) {
+    // The redesigned bio page (links.html) has no section outline; it links out to these pages instead.
+    for(const route of ['index.html','sourcingandstyling']) {
       await page.setViewport({width:1440,height:1000});
       await page.goto(origin+'/'+route,{waitUntil:'networkidle2'});
       await page.waitForSelector('.ss-section-nav');
@@ -23,13 +24,14 @@ const origin = process.env.SS_PREVIEW || 'http://127.0.0.1:8731';
       await page.screenshot({path:'/private/tmp/ss-updated-'+route.replace(/\W/g,'-')+'-desktop.png'});
       if(route==='index.html') {
         assert.equal(await page.$$eval('.ss-gift-custom',els=>els.length),2);
-        for(const [amount,fee] of [[1100,475],[1500,750]]) {
+        const wardrobes=await page.evaluate(()=>['custom-wardrobe','custom-wardrobe-plus'].map(id=>[SS_PRICING.tier(id).totalUsd,SS_PRICING.tier(id).feeUsd]));
+        for(const [amount,fee] of wardrobes) {
           assert(await page.$eval('.ss-gift-custom .gift-price[data-usd="'+amount+'"]',e=>e.textContent.includes('From')));
           assert(await page.$('.ss-gift-custom [data-gift-usd="'+fee+'"]'));
         }
         await page.select('#giftCurrency','EUR');
         await page.waitForFunction(()=>document.querySelector('.ss-gift-custom .gift-amt').textContent.includes('€'));
-        assert(await page.$eval('[data-gift-usd="475"]',e=>e.textContent.includes('€')));
+        assert(await page.$eval('[data-gift-usd="'+wardrobes[0][1]+'"]',e=>e.textContent.includes('€')));
         assert(await page.$eval('#giftCurrencyNote',e=>e.textContent.includes('Approximate EUR')));
         await page.select('#giftCurrency','USD');
         await page.click('.ss-gift-menu');
