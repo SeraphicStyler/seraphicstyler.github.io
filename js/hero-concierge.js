@@ -160,7 +160,7 @@ import { guideEndpoint } from './concierge-config.js';
     if(gift) return 'gift';
     if(has(text,['shipping','ship to','delivery','courier','country','international'])) return 'shipping';
     if(has(text,['in stock','stock available','availability'])) return 'stock';
-    if(has(text,['price','pricing','cost','fee','credit','how much'])) return 'pricing';
+    if(has(text,['price','pricing','cost','fee','credit','how much'])) return has(text,['styling','stylist','style me','outfit','outfits','wardrobe'])?'styling':has(text,['trace'])?'trace':has(text,['sourcing','source','shop link','product link'])?'sourcing':'pricing';
     if(has(text,['verify','verified','inspect','checked','approval photo','authentic'])) return 'verification';
     if(photo&&!identify&&!inspiration) return 'photo';
     if(identify) return 'trace';

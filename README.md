@@ -38,6 +38,7 @@ Prices live in one place: `js/pricing.js`. The site menu, the estimators and the
 node tools/verify-repository.cjs
 node tools/audit-translations.cjs
 node tools/verify-search.mjs
+node tools/verify-concierge-routes.mjs
 node tools/verify-catalog.cjs
 node worker/test/extract.test.js
 node worker/test/concierge.test.js
