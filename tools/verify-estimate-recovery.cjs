@@ -14,7 +14,8 @@ const origin=process.env.SS_PREVIEW||'http://127.0.0.1:8731';
    await page.waitForSelector('.est-ready');
    assert(await page.$$eval('#region,#weight,#styling,#payMethod,#estCurrency',selects=>selects.every(select=>select.selectedIndex>=0)));
    await page.$eval('.item-price',input=>{input.value='2000000';input.dispatchEvent(new Event('input',{bubbles:true}));});
-   assert.equal(await page.$eval('#estQuickTotal',node=>node.textContent),await page.$eval('#rTotal',node=>node.textContent));
+   // The running total leads with dollars (the chosen currency); đồng only when no rate is available.
+   assert.equal(await page.$eval('#estQuickTotal',node=>node.textContent),await page.evaluate(()=>{const c=document.getElementById('rUsd').textContent.trim();return c&&c!=='—'&&!/unavailable/i.test(c)?c:document.getElementById('rTotal').textContent;}));
    await page.evaluate(()=>{window.__handoff=null;window.Tally={openPopup:(...args)=>window.__handoff=args};window.open=(...args)=>window.__handoff=args;});
    await page.click('#sendBasket');
    assert(await page.evaluate(()=>!!window.__handoff),'request handoff; no real submission');

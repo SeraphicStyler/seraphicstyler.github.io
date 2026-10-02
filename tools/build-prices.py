@@ -1,20 +1,28 @@
 #!/usr/bin/env python3
-"""Builds prices.html from js/pricing.js (via tools/pricing_data.py).
+"""Builds the price pages from js/pricing.js (via tools/pricing_data.py):
 
-Two views behind a "For individuals | For boutiques" switch:
-  · individuals — Buy a piece, The Trace, Styling (gift cards folded in),
-    Group orders; đồng first with dollars in brackets;
-  · boutiques — the fee trio, research rate and the live calculator; dollars.
-Every section shares one anatomy: kicker → name → price → 3–5 points →
-worked example. Run from anywhere:  python3 tools/build-prices.py"""
-import os, sys
+  · prices.html — two views behind a "For individuals | For boutiques" switch:
+    individuals (Buy a piece, The Trace, Styling with gift cards folded in,
+    Group orders) and boutiques (fee trio, research rate, live calculator);
+  · the homepage price modules — the same four individual services as
+    clickable modules, written into index.html between the @price-modules
+    markers. Edit the data or this file, never the generated block.
+
+Each service is defined once (modules() below) and drawn in both places with
+one anatomy: kicker → name → price → 3–5 points → worked example → actions.
+Individuals see dollars first with đồng in brackets; boutiques see dollars.
+Run from anywhere:  python3 tools/build-prices.py"""
+import os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from pricing_data import (DATA, FX, ROOT, usd0, vnd, pct, from_vnd, from_usd, money, h_vnd, h_usd, esc,
+from pricing_data import (DATA, FX, ROOT, usd, usd0, vnd, pct, from_vnd, from_usd, money, h_vnd, h_usd,
                           item_fee_vnd, tier, styling_table_html, boutique_trio_html, calc_fallback_html,
-                          good_to_know_html, page_head, brand_header)
+                          good_to_know_html, page_head, brand_header, data_hash)
 
 OUT = os.environ.get('SS_PRICES_OUT') or os.path.join(ROOT, 'prices.html')
+HOME = os.environ.get('SS_HOME_OUT') or os.path.join(ROOT, 'index.html')
 SR = 'service-request.html?service='
+CURRENCY_NOTE = (f'Prices are in US dollars with đồng in brackets, at {vnd(FX)} = $1. A ~ marks the converted figure: '
+                 'shop prices and my sourcing fees are set in đồng; styling and The Trace are charged in dollars.')
 
 
 def bul(*items):
@@ -33,90 +41,106 @@ def example(title, rows, total, note=None):
             f'<table class="pr-ex-table"><tbody>{body}</tbody>{foot}</table>{n}</figure>')
 
 
-def section(sid, who, title, price, price_sub, body, cta):
+def modules(idp='', home=False):
+    """The four individual services. idp prefixes every id (the homepage uses
+    'pm-' so nothing collides with its own sections); home switches links to
+    in-page targets where the homepage has them."""
+    s, g, tr = DATA['sourcing'], DATA['group'], DATA['trace']
+    out = []
+
+    # Buy a piece
+    item = s['example']['itemVnd']
+    fee = item_fee_vnd(item)
+    order = s['orderFeeVnd']
+    transfer = (item + fee + order) * s['transferPct']
+    buy_total = item + fee + order + transfer
+    out.append(dict(
+        id='buy', who='You know exactly what you want', title='Buy a piece', price=h_vnd(s['minFeeVnd']), price_sub='per item, most items',
+        body=bul('<strong>The item</strong> at the shop’s own price. I never add a markup.',
+                 f'<strong>My fee: {h_vnd(s["minFeeVnd"])} per item.</strong> Items over {h_vnd(s["minFeeVnd"] / s["rate"])} are {pct(s["rate"])} of the price instead, and items over {h_vnd(s["highFromVnd"])} are {pct(s["highRate"])}.',
+                 f'<strong>{h_vnd(order)} per order</strong> for packing and coordination. {["No", "One", "Two", "Three"][s["shopsIncluded"]]} shops are included; each extra shop is {h_vnd(s["extraShopVnd"])}.',
+                 f'<strong>{pct(s["transferPct"])} currency transfer</strong> on the order, which covers sending your money to the shop in đồng.',
+                 '<strong>Shipping</strong> at the courier’s actual cost, quoted before it ships.')
+             + example(f'one {usd(item / FX)} dress',
+                       [('Dress', h_vnd(item)), ('My fee', h_vnd(fee)), ('Order fee', h_vnd(order)), (f'Currency transfer, {pct(s["transferPct"])}', h_vnd(transfer))],
+                       ('You pay', h_vnd(buy_total) + ' + shipping')),
+        cta=btn(SR + 'sourcing', 'Buy a piece →') + btn('#estimate' if home else 'estimate', 'Estimate your order →', alt=True)))
+
+    # The Trace
+    rows = [('The Trace, paid when you send the photo', h_usd(tr['usd'])),
+            (f'Later, that dress, from <a href="#{idp}buy">Buy a piece</a>', h_vnd(buy_total))]
+    if tr['credited']:
+        rows.append(('Less The Trace you already paid', money(usd0(-tr['usd']), '~' + vnd(-tr['usd'] * FX))))
+    due = buy_total - (tr['usd'] * FX if tr['credited'] else 0)
+    out.append(dict(
+        id='trace', who='You have a photo, but no link', title='The Trace', price=h_usd(tr['usd']), price_sub='per item',
+        body=bul(f'I find out what the piece is and who sells it, and reply within {tr["replyHours"]} hours.',
+                 (f'<strong>If you then order it, the {h_usd(tr["usd"])} comes off your order.</strong>' if tr['credited']
+                  else 'It pays for the research, whether or not you order.'),
+                 'If it can’t be found, I tell you why and what’s closest.')
+             + example('a photo, then the same dress', rows, ('You pay for the dress', h_vnd(due) + ' + shipping')),
+        cta=btn(SR + 'trace', 'Start The Trace →')))
+
+    # Styling, with gift cards folded in
+    ex = DATA['stylingExample']
+    cap = tier(ex['tier'])
+    extra = max(0, ex['piecesUsd'] - cap['creditUsd'])
+    out.append(dict(
+        id='styling', who='You want me to choose', title='Styling', price='from ' + h_usd(DATA['styling'][0]['totalUsd']), price_sub='a fee, plus money for your clothes',
+        body=bul('Every tier has two parts: <strong>my styling fee</strong>, and <strong>money that is spent on your clothes</strong> at the shop’s price.',
+                 'If you love pieces that cost more, I ask before spending any more.',
+                 'Styling is charged in US dollars. Shipping is added separately.')
+             + f'<div class="pr-table-wrap" role="region" aria-label="Styling tiers" tabindex="0">'
+             + styling_table_html(lambda t: f'{SR}styling&tier={t["id"]}') + '</div>'
+             + f'<aside class="pr-gift" id="{idp}gift" aria-label="Gift cards"><p><strong>Giving it?</strong> Any tier as a gift card — same prices, never expire.</p>'
+               f'<a href="{"#gift" if home else "index.html#gift"}">Choose a gift →</a></aside>'
+             + example(cap['name'],
+                       [('My styling fee', h_usd(cap['feeUsd'])), ('Spent on your clothes', h_usd(cap['creditUsd'])),
+                        (f'Your pieces come to {usd(ex["piecesUsd"])}, so you approve an extra', h_usd(extra))],
+                       ('You pay', h_usd(cap['feeUsd'] + cap['creditUsd'] + extra) + ' + shipping')),
+        cta=btn(SR + 'styling', 'Book styling →')))
+
+    # Group orders
+    ge = g['example']
+    pieces_usd = ge['pieces'] * ge['eachUsd']
+    out.append(dict(
+        id='group', who='Weddings, sororities, events, friends', title='Group orders', price=pct(g['pct']), price_sub=f'of the order, from {from_usd(g["fromUsd"])}',
+        body=bul(f'<strong>Orders of {h_usd(g["fromUsd"])} or more:</strong> my fee is {pct(g["pct"])} of the order, or {pct(g["rushPct"])} if pieces are made to measure or rushed.',
+                 f'Orders under {h_usd(g["fromUsd"])} are priced like <a href="#{idp}buy">buying a piece</a>, item by item.',
+                 f'On orders under {h_usd(g["minDistinctUnderUsd"])}, every different piece costs at least {h_vnd(s["minFeeVnd"])} in fee. Multiples of the same piece don’t count.',
+                 'Shipping is at cost, in one parcel.')
+             + example(f'{ge["label"]} at {usd(ge["eachUsd"])}',
+                       [('Dresses', h_usd(pieces_usd)), (f'My fee, {pct(g["pct"])}', h_usd(pieces_usd * g['pct']))],
+                       ('You pay', h_usd(pieces_usd * (1 + g['pct'])) + ' + shipping')),
+        cta=btn(SR + 'bulk', 'Ask for a group quote →') + (btn('#bulkEst', 'Estimate a group order →', alt=True) if home else '')))
+    return out
+
+
+def always_html():
+    s = DATA['sourcing']
+    return bul(
+        '<strong>Nothing is bought without your yes.</strong> You see the photo, price and size first.',
+        '<strong>Your price is confirmed in writing</strong> before you pay. That written quote is what you pay.',
+        '<strong>Shipping</strong> is the courier’s actual cost on the day it ships, including the fuel and peak-season surcharges couriers add (high this autumn). It’s quoted before you pay for it. <strong>Import duties and taxes</strong> in your country are yours.',
+        f'<strong>Paying:</strong> bank transfer, Zelle and Wise have no card fee. A card adds about {DATA["card"]["pct"]} + {usd(DATA["card"]["fixedUsd"])}, which is the processor’s fee, shown before you pay. Orders for pieces also carry the {pct(s["transferPct"])} currency transfer. <a href="pay">How payment works</a>.',
+        '<strong>If a piece sells out</strong>, see <a href="policy">returns &amp; credit</a>.')
+
+
+# ---- /prices ----------------------------------------------------------------------
+def section(m):
     return f'''
-      <section class="pr-sec" id="{sid}" aria-labelledby="{sid}-h">
-        <p class="pr-who">{who}</p>
-        <h2 id="{sid}-h">{title}</h2>
-        <div class="pr-price"><b>{price}</b><span>{price_sub}</span></div>
-        {body}
-        <div class="pr-cta">{cta}</div>
+      <section class="pr-sec" id="{m["id"]}" aria-labelledby="{m["id"]}-h">
+        <p class="pr-who">{m["who"]}</p>
+        <h2 id="{m["id"]}-h">{m["title"]}</h2>
+        <div class="pr-price"><b>{m["price"]}</b><span>{m["price_sub"]}</span></div>
+        {m["body"]}
+        <div class="pr-cta">{m["cta"]}</div>
       </section>'''
 
 
-s, b, g, tr = DATA['sourcing'], DATA['boutique'], DATA['group'], DATA['trace']
-
-# 1 · Buy a piece -------------------------------------------------------------
-item = s['example']['itemVnd']
-fee = item_fee_vnd(item)
-order = s['orderFeeVnd']
-transfer = (item + fee + order) * s['transferPct']
-buy_total = item + fee + order + transfer
-buy = section('buy', 'You know exactly what you want', 'Buy a piece', h_vnd(s['minFeeVnd']), 'per item, most items',
-    bul('<strong>The item</strong> at the shop’s own price. I never add a markup.',
-        f'<strong>My fee: {h_vnd(s["minFeeVnd"])} per item.</strong> Items over {h_vnd(s["minFeeVnd"] / s["rate"])} are {pct(s["rate"])} of the price instead, and items over {h_vnd(s["highFromVnd"])} are {pct(s["highRate"])}.',
-        f'<strong>{h_vnd(order)} per order</strong> for packing and coordination. {["No", "One", "Two", "Three"][s["shopsIncluded"]]} shops are included; each extra shop is {h_vnd(s["extraShopVnd"])}.',
-        f'<strong>{pct(s["transferPct"])} currency transfer</strong> on the order, which covers sending your money to the shop in đồng.',
-        '<strong>Shipping</strong> at the courier’s actual cost, quoted before it ships.')
-    + example(f'one {from_vnd(item)} dress',
-              [('Dress', h_vnd(item)), ('My fee', h_vnd(fee)), ('Order fee', h_vnd(order)), (f'Currency transfer, {pct(s["transferPct"])}', h_vnd(transfer))],
-              ('You pay', h_vnd(buy_total) + ' + shipping')),
-    btn(SR + 'sourcing', 'Buy a piece →') + btn('estimate', 'Estimate your order →', alt=True))
-
-# 2 · The Trace ---------------------------------------------------------------
-trace_rows = [('The Trace, paid when you send the photo', h_usd(tr['usd'])),
-              ('Later, that dress, from <a href="#buy">Buy a piece</a>', h_vnd(buy_total))]
-if tr['credited']:
-    trace_rows.append(('Less The Trace you already paid', money(vnd(-tr['usd'] * FX), usd0(-tr['usd']))))
-trace_due = buy_total - (tr['usd'] * FX if tr['credited'] else 0)
-trace = section('trace', 'You have a photo, but no link', 'The Trace', h_usd(tr['usd']), 'per item',
-    bul(f'I find out what the piece is and who sells it, and reply within {tr["replyHours"]} hours.',
-        (f'<strong>If you then order it, the {h_usd(tr["usd"])} comes off your order.</strong>' if tr['credited']
-         else 'It pays for the research, whether or not you order.'),
-        'If it can’t be found, I tell you why and what’s closest.')
-    + example('a photo, then the same dress', trace_rows, ('You pay for the dress', h_vnd(trace_due) + ' + shipping')),
-    btn(SR + 'trace', 'Start The Trace →'))
-
-# 3 · Styling (gift cards folded in) -----------------------------------------------
-ex = DATA['stylingExample']
-cap = tier(ex['tier'])
-extra = max(0, ex['piecesUsd'] - cap['creditUsd'])
-first = DATA['styling'][0]
-styling = section('styling', 'You want me to choose', 'Styling', 'from ' + h_usd(first['totalUsd']), 'a fee, plus money for your clothes',
-    bul('Every tier has two parts: <strong>my styling fee</strong>, and <strong>money that is spent on your clothes</strong> at the shop’s price.',
-        'If you love pieces that cost more, I ask before spending any more.',
-        'Styling is charged in US dollars. Shipping is added separately.')
-    + '<div class="pr-table-wrap" role="region" aria-label="Styling tiers" tabindex="0">'
-    + styling_table_html(lambda t: f'{SR}styling&tier={t["id"]}') + '</div>'
-    + '<aside class="pr-gift" id="gift" aria-label="Gift cards"><p><strong>Giving it?</strong> Any tier as a gift card — same prices, never expire.</p>'
-      '<a href="index.html#gift">Choose a gift →</a></aside>'
-    + example(cap['name'],
-              [('My styling fee', h_usd(cap['feeUsd'])), ('Spent on your clothes', h_usd(cap['creditUsd'])),
-               (f'Your pieces come to {from_usd(ex["piecesUsd"])}, so you approve an extra', h_usd(extra))],
-              ('You pay', h_usd(cap['feeUsd'] + cap['creditUsd'] + extra) + ' + shipping')),
-    btn(SR + 'styling', 'Book styling →'))
-
-# 4 · Group orders ---------------------------------------------------------------
-ge = g['example']
-pieces_usd = ge['pieces'] * ge['eachUsd']
-group = section('group', 'Weddings, sororities, events, friends', 'Group orders', pct(g['pct']), f'of the order, from {from_usd(g["fromUsd"])}',
-    bul(f'<strong>Orders of {h_usd(g["fromUsd"])} or more:</strong> my fee is {pct(g["pct"])} of the order, or {pct(g["rushPct"])} if pieces are made to measure or rushed.',
-        f'Orders under {h_usd(g["fromUsd"])} are priced like <a href="#buy">buying a piece</a>, item by item.',
-        f'On orders under {h_usd(g["minDistinctUnderUsd"])}, every different piece costs at least {h_vnd(s["minFeeVnd"])} in fee. Multiples of the same piece don’t count.',
-        'Shipping is at cost, in one parcel.')
-    + example(f'{ge["label"]} at {from_usd(ge["eachUsd"])}',
-              [('Dresses', h_usd(pieces_usd)), (f'My fee, {pct(g["pct"])}', h_usd(pieces_usd * g['pct']))],
-              ('You pay', h_usd(pieces_usd * (1 + g['pct'])) + ' + shipping')),
-    btn(SR + 'bulk', 'Ask for a group quote →'))
-
-always = bul(
-    '<strong>Nothing is bought without your yes.</strong> You see the photo, price and size first.',
-    '<strong>Your price is confirmed in writing</strong> before you pay. That written quote is what you pay.',
-    '<strong>Shipping</strong> is the courier’s actual cost on the day it ships, including the fuel and peak-season surcharges couriers add (high this autumn). It’s quoted before you pay for it. <strong>Import duties and taxes</strong> in your country are yours.',
-    f'<strong>Paying:</strong> bank transfer, Zelle and Wise have no card fee. A card adds about {DATA["card"]["pct"]} + {from_usd(DATA["card"]["fixedUsd"])}, which is the processor’s fee, shown before you pay. Orders for pieces also carry the {pct(s["transferPct"])} currency transfer. <a href="pay">How payment works</a>.',
-    '<strong>If a piece sells out</strong>, see <a href="policy">returns &amp; credit</a>.')
-
-boutiques = f'''
+def build_prices():
+    b = DATA['boutique']
+    boutiques = f'''
       <section class="pr-sec pr-btq" id="boutique" aria-labelledby="boutique-h">
         <p class="pr-who">You own a store and buy to resell</p>
         <h2 id="boutique-h">Boutique buying</h2>
@@ -128,8 +152,7 @@ boutiques = f'''
         <div class="pr-cta">{btn("for-boutiques", "How a buying round works →", alt=True)}{btn("boutique-calculator", "Open the calculator on its own page →", alt=True)}</div>
         <p class="pr-cross">Ordering for yourself or a group? <a href="?for=individuals" data-aud-go="individual">Individual pricing →</a></p>
       </section>'''
-
-body = f'''<body id="top" class="pr-page">
+    body = f'''<body id="top" class="pr-page">
   <div class="grain" aria-hidden="true"></div>
   {brand_header()}
   <main class="lg">
@@ -149,14 +172,11 @@ body = f'''<body id="top" class="pr-page">
     </div>
     <div class="pr-view" id="view-individuals" role="tabpanel" aria-labelledby="tab-individuals">
       <p class="pr-cross pr-cross--top">Buying for a store? <a href="?for=boutiques" data-aud-go="boutique">Boutique pricing →</a></p>
-      <p class="pr-curnote">Prices are in đồng with US dollars in brackets, at {vnd(FX)} = $1. A ~ marks a conversion; without it, the dollar figure is what’s charged.</p>
-      {buy}
-      {trace}
-      {styling}
-      {group}
+      <p class="pr-curnote">{CURRENCY_NOTE}</p>
+      {"".join(section(m) for m in modules())}
       <section class="lg-glance pr-always" aria-labelledby="always-h">
         <h2 id="always-h">True for every service</h2>
-        {always}
+        {always_html()}
       </section>
     </div>
     <div class="pr-view" id="view-boutiques" role="tabpanel" aria-labelledby="tab-boutiques">{boutiques}
@@ -176,9 +196,57 @@ body = f'''<body id="top" class="pr-page">
 </body>
 </html>
 '''
+    desc = ('Every Seraphic Styler price in one place: buying a piece, The Trace, styling, gift cards and group orders '
+            'in US dollars with đồng, and boutique buying in dollars with a live calculator.')
+    with open(OUT, 'w', encoding='utf-8') as f:
+        f.write(page_head('prices', 'Prices', desc) + body)
+    print('wrote', os.path.relpath(OUT, ROOT))
 
-desc = ('Every Seraphic Styler price in one place: buying a piece, The Trace, styling, gift cards and group orders '
-        'in đồng with dollars, and boutique buying in dollars with a live calculator.')
-with open(OUT, 'w', encoding='utf-8') as f:
-    f.write(page_head('prices', 'Prices', desc) + body)
-print('wrote', os.path.relpath(OUT, ROOT))
+
+# ---- Homepage price modules -------------------------------------------------------
+START = '<!-- @price-modules:start'
+END = '<!-- @price-modules:end -->'
+
+
+def home_block():
+    ms = modules('pm-', home=True)
+    cards = ''.join(
+        f'<button type="button" class="pm-card" role="tab" id="pm-tab-{m["id"]}" aria-controls="pm-{m["id"]}" '
+        f'aria-selected="{"true" if i == 0 else "false"}" tabindex="{0 if i == 0 else -1}">'
+        f'<span class="pm-who">{m["who"]}</span><span class="pm-name">{m["title"]}</span>'
+        f'<span class="pm-price">{m["price"]}</span><span class="pm-sub">{m["price_sub"]}</span>'
+        f'<span class="pm-more" aria-hidden="true">See how it’s priced</span></button>'
+        for i, m in enumerate(ms))
+    panels = ''.join(
+        f'\n      <div class="pm-panel" id="pm-{m["id"]}" role="tabpanel" aria-labelledby="pm-tab-{m["id"]}" tabindex="-1">'
+        f'<h3 class="pm-panel-h">{m["title"]}</h3>{m["body"]}<div class="pr-cta">{m["cta"]}</div></div>'
+        for m in ms)
+    return f'''{START} — generated by tools/build-prices.py from js/pricing.js (data {data_hash()}); edit those, not this block -->
+  <section id="prices" class="pm" aria-labelledby="pm-title" data-price-modules>
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Prices</span>
+        <h2 id="pm-title">Every price, plainly</h2>
+        <p class="lead narrow">Tap a service to see how it’s priced, with a worked example.</p>
+      </div>
+      <div class="pm-cards" role="tablist" aria-label="Services and prices">{cards}</div>{panels}
+      <p class="pm-note">{CURRENCY_NOTE}</p>
+      <p class="pm-foot">Buying for a store? <a href="#boutique">Boutique pricing ↓</a><span aria-hidden="true"> · </span>Shipping, payment &amp; returns: <a href="#details">the details ↓</a></p>
+    </div>
+  </section>
+  {END}'''
+
+
+def build_home():
+    html = open(HOME, encoding='utf-8').read()
+    i, j = html.find(START), html.find(END)
+    if i < 0 or j < 0:
+        raise SystemExit(f'{os.path.relpath(HOME, ROOT)}: add the @price-modules markers where the modules belong')
+    html = html[:i] + home_block() + html[j + len(END):]
+    with open(HOME, 'w', encoding='utf-8') as f:
+        f.write(html)
+    print('wrote', os.path.relpath(HOME, ROOT), '(price modules)')
+
+
+build_prices()
+build_home()

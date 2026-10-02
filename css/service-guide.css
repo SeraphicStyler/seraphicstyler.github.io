@@ -348,3 +348,11 @@ html.ss-menu-open .ss-section-nav { visibility:hidden; }
 /* The "On this page" outline groups its links under the same parts. */
 .ss-section-nav .ss-section-group { margin:.7rem 0 .15rem; padding:0 .4rem; font:400 .56rem/1.4 var(--font-brand); letter-spacing:.2em; text-transform:uppercase; color:var(--eyebrow-ink); }
 .ss-section-nav .ss-section-group:first-child { margin-top:.1rem; }
+/* The Estimate tab: the embedded estimator sizes itself (see js/service-guide.js). */
+.ss-est-wrap { margin:.6rem 0 .9rem; }
+.ss-est-frame { display:block; width:100%; height:900px; border:0; background:transparent; }
+.ss-guide [data-estimate] h3 { font:600 1.22rem/1.3 var(--font-body); letter-spacing:-.01em; margin:1rem 0 .5rem; }
+.ss-guide [data-estimate] h3 span { font:400 .6rem var(--font-body); color:var(--text-secondary); }
+.ss-guide [data-estimate] h3.bcalc-h { margin:1rem 0 .35rem; font:400 .6rem/1.4 var(--font-brand); letter-spacing:.18em; text-transform:uppercase; color:var(--eyebrow-ink); }
+.ss-guide [data-estimate] p,.ss-guide [data-estimate] [data-for]>a:not(.ss-action) { font-size:.75rem; line-height:1.8; }
+.ss-guide [data-estimate] [data-for]>a:not(.ss-action) { display:inline-block; color:var(--accent); }

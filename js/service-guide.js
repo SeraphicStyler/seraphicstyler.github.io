@@ -20,8 +20,11 @@
   const P = window.SS_PRICING || null;
   const D = P && P.data, F = P && P.fmt;
   const tierHref = t => t.from ? '#custom-wardrobe' : styling;
-  const individualPrices = P ? `<h3>Personal styling</h3><p>Choose the amount of direction you need. Every booking is my styling fee plus money spent on your clothes; shipping is added separately. Đồng first, dollars in brackets.</p><div class="ss-table-wrap" role="region" aria-label="Styling prices" tabindex="0">${P.html.stylingTable(tierHref)}</div><p>Item counts depend on fit, inventory, and garment prices.</p><h3>Item sourcing</h3><p>For an exact piece you've already found.</p><ul class="ss-facts">${P.html.sourcingFacts().map(f => `<li>${f}</li>`).join('')}</ul>` : '';
-  const boutiquePrices = P ? `<h3>Boutique buying <span class="ss-cur">US dollars</span></h3>${P.html.boutiqueTrio()}<div data-bcalc-menu></div>` : '';
+  const individualPrices = P ? `<h3>Personal styling</h3><p>Choose the amount of direction you need. Every booking is my styling fee plus money spent on your clothes; shipping is added separately. Dollars first, đồng in brackets.</p><div class="ss-table-wrap" role="region" aria-label="Styling prices" tabindex="0">${P.html.stylingTable(tierHref)}</div><p>Item counts depend on fit, inventory, and garment prices.</p><h3>Item sourcing</h3><p>For an exact piece you've already found.</p><ul class="ss-facts">${P.html.sourcingFacts().map(f => `<li>${f}</li>`).join('')}</ul><p><button type="button" class="ss-action" data-view="estimate">Estimate your order <span aria-hidden="true">→</span></button></p>` : '';
+  const boutiquePrices = P ? `<h3>Boutique buying <span class="ss-cur">US dollars</span></h3>${P.html.boutiqueTrio()}<p><button type="button" class="ss-action" data-view="estimate">Work out your buy <span aria-hidden="true">→</span></button></p>` : '';
+  // The Estimate tab: the full order estimator for individuals (estimate.html in its embedded mode,
+  // loaded the first time the tab opens) and the boutique calculator for boutiques.
+  const estimatePanel = `<section data-estimate hidden><div data-for="individual"><h3>Estimate an order</h3><p>Add the shop prices and your destination: you'll see my fees, shipping and your total.</p><div class="ss-est-wrap"><iframe class="ss-est-frame" title="Order estimator"></iframe></div><a href="estimate">Open the estimator on its own page ↗</a></div><div data-for="boutique" hidden>${P ? `<h3>Work out a boutique buy <span class="ss-cur">US dollars</span></h3><div data-bcalc-menu></div>` : ''}<a class="ss-action" href="prices?for=boutiques">All boutique prices <span aria-hidden="true">↗</span></a></div></section>`;
   const dialog = document.createElement('dialog');
   dialog.id = 'ss-service-guide'; dialog.className = 'ss-guide';
   dialog.setAttribute('aria-labelledby', 'ss-guide-title');
@@ -30,11 +33,12 @@
     <div class="ss-menu-layout"><div class="ss-menu-identity"><div class="ss-menu-brand" aria-label="Seraphic Styler"><span class="ss-menu-wordmark">Seraphic</span><span class="ss-menu-script">Styler</span></div><h2 id="ss-guide-title"><span data-for="individual">A little direction.<br>A world of possibilities.</span><span data-for="boutique" hidden>Saigon's designers.<br>On your shop floor.</span></h2><p data-for="individual">Find a piece you love.<br>Or discover what belongs together.</p><p data-for="boutique" hidden>Tell me your budget.<br>See your whole buy, fees included.</p><a class="ss-action" data-for="individual" href="service-request.html?service=unsure">Find your service <span aria-hidden="true">↗</span></a><a class="ss-action" data-for="boutique" href="boutique-calculator" hidden>Price a buy for your boutique <span aria-hidden="true">↗</span></a></div>
     <div class="ss-menu-content"><label class="sr-only" for="ss-guide-query">Search services, prices, and answers</label><div class="ss-search-wrap"><span aria-hidden="true">⌕</span><input id="ss-guide-query" type="search" placeholder="Find a service, price, or answer…" autocomplete="off"><kbd>⌘ / Ctrl K</kbd></div>
     <div class="ss-audience" role="group" aria-label="Who is this for?"><button type="button" data-aud="individual" aria-pressed="true">For individuals</button><button type="button" data-aud="boutique" aria-pressed="false">For boutiques</button></div>
-    <div class="ss-menu-tabs" role="group" aria-label="Menu view"><button type="button" data-view="explore" aria-pressed="true">Explore</button><button type="button" data-view="prices" aria-pressed="false" data-i18n="nav.services">Services &amp; prices</button></div>
+    <div class="ss-menu-tabs" role="group" aria-label="Menu view"><button type="button" data-view="explore" aria-pressed="true">Explore</button><button type="button" data-view="prices" aria-pressed="false" data-i18n="nav.services">Services &amp; prices</button><button type="button" data-view="estimate" aria-pressed="false">Estimate</button></div>
     <div data-explore><p class="ss-menu-prompt">What do you need today?</p><nav class="ss-menu-primary" aria-label="For individuals" data-for="individual"><a href="${styling}"><span>01</span>Personal styling <small>Choose a piece, an outfit, or a wardrobe</small></a><a href="${sourcing}"><span>02</span>Item sourcing <small>Buy an exact item from a known seller</small></a><a href="service-request.html?service=trace"><span>03</span>The Trace <small>Identify one item from a photo${P ? ' · ' + F.fromUsd(D.trace.usd) : ''}</small></a><a href="service-request.html?service=bulk"><span>04</span>Group order <small>A sorority, bridal party, or team${P ? ' · ' + F.pct(D.group.pct) + ' of the order' : ''}</small></a><a href="prices"><span>05</span>Every price <small>Sourcing, styling, gifts and group orders, worked out</small></a></nav><nav class="ss-menu-primary" aria-label="For boutiques" data-for="boutique" hidden><a href="boutique-calculator"><span>01</span>Price your buy <small>Budget and pieces in, your whole buy out</small></a><a href="for-boutiques"><span>02</span>How a buying round works <small>Scouting, line sheet, approval, one shipment</small></a><a href="prices?for=boutiques"><span>03</span>Boutique fees <small>${P ? P.boutiqueTrio().map(f => f.big + ' ' + f.label).join(' · ') : 'Scouting fee, buying fee, no markup'}</small></a><a href="service-request.html?service=bulk"><span>04</span>Start a buy brief <small>Tell me your shop, budget, and timeline</small></a></nav><nav class="ss-menu-secondary" aria-label="Explore more"><a href="${section('process', '#lp-how')}" data-i18n="nav.process">How it works</a><a href="fashion-directory" data-i18n="nav.directory">Fashion directory</a><a href="${section('lookbook', 'index.html#lookbook')}" data-i18n="nav.lookbook">Lookbook</a><a href="${section('gift', '#lp-gift')}" data-i18n="nav.gift">Gifting</a><a href="about" data-i18n="nav.about">About the atelier</a><a href="service-request.html" data-i18n="nav.contact">Start a request</a></nav></div>
     <div class="ss-guide-results" aria-label="Search results" hidden></div><p data-empty role="status" hidden>No matches. Try “wardrobe”, “shipping”, or “fees”.</p>
     <section data-prices hidden><div data-for="individual">${individualPrices}<a href="prices">All prices, worked out →</a><p class="ss-aud-note">Buying a range to stock a shop? <button type="button" data-aud="boutique">See boutique pricing</button></p></div>
     <div data-for="boutique" hidden>${boutiquePrices}<a class="ss-action" href="prices?for=boutiques">All boutique prices <span aria-hidden="true">↗</span></a><p class="ss-aud-note">Ordering a few pieces for yourself or a group? <button type="button" data-aud="individual">See individual pricing</button></p></div></section>
+    ${estimatePanel}
     <footer class="ss-menu-footer"><span>Thoughtfully chosen in Saigon. Sent worldwide.</span><button type="button" data-settings data-i18n="a11y.title">Display &amp; accessibility</button><label><input type="checkbox" data-shortcuts> Enable O / M shortcuts</label><span>Esc to close</span></footer></div></div>`;
   const mark = document.querySelector('.brand-mark, .lp-brand-mark');
   if (mark) dialog.querySelector('.ss-menu-brand').prepend(mark.cloneNode(true));
@@ -50,6 +54,12 @@
   const input = dialog.querySelector('input[type="search"]');
   const results = dialog.querySelector('.ss-guide-results');
   const prices = dialog.querySelector('[data-prices]');
+  const estimate = dialog.querySelector('[data-estimate]');
+  const estFrame = dialog.querySelector('.ss-est-frame');
+  // The embedded estimator reports its own height (js/estimate-page.js).
+  window.addEventListener('message', e => {
+    if (e.origin === location.origin && e.data && e.data.type === 'ss-estimate-height' && e.source === estFrame.contentWindow) estFrame.style.height = e.data.height + 'px';
+  });
   const explore = dialog.querySelector('[data-explore]');
   const tabs = dialog.querySelector('.ss-menu-tabs');
   const underline = document.createElement('span');
@@ -80,7 +90,8 @@
     ['Shipping & order process', section('process', '#lp-how'), 'Worldwide delivery tracking approval'],
     ['Fashion directory', 'fashion-directory', 'Browse Vietnamese brands boutiques designers'],
     ['Start a request', 'service-request.html', 'Sourcing styling unsure intake consultation contact'],
-    ['Every price', 'prices', 'Prices fees costs sourcing styling The Trace gift cards group orders boutique buying'],
+    ['Every price', home ? '#prices' : 'prices', 'Prices fees costs sourcing styling The Trace gift cards group orders boutique buying'],
+    ['Estimate your order', 'estimate', 'Estimator calculator item prices shipping fees total', 'individual'],
     ...(P ? [
       ['Group order · ' + F.pct(D.group.pct) + ' of the order', 'service-request.html?service=bulk', 'Sorority bridal party team shared order, ' + F.pct(D.group.rushPct) + ' with made-to-measure or rush', 'individual'],
       ['Price your boutique buy', 'boutique-calculator', 'Budget pieces rush calculator: ' + F.usd0(D.boutique.scoutUsd) + ' scouting fee, ' + F.pct(D.boutique.pct) + ' buying fee, total and when you pay', 'boutique'],
@@ -112,7 +123,8 @@
     const matches = searching ? entries.filter(e => words.every(w => e.slice(0, 3).join(' ').toLowerCase().includes(w))).sort((a, b) => rank(a) - rank(b)).slice(0, 10) : [];
     dialog.querySelectorAll('[data-for]').forEach(el => { el.hidden = el.dataset.for !== audience; });
     dialog.querySelectorAll('.ss-audience [data-aud]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.aud === audience)));
-    explore.hidden = searching || view !== 'explore'; prices.hidden = searching || view !== 'prices'; results.hidden = !searching;
+    explore.hidden = searching || view !== 'explore'; prices.hidden = searching || view !== 'prices'; estimate.hidden = searching || view !== 'estimate'; results.hidden = !searching;
+    if (view === 'estimate' && audience === 'individual' && !estFrame.getAttribute('src')) estFrame.setAttribute('src', bioDestination('estimate') + '?embed=links');
     results.replaceChildren();
     matches.forEach(([title, href, detail, aud]) => {
       const a = document.createElement('a'); a.href = bioDestination(href); a.textContent = title;
@@ -139,7 +151,7 @@
   }
   launcher.addEventListener('click', () => open());
   document.querySelectorAll('[data-service-menu]').forEach(trigger => {
-    trigger.addEventListener('click', e => { e.preventDefault(); open(trigger.dataset.serviceMenu === 'prices' ? 'prices' : 'explore'); });
+    trigger.addEventListener('click', e => { e.preventDefault(); open(['prices', 'estimate'].includes(trigger.dataset.serviceMenu) ? trigger.dataset.serviceMenu : 'explore'); });
   });
   dialog.querySelector('[data-close]').addEventListener('click', () => close());
   dialog.addEventListener('cancel', e => { e.preventDefault(); close(); });

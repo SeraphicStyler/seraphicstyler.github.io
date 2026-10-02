@@ -4,7 +4,7 @@
  if(!document.querySelector('#lineItems .item-price'))return;
  root.classList.add('est-ready');
  const quickTotal=document.getElementById('estQuickTotal');
- if(quickTotal){const total=document.getElementById('rTotal');const syncTotal=()=>{quickTotal.textContent=total.textContent;};new MutationObserver(syncTotal).observe(total,{childList:true,subtree:true,characterData:true});syncTotal();}
+ if(quickTotal){const total=document.getElementById('rTotal'),converted=document.getElementById('rUsd');/* Dollars (or the chosen currency) first; the đồng total when no rate is available. */const syncTotal=()=>{const c=converted&&converted.textContent.trim();quickTotal.textContent=c&&c!=='—'&&!/unavailable/i.test(c)?c:total.textContent;};new MutationObserver(syncTotal).observe(converted,{childList:true,subtree:true,characterData:true});new MutationObserver(syncTotal).observe(total,{childList:true,subtree:true,characterData:true});syncTotal();}
  let itemId=0;
  const labelItems=()=>document.querySelectorAll('#lineItems input:not([id])').forEach(input=>{
    input.id='estimate-field-'+(++itemId);

@@ -10,11 +10,13 @@
    Everything between the @pricing-data markers must stay strict JSON (double
    quotes, no comments, no trailing commas): the Python builders parse it.
 
-   Currency policy. Individuals: đồng first, dollars in brackets. A "~" marks
-   a conversion; no "~" means the dollar figure is the amount charged (styling,
-   The Trace). Boutiques: US dollars only. Đồng are shown at fx.vndPerUsd.
+   Currency policy. Individuals: dollars first, đồng in brackets. A "~" marks
+   the converted figure: sourcing fees are set in đồng ("~$14 (350,000₫)"),
+   styling and The Trace are charged in dollars ("$235 (~5,875,000₫)").
+   Boutiques: US dollars only. Đồng are shown at fx.vndPerUsd.
 
-   Load this file before the scripts that read it (it touches no DOM on load). */
+   Load this file before the scripts that read it. On load it only waits for
+   the page, then wires up any price modules ([data-price-modules]). */
 (function () {
   'use strict';
 
@@ -86,15 +88,15 @@
   function usd0(n) { return sign(n) + '$' + group(n); }
   function vnd(n) { return sign(n) + group(n) + '₫'; }
   function pct(p) { return Math.round(p * 100) + '%'; }
-  /* Individuals — text: "350,000₫ (~$14)" for a đồng fee, "5,875,000₫ ($235)" for a dollar charge. */
-  function fromVnd(v) { return vnd(v) + ' (~' + usd(v / FX) + ')'; }
-  function fromUsd(u) { return vnd(u * FX) + ' (' + usd(u) + ')'; }
+  /* Individuals — text, dollars first: "~$14 (350,000₫)" for a đồng fee, "$235 (~5,875,000₫)" for a dollar charge. */
+  function fromVnd(v) { return '~' + usd(v / FX) + ' (' + vnd(v) + ')'; }
+  function fromUsd(u) { return usd(u) + ' (~' + vnd(u * FX) + ')'; }
   /* The same, as HTML: tabular figures, the bracket a step quieter. */
   function money(primary, alt) {
     return '<span class="money">' + primary + (alt ? ' <span class="money-alt">(' + alt + ')</span>' : '') + '</span>';
   }
-  function hVnd(v) { return money(vnd(v), '~' + usd(v / FX)); }
-  function hUsd(u) { return money(vnd(u * FX), usd(u)); }
+  function hVnd(v) { return money('~' + usd(v / FX), vnd(v)); }
+  function hUsd(u) { return money(usd(u), '~' + vnd(u * FX)); }
   function hUsdOnly(u) { return money(usd0(u)); }
 
   /* ---- Rules ------------------------------------------------------- */
@@ -352,6 +354,51 @@
     }
   }
 
+  /* ---- Price modules (homepage #prices) -------------------------------
+     Cards are tabs; one panel shows at a time. Without JavaScript every
+     panel stays visible under the cards. Links to a panel (#pm-group) open
+     its card, including from the dividers above. */
+  function initModules(root) {
+    var cards = [].slice.call(root.querySelectorAll('.pm-cards [role="tab"]'));
+    if (!cards.length) return;
+    var panel = function (t) { return document.getElementById(t.getAttribute('aria-controls')); };
+    function select(t, focus) {
+      cards.forEach(function (c) {
+        var on = c === t;
+        c.setAttribute('aria-selected', String(on)); c.tabIndex = on ? 0 : -1; panel(c).hidden = !on;
+      });
+      if (focus) t.focus();
+    }
+    function cardFor(id) { return cards.filter(function (c) { return c.getAttribute('aria-controls') === id; })[0] || null; }
+    cards.forEach(function (c, i) {
+      c.addEventListener('click', function () {
+        select(c, false);
+        /* On a phone the panel sits below all four cards: bring it into view. */
+        if (matchMedia('(max-width: 700px)').matches) panel(c).scrollIntoView({ block: 'start', behavior: 'smooth' });
+      });
+      c.addEventListener('keydown', function (e) {
+        var to = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? cards[(i + 1) % cards.length]
+          : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? cards[(i - 1 + cards.length) % cards.length]
+          : e.key === 'Home' ? cards[0] : e.key === 'End' ? cards[cards.length - 1] : null;
+        if (to) { e.preventDefault(); select(to, true); }
+      });
+    });
+    /* Capture phase: open the card before any smooth-scroll handler looks for the target. */
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="#pm-"]');
+      var t = a && cardFor(a.hash.slice(1));
+      if (t) select(t, false);
+    }, true);
+    window.addEventListener('hashchange', function () { var t = cardFor(location.hash.slice(1)); if (t) select(t, false); });
+    root.classList.add('pm-js');
+    select(cardFor(location.hash.slice(1)) || cards[0], false);
+  }
+  function initAllModules() { [].forEach.call(document.querySelectorAll('[data-price-modules]'), initModules); }
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAllModules);
+    else initAllModules();
+  }
+
   /* ---- /boutique-calculator page ------------------------------------ */
   function initCalculatorPage() {
     setAudience('boutique', true);
@@ -369,6 +416,7 @@
     boutiqueTrio: boutiqueTrio,
     mountBoutiqueCalc: mountBoutiqueCalc,
     initPricesPage: initPricesPage,
+    initModules: initModules,
     initCalculatorPage: initCalculatorPage
   };
 })();

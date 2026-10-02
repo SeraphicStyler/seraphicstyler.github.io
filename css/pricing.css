@@ -164,3 +164,49 @@ html.dark .pr-btn { color: #1a1d29; }
 /* ---- /boutique-calculator ------------------------------------------------ */
 .bc-wrap { max-width: 760px; margin: 0 auto; }
 .bc-fine { max-width: 760px; margin: 1.6rem auto 0; }
+
+/* ---- Homepage price modules (index.html #prices; generated block) ---------- */
+.pm .wrap { max-width: 1040px; }
+.pm-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .7rem; margin: 1.6rem 0 0; }
+@media (max-width: 900px) { .pm-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.pm-card { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: .25rem; min-height: 100%; padding: 1rem 1rem 1.05rem; text-align: left; cursor: pointer;
+  border: 1px solid var(--surface-border); border-radius: 18px; background: var(--surface); color: var(--text-primary); font-family: var(--font-body);
+  transition: border-color .2s, box-shadow .2s, transform .2s; }
+.pm-card:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--surface-border)); transform: translateY(-2px); }
+.pm-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.pm-card[aria-selected="true"] { border-color: var(--accent); background: linear-gradient(135deg, var(--accent-soft), transparent 75%), var(--surface-solid);
+  box-shadow: 0 16px 32px -24px var(--accent); }
+.pm-who { font-family: var(--font-brand); text-transform: uppercase; letter-spacing: .16em; font-size: .56rem; line-height: 1.5; color: var(--eyebrow-ink); }
+.pm-name { font-family: 'Cormorant Garamond', var(--font-display); font-weight: 500; font-size: 1.45rem; line-height: 1.15; }
+.pm-price { margin-top: .2rem; font-family: 'Cormorant Garamond', var(--font-display); font-weight: 500; font-size: 1.35rem; line-height: 1.2; color: var(--accent); }
+.pm-price .money-alt { font-family: var(--font-body); font-size: .62em; }
+.pm-sub { font-size: .76rem; line-height: 1.45; color: var(--text-secondary); }
+.pm-more { margin-top: auto; padding-top: .55rem; font: .7rem var(--font-accent); letter-spacing: .04em; color: var(--accent); }
+.pm-more::after { content: ' ↓'; }
+.pm-card[aria-selected="true"] .pm-more { visibility: hidden; }
+.pm-panel { margin: .9rem 0 0; padding: clamp(1.1rem, 3.5vw, 1.8rem); border: 1px solid var(--surface-border); border-radius: 20px; background: var(--surface);
+  scroll-margin-top: 6rem; text-align: left; }
+.pm-panel[hidden] { display: none; }
+.pm-panel:focus { outline: none; }
+.pm-panel-h { margin: 0 0 .2rem; font-family: 'Cormorant Garamond', var(--font-display); font-weight: 500; font-size: 1.6rem; color: var(--text-primary); }
+.pm-panel .pr-points, .pm-panel .pr-ex, .pm-panel p { max-width: 72ch; }
+.pm-note { margin: 1rem auto 0; max-width: 72ch; text-align: center; font: .76rem/1.6 var(--font-body); color: var(--text-secondary); }
+.pm-foot { margin: .5rem auto 0; text-align: center; font: .86rem/1.7 var(--font-body); color: var(--text-secondary); }
+.pm-foot a { color: var(--accent); font-weight: 500; text-underline-offset: 3px; }
+@media (max-width: 560px) {
+  .pm-cards { gap: .5rem; }
+  .pm-card { padding: .8rem .75rem; border-radius: 14px; }
+  .pm-who, .pm-sub, .pm-more { display: none; }
+  .pm-name { font-size: 1.15rem; }
+  .pm-price { font-size: 1.05rem; }
+  .pm-price .money-alt { display: block; font-size: .7em; }
+}
+/* Without JavaScript all panels show; the cards still summarise the prices. */
+html:not(.js) .pm:not(.pm-js) .pm-more { display: none; }
+
+/* The sparkle bullet, for pages that don't load css/legal.css (the homepage modules). */
+.pm .lg-bul { list-style: none; margin: .5rem 0 0; padding: 0; }
+.pm .lg-bul > li { position: relative; padding: .28rem 0 .28rem 1.45rem; font: .9rem/1.72 var(--font-body); color: var(--text-secondary); }
+.pm .lg-bul > li::before { content: ''; position: absolute; left: .1rem; top: .82em; width: .62rem; height: .62rem;
+  background: linear-gradient(135deg, var(--accent), #b7a6e6); clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%); }
+.pm .lg-bul strong { color: var(--text-primary); font-weight: 500; }

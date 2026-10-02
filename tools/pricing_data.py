@@ -57,11 +57,11 @@ def pct(p):
 
 
 def from_vnd(v):
-    return f'{vnd(v)} (~{usd(v / FX)})'
+    return f'~{usd(v / FX)} ({vnd(v)})'
 
 
 def from_usd(u):
-    return f'{vnd(u * FX)} ({usd(u)})'
+    return f'{usd(u)} (~{vnd(u * FX)})'
 
 
 def money(primary, alt=None):
@@ -69,11 +69,11 @@ def money(primary, alt=None):
 
 
 def h_vnd(v):
-    return money(vnd(v), '~' + usd(v / FX))
+    return money('~' + usd(v / FX), vnd(v))
 
 
 def h_usd(u):
-    return money(vnd(u * FX), usd(u))
+    return money(usd(u), '~' + vnd(u * FX))
 
 
 def h_usd_only(u):
@@ -196,9 +196,9 @@ def page_head(slug, title, desc, extra_css=()):
     head = re.sub(r'(<meta property="og:description" content=")[^"]*', lambda m: m.group(1) + desc, head)
     head = head.replace('seraphicstyler.com/policy"', f'seraphicstyler.com/{slug}"')
     head += f'  <meta name="ss-pricing-data" content="{data_hash()}" />\n'
-    for css in ('css/legal.css?v=2026-10-01', 'css/pricing.css?v=2026-10-02') + tuple(extra_css):
+    for css in ('css/legal.css?v=2026-10-01', 'css/pricing.css?v=2026-10-02c') + tuple(extra_css):
         head += f'  <link rel="stylesheet" href="{css}" />\n'
-    head += '  <script src="js/pricing.js?v=2026-10-02"></script>\n'
+    head += '  <script src="js/pricing.js?v=2026-10-02b"></script>\n'
     head += '  <script src="js/i18n-site.js?v=2026-09-12" defer></script>\n  <script src="js/geo-lang.js?v=2026-09-12" defer></script>\n</head>\n'
     return head
 

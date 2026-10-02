@@ -50,7 +50,7 @@
 .est-embedded .est-page section#estimate { padding:0; }
 .est-embedded .est-page .wrap { padding:0; }
 .est-embedded .est-page #estQuiz { gap:16px; }
-.est-embedded .est-page .quiz-toolbar { justify-content:space-between; }
+.est-embedded .est-page .quiz-toolbar { display:none; } /* the parent page owns theme and language (synced in js/estimate-page.js) */
 @media(max-width:740px) {
  .est-ready .est-page #estQuiz { grid-template-columns:minmax(0,1fr);gap:20px; }
  .est-page .wrap { padding-inline:16px; }
