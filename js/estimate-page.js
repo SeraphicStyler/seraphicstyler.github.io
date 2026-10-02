@@ -22,9 +22,9 @@
  const localize=()=>{
    const c=window.SS_ESTIMATE_COPY?.[document.documentElement.lang]||window.SS_ESTIMATE_COPY?.en;
    if(!c)return;
-   document.title=window.SS_T('est.h2','Build a rough estimate')+' — Seraphic Styler';
+   document.title=window.SS_T('est.h2','Get your price')+' — Seraphic Styler';
    document.querySelector('#estLangSelect').setAttribute('aria-label',window.SS_T('a11y.language','Language'));
-   document.querySelector('#estQuiz').setAttribute('aria-label',window.SS_T('est.h2','Build a rough estimate'));
+   document.querySelector('#estQuiz').setAttribute('aria-label',window.SS_T('est.h2','Get your price'));
    title.textContent=c.appearance+' ';select.setAttribute('aria-label',c.appearance);
    for(const option of select.options)option.textContent=c[option.value];
    document.querySelectorAll('#lineItems input').forEach(input=>{

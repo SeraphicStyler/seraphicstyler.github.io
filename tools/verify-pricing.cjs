@@ -104,8 +104,8 @@ const strip = html => html.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').repla
     // The menu, /prices and /boutique-calculator agree.
     await go('/index.html'); await clear(); await go('/index.html');
     await page.click('.ss-guide-launch'); await page.waitForFunction(() => document.querySelector('.ss-guide').open);
-    await page.click('[data-view="prices"]');
-    const menuTable = await page.$eval('[data-prices] .price-table', e => e.outerHTML);
+    await page.click('.ss-choice[data-view="styling"]');
+    const menuTable = await page.$eval('[data-panel="styling"] .price-table', e => e.outerHTML);
     await go('/prices');
     const pageTable = await page.$eval('#styling .price-table', e => e.outerHTML);
     const norm = h => h.replace(/ href="[^"]*"/g, '');
@@ -124,11 +124,8 @@ const strip = html => html.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').repla
 
     // Persistence across pages, deep links, the cross-link and keyboard.
     await go('/prices'); assert.equal(await view(), 'boutique', 'boutique view persisted from the calculator page');
-    await go('/index.html'); await page.click('.ss-guide-launch'); await page.waitForFunction(() => document.querySelector('.ss-guide').open);
-    assert.equal(await page.$eval('.ss-audience [data-aud="boutique"]', e => e.getAttribute('aria-pressed')), 'true', 'menu follows the stored choice');
-    assert.equal(await page.$eval('[data-estimate] [data-bcalc-menu] [data-out="total"]', e => e.textContent.trim()), F.usd0(P.boutiqueQuote(D.boutique.defaults.budget, D.boutique.defaults.pieces).total) + ' + shipping');
-    await page.click('.ss-audience [data-aud="individual"]');
-    await go('/prices'); assert.equal(await view(), 'individual', 'menu choice persists to /prices');
+    await go('/prices?for=individuals'); assert.equal(await view(), 'individual', 'a deep link changes the stored choice');
+    await go('/prices'); assert.equal(await view(), 'individual', 'and it persists');
     await page.click('.pr-cross--top a'); assert.equal(await view(), 'boutique', 'cross-link opens boutique pricing');
     await page.focus('#tab-boutiques'); await page.keyboard.press('ArrowLeft');
     assert.equal(await view(), 'individual', 'arrow keys switch views');
@@ -150,21 +147,20 @@ const strip = html => html.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').repla
     await page.$eval('a[href="#pm-trace"]', a => a.click()).catch(async () => { await page.evaluate(() => { const a = document.createElement('a'); a.href = '#pm-trace'; document.body.append(a); a.click(); a.remove(); }); });
     assert.deepEqual(await shown(), ['pm-trace'], 'an in-page link opens its module');
     await go('/index.html#pm-styling'); assert.deepEqual(await shown(), ['pm-styling'], 'a #pm- deep link opens its module');
-    // The menu's Estimate tab: the full estimator for individuals, the calculator for boutiques.
+    // The menu: Sourcing opens the estimator (loaded only then); Boutiques opens the calculator.
     await page.click('.ss-guide-launch'); await page.waitForFunction(() => document.querySelector('.ss-guide').open);
-    await page.click('.ss-audience [data-aud="individual"]');
-    assert.equal(await page.$eval('.ss-est-frame', f => f.getAttribute('src')), null, 'estimator loads only when the tab opens');
-    await page.click('.ss-menu-tabs [data-view="estimate"]');
+    assert.equal(await page.$eval('.ss-est-frame', f => f.getAttribute('src')), null, 'estimator loads only when Sourcing is chosen');
+    await page.click('.ss-choice[data-view="sourcing"]');
     await page.waitForFunction(() => parseInt(document.querySelector('.ss-est-frame').style.height, 10) > 300, { timeout: 8000 });
     const est = await (await page.$('.ss-est-frame')).contentFrame();
     await est.waitForSelector('.est-ready');
     await est.$eval('.item-price', e => { e.value = '1500000'; e.dispatchEvent(new Event('input', { bubbles: true })); });
     assert((await est.$eval('.item-usd', e => e.textContent)).includes('my fee $14'), 'menu estimator prices an item');
     assert(await est.$eval('.quiz-toolbar', e => getComputedStyle(e).display === 'none'), 'embedded estimator leaves theme and language to the page');
-    await page.click('.ss-audience [data-aud="boutique"]');
-    assert(await page.$eval('[data-estimate] [data-for="boutique"]', e => !e.hidden));
-    assert.equal(await page.$eval('[data-estimate] [data-bcalc-menu] [data-out="total"]', e => e.textContent.trim()), F.usd0(P.boutiqueQuote(D.boutique.defaults.budget, D.boutique.defaults.pieces).total) + ' + shipping');
-    await page.click('.ss-audience [data-aud="individual"]'); await page.keyboard.press('Escape');
+    await page.click('[data-panel="sourcing"] .ss-back'); await page.click('.ss-choice[data-view="boutique"]');
+    assert(await page.$eval('[data-panel="boutique"]', e => !e.hidden));
+    assert.equal(await page.$eval('[data-panel="boutique"] [data-bcalc-menu] [data-out="total"]', e => e.textContent.trim()), F.usd0(P.boutiqueQuote(D.boutique.defaults.budget, D.boutique.defaults.pieces).total) + ' + shipping');
+    await page.keyboard.press('Escape');
 
     // Scrollspy marks the section in view.
     await go('/prices?for=individuals');
@@ -177,8 +173,8 @@ const strip = html => html.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').repla
     const swap = r => r.url().includes('/js/pricing.js') ? r.respond({ status: 200, contentType: 'application/javascript', body: editedSrc }) : r.continue();
     page.on('request', swap);
     await go('/index.html'); await clear(); await go('/index.html');
-    await page.click('.ss-guide-launch'); await page.waitForFunction(() => document.querySelector('.ss-guide').open); await page.click('[data-view="prices"]');
-    assert((await page.$eval('[data-prices] .price-table', e => e.textContent)).includes('$136'), 'menu follows an edited fee');
+    await page.click('.ss-guide-launch'); await page.waitForFunction(() => document.querySelector('.ss-guide').open); await page.click('.ss-choice[data-view="styling"]');
+    assert((await page.$eval('[data-panel="styling"] .price-table', e => e.textContent)).includes('$136'), 'menu follows an edited fee');
     await go('/boutique-calculator?budget=3000&pieces=30');
     assert.equal(await calcTotal('#bcalc-page'), '$3,710 + shipping', 'calculator follows an edited scouting fee');
     page.off('request', swap); await page.setRequestInterception(false);

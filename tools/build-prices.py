@@ -55,7 +55,7 @@ def modules(idp='', home=False):
     transfer = (item + fee + order) * s['transferPct']
     buy_total = item + fee + order + transfer
     out.append(dict(
-        id='buy', who='You know exactly what you want', title='Buy a piece', price=h_vnd(s['minFeeVnd']), price_sub='per item, most items',
+        id='buy', who='You have a link or know the item', title='Sourcing', price=h_vnd(s['minFeeVnd']), price_sub='per item, most items',
         body=bul('<strong>The item</strong> at the shop’s own price. I never add a markup.',
                  f'<strong>My fee: {h_vnd(s["minFeeVnd"])} per item.</strong> Items over {h_vnd(s["minFeeVnd"] / s["rate"])} are {pct(s["rate"])} of the price instead, and items over {h_vnd(s["highFromVnd"])} are {pct(s["highRate"])}.',
                  f'<strong>{h_vnd(order)} per order</strong> for packing and coordination. {["No", "One", "Two", "Three"][s["shopsIncluded"]]} shops are included; each extra shop is {h_vnd(s["extraShopVnd"])}.',
@@ -64,11 +64,11 @@ def modules(idp='', home=False):
              + example(f'one {usd(item / FX)} dress',
                        [('Dress', h_vnd(item)), ('My fee', h_vnd(fee)), ('Order fee', h_vnd(order)), (f'Currency transfer, {pct(s["transferPct"])}', h_vnd(transfer))],
                        ('You pay', h_vnd(buy_total) + ' + shipping')),
-        cta=btn(SR + 'sourcing', 'Buy a piece →') + btn('#estimate' if home else 'estimate', 'Estimate your order →', alt=True)))
+        cta=btn('estimate', 'Get your price →')))
 
     # The Trace
     rows = [('The Trace, paid when you send the photo', h_usd(tr['usd'])),
-            (f'Later, that dress, from <a href="#{idp}buy">Buy a piece</a>', h_vnd(buy_total))]
+            (f'Later, that dress, from <a href="#{idp}buy">Sourcing</a>', h_vnd(buy_total))]
     if tr['credited']:
         rows.append(('Less The Trace you already paid', money(usd0(-tr['usd']), '~' + vnd(-tr['usd'] * FX))))
     due = buy_total - (tr['usd'] * FX if tr['credited'] else 0)
@@ -106,7 +106,7 @@ def modules(idp='', home=False):
     out.append(dict(
         id='group', who='Weddings, sororities, events, friends', title='Group orders', price=pct(g['pct']), price_sub=f'of the order, from {from_usd(g["fromUsd"])}',
         body=bul(f'<strong>Orders of {h_usd(g["fromUsd"])} or more:</strong> my fee is {pct(g["pct"])} of the order, or {pct(g["rushPct"])} if pieces are made to measure or rushed.',
-                 f'Orders under {h_usd(g["fromUsd"])} are priced like <a href="#{idp}buy">buying a piece</a>, item by item.',
+                 f'Orders under {h_usd(g["fromUsd"])} are priced like <a href="#{idp}buy">sourcing</a>, item by item.',
                  f'On orders under {h_usd(g["minDistinctUnderUsd"])}, every different piece costs at least {h_vnd(s["minFeeVnd"])} in fee. Multiples of the same piece don’t count.',
                  'Shipping is at cost, in one parcel.')
              + example(f'{ge["label"]} at {usd(ge["eachUsd"])}',
@@ -167,7 +167,7 @@ def build_prices():
         <button type="button" role="tab" id="tab-boutiques" data-aud="boutique" aria-selected="false" aria-controls="view-boutiques" tabindex="-1">For boutiques</button>
       </div>
       <nav class="pr-secnav" aria-label="Sections">
-        <a href="#buy">Buy a piece</a><a href="#trace">The Trace</a><a href="#styling">Styling</a><a href="#group">Group orders</a><a href="?for=boutiques" data-aud-go="boutique">Boutiques →</a>
+        <a href="#buy">Sourcing</a><a href="#trace">The Trace</a><a href="#styling">Styling</a><a href="#group">Group orders</a><a href="?for=boutiques" data-aud-go="boutique">Boutiques →</a>
       </nav>
     </div>
     <div class="pr-view" id="view-individuals" role="tabpanel" aria-labelledby="tab-individuals">
@@ -196,7 +196,7 @@ def build_prices():
 </body>
 </html>
 '''
-    desc = ('Every Seraphic Styler price in one place: buying a piece, The Trace, styling, gift cards and group orders '
+    desc = ('Every Seraphic Styler price in one place: sourcing, The Trace, styling, gift cards and group orders '
             'in US dollars with đồng, and boutique buying in dollars with a live calculator.')
     with open(OUT, 'w', encoding='utf-8') as f:
         f.write(page_head('prices', 'Prices', desc) + body)

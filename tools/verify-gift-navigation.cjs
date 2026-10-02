@@ -36,7 +36,8 @@ const origin = process.env.SS_PREVIEW || 'http://127.0.0.1:8731';
         await page.select('#giftCurrency','USD');
         await page.click('.ss-gift-menu');
         assert(await page.$eval('.ss-guide',e=>e.open));
-        assert(await page.$eval('[data-prices]',e=>!e.hidden&&e.textContent.includes('$1,500')));
+        // The gift section's menu link opens the styling tiers (gift cards use the same prices).
+        assert(await page.$eval('[data-panel="styling"]',e=>!e.hidden&&e.textContent.includes('$1,500')));
         await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('.ss-guide').open);
         assert(await page.$eval('.ss-gift-menu',e=>e===document.activeElement));
         await page.$eval('#gift-custom-wardrobe',e=>e.scrollIntoView({behavior:'instant'}));

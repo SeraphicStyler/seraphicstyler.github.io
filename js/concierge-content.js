@@ -8,7 +8,7 @@ export const topics = {
     sourcing: {
       answer:'Sourcing is purchase help for an exact, in-stock item from an identified Vietnamese seller. Send the direct shop link or precise item details so its price, size, and availability can be confirmed. If the source is unknown, begin with The Trace.',
       scene:'sourcing',
-      actions:[['Source a piece','service-request.html?service=sourcing'],['Compare services','sourcingandstyling']]
+      actions:[['Source a piece','estimate'],['Compare services','sourcingandstyling']]
     },
     trace: {
       answer:'The Trace investigates the source of one specific item for $25 per item, credited toward an order if you proceed. It returns an identified source and available price, or an explanation of why the piece cannot be sourced. A match is not guaranteed.',
@@ -48,7 +48,7 @@ export const topics = {
     stock: {
       answer:'Live availability needs to be checked with the identified seller. Send the direct shop link, item, size, and destination so the request can be reviewed. This guide cannot confirm current stock.',
       scene:'stock',
-      actions:[['Send the item','service-request.html?service=sourcing']]
+      actions:[['Send the item','estimate']]
     },
     group: {
       answer:'Group buying is for a defined shared order, such as matching pieces for an event or team. The scope, item budget, service fee, and consolidated delivery are quoted for the group. Boutique resale follows a separate buying-agent structure.',

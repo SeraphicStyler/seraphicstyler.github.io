@@ -22,9 +22,15 @@ const origin = process.env.SS_PREVIEW || 'http://127.0.0.1:8731';
       await page.screenshot({path:'/private/tmp/seraphic-' + route + '-menu-desktop.png'});
       // Native dialog keeps keyboard focus inside the active menu.
       for(let i=0;i<28;i++) { await page.keyboard.press('Tab'); assert(await page.$eval('.ss-guide',e=>e.contains(document.activeElement))); }
-      await page.click('[data-view="prices"]');
-      // Prices come from js/pricing.js: the menu shows each tier's total and fee, đồng first with dollars in brackets.
-      assert(await page.$eval('[data-prices]', e => { const P = window.SS_PRICING, F = P.fmt; return !e.hidden && P.data.styling.every(t => e.textContent.includes(F.fromUsd(t.totalUsd)) && e.textContent.includes(F.fromUsd(t.feeUsd))); }));
+      // The menu is three choices, sourcing first; each opens a page inside the menu and returns to the choices.
+      assert.deepEqual(await page.$$eval('.ss-choice', bs => bs.map(b => b.dataset.view)), ['sourcing','styling','boutique']);
+      await page.click('.ss-choice[data-view="styling"]');
+      // Prices come from js/pricing.js: each tier's total and fee, dollars first with đồng in brackets.
+      assert(await page.$eval('[data-panel="styling"]', e => { const P = window.SS_PRICING, F = P.fmt; return !e.hidden && P.data.styling.every(t => e.textContent.includes(F.fromUsd(t.totalUsd)) && e.textContent.includes(F.fromUsd(t.feeUsd))); }));
+      assert.equal(await page.evaluate(() => document.activeElement.textContent), 'Styling', 'focus moves to the chosen page');
+      await page.click('[data-panel="styling"] .ss-back');
+      assert(await page.$eval('[data-explore]', e => !e.hidden));
+      assert.equal(await page.evaluate(() => document.activeElement.dataset.view), 'styling', 'focus returns to the choice');
       await page.focus('#ss-guide-query'); await page.type('#ss-guide-query','15 pieces');
       assert(await page.$eval('.ss-guide-results',e=>e.textContent.includes('Custom Wardrobe')));
       await page.keyboard.press('ArrowDown'); assert(await page.$eval('.ss-guide-results',e=>e.contains(document.activeElement)));
@@ -48,7 +54,7 @@ const origin = process.env.SS_PREVIEW || 'http://127.0.0.1:8731';
       await page.click('.ss-guide-launch'); await page.click('[data-shortcuts]');
       await page.keyboard.press('Escape'); await closed(); await page.evaluate(()=>document.activeElement.blur());
       await page.keyboard.press('m');
-      assert(await page.$eval('[data-prices]',e=>!e.hidden));
+      assert(await page.$eval('[data-explore]',e=>!e.hidden));
       await page.keyboard.press('Escape'); await closed();
       await page.evaluate(()=>localStorage.removeItem('ss-letter-shortcuts'));
       const broken = await page.evaluate(()=>[...document.querySelectorAll('.ss-guide a[href^="#"]')].filter(a=>!document.getElementById(a.hash.slice(1))).map(a=>a.hash)); assert.deepEqual(broken,[]);

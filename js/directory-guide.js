@@ -75,11 +75,11 @@
     const named=houses.filter(h=>(' '+text+' ').includes(' '+norm(h.n)+' ')).sort((a,b)=>b.n.length-a.n.length);
     if(/\b(live|in stock|available now|availability|size \d|buy now|sold out)\b/.test(text)){
       intro(q,'I can help you explore the labels, but these records do not show live stock or size availability. Send the exact garment link and seller for a purchase request. If you want alternatives selected, choose styling.');
-      actions([['Request an exact piece','service-request.html?service=sourcing'],['Ask for alternatives','service-request.html?service=styling']]);
+      actions([['Request an exact piece','estimate'],['Ask for alternatives','service-request.html?service=styling']]);
     }else if(/\b(actual garments|actual clothes|specific clothes|product link|instagram post|shopee|catalogue|catalog|shop the pieces)\b/.test(text)||/^https?:\/\//i.test(q)){
       intro(q,'Start with a house’s website or Instagram, then save the product link or post for the piece you like. Your tray can hold references while details are checked. A product preview is a snapshot, not proof of current stock. Unknown source? The Trace investigates one particular item for US$25; a match is not guaranteed.');
       const row=node('div','','fd-guide-links');row.append(button('Open my product tray',()=>{setExpanded(false,false);window.SS_TRAY?.open();}));answer.append(row);
-      actions([['Buy an identified piece','service-request.html?service=sourcing'],['Identify an unknown piece','service-request.html?service=trace']]);
+      actions([['Buy an identified piece','estimate'],['Identify an unknown piece','service-request.html?service=trace']]);
     }else if(/\b(shipping|ship|delivery|deliver|international)\b/.test(text)){
       intro(q,'Some directory notes mention a house’s own shipping, but destination, cost, and timing still need confirmation. Seraphic can coordinate tracked international delivery within the agreed service. Share your country and the pieces you have in mind for a specific request.');
       actions([['Shipping information','free-international-shipping.html'],['Ask about my destination','service-request.html?service=unsure']]);
