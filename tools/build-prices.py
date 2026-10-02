@@ -15,7 +15,7 @@ Run from anywhere:  python3 tools/build-prices.py"""
 import os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pricing_data import (DATA, FX, ROOT, usd, usd0, vnd, pct, from_vnd, from_usd, money, h_vnd, h_usd,
-                          item_fee_vnd, tier, styling_table_html, boutique_trio_html, calc_fallback_html,
+                          item_fee_vnd, tier, styling_href, styling_table_html, boutique_trio_html, calc_fallback_html,
                           good_to_know_html, page_head, brand_header, data_hash)
 
 OUT = os.environ.get('SS_PRICES_OUT') or os.path.join(ROOT, 'prices.html')
@@ -91,14 +91,14 @@ def modules(idp='', home=False):
                  'If you love pieces that cost more, I ask before spending any more.',
                  'Styling is charged in US dollars. Shipping is added separately.')
              + f'<div class="pr-table-wrap" role="region" aria-label="Styling tiers" tabindex="0">'
-             + styling_table_html(lambda t: f'{SR}styling&tier={t["id"]}') + '</div>'
+             + styling_table_html(lambda t: styling_href(t, home)) + '</div>'
              + f'<aside class="pr-gift" id="{idp}gift" aria-label="Gift cards"><p><strong>Giving it?</strong> Any tier as a gift card — same prices, never expire.</p>'
                f'<a href="{"#gift" if home else "index.html#gift"}">Choose a gift →</a></aside>'
              + example(cap['name'],
                        [('My styling fee', h_usd(cap['feeUsd'])), ('Spent on your clothes', h_usd(cap['creditUsd'])),
                         (f'Your pieces come to {usd(ex["piecesUsd"])}, so you approve an extra', h_usd(extra))],
                        ('You pay', h_usd(cap['feeUsd'] + cap['creditUsd'] + extra) + ' + shipping')),
-        cta=btn(SR + 'styling', 'Book styling →')))
+        cta=btn('#lane-styling' if home else 'index.html#lane-styling', 'Book styling →')))
 
     # Group orders
     ge = g['example']

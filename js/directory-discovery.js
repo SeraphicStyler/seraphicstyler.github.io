@@ -50,7 +50,7 @@
     });
     host.append(row,el('p','Price tiers and materials describe the house, not every piece. Notes are directory observations; contact the seller for current sizing, shipping, and availability.'));
     host.append(btn('Copy this shortlist',async()=>{const text=['Houses I would like to explore',...compared.map(i=>houses[i].n+' — '+new URL('#q='+encodeURIComponent(houses[i].n),location.origin+'/fashion-directory').href),'Please help me choose pieces. Size, budget, garments and timing still need confirmation.'].join('\n');try{await navigator.clipboard.writeText(text);status.textContent='Shortlist copied. Paste it into your styling request.';}catch{const area=el('textarea');area.value=text;area.readOnly=true;area.setAttribute('aria-label','House shortlist to copy');host.append(area);area.focus();area.select();}}));
-    host.append(link('Ask for a selection from these houses','service-request.html?service=styling'));syncCompareButtons();
+    host.append(link('Ask for a selection from these houses','/#lane-styling'));syncCompareButtons();
   }
   function toggleHouse(index){
     if(!houses[index])return;

@@ -18,12 +18,12 @@ export const topics = {
     photo: {
       answer:'Would you like that exact item identified, or would you like similar pieces selected around your taste? Identification begins with The Trace. Using the image as inspiration belongs to styling.',
       scene:'photo',
-      actions:[['Identify this item','service-request.html?service=trace'],['Find similar pieces','service-request.html?service=styling']]
+      actions:[['Identify this item','service-request.html?service=trace'],['Find similar pieces','/#lane-styling']]
     },
     styling: {
       answer:'For alternatives, outfits, or wardrobe direction, choose styling. Compare tiers from $235; each shows its styling fee, clothing credit, and scope before you book.',
       scene:'styling',
-      actions:[['Book styling','service-request.html?service=styling'],['Compare styling tiers','sourcingandstyling#prices']]
+      actions:[['Book styling','/#lane-styling'],['Compare styling tiers','sourcingandstyling#prices']]
     },
     pricing: {
       answer:'A sourcing quote separates the store price, service fees, and shipping. Styling bookings combine a styling fee with clothing credit for approved purchases. Shipping is separate, and any additional clothing budget is agreed before purchase.',

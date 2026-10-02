@@ -112,7 +112,7 @@
   record.append(facts([['Materials recorded',b.materials.join(', ')],['Occasions recorded',b.occasions.map(o=>({bday:'Celebrations',event:'Formal occasions',night:'Evening & parties'})[o]||o).join(', ')],['Garment fit and sizes','Confirm for the individual piece']]));
   const notes=node('section');notes.append(node('h3','Editorial notes'),node('p',b.editorial_notes||'No editorial note recorded.'));record.append(notes);
   const evidence=node('details');evidence.append(node('summary','Sources & verification history'),node('p','This record was imported from the existing directory. A source capture date and individual verification history are not recorded; the import does not verify the house.'));if(b.verification.reason)evidence.append(node('p','Confirmation note: '+b.verification.reason));b.sources.forEach(s=>evidence.append(link(s.url,s.url)));record.append(evidence);
-  const next=node('section');next.append(node('h3','From a house to a piece'),node('p','Have an identified item and seller? Request purchase assistance. Want pieces selected around your taste? Choose styling.'),link('Request an exact piece','estimate'),link('Ask for styling','service-request.html?service=styling'));record.append(next);
+  const next=node('section');next.append(node('h3','From a house to a piece'),node('p','Have an identified item and seller? Request purchase assistance. Want pieces selected around your taste? Choose styling.'),link('Request an exact piece','estimate'),link('Ask for styling','/#lane-styling'));record.append(next);
  }
  function renderResults(shown){
   const host=$('#main'),q=$('#q').value,key=JSON.stringify(engine.state());

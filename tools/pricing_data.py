@@ -92,6 +92,13 @@ def item_fee_vnd(price):
     return max(s['minFeeVnd'], price * (s['rate'] if price <= s['highFromVnd'] else s['highRate']))
 
 
+def styling_href(t, home=False):
+    """Mirrors stylingHref() in js/pricing.js."""
+    if t.get('from'):
+        return DATA['bespokeForm']
+    return '#lane-styling' if home else 'index.html#lane-styling'
+
+
 def tier(tid):
     return next(t for t in DATA['styling'] if t['id'] == tid)
 
@@ -198,7 +205,7 @@ def page_head(slug, title, desc, extra_css=()):
     head += f'  <meta name="ss-pricing-data" content="{data_hash()}" />\n'
     for css in ('css/legal.css?v=2026-10-01', 'css/pricing.css?v=2026-10-02c') + tuple(extra_css):
         head += f'  <link rel="stylesheet" href="{css}" />\n'
-    head += '  <script src="js/pricing.js?v=2026-10-02b"></script>\n'
+    head += '  <script src="js/pricing.js?v=2026-10-02c"></script>\n'
     head += '  <script src="js/i18n-site.js?v=2026-09-12" defer></script>\n  <script src="js/geo-lang.js?v=2026-09-12" defer></script>\n</head>\n'
     return head
 

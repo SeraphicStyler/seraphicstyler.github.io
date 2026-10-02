@@ -14,7 +14,7 @@ const CORE = [
   './js/route-panel.js', './js/discover-brand.js', './js/i18n-page.js',
   './js/i18n-dom.js', './js/i18n-site.js?v=2026-09-12', './js/i18n/manifest.js', './js/find.js', './js/fd-basket.js',
   './js/fd-atelier.js', './js/fd-voice.js?v=2026-09-09',
-  './js/fd-smartpaste.js', './js/pricing.js?v=2026-10-02b', './js/estimator.js'
+  './js/fd-smartpaste.js', './js/pricing.js?v=2026-10-02c', './js/estimator.js'
 ];
 // Language bundles and photographs are cached only when requested.
 self.addEventListener('install', event => {

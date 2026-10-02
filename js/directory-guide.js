@@ -55,7 +55,7 @@
     const row=node('div','','fd-guide-links');
     row.append(button('Copy discovery brief',copyBrief));
     if(!comparison)row.append(button('Show matches in directory',()=>{setExpanded(false,false);window.SS_WORKSPACE?.show('search');engine.apply(intent);const main=document.getElementById('main');main.focus({preventScroll:true});main.scrollIntoView({behavior:'instant'});}));
-    row.append(link('Discuss my shortlist','service-request.html?service=styling'));answer.append(row);
+    row.append(link('Discuss my shortlist','/#lane-styling'));answer.append(row);
     if(!comparison)followups([['Only District 3','Only in D3'],['Compare these houses','Compare these houses']]);
   }
   async function copyBrief(){
@@ -75,7 +75,7 @@
     const named=houses.filter(h=>(' '+text+' ').includes(' '+norm(h.n)+' ')).sort((a,b)=>b.n.length-a.n.length);
     if(/\b(live|in stock|available now|availability|size \d|buy now|sold out)\b/.test(text)){
       intro(q,'I can help you explore the labels, but these records do not show live stock or size availability. Send the exact garment link and seller for a purchase request. If you want alternatives selected, choose styling.');
-      actions([['Request an exact piece','estimate'],['Ask for alternatives','service-request.html?service=styling']]);
+      actions([['Request an exact piece','estimate'],['Ask for alternatives','/#lane-styling']]);
     }else if(/\b(actual garments|actual clothes|specific clothes|product link|instagram post|shopee|catalogue|catalog|shop the pieces)\b/.test(text)||/^https?:\/\//i.test(q)){
       intro(q,'Start with a house’s website or Instagram, then save the product link or post for the piece you like. Your tray can hold references while details are checked. A product preview is a snapshot, not proof of current stock. Unknown source? The Trace investigates one particular item for US$25; a match is not guaranteed.');
       const row=node('div','','fd-guide-links');row.append(button('Open my product tray',()=>{setExpanded(false,false);window.SS_TRAY?.open();}));answer.append(row);
@@ -99,7 +99,7 @@
       const base=q.replace(/(under|below|less than) (luxury|couture)( pricing)?/gi,'');
       followups([['Mid-range',base+' mid range'],['Premium',base+' premium']]);
     }else if(/\b(not|except|exclude|without|no)\b/.test(text)&&! /\b(no silk|without silk)\b/.test(text)){
-      intro(q,'To avoid filtering out the wrong labels, tell me what you would like to include—such as linen, tailoring, or District 3. For a more specific material or fit requirement, send a personal brief.');actions([['Discuss my requirements','service-request.html?service=styling']]);
+      intro(q,'To avoid filtering out the wrong labels, tell me what you would like to include—such as linen, tailoring, or District 3. For a more specific material or fit requirement, send a personal brief.');actions([['Discuss my requirements','/#lane-styling']]);
     }else{
       const searchText=q.replace(/(under|below|less than) premium( pricing)?/gi,'mid range');
       const term=named.length?named[0].n:searchText;
@@ -108,7 +108,7 @@
       if(result.recognized&&!result.houses.length&&Object.keys(intent).length){const retry=engine.query(term,{});if(retry.houses.length){result=retry;fresh=true;}}
       if(result.recognized){
         intent=result.intent;
-        if(!result.houses.length){intent={};intro(q,'No records match all of those details together. That means the directory has no recorded match, not that the garment or house does not exist. Start a new discovery to broaden the search, or ask for a personal selection.');current=[];actions([['Ask for a personal selection','service-request.html?service=styling']]);}
+        if(!result.houses.length){intent={};intro(q,'No records match all of those details together. That means the directory has no recorded match, not that the garment or house does not exist. Start a new discovery to broaden the search, or ask for a personal selection.');current=[];actions([['Ask for a personal selection','/#lane-styling']]);}
         else{
           intro(q,`${fresh?'Starting a fresh search. ':''}${result.houses.length} recorded ${result.houses.length===1?'house matches':'houses match'}. ${Math.min(4,result.houses.length)} to explore below; refine your direction at any time.`);
           const labels=node('p','Your direction: '+result.labels.map(l=>l.label).join(' · '));answer.append(labels);showRecords(result.houses);

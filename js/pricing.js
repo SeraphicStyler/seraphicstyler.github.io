@@ -70,7 +70,8 @@
       "atelier": "https://buy.stripe.com/aFaaEYgajbbxdQIdI6aAw0i",
       "signature": "https://buy.stripe.com/bJebJ27DNbbxaEw33saAw0f",
       "scout": "https://buy.stripe.com/aFafZi2jtdjF9AsavUaAw0e"
-    }
+    },
+    "bespokeForm": "https://tally.so/r/gD10Kl?about=I%2520want%2520help%2520sourcing%2520or%2520buying%2520specific%2520items&source=links-sticky&utm_source=ig&utm_medium=social&utm_content=link_in_bio"
   }/*@end*/;
 
   var FX = DATA.fx.vndPerUsd;
@@ -105,6 +106,11 @@
     var s = DATA.sourcing;
     if (!(priceVnd > 0)) return 0;
     return Math.max(s.minFeeVnd, priceVnd * (priceVnd <= s.highFromVnd ? s.rate : s.highRate));
+  }
+  /* Where a styling tier is booked: the homepage tier cards (each has its own
+     checkout), or, for the custom wardrobes, the bespoke form. */
+  function stylingHref(t, home) {
+    return t.from ? DATA.bespokeForm : (home ? '#lane-styling' : 'index.html#lane-styling');
   }
   function tier(id) {
     for (var i = 0; i < DATA.styling.length; i++) if (DATA.styling[i].id === id) return DATA.styling[i];
@@ -410,6 +416,7 @@
     fmt: { usd: usd, usd0: usd0, vnd: vnd, pct: pct, fromVnd: fromVnd, fromUsd: fromUsd, hVnd: hVnd, hUsd: hUsd, hUsdOnly: hUsdOnly },
     itemFeeVnd: itemFeeVnd,
     tier: tier,
+    stylingHref: stylingHref,
     boutiqueQuote: boutiqueQuote,
     audience: { initial: initialAudience, set: setAudience, stored: stored, norm: norm },
     html: { stylingTable: stylingTableHtml, sourcingFacts: sourcingFacts, boutiqueTrio: boutiqueTrioHtml },
