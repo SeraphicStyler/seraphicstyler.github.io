@@ -37,7 +37,7 @@ const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     await page.$eval('#lp-selected-work',e=>e.scrollIntoView({behavior:'instant'}));await pause(500);
     assert(await page.$$eval('.lp-work-films video',els=>els.filter(e=>!e.paused).length<=1));
     await page.screenshot({path:'/private/tmp/links-editorial-films.png'});
-    await page.click('.ss-guide-launch');await page.click('[data-view="prices"]');
+    await page.click('.ss-guide-launch');await page.waitForFunction(()=>document.querySelector('.ss-guide').open);
     assert(await page.$eval('.ss-guide',e=>e.scrollWidth<=e.clientWidth));await page.keyboard.press('Escape');await pause(300);
    }
   }

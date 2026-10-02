@@ -531,10 +531,11 @@ function SS_fmtRate(v) {
   function recalc() {
     var c = compute();
     itemHints();
-    el.rSubtotal.textContent = fmtVnd(c.subtotal);
-    el.rFee.textContent = fmtVnd(c.fees);
+    var noItems = c.nItems === 0;
+    el.rSubtotal.textContent = noItems ? '—' : fmtVnd(c.subtotal);
+    el.rFee.textContent = noItems ? '—' : fmtVnd(c.fees);
     el.rFeeNote.textContent = c.nItems ? tf('est.itemcount', '(' + c.nItems + (c.nItems === 1 ? ' item' : ' items') + ')', { n: c.nItems }) : '';
-    el.rBase.textContent = fmtVnd(c.base);
+    el.rBase.textContent = noItems ? '—' : fmtVnd(c.base);
     if (c.complex > 0) { el.rComplexRow.style.display = ''; el.rComplex.textContent = fmtVnd(c.complex); }
     else { el.rComplexRow.style.display = 'none'; }
     if (el.rStopsRow) {

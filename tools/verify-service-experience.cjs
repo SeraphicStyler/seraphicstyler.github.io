@@ -22,16 +22,28 @@ const origin = process.env.SS_PREVIEW || 'http://127.0.0.1:8731';
       await page.screenshot({path:'/private/tmp/seraphic-' + route + '-menu-desktop.png'});
       // Native dialog keeps keyboard focus inside the active menu.
       for(let i=0;i<28;i++) { await page.keyboard.press('Tab'); assert(await page.$eval('.ss-guide',e=>e.contains(document.activeElement))); }
-      // The menu is three choices, sourcing first; each opens a page inside the menu and returns to the choices.
-      assert.deepEqual(await page.$$eval('.ss-choice', bs => bs.map(b => b.dataset.view)), ['sourcing','styling','boutique']);
-      await page.click('.ss-choice[data-view="styling"]');
-      // Prices come from js/pricing.js: each tier's total and fee, dollars first with đồng in brackets.
-      assert(await page.$eval('[data-panel="styling"]', e => { const P = window.SS_PRICING, F = P.fmt; return !e.hidden && P.data.styling.every(t => e.textContent.includes(F.fromUsd(t.totalUsd)) && e.textContent.includes(F.fromUsd(t.feeUsd))); }));
-      assert.equal(await page.evaluate(() => document.activeElement.textContent), 'Styling', 'focus moves to the chosen page');
-      await page.click('[data-panel="styling"] .ss-back');
-      assert(await page.$eval('[data-explore]', e => !e.hidden));
-      assert.equal(await page.evaluate(() => document.activeElement.dataset.view), 'styling', 'focus returns to the choice');
-      await page.focus('#ss-guide-query'); await page.type('#ss-guide-query','15 pieces');
+      // The menu is three doors, sourcing first — real links, not in-menu pages.
+      assert.deepEqual(await page.$$eval('.ss-door', as => as.map(a => a.dataset.door)), ['sourcing','styling','boutiques']);
+      const doorHref = d => page.$eval(`.ss-door[data-door="${d}"]`, a => new URL(a.href).pathname + a.hash);
+      assert.equal(await doorHref('sourcing'), route === 'links.html' ? '/estimate.html' : '/estimate');
+      assert.equal(await doorHref('styling'), route === 'links.html' ? '/prices.html#styling' : '/prices#styling');
+      assert.equal(await doorHref('boutiques'), route === 'links.html' ? '/boutique-calculator.html' : '/boutique-calculator');
+      // Nothing is embedded in the menu any more.
+      assert(await page.$eval('.ss-guide', e => !e.querySelector('iframe, .ss-est-frame, #estQuiz, .price-table, .bcalc')));
+      assert.equal(await page.$eval('.ss-guide', e => e.getAttribute('role')), 'dialog');
+      assert.equal(await page.$eval('.ss-guide', e => e.getAttribute('aria-modal')), 'true');
+      assert.equal(await page.$eval('.ss-guide', e => e.getAttribute('aria-label')), 'Services menu');
+      // Arrow keys walk the doors; Up on the first returns to the search input.
+      await page.focus('#ss-guide-query');
+      await page.keyboard.press('ArrowDown');
+      assert.equal(await page.evaluate(() => document.activeElement.dataset.door), 'sourcing');
+      await page.keyboard.press('ArrowDown');
+      assert.equal(await page.evaluate(() => document.activeElement.dataset.door), 'styling');
+      await page.keyboard.press('ArrowUp');
+      assert.equal(await page.evaluate(() => document.activeElement.dataset.door), 'sourcing');
+      await page.keyboard.press('ArrowUp');
+      assert.equal(await page.evaluate(() => document.activeElement.id), 'ss-guide-query');
+      await page.type('#ss-guide-query','15 pieces');
       assert(await page.$eval('.ss-guide-results',e=>e.textContent.includes('Custom Wardrobe')));
       await page.keyboard.press('ArrowDown'); assert(await page.$eval('.ss-guide-results',e=>e.contains(document.activeElement)));
       if (route === 'links.html') {
@@ -45,18 +57,20 @@ const origin = process.env.SS_PREVIEW || 'http://127.0.0.1:8731';
         await pause(1000); await page.screenshot({path:'/private/tmp/seraphic-' + route + '-wardrobe.png'});
       }
       await page.keyboard.down('Control'); await page.keyboard.press('k'); await page.keyboard.up('Control');
+      await page.waitForFunction(() => document.querySelector('.ss-guide').open);
       await page.focus('#ss-guide-query'); await page.type('#ss-guide-query','zzzzzzzzz');
       assert(await page.$eval('[data-empty]',e=>!e.hidden));
       await page.keyboard.press('Escape'); await closed();
       await page.click('.ss-guide-launch'); await page.keyboard.press('Escape'); await closed();
       assert(await page.$eval('.ss-guide-launch',e=>e===document.activeElement));
-      // Letter shortcuts are opt-in and never hijack typing.
-      await page.click('.ss-guide-launch'); await page.click('[data-shortcuts]');
+      // The letter shortcuts are gone — typing never toggles the menu, bare keys stay inert.
+      await page.click('.ss-guide-launch'); await page.waitForFunction(() => document.querySelector('.ss-guide').open);
+      await page.focus('#ss-guide-query'); await page.type('#ss-guide-query','mk');
+      assert(await page.$eval('.ss-guide',e=>e.open), 'typing "mk" keeps the menu open');
+      assert.equal(await page.$eval('#ss-guide-query',e=>e.value),'mk');
       await page.keyboard.press('Escape'); await closed(); await page.evaluate(()=>document.activeElement.blur());
       await page.keyboard.press('m');
-      assert(await page.$eval('[data-explore]',e=>!e.hidden));
-      await page.keyboard.press('Escape'); await closed();
-      await page.evaluate(()=>localStorage.removeItem('ss-letter-shortcuts'));
+      assert(await page.$eval('.ss-guide',e=>!e.open), "'m' no longer opens the menu");
       const broken = await page.evaluate(()=>[...document.querySelectorAll('.ss-guide a[href^="#"]')].filter(a=>!document.getElementById(a.hash.slice(1))).map(a=>a.hash)); assert.deepEqual(broken,[]);
       // Required acknowledgement is enforced before an existing styling checkout.
       // (The bio page links to the services page instead of carrying checkouts.)
@@ -82,7 +96,7 @@ const origin = process.env.SS_PREVIEW || 'http://127.0.0.1:8731';
         await page.screenshot({path:'/private/tmp/seraphic-' + route + '-menu-' + width + '.png'});
         await page.keyboard.press('Escape'); await closed();
       }
-      console.log('PASS '+route+': navigation, search, prices, focus, shortcuts, booking acknowledgement, mobile 320/390');
+      console.log('PASS '+route+': doors, navigation, search, focus, keyboard, booking acknowledgement, mobile 320/390');
     }
     await page.setViewport({width:390,height:844});
     for(const service of ['sourcing','styling','unsure']) {

@@ -105,15 +105,15 @@ const strip = html => html.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').repla
     const calcTotal = sel => page.$eval(sel + ' [data-out="total"]', e => e.textContent.trim());
     const q = P.boutiqueQuote(2000, 20, false);
 
-    // The menu, /prices and /boutique-calculator agree.
+    // The menu doors carry the same figures as the data.
     await go('/index.html'); await clear(); await go('/index.html');
     await page.click('.ss-guide-launch'); await page.waitForFunction(() => document.querySelector('.ss-guide').open);
-    await page.click('.ss-choice[data-view="styling"]');
-    const menuTable = await page.$eval('[data-panel="styling"] .price-table', e => e.outerHTML);
+    assert.equal(await page.$eval('.ss-door[data-door="sourcing"] .ss-door-p', e => e.textContent), 'Per item · ~' + F.vnd(D.sourcing.minFeeVnd) + ' (~' + F.usd(D.sourcing.minFeeVnd / D.fx.vndPerUsd) + ')', 'sourcing door price');
+    assert.equal(await page.$eval('.ss-door[data-door="styling"] .ss-door-p', e => e.textContent), 'From ' + F.usd(D.styling[0].totalUsd), 'styling door price');
+    assert.equal(await page.$eval('.ss-door[data-door="boutiques"] .ss-door-p', e => e.textContent), F.usd0(D.boutique.scoutUsd) + ' + ' + F.pct(D.boutique.pct), 'boutiques door price');
+    assert.deepEqual(await page.$$eval('.ss-door', as => as.map(a => a.dataset.door)), ['sourcing','styling','boutiques']);
     await go('/prices');
-    const pageTable = await page.$eval('#styling .price-table', e => e.outerHTML);
-    const norm = h => h.replace(/ href="[^"]*"/g, '');
-    assert.equal(norm(menuTable), norm(pageTable), 'menu and /prices tier tables differ');
+    for (const t of D.styling) assert(await page.$eval('#styling .price-table', (e, want) => e.textContent.includes(want), F.usd(t.totalUsd)), 'tier missing on /prices: ' + t.name);
     assert.equal(await view(), 'individual');
     assert(await page.$eval('.pr-secnav', e => !e.hidden));
     await go('/prices?for=boutiques&budget=2000&pieces=20');
@@ -151,19 +151,9 @@ const strip = html => html.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').repla
     await page.$eval('a[href="#pm-trace"]', a => a.click()).catch(async () => { await page.evaluate(() => { const a = document.createElement('a'); a.href = '#pm-trace'; document.body.append(a); a.click(); a.remove(); }); });
     assert.deepEqual(await shown(), ['pm-trace'], 'an in-page link opens its module');
     await go('/index.html#pm-styling'); assert.deepEqual(await shown(), ['pm-styling'], 'a #pm- deep link opens its module');
-    // The menu: Sourcing opens the estimator (loaded only then); Boutiques opens the calculator.
+    // The menu doors link out; nothing is embedded any more.
     await page.click('.ss-guide-launch'); await page.waitForFunction(() => document.querySelector('.ss-guide').open);
-    assert.equal(await page.$eval('.ss-est-frame', f => f.getAttribute('src')), null, 'estimator loads only when Sourcing is chosen');
-    await page.click('.ss-choice[data-view="sourcing"]');
-    await page.waitForFunction(() => parseInt(document.querySelector('.ss-est-frame').style.height, 10) > 300, { timeout: 8000 });
-    const est = await (await page.$('.ss-est-frame')).contentFrame();
-    await est.waitForSelector('.est-ready');
-    await est.$eval('.item-price', e => { e.value = '1500000'; e.dispatchEvent(new Event('input', { bubbles: true })); });
-    assert((await est.$eval('.item-usd', e => e.textContent)).includes('my fee $14'), 'menu estimator prices an item');
-    assert(await est.$eval('.quiz-toolbar', e => getComputedStyle(e).display === 'none'), 'embedded estimator leaves theme and language to the page');
-    await page.click('[data-panel="sourcing"] .ss-back'); await page.click('.ss-choice[data-view="boutique"]');
-    assert(await page.$eval('[data-panel="boutique"]', e => !e.hidden));
-    assert.equal(await page.$eval('[data-panel="boutique"] [data-bcalc-menu] [data-out="total"]', e => e.textContent.trim()), F.usd0(P.boutiqueQuote(D.boutique.defaults.budget, D.boutique.defaults.pieces).total) + ' + shipping');
+    assert(await page.$eval('.ss-guide', e => !e.querySelector('iframe, .ss-est-frame, #estQuiz, .bcalc')), 'no embedded estimator or calculator in the menu');
     await page.keyboard.press('Escape');
 
     // Scrollspy marks the section in view.
@@ -173,12 +163,12 @@ const strip = html => html.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').repla
 
     // Change a fee at runtime: the menu and both calculators follow the data.
     await page.setRequestInterception(true);
-    const editedSrc = src.replace('"feeUsd": 135', '"feeUsd": 136').replace('"scoutUsd": 250', '"scoutUsd": 260');
+    const editedSrc = src.replace('"feeUsd": 135', '"feeUsd": 136').replace('"totalUsd": 235', '"totalUsd": 236').replace('"scoutUsd": 250', '"scoutUsd": 260');
     const swap = r => r.url().includes('/js/pricing.js') ? r.respond({ status: 200, contentType: 'application/javascript', body: editedSrc }) : r.continue();
     page.on('request', swap);
     await go('/index.html'); await clear(); await go('/index.html');
-    await page.click('.ss-guide-launch'); await page.waitForFunction(() => document.querySelector('.ss-guide').open); await page.click('.ss-choice[data-view="styling"]');
-    assert((await page.$eval('[data-panel="styling"] .price-table', e => e.textContent)).includes('$136'), 'menu follows an edited fee');
+    await page.click('.ss-guide-launch'); await page.waitForFunction(() => document.querySelector('.ss-guide').open);
+    assert.equal(await page.$eval('.ss-door[data-door="styling"] .ss-door-p', e => e.textContent), 'From $236', 'menu follows an edited fee');
     await go('/boutique-calculator?budget=3000&pieces=30');
     assert.equal(await calcTotal('#bcalc-page'), '$3,710 + shipping', 'calculator follows an edited scouting fee');
     page.off('request', swap); await page.setRequestInterception(false);
