@@ -21,7 +21,7 @@ export const topics = {
       actions:[['Identify this item','service-request.html?service=trace'],['Find similar pieces','service-request.html?service=styling']]
     },
     styling: {
-      answer:'For alternatives, outfits, or wardrobe direction, choose styling. Compare tiers from $49; each shows its styling fee, clothing credit, and scope before you book.',
+      answer:'For alternatives, outfits, or wardrobe direction, choose styling. Compare tiers from $235; each shows its styling fee, clothing credit, and scope before you book.',
       scene:'styling',
       actions:[['Book styling','service-request.html?service=styling'],['Compare styling tiers','sourcingandstyling#prices']]
     },

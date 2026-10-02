@@ -1,7 +1,8 @@
-/* Opportunities application — conditional questions, word hints, validation,
-   and a review-and-submit step. The page itself stores nothing: the applicant
-   reviews a composed brief, then sends it through the Tally application form
-   (opens in a new tab), with copy/email as fallbacks. */
+/* Opportunities application — multi-path checkboxes, path-dependent questions,
+   live word counts, a progress hint, validation, and a review-and-submit step.
+   The page itself stores nothing: the applicant reviews a composed brief, then
+   sends it through the Tally application form (opens in a new tab), with
+   copy/email as fallbacks. */
 (() => {
   'use strict';
   const form = document.getElementById('opp-form');
@@ -14,33 +15,71 @@
   const editBtn = document.getElementById('opp-edit');
 
   /* Path-dependent questions. The bilingual translation role usually runs as a
-     supervised placement, so it follows the internship requirements question. */
+     supervised placement, so it follows the internship requirements question;
+     its own translation question only appears (and is only required) when the
+     translation path is actually chosen. "Not sure yet" shows everything,
+     optionally. */
   const condIntern = document.getElementById('cond-intern');
   const condCreative = document.getElementById('cond-creative');
+  const condTranslate = document.getElementById('cond-translate');
   const qi = document.getElementById('qi');
   const qc = document.getElementById('qc');
+  const qt = document.getElementById('q6');
+  const qtReq = document.getElementById('q6-req');
+  const pathInputs = Array.from(form.querySelectorAll('input[name="path"]'));
+  const paths = () => pathInputs.filter(i => i.checked).map(i => i.value);
+
   function syncPath() {
-    const v = (form.querySelector('input[name="path"]:checked') || {}).value || '';
-    const intern = v.indexOf('Internship') !== -1 || v.indexOf('Translation') !== -1 || v.indexOf('Multiple') !== -1;
-    const creative = v.indexOf('Creative') !== -1 || v.indexOf('Multiple') !== -1;
+    const v = paths().join(' ');
+    const unsure = v.indexOf('Multiple') !== -1;
+    const intern = v.indexOf('Internship') !== -1 || v.indexOf('Translation') !== -1 || unsure;
+    const creative = v.indexOf('Creative') !== -1 || unsure;
+    const translate = v.indexOf('Translation') !== -1 || unsure;
     condIntern.hidden = !intern;
     condCreative.hidden = !creative;
+    condTranslate.hidden = !translate;
     qi.required = intern;
     qc.required = creative;
+    qt.required = v.indexOf('Translation') !== -1;
+    if (qtReq) qtReq.style.display = qt.required ? '' : 'none';
+    syncProgress();
   }
-  form.querySelectorAll('input[name="path"]').forEach(r => r.addEventListener('change', syncPath));
-  syncPath();
 
-  /* Word-count hint on the first question */
-  const q1 = document.getElementById('q1');
-  const wc = form.querySelector('.opp-wordcount[data-for="q1"]');
-  if (q1 && wc) {
-    q1.addEventListener('input', () => {
-      const words = (q1.value.trim().match(/\S+/g) || []).length;
-      wc.textContent = words + ' words · aim for 75–150';
-      wc.classList.toggle('ok', words >= 60 && words <= 180);
-    });
+  /* Live word counts on every long answer */
+  const counters = Array.from(form.querySelectorAll('.opp-wordcount[data-for]'));
+  function syncCount(el, p) {
+    const words = (el.value.trim().match(/\S+/g) || []).length;
+    if (el.id === 'q1') {
+      p.textContent = words + ' words · aim for 75–150';
+      p.classList.toggle('ok', words >= 60 && words <= 180);
+    } else {
+      p.textContent = words + (words === 1 ? ' word' : ' words');
+      p.classList.remove('ok');
+    }
   }
+  counters.forEach(p => {
+    const el = document.getElementById(p.dataset.for);
+    if (!el) return;
+    el.addEventListener('input', () => { syncCount(el, p); syncProgress(); });
+    syncCount(el, p);
+  });
+
+  /* Progress hint — required answers completed, including conditionals that
+     are currently visible. */
+  const progText = document.getElementById('opp-progress-text');
+  const progFill = document.getElementById('opp-progress-fill');
+  function syncProgress() {
+    const required = Array.from(form.querySelectorAll('input[required]:not([type="checkbox"]):not([type="radio"]), textarea[required]'))
+      .filter(el => !el.closest('[hidden]'));
+    const done = required.filter(el => el.value.trim()).length + (paths().length ? 1 : 0) + (document.getElementById('f-ack').checked ? 1 : 0);
+    const total = required.length + 2;
+    if (progText) progText.textContent = done + ' of ' + total + ' answered';
+    if (progFill) progFill.style.width = Math.round(done / total * 100) + '%';
+  }
+  form.addEventListener('input', syncProgress);
+  form.addEventListener('change', syncProgress);
+  pathInputs.forEach(i => i.addEventListener('change', () => { pathInputs[0].setCustomValidity(''); syncPath(); }));
+  syncPath();
 
   const val = name => (form.elements[name] && form.elements[name].value || '').trim();
 
@@ -50,7 +89,7 @@
     push('FULL NAME', val('name'));
     push('EMAIL', val('email'));
     push('COUNTRY · TIME ZONE', val('country') + (val('timezone') ? ' · ' + val('timezone') : ''));
-    push('PATH', val('path'));
+    push('PATHS', paths().join(' + '));
     push('LINKEDIN', val('linkedin'));
     push('RÉSUMÉ / CV', val('resume'));
     push('BACKGROUND SUMMARY', val('summary'));
@@ -58,24 +97,26 @@
     push('LANGUAGES', val('languages'));
     push('AVAILABILITY', val('availability'));
     L.push('— ANSWERS —', '');
-    push('1 · Why Seraphic Styler?', val('why'));
+    push('1 · Why Seraphic Styler & what I want to learn', val('why'));
     push('2 · A project I’m proud of', val('project'));
     push('3 · Region / community & my connection', val('region'));
-    push('4 · What I want to learn', val('learn'));
-    push('5 · A commitment I kept under constraints', val('commitment'));
-    push('6 · Bilingual Vietnamese–English experience (optional)', val('bilingual'));
-    if (!condIntern.hidden) push('7 · University requirements', val('university_requirements'));
-    if (!condCreative.hidden) push('8 · Collaboration kind & support needed', val('collaboration_terms'));
+    let n = 4;
+    if (!condTranslate.hidden) { push(n + ' · Vietnamese–English translation experience', val('bilingual')); n++; }
+    if (!condIntern.hidden) { push(n + ' · University requirements', val('university_requirements')); n++; }
+    if (!condCreative.hidden) { push(n + ' · Collaboration kind & support needed', val('collaboration_terms')); n++; }
     L.push('ACKNOWLEDGED', 'I understand Seraphic Styler currently has no salary, stipend, or creator-fee budget, and that this application does not establish a placement or collaboration.');
     return L.join('\n').replace(/\n{3,}/g, '\n\n').trim();
   }
 
   form.addEventListener('submit', e => {
     e.preventDefault();
-    if (!form.reportValidity()) return;
+    pathInputs[0].setCustomValidity(paths().length ? '' : 'Choose at least one path');
+    if (!form.reportValidity()) { syncProgress(); return; }
     const text = compose();
     reviewText.textContent = text;
-    const subject = 'Collaboration interest — ' + val('name') + ' — ' + (val('path').indexOf('Multiple') === 0 ? 'Multiple paths' : val('path').split('&')[0].split('/')[0].trim());
+    const first = paths()[0] || '';
+    const short = first.indexOf('Multiple') === 0 ? 'Multiple paths' : first.split('&')[0].split('/')[0].trim();
+    const subject = 'Collaboration interest — ' + val('name') + (paths().length > 1 ? ' — Multiple paths' : ' — ' + short);
     mailBtn.href = 'mailto:seraphicstyler@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(text);
     /* The Tally form is the submission destination. Prefill keys only land when
        the form's field names match; Tally silently ignores unknown params. */

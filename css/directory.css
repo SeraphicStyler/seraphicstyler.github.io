@@ -419,7 +419,7 @@ main>.group:not(:first-child){border-top:1px solid var(--line-soft);margin-top:2
   letter-spacing:.11em;color:var(--peri-text);border:1px solid color-mix(in srgb,var(--orchid) 50%,transparent);
   border-radius:var(--r-pill);padding:3px 9px;white-space:nowrap;}
 .card .occ::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--orchid);flex:none;}
-/* Signature-eligible designer houses — the $750 commission pool */
+/* Signature-eligible designer houses — the $790 commission pool */
 .card .sigb{display:inline-flex;align-items:center;gap:4px;font-size:.58rem;text-transform:uppercase;
   letter-spacing:.08em;color:var(--peri);border:1px solid var(--peri);border-radius:999px;padding:2px 8px;}
 .badge{display:inline-flex;align-items:center;gap:6px;font-size:.6rem;font-weight:600;

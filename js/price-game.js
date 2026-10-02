@@ -20,7 +20,7 @@
     { id: 'capsule',  emoji: '🧳', styling: 'capsule',  items: [], region: 'us',      weight: 'light' },
     { id: 'dress',    emoji: '👗', styling: null, items: [4500000], region: 'oceania', weight: 'light', complex: true },
     { id: 'haul',     emoji: '🛍️', styling: null, items: [1200000, 800000, 2500000], region: 'eu', weight: 'light' },
-    { id: 'gifttokyo',emoji: '🎁', styling: 'discovery', items: [], region: 'asia',   weight: 'light' },
+    { id: 'gifttokyo',emoji: '🎁', styling: 'edit',      items: [], region: 'asia',   weight: 'light' },
     { id: 'atelier',  emoji: '✨', styling: 'atelier',  items: [], region: null },
     { id: 'onepiece', emoji: '📦', styling: null, items: [850000], region: 'us',      weight: 'light' }
   ];
@@ -42,7 +42,7 @@
         capsule: 'A 5-piece capsule from Saigon designers, styled to mix and match, shipped to Los Angeles.',
         dress: 'One rare designer dress, hunted down and verified in person, shipped to Sydney.',
         haul: 'Three pieces you found online from three different Saigon brands, ordered together to London.',
-        gifttokyo: 'A gift: one thoughtful piece chosen from a style profile, sent to a friend in Tokyo.',
+        gifttokyo: 'A gift: a few thoughtful pieces chosen from a style profile, sent to a friend in Tokyo.',
         atelier: 'The full atelier day in Sài Gòn — consultation, sourcing, and a two-hour in-shop try-on.',
         onepiece: 'A single 850,000₫ piece from a local label, verified and shipped to Toronto.'
       }
@@ -63,7 +63,7 @@
         capsule: 'Một capsule 5 món từ các nhà thiết kế Sài Gòn, phối sẵn để mặc lẫn nhau, gửi đến Los Angeles.',
         dress: 'Một chiếc đầm thiết kế hiếm, săn tìm và kiểm tra tận nơi, gửi đến Sydney.',
         haul: 'Ba món bạn tìm thấy trên mạng từ ba thương hiệu Sài Gòn khác nhau, gom một đơn gửi London.',
-        gifttokyo: 'Một món quà: một món đồ chọn theo hồ sơ phong cách, gửi cho người bạn ở Tokyo.',
+        gifttokyo: 'Một món quà: vài món đồ chọn theo hồ sơ phong cách, gửi cho người bạn ở Tokyo.',
         atelier: 'Trọn một ngày atelier tại Sài Gòn — tư vấn, tìm đồ và hai giờ thử đồ tại cửa hàng.',
         onepiece: 'Một món 850.000₫ từ nhãn địa phương, kiểm tra kỹ và gửi đến Toronto.'
       }

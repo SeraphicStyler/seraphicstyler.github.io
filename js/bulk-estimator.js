@@ -1,8 +1,9 @@
 /* Seraphic Styler — rough bulk-order estimator (#bulkEst on the home page).
-   A planning figure, not a checkout: the volume taper from the #bulk rate
-   table, the base fee and shipping bands from js/estimator.js CONFIG (loaded
-   first on this page; local fallbacks keep it alive if that ever changes).
-   Keep the taper here in step with the rate table markup. */
+   A planning figure, not a checkout: the group rate from the #bulk bar (15%
+   of the order from $1,000, 20% with made-to-measure or rush — the 5 Aug 2026
+   commission policy, live 1 Oct 2026), the base fee and shipping bands from
+   js/estimator.js CONFIG (loaded first on this page; local fallbacks keep it
+   alive if that ever changes). Keep the rates here in step with the bar. */
 (function () {
   'use strict';
 
@@ -12,6 +13,7 @@
   var rEl = document.getElementById('beRegion');
   var repEl = document.getElementById('beRepeats');
   var resEl = document.getElementById('beResale');
+  var mtmEl = document.getElementById('beMtm');
   if (!out || !vEl || !pEl || !rEl) return;
 
   var C = window.CONFIG || {};
@@ -33,20 +35,21 @@
     return '<div class="be-row' + (cls ? ' ' + cls : '') + '"><dt>' + label + '</dt><dd>' + value + '</dd></div>';
   }
 
-  /* The taper. Under $1,000 the standard per-item model applies (8%, 7% above
-     5M₫, 350k₫ minimum). From $1,000 the percentage falls with size; the
-     per-piece minimum stays only for distinct pieces under $3,000 — repeats
-     of one piece waive it, exactly as the table says. */
-  function fee(totalVnd, totalUsd, pieces, repeats) {
+  /* Under $1,000 the standard per-item model applies (8%, 7% above 5M₫,
+     350k₫ minimum). From $1,000 the fee is one share of the order at every
+     size — 15%, or 20% with made-to-measure or rush; the per-piece minimum
+     stays only for distinct pieces under $3,000 — repeats of one piece waive
+     it, exactly as the footnote says. */
+  function fee(totalVnd, totalUsd, pieces, repeats, mtm) {
     if (totalUsd < 1000) {
       var avg = totalVnd / pieces;
       var rate = avg > MID ? 0.07 : 0.08;
       return { amount: pieces * Math.max(avg * rate, MIN),
                label: 'Standard rate — ' + Math.round(rate * 100) + '% per piece, ' + vnd(MIN) + ' minimum' };
     }
-    var pct = totalUsd >= 10000 ? 0.035 : totalUsd >= 6000 ? 0.04 : totalUsd >= 3000 ? 0.05 : 0.06;
+    var pct = mtm ? 0.20 : 0.15;
     var amount = totalVnd * pct;
-    var label = (pct * 100).toFixed(pct === 0.035 ? 1 : 0) + '% tier';
+    var label = mtm ? '20% — made to measure or rush' : '15% of the order';
     if (totalUsd < 3000 && !repeats) {
       var floor = pieces * MIN;
       if (floor > amount) { amount = floor; label += ' — per-piece minimum applies to distinct pieces'; }
@@ -59,10 +62,10 @@
   }
 
   function render() {
-    /* Resale is a different lane: the group taper here would misquote agent
-       work at group rates. Route to the boutique ladder instead of pricing. */
+    /* Resale is a different lane: the group rate here would misquote agent
+       work at group rates. Route to boutique buying instead of pricing. */
     if (resEl && resEl.checked) {
-      out.innerHTML = '<p class="be-waiting">Stock for a boutique or resale prices on the buying-agent ladder — 18% down to 8% by buy size, with a $150 scouting deposit to start, credited in full against your first payment. The group taper here is for personal and group orders.</p>' +
+      out.innerHTML = '<p class="be-waiting">Stock for a boutique or resale adds scouting: a $250 scouting fee per round, then the same 15% of the pieces. See boutique buying for the full breakdown.</p>' +
         '<div class="be-cta"><a class="btn btn-primary" href="#btqEst">Rough out your buy in the boutique estimator →</a></div>';
       return;
     }
@@ -73,7 +76,7 @@
       return;
     }
     var totalVnd = totalUsd * FX;
-    var f = fee(totalVnd, totalUsd, pieces, repEl.checked);
+    var f = fee(totalVnd, totalUsd, pieces, repEl.checked, !!(mtmEl && mtmEl.checked));
     var kg = pieces * KG_PER_PIECE;
     var band = (SHIP[rEl.value] || SHIP.us).standard;
 
@@ -129,5 +132,6 @@
     vEl.addEventListener(ev, render); pEl.addEventListener(ev, render);
     rEl.addEventListener(ev, render); repEl.addEventListener(ev, render);
     if (resEl) resEl.addEventListener(ev, render);
+    if (mtmEl) mtmEl.addEventListener(ev, render);
   });
 })();

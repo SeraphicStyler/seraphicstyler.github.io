@@ -2,7 +2,7 @@
    An interactive answer to "is this expensive?": pick a tier and see what the
    same money buys at every comparable US service — styling boxes, advice-only
    stylists, department stores, sourcers, rentals. Renders into #giftLandscape
-   (the static $149 table there is the no-JS fallback); reads tier names and
+   (the static $199 table there is the no-JS fallback); reads tier names and
    prices from the gift cards in the DOM (matched by data-usd, like
    gift-quiz.js) so prices can never drift.
    Competitor figures verified Aug 2026 — source doc + citations:
@@ -22,12 +22,11 @@
       live: 'Now comparing {tier}, {price}.',
       mineSub: 'styled personally, in Sài Gòn',
       mineWhat: [
-        'A style intake, then one piece — found in person, photographed for approval, and sent. $34 of the price is the piece itself, at cost.',
-        'A consultation, then three to five pieces from Sài Gòn’s independent designers — $104 of the price is the clothes, at cost, never marked up.',
-        'A full style profile, eight to twelve coordinated pieces to a $174 credit at cost, and a lookbook to wear them together.',
-        'The full experience — sourcing and a two-hour try-on in Sài Gòn, or live video from abroad — with a $239 piece credit at cost.'
+        'A consultation, then three to four pieces from Sài Gòn’s independent designers — $100 of the price is the clothes, at cost, never marked up.',
+        'A full style profile, six to eight coordinated pieces to a $190 credit at cost, and a lookbook to wear them together.',
+        'The full experience — sourcing and a two-hour try-on in Sài Gòn, or live video from abroad — with a $290 piece credit at cost.'
       ],
-      mineKeep: ['1 piece', '3–5 pieces', '8–12 pieces', 'a $239 credit'],
+      mineKeep: ['3–4 pieces', '6–8 pieces', 'a $290 credit'],
       foot: 'Competitor pricing verified August 2026: Stitch Fix $20 styling fee · DailyLook $40 · Wishi $60–130 sessions · MiKADO $850/hr · Reformation at Nordstrom $148–278 · sourcing fees $200–350 per item · Nuuly $98/month. All prices USD.',
       honest: 'And honestly: if a fitting room this week matters more — easy returns, an exchange by Friday — a US service will suit them better. This is for the person who’d rather own something no one else at the party has.',
       kicker: 'Gift cards make them shop. This shops for them.'
@@ -38,64 +37,58 @@
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
   /* One row per comparable service; what[i] = what the tier price at index i
-     (Discovery/Edit/Capsule/Atelier) actually buys there. Figures Aug 2026. */
+     (Edit $199 / Capsule $369 / Atelier $529) actually buys there. Competitor
+     figures Aug 2026; re-run at the 1 Oct 2026 tier prices. */
   var ROWS = [
     { name: 'Stitch Fix', sub: 'algorithm + remote stylist',
       what: [
-        'The $20 styling fee, credited — then not quite one mall-brand item at the ~$60 average.',
-        'The $20 fee plus about two mall-brand items, billed at full US retail.',
-        'The fee plus about four items, at full retail.',
-        'The fee plus five or six items, at full retail.'
+        'The $20 fee plus about three mall-brand items at the ~$60 average, billed at full US retail.',
+        'The fee plus five or six items, at full retail.',
+        'The fee plus about eight items, at full retail.'
       ],
-      keep: ['~0–1', '~2', '~4', '~5–6'] },
+      keep: ['~3', '~5–6', '~8'] },
     { name: 'DailyLook', sub: 'remote human stylist',
       what: [
-        'The $40 styling fee — and $9 toward a first premium item ($75–150 each).',
-        'The $40 fee plus about one premium item, at retail.',
-        'The fee plus one to two items, at retail.',
-        'The fee plus about two items, at retail.'
+        'The $40 fee plus about one premium item ($75–150 each), at retail.',
+        'The fee plus two to three items, at retail.',
+        'The fee plus three to four items, at retail.'
       ],
-      keep: ['0', '~1', '~2', '~2–3'] },
+      keep: ['~1', '~2–3', '~3–4'] },
     { name: 'Wishi', sub: 'virtual styling app',
       what: [
-        'Most of one Mini session ($60) — two style boards, no garments.',
-        'One Major session ($130) — five boards with shopping links; the garments are a separate retail bill.',
-        'A Major and a Mini session — still no garments.',
-        'Two Major sessions — the advice only, always.'
+        'A Major ($130) and a Mini ($60) session — style boards with shopping links; the garments are a separate retail bill.',
+        'Two Major sessions and a Mini — still no garments.',
+        'Four Major sessions — the advice only, always.'
       ],
-      keep: ['0', '0', '0', '0'] },
+      keep: ['0', '0', '0'] },
     { name: 'MiKADO', sub: 'LA stylist, in person',
       what: [
-        'About 3 minutes of an $850-an-hour strategy session.',
-        'About 10 minutes of an $850-an-hour strategy session.',
-        'About 17 minutes of the same hour.',
-        'About 24 minutes of the same hour.'
+        'About 14 minutes of an $850-an-hour strategy session.',
+        'About 26 minutes of the same hour.',
+        'About 37 minutes of the same hour.'
       ],
-      keep: ['0', '0', '0', '0'] },
+      keep: ['0', '0', '0'] },
     { name: 'Nordstrom', sub: 'free in-store styling',
       what: [
-        'A third of one Reformation dress ($148–278 typical) — the styling advice is genuinely free.',
-        'One entry-price Reformation dress; the advice is free.',
-        'One mid-range Reformation dress; the advice is free.',
-        'One dress and change — or two on sale.'
+        'One mid-range Reformation dress ($148–278 typical); the styling advice is genuinely free.',
+        'One dress and change — or two on sale.',
+        'Two Reformation dresses; the advice is free.'
       ],
-      keep: ['0', '~1', '~1', '1–2'] },
+      keep: ['~1', '1–2', '~2'] },
     { name: 'Gab Waller', sub: 'fashion sourcer — procurement only',
       what: [
-        'Well under the $200–350 finder’s fee for sourcing a single sold-out piece.',
-        'Still under the finder’s fee for one piece — no styling, ever.',
-        'The finder’s fee for one piece — the piece itself billed separately.',
-        'One finder’s fee with change — the piece still billed separately.'
+        'Just under the $200–350 finder’s fee for sourcing a single sold-out piece — no styling, ever.',
+        'One finder’s fee with change — the piece itself billed separately.',
+        'One finder’s fee and most of a second — the pieces still billed separately.'
       ],
-      keep: ['0', '0', '0', '0'] },
+      keep: ['0', '0', '0'] },
     { name: 'Nuuly', sub: 'rental subscription',
       what: [
-        'About two weeks of rentals — six pieces at a time, all returned.',
-        'About six weeks of rentals — all returned.',
-        'About two and a half months of rentals — all returned.',
-        'About three and a half months of rentals — all returned.'
+        'About two months of rentals — six pieces at a time, all returned.',
+        'Nearly four months of rentals — all returned.',
+        'About five and a half months of rentals — all returned.'
       ],
-      keep: ['0', '0', '0', '0'] }
+      keep: ['0', '0', '0'] }
   ];
 
   var mount = document.getElementById('giftLandscape');
@@ -111,9 +104,9 @@
     tiers.push({ usd: parseFloat(price.getAttribute('data-usd')) || 0, nameEl: h });
   });
   tiers.sort(function (a, b) { return a.usd - b.usd; });
-  if (tiers.length !== 4) return; // leave the static fallback in place
+  if (tiers.length !== 3) return; // leave the static fallback in place
 
-  var sel = 1; // The Edit — the tier the landscape table was written around
+  var sel = 0; // The Edit — the tier the landscape table was written around
 
   function tierName(i) { return tiers[i].nameEl.textContent.trim(); }
   function tierPrice(i) { return '$' + Math.round(tiers[i].usd); }

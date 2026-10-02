@@ -30,7 +30,7 @@ html.dark .opp-hero .opp-aura { background:radial-gradient(ellipse,rgba(186,198,
   font:400 .92rem/1.7 var(--font-body); color:var(--text-secondary); }
 /* Demo of the lilac tint ramp: full-scale lightest→darkest accent across the top edge */
 .opp-honesty::before { content:''; position:absolute; top:0; left:14px; right:14px; height:2px; border-radius:2px;
-  background:linear-gradient(90deg,var(--lilac-100),var(--lilac-200) 34%,var(--lilac-300) 67%,var(--lilac-400)); }
+  background:linear-gradient(90deg,var(--lilac-100),var(--lilac-200) 26%,var(--lilac-300) 50%,var(--lilac-400) 74%,var(--lilac-500)); }
 .opp-honesty strong { color:var(--text-primary); }
 .opp-honesty .opp-tag { display:inline-flex; align-items:center; gap:8px; margin-bottom:8px; font:500 .68rem/1 var(--font-body); letter-spacing:.2em; text-transform:uppercase; color:var(--accent); }
 .opp-honesty .opp-tag::before { content:'✦'; font-size:.8rem; text-shadow:0 0 8px rgba(201,182,232,.9); }
@@ -110,10 +110,23 @@ html.dark .opp-area { background:color-mix(in srgb,var(--surface-solid) 6%,trans
 /* ---------- The application ---------- */
 .opp-form { max-width:720px; margin:0 auto; }
 .opp-form .field { margin-bottom:1.15rem; }
-.opp-form .field label { font-family:var(--font-body); }
-.opp-form .req { color:var(--accent); }
+/* Sentence-case labels for readability; caps stay on eyebrows/headers only */
+.opp-form .field label, .opp-form .opp-legend { font-family:var(--font-body); font-weight:500; font-size:.92rem; letter-spacing:.01em; text-transform:none; color:var(--text-primary); }
+.opp-form .req { color:var(--accent); font-weight:600; }
+.opp-form .opt { font-weight:400; font-size:.84em; color:var(--text-secondary); }
+.opp-paths-field { border:0; padding:0; margin:0 0 1.15rem; }
+.opp-legend { display:block; margin-bottom:.5rem; padding:0; }
+.opp-legend-note { font-weight:400; font-size:.84em; color:var(--text-secondary); }
 .opp-form-grid { display:grid; grid-template-columns:1fr 1fr; gap:0 18px; }
 .opp-form .hint { font-size:.8rem; line-height:1.5; color:var(--text-secondary); margin-top:-0.1rem; }
+.opp-form .hint a { color:var(--accent); text-decoration:none; }
+.opp-form .hint a:hover { text-decoration:underline; text-underline-offset:3px; }
+
+/* Progress hint */
+.opp-progress { display:flex; align-items:center; gap:14px; margin-bottom:1.5rem; }
+.opp-progress-text { font:500 .74rem/1 var(--font-body); letter-spacing:.06em; color:var(--text-secondary); white-space:nowrap; }
+.opp-progress-bar { flex:1; height:4px; border-radius:4px; background:color-mix(in srgb,var(--surface-border) 70%,transparent); overflow:hidden; }
+.opp-progress-bar i { display:block; height:100%; width:0; border-radius:inherit; background:linear-gradient(90deg,var(--lilac-300),var(--accent)); transition:width .45s var(--opp-ease); }
 .opp-wordcount { font-size:.74rem; color:var(--text-secondary); text-align:right; margin-top:2px; }
 .opp-wordcount.ok { color:#3d7a52; }
 
@@ -178,6 +191,7 @@ html.dark .opp-area { background:color-mix(in srgb,var(--surface-solid) 6%,trans
   color:var(--accent); font:500 .82rem/1.5 var(--font-body); letter-spacing:.08em; text-transform:uppercase; text-decoration:none; cursor:pointer;
   transition:border-color .2s ease, box-shadow .3s ease; }
 .opp-review-actions .bio-ghost:hover { border-color:color-mix(in srgb,var(--accent) 45%,transparent); box-shadow:0 0 20px -6px rgba(201,182,232,.65); }
+.opp-review-note { margin:18px 0 0; text-align:center; font:400 .8rem/1.7 var(--font-body); color:var(--text-secondary); }
 
 /* Footer */
 .opp-footer { position:relative; padding:30px 0 40px; margin-top:70px; text-align:center; }

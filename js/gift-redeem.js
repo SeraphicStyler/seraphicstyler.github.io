@@ -24,12 +24,22 @@
 
   /* ---------- config (with safe fallbacks if the estimator isn't present) ---------- */
   var C = window.CONFIG || {};
-  var STYLING = C.styling || {
-    discovery: { vnd: 1225000, credit: 850000,  label: 'The Discovery' },
-    edit:      { vnd: 3725000, credit: 2600000, label: 'The Edit' },
-    capsule:   { vnd: 6225000, credit: 4350000, label: 'The Capsule' },
-    atelier:   { vnd: 8725000, credit: 5975000, label: 'The Atelier' }
+  var STYLING = {};
+  var CUR = C.styling || {
+    edit:      { vnd: 4975000,  credit: 2500000, label: 'The Edit' },
+    capsule:   { vnd: 9225000,  credit: 4750000, label: 'The Capsule' },
+    atelier:   { vnd: 13225000, credit: 7250000, label: 'The Atelier' }
   };
+  /* Cards sold before the 1 Oct 2026 repricing redeem at the credit they
+     were bought with — listed after the current tiers. */
+  var LEGACY = C.legacyGifts || {
+    discovery_2026: { credit: 850000,  label: 'The Discovery (gifted before Oct 2026)' },
+    edit_2026:      { credit: 2600000, label: 'The Edit (gifted before Oct 2026)' },
+    capsule_2026:   { credit: 4350000, label: 'The Capsule (gifted before Oct 2026)' },
+    atelier_2026:   { credit: 5975000, label: 'The Atelier (gifted before Oct 2026)' }
+  };
+  Object.keys(CUR).forEach(function (k) { STYLING[k] = CUR[k]; });
+  Object.keys(LEGACY).forEach(function (k) { STYLING[k] = LEGACY[k]; });
   var SHIP = C.shipping || {
     asia:    { light: [900000, 2200000],  standard: [1800000, 5000000] },
     oceania: { light: [1500000, 3300000], standard: [2800000, 7500000] },
@@ -56,7 +66,7 @@
   var CURRENCIES = ['USD', 'EUR', 'GBP', 'AUD', 'CAD', 'SGD', 'JPY', 'KRW', 'CNY', 'THB', 'AED', 'INR', 'VND'];
   var FALLBACK_RATES = { USD: 1, EUR: 0.92, GBP: 0.79, AUD: 1.5, CAD: 1.36, SGD: 1.34, JPY: 155, KRW: 1350, CNY: 7.2, THB: 36, AED: 3.67, INR: 83 };
   /* tier order for the dropdown — only tiers that actually exist in config */
-  var TIER_ORDER = ['discovery', 'edit', 'capsule', 'atelier'].filter(function (k) { return STYLING[k]; });
+  var TIER_ORDER = Object.keys(STYLING);
 
   /* ---------- utils ---------- */
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }

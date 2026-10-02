@@ -1018,8 +1018,8 @@
   d['est.plusship']=' + '+(d['est.shiplbl']||c.balance);
   d['est.itemcount']='({n})';
   d['est.share.s']=c.share+' · 24h';
-  for(const [id,total,credit] of [['discovery2',49,850000],['edit',149,2600000],['capsule',249,4350000],['atelier',349,5975000]]){
-   const name=id==='discovery2'?'Discovery':id.charAt(0).toUpperCase()+id.slice(1);
+  for(const [id,total,credit] of [['edit',235,2500000],['capsule',460,4750000],['atelier',600,7250000]]){
+   const name=id.charAt(0).toUpperCase()+id.slice(1);
    d['est.styling.'+id]=name+' · US$'+total+' · '+c.credit+': '+credit.toLocaleString(lang)+'₫';
   }
   for(let i=1;i<=5;i++)d['est.stops.o'+i]=(i===1?'1–2':i===5?'6+':String(i+1))+' · '+(i===1?c.included:'+'+((i-1)*150000).toLocaleString(lang)+'₫');

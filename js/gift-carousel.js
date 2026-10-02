@@ -1,5 +1,5 @@
 /* Seraphic Styler — gift-tier coverflow.
-   Progressive enhancement over the static .gift-grid-4: the four gift cards
+   Progressive enhancement over the static .gift-grid-4: the core gift cards
    become a coverflow carousel (center card full-size, neighbours faded and
    peeking) with arrows, dots, arrow keys, swipe and click-to-center. The
    original card nodes are MOVED, never cloned or rewritten, so gift-quiz.js
@@ -18,11 +18,11 @@
   var cards = Array.prototype.filter.call(grid.children, function (el) {
     return el.classList.contains('gift-card');
   });
-  if (cards.length !== 4) return; // leave the static grid as the fallback
+  if (cards.length < 3) return; // leave the static grid as the fallback
 
   var L = {
-    en: { prev: 'Previous tier', next: 'Next tier', show: 'Show {tier}', pos: '{tier}, {n} of 4' },
-    vi: { prev: 'Gói trước', next: 'Gói sau', show: 'Xem {tier}', pos: '{tier}, {n} trên 4' }
+    en: { prev: 'Previous tier', next: 'Next tier', show: 'Show {tier}', pos: '{tier}, {n} of {total}' },
+    vi: { prev: 'Gói trước', next: 'Gói sau', show: 'Xem {tier}', pos: '{tier}, {n} trên {total}' }
   };
   function lang() { var l = document.documentElement.getAttribute('lang') || 'en'; return L[l] ? l : 'en'; }
   function t(k) { return L[lang()][k]; }
@@ -120,7 +120,7 @@
       card.classList.toggle('gcar-active', off === 0);
       card.setAttribute('role', 'group');
       card.setAttribute('aria-roledescription', 'slide');
-      card.setAttribute('aria-label', (i + 1) + ' of 4');
+      card.setAttribute('aria-label', (i + 1) + ' of ' + cards.length);
       if (off === 0) {
         card.removeAttribute('aria-hidden');
         card.querySelectorAll(FOCUSABLE).forEach(function (el) { el.removeAttribute('tabindex'); });
@@ -133,7 +133,7 @@
     nextBtn.disabled = active === cards.length - 1;
     dotBtns.forEach(function (d, i) { d.setAttribute('aria-current', i === active ? 'true' : 'false'); });
     if (announce) {
-      live.textContent = t('pos').replace('{tier}', cardName(cards[active])).replace('{n}', active + 1);
+      live.textContent = t('pos').replace('{tier}', cardName(cards[active])).replace('{n}', active + 1).replace('{total}', cards.length);
     }
   }
 

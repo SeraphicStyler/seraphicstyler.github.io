@@ -10,6 +10,7 @@
   let intent={},current=[],questions=[],composing=false;
   const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
   const node=(tag,text,cls)=>{const el=document.createElement(tag);if(text)el.textContent=text;if(cls)el.className=cls;return el;};
+  const touch=()=>matchMedia('(pointer:coarse)').matches;
   const button=(text,fn)=>{const el=node('button',text);el.type='button';el.addEventListener('click',fn);return el;};
   function link(text,url){
     const el=node('a',text);const parsed=new URL(url,location.href);
@@ -19,7 +20,7 @@
   const categories={women:'Womenswear',men:'Menswear',tailor:'Áo dài & tailoring',bridal:'Bridal',luxury:'Luxury & couture',access:'Accessories',vintage:'Vintage & preloved',active:'Activewear',sleep:'Sleep & loungewear',market:'Markets',lingerie:'Lingerie'};
   const access={walk:'Walk-in store',appt:'By appointment',online:'Online',hub:'Multi-brand hub',popup:'Pop-up; confirm dates'};
   function intro(question,text){
-    if(guide.querySelector('.fd-guide-suggestions').contains(document.activeElement))input.focus({preventScroll:true});
+    if(guide.querySelector('.fd-guide-suggestions').contains(document.activeElement))(touch()?answer:input).focus({preventScroll:true});
     guide.classList.add('fd-guide-has-answer');
     answer.replaceChildren(node('h3',question),node('p',text));answer.hidden=false;reset.hidden=false;
   }
@@ -83,7 +84,7 @@
       intro(q,'Some directory notes mention a house’s own shipping, but destination, cost, and timing still need confirmation. Seraphic can coordinate tracked international delivery within the agreed service. Share your country and the pieces you have in mind for a specific request.');
       actions([['Shipping information','free-international-shipping.html'],['Ask about my destination','service-request.html?service=unsure']]);
     }else if(/\b(price|prices|cost|budget|under|below|usd|vnd|dollars)\b|\$/.test(text)&&!(/\b(mid|premium|luxury|couture)\b/.test(text))){
-      intro(q,'The directory records broad price tiers, not current prices for individual garments. I can narrow your search by tier; an exact budget needs the specific item and current store price. Styling bookings start at US$49, combining a styling fee and clothing credit; shipping is separate.');
+      intro(q,'The directory records broad price tiers, not current prices for individual garments. I can narrow your search by tier; an exact budget needs the specific item and current store price. Styling bookings start at US$235, combining a styling fee and clothing credit; shipping is separate.');
       followups([['Explore mid-range labels','Show me mid range womenswear'],['Explore premium labels','Show me premium womenswear']]);actions([['Compare service fees','sourcingandstyling#prices']]);
     }else if(/\b(compare|difference between)\b/.test(text)){
       const compare=named.length>=2?named.slice(0,3):/\b(these|them)\b/.test(text)?current.slice(0,3):[];
@@ -101,12 +102,15 @@
       intro(q,'To avoid filtering out the wrong labels, tell me what you would like to include—such as linen, tailoring, or District 3. For a more specific material or fit requirement, send a personal brief.');actions([['Discuss my requirements','service-request.html?service=styling']]);
     }else{
       const searchText=q.replace(/(under|below|less than) premium( pricing)?/gi,'mid range');
-      const result=engine.query(named.length?named[0].n:searchText,intent);
+      const term=named.length?named[0].n:searchText;
+      let result=engine.query(term,intent),fresh=false;
+      // A carried-over direction must not trap later questions in an empty result.
+      if(result.recognized&&!result.houses.length&&Object.keys(intent).length){const retry=engine.query(term,{});if(retry.houses.length){result=retry;fresh=true;}}
       if(result.recognized){
         intent=result.intent;
-        if(!result.houses.length){intro(q,'No records match all of those details together. That means the directory has no recorded match, not that the garment or house does not exist. Start a new discovery to broaden the search, or ask for a personal selection.');current=[];actions([['Ask for a personal selection','service-request.html?service=styling']]);}
+        if(!result.houses.length){intent={};intro(q,'No records match all of those details together. That means the directory has no recorded match, not that the garment or house does not exist. Start a new discovery to broaden the search, or ask for a personal selection.');current=[];actions([['Ask for a personal selection','service-request.html?service=styling']]);}
         else{
-          intro(q,`${result.houses.length} recorded ${result.houses.length===1?'house matches':'houses match'}. ${Math.min(4,result.houses.length)} to explore below; refine your direction at any time.`);
+          intro(q,`${fresh?'Starting a fresh search. ':''}${result.houses.length} recorded ${result.houses.length===1?'house matches':'houses match'}. ${Math.min(4,result.houses.length)} to explore below; refine your direction at any time.`);
           const labels=node('p','Your direction: '+result.labels.map(l=>l.label).join(' · '));answer.append(labels);showRecords(result.houses);
           announcement=`${result.houses.length} matching houses. ${current.map(h=>h.n).join(', ')}. Directory records and source links are available below.`;
         }
@@ -119,11 +123,12 @@
     guide.querySelector(".fd-guide-content").scrollTop=0;
     live.textContent=announcement||answer.querySelector('p')?.textContent||'Answer ready.';
   }
-  form.addEventListener('submit',event=>{event.preventDefault();if(!composing)ask(input.value);});
+  function submitQuestion(){ask(input.value);if(touch())input.blur();}
+  form.addEventListener('submit',event=>{event.preventDefault();if(!composing)submitQuestion();});
   input.addEventListener('compositionstart',()=>composing=true);input.addEventListener('compositionend',()=>composing=false);
-  input.addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing&&!composing){event.preventDefault();ask(input.value);}});
+  input.addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing&&!composing){event.preventDefault();submitQuestion();}});
   guide.querySelectorAll('[data-fd-ask]').forEach(el=>el.addEventListener('click',()=>ask(el.dataset.fdAsk)));
-  reset.addEventListener('click',()=>{intent={};current=[];questions=[];live.textContent='';guide.classList.remove('fd-guide-has-answer');answer.replaceChildren();answer.hidden=true;reset.hidden=true;status.textContent='A new discovery. Your saved houses are still in the tray.';input.value='';input.focus();});
+  reset.addEventListener('click',()=>{intent={};current=[];questions=[];live.textContent='';guide.classList.remove('fd-guide-has-answer');answer.replaceChildren();answer.hidden=true;reset.hidden=true;status.textContent='A new discovery. Your saved houses are still in the tray.';input.value='';(touch()?guide.querySelector('.fd-guide-suggestions button'):input).focus({preventScroll:true});});
   guide.querySelector('#fd-guide-voice').addEventListener('click',()=>{setExpanded(false,false);engine.open();});
   const head=guide.querySelector('#fd-guide-head'),content=guide.querySelector('#fd-guide-content');
   const launcher=node('button','Ask','fd-guide-launcher');launcher.id='fd-guide-launcher';launcher.type='button';
@@ -147,7 +152,7 @@
     }
     viewport();
   }
-  function openGuide(){setExpanded(true);input.focus({preventScroll:true});}
+  function openGuide(){setExpanded(true);if(touch())guide.querySelector('#fd-guide-minimize').focus({preventScroll:true});else input.focus({preventScroll:true});}
   launcher.addEventListener('click',()=>opened?setExpanded(false):openGuide());
   guide.querySelector('#fd-guide-minimize').addEventListener('click',()=>setExpanded(false));
   guide.addEventListener('keydown',e=>{

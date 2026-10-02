@@ -21,9 +21,11 @@ html.dark .bio-hero .atelier-bokeh { opacity:.32; }
   letter-spacing:0; color:var(--text-primary); text-shadow:var(--halo); }
 .bio-hero .hero-heading { position:relative; }
 .bio-hero .hero-aura { top:50%; left:50%; width:min(56rem,132vw);
-  background:radial-gradient(ellipse,rgba(255,255,255,.85) 0%,rgba(226,215,246,.38) 32%,rgba(214,228,255,.16) 54%,transparent 72%);
-  filter:blur(22px); }
-html.dark .bio-hero .hero-aura { background:radial-gradient(ellipse,rgba(186,198,238,.26),rgba(150,162,212,.10) 38%,transparent 72%); }
+  background:radial-gradient(circle,rgba(255,255,255,.95) 0%,rgba(247,245,250,.7) 18%,rgba(201,182,232,.35) 40%,rgba(214,228,255,.18) 62%,transparent 74%);
+  filter:blur(6px); }
+html.dark .bio-hero .hero-aura {
+  background:radial-gradient(circle,rgba(255,255,255,.92) 0%,rgba(252,249,255,.6) 13%,rgba(236,226,248,.34) 28%,rgba(205,178,232,.18) 45%,rgba(160,178,235,.08) 62%,transparent 76%);
+  filter:blur(12px); }
 .bio-lead,.bio-note { max-width:44ch; margin:16px auto 0; color:var(--text-secondary); font:400 1rem/1.7 var(--font-body); }
 .bio-note { font-size:.9rem; margin-top:8px; }
 .bio-actions { display:flex; justify-content:center; align-items:center; gap:26px; margin-top:26px; }
@@ -132,8 +134,7 @@ html.dark .bio-beacon { opacity:.55; background:radial-gradient(ellipse,rgba(186
 .bio-footer nav a:hover { color:var(--accent); text-shadow:0 0 14px rgba(201,182,232,.85); }
 .bio-noscript { display:flex; justify-content:center; gap:24px; padding:16px; }
 
-/* Keep one visible utility launcher; settings remain available inside the menu. */
-.ss-bio .a11y-wrap>.icon-btn { display:none; }
+/* Floating theme / language / settings launchers — same as the main site. */
 .ss-bio .ss-guide-launch { right:24px; top:24px; }
 .ss-bio .a11y-panel { max-height:calc(100dvh - 48px); overflow-y:auto; }
 

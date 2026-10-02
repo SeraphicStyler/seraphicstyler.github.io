@@ -1,5 +1,5 @@
 /* Offline directory support. Pages and code stay fresh; images are cached on use. */
-const CACHE = 'ss-fd-v83';
+const CACHE = 'ss-fd-v85';
 const CORE = [
   './fashion-directory', './field-guide', './find', './manifest.webmanifest',
   './css/directory.css?v=2026-09-10', './css/field-guide.css?v=2026-09-10',
@@ -12,7 +12,7 @@ const CORE = [
   './js/directory-guide.js?v=2026-09-09c',
   './js/fd-search.js', './js/route-solver.js', './js/store-coords.js',
   './js/route-panel.js', './js/discover-brand.js', './js/i18n-page.js',
-  './js/i18n-dom.js', './js/i18n/manifest.js', './js/find.js', './js/fd-basket.js',
+  './js/i18n-dom.js', './js/i18n-site.js?v=2026-09-12', './js/i18n/manifest.js', './js/find.js', './js/fd-basket.js',
   './js/fd-atelier.js', './js/fd-voice.js?v=2026-09-09',
   './js/fd-smartpaste.js', './js/estimator.js'
 ];
@@ -31,7 +31,7 @@ self.addEventListener('fetch', event => {
   const request = event.request, url = new URL(request.url);
   if (request.method !== 'GET' || url.origin !== self.location.origin) return;
   const page = request.mode === 'navigate' || (request.headers.get('accept') || '').includes('text/html');
-  const fresh = page || /\.(?:js|css)$/.test(url.pathname);
+  const fresh = page || /\.(?:js|css)$/.test(url.pathname) || /\/i18n\/site\.[a-z]+\.json$/.test(url.pathname);
   async function network() {
     const response = await fetch(request);
     if (response.ok) {

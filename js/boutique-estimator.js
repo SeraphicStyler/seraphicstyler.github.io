@@ -1,9 +1,11 @@
 /* Seraphic Styler — boutique buying-agent estimator (#btqEst on the home page).
-   A planning figure, not a checkout: the fee ladder, three-stage payment flow and
-   shipping anchors from the #boutique section, made interactive. Anchored to
-   the two worked cards (24 × 2,800,000₫ → 15% tier; 60 × 3,700,000₫ → 12%
-   tier) at the same ≈26,300₫/$ planning rate named in btq.exsub — keep BTQ
-   below in step with the section markup if fees, bands or fx copy change.
+   A planning figure, not a checkout: the scouting fee, the flat buying fee,
+   three-stage payment flow and shipping anchors from the #boutique section,
+   made interactive. Uniform with the rest of the menu since 1 Oct 2026: a
+   $250 scouting fee kept like a styling fee, then 15% of the pieces (20% rush
+   or made-to-measure, same as group orders), at least $14 a piece (same as
+   buying a single piece) and $25 a buy. Keep BTQ below in step with the
+   section markup and prices.html if any of these change.
 
    The temporary August flight window (homepage flight band +
    free-international-shipping.html) rides on top as a scenario layer — it
@@ -40,7 +42,9 @@
     boxKg: 10,          /* over one standard box, split shipment — quoted after packing */
 
     minFeeUsd: 25,
-    rushPct: 0.20,      /* replaces the tier, never adds to it */
+    perPieceMinUsd: 14, /* same floor as buying a single piece (1 Oct 2026) */
+    pct: 0.15,          /* the buying fee — same as group orders */
+    rushPct: 0.20,      /* rush or made-to-measure — replaces 15%, never adds to it */
 
     /* Two layers, and both have to be named or the total looks invented:
          · MFN / HTS apparel duty — roughly 16% woven to 32% knit
@@ -69,22 +73,13 @@
     maxPieces: 2000,
     maxAvgVnd: 500000000,
 
-    /* The gate before any sourcing begins: nothing is scouted until this
-       lands. Published price, so it displays without the ≈ — and credited in
-       full against the first payment, so it never changes the totals. */
-    scoutDepositVnd: 3750000,
-    scoutDepositUsdText: '$150',
+    /* The scouting round — brief, outreach, the round itself and the line
+       sheet, three to four hours. Paid before
+       a single showroom is contacted and kept, exactly like a styling fee:
+       it is not deducted from the order. */
+    scoutFeeVnd: 6250000,
+    scoutFeeUsdText: '$250',
 
-    /* The ladder — tier set by the whole buy, not per designer. The cap
-       implements btq.tierline: "Your fee is never more than it would be at
-       the next tier's opening." */
-    tiers: [
-      { openUsd: 0,     pct: 0.18 },
-      { openUsd: 1500,  pct: 0.15 },
-      { openUsd: 5000,  pct: 0.12 },
-      { openUsd: 10000, pct: 0.10 },
-      { openUsd: 20000, pct: 0.08 }
-    ],
 
     /* The two worked cards, as one-tap starting points. */
     presets: {
@@ -123,6 +118,7 @@
 
   var FX = BTQ.planFxVndPerUsd;
 
+
   function vnd(x) { return Math.round(x).toLocaleString('en-US') + '₫'; }
   function usd(x) { return '$' + Math.round(x).toLocaleString('en-US'); }
   /* Ranges carry one symbol, exactly as the worked cards write them. */
@@ -132,31 +128,15 @@
     return '<div class="be-row' + (cls ? ' ' + cls : '') + '"><dt>' + label + '</dt><dd>' + value + '</dd></div>';
   }
 
-  /* The buying fee in đồng, with the tier label the section itself uses.
-     Order of rules: rush replaces the tier; the next-tier's-opening cap
-     honours btq.tierline; the $25 minimum floors the smallest top-ups. */
-  function fee(totalVnd, totalUsd, rush) {
-    var amount, label;
-    if (rush) {
-      amount = totalVnd * BTQ.rushPct;
-      label = 'flat 20% — rush or atelier coordination, replaces the tier, agreed in writing first';
-    } else {
-      var ti = 0;
-      for (var i = 0; i < BTQ.tiers.length; i++) if (totalUsd >= BTQ.tiers[i].openUsd) ti = i;
-      var t = BTQ.tiers[ti], next = BTQ.tiers[ti + 1];
-      amount = totalVnd * t.pct;
-      label = Math.round(t.pct * 100) + '% tier, one written number';
-      if (next) {
-        var cap = next.openUsd * FX * next.pct;
-        if (amount > cap) {
-          amount = cap;
-          label = Math.round(t.pct * 100) + '% tier, capped at the next tier’s opening — never more than ' + usd(next.openUsd * next.pct);
-        }
-      }
-    }
-    /* The $25 minimum floors every path, rush included — never zero, never a surprise. */
+  /* The buying fee in đồng: 15%, or 20% for rush / made-to-measure, then the
+     $14-a-piece and $25-a-buy floors. One rule at every size. */
+  function fee(totalVnd, totalUsd, rush, pieces) {
+    var amount = totalVnd * (rush ? BTQ.rushPct : BTQ.pct);
+    var label = rush ? '20% — rush or made-to-measure, agreed in writing first' : '15% of the pieces';
+    var pieceFloor = (pieces || 0) * BTQ.perPieceMinUsd * FX;
+    if (amount < pieceFloor) { amount = pieceFloor; label = '$' + BTQ.perPieceMinUsd + ' per piece — the per-piece minimum, above the percentage here'; }
     var floor = BTQ.minFeeUsd * FX;
-    if (amount < floor) { amount = floor; label = '$25 minimum fee — small top-ups simply floor here'; }
+    if (amount < floor) { amount = floor; label = '$25 minimum fee'; }
     return { amount: amount, label: label };
   }
 
@@ -169,12 +149,11 @@
      common block; stage 3 carries the freight and is drawn per scenario. */
   function stage12Rows(totalVnd, feeVnd) {
     var half = feeVnd / 2;
-    var stage2 = Math.max(0, totalVnd + half - BTQ.scoutDepositVnd);
+    var stage2 = totalVnd + half;
     var h = '';
-    h += row('<b>1 · To begin</b> — the scouting deposit, before a single showroom is walked',
-      vnd(BTQ.scoutDepositVnd) + ' · ' + BTQ.scoutDepositUsdText);
-    h += row('<b>2 · Once the line sheet is with you</b> — the pieces at cost plus half the fee, ' +
-      'less the deposit you have already paid',
+    h += row('<b>1 · To begin</b> — the scouting fee, before a single showroom is contacted',
+      vnd(BTQ.scoutFeeVnd) + ' · ' + BTQ.scoutFeeUsdText);
+    h += row('<b>2 · Once the line sheet is with you</b> — the pieces you choose, at cost, plus half the buying fee',
       '≈' + usd(stage2 / FX));
     return h;
   }
@@ -267,7 +246,7 @@
 
     var totalVnd = pieces * avgVnd;
     var totalUsd = totalVnd / FX;
-    var f = fee(totalVnd, totalUsd, rushEl && rushEl.checked);
+    var f = fee(totalVnd, totalUsd, rushEl && rushEl.checked, pieces);
     var kg = pieces * BTQ.kgPerPiece;
     var kgTxt = (Math.round(kg * 10) / 10) + 'kg';
     var band = (BTQ.shipping[rEl.value] || BTQ.shipping.us).standard;
@@ -288,13 +267,15 @@
     var p1 = totalVnd + f.amount / 2;
     var p2 = f.amount / 2;
 
-    var landLow = totalVnd + f.amount + shipLow;
-    var landHigh = totalVnd + f.amount + shipHigh;
+    var SC = BTQ.scoutFeeVnd;
+    var landLow = totalVnd + SC + f.amount + shipLow;
+    var landHigh = totalVnd + SC + f.amount + shipHigh;
 
     var flightOn = flEl && flEl.checked && flightVisible();
 
     var html = '<dl class="bx-rows">';
     html += row('Pieces at cost — ' + pieces + ' × ≈' + vnd(avgVnd), vnd(totalVnd) + ' · ≈' + usd(totalUsd));
+    html += row('Scouting fee — one round', vnd(SC) + ' · ' + BTQ.scoutFeeUsdText);
     html += row('Buying fee — ' + f.label, vnd(f.amount) + ' · ≈' + usd(f.amount / FX));
     html += '<div class="be-stages-h">What you pay, and when</div>';
     html += stage12Rows(totalVnd, f.amount);
@@ -304,7 +285,7 @@
       html += row(shipLabel, shipLine);
       html += row('Landed, before US duty', '≈' + usdR(landLow / FX, landHigh / FX), 'bx-total');
       html += row('Per piece, landed', '≈' + usdR(landLow / FX / pieces, landHigh / FX / pieces), 'bx-per');
-      html += closingRows(totalVnd, f.amount, shipLow, shipHigh, pieces);
+      html += closingRows(totalVnd, f.amount + SC, shipLow, shipHigh, pieces);
       html += '</dl>';
     } else {
       html += '</dl>';
@@ -312,8 +293,8 @@
       var ow = BTQ.flight.onward[0];
       if (onEl) for (var j = 0; j < BTQ.flight.onward.length; j++) if (BTQ.flight.onward[j].id === onEl.value) ow = BTQ.flight.onward[j];
       var owLow = ow.lowUsd * FX, owHigh = ow.highUsd * FX;
-      var flLow = totalVnd + f.amount + owLow;
-      var flHigh = totalVnd + f.amount + owHigh;
+      var flLow = totalVnd + SC + f.amount + owLow;
+      var flHigh = totalVnd + SC + f.amount + owHigh;
       var savLow = Math.max(0, (shipLow - owHigh) / FX);
       var savHigh = Math.max(0, (shipHigh - owLow) / FX);
       var owTxt = ow.highUsd === 0 ? 'Free'
@@ -331,7 +312,7 @@
         + row(shipLabel, shipLine)
         + row('Landed, before US duty', '≈' + usdR(landLow / FX, landHigh / FX), 'bx-total')
         + row('Per piece, landed', '≈' + usdR(landLow / FX / pieces, landHigh / FX / pieces), 'bx-per')
-        + closingRows(totalVnd, f.amount, shipLow, shipHigh, pieces)
+        + closingRows(totalVnd, f.amount + SC, shipLow, shipHigh, pieces)
         + '</dl></div>';
       html += '<div class="dcol flight"><h4>On the ' + BTQ.flight.flightText + ' flight — this window only</h4><dl class="bx-rows">'
         + row('International leg — in my suitcase, ' + BTQ.flight.flightText, '$0 — instead of ' + usdR(shipLow / FX, shipHigh / FX) + ' by courier')
@@ -341,7 +322,7 @@
         + row('Per piece, landed', flPer, 'bx-per')
         /* Duty is on the goods, so it is identical in both columns — which is
            precisely the thing a free-freight offer can be misread as changing. */
-        + closingRows(totalVnd, f.amount, owLow, owHigh, pieces)
+        + closingRows(totalVnd, f.amount + SC, owLow, owHigh, pieces)
         + '</dl></div>';
       html += '</div>';
 
@@ -360,12 +341,12 @@
     /* The CTA carries the breakdown into the same brief form as both section
        CTAs — a distinct source tag tells the three apart. */
     var summary = 'Boutique buy — rough figures\n'
-      + 'To start: scouting deposit ' + BTQ.scoutDepositUsdText + ' (' + vnd(BTQ.scoutDepositVnd) + '), credited in full\n'
+      + 'To start: scouting fee ' + BTQ.scoutFeeUsdText + ' (' + vnd(SC) + ')\n'
       + 'Pieces at cost: ' + pieces + ' × ' + vnd(avgVnd) + ' = ' + vnd(totalVnd) + ' (≈' + usd(totalUsd) + ')\n'
       + 'Buying fee: ' + f.label + ' = ' + vnd(f.amount) + ' (≈' + usd(f.amount / FX) + ')\n'
       + 'Destination: ' + regionTxt + ' · ≈' + kgTxt + '\n'
-      + 'Stage 1 — scouting deposit: ' + BTQ.scoutDepositUsdText + '\n'
-      + 'Stage 2 — on the line sheet, pieces + half the fee less the deposit: ≈' + usd(Math.max(0, p1 - BTQ.scoutDepositVnd) / FX) + '\n'
+      + 'Stage 1 — scouting fee: ' + BTQ.scoutFeeUsdText + '\n'
+      + 'Stage 2 — on the line sheet, pieces + half the buying fee: ≈' + usd(p1 / FX) + '\n'
       + 'Stage 3 — on photo approval, rest of the fee + exact shipping: ≈' + usd(p2 / FX) + ' + shipping\n'
       + (flightOn
         ? 'August flight window: international leg $0 (' + ow.short + ') — landed before duty ' + flLanded

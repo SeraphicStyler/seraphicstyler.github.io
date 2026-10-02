@@ -96,3 +96,25 @@ html.rm .fd-guide-ready { transition:none;transform:none; }
 @media(prefers-reduced-motion:reduce) { .fd-guide-ready { transition:none;transform:none; } }
 @media(forced-colors:active) { .fd-guide-launcher { border:1px solid ButtonText;background:ButtonFace;color:ButtonText; } }
 :is(.fchipbtn,.chip,.sv,.bk,.cm-btn,.fd-house-actions button):focus-visible { outline:3px solid var(--cobalt);outline-offset:3px; }
+
+/* Phones: a steady bottom sheet. The launcher steps aside, the page behind dims and
+   stops scrolling, and an answer view keeps one height so it doesn't jump between replies. */
+@media(max-width:760px) {
+ .fd-guide-ready { z-index:85;left:8px;right:8px;width:auto;bottom:calc(var(--tabbar-h,0px) + 8px + var(--fd-keyboard,0px)); }
+ .fd-guide-ready .fd-guide-shell { border-radius:20px;background:var(--chat-bg);backdrop-filter:none; }
+ .fd-guide-ready.fd-guide-open .fd-guide-shell { box-shadow:var(--chat-shadow),0 0 0 100vmax color-mix(in srgb,var(--ink) 22%,transparent); }
+ .fd-guide-ready [data-fd-interactive] { max-height:min(78dvh,var(--fd-visible-height,78dvh)); }
+ .fd-guide-ready.fd-guide-has-answer [data-fd-interactive] { height:min(78dvh,var(--fd-visible-height,78dvh)); }
+ .fd-guide-ready.fd-guide-has-answer .fd-guide-content { flex:1; }
+ .fd-guide-head { border-bottom:1px solid var(--line);padding-bottom:10px; }
+ #fd-guide-minimize { width:44px;height:44px;padding:0;font-size:20px;line-height:1; }
+ #fd-guide-answer { padding-inline:16px; }
+ .fd-guide-launcher[aria-expanded=true] { visibility:hidden; }
+ html:has(.fd-guide-ready.fd-guide-open) { overflow:hidden; }
+ .fd-guide-launcher { color:var(--cobalt);border-color:color-mix(in srgb,var(--cobalt) 45%,var(--line)); }
+}
+/* The first-visit language card waits until the assistant is closed instead of covering it. */
+body:has(.fd-guide-ready.fd-guide-open) .geo-lang-card { visibility:hidden; }
+@media(hover:none) { .fd-guide button:hover { border-color:var(--line);background:var(--card-solid); } .fd-guide-compose button[type=submit]:hover { background:var(--cobalt);border-color:var(--cobalt); } .fd-guide-utilities button:hover { background:none;border-color:transparent; } }
+/* On phones the language card sits above the Ask / settings row, never over it. */
+@media(max-width:760px) { body:has(.fd-guide-ready) .geo-lang-card { bottom:calc(var(--tabbar-h,0px) + 72px);right:1rem;max-width:none; } }

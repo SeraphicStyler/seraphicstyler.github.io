@@ -37,7 +37,6 @@
       profile: 'Preview the style profile they’ll receive →',
       assure: 'Their code arrives within 24 hours — and nothing is bought without their yes.',
       why: [
-        'For a small gesture, one perfect piece says more than a parcel of maybes.',
         'A few pieces, chosen around what you already know of them — generous without guessing too far.',
         'When the moment is bigger than one piece, a capsule dresses their everyday.',
         'For a true milestone — the full experience, shaped around them.'
@@ -46,9 +45,8 @@
       whySaigon: 'And since they’ll be in Sài Gòn, the two-hour in-shop try-on is theirs.',
       whyRemote: 'Styled remotely and sent worldwide — distance changes nothing.',
       points: [
-        ['One piece, verified in person and photographed for their approval', 'A small, quietly luxurious gesture — never an obligation'],
-        ['Begins with a consultation, so the pieces are theirs, not a guess', 'Three to five pieces from Saigon’s local designers'],
-        ['A full style profile first — their days, their taste, their fit', 'Eight to twelve coordinated pieces, with a lookbook to wear them together'],
+        ['Begins with a consultation, so the pieces are theirs, not a guess', 'Three to four pieces from Saigon’s local designers'],
+        ['A full style profile first — their days, their taste, their fit', 'Six to eight coordinated pieces, with a lookbook to wear them together'],
         ['In Saigon: a two-hour in-shop try-on — often no shipping at all', 'From abroad: I shop live on video, and nothing ships without their yes']
       ]
     },
@@ -77,7 +75,6 @@
       profile: 'Xem trước hồ sơ phong cách người ấy sẽ nhận →',
       assure: 'Mã quà đến trong vòng 24 giờ — và chưa có cái gật đầu của người ấy thì chưa mua gì.',
       why: [
-        'Với một cử chỉ nhỏ, một món thật ưng nói được nhiều hơn cả một kiện đồ “có lẽ”.',
         'Vài món, chọn quanh những gì bạn đã biết về người ấy — hào phóng mà không đoán quá xa.',
         'Khi dịp lớn hơn một món đồ, capsule lo trọn trang phục thường ngày.',
         'Cho một cột mốc thực sự — trải nghiệm trọn vẹn, theo đúng người ấy.'
@@ -86,9 +83,8 @@
       whySaigon: 'Và vì người ấy ở Sài Gòn, hai giờ thử đồ tại cửa hàng là của họ.',
       whyRemote: 'Styling từ xa, gửi đi khắp thế giới — khoảng cách không thay đổi gì.',
       points: [
-        ['Một món duy nhất, kiểm tra tận nơi và chụp ảnh để người ấy duyệt', 'Một cử chỉ nhỏ mà sang — không bao giờ là gánh nặng'],
-        ['Bắt đầu bằng một buổi tư vấn, để món đồ là của người ấy, không phải phỏng đoán', 'Ba đến năm món từ các nhà thiết kế Sài Gòn'],
-        ['Hồ sơ phong cách trước tiên — nhịp sống, gu và dáng của người ấy', 'Tám đến mười hai món phối được với nhau, kèm lookbook hướng dẫn mặc'],
+        ['Bắt đầu bằng một buổi tư vấn, để món đồ là của người ấy, không phải phỏng đoán', 'Ba đến bốn món từ các nhà thiết kế Sài Gòn'],
+        ['Hồ sơ phong cách trước tiên — nhịp sống, gu và dáng của người ấy', 'Sáu đến tám món phối được với nhau, kèm lookbook hướng dẫn mặc'],
         ['Ở Sài Gòn: hai giờ thử đồ tại cửa hàng — thường chẳng cần gửi hàng', 'Từ xa: mình đi mua qua video trực tiếp, chưa gật đầu thì chưa gửi gì']
       ]
     }
@@ -111,9 +107,9 @@
     tiers.push({ usd: parseFloat(price.getAttribute('data-usd')) || 0, card: card, href: cta.href, nameEl: h });
   });
   tiers.sort(function (a, b) { return a.usd - b.usd; });
-  if (tiers.length !== 4) return; // leave the static fallback in place
+  if (tiers.length !== 3) return; // leave the static fallback in place
 
-  var PROFILE_TIER = { 49: 'discovery', 149: 'edit', 249: 'capsule', 349: 'atelier' };
+  var PROFILE_TIER = { 235: 'edit', 460: 'capsule', 600: 'atelier' };
   function tierName(i) { return tiers[i].nameEl.textContent.trim(); }
   function tierPrice(i) { return '$' + Math.round(tiers[i].usd); }
   /* Stripe payment links carry the source in client_reference_id (it shows on
@@ -125,34 +121,37 @@
   }
   function profileHref(i) { return 'style-profile.html?tier=' + (PROFILE_TIER[Math.round(tiers[i].usd)] || 'edit') + '&from=gift-finder'; }
 
-  /* Scores per option (tier scale 1 = Discovery … 4 = Atelier). The Capsule
-     band is deliberately the widest — ambiguous, mixed answers land there —
-     but the guardrails below mean a small gesture is NEVER upsold. */
+  /* Scores per option on the original four-step scale (1 = a single piece …
+     4 = Atelier). The Discovery was retired 1 Oct 2026, so the lowest band now
+     lands on The Edit, the entry tier. The Capsule band is deliberately the
+     widest — ambiguous, mixed answers land there — but the guardrails below
+     mean a small gesture is NEVER upsold past the entry tier. */
   var W1 = [1, 2.5, 3.5], W2 = [1.5, 2.5, 3], W3 = [1, 2, 3.75], W4 = [0.75, 0];
   var ans = [null, null, null, null];
 
   function recommend() {
     var score = (W1[ans[0]] + W2[ans[1]] + W3[ans[2]]) / 3 + (ans[3] === 0 ? W4[0] : 0);
-    var rec;
-    if (ans[0] === 0 && ans[2] === 0) rec = 0;                       // small thank-you + one piece → always Discovery
+    var r4;
+    if (ans[0] === 0 && ans[2] === 0) r4 = 0;                        // small thank-you + one piece → always the entry tier
     else {
-      rec = score < 1.5 ? 0 : score < 2.3 ? 1 : score <= 3.4 ? 2 : 3;
-      if (ans[2] === 0) rec = Math.min(rec, 1);                      // "one lovely piece" caps at The Edit
-      if (rec === 3 && !(ans[2] === 2 || ans[3] === 0)) rec = 2;     // Atelier needs the full-experience answer or Saigon
+      r4 = score < 1.5 ? 0 : score < 2.3 ? 1 : score <= 3.4 ? 2 : 3;
+      if (ans[2] === 0) r4 = Math.min(r4, 1);                        // "one lovely piece" caps at The Edit
+      if (r4 === 3 && !(ans[2] === 2 || ans[3] === 0)) r4 = 2;       // Atelier needs the full-experience answer or Saigon
     }
+    var rec = Math.max(0, r4 - 1);                                   // 0 = Edit, 1 = Capsule, 2 = Atelier
     // Runner-up: the adjacent tier nearer the raw score — smaller stays visible.
-    var mids = [1.0, 1.9, 2.85, 3.7];
+    var mids = [1.9, 2.85, 3.7];
     var runner = rec + (score > mids[rec] ? 1 : -1);
     if (runner < 0) runner = 1;
-    if (runner > 3) runner = 2;
+    if (runner > 2) runner = 1;
     if (ans[0] === 0 && ans[2] === 0) runner = 1;
     return { rec: rec, runner: runner };
   }
 
   function whyLine(rec) {
     var s = t('why')[rec];
-    if (rec >= 2 && ans[1] === 2) s += ' ' + t('whyTaste');
-    if (rec === 3) s += ' ' + (ans[3] === 0 ? t('whySaigon') : t('whyRemote'));
+    if (rec >= 1 && ans[1] === 2) s += ' ' + t('whyTaste');
+    if (rec === 2) s += ' ' + (ans[3] === 0 ? t('whySaigon') : t('whyRemote'));
     return s;
   }
 

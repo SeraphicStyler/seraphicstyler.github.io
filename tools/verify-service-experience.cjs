@@ -23,7 +23,7 @@ const origin = process.env.SS_PREVIEW || 'http://127.0.0.1:8731';
       // Native dialog keeps keyboard focus inside the active menu.
       for(let i=0;i<28;i++) { await page.keyboard.press('Tab'); assert(await page.$eval('.ss-guide',e=>e.contains(document.activeElement))); }
       await page.click('[data-view="prices"]');
-      assert(await page.$eval('[data-prices]', e => !e.hidden && e.textContent.includes('$1,100') && e.textContent.includes('$475') && e.textContent.includes('$1,500')));
+      assert(await page.$eval('[data-prices]', e => !e.hidden && e.textContent.includes('$1,250') && e.textContent.includes('$550') && e.textContent.includes('$1,750')));
       await page.focus('#ss-guide-query'); await page.type('#ss-guide-query','15 pieces');
       assert(await page.$eval('.ss-guide-results',e=>e.textContent.includes('Custom Wardrobe')));
       await page.keyboard.press('ArrowDown'); assert(await page.$eval('.ss-guide-results',e=>e.contains(document.activeElement)));

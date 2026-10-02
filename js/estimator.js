@@ -19,17 +19,29 @@ var CONFIG = {
   greenDiscount: 0.10,    // modest discount on the SERVICE FEE for green/eco shopping (0.10 = 10% off fees)
 
   /* Optional styling-service add-ons (VND) — the SAME prices as the gift tiers
-     ($49 / $149 / $349 = 1,225,000 / 3,725,000 / 8,725,000₫), and like the gifts
-     each includes a piece CREDIT ($34 / $104 / $239 = 850,000 / 2,600,000 /
-     5,975,000₫) applied against the itemized pieces in the estimate (capped at
-     the items subtotal, never negative; with no items yet, it applies once
-     pieces are added). The remainder is my
-     styling TIME. Keep prices, credits and the gift-card split lines in step. */
+     ($235 / $460 / $600 = 5,875,000 / 11,500,000 / 15,000,000₫), and like the
+     gifts each includes a piece CREDIT ($100 / $190 / $290 = 2,500,000 /
+     4,750,000 / 7,250,000₫) applied against the itemized pieces in the estimate
+     (capped at the items subtotal, never negative; with no items yet, it
+     applies once pieces are added). The remainder is my styling TIME.
+     Repriced 1 Oct 2026: The Discovery retired; every styling fee now clears
+     what plain sourcing of the same piece count would earn (8%, 350,000₫
+     minimum per piece) with room for the styling itself. Keep prices, credits
+     and the gift-card split lines in step. */
   styling: {
-    discovery: { vnd: 1225000, credit: 850000,  label: 'The Discovery' },
-    edit:      { vnd: 3725000, credit: 2600000, label: 'The Edit' },
-    capsule:   { vnd: 6225000, credit: 4350000, label: 'The Capsule' },
-    atelier:   { vnd: 8725000, credit: 5975000, label: 'The Atelier' }
+    edit:      { vnd: 5875000,  credit: 2500000, label: 'The Edit' },
+    capsule:   { vnd: 11500000,  credit: 4750000, label: 'The Capsule' },
+    atelier:   { vnd: 15000000, credit: 7250000, label: 'The Atelier' }
+  },
+
+  /* Gift cards sold before 1 Oct 2026 keep the credit they were bought with —
+     the redemption calculator lists these beside the current tiers. Never
+     re-price an issued gift. */
+  legacyGifts: {
+    discovery_2026: { credit: 850000,  label: 'The Discovery (gifted before Oct 2026)' },
+    edit_2026:      { credit: 2600000, label: 'The Edit (gifted before Oct 2026)' },
+    capsule_2026:   { credit: 4350000, label: 'The Capsule (gifted before Oct 2026)' },
+    atelier_2026:   { credit: 5975000, label: 'The Atelier (gifted before Oct 2026)' }
   },
 
   /* The one FX dial. `spread` is the margin held back from the live mid-market

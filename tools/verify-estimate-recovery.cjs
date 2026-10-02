@@ -19,9 +19,9 @@ const origin=process.env.SS_PREVIEW||'http://127.0.0.1:8731';
    await page.click('#sendBasket');
    assert(await page.evaluate(()=>!!window.__handoff),'request handoff; no real submission');
   }
-  await page.evaluate(()=>localStorage.setItem('ss-basket',JSON.stringify({items:[500000],styling:'discovery'})));
+  await page.evaluate(()=>localStorage.setItem('ss-basket',JSON.stringify({items:[500000],styling:'edit'})));
   await page.reload({waitUntil:'networkidle2'});
-  assert.equal(await page.$eval('#rLeftover',node=>node.textContent),'350,000₫');
+  assert.equal(await page.$eval('#rLeftover',node=>node.textContent),'2,000,000₫');
   await page.click('.est-quick-result a');
   assert.equal(await page.evaluate(()=>location.hash),'#estimate-total');
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));

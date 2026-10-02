@@ -171,6 +171,7 @@ ${o.jsonld ? '<script type="application/ld+json">' + JSON.stringify(o.jsonld) + 
   font-size:.84rem;}
 a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
 </style>
+<script src="${o.up}js/i18n-site.js?v=2026-09-12" defer></script>
 </head>
 <body>
 <main class="dp">

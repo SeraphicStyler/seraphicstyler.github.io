@@ -1,27 +1,41 @@
-/* Editorial service guide: Cormorant display, Montserrat text, shared lavender ink. */
-.ss-service-comparison { --font-display:'Cormorant Garamond',serif; --ss-prose:66ch; }
+/* Editorial service guide: Merriweather display, Montserrat text, shared lavender ink. */
+.ss-service-comparison { --ss-prose:66ch; }
 .ss-service-comparison .ss-request-header { position:sticky; top:0; z-index:300; min-height:92px; background:color-mix(in srgb,var(--bg-primary) 84%,transparent); backdrop-filter:blur(18px); border-bottom:1px solid var(--surface-border); }
 .ss-service-comparison .ss-request-header>a:first-child { margin:auto; }
 .ss-service-comparison .ss-header-back { position:absolute; left:2rem; font-size:.75rem; }
 .ss-service-comparison .ss-request-main { max-width:1120px; margin:0 auto; padding:0 1.5rem; }
 .ss-service-comparison .ss-request-main :is(section,article,tr)[id] { scroll-margin-top:135px; }
 .ss-service-comparison .ss-request-main p { font:400 1rem/1.7 var(--font-body); color:var(--text-secondary); max-width:var(--ss-prose); }
-.ss-service-comparison .eyebrow,.ss-service-comparison .ss-service-tag { font:500 .8125rem/1.5 var(--font-body); letter-spacing:.1em; }
-.ss-service-comparison :is(h1,h2,h3) { font-family:var(--font-display); font-weight:400; color:var(--text-primary); letter-spacing:-.025em; }
-.ss-service-comparison .ss-request-main h1 { font-size:clamp(2.75rem,5vw,3.5rem); line-height:1.1; margin:1.2rem 0; }
-.ss-service-comparison .ss-request-main h2 { font-size:clamp(2rem,3.5vw,2.7rem); line-height:1.15; margin:1rem 0; }
-.ss-service-comparison .ss-request-main h3 { font-size:1.75rem; line-height:1.2; margin:1rem 0; }
-.ss-service-hero { text-align:center; padding:90px 0 100px; }
-.ss-service-comparison .ss-service-deck { font:400 1.7rem/1.3 var(--font-display); color:var(--text-primary); margin:1.2rem auto 2.5rem; }
+.ss-service-comparison .eyebrow,.ss-service-comparison .ss-service-tag { font:600 .7rem/1.5 var(--font-body); letter-spacing:.26em; text-transform:uppercase; color:var(--eyebrow-ink); }
+.ss-service-comparison :is(h1,h2,h3) { font-family:var(--font-display); font-weight:300; color:var(--text-primary); }
+.ss-service-comparison .ss-request-main h1 { font-size:clamp(2.75rem,5vw,3.5rem); line-height:1.1; letter-spacing:-.01em; margin:1.2rem 0; text-shadow:var(--halo); }
+.ss-service-comparison .ss-request-main h2 { font-size:clamp(2rem,3.5vw,2.7rem); line-height:1.15; margin:1rem 0; text-shadow:var(--halo); }
+.ss-service-comparison .ss-request-main h3 { font-size:1.45rem; font-weight:400; line-height:1.3; letter-spacing:.01em; margin:1rem 0; }
+.ss-service-hero { position:relative; isolation:isolate; text-align:center; padding:90px 0 100px; }
+/* The hero line — Pinyon Script, lit from within */
+.ss-service-comparison .ss-request-main .ss-service-deck { font:400 clamp(1.7rem,3.4vw,2.3rem)/1.35 var(--font-script); color:var(--text-primary); text-shadow:var(--halo); margin:1.2rem auto 2.5rem; max-width:none; }
 .ss-intro-paths { max-width:600px; margin:auto; display:grid; }
 .ss-intro-paths a { display:grid; grid-template-columns:1.6rem 1fr; gap:.25rem 1rem; padding:1.1rem .75rem; border-bottom:1px solid var(--surface-border); font-size:1rem; text-align:left; color:var(--text-secondary); text-decoration:none; transition:background .3s; }
 .ss-intro-paths a:hover { background:var(--surface-soft); }
 .ss-intro-paths a>span { grid-row:span 2; font-size:.75rem; color:var(--eyebrow-ink); margin-top:.2rem; }
 .ss-intro-paths b { grid-column:2; color:var(--text-primary); font-weight:500; }
-.ss-editorial-heading { max-width:var(--ss-prose); margin-bottom:2.5rem; }
+.ss-editorial-heading { position:relative; isolation:isolate; max-width:var(--ss-prose); margin-bottom:2.5rem; }
+/* Styleguide through-line: Pinyon script first-letter on the page & section titles */
+.ss-service-comparison .ss-request-main :is(h1,h2)::first-letter { font-family:var(--font-script); font-weight:400; font-size:1.5em; color:var(--accent); padding-right:.03em; }
+html.dark .ss-service-comparison .ss-request-main :is(h1,h2)::first-letter { text-shadow:0 1px 16px rgba(169,184,238,.32),0 0 26px rgba(255,255,255,.18); }
+/* Aura beacons — a soft halo in light mode, a true glow once the lights go out. Static: no breathing. */
+.ss-service-hero::before { content:''; position:absolute; left:50%; top:46%; transform:translate(-50%,-50%); width:min(36rem,90vw); aspect-ratio:1.9/1; z-index:-1; pointer-events:none; filter:blur(30px);
+  background:radial-gradient(ellipse,rgba(255,255,255,.85) 0%,rgba(226,215,246,.4) 40%,rgba(214,228,255,.16) 60%,transparent 74%); }
+html.dark .ss-service-hero::before { filter:blur(26px);
+  background:radial-gradient(ellipse,rgba(206,200,245,.42) 0%,rgba(169,160,226,.24) 34%,rgba(126,120,196,.12) 56%,transparent 76%); }
+.ss-editorial-heading::before { content:''; position:absolute; left:-1.5rem; top:58%; transform:translateY(-50%); width:min(22rem,72vw); aspect-ratio:2.2/1; z-index:-1; pointer-events:none; filter:blur(26px);
+  background:radial-gradient(ellipse,rgba(255,255,255,.7) 0%,rgba(226,215,246,.32) 42%,transparent 72%); }
+html.dark .ss-editorial-heading::before { filter:blur(22px);
+  background:radial-gradient(ellipse,rgba(206,200,245,.36) 0%,rgba(169,160,226,.2) 36%,rgba(126,120,196,.1) 58%,transparent 76%); }
+html:is(.mono,.hc) .ss-service-hero::before, html:is(.mono,.hc) .ss-editorial-heading::before { display:none; }
 .ss-paths-section { padding-bottom:3rem; }
 .ss-path-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
-.ss-path-card { display:flex; flex-direction:column; align-items:flex-start; border:1px solid var(--surface-border); border-radius:1.2rem; padding:1.6rem; background:var(--surface-soft); }
+.ss-path-card { display:flex; flex-direction:column; align-items:flex-start; border:1px solid var(--surface-border); border-radius:var(--card-radius); padding:1.6rem; background:var(--surface-soft); }
 .ss-path-card.ss-path-trace { background:linear-gradient(145deg,color-mix(in srgb,var(--highlight) 17%,transparent),var(--surface-soft)); }
 .ss-path-card.ss-path-styling { background:linear-gradient(145deg,color-mix(in srgb,var(--highlight) 30%,transparent),var(--surface-soft)); }
 .ss-service-comparison .ss-path-card h3 { font-size:2rem; margin:1.4rem 0 .8rem; }
@@ -37,7 +51,7 @@
 .ss-card-detail a { font-size:.875rem; }
 .ss-scope-detail { max-width:var(--ss-prose); margin:1.5rem 0 0; padding:1rem 1.25rem; border-left:2px solid var(--highlight); }
 .ss-styling-ledger,.ss-buying-section,.ss-work-section { padding:90px 0; border-top:1px solid var(--surface-border); }
-.ss-service-comparison .ss-table-wrap { border:1px solid var(--surface-border); border-radius:1.1rem; background:var(--surface-soft); }
+.ss-service-comparison .ss-table-wrap { border:1px solid var(--surface-border); border-radius:var(--card-radius); background:var(--surface-soft); }
 .ss-service-comparison .ss-table-wrap table { width:100%; min-width:0; font:400 1rem/1.65 var(--font-body); }
 .ss-service-comparison .ss-table-wrap :is(th,td) { padding:1.5rem 1rem; }
 .ss-service-comparison .ss-table-wrap thead th { font:500 .8125rem/1.5 var(--font-body); letter-spacing:.04em; vertical-align:bottom; }
@@ -50,7 +64,7 @@
 .ss-service-comparison .ss-table-wrap tr:last-child :is(th,td) { border-bottom:0; }
 .ss-recommended { background:color-mix(in srgb,var(--highlight) 22%,transparent); }
 .ss-tier-pick { display:block; font:500 .6875rem/1.4 var(--font-body); letter-spacing:.08em; text-transform:uppercase; color:var(--eyebrow-ink); margin-bottom:.5rem; }
-.ss-credit-note { padding:2rem; border-radius:1.1rem; border:1px solid var(--surface-border); background:linear-gradient(120deg,color-mix(in srgb,var(--highlight) 20%,transparent),var(--surface-soft)); margin:1.5rem 0; }
+.ss-credit-note { padding:2rem; border-radius:var(--card-radius); border:1px solid var(--surface-border); background:linear-gradient(120deg,color-mix(in srgb,var(--highlight) 20%,transparent),var(--surface-soft)); margin:1.5rem 0; }
 .ss-credit-note h3 { margin:.6rem 0; }
 .ss-credit-note details { max-width:var(--ss-prose); border-top:1px solid var(--surface-border); padding-top:1rem; }
 .ss-fee-grid { display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; }
@@ -59,8 +73,13 @@
 .ss-service-comparison .ss-payment-note { max-width:none; margin:1.5rem 0 2.5rem; padding:1.4rem 1.5rem; border:1px solid var(--surface-border); border-radius:.9rem; background:var(--surface-soft); color:var(--text-primary); font-weight:500; }
 .ss-work-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:2rem; }
 .ss-work-grid article>span { color:var(--eyebrow-ink); font-size:.8125rem; letter-spacing:.1em; }
-.ss-service-invitation { padding:3.5rem 2.5rem; margin-bottom:90px; text-align:center; border:1px solid var(--surface-border); border-radius:1.3rem; background:linear-gradient(120deg,color-mix(in srgb,var(--highlight) 25%,transparent),var(--surface-soft)); }
+.ss-service-invitation { padding:3.5rem 2.5rem; margin-bottom:90px; text-align:center; border:1px solid var(--surface-border); border-radius:var(--card-radius); background:linear-gradient(120deg,color-mix(in srgb,var(--highlight) 25%,transparent),var(--surface-soft)); }
 .ss-service-invitation p { margin:1rem auto 1.7rem; }
+/* The one primary action on the page follows the component spec: cobalt pill,
+   uppercase Montserrat 500, .12em tracking, gentle lift on hover */
+.ss-service-invitation .ss-action { display:inline-flex; justify-content:center; gap:.6rem; border-color:transparent; background:var(--accent); color:#fff; font:500 .8rem/1.5 var(--font-body); text-transform:uppercase; letter-spacing:.12em; padding:1rem 2.2rem; box-shadow:0 10px 30px -10px rgba(63,114,168,.6); transition:transform .4s cubic-bezier(.25,1,.5,1),background .3s ease; }
+.ss-service-invitation .ss-action:hover { background:var(--accent-hover); transform:translateY(-2px); }
+html.dark .ss-service-invitation .ss-action { color:#1a1d29; }
 .ss-service-comparison .ss-request-footer { border-top:1px solid var(--surface-border); padding:2.5rem 1.5rem; margin:0; font-size:.875rem; }
 .ss-service-comparison .ss-request-footer>a { font:400 1.75rem var(--font-display); text-decoration:none; }
 .ss-request-footer nav { display:flex; flex-wrap:wrap; justify-content:center; gap:1.5rem; margin-top:1.4rem; }

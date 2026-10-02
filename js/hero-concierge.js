@@ -33,6 +33,9 @@ import { guideEndpoint } from './concierge-config.js';
     styling:{question:'How much direction would feel useful?',choices:[['One focused need','styling'],['Several pieces or outfits','styling'],['This is a gift','gift']]}
   };
 
+  const touch=()=>matchMedia('(pointer:coarse)').matches;
+  // On phones the thread grows in the page, so bring the new exchange into view from its first line.
+  function reveal() { const top=thread.getBoundingClientRect().top; if(top<96||top>innerHeight*.55) thread.scrollIntoView({block:'start',behavior:quiet()?'auto':'smooth'}); }
   function quiet() { return reduce.matches || document.documentElement.classList.contains('rm'); }
   function clearTimers() { timers.forEach(clearTimeout); timers=[]; }
   function later(fn,delay) { const id=setTimeout(fn,delay); timers.push(id); return id; }
@@ -88,7 +91,7 @@ import { guideEndpoint } from './concierge-config.js';
     card.querySelectorAll('[data-topic]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.topic===topic)));
     const group=document.createElement('div'); group.dataset.exchange=String(exchanges);
     group.append(makeMessage('user',question));
-    const answerNode=makeMessage('guide','Preparing the answer…'); answerNode.classList.add('ss-message-preparing'); group.append(answerNode); thread.append(group); follow(wasNear);
+    const answerNode=makeMessage('guide','Preparing the answer…'); answerNode.classList.add('ss-message-preparing'); group.append(answerNode); thread.append(group); follow(wasNear); reveal();
     if(useModel && guideEndpoint) {
       controller=new AbortController();const currentController=controller;
       const timeout=setTimeout(()=>currentController.abort(),15000);
@@ -129,7 +132,7 @@ import { guideEndpoint } from './concierge-config.js';
       const button=document.createElement('button'); button.type='button'; button.textContent=label;
       button.addEventListener('click',()=>next==='photo'?qualify('photo',label):answer(next,label)); choices.append(button);
     });
-    group.append(choices); thread.append(group); follow(true); card.classList.add('ss-has-answer');
+    group.append(choices); thread.append(group); follow(true); reveal(); card.classList.add('ss-has-answer');
     more.hidden=true; moreToggle.setAttribute('aria-expanded','false'); moreToggle.textContent='Choose another question'; live.textContent=flow.question;
   }
   function has(text,terms) {
@@ -175,7 +178,7 @@ import { guideEndpoint } from './concierge-config.js';
     thread.replaceChildren(makeMessage('guide',opening));
     card.querySelectorAll('[data-topic]').forEach(button=>button.setAttribute('aria-pressed','false'));
     more.hidden=true;moreToggle.setAttribute('aria-expanded','false');moreToggle.textContent='See all answers';
-    card.querySelectorAll('[data-topic]').forEach(button=>button.disabled=false); reset.hidden=true; emphasize(''); input.focus();
+    card.querySelectorAll('[data-topic]').forEach(button=>button.disabled=false); reset.hidden=true; emphasize(''); if(touch()) card.querySelector('[data-topic]').focus({preventScroll:true}); else input.focus();
   }
   function finishPending() { if(pending) completeAnswer(pending.record,pending.answerNode,pending.group,pending.wasNear); }
 
@@ -185,7 +188,7 @@ import { guideEndpoint } from './concierge-config.js';
   }));
   moreToggle.addEventListener('click',()=>{ const open=more.hidden; more.hidden=!open;card.classList.toggle('ss-show-prompts',open); moreToggle.setAttribute('aria-expanded',String(open)); moreToggle.textContent=open?'Show fewer':card.classList.contains('ss-has-answer')?'Choose another question':'See all answers'; });
   input.addEventListener('compositionstart',()=>{composing=true;}); input.addEventListener('compositionend',()=>{composing=false;});
-  form.addEventListener('submit',event=>{ event.preventDefault(); if(composing||state==='preparing'||state==='revealing')return; const question=input.value.trim(); if(!question){error.textContent='Write a short question, or choose one above.';input.focus();return;} answer(classify(question),question,true); input.value=''; });
+  form.addEventListener('submit',event=>{ event.preventDefault(); if(composing||state==='preparing'||state==='revealing')return; const question=input.value.trim(); if(!question){error.textContent='Write a short question, or choose one above.';input.focus();return;} if(touch()) input.blur(); answer(classify(question),question,true); input.value=''; });
   reset.addEventListener('click',restart);
   reduce.addEventListener('change',()=>{if(reduce.matches)finishPending();});
   new MutationObserver(()=>{if(document.documentElement.classList.contains('rm'))finishPending();}).observe(document.documentElement,{attributes:true,attributeFilter:['class']});

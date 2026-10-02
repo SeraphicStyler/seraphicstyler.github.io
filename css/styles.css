@@ -51,8 +51,8 @@
   --aurora-a:#E6F1FC; --aurora-b:#DCEBF8; --aurora-c:#D0E4F5; --aurora-d:#E0EFF8;
   --aurora-e:#CFE6EE; --aurora-f:#DAEAF7; --aurora-g:#D6E6F6; --aurora-h:#E9F3FD;
 
-  /* Lilac tint ramp (lightest → darkest) — ethereal accent scale */
-  --lilac-100:#F5F0FC; --lilac-200:#D4CBE3; --lilac-300:#A89BBD; --lilac-400:#695F77;
+  /* Lilac tint ramp (lightest → darkest) — single-hue lavender→aubergine accent scale */
+  --lilac-100:#F7F3FB; --lilac-200:#E4D9F0; --lilac-300:#B48FCE; --lilac-400:#6E4C8C; --lilac-500:#2E1A3D;
 
   --maxw: 1200px; --maxw-prose: 65ch; --maxw-narrow: 760px;
   --nav-h: clamp(80px, 8vh, 100px);
@@ -307,14 +307,16 @@ html.rm .hero::before, html.rm .hero::after { animation: none; opacity: 0.7; }
 .hero-heading h1 { position: relative; z-index: 1; }
 .hero-heading > .hero-aura { top: 50%; width: min(64rem, 145vw); z-index: -1; }
 html:is(.mono, .hc) .hero-heading > .hero-aura { display: none; }
-/* Dark mode: the bright white bloom shows a hard disc edge against the navy field.
-   Soften it into a dim, cool, heavily-diffused moon-glow that dissolves with no edge. */
+/* Dark mode: keep the luminous orb, but blend it as light (screen) with a long
+   transparent tail so no hard disc edge can form against the navy field. */
 html.dark .hero-aura {
   background: radial-gradient(circle,
-    rgba(222,230,255,0.42) 0%, rgba(186,198,238,0.24) 24%, rgba(150,162,212,0.11) 46%, rgba(120,135,190,0.04) 60%, transparent 72%);
-  filter: blur(40px); opacity: 0.7; animation: aura-pulse-dark 7s ease-in-out infinite;
+    rgba(255,255,255,0.92) 0%, rgba(252,249,255,0.6) 13%, rgba(236,226,248,0.34) 28%,
+    rgba(205,178,232,0.18) 45%, rgba(160,178,235,0.08) 62%, transparent 76%);
+  filter: blur(12px); opacity: 0.95; mix-blend-mode: screen;
+  animation: aura-pulse-dark 7s ease-in-out infinite;
 }
-@keyframes aura-pulse-dark { 0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 0.62; } 50% { transform: translate(-50%,-50%) scale(1.06); opacity: 0.8; } }
+@keyframes aura-pulse-dark { 0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 0.88; } 50% { transform: translate(-50%,-50%) scale(1.06); opacity: 1; } }
 .hero > .wrap { position: relative; z-index: 1; width: min(100%, 44rem); margin-inline: auto; } /* curated frame — keep the hero stack in one composed column */
 .hero-sparkles { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0; animation: hero-amb-in 1.6s ease 0.9s forwards; }
 @keyframes hero-amb-in { to { opacity: 0.6; } } /* ambient effects appear only once the content has settled, and stay quiet */
@@ -870,9 +872,9 @@ html.rm .a11y-panel.open { animation: none; }
 .grid { display: grid; gap: 1.25rem; }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
-.gift-grid-4 { grid-template-columns: repeat(4, 1fr); }
+.gift-grid-4 { grid-template-columns: repeat(3, 1fr); } /* three core tiers since 1 Oct 2026; name kept for the JS selectors */
 @media (max-width: 860px) { .grid-3 { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 1150px) { .gift-grid-4 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 860px) { .gift-grid-4 { grid-template-columns: 1fr; } }
 @media (max-width: 600px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
 @media (max-width: 560px) { .gift-grid-4 { grid-template-columns: 1fr; } }
 .service { padding: 1.4rem 0 0.4rem; border-top: 1px solid var(--surface-border); }

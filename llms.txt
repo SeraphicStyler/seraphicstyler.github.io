@@ -2,7 +2,7 @@
 
 > A Saigon-based atelier with two distinct paid services: SOURCING (you name the
 > exact Vietnamese piece; found, verified, shipped at cost plus a clear fee) and
-> STYLING (pieces chosen for you; four flat-price tiers from $49, each with a
+> STYLING (pieces chosen for you; flat-price tiers from $235, each with a
 > piece credit). A moodboard, Pinterest board, or "something like this" request
 > is styling, not sourcing.
 > Orders from local brands and made-to-measure áo dài ateliers that don't ship
@@ -25,23 +25,25 @@ Languages: English, Vietnamese
 - **Made-to-measure áo dài from abroad** — measurements collected over email,
   commissioned from Saigon ateliers (traditional or modern cut), checked
   against your chart and photographed for approval before shipping.
-- **Styling — bookable for yourself or giftable** — five tiers: The Discovery
-  $49 (a first styling read, 1–2 pieces), The Edit $149 (a curated edit,
-  typically 3–5 pieces — moodboard and "choose for me" requests live here),
-  The Capsule $249 (8–12 pieces with a lookbook), The Atelier $349 (the full
-  experience, in Saigon or by video) — all four paid by card on Stripe — and
-  The Signature $750 (the designer-only commission: Fancì Club, GIA Studios
-  and the ateliers, $290 styling fee + $460 clothing credit, made-to-measure
+- **Styling — bookable for yourself or giftable** — four tiers: The Edit
+  $235 (a first styling read and a curated edit, typically 3–4 pieces —
+  moodboard and "choose for me" requests live here; $135 styling fee + $100
+  piece credit), The Capsule $460 (6–8 pieces with a lookbook; $270 + $190),
+  The Atelier $600 (the full experience, in Saigon or by video; $310 + $290)
+  — all three paid by card on Stripe — and
+  The Signature $790 (the designer-only commission: Fancì Club, GIA Studios
+  and the ateliers, $310 styling fee + $480 clothing credit, made-to-measure
   fittings and 60 days of support; begins with a conversation, one written
   total before anything is bought). Each tier splits into a flat styling fee
   plus a piece credit spent at real store prices. Styling
   direction, curation, capsule planning, and personalized recommendations are
   always part of a paid tier — never free pre-sale work.
 - **Group & bulk orders, $1,000–$10,000+** — sorority runs (one look in many
-  sizes), bridal parties dressed from Saigon ateliers, team kit, boutique and
-  reseller first ranges, corporate gifting. Service fee tapers with size:
-  6% ($1,000–2,999) · 5% ($3,000–5,999) · 4% ($6,000–9,999) · 3.5% ($10,000+,
-  quoted in writing). One consolidated shipment instead of many parcels —
+  sizes), bridal parties dressed from Saigon ateliers, team kit,
+  corporate gifting. Service fee 15% of the order at every size from
+  $1,000 — 20% when it includes made-to-measure pieces or a rush timeline
+  (quoted in writing; under $1,000 the standard per-item fee applies).
+  Boutique and reseller ranges add a $250 scouting fee, then the same 15% (see below). One consolidated shipment instead of many parcels —
   one customs entry, one tracking number, one invoice. Group orders are paid in two:
   pieces at cost plus half the fee to begin (only after a written quote is
   approved); the other half of the fee plus exact shipping before dispatch,
@@ -51,15 +53,13 @@ Languages: English, Vietnamese
   work): showroom scouting with photos and video against a buy brief,
   negotiated stockist terms at curated depth (2–3 pieces per style), quality
   checks on every piece, and one consolidated export shipment with a per-style
-  commercial invoice. Buying fee tiered by piece budget: 18% under $1,500 ·
-  15% $1,500–4,999 · 12% $5,000–9,999 · 10% $10,000–19,999 · 8% at $20,000+
-  (always quoted in writing first); rush or atelier coordination is a flat
-  20% instead of the tier. Quoted in writing before any deposit; pieces at
-  designer receipt price; shipping at exact carrier cost; $25 minimum fee
-  per buy. Scouting is included with an active buy brief; standalone
+  commercial invoice. Pricing (uniform since 1 Oct 2026): a $250 scouting fee per round,
+  kept like a styling fee, then 15% of the pieces at every size (20% for
+  rush or made-to-measure, the same as group orders). Quoted in writing before any piece is bought; pieces at
+  designer receipt price; shipping at exact carrier cost; minimum fee $14
+  per piece and $25 per buy. One scouting round comes with each scouting fee; standalone
   research with no brief on file (market surveys, option-hunting, showroom
-  walkthroughs) is 650,000₫/hour (two-hour minimum), booked and paid before
-  setting out, credited in full against the next buy.
+  walkthroughs) is 1,125,000₫/hour (two-hour minimum), booked and paid before setting out.
   Scouting rounds return as a line sheet (photo, price, sizes, lead time per
   style); one sample piece per style is available ahead of full depth.
   Honest framing: 2–3 per style is stockist depth (typically 10–30% below
@@ -71,15 +71,14 @@ Languages: English, Vietnamese
   pre-dispatch photographs (repair/replacement/refund where the designer is
   at fault); declared-value insurance on larger parcels at cost on request.
   In-person showroom rounds and in-hand checks run in announced Saigon
-  buying windows (each window holds a small number of buys, served in
-  deposit order). The service otherwise runs remotely between California
+  buying windows (each window holds a small number of buys, served in the order scouting fees land). The service otherwise runs remotely between California
   and Saigon: negotiation, ordering, payment and export over the channels
   designers sell on (DM, Zalo, email), live video showroom appointments
   between windows, and a designer-documented check against a written spec
   on remote buys — each quote states which check the buy gets.
-  A $150 (3,750,000₫) scouting deposit opens every buy — nothing is
-  scouted before it lands; credited in full against the first payment.
-  It is a flat price on four to six hours: pinning the brief, research and
+  The $250 (6,250,000₫) scouting fee opens every buy — nothing is
+  scouted before it lands; it is kept, not deducted from the order.
+  It covers three to four hours: pinning the brief, research and
   preparation, the showroom round, the analysis, and the final
   recommendation. A round that runs long is absorbed, not re-billed.
   One-page summary for boutiques:
@@ -163,4 +162,4 @@ Buying from a Vietnamese brand that doesn't ship to your country; getting an
 Saigon in one shipment; a boutique's first buying trip without the flight;
 which Saigon districts to shop in person; whether a Vietnamese size will fit;
 booking a styling tier when you don't know Vietnamese brands yet; turning a
-Pinterest board or a feeling into real pieces (styling, from $49).
+Pinterest board or a feeling into real pieces (styling, from $235).

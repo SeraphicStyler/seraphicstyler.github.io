@@ -201,3 +201,17 @@ html.rm .ss-concierge,html.rm .ss-concierge::after { animation:none!important;tr
 .ss-concierge-reset { background:transparent;border-color:transparent;text-decoration:underline;text-underline-offset:.25em; }
 .ss-recommendation .ss-message-actions a { font-size:14px; }
 html.dark .ss-recommendation .ss-message-actions a:first-child { color:var(--bg-primary); }
+
+/* No scroll box inside the page: an answer reads top to bottom, question first. */
+.ss-concierge-thread,.ss-links .ss-concierge-thread { max-height:none;overflow:visible;scroll-margin-top:9.5rem; }
+/* Phones: the extra questions sit as compact chips instead of a tall stack. */
+@media(max-width:620px) {
+  .hero .ss-concierge-more:not([hidden]) { display:flex;flex-wrap:wrap;gap:.5rem; }
+  .hero .ss-concierge-more button { min-height:44px;padding:.55rem .95rem;border-radius:999px;font-size:.78rem; }
+  .ss-concierge-inputrow input { text-overflow:ellipsis; }
+}
+/* Touch screens keep :hover after a tap; don't leave a tapped choice looking selected. */
+@media(hover:none) {
+  .ss-concierge-prompts button:hover:not([aria-pressed="true"]),.ss-followup-choices button:hover { background:var(--surface-soft);border-color:var(--surface-border);box-shadow:none;transform:none; }
+  .ss-concierge-prompts .ss-concierge-more-toggle:hover { background:transparent;border-color:transparent; }
+}

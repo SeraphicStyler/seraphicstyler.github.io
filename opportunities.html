@@ -36,8 +36,10 @@
   </script>
   <link rel="stylesheet" href="css/atelier-bokeh.css?v=2026-09-11b">
   <link rel="stylesheet" href="css/theme.css?v=2026-09-10">
-  <link rel="stylesheet" href="css/opportunities.css?v=2026-09-11b">
+  <link rel="stylesheet" href="css/opportunities.css?v=2026-09-12">
   <script src="js/theme.js?v=2026-09-10"></script>
+  <script src="js/i18n-site.js?v=2026-09-12" defer></script>
+  <script src="js/geo-lang.js?v=2026-09-12" defer></script>
 </head>
 <body class="ss-ethereal ss-opp">
   <div class="grain" aria-hidden="true"></div>
@@ -202,10 +204,14 @@
     <section class="opp-section" id="apply" aria-labelledby="apply-title">
       <div class="opp-heading reveal"><div class="opp-beacon" aria-hidden="true"></div>
         <h2 id="apply-title">Apply</h2>
-        <p>Tell us a little about yourself, share something you&rsquo;ve made or worked on, and explain what interests you about Seraphic Styler. It takes about 10–15 minutes. We read every application and reply to promising ones within a week.</p>
+        <p>Tell us a little about yourself, share something you&rsquo;ve made or worked on, and explain what interests you about Seraphic Styler. Three short questions — most people finish in about 10 minutes. We read every application and reply to promising ones within a week.</p>
       </div>
 
       <form class="opp-form reveal" id="opp-form" novalidate>
+        <div class="opp-progress" aria-hidden="true">
+          <span class="opp-progress-text" id="opp-progress-text">0 of 12 answered</span>
+          <div class="opp-progress-bar"><i id="opp-progress-fill"></i></div>
+        </div>
         <div class="opp-form-grid">
           <div class="field">
             <label for="f-name">Full name <span class="req" aria-hidden="true">*</span></label>
@@ -225,31 +231,32 @@
           </div>
         </div>
 
-        <fieldset class="field" style="border:0;padding:0;margin:0 0 1.15rem">
-          <legend class="a11y-h" style="font-family:var(--font-body);font-weight:600;font-size:.71rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-primary);margin-bottom:.4rem">Which path interests you? <span class="req" aria-hidden="true">*</span></legend>
+        <fieldset class="field opp-paths-field">
+          <legend class="opp-legend">Which paths interest you? <span class="req" aria-hidden="true">*</span> <span class="opp-legend-note">— choose any that fit</span></legend>
           <div class="opp-path-pick">
-            <label class="opp-pick"><input type="radio" name="path" value="International Marketing & Commerce Internship" required><span>Internship</span></label>
-            <label class="opp-pick"><input type="radio" name="path" value="Bilingual Translation & International Trade Support"><span>Bilingual translation</span></label>
-            <label class="opp-pick"><input type="radio" name="path" value="Creative Collaboration / Brand Ambassador"><span>Creative collaboration</span></label>
-            <label class="opp-pick"><input type="radio" name="path" value="Multiple paths — not sure yet"><span>Multiple / unsure</span></label>
+            <label class="opp-pick"><input type="checkbox" name="path" value="International Marketing & Commerce Internship"><span>Internship</span></label>
+            <label class="opp-pick"><input type="checkbox" name="path" value="Bilingual Translation & International Trade Support"><span>Bilingual translation</span></label>
+            <label class="opp-pick"><input type="checkbox" name="path" value="Creative Collaboration / Brand Ambassador"><span>Creative collaboration</span></label>
+            <label class="opp-pick"><input type="checkbox" name="path" value="Multiple paths — not sure yet"><span>Not sure yet</span></label>
           </div>
         </fieldset>
 
         <div class="opp-form-grid">
           <div class="field">
-            <label for="f-linkedin">LinkedIn <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-secondary)">(optional)</span></label>
+            <label for="f-linkedin">LinkedIn <span class="opt">(optional)</span></label>
             <input id="f-linkedin" name="linkedin" type="url" inputmode="url" placeholder="https://linkedin.com/in/…" autocomplete="url">
           </div>
           <div class="field">
-            <label for="f-resume">Résumé / CV link <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-secondary)">(optional)</span></label>
+            <label for="f-resume">Résumé / CV link <span class="opt">(optional)</span></label>
             <input id="f-resume" name="resume" type="url" inputmode="url" placeholder="Drive, Dropbox, personal site…">
-            <p class="hint">A shared link is fine — no files to upload here.</p>
+            <p class="hint">A shared link is fine. No online copy? Email a PDF to <a href="mailto:seraphicstyler@gmail.com">seraphicstyler@gmail.com</a> after submitting, with your name in the subject.</p>
           </div>
         </div>
 
         <div class="field">
-          <label for="f-summary">Background summary <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-secondary)">(if you don&rsquo;t have a résumé)</span></label>
+          <label for="f-summary">Background summary <span class="opt">(if you don&rsquo;t have a résumé)</span></label>
           <textarea id="f-summary" name="summary" rows="3" maxlength="900" placeholder="Two or three lines on what you study or do, and what you&rsquo;re drawn to."></textarea>
+          <p class="opp-wordcount" data-for="f-summary">0 words</p>
         </div>
 
         <div class="field">
@@ -271,34 +278,29 @@
         </div>
 
         <div class="field">
-          <label for="q1">Why are you interested in Seraphic Styler specifically? <span class="req" aria-hidden="true">*</span></label>
-          <textarea id="q1" name="why" rows="5" maxlength="1200" required placeholder="Mention something from the site or our content that caught your attention. (75–150 words)"></textarea>
+          <label for="q1">Why Seraphic Styler — and what would you most like to learn or become better at through this experience? <span class="req" aria-hidden="true">*</span></label>
+          <textarea id="q1" name="why" rows="5" maxlength="1400" required placeholder="Mention something from the site or our content that caught your attention. (75–150 words)"></textarea>
           <p class="opp-wordcount" data-for="q1">0 words · aim for 75–150</p>
         </div>
 
         <div class="field">
-          <label for="q2">Share one project you&rsquo;re proud of. What did you personally contribute, and what did you learn? <span class="req" aria-hidden="true">*</span></label>
+          <label for="q2">Share one project you&rsquo;re proud of. What did you personally contribute, how did you handle any limits of time or resources, and what did you learn? <span class="req" aria-hidden="true">*</span></label>
           <textarea id="q2" name="project" rows="5" maxlength="1400" required placeholder="Coursework, personal projects, event organizing, research, or content — anything real."></textarea>
+          <p class="opp-wordcount" data-for="q2">0 words</p>
         </div>
 
         <div class="field">
           <label for="q3">Which country, region, or community would you be interested in helping us understand or reach? What connection or insight would you bring? <span class="req" aria-hidden="true">*</span></label>
           <textarea id="q3" name="region" rows="4" maxlength="1200" required></textarea>
+          <p class="opp-wordcount" data-for="q3">0 words</p>
         </div>
 
-        <div class="field">
-          <label for="q4">What would you most like to learn or become better at through this experience? <span class="req" aria-hidden="true">*</span></label>
-          <textarea id="q4" name="learn" rows="4" maxlength="1200" required></textarea>
-        </div>
-
-        <div class="field">
-          <label for="q5">Tell us about a time you completed a commitment with limited time or resources. How did you handle it? <span class="req" aria-hidden="true">*</span></label>
-          <textarea id="q5" name="commitment" rows="4" maxlength="1200" required></textarea>
-        </div>
-
-        <div class="field">
-          <label for="q6">If you work in Vietnamese and English, tell us about your translation or cross-language experience <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-secondary)">(optional)</span></label>
-          <textarea id="q6" name="bilingual" rows="4" maxlength="1200" placeholder="Coursework, translation work, bilingual life or community experience — anything relevant."></textarea>
+        <div class="opp-conditional" id="cond-translate" hidden>
+          <div class="field">
+            <label for="q6">Vietnamese–English translation and cross-language experience <span class="req" id="q6-req" aria-hidden="true">*</span></label>
+            <textarea id="q6" name="bilingual" rows="4" maxlength="1200" placeholder="Coursework, translation work, bilingual life or community experience — anything relevant."></textarea>
+            <p class="opp-wordcount" data-for="q6">0 words</p>
+          </div>
         </div>
 
         <div class="opp-conditional" id="cond-intern" hidden>
@@ -306,6 +308,7 @@
             <label for="qi">What does your university require from a placement? <span class="req" aria-hidden="true">*</span></label>
             <textarea id="qi" name="university_requirements" rows="4" maxlength="1200" placeholder="Dates, total hours, supervision, paperwork, learning outcomes, payment requirements."></textarea>
             <p class="hint">If you&rsquo;re not a student, write “not applicable”.</p>
+            <p class="opp-wordcount" data-for="qi">0 words</p>
           </div>
         </div>
 
@@ -313,12 +316,13 @@
           <div class="field">
             <label for="qc">What kind of collaboration interests you, and what compensation, resources, or other support would make it workable for you? <span class="req" aria-hidden="true">*</span></label>
             <textarea id="qc" name="collaboration_terms" rows="4" maxlength="1200" placeholder="Be honest — knowing what you need helps us design something fair."></textarea>
+            <p class="opp-wordcount" data-for="qc">0 words</p>
           </div>
         </div>
 
         <label class="opp-ack">
           <input type="checkbox" id="f-ack" required>
-          <span>I understand that Seraphic Styler currently has no salary, stipend, or creator-fee budget, and that submitting this form does not establish a placement or collaboration.</span>
+          <span>I understand that Seraphic Styler currently has no salary, stipend, or creator-fee budget, and that submitting this form does not establish a placement or collaboration. <a href="#expect">What this means →</a></span>
         </label>
 
         <p class="opp-privacy">Your answers are used only to assess your application and to reply to you. Submitted applications are stored in the site owner&rsquo;s form dashboard (Tally), never sold or shared, and deleted within six months if we don&rsquo;t work together.</p>
@@ -338,6 +342,7 @@
           <a class="bio-ghost" href="#" id="opp-mailto">Open in email</a>
           <button class="bio-ghost" type="button" id="opp-edit">Edit answers</button>
         </div>
+        <p class="opp-review-note">What happens next: your application lands in our form dashboard. We read every one, and if yours looks like a fit you&rsquo;ll hear from us within a week.</p>
       </section>
     </section>
 
@@ -353,6 +358,6 @@
   <script src="js/i18n-dom.js"></script>
   <script src="js/i18n.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/opportunities.js?v=2026-09-11b"></script>
+  <script src="js/opportunities.js?v=2026-09-12"></script>
 </body>
 </html>
