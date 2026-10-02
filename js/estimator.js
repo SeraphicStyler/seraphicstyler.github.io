@@ -183,12 +183,15 @@ function SS_fmtRate(v) {
     .forEach(function (id) { el[id] = document.getElementById(id); });
   if (!el.lineItems) return; // not on a page with the estimator
 
+  var CURRENCIES=['USD','EUR','GBP','AUD','CAD','SGD','HKD','JPY','KRW','CNY','THB','AED','SAR','BHD','INR','VND'];
   function populateCurrencies() {
     if(!el.estCurrency)return;
     var selected=el.estCurrency.value||'USD';
-    var codes=Array.from(el.estCurrency.options,function(o){return o.value;});
-    try{if(typeof Intl.supportedValuesOf==='function')codes=Intl.supportedValuesOf('currency');}catch(e){}
-    codes=Array.from(new Set(codes.concat(Object.keys(allRates||{}),['USD','VND'],[selected]))).filter(function(c){return /^[A-Z]{3}$/.test(c);}).sort();
+    /* A short list of the currencies clients actually pay in — US dollar first,
+       đồng last. A currency a shared link was made in is kept even if it isn't
+       listed. Edit CURRENCIES to add one. */
+    var codes=CURRENCIES.slice();
+    if(codes.indexOf(selected)<0&&/^[A-Z]{3}$/.test(selected))codes.splice(1,0,selected);
     var names;try{names=new Intl.DisplayNames([document.documentElement.lang||'en'],{type:'currency'});}catch(e){}
     el.estCurrency.textContent='';
     codes.forEach(function(code){var option=document.createElement('option');option.value=code;option.textContent=code+(names?' — '+names.of(code):'');el.estCurrency.appendChild(option);});
