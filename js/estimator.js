@@ -732,9 +732,23 @@ function SS_fmtRate(v) {
      quoted at; restore() puts it back and pins that rate, so the client sees
      the figures I saw, not tomorrow's. The Worker stores it for 24h and then
      deletes it (api.seraphicstyler.com/v1/estimate-link). */
+  /* The link service accepts http(s) URLs of up to 300 characters. Clients paste
+     "shopee.vn/…", "www.instagram.com/…" or very long tracking URLs, so tidy each
+     one rather than failing the whole link: add https://, drop tracking queries
+     when too long, and leave out text that isn't a link at all. */
+  function cleanLink(raw) {
+    var l = String(raw || '').trim();
+    if (!l) return '';
+    if (!/^https?:\/\//i.test(l)) {
+      if (/\s/.test(l) || !/^[\w-]+(\.[\w-]+)+(\/|$|\?|#|:)/.test(l.replace(/^\/\//, ''))) return '';
+      l = 'https://' + l.replace(/^\/\//, '');
+    }
+    if (l.length > 300) l = l.split(/[?#]/)[0];
+    return l.length > 300 ? '' : l;
+  }
   function snapshot() {
     var prices = readItems(), links = readLinks(), items = [], lk = [];
-    prices.forEach(function (v, i) { if (v > 0) { items.push(Math.round(v)); lk.push(links[i] || ''); } });
+    prices.forEach(function (v, i) { if (v > 0) { items.push(Math.round(v)); lk.push(cleanLink(links[i])); } });
     var c = curCode();
     return {
       items: items, links: lk, region: el.region.value, region2: (el.region2 && el.region2.value) || '',
