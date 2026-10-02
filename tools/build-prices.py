@@ -51,8 +51,9 @@ sections=''.join([
    bul('<strong>The item</strong> at the shop’s own price. I never add a markup.',
        '<strong>My fee: $14 per item.</strong> Items over $175 are 8% of the price instead, and items over $200 are 7%.',
        '<strong>$10 per order</strong> for packing and coordination. Two shops are included; each extra shop is $6.',
+       '<strong>3% currency transfer</strong> on the order, which covers sending your money to the shop in đồng.',
        '<strong>Shipping</strong> at the courier’s actual cost, quoted before it ships.')+
-   ex('one $60 dress',[('Dress','$60'),('My fee','$14'),('Order fee','$10')],('You pay','$84 + shipping')),
+   ex('one $60 dress',[('Dress','$60'),('My fee','$14'),('Order fee','$10'),('Currency transfer, 3%','$2.52')],('You pay','$86.52 + shipping')),
    btn(SR+'sourcing','Buy a piece →')),
  sec('trace',2,'You have a photo, but no link','The Trace','$25','per item',
    bul('I find out what the piece is and who sells it, and reply within 48 hours.',
@@ -87,7 +88,7 @@ sections=''.join([
 always=bul('<strong>Nothing is bought without your yes.</strong> You see the photo, price and size first.',
  '<strong>Your price is confirmed in writing</strong> before you pay. That written quote is what you pay.',
  '<strong>Shipping</strong> is the courier’s actual cost on the day it ships, including the fuel and peak-season surcharges couriers add (high this autumn). It’s quoted before you pay for it. <strong>Import duties and taxes</strong> in your country are yours.',
- '<strong>Paying:</strong> bank transfer, Zelle and Wise are free. A card adds about 5.4% + $0.30, which is the processor’s fee, shown before you pay. <a href="pay">How payment works</a>.',
+ '<strong>Paying:</strong> bank transfer, Zelle and Wise have no card fee. A card adds about 5.4% + $0.30, which is the processor’s fee, shown before you pay. Orders for pieces also carry the 3% currency transfer. <a href="pay">How payment works</a>.',
  '<strong>Prices are in US dollars.</strong> Shop prices in đồng are converted at 25,000₫ = $1.',
  '<strong>If a piece sells out</strong>, see <a href="policy">returns &amp; credit</a>.')
 

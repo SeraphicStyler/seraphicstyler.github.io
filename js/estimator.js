@@ -269,6 +269,7 @@ function SS_fmtRate(v) {
     row.innerHTML =
       '<div class="li-fields">' +
         '<input class="item-price" type="text" inputmode="numeric" placeholder="e.g. 850,000 or 850k" aria-label="Item price in VND" aria-describedby="estItemsNote">' +
+        '<p class="item-usd" aria-live="off"></p>' +
         '<input class="item-link" type="url" placeholder="URL / link (optional)" aria-label="Item link (optional)">' +
       '</div>' +
       '<button class="remove-item" type="button" aria-label="Remove item">✕</button>';
@@ -471,8 +472,20 @@ function SS_fmtRate(v) {
       '<p class="dc-note">' + esc(t('est.cmp.duty', 'Import duty and customs in the destination country are not included and differ by country — a cheaper route can still cost more after duty. I flag this before you pay.')) + '</p>';
   }
 
+  /* Under each price: the dollars, and my fee on that one piece — so the rule
+     ($14 a piece, 8% / 7% on dearer pieces) is visible where it applies. */
+  function itemHints() {
+    el.lineItems.querySelectorAll('.line-item').forEach(function (row) {
+      var h = row.querySelector('.item-usd'), pIn = row.querySelector('.item-price');
+      if (!h || !pIn) return;
+      var v = parseVnd(pIn.value);
+      h.textContent = v > 0 ? '≈ ' + fmtCur(toCur(v)) + ' · ' + t('est.itemfee', 'my fee') + ' ' + fmtCur(toCur(itemFee(v))) : '';
+    });
+  }
+
   function recalc() {
     var c = compute();
+    itemHints();
     el.rSubtotal.textContent = fmtVnd(c.subtotal);
     el.rFee.textContent = fmtVnd(c.fees);
     el.rFeeNote.textContent = c.nItems ? tf('est.itemcount', '(' + c.nItems + (c.nItems === 1 ? ' item' : ' items') + ')', { n: c.nItems }) : '';
