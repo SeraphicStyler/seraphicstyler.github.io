@@ -783,13 +783,33 @@ function SS_fmtRate(v) {
   function fmtWhen(iso) {
     try { return new Date(iso).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' }); } catch (e) { return iso; }
   }
+  /* A preview freezes the đồng rate it was quoted at, but only stores the one
+     currency it was made in — so any other currency read "Conversion
+     unavailable". Fill the rest from today's table, keeping the frozen đồng
+     rate (so the quoted total never moves). */
+  function fillPreviewRates() {
+    function merge(rates) {
+      if (!rates || !preview || !preview.fx) return;
+      var keep = allRates || {};
+      allRates = Object.assign({}, rates, keep, { USD: 1, VND: preview.fx.vndPerUsd });
+      populateCurrencies(); recalc();
+    }
+    try { var c = JSON.parse(sessionStorage.getItem('ss-fx') || 'null'); if (c && c.d && c.d.rates && (Date.now() - c.t) < 216e5) return merge(c.d.rates); } catch (e) {}
+    fetch('https://open.er-api.com/v6/latest/USD').then(function (r) { return r.json(); })
+      .then(function (d) { if (!d || !d.rates) throw new Error('none'); merge(d.rates); })
+      .catch(function () {
+        fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.min.json').then(function (r) { return r.json(); })
+          .then(function (d) { var src = d && d.usd, rates = {}; if (!src) return; for (var k in src) rates[k.toUpperCase()] = src[k]; merge(rates); })
+          .catch(function () {});
+      });
+  }
   function loadPreview(id) {
     if (el.previewNote) { el.previewNote.style.display = 'block'; el.previewNote.textContent = t('est.preview.loading', 'Loading your preview…'); }
     fetch(API + '/v1/estimate-link/' + encodeURIComponent(id))
       .then(function (r) { return r.json(); })
       .then(function (j) {
         if (!j || !j.ok || !j.estimate) throw new Error('gone');
-        preview = j.estimate; restore(preview); recalc();
+        preview = j.estimate; restore(preview); recalc(); fillPreviewRates();
         if (el.previewNote) el.previewNote.textContent = t('est.preview.note', 'A preview prepared for you by Seraphic Styler — the exact inputs and the rate quoted. It expires ') + fmtWhen(preview.expiresAt) + '.';
       })
       .catch(function () {
