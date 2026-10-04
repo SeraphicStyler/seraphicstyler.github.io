@@ -346,7 +346,7 @@
       window.SS_LANGS = languages;
       window.SS_LANGS_LIST = languages;
       var selects = document.querySelectorAll('#langSelect,.ss-lang-select');
-      if (!selects.length && document.body) {
+      if (!selects.length && document.body && !window.matchMedia('(max-width: 600px)').matches) {
         var label = document.createElement('label');
         label.setAttribute('data-ss-site-language', '');
         label.style.cssText = 'position:fixed;inset-block-end:1rem;inset-inline-end:1rem;z-index:1000;display:flex;align-items:center;gap:.4rem;padding:.4rem .6rem;border:1px solid #8886;border-radius:.6rem;background:Canvas;color:CanvasText;box-shadow:0 2px 10px #0002;font:14px/1.4 system-ui,sans-serif;max-width:calc(100vw - 2rem)';

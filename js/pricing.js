@@ -267,7 +267,7 @@
       out('s1').innerHTML = hUsdOnly(x.scout);
       out('s2math').innerHTML = 'Pieces ' + hUsdOnly(x.budget) + ' + half the buying fee ' + hUsdOnly(x.half);
       out('s2').innerHTML = hUsdOnly(x.stage2);
-      out('s3math').innerHTML = 'The other half of the buying fee ' + hUsdOnly(x.half) + ' + shipping at cost';
+      out('s3math').innerHTML = 'The other half of the buying fee + shipping at cost';
       out('s3').innerHTML = hUsdOnly(x.stage3) + ' + shipping';
       if (out('fullLink')) out('fullLink').setAttribute('href', (o.fullBase || 'boutique-calculator') + '?' + query());
       if (o.onChange) o.onChange(x, query());
@@ -344,7 +344,18 @@
        former gift section now lives inside Styling. */
     show(first);
     if (first === 'individual' && location.hash) {
-      var t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView({ block: 'start' });
+      /* Late paints (fonts, live rates, translated strings) shift the page after
+         the first jump — land on the anchor again as everything settles.
+         scrollIntoView double-applies scroll-margin here, so position manually:
+         section top just under the sticky bar. */
+      var landOnHash = function () {
+        var el = document.getElementById(location.hash.slice(1)); if (!el) return;
+        var bar = document.querySelector('.pr-bar');
+        var clearance = (bar ? bar.getBoundingClientRect().height : 0) + 12;
+        window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - clearance), behavior: 'instant' });
+      };
+      landOnHash();
+      [300, 900, 2000].forEach(function (ms) { setTimeout(landOnHash, ms); });
     }
     /* Scrollspy: the section nav marks where you are. */
     if (nav && 'IntersectionObserver' in window) {

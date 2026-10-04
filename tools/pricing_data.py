@@ -166,7 +166,7 @@ def calc_fallback_html():
             '<h3 class="bcalc-h">When you pay</h3><table class="pay-sched"><thead><tr><th scope="col">When</th><th scope="col">You pay</th><th scope="col" class="num">Amount</th></tr></thead><tbody>'
             f'<tr><th scope="row">To start</th><td>Scouting fee</td><td class="num">{m(x["scout"])}</td></tr>'
             f'<tr><th scope="row">Once you’ve chosen your pieces</th><td>Pieces {m(x["budget"])} + half the buying fee {m(x["half"])}</td><td class="num">{m(x["stage2"])}</td></tr>'
-            f'<tr><th scope="row">Once every piece is photographed and approved</th><td>The other half of the buying fee {m(x["half"])} + shipping at cost</td><td class="num">{m(x["stage3"])} + shipping</td></tr>'
+            f'<tr><th scope="row">Once every piece is photographed and approved</th><td>The other half of the buying fee + shipping at cost</td><td class="num">{m(x["stage3"])} + shipping</td></tr>'
             '</tbody></table><p class="bcalc-static-note">Turn on JavaScript to work out your own numbers.</p></div>')
 
 

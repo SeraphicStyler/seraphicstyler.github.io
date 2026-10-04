@@ -32,11 +32,17 @@
 
 /* ---- Boutique fee trio ------------------------------------------------- */
 .fee-trio { list-style: none; margin: 1.2rem 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; }
-@media (max-width: 560px) { .fee-trio { grid-template-columns: 1fr; } }
 .fee-trio li { border: 1px solid var(--surface-border); border-radius: 16px; background: var(--surface); padding: .95rem .9rem; text-align: center; }
 .fee-trio b { display: block; font-family: 'Cormorant Garamond', var(--font-display); font-weight: 500; font-size: 2rem; line-height: 1; color: var(--accent); }
 .fee-trio span { display: block; margin-top: .4rem; font: 500 .84rem/1.35 var(--font-body); color: var(--text-primary); }
 .fee-trio small { display: block; margin-top: .25rem; font: .76rem/1.5 var(--font-body); color: var(--text-secondary); }
+@media (max-width: 560px) {
+  .fee-trio { gap: .35rem; margin: .8rem 0; }
+  .fee-trio li { padding: .5rem .3rem; border-radius: 12px; }
+  .fee-trio b { font-size: 1.2rem; }
+  .fee-trio span { margin-top: .2rem; font-size: .68rem; }
+  .fee-trio small { display: none; }
+}
 
 /* ---- Boutique calculator ------------------------------------------------ */
 .bcalc { border: 1px solid var(--surface-border); border-radius: 20px; padding: clamp(1.1rem, 4vw, 1.7rem);
