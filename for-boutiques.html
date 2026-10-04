@@ -134,19 +134,13 @@
     .bq-foot .dot { opacity: 0.4; margin: 0 0.5rem; }
     .bq-sec a { color: var(--accent-deep); }
 
-    /* Tier card table — mirrors the index.html #boutique layout */
-    .bq-tiers { display: grid; gap: 0; margin: 2rem 0 0; border: 1px solid var(--surface-border); border-radius: 14px; overflow: hidden; }
-    .bq-tier { display: flex; align-items: flex-start; justify-content: space-between; gap: 1.2rem;
-      padding: 1rem 1.25rem; border-bottom: 1px solid var(--surface-border); }
-    .bq-tier:last-child { border-bottom: none; }
-    .bq-tier-left { flex: 1; min-width: 0; }
-    .bq-tier-left .range { font-family: var(--font-brand); text-transform: uppercase; letter-spacing: 0.18em;
-      font-size: 0.6rem; color: var(--eyebrow-ink); margin: 0 0 0.3rem; }
-    .bq-tier-left .sub { margin: 0; font-family: var(--font-accent); font-size: 0.76rem;
-      letter-spacing: 0.02em; line-height: 1.7; color: var(--text-secondary); }
-    .bq-tier-right { flex-shrink: 0; font-family: var(--font-display); font-weight: 300;
-      font-size: 1.8rem; color: var(--accent-deep); white-space: nowrap; font-variant-numeric: tabular-nums; }
-    .bq-tier-right .sm { font-size: 0.38em; letter-spacing: 0.04em; opacity: 0.72; }
+    /* Terms as bullets — one line per fee, the number leading */
+    .bq-terms { list-style: none; margin: 1.6rem 0 0; padding: 0; display: grid; gap: 0.85rem; }
+    .bq-terms > li { position: relative; padding-left: 1.5rem; font-family: var(--font-accent);
+      font-size: 0.88rem; letter-spacing: 0.02em; line-height: 1.7; color: var(--text-secondary); }
+    .bq-terms > li::before { content: '+'; position: absolute; left: 0; top: 0; color: var(--accent); font-weight: 600; }
+    .bq-terms strong { color: var(--text-primary); font-weight: 600; }
+    .bq-terms a { color: var(--accent); text-underline-offset: 3px; }
     .bq-tierfoot { margin: 0.9rem 0 0; font-family: var(--font-accent); font-size: 0.76rem;
       letter-spacing: 0.02em; line-height: 1.75; color: var(--text-secondary); }
     .bq-tierfoot strong { color: var(--text-primary); font-weight: 500; }
@@ -180,50 +174,14 @@
       <span class="bq-sec-e">The fee</span>
       <h2 id="bq-fee-h">The terms, in plain numbers</h2>
 
-      <div class="bq-tiers">
-        <div class="bq-tier">
-          <div class="bq-tier-left">
-            <p class="range">Scouting fee · per round</p>
-            <p class="sub">6,250,000₫ — three to four hours: pinning the brief, designer outreach, the showroom round, and a line sheet of every option. Paid before I start and kept, like a styling fee — it is not deducted from the order. If you decide not to buy, the research and line sheet are yours. <a href="https://buy.stripe.com/aFafZi2jtdjF9AsavUaAw0e?client_reference_id=for-boutiques-page" target="_blank" rel="noopener">Pay the scouting fee by card →</a></p>
-          </div>
-          <div class="bq-tier-right">$250</div>
-        </div>
-        <div class="bq-tier">
-          <div class="bq-tier-left">
-            <p class="range">Buying fee · every size</p>
-            <p class="sub">of the pieces — the same rate as group orders. Pieces stay at the designer’s price, never marked up</p>
-          </div>
-          <div class="bq-tier-right">15%</div>
-        </div>
-        <div class="bq-tier">
-          <div class="bq-tier-left">
-            <p class="range">Rush or made-to-measure</p>
-            <p class="sub">replaces the 15% rather than adding to it, and is agreed in writing before we start</p>
-          </div>
-          <div class="bq-tier-right">20%</div>
-        </div>
-        <div class="bq-tier">
-          <div class="bq-tier-left">
-            <p class="range">Minimum fee</p>
-            <p class="sub">and never under $25 a buy — the same floor as buying a single piece. Example: 24 pieces at 1,000,000₫ come to ≈$913, where 15% would be only ≈$137 — so the fee becomes 24 × $14 = $336. It only reaches inexpensive pieces; your quote shows whichever is higher</p>
-          </div>
-          <div class="bq-tier-right">$14<span class="sm"> /piece</span></div>
-        </div>
-        <div class="bq-tier">
-          <div class="bq-tier-left">
-            <p class="range">Retainer</p>
-            <p class="sub">no subscription — agencies charge $500–2,500 a month; here you pay when you buy</p>
-          </div>
-          <div class="bq-tier-right">$0</div>
-        </div>
-        <div class="bq-tier">
-          <div class="bq-tier-left">
-            <p class="range">Research rate</p>
-            <p class="sub">1,125,000₫ an hour, two-hour minimum, prepaid — for market surveys or option-hunting before a buy brief exists. The same hourly rate my styling is priced on.</p>
-          </div>
-          <div class="bq-tier-right">$45<span class="sm"> /hr</span></div>
-        </div>
-      </div>
+      <ul class="bq-terms">
+        <li><strong>$250 scouting fee · per round</strong> — 6,250,000₫: three to four hours pinning the brief, designer outreach, the showroom round, and a line sheet of every option. Paid before I start and kept, like a styling fee — it is not deducted from the order. If you decide not to buy, the research and line sheet are yours. <a href="https://buy.stripe.com/aFafZi2jtdjF9AsavUaAw0e?client_reference_id=for-boutiques-page" target="_blank" rel="noopener">Pay the scouting fee by card →</a></li>
+        <li><strong>15% buying fee · every size</strong> — of the pieces, the same rate as group orders. Pieces stay at the designer’s price, never marked up.</li>
+        <li><strong>20% rush or made-to-measure</strong> — replaces the 15% rather than adding to it, and is agreed in writing before we start.</li>
+        <li><strong>$14/piece minimum fee</strong> — and never under $25 a buy, the same floor as buying a single piece. Example: 24 pieces at 1,000,000₫ come to ≈$913, where 15% would be only ≈$137 — so the fee becomes 24 × $14 = $336. It only reaches inexpensive pieces; your quote shows whichever is higher.</li>
+        <li><strong>$0 retainer</strong> — no subscription: agencies charge $500–2,500 a month; here you pay when you buy.</li>
+        <li><strong>$45/hr research rate</strong> — 1,125,000₫ an hour, two-hour minimum, prepaid, for market surveys or option-hunting before a buy brief exists. The same hourly rate my styling is priced on.</li>
+      </ul>
       <p class="bq-tierfoot">One rate at every size, so there are no thresholds to land on. <strong>Your written quote shows three numbers before you commit to a single piece:</strong> the scouting fee, 15% of the pieces, and shipping at cost.</p>
       <p class="bq-tierfoot"><a href="boutique-calculator">Work out your buy in dollars →</a> · <a href="#btqEst">the full estimator, with duty and margin</a></p>
     </section>
