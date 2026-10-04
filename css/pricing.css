@@ -223,3 +223,15 @@ html:not(.js) .pm:not(.pm-js) .pm-more { display: none; }
 .pm .lg-bul > li::before { content: ''; position: absolute; left: .1rem; top: .82em; width: .62rem; height: .62rem;
   background: linear-gradient(135deg, var(--accent), #b7a6e6); clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%); }
 .pm .lg-bul strong { color: var(--text-primary); font-weight: 500; }
+
+/* Individuals' service sections read centered, matching the boutique blocks. */
+#view-individuals .pr-sec { text-align: center; }
+#view-individuals .pr-sec p, #view-individuals .pr-sec li, #view-individuals .pr-sec figcaption { margin-left: auto; margin-right: auto; }
+#view-individuals .pr-points { list-style: none; padding-left: 0; }
+#view-individuals .pr-points > li { padding-left: 0; }
+#view-individuals .pr-points > li::before { content: none; }
+#view-individuals .pr-price { justify-content: center; }
+#view-individuals .pr-ex { max-width: 34rem; margin-left: auto; margin-right: auto; }
+#view-individuals .pr-cta { justify-content: center; }
+#view-individuals .price-table th, #view-individuals .price-table td { text-align: left; }
+#view-individuals .price-table .num, #view-individuals .price-table td.num { text-align: right; }
