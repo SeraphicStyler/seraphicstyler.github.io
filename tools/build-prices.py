@@ -41,6 +41,10 @@ def example(title, rows, total, note=None):
             f'<table class="pr-ex-table"><tbody>{body}</tbody>{foot}</table>{n}</figure>')
 
 
+def steps(*items):
+    return '<ol class="pr-steps">' + ''.join(f'<li>{i}</li>' for i in items) + '</ol>'
+
+
 def modules(idp='', home=False):
     """The four individual services. idp prefixes every id (the homepage uses
     'pm-' so nothing collides with its own sections); home switches links to
@@ -56,6 +60,10 @@ def modules(idp='', home=False):
     buy_total = item + fee + order + transfer
     out.append(dict(
         id='buy', who='You have a link or know the item', title='Sourcing', price=h_vnd(s['minFeeVnd']), price_sub='per item, most items',
+        steps='' if home else steps('<b>Get your price.</b> Type the shop price and paste the link.',
+                                    '<b>Send it to me.</b> I confirm stock, size and the exact total.',
+                                    '<b>You approve.</b> I buy it, check it in person and send you photos.',
+                                    '<b>It ships.</b> Tracked, worldwide.'),
         body=bul('<strong>The item</strong> at the shop’s own price. I never add a markup.',
                  f'<strong>My fee: {h_vnd(s["minFeeVnd"])} per item.</strong> Items over {h_vnd(s["minFeeVnd"] / s["rate"])} are {pct(s["rate"])} of the price instead, and items over {h_vnd(s["highFromVnd"])} are {pct(s["highRate"])}.',
                  f'<strong>{h_vnd(order)} per order</strong> for packing and coordination. {["No", "One", "Two", "Three"][s["shopsIncluded"]]} shops are included; each extra shop is {h_vnd(s["extraShopVnd"])}.',
@@ -74,6 +82,10 @@ def modules(idp='', home=False):
     due = buy_total - (tr['usd'] * FX if tr['credited'] else 0)
     out.append(dict(
         id='trace', who='You have a photo, but no link', title='The Trace', price=h_usd(tr['usd']), price_sub='per item',
+        steps='' if home else steps('<b>Send the photo.</b> A photo is enough — no link needed.',
+                                    f'<b>I trace it.</b> What the piece is and who sells it, within {tr["replyHours"]} hours.',
+                                    '<b>You decide.</b> Order it and the tracing fee comes off.',
+                                    '<b>It ships.</b> Tracked, worldwide.'),
         body=bul(f'I find out what the piece is and who sells it, and reply within {tr["replyHours"]} hours.',
                  (f'<strong>If you then order it, the {h_usd(tr["usd"])} comes off your order.</strong>' if tr['credited']
                   else 'It pays for the research, whether or not you order.'),
@@ -87,6 +99,10 @@ def modules(idp='', home=False):
     extra = max(0, ex['piecesUsd'] - cap['creditUsd'])
     out.append(dict(
         id='styling', who='You want me to choose', title='Styling', price='from ' + h_usd(DATA['styling'][0]['totalUsd']), price_sub='a fee, plus money for your clothes',
+        steps='' if home else steps('<b>Pick a tier.</b> One focused need or a whole wardrobe.',
+                                    '<b>I choose.</b> Pieces at the shop’s price, within your clothing credit.',
+                                    '<b>You approve.</b> Nothing is bought without your yes.',
+                                    '<b>It ships.</b> Tracked, worldwide.'),
         body=bul('Every tier has two parts: <strong>my styling fee</strong>, and <strong>money that is spent on your clothes</strong> at the shop’s price.',
                  'If you love pieces that cost more, I ask before spending any more.',
                  'Styling is charged in US dollars. Shipping is added separately.')
@@ -105,6 +121,10 @@ def modules(idp='', home=False):
     pieces_usd = ge['pieces'] * ge['eachUsd']
     out.append(dict(
         id='group', who='Weddings, sororities, events, friends', title='Group orders', price=pct(g['pct']), price_sub=f'of the order, from {from_usd(g["fromUsd"])}',
+        steps='' if home else steps('<b>Send the list.</b> Pieces, sizes, and the date you need them.',
+                                    f'<b>I quote.</b> {pct(g["pct"])} of the order, confirmed in writing.',
+                                    '<b>You approve.</b> I buy, check every piece, send you photos.',
+                                    '<b>One parcel ships.</b> Tracked, worldwide.'),
         body=bul(f'<strong>Orders of {h_usd(g["fromUsd"])} or more:</strong> my fee is {pct(g["pct"])} of the order, or {pct(g["rushPct"])} if pieces are made to measure or rushed.',
                  f'Orders under {h_usd(g["fromUsd"])} are priced like <a href="#{idp}buy">sourcing</a>, item by item.',
                  f'On orders under {h_usd(g["minDistinctUnderUsd"])}, every different piece costs at least {h_vnd(s["minFeeVnd"])} in fee. Multiples of the same piece don’t count.',
@@ -133,6 +153,7 @@ def section(m):
         <p class="pr-who">{m["who"]}</p>
         <h2 id="{m["id"]}-h">{m["title"]}</h2>
         <div class="pr-price"><b>{m["price"]}</b><span>{m["price_sub"]}</span></div>
+        {m.get("steps", "")}
         {m["body"]}
         <div class="pr-cta">{m["cta"]}</div>
       </section>'''

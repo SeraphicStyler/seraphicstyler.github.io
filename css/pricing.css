@@ -235,3 +235,10 @@ html:not(.js) .pm:not(.pm-js) .pm-more { display: none; }
 #view-individuals .pr-cta { justify-content: center; }
 #view-individuals .price-table th, #view-individuals .price-table td { text-align: left; }
 #view-individuals .price-table .num, #view-individuals .price-table td.num { text-align: right; }
+
+/* Numbered how-it-works steps — the homepage hw-steps language, in each service section. */
+.pr-steps { list-style: none; counter-reset: prstep; margin: 1rem auto 0; padding: 0; display: inline-grid; gap: .65rem; text-align: left; max-width: 26rem; }
+.pr-steps li { counter-increment: prstep; display: grid; grid-template-columns: 1.8rem 1fr; column-gap: .4rem; font: .88rem/1.55 var(--font-body); color: var(--text-secondary); max-width: none; margin: 0; }
+.pr-steps li::before { content: counter(prstep); display: grid; place-items: center; width: 1.45rem; height: 1.45rem; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font: 600 .72rem var(--font-body); grid-row: span 2; }
+.pr-steps b { color: var(--text-primary); font-weight: 600; }
+#view-individuals .pr-steps > li { margin: 0; }
