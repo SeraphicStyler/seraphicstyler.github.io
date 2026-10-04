@@ -97,6 +97,13 @@ html.dark .bcalc-btn { color: #1a1d29; }
 @media (min-width: 720px) { .gtk { grid-template-columns: 1fr 1fr; } }
 .gtk h3 { margin: 0 0 .2rem; font-family: var(--font-brand); font-weight: 400; text-transform: uppercase; letter-spacing: .16em; font-size: .62rem; color: var(--eyebrow-ink); }
 .gtk .lg-bul { margin-top: .2rem; }
+/* Boutique calculator: the Good-to-know block reads centered */
+.bc-page #fine-h { text-align: center; }
+.bc-page .gtk { text-align: center; }
+.bc-page .gtk .lg-bul { list-style: none; margin-left: 0; padding-left: 0; }
+.bc-page .gtk .lg-bul > li { padding-left: 0; }
+.bc-page .gtk .lg-bul > li::before { content: none; }
+.bc-page .lg-fine { text-align: center; }
 
 /* ---- Audience switch (role=tablist on /prices) --------------------------- */
 .aud-switch { display: inline-grid; grid-template-columns: 1fr 1fr; gap: .25rem; padding: .25rem; border: 1px solid var(--surface-border); border-radius: 999px; background: var(--surface); }
