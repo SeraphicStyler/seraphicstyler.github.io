@@ -122,7 +122,7 @@
     }
     var saved = 'en';
     try { saved = localStorage.getItem('ss-lang') || 'en'; } catch (e) {}
-    apply(saved);   // an unshipped preference silently renders English, and survives
+    apply(saved, false);   // an unshipped preference silently renders English, and survives
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

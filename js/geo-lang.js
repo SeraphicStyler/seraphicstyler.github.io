@@ -82,9 +82,12 @@
     'html.rm .geo-lang-card,html.rm .geo-lang-toast{animation:none}';
   document.head.appendChild(styles);
 
-  var card = null, toast = null, toastTimer = 0;
+  var card = null, toast = null, toastTimer = 0, offerTimer = 0;
+  var EN_NAMES = null;
+  try { EN_NAMES = new Intl.DisplayNames(['en'], { type: 'language' }); } catch (_) {}
+  function englishName(code) { return (EN_NAMES && EN_NAMES.of(code)) || NAMES[code] || code; }
 
-  function dismiss() { if (card) { card.remove(); card = null; } }
+  function dismiss() { clearTimeout(offerTimer); offerTimer = 0; if (card) { card.remove(); card = null; } }
   function dismissToast() { if (toast) { toast.remove(); toast = null; } clearTimeout(toastTimer); }
 
   function showToast(message, undoCode) {
@@ -109,7 +112,11 @@
 
   function apply(countryCode) {
     var code = langForCountry(countryCode);
-    if (SUPPORTED.indexOf(code) < 0 || code === 'en' || code === current()) return;
+    if (SUPPORTED.indexOf(code) < 0) return;
+    if (code === current()) {
+      showToast("You're already viewing in " + (code === 'en' ? 'English' : (NAMES[code] || code)) + '.');
+      return;
+    }
     var previous = current();
     setLang(code);
     showToast('Switched to ' + (NAMES[code] || code) + ' — change anytime in Settings.', previous);
@@ -117,23 +124,48 @@
 
   function reverseGeocode(lat, lon) {
     var ctrl = typeof AbortController === 'function' ? new AbortController() : null;
-    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 5000) : 0;
+    var timedOut = false;
+    var timer = ctrl ? setTimeout(function () { timedOut = true; ctrl.abort(); }, 5000) : 0;
     return fetch('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=' + lat + '&longitude=' + lon + '&localityLanguage=en',
       ctrl ? { signal: ctrl.signal } : {})
-      .then(function (res) { return res.ok ? res.json() : null; })
-      .then(function (data) { return data && data.countryCode; })
+      .then(function (res) { if (!res.ok) throw new Error('http'); return res.json(); })
+      .then(function (data) {
+        var cc = data && data.countryCode;
+        if (typeof cc !== 'string' || !/^[A-Za-z]{2}$/.test(cc)) throw new Error('country');
+        return cc;
+      })
+      .catch(function (err) {
+        if (timedOut) throw new Error('timeout');
+        if (err && (err.message === 'http' || err.message === 'country')) throw err;
+        throw new Error('network');
+      })
       .finally(function () { clearTimeout(timer); });
   }
 
   function detect(fromSettings) {
     dismiss();
     store(ASK_KEY, 'accepted');
-    if (!navigator.geolocation) { store(ASK_KEY, 'unavailable'); return; }
+    if (!navigator.geolocation) {
+      store(ASK_KEY, 'unavailable');
+      if (fromSettings) showToast('Language detection failed — retry Detect or pick a language above.');
+      return;
+    }
     navigator.geolocation.getCurrentPosition(function (pos) {
       reverseGeocode(pos.coords.latitude, pos.coords.longitude)
-        .then(function (cc) { if (cc) apply(cc); })
-        .catch(function () {});
-    }, function () {
+        .then(function (cc) { apply(cc); })
+        .catch(function (reason) {
+          store(ASK_KEY, 'unavailable');
+          if (fromSettings) showToast(
+            reason && reason.message === 'timeout' ? 'Language detection timed out — retry Detect or pick a language above.' :
+            reason && reason.message === 'country' ? 'Could not determine your country — retry Detect or pick a language above.' :
+            'Language detection failed — retry Detect or pick a language above.');
+        });
+    }, function (err) {
+      if (err && err.code === 3) {
+        store(ASK_KEY, 'unavailable');
+        if (fromSettings) showToast('Language detection timed out — retry Detect or pick a language above.');
+        return;
+      }
       store(ASK_KEY, 'denied');
       if (fromSettings) showToast('Location unavailable — pick a language above.');
     }, { timeout: 8000, maximumAge: 86400000 });
@@ -153,7 +185,7 @@
     yes.type = 'button'; yes.className = 'geo-lang-yes'; yes.lang = code; yes.textContent = NAMES[code] || code;
     yes.addEventListener('click', function () { store(ASK_KEY, 'accepted'); var previous = current(); dismiss(); setLang(code); showToast('Switched to ' + (NAMES[code] || code) + ' — change anytime in Settings.', previous); });
     var no = document.createElement('button');
-    no.type = 'button'; no.className = 'geo-lang-no'; no.textContent = 'Keep English';
+    no.type = 'button'; no.className = 'geo-lang-no'; no.textContent = 'Keep ' + englishName(current());
     no.addEventListener('click', function () { store(ASK_KEY, 'declined'); dismiss(); });
     actions.appendChild(yes); actions.appendChild(no);
     card.appendChild(p); card.appendChild(actions);
@@ -215,9 +247,18 @@
     if (read(LANG_KEY) || read(ASK_KEY)) return;
     var code = langForCountry(countryFromTimeZone());
     if (SUPPORTED.indexOf(code) < 0 || code === 'en' || code === current()) return;   // English-speaking or unknown time zone: say nothing
-    setTimeout(function () { offer(code); }, 1500);
+    offerTimer = setTimeout(function () {
+      offerTimer = 0;
+      if (read(LANG_KEY) || read(ASK_KEY)) return;
+      if (SUPPORTED.indexOf(code) < 0 || code === 'en' || code === current()) return;
+      offer(code);
+    }, 1500);
   }
 
+  document.addEventListener('change', function (e) {
+    if (e.target && e.target.matches && e.target.matches('#langSelect, .ss-lang-select')) dismiss();
+  });
+  document.addEventListener('ss:lang', function () { if (read(LANG_KEY) || current() !== 'en') dismiss(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') dismiss(); });
 
   window.SS_GEO_LANG = { ask: showCard, offer: offer, detect: detect, langForCountry: langForCountry, countryFromTimeZone: countryFromTimeZone };

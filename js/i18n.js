@@ -59,7 +59,7 @@
     document.querySelectorAll('.ss-lang-select').forEach(fillSelect);
     var saved = 'en';
     try { saved = localStorage.getItem('ss-lang') || 'en'; } catch (e) {}
-    apply(saved);
+    apply(saved, false);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

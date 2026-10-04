@@ -26,9 +26,13 @@
 .est-page :is(input,select,button,a,summary):focus-visible { outline:2px solid var(--accent);outline-offset:3px; }
 .est-page .est-receipt { align-self:start;min-width:0; }
 .est-page .result-card { padding:0;border:0;background:none;box-shadow:none; }
-.est-page .result-row { display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--surface-border);font:400 14px/1.6 var(--font-body); }
+.est-page .result-row { display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--surface-border);font:400 14px/1.6 var(--font-body); }
 .est-page .result-row>span:first-child { min-width:0; }
-.est-page .result-row .v { font-variant-numeric:tabular-nums;text-align:right;white-space:normal;overflow-wrap:anywhere;flex-shrink:0;max-width:52%;color:var(--text-primary); }
+.est-page .result-row .v { font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap;overflow-wrap:normal;flex-shrink:0;max-width:100%;color:var(--text-primary); }
+.est-page .result-row .v:has(.est-amount) { white-space:normal;width:fit-content;max-width:100%; }
+.est-page .est-amount { display:inline-block;white-space:nowrap; }
+.est-page .est-amount-note { white-space:normal; }
+.est-page .result-row .v.est-note { white-space:normal; }
 .est-page .result-row.total { margin-top:16px;padding:20px 0;font-weight:500; }
 .est-page .result-row.total .v { font-size:clamp(20px,2vw,28px); }
 .est-page .result-row select { margin-top:8px;width:100px; }
@@ -56,7 +60,7 @@
  .est-page .wrap { padding-inline:16px; }
  .est-inputs>.quiz-step,.est-page .est-receipt { padding:20px; }
  .est-page .quiz-toolbar { flex-wrap:wrap; }
- .est-page .result-row .v { max-width:50%; }
+ .est-page .result-row .v,.est-page .result-row.total .v,.est-page .result-row #rUsd { font-size:clamp(13px,3.4vw,16px); }
 }
 @media(prefers-reduced-motion:reduce) { .est-page * { scroll-behavior:auto!important;animation:none!important;transition:none!important; } }
 .est-ready .est-fallback { display:none; }
@@ -81,7 +85,7 @@ html.est-embedded,html.est-embedded body { min-height:0;height:auto; }
 
 /* How it's priced — the three rules, stated before any typing (1 Oct 2026). */
 .est-page .est-rules { list-style:none; margin:1.4rem auto 0; padding:0; max-width:640px; display:grid; grid-template-columns:repeat(3,1fr); gap:0.6rem; }
-@media (max-width:560px) { .est-page .est-rules { grid-template-columns:1fr; } .est-page .result-row:has(#estCurrency)>span { margin-inline:-12px; max-width:none; } .est-page #estCurrency { font-size:14px; } }
+@media (max-width:560px) { .est-page .est-rules { grid-template-columns:1fr; } .est-page .result-row:has(#estCurrency)>span { margin-inline:-12px; max-width:none; } .est-page .result-row:has(#estCurrency)>.v { margin-inline:0; max-width:100%; } .est-page #estCurrency { font-size:14px; } }
 .est-page .est-rules li { border:1px solid var(--surface-border); border-radius:14px; background:var(--surface); padding:0.8rem 0.7rem; text-align:center; }
 .est-page .est-rules b { display:block; font:500 1.6rem/1 'Cormorant Garamond',var(--font-display); color:var(--accent); }
 .est-page .est-rules span { display:block; margin-top:0.35rem; font:500 0.8rem/1.4 var(--font-body); color:var(--text-primary); }
