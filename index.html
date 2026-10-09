@@ -51,6 +51,9 @@
   <link rel="stylesheet" href="css/theme.css?v=2026-09-10">
   <script src="js/theme.js?v=2026-09-10"></script>
   <link rel="stylesheet" href="css/atelier-bokeh.css?v=2026-09-11b">
+  <link rel="stylesheet" href="css/night-reading.css?v=2026-10-08a">
+  <script src="js/night-reading.js?v=2026-10-08a" defer></script>
+  <noscript><style>.reveal, .reveal * { opacity: 1 !important; transform: none !important; filter: none !important; }</style></noscript>
   <script src="js/i18n-site.js?v=2026-09-12" defer></script>
   <script src="js/geo-lang.js?v=2026-10-02" defer></script>
 </head>
@@ -321,7 +324,7 @@
 
   <section id="service-story" class="ss-service-story" aria-labelledby="ss-story-title" lang="en">
     <div class="wrap">
-      <header class="ss-story-head">
+      <header class="ss-story-head reveal">
         <span class="eyebrow">Your route through Saigon</span>
         <h2 id="ss-story-title">One atelier. Three clear beginnings.</h2>
         <p>Choose the work first. Every route returns to a clear scope, an approval, and a considered parcel.</p>
@@ -375,7 +378,7 @@
   }
   #about .about-aside .db-eyebrow{margin-bottom:12px;}
   </style>
-  <section id="about">
+  <section id="about" class="night">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow" data-i18n="about.eyebrow">About</span>
@@ -383,11 +386,11 @@
       </div>
       <div class="about-grid">
         <div class="prose stack reveal">
-          <p data-i18n="about.intro2">A private styling and sourcing atelier in Ho Chi Minh City. Name a piece — I source it. Ask for my eye — I style you. Everything <mark class="hl">verified in person</mark>.</p>
+          <p data-rh data-i18n="about.intro2">A private styling and sourcing atelier in Ho Chi Minh City. Name a piece — I source it. Ask for my eye — I style you. Everything <mark class="hl">verified in person</mark>.</p>
           <h3 data-i18n="about.b1h">My story</h3>
-          <p data-i18n="about.b1c">Saigon's labels are modern, quietly elegant — and nearly impossible to buy from abroad. So I started sourcing.</p>
+          <p data-rh data-i18n="about.b1c">Saigon's labels are modern, quietly elegant — and nearly impossible to buy from abroad. So I started sourcing.</p>
           <h3 data-i18n="about.b2h">How I work</h3>
-          <p data-i18n="about.b2c2">Send a link — I buy in person, photograph the exact piece, and confirm every detail. Or let me choose: styling from $235, with $100 of it credited toward your pieces.</p>
+          <p data-rh data-i18n="about.b2c2">Send a link — I buy in person, photograph the exact piece, and confirm every detail. Or let me choose: styling from $235, with $100 of it credited toward your pieces.</p>
         </div>
         <aside class="about-aside reveal"><div class="discover-brand"></div></aside>
       </div>
@@ -395,16 +398,16 @@
   </section>
 
   <!-- ===== WHY ===== -->
-  <section id="why">
+  <section id="why" class="night">
     <div class="wrap">
       <div class="section-head center reveal">
         <span class="eyebrow" data-i18n="why.eyebrow">Why Seraphic Styler</span>
         <h2 data-i18n="why.h2">More than just a product link</h2>
       </div>
       <div class="rows reveal">
-        <div class="row"><span class="idx">01</span><div><h3 data-i18n="why.r1h">Rare, Local, Real</h3><p class="muted" data-i18n="why.r1">Vietnamese brands that don't ship abroad — until now.</p></div></div>
-        <div class="row"><span class="idx">02</span><div><h3 data-i18n="why.r2h2">Verified, Not Forwarded</h3><p class="muted" data-i18n="why.r2c">I walk the boutiques and check every piece in person — never just a forwarded link.</p></div></div>
-        <div class="row"><span class="idx">03</span><div><h3 data-i18n="why.r3h">Honest Pricing &amp; Proof</h3><p class="muted" data-i18n="why.r3">Transparent costs, photos of the actual piece, tracking from day one. <mark class="hl">No hidden margin</mark>.</p></div></div>
+        <div class="row"><span class="idx">01</span><div><h3 data-i18n="why.r1h">Rare, Local, Real</h3><p class="muted" data-rh data-i18n="why.r1">Vietnamese brands that don't ship abroad — until now.</p></div></div>
+        <div class="row"><span class="idx">02</span><div><h3 data-i18n="why.r2h2">Verified, Not Forwarded</h3><p class="muted" data-rh data-i18n="why.r2c">I walk the boutiques and check every piece in person — never just a forwarded link.</p></div></div>
+        <div class="row"><span class="idx">03</span><div><h3 data-i18n="why.r3h">Honest Pricing &amp; Proof</h3><p class="muted" data-rh data-i18n="why.r3">Transparent costs, photos of the actual piece, tracking from day one. <mark class="hl">No hidden margin</mark>.</p></div></div>
       </div>
       <div class="why-brands reveal" style="margin-top:2.6rem;">
         <div class="brand-strip" aria-label="A selection of the Saigon houses we source"></div>
@@ -981,20 +984,20 @@
   </section>
 
   <!-- ===== TRUST (qualitative) ===== -->
-  <section id="trust">
+  <section id="trust" class="night">
     <div class="wrap">
       <div class="section-head center reveal">
         <span class="eyebrow" data-i18n="trust.eyebrow">Quietly trusted</span>
         <h2 data-i18n="trust.h2">Ordering from abroad requires a certain trust</h2>
-        <p class="lead narrow" data-i18n="trust.intro">You see the real piece before you pay. Tracking from the moment it ships.</p>
+        <p class="lead narrow" data-rh data-i18n="trust.intro">You see the real piece before you pay. Tracking from the moment it ships.</p>
       </div>
       <div class="grid grid-3 reveal">
-        <div class="service"><h3 data-i18n="trust.s1h">You see it first</h3><div class="body" data-i18n="trust.s1b">Photographic confirmation of the actual piece before you pay. What you see is precisely what arrives.</div></div>
-        <div class="service"><h3 data-i18n="trust.s2h">Tracked the whole way</h3><div class="body" data-i18n="trust.s2b">A tracking number the moment your parcel ships, with updates until it reaches your door.</div></div>
-        <div class="service"><h3 data-i18n="trust.s3h">A real person in Saigon</h3><div class="body" data-i18n="trust.s3b">Bilingual, on the ground, walking the boutiques myself — not a faceless reseller.</div></div>
-        <div class="service" style="grid-column:1/-1"><h3 data-i18n="trust.s4h">And when a piece can't be found</h3><div class="body" data-i18n="trust.s4b">The best Vietnamese pieces are made in tiny runs, so sometimes one sells out between the quote and the till. The answer is written down and the same every time: money that hasn't been spent comes back as money; money already spent for you comes back as credit worth 105%, on clothes or styling or both, and it never expires. <a href="policy" data-track="policy-from-trust">Read the returns &amp; credit policy →</a></div></div>
+        <div class="service"><h3 data-i18n="trust.s1h">You see it first</h3><div class="body" data-rh data-i18n="trust.s1b">Photographic confirmation of the actual piece before you pay. What you see is precisely what arrives.</div></div>
+        <div class="service"><h3 data-i18n="trust.s2h">Tracked the whole way</h3><div class="body" data-rh data-i18n="trust.s2b">A tracking number the moment your parcel ships, with updates until it reaches your door.</div></div>
+        <div class="service"><h3 data-i18n="trust.s3h">A real person in Saigon</h3><div class="body" data-rh data-i18n="trust.s3b">Bilingual, on the ground, walking the boutiques myself — not a faceless reseller.</div></div>
+        <div class="service" style="grid-column:1/-1"><h3 data-i18n="trust.s4h">And when a piece can't be found</h3><div class="body" data-rh data-i18n="trust.s4b">The best Vietnamese pieces are made in tiny runs, so sometimes one sells out between the quote and the till.</div><div class="body" data-rh data-i18n="trust.s4c">The answer is written down and the same every time: money that hasn't been spent comes back as money; money already spent for you comes back as credit worth 105%, on clothes or styling or both, and it never expires. <a href="policy" data-track="policy-from-trust">Read the returns &amp; credit policy →</a></div></div>
       </div>
-      <p class="trust-cap reveal" data-i18n="trust.cap"><strong>A considered purchase, made personal.</strong> From first photograph to final delivery, a real person is accountable for the details.</p>
+      <p class="trust-cap reveal" data-rh data-i18n="trust.cap"><strong>A considered purchase, made personal.</strong> From first photograph to final delivery, a real person is accountable for the details.</p>
     </div>
   </section>
 

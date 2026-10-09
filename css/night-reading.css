@@ -1,0 +1,149 @@
+/* ===================================================================
+   Depth bands + reading light
+   -------------------------------------------------------------------
+   A few statement sections (#about, #why, #trust) turn their glass frame
+   into a tonal inversion of the brand — midnight lavender mixed from the
+   cobalt ink and accent, not a foreign navy — for depth and a pattern
+   break in an otherwise light page. Dark mode lifts the band a step above
+   the page (elevation); mono keeps it in the ice-blue duotone.
+
+   Inside, [data-rh] text lights line by line as it reaches the reading
+   line (js/night-reading.js): muted ahead, brightening as it approaches,
+   a peach-orange current line, a pale warm wake that settles to white.
+   Every state clears WCAG AA (≥4.5:1) across the whole band, glows
+   included. High contrast and the site's reduce-motion toggle drop the
+   band entirely; OS reduced motion and forced colours keep plain text.
+   =================================================================== */
+
+:root:not(.hc):not(.rm) section.night {
+  /* light — brand accent #2e54ad / ink #233a72 pulled toward midnight */
+  --night-bg-a: #20366f;
+  --night-bg-b: #1e3161;
+  --night-bg-a: color-mix(in oklab, #2e54ad 58%, #0c1024);
+  --night-bg-b: color-mix(in oklab, #233a72 82%, #080b1a);
+  --night-edge: rgba(201, 182, 232, 0.2);
+  --night-edge: color-mix(in oklab, #c9b6e8 38%, transparent);
+  --night-glow-a: rgba(201, 143, 196, 0.10);
+  --night-glow-b: rgba(138, 147, 222, 0.12);
+
+  --text-primary:   #f4f1fb;
+  --text-secondary: #b9bfdd;
+  --accent:         #c9b6e8;
+  --accent-deep:    #c9b6e8;
+  --accent-hover:   #e2d6f5;
+  --eyebrow-ink:    #d9c9f2;
+  --surface-solid:  #26386e;
+  --surface-border: rgba(201, 182, 232, 0.2);
+  --highlight:      rgba(245, 168, 101, 0.4);
+
+  /* reading-light palette — read by js/night-reading.js */
+  --rh-ahead:    #a8b0d5;
+  --rh-approach: #d0afcc;
+  --rh-current:  #f5a865;
+  --rh-wake:     #f6d9c0;
+  --rh-read:     #f4f1fb;
+  color: var(--text-primary);
+}
+
+:root:not(.hc):not(.rm) section.night:not(#hero) > .wrap {
+  background:
+    radial-gradient(120% 70% at 88% 0%, var(--night-glow-a), transparent 60%),
+    radial-gradient(90% 60% at 0% 100%, var(--night-glow-b), transparent 62%),
+    linear-gradient(160deg, var(--night-bg-a) 0%, var(--night-bg-b) 100%);
+  border-color: var(--night-edge);
+  box-shadow: 0 1px 3px rgba(12, 16, 36, 0.14), 0 18px 40px -12px rgba(12, 16, 36, 0.18);
+}
+
+:root:not(.hc):not(.rm) section.night .section-head h2 { text-shadow: 0 0 26px rgba(201, 182, 232, 0.2); }
+:root:not(.hc):not(.rm) section.night .section-head h2::first-letter { color: #e2c6ef; text-shadow: 0 1px 18px rgba(245, 168, 101, 0.28); -webkit-text-stroke: 0; }
+:root:not(.hc):not(.rm) section.night .section-head .eyebrow {
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 24px -18px rgba(0, 0, 0, 0.5);
+}
+:root:not(.hc):not(.rm) section.night .row .idx { color: var(--rh-current); }
+:root:not(.hc):not(.rm) section.night ::selection { background: rgba(245, 168, 101, 0.4); color: #fff; -webkit-text-fill-color: #fff; }
+
+/* Read text sits at full white — no grey "secondary" on the band. */
+:root:not(.hc):not(.rm) section.night [data-rh] { color: var(--rh-read); }
+
+/* Live reading light: the colour lives in a per-line gradient clipped to the
+   glyphs, so the text itself must be transparent — descendants too. */
+:root:not(.hc):not(.rm) section.night [data-rh].rh-live {
+  -webkit-background-clip: text; background-clip: text;
+  background-origin: border-box; background-repeat: no-repeat;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+:root:not(.hc):not(.rm) section.night [data-rh].rh-live * { -webkit-text-fill-color: transparent; color: transparent; }
+
+/* A highlight wash would paint over the clipped gradient; on the band a key
+   phrase is a soft warm underline instead. Same for links. */
+:root:not(.hc):not(.rm) section.night [data-rh] mark.hl {
+  background: none; padding: 0; margin: 0; border-radius: 0;
+  text-decoration: underline; text-decoration-color: rgba(245, 168, 101, 0.7);
+  text-decoration-thickness: 1.5px; text-underline-offset: 0.22em;
+}
+:root:not(.hc):not(.rm) section.night [data-rh] a { text-decoration: underline; text-decoration-color: rgba(201, 182, 232, 0.8); text-underline-offset: 0.2em; }
+
+/* ---- Dark: a step lighter than the page — elevation, not inversion ---- */
+:root.dark:not(.hc):not(.rm) section.night {
+  --night-bg-a: #2a2f43;
+  --night-bg-b: #25293a;
+  --night-bg-a: color-mix(in oklab, #242837 70%, #3a4160);
+  --night-bg-b: color-mix(in oklab, #242837 85%, #2a2f4a);
+  --surface-solid: #2f3550;
+}
+:root.dark:not(.hc):not(.rm) section.night:not(#hero) > .wrap {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 18px 40px -12px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* ---- Mono: ice-blue duotone, band and reading light both ---- */
+:root.mono:not(.hc):not(.rm) section.night {
+  --night-bg-a: #16314c;
+  --night-bg-b: #16304c;
+  --night-bg-a: color-mix(in oklab, var(--ink, #173451) 90%, #0a1626);
+  --night-bg-b: color-mix(in oklab, var(--ink, #173451) 75%, #12253d);
+  --night-edge: rgba(189, 214, 240, 0.28);
+  --night-glow-a: rgba(189, 214, 240, 0.06); --night-glow-b: rgba(189, 214, 240, 0.06);
+  --accent: #bdd6f0; --accent-deep: #bdd6f0; --eyebrow-ink: #d4e4f5; --surface-solid: #1d3a5a;
+  --rh-ahead: #9fb4cf; --rh-approach: #a9c6e4; --rh-current: #c4e1ff; --rh-wake: #e3f0fc; --rh-read: #f4f8fd;
+}
+:root.mono:not(.hc):not(.rm) section.night [data-rh] mark.hl { text-decoration-color: rgba(196, 225, 255, 0.7); }
+
+/* Reading measure on band copy — in every mode, band or not. */
+section.night [data-rh] { max-width: 65ch; line-height: 1.65; }
+section.night .center [data-rh], section.night [data-rh].center { margin-inline: auto; }
+section.night [data-rh] + [data-rh] { margin-top: 0.75em; }
+
+@media (forced-colors: active) {
+  section.night [data-rh], section.night [data-rh] * { -webkit-text-fill-color: CanvasText; color: CanvasText; background: none; }
+  section.night [data-rh] a, section.night [data-rh] a * { -webkit-text-fill-color: LinkText; color: LinkText; }
+}
+@media print {
+  section.night:not(#hero) > .wrap { background: none !important; }
+  section.night, section.night [data-rh], section.night [data-rh] * { color: #000 !important; -webkit-text-fill-color: #000 !important; background: none !important; }
+}
+
+/* ===================================================================
+   Heading entrance — every homepage section head (.section-head and the
+   service-story header)
+   The eyebrow tracks in from wide letter-spacing, the title lifts out of a
+   soft focus, the lead follows a beat later. Rides on the existing .reveal
+   → .in switch from js/main.js; the settled state is the normal heading.
+   =================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.rm):not(.hc) .ss-home :is(.section-head, .ss-story-head).reveal .eyebrow {
+    transition: letter-spacing 1.1s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.9s ease;
+    letter-spacing: 0.5em; opacity: 0;
+  }
+  html:not(.rm):not(.hc) .ss-home :is(.section-head, .ss-story-head).reveal h2 {
+    transition: filter 1s cubic-bezier(0.33, 1, 0.68, 1) 0.1s, opacity 1s ease 0.1s, transform 1s cubic-bezier(0.33, 1, 0.68, 1) 0.1s;
+    filter: blur(8px); opacity: 0; transform: translateY(0.35em);
+  }
+  html:not(.rm):not(.hc) .ss-home :is(.section-head.reveal .lead, .ss-story-head.reveal > p) {
+    transition: opacity 0.9s ease 0.35s, transform 0.9s cubic-bezier(0.33, 1, 0.68, 1) 0.35s;
+    opacity: 0; transform: translateY(0.5em);
+  }
+  html:not(.rm):not(.hc) .ss-home :is(.section-head, .ss-story-head).reveal.in .eyebrow { letter-spacing: 0.22em; opacity: 1; }
+  html:not(.rm):not(.hc) .ss-home :is(.section-head, .ss-story-head).reveal.in h2 { filter: none; opacity: 1; transform: none; }
+  html:not(.rm):not(.hc) .ss-home :is(.section-head.reveal.in .lead, .ss-story-head.reveal.in > p) { opacity: 1; transform: none; }
+}
