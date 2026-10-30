@@ -67,7 +67,7 @@ var CONFIG = {
      `maxVndPerUsd` is the upper bound on the printed rate, so an estimate and
      a published price always agree. Scaled by the client's currency, so EUR
      and KRW quotes are bounded in the same proportion. */
-  fx: { fallbackVndPerUsd: 26150, spread: 0.025, step: 50, maxVndPerUsd: 25000 },
+  fx: { fallbackVndPerUsd: 25850, spread: 0.025, step: 50, maxVndPerUsd: 25000 },
 
   /* Card (Stripe) processing pass-through: charged = (amount + fixedUsd*fx) / (1 - rate).
      Bank transfer / Wise / Zelle carry no fee.
@@ -91,6 +91,13 @@ var CONFIG = {
      payment methods (cash-out to ₫ happens regardless of how the client pays). */
   fxFee: 0.03,
 
+  /* US import duty on clothing from Vietnam (29 Oct 2026): normal apparel duty
+     16–32% plus the 12.5% Section 301 tariff in force since 24 Jul 2026, so
+     28.5–44.5%, shown rounded. Charged on the item prices only, never on my fee
+     or the freight, and paid to US customs, so it is a note under the total,
+     never part of it. Keep in step with BTQ.duty in js/boutique-estimator.js. */
+  usDuty: { low: 0.30, high: 0.45 },
+
   /* Payment is taken in two parts, so the card fee lands on each part separately
      (Stripe charges its fixed $0.30 per charge, not per order):
        deposit  — pieces + service fees + base (+ styling, complexity, less credits)
@@ -106,7 +113,7 @@ var CONFIG = {
   shipping: {
     asia:    { light: [900000, 2200000],  standard: [1800000, 5000000] },   // East & SE Asia
     oceania: { light: [1500000, 3300000], standard: [2800000, 7500000] },   // Australia & New Zealand
-    us:      { light: [1900000, 4500000], standard: [3800000, 10000000] },  // US & Canada
+    us:      { light: [1400000, 4500000], standard: [3800000, 10000000] },  // US & Canada; light low = Helen Express's audited 2 kg rate (Jul 2026), high = DHL
     eu:      { light: [1800000, 4300000], standard: [3600000, 9500000] },   // Europe & UK
     mena:    { light: [1800000, 4300000], standard: [3500000, 9300000] },   // Middle East & North Africa
     sca:     { light: [1700000, 4100000], standard: [3400000, 9200000] },   // South & Central Asia
@@ -179,7 +186,7 @@ function SS_fmtRate(v) {
 
   var el = {};
   ['lineItems','addItem','region','region2','compareDest','compareWrap','destCompare','weight','stops','complex','green','styling','payMethod','estCurrency','rSubtotal','rFee','rFeeNote','rBase','rStopsRow','rStops',
-   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rLeftoverRow','rLeftover','rLeftoverUsd','rComplexRow','rComplex','rGreenRow','rGreen','rFxRow','rFx','rCardRow','rCard','rShip','rShipNote','rDepositRow','rDeposit','rDepositCur','rBalanceRow','rBalance','rBalanceCur','rDepositCard','rDepositCardV','tipDepCard','rDepositTot','rDepositTotV','rBalanceCard','rBalanceCardV','tipBalCard','rBalanceTot','rBalanceTotV','previewLink','previewMsg','previewNote','shareCard','shareRow','shareUrl','shareCopy','rTotal','rUsd','fxStatus','sendBasket','copiedMsg','estEmptyMsg']
+   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rLeftoverRow','rLeftover','rLeftoverUsd','rComplexRow','rComplex','rGreenRow','rGreen','rFxRow','rFx','rCardRow','rCard','rShip','rShipNote','rDutyNote','rDepositRow','rDeposit','rDepositCur','rBalanceRow','rBalance','rBalanceCur','rDepositCard','rDepositCardV','tipDepCard','rDepositTot','rDepositTotV','rBalanceCard','rBalanceCardV','tipBalCard','rBalanceTot','rBalanceTotV','previewLink','previewMsg','previewNote','shareCard','shareRow','shareUrl','shareCopy','rTotal','rUsd','fxStatus','sendBasket','copiedMsg','estEmptyMsg']
     .forEach(function (id) { el[id] = document.getElementById(id); });
   if (!el.lineItems) return; // not on a page with the estimator
 
@@ -200,6 +207,7 @@ function SS_fmtRate(v) {
   populateCurrencies();
   document.addEventListener('ss:lang',populateCurrencies);
   function curCode() { return (el.estCurrency && el.estCurrency.value) || 'USD'; }
+  function dualCur() { var c = curCode(); return c !== 'VND' && Number.isFinite(chargeRate(c)); }
   /* The starting currency comes from the visitor's time zone (no permission,
      no pop-up): Asia/Bahrain → BHD, Europe/London → GBP, and so on; anywhere
      not on the short list starts in US dollars. A currency the visitor picks
@@ -426,6 +434,18 @@ function SS_fmtRate(v) {
       '<span class="m">' + fmtCur(toCur(gross)) + ' − ' + fmtCur(toCur(netVnd)) + ' = ' + fmtCur(toCur(feeVnd)) + '</span>' +
       esc(t('est.card.m5', 'A ceiling, not a surprise — a domestic card costs less than this.'));
   }
+  /* Shipping to the US: name the import duty in money, under the total. */
+  function renderDuty(c) {
+    if (!el.rDutyNote) return;
+    var d = CONFIG.usDuty;
+    var on = !!d && el.region.value === 'us' && c.subtotal > 0 && Number.isFinite(chargeRate(curCode()));
+    el.rDutyNote.hidden = !on;
+    if (!on) return;
+    el.rDutyNote.textContent = t('est.duty.us', 'Shipping to the US? Import duty on clothing from Vietnam is about {lo}–{hi}% of the item prices right now, so about {a} – {b} here. It goes to US customs, not to me, and I confirm it before anything ships.')
+      .replace('{lo}', Math.round(d.low * 100)).replace('{hi}', Math.round(d.high * 100))
+      .replace('{a}', amt(c.subtotal * d.low)).replace('{b}', amt(c.subtotal * d.high));
+    function amt(vnd) { return dualCur() ? fmtCur(toCur(vnd)) : fmtVnd(vnd); }
+  }
   function showSplit(s) {
     if (!el.rDepositRow) return;
     el.rDepositRow.style.display = '';
@@ -433,10 +453,14 @@ function SS_fmtRate(v) {
     var depNet = s.deposit - s.depositFee;
     var balFeeLo = s.feeLo - s.depositFee, balFeeHi = s.feeHi - s.depositFee;
     var balNetLo = s.balLo - balFeeLo, balNetHi = s.balHi - balFeeHi;
-    el.rDeposit.textContent = fmtVnd(depNet);
-    el.rDepositCur.textContent = '≈ ' + fmtCur(toCur(depNet));
-    el.rBalance.textContent = fmtVnd(balNetLo) + ' – ' + fmtVnd(balNetHi);
-    el.rBalanceCur.textContent = '≈ ' + fmtCur(toCur(balNetLo)) + ' – ' + fmtCur(toCur(balNetHi));
+    // The visitor's own currency leads; đồng sits underneath for reference.
+    var dual = dualCur();
+    var depCur = '≈ ' + fmtCur(toCur(depNet)), balCur = '≈ ' + fmtCur(toCur(balNetLo)) + ' – ' + fmtCur(toCur(balNetHi));
+    var depVnd = fmtVnd(depNet), balVnd = fmtVnd(balNetLo) + ' – ' + fmtVnd(balNetHi);
+    el.rDeposit.textContent = dual ? depCur : depVnd;
+    el.rDepositCur.textContent = dual ? depVnd : '';
+    el.rBalance.textContent = dual ? balCur : balVnd;
+    el.rBalanceCur.textContent = dual ? balVnd : '';
     var card = s.depositFee > 0;
     ['rDepositCard','rDepositTot','rBalanceCard','rBalanceTot'].forEach(function (id) { if (el[id]) el[id].style.display = card ? '' : 'none'; });
     if (!card || !el.rDepositCardV) return;
@@ -575,6 +599,7 @@ function SS_fmtRate(v) {
       else { el.rFxRow.style.display = 'none'; }
     }
     renderCompare(c, nonShip);
+    renderDuty(c);
     // When two destinations are in play, name the one this card is priced for.
     if (el.rShipNote) el.rShipNote.textContent = compareOn() ? '(' + regionLabel(el.region.value) + ')' : '';
     if (c.nItems === 0 && c.styling === 0) {
@@ -633,6 +658,7 @@ function SS_fmtRate(v) {
       readItems().forEach(function(price,i){if(price>0)rows.push((i+1)+'. '+fmtVnd(price)+(readLinks()[i]?' — '+readLinks()[i]:''));});
       ['region','weight','stops','styling','payMethod'].forEach(function(id){var select=el[id];if(select)rows.push(select.options[select.selectedIndex].textContent);});
       document.querySelectorAll('.result-row,.split-cur,.split-card').forEach(function(row){if(getComputedStyle(row).display!=='none'){var clone=row.cloneNode(true);clone.querySelectorAll('select').forEach(function(select){select.replaceWith(curCode());});rows.push(clone.textContent.replace(/\s+/g,' ').trim());}});
+      if(el.rDutyNote&&!el.rDutyNote.hidden)rows.push(el.rDutyNote.textContent);
       if(compareOn())rows.push(el.destCompare.textContent.replace(/\s+/g,' ').trim());
       rows.push(el.fxStatus.textContent,t('est.note','Your final quote is confirmed before payment.'));
       return rows.filter(Boolean).join('\n');
@@ -683,6 +709,7 @@ function SS_fmtRate(v) {
         '• Deposit to start (pieces + fees): ' + fmtVnd(sp.deposit) + ' (≈ ' + fmtCur(toCur(sp.deposit)) + ')',
         '• Balance before dispatch (shipping): ' + fmtVnd(sp.balLo) + ' – ' + fmtVnd(sp.balHi) + ' (≈ ' + fmtCur(toCur(sp.balLo)) + ' – ' + fmtCur(toCur(sp.balHi)) + ')');
     }
+    if (el.rDutyNote && !el.rDutyNote.hidden) lines.push('', el.rDutyNote.textContent);
     if (compareOn()) {
       lines.push('', 'COMPARING TWO DESTINATIONS — please quote both:');
       if (c.custom) {

@@ -879,8 +879,8 @@ window.SS_TRANSLATIONS = {
     "svc.7p": "Giá sản phẩm + phí tìm mua + phí vận chuyển",
     "svc2.findh": "Tìm nguồn món đồ bạn đã thấy",
     "svc2.finda": "Dành cho món đồ bạn đã thấy nhưng chưa biết nguồn.",
-    "svc2.findb2": "Gửi ảnh; mình điều tra thương hiệu, tìm nguồn món đồ và báo giá trước khi đặt mua.",
-    "svc2.findp": "The Trace — $25, được khấu trừ toàn bộ vào đơn hàng",
+    "svc2.findb2": "Gửi ảnh; mình tìm thương hiệu, nhắn shop bằng tiếng Việt, theo dõi đến khi shop trả lời và báo giá bằng USD.",
+    "svc2.findp": "The Trace — $45 mỗi món, cho phần tìm kiếm",
     "svc2.findcta": "Bắt đầu với The Trace",
     "svc2.laneB": "Phối đồ — mình lựa chọn cho bạn",
     "svc2.t1h": "The Discovery — $49",
@@ -992,6 +992,9 @@ window.SS_TRANSLATIONS = {
     "est.faq.a6": "Kích cỡ được đối chiếu với số đo thực tế của món đồ trước khi mua — đây là một phần dịch vụ. Nếu nhận sai món hoặc hàng hư hỏng, hãy báo mình trong 48 giờ kèm video mở kiện để mình xử lý."
   },
   "zh": {
+    "a11y.title": "设置",
+    "theme.auto": "自动",
+    "theme.mono": "单色",
     "ask.eyebrow": "常见疑问",
     "ask.h2": "疑问，<em>一一解答</em>。",
     "ask.intro": "关于尺码、关税、配送与正品的诚实解答——其他任何问题，发条消息我都在。",
@@ -1343,6 +1346,9 @@ window.SS_TRANSLATIONS = {
     "ui.menu": "菜单"
   },
   "es": {
+    "a11y.title": "Ajustes",
+    "theme.auto": "Automático",
+    "theme.mono": "Monocromo",
     "ask.eyebrow": "Preguntas frecuentes",
     "ask.h2": "Preguntas, <em>resueltas</em>.",
     "ask.intro": "Respuestas honestas sobre tallas, aduanas, envíos y autenticidad — y para cualquier otra cosa, estoy a un mensaje de distancia.",
@@ -1694,6 +1700,9 @@ window.SS_TRANSLATIONS = {
     "ui.menu": "Menú"
   },
   "ar": {
+    "a11y.title": "الإعدادات",
+    "theme.auto": "تلقائي",
+    "theme.mono": "أحادي اللون",
     "ask.eyebrow": "أسئلة شائعة",
     "ask.h2": "أسئلة، <em>مُجابة</em>.",
     "ask.intro": "إجابات صادقة عن المقاسات والجمارك والتوصيل والأصالة — وأنا دائمًا على بُعد رسالة لأي شيء آخر.",
@@ -2045,6 +2054,9 @@ window.SS_TRANSLATIONS = {
     "ui.menu": "القائمة"
   },
   "fr": {
+    "a11y.title": "Réglages",
+    "theme.auto": "Auto",
+    "theme.mono": "Monochrome",
     "ask.eyebrow": "Questions fréquentes",
     "ask.h2": "Vos questions, <em>résolues</em>.",
     "ask.intro": "Des réponses honnêtes sur les tailles, la douane, la livraison et l'authenticité — et pour tout le reste, je suis à un message près.",
@@ -2396,6 +2408,9 @@ window.SS_TRANSLATIONS = {
     "ui.menu": "Menu"
   },
   "pt": {
+    "a11y.title": "Definições",
+    "theme.auto": "Automático",
+    "theme.mono": "Monocromático",
     "ask.eyebrow": "Perguntas frequentes",
     "ask.h2": "Perguntas, <em>respondidas</em>.",
     "ask.intro": "Respostas honestas sobre tamanhos, alfândega, entrega e autenticidade — e, para tudo o resto, estou à distância de uma mensagem.",
@@ -2747,6 +2762,9 @@ window.SS_TRANSLATIONS = {
     "ui.menu": "Menu"
   },
   "ru": {
+    "a11y.title": "Настройки",
+    "theme.auto": "Авто",
+    "theme.mono": "Монохром",
     "ask.eyebrow": "Частые вопросы",
     "ask.h2": "Вопросы, <em>с ответами</em>.",
     "ask.intro": "Честные ответы о размерах, таможне, доставке и подлинности — а по всему остальному я всегда на расстоянии одного сообщения.",
@@ -3505,6 +3523,9 @@ window.SS_TRANSLATIONS = {
     "ui.menu": "メニュー"
   },
   "de": {
+    "a11y.title": "Einstellungen",
+    "theme.auto": "Automatisch",
+    "theme.mono": "Monochrom",
     "ask.eyebrow": "Häufige Fragen",
     "ask.h2": "Fragen, <em>beantwortet</em>.",
     "ask.intro": "Ehrliche Antworten zu Größen, Zoll, Versand und Echtheit — und für alles andere bin ich nur eine Nachricht entfernt.",
@@ -3856,6 +3877,9 @@ window.SS_TRANSLATIONS = {
     "ui.menu": "Menü"
   },
   "ko": {
+    "a11y.title": "설정",
+    "theme.auto": "자동",
+    "theme.mono": "흑백",
     "ask.eyebrow": "자주 묻는 질문",
     "ask.h2": "궁금증, <em>풀어 드려요</em>.",
     "ask.intro": "사이즈, 관세, 배송, 정품 여부에 대한 솔직한 답변 — 그 밖의 무엇이든 메시지 한 번이면 언제든 도와드려요.",
@@ -4207,6 +4231,9 @@ window.SS_TRANSLATIONS = {
     "ui.menu": "메뉴"
   },
   "hi": {
+    "a11y.title": "सेटिंग्स",
+    "theme.auto": "स्वचालित",
+    "theme.mono": "मोनो",
     "ask.eyebrow": "आम सवाल",
     "ask.h2": "सवाल, <em>जवाब के साथ</em>।",
     "ask.intro": "साइज़, कस्टम, डिलीवरी और असलियत पर ईमानदार जवाब — और बाकी किसी भी बात के लिए मैं बस एक संदेश दूर हूँ।",
@@ -4558,6 +4585,9 @@ window.SS_TRANSLATIONS = {
     "ui.menu": "मेन्यू"
   },
   "id": {
+    "a11y.title": "Pengaturan",
+    "theme.auto": "Otomatis",
+    "theme.mono": "Monokrom",
     "ask.eyebrow": "Pertanyaan umum",
     "ask.h2": "Pertanyaan, <em>terjawab</em>.",
     "ask.intro": "Jawaban jujur soal ukuran, bea cukai, pengiriman, dan keaslian — dan untuk hal lainnya, saya selalu sejauh satu pesan.",
@@ -4909,6 +4939,9 @@ window.SS_TRANSLATIONS = {
     "ui.menu": "Menu"
   },
   "th": {
+    "a11y.title": "การตั้งค่า",
+    "theme.auto": "อัตโนมัติ",
+    "theme.mono": "ขาวดำ",
     "ask.eyebrow": "คำถามที่พบบ่อย",
     "ask.h2": "ทุกคำถาม <em>มีคำตอบ</em>",
     "ask.intro": "คำตอบตรงไปตรงมาเรื่องไซซ์ ภาษี การจัดส่ง และของแท้ — และเรื่องอื่น ๆ ทักมาได้เสมอเพียงข้อความเดียว",
@@ -5260,6 +5293,9 @@ window.SS_TRANSLATIONS = {
     "ui.menu": "เมนู"
   },
   "it": {
+    "a11y.title": "Impostazioni",
+    "theme.auto": "Automatico",
+    "theme.mono": "Monocromatico",
     "ask.eyebrow": "Domande frequenti",
     "ask.h2": "Domande, <em>con risposta</em>.",
     "ask.intro": "Risposte sincere su taglie, dogana, consegna e autenticità — e per tutto il resto, sono a un messaggio di distanza.",
@@ -5611,6 +5647,9 @@ window.SS_TRANSLATIONS = {
     "ui.menu": "Menu"
   },
   "tr": {
+    "a11y.title": "Ayarlar",
+    "theme.auto": "Otomatik",
+    "theme.mono": "Tek renk",
     "ask.eyebrow": "Sık sorulan sorular",
     "ask.h2": "Sorular, <em>yanıtlandı</em>.",
     "ask.intro": "Beden, gümrük, teslimat ve orijinallik hakkında dürüst yanıtlar — ve başka her şey için yalnızca bir mesaj uzağınızdayım.",
@@ -5962,6 +6001,9 @@ window.SS_TRANSLATIONS = {
     "ui.menu": "Menü"
   },
   "tl": {
+    "a11y.title": "Mga setting",
+    "theme.auto": "Awtomatiko",
+    "theme.mono": "Mono",
     "ask.eyebrow": "Mga karaniwang tanong",
     "ask.h2": "Mga tanong, <em>nasagot</em>.",
     "ask.intro": "Tapat na sagot sa sukat, customs, paghahatid, at authenticity — at para sa kahit ano pa, isang mensahe lang ako ang layo.",
@@ -6313,6 +6355,9 @@ window.SS_TRANSLATIONS = {
     "ui.menu": "Menu"
   },
   "pl": {
+    "a11y.title": "Ustawienia",
+    "theme.auto": "Automatyczny",
+    "theme.mono": "Monochromatyczny",
     "ask.eyebrow": "Częste pytania",
     "ask.h2": "Pytania, <em>z odpowiedziami</em>.",
     "ask.intro": "Szczere odpowiedzi o rozmiarach, cle, dostawie i autentyczności — a w każdej innej sprawie jestem o jedną wiadomość od Ciebie.",
@@ -6664,6 +6709,9 @@ window.SS_TRANSLATIONS = {
     "ui.menu": "Menu"
   },
   "nl": {
+    "a11y.title": "Instellingen",
+    "theme.auto": "Automatisch",
+    "theme.mono": "Monochroom",
     "ask.eyebrow": "Veelgestelde vragen",
     "ask.h2": "Vragen, <em>beantwoord</em>.",
     "ask.intro": "Eerlijke antwoorden over maten, douane, bezorging en echtheid — en voor al het andere ben ik maar één bericht weg.",
@@ -7015,6 +7063,9 @@ window.SS_TRANSLATIONS = {
     "ui.menu": "Menu"
   },
   "fa": {
+    "a11y.title": "تنظیمات",
+    "theme.auto": "خودکار",
+    "theme.mono": "تک‌رنگ",
     "ask.eyebrow": "پرسش‌های پرتکرار",
     "ask.h2": "پرسش‌ها، <em>پاسخ داده‌شده</em>.",
     "ask.intro": "پاسخ‌های صادقانه درباره سایز، گمرک، ارسال و اصالت — و برای هر چیز دیگر، تنها یک پیام با من فاصله دارید.",

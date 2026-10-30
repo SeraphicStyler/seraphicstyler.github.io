@@ -6,7 +6,7 @@
   const context = document.getElementById('service-context');
   const descriptions = {
     sourcing: 'Direct sourcing purchases a specific, in-stock Vietnamese item without research. Price, size, stock, and shipping can be confirmed with the identified seller.',
-    trace: 'The Trace investigates one item at $25 per item. A rare small-group exception must be confirmed before payment. Alternatives and broad curation require styling.',
+    trace: 'The Trace investigates one item at $45 per item, including messaging the shop. A rare small-group exception must be confirmed before payment. Alternatives and broad curation require styling.',
     styling: 'Reference interpretation, Vietnamese equivalents, alternatives, outfits, and wardrobe direction are paid styling. Your confirmed tier and clothing budget define the scope.',
     gift: 'Choose a gift budget or tier. Styling begins after the booking is confirmed and paid.',
     bulk: 'A professional buying quote requires a defined brief. Exploratory research is prepaid; buying fees are quoted before work begins.',
@@ -40,7 +40,7 @@
   });
   traceCount.addEventListener('change', () => {
     if (traceCount.value.startsWith('6+')) { choose('styling'); return; }
-    document.getElementById('trace-guidance').textContent = traceCount.value && traceCount.value !== '1' ? 'The default is $25 per item. A shared fee for this group is available only if Seraphic Styler explicitly confirms it before payment.' : '';
+    document.getElementById('trace-guidance').textContent = traceCount.value && traceCount.value !== '1' ? 'The default is $45 per item. A shared fee for this group is available only if Seraphic Styler explicitly confirms it before payment.' : '';
   });
   form.querySelectorAll('[name="service"]').forEach(el => el.addEventListener('change', update));
   const params = new URLSearchParams(location.search);

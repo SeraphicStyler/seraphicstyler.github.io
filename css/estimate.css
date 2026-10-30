@@ -104,4 +104,5 @@ html.est-embedded,html.est-embedded body { min-height:0;height:auto; }
 /* Dollars and my fee under each price. */
 .est-page .item-usd { margin:-2px 0 0; min-height:1.1em; font:0.78rem/1.4 var(--font-body); color:var(--text-secondary); }
 /* The converted total is the number most clients read — give it the weight. */
-.est-page #rUsd { font-size:1.25rem; font-weight:600; color:var(--text-primary); }
+.est-page #rUsd { font-size:clamp(20px,2vw,28px); font-weight:600; color:var(--text-primary); }
+.est-page #rTotal { color:var(--text-secondary); }

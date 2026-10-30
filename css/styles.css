@@ -276,10 +276,6 @@ html.dark body::after {
   animation: stars 6s ease-in-out infinite;
 }
 @keyframes stars { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
-/* hot-blue diffraction sparkles in the hero when dark */
-html.dark .hero::before, html.dark .hero::after {
-  color: #d4e8ff; text-shadow: 0 0 8px #bcdcff, 0 0 22px rgba(110,170,255,0.9), 0 0 46px rgba(60,120,240,0.7);
-}
 
 /* ---- Angelic halo headings (white + luminous glow) ----
    The hero keeps the full halo; section headlines take a whisper of it —
@@ -288,12 +284,6 @@ html.dark .hero::before, html.dark .hero::after {
 .section-head h2 { color: var(--text-primary); text-shadow: 0 0 22px rgba(255,255,255,0.4); }
 html.dark .section-head h2 { text-shadow: 0 0 24px rgba(169,184,238,0.22); }
 .hero { position: relative; overflow: hidden; }
-.hero::before, .hero::after { content: '✦'; position: absolute; color: #fff; text-shadow: var(--halo); pointer-events: none; opacity: 0.9; z-index: 1; animation: twinkle 4.5s ease-in-out infinite; }
-.hero::before { top: 13%; left: 15%; font-size: 1.5rem; }
-.hero::after { top: 27%; right: 16%; font-size: 1rem; animation-delay: 2.2s; }
-@keyframes twinkle { 0%, 100% { opacity: 0.35; transform: scale(0.85); } 50% { opacity: 1; transform: scale(1.15); } }
-html.rm .hero::before, html.rm .hero::after { animation: none; opacity: 0.7; }
-@media (max-width: 700px) { .hero::before, .hero::after { display: none; } }
 
 /* ---- Luminous Aura hero ---- */
 .hero-aura {
@@ -306,6 +296,8 @@ html.rm .hero::before, html.rm .hero::after { animation: none; opacity: 0.7; }
 .hero-heading { position: relative; }
 .hero-heading h1 { position: relative; z-index: 1; }
 .hero-heading > .hero-aura { top: 50%; width: min(64rem, 145vw); z-index: -1; }
+/* The homepage glow holds still: a breathing light behind the headline read as pulsing. */
+.hero-heading > .hero-aura, html.dark .hero-heading > .hero-aura { animation: none; }
 html:is(.mono, .hc) .hero-heading > .hero-aura { display: none; }
 /* Dark mode: keep the luminous orb, but blend it as light (screen) with a long
    transparent tail so no hard disc edge can form against the navy field. */
@@ -829,14 +821,6 @@ html.rm .a11y-panel.open { animation: none; }
 
 /* ---- Hero ---- */
 .hero { padding-top: clamp(3rem, 8vh, 5.5rem); padding-bottom: clamp(3rem, 8vw, 5.5rem); text-align: center; position: relative; }
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, var(--hero-overlay) 0%, rgba(45, 55, 72, 0.15) 60%, transparent 100%);
-  backdrop-filter: blur(2px);
-  z-index: -1;
-}
 .hero .eyebrow { display: block; width: 100%; margin: 0 auto 0.7rem; text-align: center; }
 .hero h1 { font-family: var(--font-script); font-weight: 400; font-size: clamp(3rem, 8vw, 5.4rem); line-height: 1.14; letter-spacing: 0.01em; margin: 0 auto 0.85rem; max-width: 16ch; padding: 0.08em 0 0.26em; color: #ffffff; text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15); }
 .hero .lead { margin: 0 auto 2.2rem; color: #ffffff; text-shadow: 0 1px 3px rgba(0,0,0,0.08); }
@@ -1853,12 +1837,18 @@ body.sp-locked { overflow: hidden; }
 .bx-rows dd { margin: 0; font-size: 0.9rem; color: var(--text-primary); }
 .bx-rows .bx-total dd { font-family: var(--font-display); font-size: 1.08rem; }
 .bx-rows .bx-per dd { color: var(--accent-deep); }
-/* The three moments money moves. It sits inside .bx-rows, so it has to opt out
-   of the row grid it would otherwise inherit — a label, not a line item. */
-.bx-rows .be-stages-h { display: block; grid-template-columns: none; gap: 0;
+/* The three moments money moves — a label above the numbered steps, not a line item. */
+.be-stages-h { display: block;
   font-family: var(--font-brand); text-transform: uppercase; letter-spacing: 0.18em;
   font-size: 0.6rem; color: var(--eyebrow-ink); margin-top: 0.5rem; padding-top: 0.9rem;
   border-top: 1px solid var(--surface-border); }
+/* Numbered steps — the homepage hw-steps language, with the amount on its own line. */
+.be-steps { list-style: none; counter-reset: bestep; margin: 0.7rem 0 0.6rem; padding: 0; display: grid; gap: 0.85rem; }
+.be-steps li { counter-increment: bestep; display: grid; grid-template-columns: 1.8rem 1fr; column-gap: 0.45rem; font-size: 0.9rem; line-height: 1.55; color: var(--text-secondary); }
+.be-steps li::before { content: counter(bestep); display: grid; place-items: center; width: 1.45rem; height: 1.45rem; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font: 600 0.72rem var(--font-body); grid-row: span 2; }
+.be-steps b { color: var(--text-primary); font-weight: 600; }
+.be-steps .be-amt { grid-column: 2; display: block; margin-top: 0.12rem; white-space: nowrap; color: var(--accent-deep); font-weight: 600; font-variant-numeric: tabular-nums; }
+html.dark .be-steps .be-amt { color: var(--periwinkle); }
 .bx-rows dt b { color: var(--text-primary); font-weight: 500; }
 /* The margin math — progressive disclosure inside the estimator. Duty, keystone
    and break-even are what a serious buyer wants and a skimmer does not, so they
@@ -1945,44 +1935,5 @@ html.dark .bx-rows .be-margin > summary { color: var(--periwinkle); }
 #btqEst .btq-flightnote { font-size: 0.78rem; line-height: 1.6; color: var(--text-secondary); margin: 0.8rem 0 0; }
 #btqEst #btqOnwardWrap { display: none; }
 
-/* ---- The footer garden ----
-   Drifting lavender blossoms and two aurora glows behind the footer — the site's
-   answer to a video footer, at zero bytes of media. Transform/opacity only, so it
-   composites on the GPU; negative delays start every bloom mid-drift. Stilled for
-   prefers-reduced-motion, dimmed in mono, removed in high-contrast. */
 .footer { position: relative; overflow: hidden; }
 .footer .wrap { position: relative; z-index: 1; }
-.foot-flora { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
-.foot-flora::before { content: ""; position: absolute; inset: -30% -55%;
-  background: linear-gradient(115deg,
-    transparent 22%,
-    color-mix(in srgb, var(--periwinkle) 12%, transparent) 36%,
-    color-mix(in srgb, var(--lav-mist) 20%, transparent) 47%,
-    color-mix(in srgb, var(--orchid) 12%, transparent) 58%,
-    transparent 74%);
-  animation: ffSweep 15s ease-in-out infinite alternate; }
-@keyframes ffSweep {
-  from { transform: translateX(-26%); }
-  to   { transform: translateX(26%); } }
-.ff-glow { position: absolute; width: 46vw; max-width: 620px; aspect-ratio: 1; border-radius: 50%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--periwinkle) 24%, transparent), transparent 66%);
-  animation: ffGlow 22s ease-in-out infinite alternate; }
-.ff-g1 { left: -10%; bottom: -34%; }
-.ff-g2 { right: -8%; top: -28%; animation-duration: 34s; animation-delay: -14s;
-  background: radial-gradient(circle, color-mix(in srgb, var(--orchid) 20%, transparent), transparent 66%); }
-.ff-p { position: absolute; left: var(--x); top: var(--y); width: var(--s); height: var(--s);
-  color: var(--periwinkle); opacity: calc(var(--o) * 1.3); transform: rotate(var(--r));
-  animation: ffDrift var(--d) ease-in-out infinite alternate; }
-.ff-orchid { color: var(--orchid); }
-.ff-fly { color: var(--lav-mist); }
-@keyframes ffGlow {
-  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.75; }
-  to   { transform: translate3d(6%, -5%, 0) scale(1.22); opacity: 1; } }
-@keyframes ffDrift {
-  from { transform: translate3d(0, 0, 0) rotate(var(--r)); }
-  to   { transform: translate3d(var(--dx), var(--dy), 0) rotate(calc(var(--r) + 18deg)) scale(1.12); } }
-html.dark .ff-p { opacity: calc(var(--o) * 1.35); }
-html.dark .ff-glow { opacity: 0.8; }
-html.mono .foot-flora { opacity: 0.25; filter: grayscale(1); }
-html.hc .foot-flora { display: none; }
-@media (prefers-reduced-motion: reduce) { .ff-p, .ff-glow, .foot-flora::before { animation: none; } }

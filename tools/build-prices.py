@@ -59,7 +59,7 @@ def modules(idp='', home=False):
     transfer = (item + fee + order) * s['transferPct']
     buy_total = item + fee + order + transfer
     out.append(dict(
-        id='buy', who='You have a link or know the item', title='Sourcing', price=h_vnd(s['minFeeVnd']), price_sub='per item, most items',
+        id='buy', who='You have a link with a price', title='Sourcing', price=h_vnd(s['minFeeVnd']), price_sub='per item, most items',
         steps='' if home else steps('<b>Get your price.</b> Type the shop price and paste the link.',
                                     '<b>Send it to me.</b> I confirm stock, size and the exact total.',
                                     '<b>You approve.</b> I buy it, check it in person and send you photos.',
@@ -79,18 +79,22 @@ def modules(idp='', home=False):
             (f'Later, that dress, from <a href="#{idp}buy">Sourcing</a>', h_vnd(buy_total))]
     if tr['credited']:
         rows.append(('Less The Trace you already paid', money(usd0(-tr['usd']), '~' + vnd(-tr['usd'] * FX))))
-    due = buy_total - (tr['usd'] * FX if tr['credited'] else 0)
+    total = (('You pay for the dress', h_vnd(buy_total - tr['usd'] * FX) + ' + shipping') if tr['credited']
+             else ('In all, the hunt and the dress', h_vnd(buy_total + tr['usd'] * FX) + ' + shipping'))
     out.append(dict(
-        id='trace', who='You have a photo, but no link', title='The Trace', price=h_usd(tr['usd']), price_sub='per item',
-        steps='' if home else steps('<b>Send the photo.</b> A photo is enough — no link needed.',
-                                    f'<b>I trace it.</b> What the piece is and who sells it, within {tr["replyHours"]} hours.',
-                                    '<b>You decide.</b> Order it and the tracing fee comes off.',
-                                    '<b>It ships.</b> Tracked, worldwide.'),
-        body=bul(f'I find out what the piece is and who sells it, and reply within {tr["replyHours"]} hours.',
-                 (f'<strong>If you then order it, the {h_usd(tr["usd"])} comes off your order.</strong>' if tr['credited']
-                  else 'It pays for the research, whether or not you order.'),
-                 'If it can’t be found, I tell you why and what’s closest.')
-             + example('a photo, then the same dress', rows, ('You pay for the dress', h_vnd(due) + ' + shipping')),
+        id='trace', who='You have a photo, or “DM for price”', title='The Trace', price=h_usd(tr['usd']), price_sub='per item',
+        steps='',
+        body=(f'<p class="pr-p">Many of Sài Gòn’s best shops don’t sell to the outside world: no website, no English, no posted price, just “DM for price.” The Trace is how you get in. It takes about an hour of my time per piece, across a day or two of waiting on the shop. Your {usd0(tr["usd"])} covers:</p>'
+              + bul('<strong>Finding the original.</strong> I match the cut, collar and fabric across Instagram, TikTok and Facebook, and tell the designer’s piece apart from a wholesale copy.',
+                    '<strong>Asking the shop properly.</strong> One complete message in Vietnamese: price, sizes in stock, fabric, lead time and local delivery.',
+                    '<strong>Following up until they answer.</strong> Shops often reply in pieces, hours or days apart. I keep the thread going so you don’t have to.',
+                    '<strong>Real measurements.</strong> Bust, waist, hips and length from the shop, checked against yours, because Vietnamese sizing runs small.',
+                    '<strong>Your price in dollars.</strong> The đồng price turned into a full total, with my fee, the transfer and shipping.',
+                    f'<strong>A written answer within {tr["replyHours"]} hours.</strong> The shop, the price and the measurements, or why it can’t be bought and the closest piece that can.')
+              + '<p class="pr-p">' + (f'<strong>If you then order it, the {usd0(tr["usd"])} comes off your order.</strong>' if tr['credited']
+                                      else '<strong>It pays for the hunt, so it stays paid whether or not you buy.</strong> If you buy, buying it is the usual sourcing fee.')
+              + ' A link with the price showing never needs a Trace.</p>')
+             + example('a photo, then the same dress', rows, total),
         cta=btn(SR + 'trace', 'Start The Trace →')))
 
     # Styling, with gift cards folded in

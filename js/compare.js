@@ -2,7 +2,7 @@
    An interactive answer to "is this expensive?": pick a tier and see what the
    same money buys at every comparable US service — styling boxes, advice-only
    stylists, department stores, sourcers, rentals. Renders into #giftLandscape
-   (the static $199 table there is the no-JS fallback); reads tier names and
+   (the static $235 table there is the no-JS fallback); reads tier names and
    prices from the gift cards in the DOM (matched by data-usd, like
    gift-quiz.js) so prices can never drift.
    Competitor figures verified Aug 2026 — source doc + citations:
@@ -37,56 +37,56 @@
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
   /* One row per comparable service; what[i] = what the tier price at index i
-     (Edit $199 / Capsule $369 / Atelier $529) actually buys there. Competitor
-     figures Aug 2026; re-run at the 1 Oct 2026 tier prices. */
+     (Edit $235 / Capsule $460 / Atelier $600) actually buys there. Competitor
+     figures Aug 2026; arithmetic redone at these prices on 29 Oct 2026. */
   var ROWS = [
     { name: 'Stitch Fix', sub: 'algorithm + remote stylist',
       what: [
-        'The $20 fee plus about three mall-brand items at the ~$60 average, billed at full US retail.',
-        'The fee plus five or six items, at full retail.',
-        'The fee plus about eight items, at full retail.'
+        'The $20 fee plus three or four mall-brand items at the ~$60 average, billed at full US retail.',
+        'The fee plus about seven items, at full retail.',
+        'The fee plus nine or ten items, at full retail.'
       ],
-      keep: ['~3', '~5–6', '~8'] },
+      keep: ['~3–4', '~7', '~9–10'] },
     { name: 'DailyLook', sub: 'remote human stylist',
       what: [
-        'The $40 fee plus about one premium item ($75–150 each), at retail.',
-        'The fee plus two to three items, at retail.',
-        'The fee plus three to four items, at retail.'
+        'The $40 fee plus one or two premium items ($75–150 each), at retail.',
+        'The fee plus three to five items, at retail.',
+        'The fee plus four to seven items, at retail.'
       ],
-      keep: ['~1', '~2–3', '~3–4'] },
+      keep: ['~1–2', '~3–5', '~4–7'] },
     { name: 'Wishi', sub: 'virtual styling app',
       what: [
         'A Major ($130) and a Mini ($60) session — style boards with shopping links; the garments are a separate retail bill.',
-        'Two Major sessions and a Mini — still no garments.',
-        'Four Major sessions — the advice only, always.'
+        'Three Major sessions and a Mini — still no garments.',
+        'Four Major sessions and a Mini — the advice only, always.'
       ],
       keep: ['0', '0', '0'] },
     { name: 'MiKADO', sub: 'LA stylist, in person',
       what: [
-        'About 14 minutes of an $850-an-hour strategy session.',
-        'About 26 minutes of the same hour.',
-        'About 37 minutes of the same hour.'
+        'About 17 minutes of an $850-an-hour strategy session.',
+        'About 32 minutes of the same hour.',
+        'About 42 minutes of the same hour.'
       ],
       keep: ['0', '0', '0'] },
     { name: 'Nordstrom', sub: 'free in-store styling',
       what: [
         'One mid-range Reformation dress ($148–278 typical); the styling advice is genuinely free.',
-        'One dress and change — or two on sale.',
-        'Two Reformation dresses; the advice is free.'
+        'About two mid-range dresses — or three on sale.',
+        'Two or three Reformation dresses; the advice is free.'
       ],
-      keep: ['~1', '1–2', '~2'] },
+      keep: ['~1', '~2', '2–3'] },
     { name: 'Gab Waller', sub: 'fashion sourcer — procurement only',
       what: [
-        'Just under the $200–350 finder’s fee for sourcing a single sold-out piece — no styling, ever.',
-        'One finder’s fee with change — the piece itself billed separately.',
-        'One finder’s fee and most of a second — the pieces still billed separately.'
+        'One finder’s fee at the low end of $200–350, for sourcing a single sold-out piece — no styling, ever.',
+        'One or two finder’s fees — the pieces themselves billed separately.',
+        'Two finder’s fees, or three at the low end — the pieces still billed separately.'
       ],
       keep: ['0', '0', '0'] },
     { name: 'Nuuly', sub: 'rental subscription',
       what: [
         'About two months of rentals — six pieces at a time, all returned.',
-        'Nearly four months of rentals — all returned.',
-        'About five and a half months of rentals — all returned.'
+        'Nearly five months of rentals — all returned.',
+        'About six months of rentals — all returned.'
       ],
       keep: ['0', '0', '0'] }
   ];

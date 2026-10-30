@@ -995,6 +995,7 @@
  for(const [lang,c] of Object.entries(copy)){
   const d=dict[lang]||(dict[lang]={});
   d['est.see']=estimateAction[lang];
+  if(lang==='vi')d['est.duty.us']='Gửi về Mỹ? Thuế nhập khẩu quần áo từ Việt Nam hiện khoảng {lo}–{hi}% giá món đồ, tức khoảng {a} – {b} ở đây. Khoản này nộp cho hải quan Mỹ, không phải cho mình, và mình xác nhận trước khi gửi hàng.';
   for(const [key,value] of Object.entries(c))d['estimate.'+key]=value;
   const aliases={
    'est.compare':'compare','est.shipto2':'compare','est.stops':'stores','est.complex':'complex','est.green':'green',

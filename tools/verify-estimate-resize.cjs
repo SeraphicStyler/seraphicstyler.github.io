@@ -35,12 +35,13 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
       assert(Math.abs(await height() - before) <= 1, 'stable iframe at ' + width);
       assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'page fits');
       assert(await frame.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'frame fits');
-      await frame.$eval('.est-options', node => { node.open = true; });
-      await pause(300);
-      assert(await height() > before, 'expands for options');
+      // The options start open (20d3185), so close them first, then reopen.
       await frame.$eval('.est-options', node => { node.open = false; });
       await pause(300);
-      assert(Math.abs(await height() - before) <= 1, 'shrinks after options close');
+      assert(await height() < before, 'shrinks when options close');
+      await frame.$eval('.est-options', node => { node.open = true; });
+      await pause(300);
+      assert(Math.abs(await height() - before) <= 1, 'grows back when options open');
     }
     await page.$eval('#test-estimate-reading', node => node.scrollIntoView({ behavior: 'instant' }));
     await pause(400);

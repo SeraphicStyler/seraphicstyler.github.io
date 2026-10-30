@@ -136,6 +136,10 @@
   function row(label, value, cls) {
     return '<div class="be-row' + (cls ? ' ' + cls : '') + '"><dt>' + label + '</dt><dd>' + value + '</dd></div>';
   }
+  /* Stages render as numbered-circle steps (the hw-steps language). */
+  function stageItem(title, desc, value) {
+    return '<li><b>' + title + '</b> ' + desc + '<span class="be-amt">' + value + '</span></li>';
+  }
 
   /* The buying fee in đồng: 15%, or 20% for rush / made-to-measure, then the
      $14-a-piece and $25-a-buy floors. One rule at every size. */
@@ -160,9 +164,9 @@
     var half = feeVnd / 2;
     var stage2 = totalVnd + half;
     var h = '';
-    h += row('<b>1 · To begin</b> — the scouting fee, before a single showroom is contacted',
+    h += stageItem('To begin.', 'The scouting fee, before a single showroom is contacted.',
       vnd(BTQ.scoutFeeVnd) + ' · ' + BTQ.scoutFeeUsdText);
-    h += row('<b>2 · Once the line sheet is with you</b> — the pieces you choose, at cost, plus half the buying fee',
+    h += stageItem('Once the line sheet is with you.', 'The pieces you choose, at cost, plus half the buying fee.',
       '≈' + usd(stage2 / FX));
     return h;
   }
@@ -173,7 +177,7 @@
     var v = shipLow === shipHigh
       ? '≈' + usd((half + shipLow) / FX)
       : '≈' + usdR((half + shipLow) / FX, (half + shipHigh) / FX);
-    return row('<b>3 · Once every piece is bought and photographed</b> — the other half of the fee ' +
+    return stageItem('Once every piece is bought and photographed.', 'The other half of the fee ' +
       'plus exact shipping, after you approve the photographs. Then it ships.', v);
   }
 
@@ -286,18 +290,22 @@
     html += row('Pieces at cost — ' + pieces + ' × ≈' + vnd(avgVnd), vnd(totalVnd) + ' · ≈' + usd(totalUsd));
     html += row('Scouting fee — one round', vnd(SC) + ' · ' + BTQ.scoutFeeUsdText);
     html += row('Buying fee — ' + f.label, vnd(f.amount) + ' · ≈' + usd(f.amount / FX));
+    html += '</dl>';
     html += '<div class="be-stages-h">What you pay, and when</div>';
+    html += '<ol class="be-steps">';
     html += stage12Rows(totalVnd, f.amount);
 
     if (!flightOn) {
       html += stage3Row(f.amount, shipLow, shipHigh);
+      html += '</ol>';
+      html += '<dl class="bx-rows">';
       html += row(shipLabel, shipLine);
       html += row('Landed, before US duty', '≈' + usdR(landLow / FX, landHigh / FX), 'bx-total');
       html += row('Per piece, landed', '≈' + usdR(landLow / FX / pieces, landHigh / FX / pieces), 'bx-per');
       html += closingRows(totalVnd, f.amount + SC, shipLow, shipHigh, pieces);
       html += '</dl>';
     } else {
-      html += '</dl>';
+      html += '</ol>';
 
       var ow = BTQ.flight.onward[0];
       if (onEl) for (var j = 0; j < BTQ.flight.onward.length; j++) if (BTQ.flight.onward[j].id === onEl.value) ow = BTQ.flight.onward[j];
@@ -316,8 +324,10 @@
         : '≈' + usdR(flLow / FX, flHigh / FX);
 
       html += '<div class="be-duo">';
-      html += '<div class="dcol"><h4>By courier — the standard model</h4><dl class="bx-rows">'
+      html += '<div class="dcol"><h4>By courier — the standard model</h4>'
+        + '<ol class="be-steps" style="counter-reset:bestep 2">'
         + stage3Row(f.amount, shipLow, shipHigh)
+        + '</ol><dl class="bx-rows">'
         + row(shipLabel, shipLine)
         + row('Landed, before US duty', '≈' + usdR(landLow / FX, landHigh / FX), 'bx-total')
         + row('Per piece, landed', '≈' + usdR(landLow / FX / pieces, landHigh / FX / pieces), 'bx-per')
@@ -326,7 +336,10 @@
       html += '<div class="dcol flight"><h4>On the ' + BTQ.flight.flightText + ' flight — this window only</h4><dl class="bx-rows">'
         + row('International leg — in my suitcase, ' + BTQ.flight.flightText, '$0 — instead of ' + usdR(shipLow / FX, shipHigh / FX) + ' by courier')
         + row('From Orange County — ' + ow.short, owTxt)
+        + '</dl>'
+        + '<ol class="be-steps" style="counter-reset:bestep 2">'
         + stage3Row(f.amount, owLow, owHigh)
+        + '</ol><dl class="bx-rows">'
         + row('Landed, before US duty', flLanded, 'bx-total')
         + row('Per piece, landed', flPer, 'bx-per')
         /* Duty is on the goods, so it is identical in both columns — which is

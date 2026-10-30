@@ -34,7 +34,7 @@
       "transferPct": 0.03,
       "example": { "itemVnd": 1500000 }
     },
-    "trace": { "usd": 25, "credited": true, "replyHours": 48 },
+    "trace": { "usd": 45, "credited": false, "replyHours": 48 },
     "styling": [
       { "id": "edit", "name": "The Edit", "totalUsd": 235, "feeUsd": 135, "creditUsd": 100, "what": "3–4 pieces, one focused need" },
       { "id": "capsule", "name": "The Capsule", "totalUsd": 460, "feeUsd": 270, "creditUsd": 190, "what": "6–8 pieces that work together, with a lookbook" },
@@ -64,7 +64,7 @@
     },
     "card": { "pct": "5.4%", "fixedUsd": 0.30 },
     "stripe": {
-      "trace": "https://buy.stripe.com/00w5kE3nx5RdbIA9rQaAw0a",
+      "trace": "service-request.html?service=trace",
       "edit": "https://buy.stripe.com/dRmfZi0bl5RdaEweMaaAw0g",
       "capsule": "https://buy.stripe.com/14A3cwgaj1AX3c40VkaAw0h",
       "atelier": "https://buy.stripe.com/aFaaEYgajbbxdQIdI6aAw0i",
@@ -183,7 +183,7 @@
       'My fee: ' + hVnd(s.minFeeVnd) + ' per item. Items over ' + hVnd(from8) + ' are ' + pct(s.rate) + ' of the price instead, and items over ' + hVnd(s.highFromVnd) + ' are ' + pct(s.highRate) + '.',
       hVnd(s.orderFeeVnd) + ' per order for packing and coordination, ' + s.shopsIncluded + ' shops included; each extra shop is ' + hVnd(s.extraShopVnd) + '.',
       pct(s.transferPct) + ' currency transfer on the order. Shipping at the courier’s actual cost.',
-      'The Trace: ' + hUsd(DATA.trace.usd) + ' per item' + (DATA.trace.credited ? ', taken off your order if you buy it.' : '.')
+      'The Trace: ' + hUsd(DATA.trace.usd) + ' per item' + (DATA.trace.credited ? ', taken off your order if you buy it.' : ', for finding it and messaging the shop.')
     ];
   }
   /* The boutique trio — parallel on every surface. */

@@ -62,7 +62,7 @@
       ['Custom Wardrobe+ · from ' + F.fromUsd(P.tier('custom-wardrobe-plus').totalUsd), '#custom-wardrobe', '21–30+ pieces, made to measure, rush timeline, complex ordering', 'individual'],
       ['Signature · ' + F.fromUsd(P.tier('signature').totalUsd), 'signature', F.fromUsd(P.tier('signature').feeUsd) + ' styling fee + ' + F.fromUsd(P.tier('signature').creditUsd) + ' spent on your clothes, designer commission and 60 days support', 'individual']
     ] : []),
-    ['The Trace · a photo, no link', 'prices#trace', 'Photo only, no link: I identify the item first', 'individual'],
+    ['The Trace · a photo, or DM for price', 'prices#trace', 'Photo only, no link, or DM for price: I find it and message the shop', 'individual'],
     ['Style questionnaire', 'style-profile', 'Measurements lifestyle preferences body shape', 'individual'],
     ['Shipping & order process', section('process', '#lp-how'), 'Worldwide delivery tracking approval'],
     ['Fashion directory', 'fashion-directory', 'Browse Vietnamese brands boutiques designers'],

@@ -1,7 +1,7 @@
 /* Approved service answers shared by the browser and optional model backend. */
 export const topics = {
     difference: {
-      answer:'Sourcing is for an exact, in-stock piece from a Vietnamese seller you can identify. Styling is for help choosing pieces, interpreting inspiration, or creating outfits. If you want a particular item identified from a photo, The Trace investigates its source for $25 per item.',
+      answer:'Sourcing is for an exact, in-stock piece from a Vietnamese seller you can identify. Styling is for help choosing pieces, interpreting inspiration, or creating outfits. If you want a particular item identified from a photo, The Trace investigates its source for $45 per item.',
       scene:'difference',
       actions:[['Get a sourcing price','estimate'],['See the styling tiers','prices#styling']]
     },
@@ -11,7 +11,7 @@ export const topics = {
       actions:[['Get your price','estimate'],['Only a photo? The Trace','prices#trace']]
     },
     trace: {
-      answer:'The Trace investigates the source of one specific item for $25 per item, credited toward an order if you proceed. It returns an identified source and available price, or an explanation of why the piece cannot be sourced. A match is not guaranteed.',
+      answer:'The Trace investigates the source of one specific item for $45 per item: finding it, messaging the shop in Vietnamese and following up. It pays for that work, so it does not come off an order. It returns an identified source and available price, or an explanation of why the piece cannot be sourced. A match is not guaranteed.',
       scene:'trace',
       actions:[['Start The Trace','service-request.html?service=trace'],['How The Trace is priced','prices#trace']]
     },

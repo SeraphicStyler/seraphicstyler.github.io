@@ -1,0 +1,17 @@
+/* Night sky canvas (js/night-sky.js) — dark theme only. Sits at the bottom of the
+   decorative stack, behind content. The gradient is airglow: oxygen's faint green
+   (557.7 nm) hugging the horizon, fading up through a violet fringe into black. */
+.night-sky {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  z-index: -1; pointer-events: none;
+  background: linear-gradient(to top,
+    rgba(110, 205, 170, 0.055) 0%,
+    rgba(150, 132, 228, 0.04) 13%,
+    rgba(150, 132, 228, 0) 34%);
+}
+/* The root paints an opaque colour, so a body background would cover a negative
+   z-index layer. While the sky runs, the dusk gradient moves from body to html. */
+html.dark.ss-sky { background: linear-gradient(155deg, #191d30, #242239 45%, #20283f 80%, #1c2035) fixed; }
+html.dark.ss-sky body { background: transparent; }
+.night-sky[hidden], html:not(.dark) .night-sky, html.mono .night-sky, html.hc .night-sky { display: none; }
+@media (forced-colors: active) { .night-sky { display: none; } }
