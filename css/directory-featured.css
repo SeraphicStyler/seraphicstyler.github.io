@@ -1,0 +1,78 @@
+/* The directory's front wall: occasions → 8 houses → one next step each.
+   Uses the directory's own tokens (css/directory.css), so dark mode follows. */
+.fd-featured { margin: var(--s6) auto var(--s10); }
+.fd-featured[hidden] { display: none; }
+.ff-head { max-width: 760px; }
+.ff-head h2 { text-wrap: balance; font-family: var(--font-display); font-weight: 700; color: var(--ink); font-size: clamp(1.45rem, 2.8vw, 2rem); letter-spacing: -.015em; margin: var(--s2) 0 var(--s3); }
+.ff-lede { color: var(--ink-soft); line-height: 1.6; margin: 0; }
+.ff-lede strong { color: var(--ink); }
+
+.ff-tabs { display: flex; flex-wrap: wrap; gap: var(--s2); margin: var(--s6) 0 var(--s4); }
+.ff-tabs button {
+  font: 500 .92rem var(--font-body); color: var(--ink); background: var(--card-solid); cursor: pointer;
+  border: 1px solid var(--line); border-radius: var(--r-pill); padding: .6rem 1.1rem; min-height: 44px;
+  transition: background .2s, color .2s, border-color .2s;
+}
+.ff-tabs button:hover { border-color: var(--cobalt); }
+.ff-tabs button[aria-selected="true"] { background: var(--cobalt); border-color: var(--cobalt); color: #fff; }
+[data-theme=dark] .ff-tabs button[aria-selected="true"] { color: #161a26; }
+.ff-tabs button:focus-visible { outline: 3px solid var(--cobalt); outline-offset: 2px; }
+
+.ff-line { color: var(--ink-mute); margin: 0 0 var(--s5); font-size: .95rem; max-width: 70ch; }
+.ff-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s4); grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.ff-tile {
+  display: flex; flex-direction: column; gap: var(--s3); padding: var(--s5); border-radius: var(--r);
+  background: var(--card-solid); border: 1px solid var(--line); box-shadow: var(--shadow-sm);
+}
+.ff-plate { width: 56px; height: 56px; border-radius: 14px; overflow: hidden; flex: none; border: 1px solid var(--line-soft); background: #fff; }
+.ff-plate img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ff-mono {
+  display: grid; place-items: center; font: 600 1.05rem var(--font-display); letter-spacing: .04em; color: var(--ink);
+  background: linear-gradient(135deg, rgba(201,182,232,.55), rgba(138,147,222,.35) 55%, rgba(201,143,196,.35));
+}
+.ff-body { flex: 1; }
+.ff-name { font: 700 1.02rem/1.3 var(--font-display); color: var(--ink); margin: 0 0 .25rem; overflow-wrap: anywhere; }
+.ff-where { font-size: .8rem; color: var(--ink-mute); margin: 0 0 .5rem; }
+.ff-where a { color: var(--peri-text); text-decoration: none; }
+.ff-where a:hover { text-decoration: underline; }
+.ff-note { font-size: .86rem; line-height: 1.5; color: var(--ink-soft); margin: 0; }
+.ff-next { display: flex; flex-direction: column; gap: .35rem; padding-top: var(--s3); border-top: 1px solid var(--line-soft); }
+.ff-go { font-weight: 600; font-size: .88rem; color: var(--cobalt); text-decoration: none; }
+.ff-go:hover { text-decoration: underline; }
+.ff-alt { font-size: .8rem; color: var(--ink-mute); }
+.ff-alt-note { font-size: .78rem; color: var(--ink-mute); }
+.ff-all { margin: var(--s8) 0 0; text-align: center; }
+.ff-all a {
+  display: inline-block; font-weight: 600; color: var(--ink); text-decoration: none; padding: .75rem 1.3rem;
+  border: 1px solid var(--line); border-radius: var(--r-pill); background: var(--card);
+}
+.ff-all a:hover { border-color: var(--cobalt); }
+
+/* 8 houses per occasion: 4 or 2 columns, never 3 (no half-empty last row). */
+@media (max-width: 1100px) {
+  .ff-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* logo beside the name, so wide two-column cards stay compact */
+  .ff-tile { flex-direction: row; flex-wrap: wrap; align-items: flex-start; column-gap: var(--s4); }
+  .ff-body { flex: 1 1 calc(100% - 56px - var(--s4)); }
+  .ff-next { flex-basis: 100%; margin-top: auto; }
+}
+@media (max-width: 560px) {
+  .ff-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-left: calc(-1 * var(--s4)); margin-right: calc(-1 * var(--s4)); padding: 0 var(--s4); }
+  .ff-tabs::-webkit-scrollbar { display: none; }
+  .ff-tabs button { flex: none; }
+  .ff-grid { grid-template-columns: 1fr; }
+  .ff-tile { padding: var(--s4); column-gap: var(--s3); }
+}
+
+/* Search results as cards (7 Nov 2026): the same tile as the front wall. */
+body.fd-workspace .fd-formats { display: none; }          /* one view only: the cards */
+.fd-card-results { margin-top: var(--s4); }
+.ff-cat { font-size: .7rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--peri-text); margin: 0 0 .2rem; }
+.ff-name a { color: inherit; text-decoration: none; }
+.ff-name a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.ff-result .fd-match-reason { font-size: .76rem; color: var(--ink-mute); margin: .45rem 0 0; }
+.ff-acts { display: flex; gap: var(--s2); flex-basis: 100%; }
+.ff-acts button { font: 500 .8rem var(--font-body); color: var(--ink-soft); background: transparent; border: 1px solid var(--line); border-radius: var(--r-pill); padding: .35rem .85rem; min-height: 36px; cursor: pointer; }
+.ff-acts button:hover, .ff-acts button[aria-pressed="true"] { border-color: var(--cobalt); color: var(--cobalt); }
+.ff-tier { display: inline-block; margin-left: .45rem; padding: .05rem .5rem; border-radius: 999px; font-size: .64rem; letter-spacing: .08em;
+  color: var(--ink-soft); background: rgba(138,147,222,.14); border: 1px solid var(--line-soft); text-transform: capitalize; vertical-align: 1px; }

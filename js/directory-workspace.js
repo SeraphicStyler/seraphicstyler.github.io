@@ -123,10 +123,16 @@
   host.replaceChildren();const title=node('h2',window.SS_TF('fd.ws.count','{n} houses',{n:shown.length}));title.className='fd-results-title';host.append(title,node('p','Directory observations, not live stock. Confirm current hours before a visit.','fd-results-note'));
   const max=Math.max(1,Math.ceil(visibleRows.length/24));page=Math.min(page,max);
   if(!shown.length){host.append(node('p','No houses match these filters. Remove a filter or clear the search to try again.'),button('Clear all filters',()=>engine.reset()));return true;}
-  const list=node('div','','fd-record-list');list.setAttribute('role','list');
+  /* 7 Nov 2026: results are simple house cards (logo, what it is, one next step), not table rows. */
+  if(window.SS_HOUSE_CARD){const grid=node('ol','','ff-grid fd-card-results');
+   visibleRows.slice((page-1)*24,page*24).forEach(r=>{const b=catalog.fromLegacy(r),card=window.SS_HOUSE_CARD(r);const h=card.querySelector('.ff-name');const a=recordLink(b);a.textContent=r.n;h.replaceChildren(a);
+    if(q){const why=catalog.ranking(b,q).matched_on;if(why.length)card.querySelector('.ff-body').append(node('p','Matched '+why.join(', '),'fd-match-reason'));}
+    const acts=recordActions(b);acts.classList.add('ff-acts');card.append(acts);grid.append(card);});
+   host.append(grid);}
+  else{const list=node('div','','fd-record-list');list.setAttribute('role','list');
   visibleRows.slice((page-1)*24,page*24).forEach(r=>{const b=catalog.fromLegacy(r),row=node('article','','fd-result-row');row.setAttribute('role','listitem');const name=node('div','','fd-result-name');const h=node('h3');h.append(recordLink(b));name.append(h,node('p',category[b.category_primary]||b.category_primary));if(q)name.append(node('p','Matched '+catalog.ranking(b,q).matched_on.join(', '),'fd-match-reason'));row.append(name);
-   row.append(facts([['Visit',labels[b.visit_mode]],['Area',b.area_note],['Tier',b.tier],['Materials',b.materials.join(', ')]]));
-   const state=node('div','','fd-result-status');if(b.verification.issues.includes('confirm_first'))state.append(node('span','Recorded caution'));else state.hidden=true;if(b.verification.reason){const d=node('details');d.append(node('summary','Why?'),node('p',b.verification.reason),node('p','Review date not recorded.'));state.append(d);}row.append(state,recordActions(b));list.append(row);});host.append(list);
+   row.append(facts([['Visit',labels[b.visit_mode]],['Area',b.area_note],['Tier',b.tier],['Materials',b.materials.join(', ')]].filter(([,v])=>v&&v!=='Confirm access')));
+   const state=node('div','','fd-result-status');if(b.verification.issues.includes('confirm_first'))state.append(node('span','Recorded caution'));else state.hidden=true;if(b.verification.reason){const d=node('details');d.append(node('summary','Why?'),node('p',b.verification.reason),node('p','Review date not recorded.'));state.append(d);}row.append(state,recordActions(b));list.append(row);});host.append(list);}
   const paging=node('nav','','fd-pagination');paging.setAttribute('aria-label','Result pages');const prev=button('Previous',()=>{page--;engine.refresh();host.focus({preventScroll:true});host.scrollIntoView({behavior:'instant'});}),next=button('Next',()=>{page++;engine.refresh();host.focus({preventScroll:true});host.scrollIntoView({behavior:'instant'});});prev.disabled=page===1;next.disabled=page===max;paging.append(prev,node('span',window.SS_TF('fd.ws.page','Page {page} of {total}',{page,total:max})),next);host.append(paging);return true;
  }
  window.SS_WORKSPACE_RENDER=renderResults;

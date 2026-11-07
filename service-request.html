@@ -13,6 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Montserrat:wght@400;500&family=Pinyon+Script&family=Tenor+Sans&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css?v=2026-08-13">
   <link rel="stylesheet" href="css/service-guide.css?v=2026-10-02">
+  <script src="js/visitor-currency.js?v=2026-11-07a" defer></script>
   <script src="js/service-request.js" defer>
 </script>
   <script src="js/i18n-site.js?v=2026-09-12" defer></script>
@@ -37,15 +38,15 @@
 <p class="ss-choice-intro">Start with the closest fit. You can change your selection at any time.</p>
 <label class="ss-service-choice">
 <input type="radio" name="service" value="sourcing" required>
-<span><strong>Buy from a Vietnamese shop</strong><small>You found the exact in-stock item; we help purchase it.</small></span>
+<span><strong>Sourcing · a link with a price</strong><small>Ready-made and in stock. I buy it exactly as listed: no custom sizes, no back-and-forth with the house.</small></span>
 </label>
 <label class="ss-service-choice">
 <input type="radio" name="service" value="trace" required>
-<span><strong>Trace an item <em>$45 / item</em></strong><small>Find a piece, or get the price from a shop that only answers by DM.</small></span>
+<span><strong>The Trace · a photo, a post, or a custom size <em>$50 / item</em></strong><small>A personal concierge for one piece. No price, “DM for price”, or made to your measurements: I talk with the house, back and forth, until it’s settled. Paid before I start.</small></span>
 </label>
 <label class="ss-service-choice">
 <input type="radio" name="service" value="styling" required>
-<span><strong>Personal styling</strong><small>Similar pieces, outfits, capsules, and wardrobe direction.</small></span>
+<span><strong>Styling · choose for me</strong><small>All-inclusive and longer-term: sourcing and tracing included, plus outfits and wardrobe direction. The only service with piece credit.</small></span>
 </label>
 <label class="ss-service-choice">
 <input type="radio" name="service" value="gift" required>
@@ -68,6 +69,7 @@
 <option value="">Select one</option>
 <option value="link">Vietnamese seller — I have a direct product link</option>
 <option value="precise">Vietnamese seller — I have precise seller and in-stock item details</option>
+<option value="custom">Vietnamese seller — but I need a custom size or made-to-measure</option>
 <option value="unknown">Unknown item or seller / purchase link needs research</option>
 <option value="inspiration">Non-Vietnamese brand, inspiration, or a similar-piece request</option>
 </select>
@@ -100,8 +102,8 @@
 </fieldset>
 </fieldset>
 <fieldset data-fields="trace" disabled hidden>
-<legend>The Trace · $45 per item</legend>
-<p>US$45 per item for finding it and messaging the shop. It pays for that work, so it does not come off an order. The detailed scope is in the service terms below.</p>
+<legend>The Trace · $50 per item</legend>
+<p>US$50 per item, paid before I start. It pays for the conversation: finding the house, messaging them, and going back and forth with you and with them on size, colour, style, price and custom measurements. Made-to-measure adds US$25 a garment and is final sale. It does not come off an order, and it carries no piece credit. The detailed scope is in the service terms below.</p>
 <label>Reference links or precise identification details (attach photos in the inquiry form)<textarea name="Trace references" rows="3" maxlength="2500" required>
 </textarea>
 </label>
@@ -152,7 +154,7 @@
 <fieldset data-fields="gift" disabled hidden>
 <legend>Gift a styling experience</legend>
 <p>Choose a tier or budget. The recipient begins when they’re ready.</p>
-<label>Preferred gift tier<select name="Gift tier" id="gift-request-tier"><option value="unsure">Help me choose</option><option value="edit">The Edit · $235</option><option value="capsule">The Capsule · $460</option><option value="atelier">The Atelier · $600</option><option value="signature">The Signature · $790</option><option value="trace">The Trace · $45</option><option value="custom-wardrobe">The Custom Wardrobe · from $1,500</option><option value="custom-wardrobe-plus">The Custom Wardrobe+ · from $2,000</option></select></label>
+<label>Preferred gift tier<select name="Gift tier" id="gift-request-tier"><option value="unsure">Help me choose</option><option value="edit">The Edit · $235</option><option value="capsule">The Capsule · $460</option><option value="atelier">The Atelier · $600</option><option value="signature">The Signature · $790</option><option value="trace">The Trace · $50</option><option value="custom-wardrobe">The Custom Wardrobe · from $1,500</option><option value="custom-wardrobe-plus">The Custom Wardrobe+ · from $2,000</option></select></label>
 <label>Gift budget in USD, or request a quote<input type="text" name="Gift budget" required maxlength="1000">
 </label>
 <label>Occasion and timing<input type="text" name="Gift occasion" required maxlength="1000">
@@ -239,5 +241,6 @@
 <a href="policy">Service policies</a> · <a href="fashion-directory">Free fashion directory</a>
 </footer>
   <script src="js/a11y-panel.js" defer></script>
+  <script src="js/contact-hub.js?v=2026-11-07a" defer></script>
 </body>
 </html>

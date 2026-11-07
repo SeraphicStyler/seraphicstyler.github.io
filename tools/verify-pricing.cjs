@@ -65,7 +65,8 @@ const strip = html => html.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').repla
     assert(index.includes(`${t.name.replace(/^The /, 'The ')} — ${F.usd0(t.totalUsd)}`), 'homepage card price: ' + t.name);
     assert(index.includes(D.stripe[t.id]), 'homepage checkout link: ' + t.name);
   }
-  assert(index.includes(D.stripe.trace) && index.includes(D.stripe.scout), 'homepage Trace / scouting links');
+  const inHtml = u => index.includes(u) || index.includes(u.replace(/&/g, '&amp;'));
+  assert(inHtml(D.stripe.trace) && inHtml(D.stripe.scout), 'homepage Trace / scouting links');
   // The internal fee calculator keeps its own defaults; they must match the data.
   const feeCalc = read('fee-calc.html').match(/var DEFAULTS = \{([^}]*)\}/)[1];
   assert(feeCalc.includes('xfer: ' + (D.sourcing.transferPct * 100).toFixed(1)) && feeCalc.includes('fx: ' + D.fx.vndPerUsd) && feeCalc.includes('fixed: ' + D.card.fixedUsd.toFixed(2)), 'fee-calc.html defaults differ from js/pricing.js');
@@ -108,10 +109,11 @@ const strip = html => html.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').repla
     // The menu doors carry the same figures as the data.
     await go('/index.html'); await clear(); await go('/index.html');
     await page.click('.ss-guide-launch'); await page.waitForFunction(() => document.querySelector('.ss-guide').open);
-    assert.equal(await page.$eval('.ss-door[data-door="sourcing"] .ss-door-p', e => e.textContent), 'Per item · ~' + F.vnd(D.sourcing.minFeeVnd) + ' (~' + F.usd(D.sourcing.minFeeVnd / D.fx.vndPerUsd) + ')', 'sourcing door price');
+    assert.equal(await page.$eval('.ss-door[data-door="sourcing"] .ss-door-p', e => e.textContent), 'Per item · ~' + F.usd(D.sourcing.minFeeVnd / D.fx.vndPerUsd), 'sourcing door price (visitor currency only, 7 Nov 2026: đồng hidden)');
+    assert.equal(await page.$eval('.ss-door[data-door="trace"] .ss-door-p', e => e.textContent), F.usd0(D.trace.usd) + ' per item', 'trace door price');
     assert.equal(await page.$eval('.ss-door[data-door="styling"] .ss-door-p', e => e.textContent), 'From ' + F.usd(D.styling[0].totalUsd), 'styling door price');
     assert.equal(await page.$eval('.ss-door[data-door="boutiques"] .ss-door-p', e => e.textContent), F.usd0(D.boutique.scoutUsd) + ' + ' + F.pct(D.boutique.pct), 'boutiques door price');
-    assert.deepEqual(await page.$$eval('.ss-door', as => as.map(a => a.dataset.door)), ['sourcing','styling','boutiques']);
+    assert.deepEqual(await page.$$eval('.ss-door', as => as.map(a => a.dataset.door)), ['sourcing','trace','styling','boutiques']);
     await go('/prices');
     for (const t of D.styling) assert(await page.$eval('#styling .price-table', (e, want) => e.textContent.includes(want), F.usd(t.totalUsd)), 'tier missing on /prices: ' + t.name);
     assert.equal(await view(), 'individual');

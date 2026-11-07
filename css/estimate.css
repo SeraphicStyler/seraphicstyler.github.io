@@ -106,3 +106,32 @@ html.est-embedded,html.est-embedded body { min-height:0;height:auto; }
 /* The converted total is the number most clients read — give it the weight. */
 .est-page #rUsd { font-size:clamp(20px,2vw,28px); font-weight:600; color:var(--text-primary); }
 .est-page #rTotal { color:var(--text-secondary); }
+
+/* ---- Three steps (7 Nov 2026): 1 your pieces · 2 where it ships · 3 your total ---- */
+.est-step-h { display: flex; align-items: center; gap: .6rem; }
+.est-n { flex: none; display: inline-grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: 50%;
+  font: 600 .9rem/1 var(--font-body); color: #fff; background: linear-gradient(135deg, #8a93de, #c98fc4); box-shadow: 0 6px 14px -8px rgba(80,60,160,.6); }
+.est-more { margin-top: .4rem; border: 1px dashed var(--surface-border); border-radius: 16px; padding: .2rem 1rem; background: color-mix(in srgb, var(--surface-solid) 55%, transparent); }
+.est-more > summary { cursor: pointer; list-style: none; display: flex; flex-direction: column; gap: .15rem; padding: .85rem 1.6rem .85rem 0; position: relative; }
+.est-more > summary::-webkit-details-marker { display: none; }
+.est-more > summary::after { content: "+"; position: absolute; right: 0; top: .8rem; font-size: 1.2rem; color: var(--accent); }
+.est-more[open] > summary::after { content: "−"; }
+.est-more > summary span { font-weight: 600; color: var(--text-primary); }
+.est-more > summary small { color: var(--text-secondary); font-size: .8rem; }
+.est-more-body { padding: .2rem 0 1rem; }
+.est-more-body .quiz-q { font-size: 1rem; margin-top: 1rem; }
+.est-fine { margin-top: .9rem; border-top: 1px solid var(--surface-border); padding-top: .6rem; }
+.est-fine > summary { cursor: pointer; font-size: .85rem; color: var(--text-secondary); }
+.est-fine[open] > summary { margin-bottom: .5rem; }
+.est-fine .result-row { border: none; }
+/* the total in the visitor's own currency is the answer: make it big */
+.est-receipt .result-row.total { padding-top: 1rem; }
+.est-receipt .result-row.total .v { font-size: clamp(1.7rem, 5vw, 2.2rem); font-family: 'Cormorant Garamond', var(--font-display); font-weight: 600; color: var(--accent); }
+/* the answer, large */
+#rUsd { font-size: clamp(1.6rem, 6vw, 2.1rem); line-height: 1.15; font-family: 'Cormorant Garamond', var(--font-display); font-weight: 600; color: var(--accent); }
+.est-receipt .result-row.total { flex-wrap: wrap; align-items: baseline; gap: .4rem .8rem; }
+.est-receipt .result-row.total .cur-select { width: auto; min-height: 34px; padding: .25rem 1.8rem .25rem .7rem; font-size: .82rem; }
+/* language + appearance: one small row, top right, out of the way */
+.quiz-toolbar { display: flex; justify-content: flex-end; align-items: center; gap: .5rem; flex-wrap: wrap; margin-bottom: .6rem; }
+.quiz-toolbar label { font-size: .75rem; gap: .35rem; }
+.quiz-toolbar select { width: auto; min-height: 34px; padding: .25rem 1.7rem .25rem .65rem; font-size: .8rem; border-radius: 999px; }

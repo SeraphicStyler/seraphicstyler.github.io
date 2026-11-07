@@ -35,13 +35,19 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
       assert(Math.abs(await height() - before) <= 1, 'stable iframe at ' + width);
       assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'page fits');
       assert(await frame.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'frame fits');
-      // The options start open (20d3185), so close them first, then reopen.
-      await frame.$eval('.est-options', node => { node.open = false; });
+      // 7 Nov 2026: "More options" starts closed, so open it, then close it again.
+      await frame.$eval('.est-more', node => { node.open = true; });
       await pause(300);
-      assert(await height() < before, 'shrinks when options close');
-      await frame.$eval('.est-options', node => { node.open = true; });
+      const opened = await height();
+      assert(opened > before, 'grows when options open');
+      await frame.$eval('.est-more', node => { node.open = false; });
       await pause(300);
-      assert(Math.abs(await height() - before) <= 1, 'grows back when options open');
+      assert(await height() < opened, 'shrinks when options close');
+      await frame.$eval('.est-more', node => { node.open = true; });
+      await pause(300);
+      assert(Math.abs(await height() - opened) <= 1, 'grows back when options open');
+      await frame.$eval('.est-more', node => { node.open = false; });
+      await pause(300);
     }
     await page.$eval('#test-estimate-reading', node => node.scrollIntoView({ behavior: 'instant' }));
     await pause(400);

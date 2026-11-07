@@ -149,6 +149,8 @@ import { guideEndpoint } from './concierge-config.js';
     const inspiration=has(text,['similar','inspiration','vibe','feeling','like this','alternatives','outfit','outfits','wardrobe','style me','wedding look']);
     // Comparisons and explicit intent matter more than the presence of an item word.
     if(has(text,['difference','versus','sourcing or styling','which service',' vs '])) return 'difference';
+    // Custom sizes and made-to-measure are always The Trace (her line, 7 Nov 2026): never Sourcing.
+    if(has(text,['custom','customised','customized','made to measure','made-to-measure','my measurements','larger than','bigger than','alteration','alterations'])&&!has(text,['boutique','wardrobe','outfits']))return 'trace';
     if(inspiration&&has(text,['not the exact','not that exact','rather than the exact','don t need the exact','do not need the exact']))return 'styling';
     if(identify&&has(text,['no alternatives','not alternatives','not similar','not inspiration']))return 'trace';
     if(identify&&inspiration)return 'photo';

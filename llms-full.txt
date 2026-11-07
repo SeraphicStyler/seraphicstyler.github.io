@@ -19,7 +19,7 @@ Languages: English, Vietnamese
 - **Sourcing (personal shopping)** — any exact piece from any Vietnamese brand or boutique, including labels
   that ship only inside Vietnam, take only local payment (bank transfer, MoMo,
   ZaloPay), or sell by direct message alone. Per-item fee 8% (7% above
-  5,000,000₫), 350,000₫ minimum per item, 250,000₫ base fee per order.
+  5,000,000₫), 500,000₫ minimum per item, 250,000₫ base fee per order.
   The first two boutiques on a list are included; each additional store
   adds 150,000₫.
 - **Made-to-measure áo dài from abroad** — measurements collected over email,

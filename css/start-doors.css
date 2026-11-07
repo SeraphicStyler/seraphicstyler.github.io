@@ -1,0 +1,78 @@
+/* "What do you have?" — the homepage's one first decision (7 Nov 2026).
+   Three doors: Sourcing (a link with a price) · The Trace (a photo, a post,
+   or a custom size) · Styling (choose for me). Then a four-line trust strip
+   that carries the "Prices in …" currency picker (js/visitor-currency.js). */
+
+/* A calmer headline so the doors sit in the first screen. */
+.hero h1 { font-size: clamp(2.5rem, 5.6vw, 4.1rem); margin-bottom: .3rem; }
+.hero .lead { margin-bottom: 0; }
+
+.sd { margin-top: clamp(1.4rem, 3.5vh, 2.2rem); text-align: center;
+  /* break out of the narrow hero column: centred on the page, clear of the right-hand rail */
+  width: var(--sdw); margin-left: calc((100% - var(--sdw)) / 2); margin-right: calc((100% - var(--sdw)) / 2); }
+/* One measure for the doors and the trust strip. The side gutter clears the
+   floating theme/language buttons (left) and the chat button (right). */
+.hero { --sd-gutter: 20px; --sdw: min(920px, calc(100vw - 2 * var(--sd-gutter))); }
+@media (min-width: 861px) { .hero { --sd-gutter: 96px; } }
+.sd-title {
+  text-wrap: balance;
+  font-family: var(--font-display); font-weight: 700; color: var(--text-primary);
+  font-size: clamp(1.25rem, 2.4vw, 1.6rem); letter-spacing: -.01em; margin: 0 0 1rem;
+}
+.sd-doors { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(.75rem, 1.6vw, 1.1rem); grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.sd-doors > li { display: flex; }
+.sd-door {
+  position: relative; display: flex; flex-direction: column; gap: .5rem; width: 100%;
+  text-align: left; text-decoration: none; color: var(--text-primary);
+  padding: 1.25rem 1.3rem 1.15rem; border-radius: 18px;
+  background: var(--surface-solid); border: 1px solid var(--surface-border);
+  box-shadow: 0 1px 0 rgba(255,255,255,.6) inset, 0 10px 30px -18px rgba(35,58,114,.35);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.sd-door::before { /* a thin aurora line on top: the brand's one flourish */
+  content: ""; position: absolute; left: 18px; right: 18px; top: 0; height: 3px; border-radius: 0 0 3px 3px;
+  background: linear-gradient(90deg, var(--periwinkle, #8a93de), var(--orchid, #c98fc4), var(--mauve, #cf9bb4)); opacity: .7;
+}
+.sd-door:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 16px 36px -18px rgba(35,58,114,.45); }
+.sd-door:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.sd-k { font-family: var(--font-body); font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--eyebrow-ink, var(--text-secondary)); }
+.sd-n { display: inline-block; min-width: 1.9em; color: var(--accent); }
+.sd-h { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.08rem, 1.5vw, 1.22rem); line-height: 1.25; text-wrap: balance; }
+.sd-p { font-size: .9rem; line-height: 1.55; color: var(--text-secondary); flex: 1; }
+.sd-price { font-size: .88rem; color: var(--text-primary); padding-top: .55rem; border-top: 1px solid var(--surface-border); }
+.sd-price b { font-weight: 700; font-variant-numeric: tabular-nums; }
+.sd-go { font-weight: 600; font-size: .92rem; color: var(--accent); }
+.sd-door:hover .sd-go span { display: inline-block; transform: translateX(3px); transition: transform .2s; }
+
+.sd-foot { margin: 1.1rem auto 0; font-size: .88rem; line-height: 1.6; color: var(--text-secondary); max-width: 60ch; text-wrap: balance; }
+.sd-foot strong { color: var(--text-primary); }
+.sd-foot a { color: var(--accent); }
+.sd-sep { margin: 0 .35rem; }
+
+.sd-trust {
+  list-style: none; margin-top: clamp(1.2rem, 3vh, 1.8rem); margin-bottom: 0; padding: .7rem 1rem; width: var(--sdw); margin-left: calc((100% - var(--sdw)) / 2); margin-right: calc((100% - var(--sdw)) / 2); box-sizing: border-box;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem 1.6rem;
+  border-top: 1px solid var(--surface-border); border-bottom: 1px solid var(--surface-border);
+  font-size: .82rem; color: var(--text-secondary);
+}
+.sd-trust li { display: inline-flex; align-items: center; gap: .45rem; }
+.sd-trust li:not(.sd-trust-cur)::before { content: "✓"; color: var(--accent); font-weight: 700; }
+.sd-trust a { color: inherit; }
+
+/* The concierge is now the "still deciding" fallback, a step quieter. */
+.hero .ss-concierge { margin-top: clamp(1.8rem, 4.5vh, 2.6rem); }
+@media (max-width: 860px) {
+  .hero .ss-concierge { width: var(--sdw); max-width: none; margin-left: calc((100% - var(--sdw)) / 2); margin-right: calc((100% - var(--sdw)) / 2); box-sizing: border-box; }
+}
+
+@media (max-width: 980px) { .sd-doors { grid-template-columns: 1fr; max-width: 640px; margin: 0 auto; } }
+@media (max-width: 860px) {
+  .sd-doors { max-width: none; }
+  .sd-door { padding: 1.05rem 1.1rem 1rem; }
+  .sd-p { flex: none; }
+  .sd-trust { flex-direction: column; align-items: center; gap: .5rem; padding: .9rem 0; }
+}
+html.dark .sd-door { box-shadow: 0 10px 30px -18px rgba(0,0,0,.6); }
+html.hc .sd-door { border-width: 2px; }
+html.rm .sd-door, html.rm .sd-door:hover { transform: none; transition: none; }
+@media (prefers-reduced-motion: reduce) { .sd-door, .sd-door:hover { transform: none; transition: none; } }

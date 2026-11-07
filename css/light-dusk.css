@@ -1,0 +1,87 @@
+/* ===================================================================
+   Light mode, "angel to evening" (7 Nov 2026, her brief: the dark mode is
+   the most beautiful; light mode needs one elegant top-to-bottom gradient,
+   strong colours that blend out to light ones).
+
+   · The page opens in the deep cobalt-violet of the dark mode, warms through
+     periwinkle and lavender, and settles into lavender mist for reading.
+   · Hero text goes light while it sits on the deep part.
+   · The navy "night" bands (#about, #why, #trust) become pastel glass in
+     light mode: lavender into orchid blush, ink text, the reading light in
+     orchid instead of peach. Dark, mono and high contrast are untouched.
+   Loaded on the homepage only.
+   =================================================================== */
+
+:root:not(.dark):not(.mono):not(.hc) body {
+  /* "Angel to evening": light and airy at the top, deepening gradually through lavender
+     and periwinkle into a deep, sophisticated navy at the very bottom (7 Nov 2026). */
+  background:
+    radial-gradient(1000px 640px at 82% 60px, rgba(201, 143, 196, 0.16), transparent 70%),
+    radial-gradient(900px 600px at 10% 300px, rgba(138, 147, 222, 0.14), transparent 70%),
+    linear-gradient(180deg,
+      #f8f6fd 0%, #f1edfa 6%, #ece9fb 16%, #eae5f8 28%, #e6e0f6 40%, #e1dbf4 52%,
+      #dad5f2 62%, #d1cdef 72%, #c9c6ec 82%, #c0beea 88%, #b4b4e5 91%, #9ea2dd 93%,
+      #6c74c0 94.2%, #48529f 95.5%, #2e387c 97%, #1d255b 98.6%, #151c48 100%);
+  background-attachment: scroll;
+}
+:root:not(.dark):not(.mono):not(.hc) body::before { opacity: .6; }
+
+/* ---- The closing sections sit on the deep end ----
+   Light text only for what sits directly on the deep colour (the contact heading,
+   the footer); cards keep their ink. The policies frame gets a firmer glass. */
+:root:not(.dark):not(.mono):not(.hc) :is(#contact > .wrap > .section-head, .footer) {
+  --text-primary: #f3f0fb; --text-secondary: #d3d6ef; --accent: #d9c9f2; --accent-deep: #d9c9f2;
+  --accent-hover: #efe6fb; --eyebrow-ink: #e2d6f7; --surface-border: rgba(201,182,232,.28);
+  color: var(--text-primary);
+}
+:root:not(.dark):not(.mono):not(.hc) :is(#details, #conscious, #journey) > .wrap { background: rgba(251, 249, 255, 0.8); }
+:root:not(.dark):not(.mono):not(.hc) #contact .glass.card { background: rgba(251, 249, 255, 0.9); }
+
+/* ---- Pastel bands instead of navy ---- */
+:root:not(.dark):not(.mono):not(.hc):not(.rm) section.night {
+  --night-glow-a: rgba(201, 143, 196, 0.22);
+  --night-glow-b: rgba(138, 147, 222, 0.20);
+  --night-bg-a: #ece5fa;
+  --night-bg-b: #f7e9f3;
+  --night-edge: rgba(201, 182, 232, 0.65);
+
+  --text-primary:   #233a72;
+  --text-secondary: #4d5a8a;
+  --accent:         #6d4fb3;
+  --accent-deep:    #6d4fb3;
+  --accent-hover:   #5a3fa0;
+  --eyebrow-ink:    #6a55a8;
+  --surface-solid:  #ffffff;
+  --surface-border: rgba(150, 120, 200, 0.22);
+  --highlight:      rgba(201, 143, 196, 0.35);
+
+  /* reading light on a light band: ink ahead, orchid at the line, ink behind (all ≥ 4.5:1) */
+  --rh-ahead:    #636b98;
+  --rh-approach: #7d5a9e;
+  --rh-current:  #9a3f88;
+  --rh-wake:     #6b4a8f;
+  --rh-read:     #233a72;
+}
+:root:not(.dark):not(.mono):not(.hc):not(.rm) section.night:not(#hero) > .wrap {
+  background:
+    radial-gradient(120% 80% at 92% 0%, var(--night-glow-a), transparent 60%),
+    radial-gradient(90% 70% at 0% 100%, var(--night-glow-b), transparent 62%),
+    linear-gradient(160deg, var(--night-bg-a) 0%, #f3ecfb 55%, var(--night-bg-b) 100%);
+  box-shadow: 0 1px 0 rgba(255,255,255,.8) inset, 0 24px 50px -30px rgba(80, 60, 140, 0.35);
+}
+:root:not(.dark):not(.mono):not(.hc):not(.rm) section.night .section-head h2 { text-shadow: none; }
+:root:not(.dark):not(.mono):not(.hc):not(.rm) section.night .section-head h2::first-letter { color: #9a3f88; text-shadow: none; }
+:root:not(.dark):not(.mono):not(.hc):not(.rm) section.night .section-head .eyebrow { background: rgba(255,255,255,.65); box-shadow: none; }
+:root:not(.dark):not(.mono):not(.hc):not(.rm) section.night ::selection { background: rgba(201,143,196,.35); color: #233a72; -webkit-text-fill-color: #233a72; }
+
+/* ---- "On this page" outline: frosted glass, so it reads over the dusk and the mist alike ---- */
+@media (min-width: 1000px) {
+  :root:not(.dark):not(.mono):not(.hc) .ss-section-nav {
+    background: rgba(255, 255, 255, 0.72);
+    -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 16px;
+    box-shadow: 0 18px 40px -26px rgba(30, 30, 90, 0.45);
+  }
+}
+:root:not(.dark):not(.mono):not(.hc) #contact > .wrap { background: linear-gradient(180deg, rgba(40, 46, 110, 0.42), rgba(22, 28, 72, 0.55)); border-color: rgba(201,182,232,.25); }
+:root:not(.dark):not(.mono):not(.hc) #contact > .wrap > .section-head .eyebrow { background: rgba(255,255,255,.12); color: #e2d6f7; }

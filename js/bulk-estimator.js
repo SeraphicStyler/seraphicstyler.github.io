@@ -19,7 +19,7 @@
   var C = window.CONFIG || {};
   var FX = (C.fx && C.fx.fallbackVndPerUsd) || 26150;
   var BASE = C.baseFee || 250000;
-  var MIN = (C.fee && C.fee.minFee) || 350000;
+  var MIN = (C.fee && C.fee.minFee) || 500000;
   var MID = (C.fee && C.fee.midThreshold) || 5000000;
   var SHIP = C.shipping || {
     asia:    { standard: [1800000, 5000000] },  oceania: { standard: [2800000, 7500000] },

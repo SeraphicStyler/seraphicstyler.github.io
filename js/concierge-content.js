@@ -1,27 +1,27 @@
 /* Approved service answers shared by the browser and optional model backend. */
 export const topics = {
     difference: {
-      answer:'Sourcing is for an exact, in-stock piece from a Vietnamese seller you can identify. Styling is for help choosing pieces, interpreting inspiration, or creating outfits. If you want a particular item identified from a photo, The Trace investigates its source for $45 per item.',
+      answer:'Sourcing is for a ready-made, in-stock piece with a link and a price: I buy it as listed, with no customising and no back-and-forth. The Trace is a personal concierge for one piece with no price, or one that needs a custom size: I talk with you and the house until it is settled, for $50 per item, paid first. Styling is all-inclusive and longer-term, and the only service with piece credit.',
       scene:'difference',
       actions:[['Get a sourcing price','estimate'],['See the styling tiers','prices#styling']]
     },
     sourcing: {
-      answer:'Sourcing is purchase help for an exact, in-stock item from an identified Vietnamese seller. Send the direct shop link or precise item details so its price, size, and availability can be confirmed. If the source is unknown, begin with The Trace.',
+      answer:'Sourcing is purchase help for a ready-made, in-stock item, bought exactly as listed. Paste the shop link and price into the estimator to see your total. If there is no price, the shop says “DM for price”, or you need a custom size or made-to-measure, that is The Trace.',
       scene:'sourcing',
       actions:[['Get your price','estimate'],['Only a photo? The Trace','prices#trace']]
     },
     trace: {
-      answer:'The Trace investigates the source of one specific item for $45 per item: finding it, messaging the shop in Vietnamese and following up. It pays for that work, so it does not come off an order. It returns an identified source and available price, or an explanation of why the piece cannot be sourced. A match is not guaranteed.',
+      answer:'The Trace investigates one specific item for $50 per item, paid before I start. It is a personal concierge: I find the house, message them in Vietnamese and go back and forth with you and with them on price, sizes and custom measurements (made-to-measure adds $25 a garment and is final sale). It pays for that conversation, so it does not come off an order and carries no piece credit. A match is not guaranteed.',
       scene:'trace',
-      actions:[['Start The Trace','service-request.html?service=trace'],['How The Trace is priced','prices#trace']]
+      actions:[['Start The Trace','https://tally.so/r/gD10Kl?about=I%20need%20The%20Trace%20for%20item%20identification&source=trace'],['How The Trace is priced','prices#trace']]
     },
     photo: {
       answer:'Would you like that exact item identified, or would you like similar pieces selected around your taste? Identification begins with The Trace. Using the image as inspiration belongs to styling.',
       scene:'photo',
-      actions:[['Identify this item','service-request.html?service=trace'],['Find similar pieces','prices#styling']]
+      actions:[['Identify this item','https://tally.so/r/gD10Kl?about=I%20need%20The%20Trace%20for%20item%20identification&source=trace'],['Find similar pieces','prices#styling']]
     },
     styling: {
-      answer:'For alternatives, outfits, or wardrobe direction, choose styling. Compare tiers from $235; each shows its styling fee, clothing credit, and scope before you book.',
+      answer:'Styling is for selection, outfits and wardrobe direction. It is all-inclusive and longer-term: sourcing and tracing are included, and it is the only service with piece credit. Compare tiers from $235; each shows its styling fee, clothing credit, and scope before you book.',
       scene:'styling',
       actions:[['See the styling tiers','prices#styling'],['Book styling','#lane-styling']]
     },

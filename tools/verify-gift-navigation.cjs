@@ -37,7 +37,7 @@ const origin = process.env.SS_PREVIEW || 'http://127.0.0.1:8731';
         await page.click('.ss-gift-menu');
         assert(await page.$eval('.ss-guide',e=>e.open));
         // The gift section's menu link opens the menu's three doors.
-        assert.deepEqual(await page.$$eval('.ss-door',els=>els.map(e=>e.dataset.door)),['sourcing','styling','boutiques']);
+        assert.deepEqual(await page.$$eval('.ss-door',els=>els.map(e=>e.dataset.door)),['sourcing','trace','styling','boutiques']);
         await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('.ss-guide').open);
         assert(await page.$eval('.ss-gift-menu',e=>e===document.activeElement));
         await page.$eval('#gift-custom-wardrobe',e=>e.scrollIntoView({behavior:'instant'}));

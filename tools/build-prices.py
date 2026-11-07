@@ -21,8 +21,11 @@ from pricing_data import (DATA, FX, ROOT, usd, usd0, vnd, pct, from_vnd, from_us
 OUT = os.environ.get('SS_PRICES_OUT') or os.path.join(ROOT, 'prices.html')
 HOME = os.environ.get('SS_HOME_OUT') or os.path.join(ROOT, 'index.html')
 SR = 'service-request.html?service='
-CURRENCY_NOTE = (f'Prices are in US dollars with đồng in brackets, at {vnd(FX)} = $1. A ~ marks the converted figure: '
-                 'shop prices and my sourcing fees are set in đồng; styling and The Trace are charged in dollars.')
+# Shown before js/visitor-currency.js runs (or without JS). The script swaps in the visitor's currency
+# and hides the đồng brackets: public pages show one currency (her decision, 7 Nov 2026).
+CURRENCY_NOTE = ('Prices are in US dollars. A ~ means the figure is converted from the shop’s own price; '
+                 'your quote fixes the exact amount.')
+MTM = DATA.get('madeToMeasure') or {}
 
 
 def bul(*items):
@@ -59,13 +62,14 @@ def modules(idp='', home=False):
     transfer = (item + fee + order) * s['transferPct']
     buy_total = item + fee + order + transfer
     out.append(dict(
-        id='buy', who='You have a link with a price', title='Sourcing', price=h_vnd(s['minFeeVnd']), price_sub='per item, most items',
+        id='buy', who='You have a link with a price, ready-made', title='Sourcing', price=h_vnd(s['minFeeVnd']), price_sub='per item, most items', card='A link with a price', unit='/ piece',
         steps='' if home else steps('<b>Get your price.</b> Type the shop price and paste the link.',
                                     '<b>Send it to me.</b> I confirm stock, size and the exact total.',
                                     '<b>You approve.</b> I buy it, check it in person and send you photos.',
                                     '<b>It ships.</b> Tracked, worldwide.'),
-        body=bul('<strong>The item</strong> at the shop’s own price. I never add a markup.',
-                 f'<strong>My fee: {h_vnd(s["minFeeVnd"])} per item.</strong> Items over {h_vnd(s["minFeeVnd"] / s["rate"])} are {pct(s["rate"])} of the price instead, and items over {h_vnd(s["highFromVnd"])} are {pct(s["highRate"])}.',
+        body=bul('<strong>Ready-made, as listed.</strong> In stock, in a size the shop already makes, from a page with the price on it. <strong>Custom sizes, made-to-measure and extended back-and-forth with the house are <a href="#' + idp + 'trace">The Trace</a>.</strong>',
+                 '<strong>The item</strong> at the shop’s own price. I never add a markup.',
+                 f'<strong>My fee: {h_vnd(s["minFeeVnd"])} per item</strong>, or {pct(s["rate"])} of the price when that is more ({pct(s["highRate"])} on items over {h_vnd(s["highFromVnd"])}).',
                  f'<strong>{h_vnd(order)} per order</strong> for packing and coordination. {["No", "One", "Two", "Three"][s["shopsIncluded"]]} shops are included; each extra shop is {h_vnd(s["extraShopVnd"])}.',
                  f'<strong>{pct(s["transferPct"])} currency transfer</strong> on the order, which covers sending your money to the shop in đồng.',
                  '<strong>Shipping</strong> at the courier’s actual cost, quoted before it ships.')
@@ -75,39 +79,53 @@ def modules(idp='', home=False):
         cta=btn('estimate', 'Get your price →')))
 
     # The Trace
-    rows = [('The Trace, paid when you send the photo', h_usd(tr['usd'])),
+    rows = [('The Trace, paid when you send the screenshot', h_usd(tr['usd'])),
             (f'Later, that dress, from <a href="#{idp}buy">Sourcing</a>', h_vnd(buy_total))]
     if tr['credited']:
         rows.append(('Less The Trace you already paid', money(usd0(-tr['usd']), '~' + vnd(-tr['usd'] * FX))))
     total = (('You pay for the dress', h_vnd(buy_total - tr['usd'] * FX) + ' + shipping') if tr['credited']
              else ('In all, the hunt and the dress', h_vnd(buy_total + tr['usd'] * FX) + ' + shipping'))
     out.append(dict(
-        id='trace', who='You have a photo, or “DM for price”', title='The Trace', price=h_usd(tr['usd']), price_sub='per item',
+        id='trace', who='A photo, a post, or a custom size', title='The Trace', price=h_usd(tr['usd']), price_sub='per item', card='A photo, a post, or a custom size', unit='/ piece',
         steps='',
-        body=(f'<p class="pr-p">Many of Sài Gòn’s best shops don’t sell to the outside world: no website, no English, no posted price, just “DM for price.” The Trace is how you get in. It takes about an hour of my time per piece, across a day or two of waiting on the shop. Your {usd0(tr["usd"])} covers:</p>'
-              + bul('<strong>Finding the original.</strong> I match the cut, collar and fabric across Instagram, TikTok and Facebook, and tell the designer’s piece apart from a wholesale copy.',
-                    '<strong>Asking the shop properly.</strong> One complete message in Vietnamese: price, sizes in stock, fabric, lead time and local delivery.',
-                    '<strong>Following up until they answer.</strong> Shops often reply in pieces, hours or days apart. I keep the thread going so you don’t have to.',
-                    '<strong>Real measurements.</strong> Bust, waist, hips and length from the shop, checked against yours, because Vietnamese sizing runs small.',
-                    '<strong>Your price in dollars.</strong> The đồng price turned into a full total, with my fee, the transfer and shipping.',
-                    f'<strong>A written answer within {tr["replyHours"]} hours.</strong> The shop, the price and the measurements, or why it can’t be bought and the closest piece that can.')
-              + '<p class="pr-p">' + (f'<strong>If you then order it, the {usd0(tr["usd"])} comes off your order.</strong>' if tr['credited']
-                                      else '<strong>It pays for the hunt, so it stays paid whether or not you buy.</strong> If you buy, buying it is the usual sourcing fee.')
-              + ' A link with the price showing never needs a Trace.</p>')
+        body=(f'<div class="tr-lead"><p class="tr-kicker">A personal concierge for one piece</p>'
+              f'<p class="tr-intro">You already know the piece, but it can’t go through the estimator: no link, no price, or it has to be made to your measurements. I talk with you and with the house, back and forth, until it’s settled.</p>'
+              f'<ul class="tr-chips"><li>Paid before I start</li><li>Answer within {tr["replyHours"]} hours</li><li>Custom sizes welcome</li></ul></div>'
+              '<div class="tr-sort" role="group" aria-label="Is it a Trace?">'
+              '<div class="tr-yes"><p class="tr-sort-h">It’s a Trace</p><ul>'
+              '<li>A photo, a screenshot or an Instagram post</li><li>A shop that says “DM for price”</li>'
+              f'<li>A custom size or made-to-measure (+{h_usd(MTM.get("usdPerGarment", 25))} a garment, final sale)</li></ul></div>'
+              f'<div class="tr-no"><p class="tr-sort-h">It’s not</p><ul>'
+              f'<li>A link with the price, in a size they stock → <a href="#{idp}buy">Sourcing</a></li>'
+              f'<li>“Something like this,” or alternatives → <a href="#{idp}styling">Styling</a></li></ul></div></div>'
+              f'<h3 class="tr-h">What your {usd0(tr["usd"])} covers</h3><ol class="tr-grid">'
+              + ''.join(f'<li><span class="tr-n">{i:02d}</span><strong>{t}</strong><span>{d}</span></li>' for i, (t, d) in enumerate([
+                  ('Finding the original', 'Matching the cut, collar and fabric across Instagram, TikTok and Facebook, and telling the designer’s piece from a copy.'),
+                  ('Asking the shop properly', 'One complete message in Vietnamese: price, sizes, colours, fabric, lead time.'),
+                  ('Following up until they answer', 'Shops reply in pieces, hours or days apart. I keep the thread going.'),
+                  ('Real measurements', 'Bust, waist, hips and length from the shop, checked against yours. Vietnamese sizing runs small.'),
+                  ('Custom sizes', 'Whether they will make it to your measurements, and every question in between.'),
+                  ('Your price in dollars', 'The đồng price turned into a full total: fee, transfer and shipping.'),
+                  ('A written answer', f'Within {tr["replyHours"]} hours: the shop, the price and the measurements, or why it can’t be bought and the closest piece that can.')], 1))
+              + '</ol>'
+              + '<p class="tr-note">' + (f'<strong>If you then order it, the {usd0(tr["usd"])} comes off your order.</strong>' if tr['credited']
+                                      else '<strong>It pays for the conversation, so it stays paid whether or not you buy.</strong> If you buy, buying it is the usual sourcing fee.')
+              + ' No piece credit: that belongs to Styling.</p>')
              + example('a photo, then the same dress', rows, total),
-        cta=btn(SR + 'trace', 'Start The Trace →')))
+        cta=btn(DATA['stripe']['trace'].replace('&', '&amp;'), 'Start The Trace →')))
 
     # Styling, with gift cards folded in
     ex = DATA['stylingExample']
     cap = tier(ex['tier'])
     extra = max(0, ex['piecesUsd'] - cap['creditUsd'])
     out.append(dict(
-        id='styling', who='You want me to choose', title='Styling', price='from ' + h_usd(DATA['styling'][0]['totalUsd']), price_sub='a fee, plus money for your clothes',
+        id='styling', who='You want me to choose', title='Styling', price='from ' + h_usd(DATA['styling'][0]['totalUsd']), price_sub='a fee, plus money for your clothes', card='Choose for me, credit included', unit='',
         steps='' if home else steps('<b>Pick a tier.</b> One focused need or a whole wardrobe.',
                                     '<b>I choose.</b> Pieces at the shop’s price, within your clothing credit.',
                                     '<b>You approve.</b> Nothing is bought without your yes.',
                                     '<b>It ships.</b> Tracked, worldwide.'),
-        body=bul('Every tier has two parts: <strong>my styling fee</strong>, and <strong>money that is spent on your clothes</strong> at the shop’s price.',
+        body=bul('<strong>All-inclusive, and longer-term.</strong> Sourcing and tracing are included in every tier, plus my eye. Styling is the only service with piece credit.',
+                 'Every tier has two parts: <strong>my styling fee</strong>, and <strong>money that is spent on your clothes</strong> at the shop’s price.',
                  'If you love pieces that cost more, I ask before spending any more.',
                  'Styling is charged in US dollars. Shipping is added separately.')
              + f'<div class="pr-table-wrap" role="region" aria-label="Styling tiers" tabindex="0">'
@@ -124,7 +142,7 @@ def modules(idp='', home=False):
     ge = g['example']
     pieces_usd = ge['pieces'] * ge['eachUsd']
     out.append(dict(
-        id='group', who='Weddings, sororities, events, friends', title='Group orders', price=pct(g['pct']), price_sub=f'of the order, from {from_usd(g["fromUsd"])}',
+        id='group', who='Weddings, sororities, events, friends', title='Group orders', price=pct(g['pct']), price_sub=f'of the order, from {from_usd(g["fromUsd"])}', card=f'Weddings and events, from {usd0(g["fromUsd"])}', unit='of the order',
         steps='' if home else steps('<b>Send the list.</b> Pieces, sizes, and the date you need them.',
                                     f'<b>I quote.</b> {pct(g["pct"])} of the order, confirmed in writing.',
                                     '<b>You approve.</b> I buy, check every piece, send you photos.',
@@ -197,7 +215,7 @@ def build_prices():
     </div>
     <div class="pr-view" id="view-individuals" role="tabpanel" aria-labelledby="tab-individuals">
       <p class="pr-cross pr-cross--top">Buying for a store? <a href="?for=boutiques" data-aud-go="boutique">Boutique pricing →</a></p>
-      <p class="pr-curnote">{CURRENCY_NOTE}</p>
+      <p class="pr-curnote"><span data-vc-note>{CURRENCY_NOTE}</span> <span data-vc-chip></span></p>
       {"".join(section(m) for m in modules())}
       <section class="lg-glance pr-always" aria-labelledby="always-h">
         <h2 id="always-h">True for every service</h2>
@@ -218,6 +236,7 @@ def build_prices():
   </footer>
   <a class="lg-top-link" href="#top" aria-label="Back to top">↑</a>
   <script>SS_PRICING.initPricesPage();</script>
+  <script src="js/visitor-currency.js?v=2026-11-07a" defer></script>
 </body>
 </html>
 '''
@@ -238,9 +257,10 @@ def home_block():
     cards = ''.join(
         f'<button type="button" class="pm-card" role="tab" id="pm-tab-{m["id"]}" aria-controls="pm-{m["id"]}" '
         f'aria-selected="{"true" if i == 0 else "false"}" tabindex="{0 if i == 0 else -1}">'
-        f'<span class="pm-who">{m["who"]}</span><span class="pm-name">{m["title"]}</span>'
-        f'<span class="pm-price">{m["price"]}</span><span class="pm-sub">{m["price_sub"]}</span>'
-        f'<span class="pm-more" aria-hidden="true">See how it’s priced</span></button>'
+        f'<span class="pm-name">{m["title"]}</span>'
+        f'<span class="pm-price">{m["price"]}<small class="pm-unit">{m.get("unit", "")}</small></span>'
+        f'<span class="pm-sub">{m.get("card", m["who"])}</span>'
+        f'<span class="pm-more" aria-hidden="true">→</span></button>'
         for i, m in enumerate(ms))
     panels = ''.join(
         f'\n      <div class="pm-panel" id="pm-{m["id"]}" role="tabpanel" aria-labelledby="pm-tab-{m["id"]}" tabindex="-1">'
@@ -252,10 +272,10 @@ def home_block():
       <div class="section-head center reveal">
         <span class="eyebrow">Prices</span>
         <h2 id="pm-title">Every price, plainly</h2>
-        <p class="lead narrow">Tap a service to see how it’s priced, with a worked example.</p>
+        <p class="lead narrow">Tap one to see exactly how it adds up.</p>
       </div>
       <div class="pm-cards" role="tablist" aria-label="Services and prices">{cards}</div>{panels}
-      <p class="pm-note">{CURRENCY_NOTE}</p>
+      <p class="pm-note"><span data-vc-note>{CURRENCY_NOTE}</span> <span data-vc-chip></span></p>
       <p class="pm-foot">Buying for a store? <a href="#boutique">Boutique pricing ↓</a><span aria-hidden="true"> · </span>Shipping, payment &amp; returns: <a href="#details">the details ↓</a></p>
     </div>
   </section>

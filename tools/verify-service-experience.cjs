@@ -23,7 +23,7 @@ const origin = process.env.SS_PREVIEW || 'http://127.0.0.1:8731';
       // Native dialog keeps keyboard focus inside the active menu.
       for(let i=0;i<28;i++) { await page.keyboard.press('Tab'); assert(await page.$eval('.ss-guide',e=>e.contains(document.activeElement))); }
       // The menu is three doors, sourcing first — real links, not in-menu pages.
-      assert.deepEqual(await page.$$eval('.ss-door', as => as.map(a => a.dataset.door)), ['sourcing','styling','boutiques']);
+      assert.deepEqual(await page.$$eval('.ss-door', as => as.map(a => a.dataset.door)), ['sourcing','trace','styling','boutiques']);
       const doorHref = d => page.$eval(`.ss-door[data-door="${d}"]`, a => new URL(a.href).pathname + a.hash);
       assert.equal(await doorHref('sourcing'), route === 'links.html' ? '/estimate.html' : '/estimate');
       assert.equal(await doorHref('styling'), route === 'links.html' ? '/prices.html#styling' : '/prices#styling');
@@ -38,7 +38,7 @@ const origin = process.env.SS_PREVIEW || 'http://127.0.0.1:8731';
       await page.keyboard.press('ArrowDown');
       assert.equal(await page.evaluate(() => document.activeElement.dataset.door), 'sourcing');
       await page.keyboard.press('ArrowDown');
-      assert.equal(await page.evaluate(() => document.activeElement.dataset.door), 'styling');
+      assert.equal(await page.evaluate(() => document.activeElement.dataset.door), 'trace');
       await page.keyboard.press('ArrowUp');
       assert.equal(await page.evaluate(() => document.activeElement.dataset.door), 'sourcing');
       await page.keyboard.press('ArrowUp');

@@ -11,7 +11,8 @@ const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   for(const width of [320,390,768,1024,1440]) {
    await page.setViewport({width,height:1000,deviceScaleFactor:1});
    await page.goto(origin+'/',{waitUntil:'networkidle2'});
-   assert.equal(await page.$$eval('.ss-story-card',nodes=>nodes.length),6);
+   assert.equal(await page.$$eval('.ss-story-card',nodes=>nodes.length),3); // 7 Nov 2026: the three service cards moved up into the hero doors (.sd-door)
+   assert.equal(await page.$$eval('.sd-door',nodes=>nodes.length),3);
    assert(await page.$eval('.ss-concierge',node=>node.classList.contains('ss-concierge-ready')));
    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'page overflow '+width);
    const bad=await page.$$eval('.ss-story-card',nodes=>nodes.filter(node=>{const r=node.getBoundingClientRect();return r.left<0||r.right>innerWidth||r.width<220}).map(node=>node.className));
@@ -47,7 +48,9 @@ const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
    await page.type('#ss-concierge-question',question);await page.click('.ss-concierge-inputrow button');
    await page.waitForFunction(expected=>[...document.querySelectorAll('.ss-message-guide')].at(-1)?.textContent.includes(expected),{timeout:5000},expected);
    assert((await page.$eval('[data-concierge-live]',node=>node.textContent)).includes(expected));
-   if(scene)assert(await page.$eval('.ss-story-card.is-discussed', (node,scene)=>node.dataset.sceneTopic.split(' ').includes(scene),scene));
+   // Sourcing/Trace/Styling scenes are the hero doors since 7 Nov 2026; only the remaining cards are marked.
+   const hasCard=scene&&await page.$$eval('.ss-story-card',(nodes,scene)=>nodes.some(node=>node.dataset.sceneTopic.split(' ').includes(scene)),scene);
+   if(hasCard)assert(await page.$eval('.ss-story-card.is-discussed', (node,scene)=>node.dataset.sceneTopic.split(' ').includes(scene),scene));
   }
   assert.equal(asked.length,0,'visitor question transmitted');
   assert.equal(await page.$$eval('[data-exchange]',nodes=>nodes.length),1,'one active answer');
@@ -80,7 +83,8 @@ const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   await page.setJavaScriptEnabled(false);await page.goto(origin+'/',{waitUntil:'networkidle2'});
   assert(await page.$eval('.ss-concierge-static',node=>getComputedStyle(node).display!=='none'));
   assert.equal(await page.$eval('[data-concierge-interactive]',node=>getComputedStyle(node).display),'none');
-  assert.equal(await page.$$eval('.ss-story-card',nodes=>nodes.length),6);
+  assert.equal(await page.$$eval('.ss-story-card',nodes=>nodes.length),3); // 7 Nov 2026: the three service cards moved up into the hero doors (.sd-door)
+   assert.equal(await page.$$eval('.sd-door',nodes=>nodes.length),3);
   assert.deepEqual(errors,[]);
   console.log('PASS hero guide: 5 breakpoints, 14 intents, keyboard focus, privacy, reset, bounded history, scene linking, reduced motion, dark/high contrast, no-JS; no browser errors');
  }finally{await browser.close();}

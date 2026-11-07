@@ -18,12 +18,13 @@
   // Every figure in the menu comes from js/pricing.js (loaded first); without it the doors carry no price line.
   const P = window.SS_PRICING || null;
   const D = P && P.data, F = P && P.fmt;
-  // Three doors, sourcing first — real links to the estimator, the price list and the boutique calculator.
+  // Four doors, in order of how much I decide: Sourcing (exact link) → The Trace (a screenshot: I message the shop and confirm size, colour, style) → Styling (I choose) → Boutiques.
   const door = (id, n, title, line, price, href) => `<li><a class="ss-door" href="${href}" data-door="${id}" data-track="menu-door-${id}" aria-labelledby="ss-door-${id}" aria-describedby="ss-door-${id}-s${price ? ` ss-door-${id}-p` : ''}"><span class="ss-door-n" aria-hidden="true">${n}</span><span class="ss-door-t" id="ss-door-${id}">${title}</span><span class="ss-door-s" id="ss-door-${id}-s">${line}</span>${price ? `<span class="ss-door-p" id="ss-door-${id}-p">${price}</span>` : ''}<span class="ss-door-go" aria-hidden="true">→</span></a></li>`;
   const doors =
     door('sourcing', '01', 'Sourcing', 'You have a link or know the item. I buy it for you.', P ? 'Per item · ~' + F.vnd(D.sourcing.minFeeVnd) + ' (~' + F.usd(D.sourcing.minFeeVnd / D.fx.vndPerUsd) + ')' : '', 'estimate') +
-    door('styling', '02', 'Styling', 'You want me to choose pieces for you.', P ? 'From ' + F.usd(D.styling[0].totalUsd) : '', 'prices#styling') +
-    door('boutiques', '03', 'Boutiques', 'You own a store and want stock from Saigon.', P ? F.usd0(D.boutique.scoutUsd) + ' + ' + F.pct(D.boutique.pct) : '', 'boutique-calculator');
+    door('trace', '02', 'The Trace', 'You have a screenshot, not a link. I message the shop and confirm size, colour and style.', P ? F.usd0(D.trace.usd) + ' per item' : '', 'prices#trace') +
+    door('styling', '03', 'Styling', 'You want me to choose pieces for you.', P ? 'From ' + F.usd(D.styling[0].totalUsd) : '', 'prices#styling') +
+    door('boutiques', '04', 'Boutiques', 'You own a store and want stock from Saigon.', P ? F.usd0(D.boutique.scoutUsd) + ' + ' + F.pct(D.boutique.pct) : '', 'boutique-calculator');
   const dialog = document.createElement('dialog');
   dialog.id = 'ss-service-guide'; dialog.className = 'ss-guide';
   dialog.setAttribute('role', 'dialog');
@@ -35,8 +36,7 @@
     <div class="ss-menu-content">
     <label class="sr-only" for="ss-guide-query">Search services, prices, and answers</label><div class="ss-search-wrap" data-search><span aria-hidden="true">⌕</span><input id="ss-guide-query" type="search" placeholder="Or search: shipping, fees, wardrobe…" autocomplete="off"><kbd>⌘ / Ctrl K</kbd></div>
     <div class="ss-guide-results" role="group" aria-label="Search results" hidden></div><p data-empty role="status" hidden>No matches. Try “wardrobe”, “shipping”, or “fees”.</p>
-    <div data-explore><nav aria-label="Services"><ul class="ss-doors" role="list">${doors}</ul></nav>
-    <a class="ss-menu-more" href="prices#trace" data-track="menu-trace">Only have a photo, no link? The Trace finds it first <span aria-hidden="true">→</span></a></div>
+    <div data-explore><nav aria-label="Services"><ul class="ss-doors" role="list">${doors}</ul></nav></div>
     <footer class="ss-menu-footer"><span>Thoughtfully chosen in Saigon. Sent worldwide.</span><button type="button" data-settings data-i18n="a11y.title">Display &amp; accessibility</button><span>Esc to close</span></footer></div></div>`;
   const mark = document.querySelector('.brand-mark, .lp-brand-mark');
   if (mark) dialog.querySelector('.ss-menu-brand').prepend(mark.cloneNode(true));
@@ -62,7 +62,7 @@
       ['Custom Wardrobe+ · from ' + F.fromUsd(P.tier('custom-wardrobe-plus').totalUsd), '#custom-wardrobe', '21–30+ pieces, made to measure, rush timeline, complex ordering', 'individual'],
       ['Signature · ' + F.fromUsd(P.tier('signature').totalUsd), 'signature', F.fromUsd(P.tier('signature').feeUsd) + ' styling fee + ' + F.fromUsd(P.tier('signature').creditUsd) + ' spent on your clothes, designer commission and 60 days support', 'individual']
     ] : []),
-    ['The Trace · a photo, or DM for price', 'prices#trace', 'Photo only, no link, or DM for price: I find it and message the shop', 'individual'],
+    ['The Trace · a screenshot, not a link', 'prices#trace', 'Screenshot or DM for price: I message the shop and confirm size, colour, style, stock and price', 'individual'],
     ['Style questionnaire', 'style-profile', 'Measurements lifestyle preferences body shape', 'individual'],
     ['Shipping & order process', section('process', '#lp-how'), 'Worldwide delivery tracking approval'],
     ['Fashion directory', 'fashion-directory', 'Browse Vietnamese brands boutiques designers'],

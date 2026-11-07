@@ -11,9 +11,24 @@
    quotes, no comments, no trailing commas): the Python builders parse it.
 
    Currency policy. Individuals: dollars first, đồng in brackets. A "~" marks
-   the converted figure: sourcing fees are set in đồng ("~$14 (350,000₫)"),
+   the converted figure: sourcing fees are set in đồng ("~$20 (500,000₫)"),
    styling and The Trace are charged in dollars ("$235 (~5,875,000₫)").
    Boutiques: US dollars only. Đồng are shown at fx.vndPerUsd.
+
+   Visitor currencies (fx.display, 7 Nov 2026). Public pages show USD plus 27
+   currencies (list below; widened from five the same day). Any other visitor sees USD. A shown
+   price = USD × max(live rate, floor) × (1 + cushion), rounded UP to a clean
+   figure. So it never drops below the floor and always leans toward me.
+     · cushion ≈ Stripe international card 1.5% + currency conversion 1% +
+       ~2.5% for the rate moving before the client pays. AUD and JPY swing
+       more, so they get 6%; most emerging-market currencies 6%, and the
+       most volatile (IDR, MXN, BRL, ZAR) 7%. Pegged ones (HKD, AED, SAR) 5%.
+     · floor = units per US$1 on the review date. If their currency gets
+       stronger, my price holds. If it gets weaker, the live rate takes over.
+     · Inflation is not handled here. It belongs in the USD prices themselves:
+       review them every January.
+   Review the floors every quarter (Jan / Apr / Jul / Oct): set each one to
+   that day's rate, rounded down, and update "reviewed".
 
    Load this file before the scripts that read it. On load it only waits for
    the page, then wires up any price modules ([data-price-modules]). */
@@ -21,9 +36,26 @@
   'use strict';
 
   var DATA = /*@pricing-data*/{
-    "fx": { "vndPerUsd": 25000 },
+    "fx": {
+      "vndPerUsd": 25000,
+      "display": {
+        "currencies": ["USD", "EUR", "GBP", "CAD", "AUD", "JPY",
+                       "NZD", "CHF", "SEK", "NOK", "DKK", "PLN", "CZK",
+                       "SGD", "HKD", "KRW", "TWD", "CNY", "THB", "MYR", "PHP", "IDR", "INR",
+                       "AED", "SAR", "MXN", "BRL", "ZAR"],
+        "cushion": { "EUR": 0.05, "GBP": 0.05, "CAD": 0.05, "AUD": 0.06, "JPY": 0.06,
+                     "NZD": 0.06, "CHF": 0.05, "SEK": 0.06, "NOK": 0.06, "DKK": 0.05, "PLN": 0.06, "CZK": 0.06,
+                     "SGD": 0.05, "HKD": 0.05, "KRW": 0.06, "TWD": 0.06, "CNY": 0.06, "THB": 0.06, "MYR": 0.06, "PHP": 0.06, "IDR": 0.07, "INR": 0.06,
+                     "AED": 0.05, "SAR": 0.05, "MXN": 0.07, "BRL": 0.07, "ZAR": 0.07 },
+        "floor": { "EUR": 0.89, "GBP": 0.74, "CAD": 1.40, "AUD": 1.45, "JPY": 158,
+                   "NZD": 1.80, "CHF": 0.81, "SEK": 9.85, "NOK": 9.40, "DKK": 6.70, "PLN": 3.93, "CZK": 21.7,
+                   "SGD": 1.28, "HKD": 7.83, "KRW": 1355, "TWD": 32.8, "CNY": 6.68, "THB": 33.5, "MYR": 4.05, "PHP": 63, "IDR": 18050, "INR": 94,
+                   "AED": 3.67, "SAR": 3.75, "MXN": 18.6, "BRL": 5.50, "ZAR": 16.5 },
+        "reviewed": "2026-11-07"
+      }
+    },
     "sourcing": {
-      "minFeeVnd": 350000,
+      "minFeeVnd": 500000,
       "rate": 0.08,
       "highRate": 0.07,
       "highFromVnd": 5000000,
@@ -34,7 +66,8 @@
       "transferPct": 0.03,
       "example": { "itemVnd": 1500000 }
     },
-    "trace": { "usd": 45, "credited": false, "replyHours": 48 },
+    "trace": { "usd": 50, "credited": false, "replyHours": 48 },
+    "madeToMeasure": { "usdPerGarment": 25, "finalSale": true },
     "styling": [
       { "id": "edit", "name": "The Edit", "totalUsd": 235, "feeUsd": 135, "creditUsd": 100, "what": "3–4 pieces, one focused need" },
       { "id": "capsule", "name": "The Capsule", "totalUsd": 460, "feeUsd": 270, "creditUsd": 190, "what": "6–8 pieces that work together, with a lookbook" },
@@ -64,7 +97,7 @@
     },
     "card": { "pct": "5.4%", "fixedUsd": 0.30 },
     "stripe": {
-      "trace": "service-request.html?service=trace",
+      "trace": "https://tally.so/r/gD10Kl?about=I%20need%20The%20Trace%20for%20item%20identification&source=trace",
       "edit": "https://buy.stripe.com/dRmfZi0bl5RdaEweMaaAw0g",
       "capsule": "https://buy.stripe.com/14A3cwgaj1AX3c40VkaAw0h",
       "atelier": "https://buy.stripe.com/aFaaEYgajbbxdQIdI6aAw0i",
@@ -94,7 +127,7 @@
   function fromUsd(u) { return usd(u) + ' (~' + vnd(u * FX) + ')'; }
   /* The same, as HTML: tabular figures, the bracket a step quieter. */
   function money(primary, alt) {
-    return '<span class="money">' + primary + (alt ? ' <span class="money-alt">(' + alt + ')</span>' : '') + '</span>';
+    return '<span class="money">' + primary + (alt ? '<span class="money-alt"> (' + alt + ')</span>' : '') + '</span>';
   }
   function hVnd(v) { return money('~' + usd(v / FX), vnd(v)); }
   function hUsd(u) { return money(usd(u), '~' + vnd(u * FX)); }

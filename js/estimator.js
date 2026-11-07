@@ -9,7 +9,7 @@
 var CONFIG = {
   /* Per-ITEM service fee tiers (VND). Includes domestic VN shipping. */
   fee: {
-    minFee: 350000,                             // every item pays at least 350,000₫ (raised 4 Aug 2026)
+    minFee: 500000,                             // every item pays at least 500,000₫ (~$20; raised 7 Nov 2026, was 350,000₫)
     midThreshold: 5000000,  midRate: 0.08,      // item ≤ 5M -> 8%
     highRate: 0.07                              // > 5M -> 7%
   },
@@ -25,7 +25,7 @@ var CONFIG = {
      (capped at the items subtotal, never negative; with no items yet, it
      applies once pieces are added). The remainder is my styling TIME.
      Repriced 1 Oct 2026: The Discovery retired; every styling fee now clears
-     what plain sourcing of the same piece count would earn (8%, 350,000₫
+     what plain sourcing of the same piece count would earn (8%, 500,000₫
      minimum per piece) with room for the styling itself. Keep prices, credits
      and the gift-card split lines in step. */
   styling: {
@@ -190,7 +190,7 @@ function SS_fmtRate(v) {
     .forEach(function (id) { el[id] = document.getElementById(id); });
   if (!el.lineItems) return; // not on a page with the estimator
 
-  var CURRENCIES=['USD','EUR','GBP','AUD','CAD','SGD','HKD','JPY','KRW','CNY','THB','AED','SAR','BHD','INR','VND'];
+  var CURRENCIES=['USD','EUR','GBP','AUD','CAD','NZD','CHF','SEK','NOK','DKK','PLN','CZK','SGD','HKD','JPY','KRW','TWD','CNY','THB','MYR','PHP','IDR','INR','AED','SAR','BHD','MXN','BRL','ZAR','VND'];
   function populateCurrencies() {
     if(!el.estCurrency)return;
     var selected=el.estCurrency.value||'USD';
@@ -219,7 +219,9 @@ function SS_fmtRate(v) {
     var tz = ''; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
     var exact = { 'Europe/London': 'GBP', 'Europe/Belfast': 'GBP', 'Asia/Singapore': 'SGD', 'Asia/Hong_Kong': 'HKD', 'Asia/Tokyo': 'JPY', 'Asia/Seoul': 'KRW',
       'Asia/Shanghai': 'CNY', 'Asia/Chongqing': 'CNY', 'Asia/Harbin': 'CNY', 'Asia/Urumqi': 'CNY', 'Asia/Bangkok': 'THB', 'Asia/Dubai': 'AED',
-      'Asia/Riyadh': 'SAR', 'Asia/Bahrain': 'BHD', 'Asia/Kolkata': 'INR', 'Asia/Calcutta': 'INR', 'Asia/Ho_Chi_Minh': 'VND', 'Asia/Saigon': 'VND' };
+      'Asia/Riyadh': 'SAR', 'Asia/Bahrain': 'BHD', 'Asia/Kolkata': 'INR', 'Asia/Calcutta': 'INR', 'Asia/Ho_Chi_Minh': 'VND', 'Asia/Saigon': 'VND',
+      'Pacific/Auckland': 'NZD', 'Europe/Zurich': 'CHF', 'Europe/Stockholm': 'SEK', 'Europe/Oslo': 'NOK', 'Europe/Copenhagen': 'DKK', 'Europe/Warsaw': 'PLN', 'Europe/Prague': 'CZK',
+      'Asia/Taipei': 'TWD', 'Asia/Kuala_Lumpur': 'MYR', 'Asia/Manila': 'PHP', 'Asia/Jakarta': 'IDR', 'America/Mexico_City': 'MXN', 'America/Sao_Paulo': 'BRL', 'Africa/Johannesburg': 'ZAR' };
     var code = exact[tz] || (/^Australia\//.test(tz) ? 'AUD' : EURO_TZ.test(tz) ? 'EUR'
       : /^America\/(Toronto|Vancouver|Edmonton|Winnipeg|Halifax|St_Johns|Regina|Montreal|Moncton|Whitehorse|Yellowknife|Iqaluit|Glace_Bay|Goose_Bay|Swift_Current|Dawson_Creek|Fort_Nelson)$/.test(tz) ? 'CAD' : 'USD');
     return CURRENCIES.indexOf(code) >= 0 ? code : 'USD';
@@ -247,6 +249,9 @@ function SS_fmtRate(v) {
      old estimate read as confusing — clients compared the two and worried. */
   function chargeRate(c) { if(c==='VND')return 1;if(!Number.isFinite(rateFor(c)))return NaN;return SS_allInRate(fxRate / rateFor(c), rateFor(c)); }
   function toCur(vnd) { return vnd / chargeRate(curCode()); }
+  /* Every receipt line in the visitor's own currency (7 Nov 2026: one currency on screen).
+     The exact đồng stays on the element as data-vnd for records and tests. */
+  function fmtRow(vnd) { var c = curCode(); var v = toCur(vnd); return (c !== 'VND' && Number.isFinite(v)) ? fmtCur(v) : fmtVnd(vnd); }
   function updateFxStatus() {
     if (!el.fxStatus) return;
     var c = curCode();
@@ -542,7 +547,7 @@ function SS_fmtRate(v) {
   }
 
   /* Under each price: the dollars, and my fee on that one piece — so the rule
-     ($14 a piece, 8% / 7% on dearer pieces) is visible where it applies. */
+     ($20 a piece, or 8% / 7% when that is more) is visible where it applies. */
   function itemHints() {
     el.lineItems.querySelectorAll('.line-item').forEach(function (row) {
       var h = row.querySelector('.item-usd'), pIn = row.querySelector('.item-price');
@@ -556,28 +561,28 @@ function SS_fmtRate(v) {
     var c = compute();
     itemHints();
     var noItems = c.nItems === 0;
-    el.rSubtotal.textContent = noItems ? '—' : fmtVnd(c.subtotal);
-    el.rFee.textContent = noItems ? '—' : fmtVnd(c.fees);
+    el.rSubtotal.textContent = noItems ? '—' : fmtRow(c.subtotal); el.rSubtotal.dataset.vnd = noItems ? '' : Math.round(c.subtotal);
+    el.rFee.textContent = noItems ? '—' : fmtRow(c.fees); el.rFee.dataset.vnd = noItems ? '' : Math.round(c.fees);
     el.rFeeNote.textContent = c.nItems ? tf('est.itemcount', '(' + c.nItems + (c.nItems === 1 ? ' item' : ' items') + ')', { n: c.nItems }) : '';
-    el.rBase.textContent = noItems ? '—' : fmtVnd(c.base);
-    if (c.complex > 0) { el.rComplexRow.style.display = ''; el.rComplex.textContent = fmtVnd(c.complex); }
+    el.rBase.textContent = noItems ? '—' : fmtRow(c.base); el.rBase.dataset.vnd = noItems ? '' : Math.round(c.base);
+    if (c.complex > 0) { el.rComplexRow.style.display = ''; el.rComplex.textContent = fmtRow(c.complex); }
     else { el.rComplexRow.style.display = 'none'; }
     if (el.rStopsRow) {
-      if (c.stopsFee > 0) { el.rStopsRow.style.display = ''; el.rStops.textContent = '+' + fmtVnd(c.stopsFee); }
+      if (c.stopsFee > 0) { el.rStopsRow.style.display = ''; el.rStops.textContent = '+' + fmtRow(c.stopsFee); }
       else { el.rStopsRow.style.display = 'none'; }
     }
     if (el.rGreenRow) {
-      if (c.green > 0) { el.rGreenRow.style.display = ''; el.rGreen.textContent = '−' + fmtVnd(c.green); }
+      if (c.green > 0) { el.rGreenRow.style.display = ''; el.rGreen.textContent = '−' + fmtRow(c.green); }
       else { el.rGreenRow.style.display = 'none'; }
     }
     if (el.rStyleRow) {
       if (c.styling > 0) {
-        el.rStyleRow.style.display = ''; el.rStyle.textContent = fmtVnd(c.styling);
+        el.rStyleRow.style.display = ''; el.rStyle.textContent = fmtRow(c.styling);
         if (el.rStyleNote) el.rStyleNote.textContent = c.styleCfg ? c.styleCfg.label : '';
       } else { el.rStyleRow.style.display = 'none'; if (el.rStyleNote) el.rStyleNote.textContent = ''; }
     }
     if (el.rCreditRow) {
-      if (c.credit > 0) { el.rCreditRow.style.display = ''; el.rCredit.textContent = '−' + fmtVnd(c.credit); }
+      if (c.credit > 0) { el.rCreditRow.style.display = ''; el.rCredit.textContent = '−' + fmtRow(c.credit); el.rCredit.dataset.vnd = Math.round(c.credit); }
       else { el.rCreditRow.style.display = 'none'; }
     }
     /* Unused tier credit is never lost — it stays on the gift for a future
@@ -595,7 +600,7 @@ function SS_fmtRate(v) {
     var fxAllow = Math.round(nonShip * (CONFIG.fxFee || 0));
     nonShip += fxAllow;
     if (el.rFxRow) {
-      if (fxAllow > 0) { el.rFxRow.style.display = ''; el.rFx.textContent = fmtVnd(fxAllow); }
+      if (fxAllow > 0) { el.rFxRow.style.display = ''; el.rFx.textContent = fmtRow(fxAllow); }
       else { el.rFxRow.style.display = 'none'; }
     }
     renderCompare(c, nonShip);
@@ -617,11 +622,11 @@ function SS_fmtRate(v) {
       // A styling service (consultation / edit) with no pieces sourced yet — nothing to ship.
       var cfS = c.card ? cardFee(nonShip) : 0;
       if (el.rCardRow) {
-        if (cfS > 0) { el.rCardRow.style.display = ''; el.rCard.textContent = fmtVnd(cfS); }
+        if (cfS > 0) { el.rCardRow.style.display = ''; el.rCard.textContent = fmtRow(cfS); }
         else { el.rCardRow.style.display = 'none'; }
       }
       el.rShip.textContent = t('est.ship.later', 'Added with your pieces');
-      el.rTotal.textContent = fmtVnd(nonShip + cfS);
+      el.rTotal.textContent = fmtRow(nonShip + cfS);
       el.rUsd.textContent = '≈ ' + fmtCur(toCur(nonShip + cfS)) + usdTail(nonShip + cfS);
       hideSplit();                       // styling only — one payment, nothing to ship
       updateFxStatus(); save(); return;
@@ -629,21 +634,21 @@ function SS_fmtRate(v) {
     if (c.custom) {
       var cf = c.card ? cardFee(nonShip) : 0;
       if (el.rCardRow) {
-        if (cf > 0) { el.rCardRow.style.display = ''; el.rCard.textContent = fmtVnd(cf) + t('est.card.plusship', ' (+ card fee on shipping at invoice)'); }
+        if (cf > 0) { el.rCardRow.style.display = ''; el.rCard.textContent = fmtRow(cf) + t('est.card.plusship', ' (+ card fee on shipping at invoice)'); }
         else { el.rCardRow.style.display = 'none'; }
       }
       el.rShip.textContent = t('est.customquote', 'Custom quote');
-      el.rTotal.textContent = fmtVnd(nonShip + cf) + t('est.plusship', ' + shipping');
+      el.rTotal.textContent = fmtRow(nonShip + cf) + t('est.plusship', ' + shipping');
       el.rUsd.textContent = '≈ ' + fmtCur(toCur(nonShip + cf)) + usdTail(nonShip + cf) + t('est.customhaul', ' + shipping (custom quote, 10kg+)');
       hideSplit();                       // shipping is hand-quoted, so no balance figure yet
     } else {
       // Two charges, so the card fee is calculated on each part separately.
       var s = splitOf(nonShip, c.ship, c.card);
       if (el.rCardRow) {
-        if (s.feeLo > 0) { el.rCardRow.style.display = ''; el.rCard.textContent = fmtVnd(s.feeLo) + ' – ' + fmtVnd(s.feeHi); }
+        if (s.feeLo > 0) { el.rCardRow.style.display = ''; el.rCard.textContent = fmtRow(s.feeLo) + ' – ' + fmtRow(s.feeHi); }
         else { el.rCardRow.style.display = 'none'; }
       }
-      el.rShip.textContent = fmtVnd(c.ship[0]) + ' – ' + fmtVnd(c.ship[1]);
+      el.rShip.textContent = fmtRow(c.ship[0]) + ' – ' + fmtRow(c.ship[1]);
       el.rTotal.textContent = fmtVnd(s.lo) + ' – ' + fmtVnd(s.hi);
       el.rUsd.textContent = '≈ ' + fmtCur(toCur(s.lo)) + ' – ' + fmtCur(toCur(s.hi)) + usdTail(s.lo, s.hi);
       showSplit(s);

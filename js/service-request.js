@@ -5,9 +5,9 @@
   const review = document.getElementById('request-review');
   const context = document.getElementById('service-context');
   const descriptions = {
-    sourcing: 'Direct sourcing purchases a specific, in-stock Vietnamese item without research. Price, size, stock, and shipping can be confirmed with the identified seller.',
-    trace: 'The Trace investigates one item at $45 per item, including messaging the shop. A rare small-group exception must be confirmed before payment. Alternatives and broad curation require styling.',
-    styling: 'Reference interpretation, Vietnamese equivalents, alternatives, outfits, and wardrobe direction are paid styling. Your confirmed tier and clothing budget define the scope.',
+    sourcing: 'Sourcing buys a ready-made, in-stock Vietnamese item exactly as listed, from a link with a price. Price, size, stock and shipping are confirmed with the seller. Custom sizes, made-to-measure and extended back-and-forth with the house are The Trace.',
+    trace: 'The Trace is a personal concierge for one piece, at $50 per item, paid before I start: I talk with you and with the house, back and forth, on price, sizes and custom measurements (made-to-measure adds $25 a garment, final sale). No piece credit. Alternatives and broad curation are styling.',
+    styling: 'Styling is all-inclusive and longer-term: sourcing and tracing are included, plus reference interpretation, Vietnamese equivalents, outfits and wardrobe direction. It is the only service with piece credit; your tier and clothing budget define the scope.',
     gift: 'Choose a gift budget or tier. Styling begins after the booking is confirmed and paid.',
     bulk: 'A professional buying quote requires a defined brief. Exploratory research is prepaid; buying fees are quoted before work begins.',
     unsure: 'Request a free service recommendation or quote. This does not include item research, selections, or personalized styling advice.'
@@ -28,19 +28,19 @@
     const direct = choice === 'sourcing' && ['link', 'precise'].includes(source.value);
     document.getElementById('direct-fields').disabled = !direct;
     document.getElementById('direct-fields').hidden = !direct;
-    source.setCustomValidity(['unknown', 'inspiration'].includes(source.value) && choice === 'sourcing' ? 'Choose The Trace for identification, or styling for inspiration and alternatives.' : '');
+    source.setCustomValidity(['unknown', 'custom', 'inspiration'].includes(source.value) && choice === 'sourcing' ? 'Custom sizes and items without a price are The Trace; inspiration and alternatives are styling.' : '');
     context.textContent = descriptions[choice] || 'Choose a service to see the relevant questions.';
     reviewButton.textContent = choice === 'unsure' ? 'Get my recommendation →' : 'Continue to review →';
   }
   source.addEventListener('change', () => {
-    if (source.value === 'unknown') { choose('trace'); return; }
+    if (source.value === 'unknown' || source.value === 'custom') { choose('trace'); return; }
     if (source.value === 'inspiration') { choose('styling'); return; }
     update();
     document.getElementById('source-guidance').textContent = 'Provide the exact seller and in-stock item below. If identifying either requires research, choose The Trace.';
   });
   traceCount.addEventListener('change', () => {
     if (traceCount.value.startsWith('6+')) { choose('styling'); return; }
-    document.getElementById('trace-guidance').textContent = traceCount.value && traceCount.value !== '1' ? 'The default is $45 per item. A shared fee for this group is available only if Seraphic Styler explicitly confirms it before payment.' : '';
+    document.getElementById('trace-guidance').textContent = traceCount.value && traceCount.value !== '1' ? 'The default is $50 per item. A shared fee for this group is available only if Seraphic Styler explicitly confirms it before payment.' : '';
   });
   form.querySelectorAll('[name="service"]').forEach(el => el.addEventListener('change', update));
   const params = new URLSearchParams(location.search);
@@ -50,6 +50,9 @@
   if ([...tier.options].some(o => o.value === params.get('tier'))) tier.value = params.get('tier');
   const giftTier = document.getElementById('gift-request-tier');
   if ([...giftTier.options].some(o => o.value === params.get('tier'))) giftTier.value = params.get('tier');
+  /* ?house=Name (from a directory card): note the house in the first details box. */
+  const house = (params.get('house') || '').slice(0, 120).replace(/[<>]/g, '');
+  if (house) form.querySelectorAll('textarea[name="Trace references"], textarea[name="Exact item and seller"]').forEach(t => { if (!t.value) t.value = 'House: ' + house + '\n'; });
   update();
   form.addEventListener('submit', e => {
     e.preventDefault();

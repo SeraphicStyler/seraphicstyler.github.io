@@ -65,7 +65,7 @@ def from_usd(u):
 
 
 def money(primary, alt=None):
-    return '<span class="money">' + primary + (f' <span class="money-alt">({alt})</span>' if alt else '') + '</span>'
+    return '<span class="money">' + primary + (f'<span class="money-alt"> ({alt})</span>' if alt else '') + '</span>'
 
 
 def h_vnd(v):
@@ -203,9 +203,10 @@ def page_head(slug, title, desc, extra_css=()):
     head = re.sub(r'(<meta property="og:description" content=")[^"]*', lambda m: m.group(1) + desc, head)
     head = head.replace('seraphicstyler.com/policy"', f'seraphicstyler.com/{slug}"')
     head += f'  <meta name="ss-pricing-data" content="{data_hash()}" />\n'
-    for css in ('css/legal.css?v=2026-10-01', 'css/pricing.css?v=2026-10-02c') + tuple(extra_css):
+    for css in ('css/legal.css?v=2026-10-01', 'css/pricing.css?v=2026-11-07e') + tuple(extra_css):
         head += f'  <link rel="stylesheet" href="{css}" />\n'
-    head += '  <script src="js/pricing.js?v=2026-10-02c"></script>\n'
+    head += '  <script src="js/pricing.js?v=2026-11-07b"></script>\n'
+    head += '  <script src="js/contact-hub.js?v=2026-11-07a" defer></script>\n'
     head += '  <script src="js/i18n-site.js?v=2026-09-12" defer></script>\n  <script src="js/geo-lang.js?v=2026-10-02" defer></script>\n</head>\n'
     return head
 
