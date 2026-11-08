@@ -101,6 +101,7 @@ if (process.argv[2] === '--build') {
   const vm = require('node:vm');
   vm.createContext(context);
   vm.runInContext(fs.readFileSync(path.join(REPO, 'js/translations.js'), 'utf8'), context);
+  for(const f of fs.readdirSync(path.join(REPO,'js/i18n')).filter(f=>/^keys\.\w+\.js$/.test(f)))vm.runInContext(fs.readFileSync(path.join(REPO,'js/i18n',f),'utf8'),context);
   const shared = context.window.SS_TRANSLATIONS;
   const workspace = JSON.parse(fs.readFileSync(path.join(S, 'workspace.all.json'), 'utf8'));
   const workspaceKeys = ['search','explore','compare','visit','board','filters','compact','rich','previous','next','save','materials','unknown','why','count','page','intro','observations'];

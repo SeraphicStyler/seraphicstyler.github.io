@@ -35,7 +35,8 @@ const protectedNames = read('tools/i18n/brands.txt').split('\n').map(norm).filte
 ]);
 const namesPattern = new RegExp('(?<![\\p{L}\\p{N}])(?:'+protectedNames.sort((a,b)=>b.length-a.length).map(s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')(?![\\p{L}\\p{N}])','gu');
 const context = {window:{}}; vm.createContext(context);
-for (const f of ['translations','links-i18n','links-i18n-lp2','estimate-i18n']) vm.runInContext(read('js/'+f+'.js'),context);
+for (const f of ['js/translations','tools/i18n/links-i18n','tools/i18n/links-i18n-lp2','js/estimate-i18n']) vm.runInContext(read(f+'.js'),context);
+for(const f of fs.readdirSync(path.join(root,'js/i18n')).filter(f=>/^keys\.\w+\.js$/.test(f)))vm.runInContext(fs.readFileSync(path.join(root,'js/i18n',f),'utf8'),context);
 const languages = context.window.SS_LANGS.filter(l=>l.code!=='en').map(l=>l.code);
 const files=[];
 function walk(dir='') {

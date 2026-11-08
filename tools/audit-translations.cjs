@@ -2,7 +2,8 @@
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const root=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.join(root,f),'utf8');
 const context={window:{}};vm.createContext(context);
-for(const name of ['translations','links-i18n','links-i18n-lp2'])vm.runInContext(read('js/'+name+'.js'),context);
+for(const name of ['js/translations','tools/i18n/links-i18n','tools/i18n/links-i18n-lp2'])vm.runInContext(read(name+'.js'),context);
+for(const f of fs.readdirSync(path.join(root,'js/i18n')).filter(f=>/^keys\.\w+\.js$/.test(f)))vm.runInContext(fs.readFileSync(path.join(root,'js/i18n',f),'utf8'),context);
 const shared=context.window.SS_TRANSLATIONS, report={scope:'Root public HTML pages and explicit i18n keys; generated house records and unmarked prose require a separate content review.',pages:[]};
 for(const file of fs.readdirSync(root).filter(f=>f.endsWith('.html'))){
  const html=read(file),keys=[...new Set([...html.matchAll(/data-i18n(?:-ph|-al|-ti)?=["']([^"']+)/g)].map(m=>m[1]))];

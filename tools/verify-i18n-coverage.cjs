@@ -8,12 +8,13 @@ const vm = require('vm');
 
 const repo = path.resolve(__dirname, '..');
 const pages = ['index.html', 'links.html', 'lookbook.html', 'estimate.html', 'redeem.html'];
-const bundles = ['js/translations.js', 'js/links-i18n.js', 'js/links-i18n-lp2.js'];
+const bundles = ['js/translations.js', 'tools/i18n/links-i18n.js', 'tools/i18n/links-i18n-lp2.js'];
 const context = { window: {} };
 vm.createContext(context);
 for (const file of bundles) {
   vm.runInContext(fs.readFileSync(path.join(repo, file), 'utf8'), context, { filename: file });
 }
+for(const f of fs.readdirSync(path.join(repo,'js/i18n')).filter(f=>/^keys\.\w+\.js$/.test(f)))vm.runInContext(fs.readFileSync(path.join(repo,'js/i18n',f),'utf8'),context);
 
 const vi = (context.window.SS_TRANSLATIONS || {}).vi || {};
 let failures = 0;

@@ -991,6 +991,9 @@
 };
 
  const dict=window.SS_TRANSLATIONS;
+ /* These two copy shared strings, which arrive later in js/i18n/keys.<lang>.js. */
+ const derive=(d,c)=>{d['est.fx.confirm']=d['est.note']||c.quoted;d['est.plusship']=' + '+(d['est.shiplbl']||c.balance);};
+ window.SS_KEYS_AFTER=(lang,d)=>{if(copy[lang])derive(d,copy[lang]);};
  const estimateAction={en:'See my estimate',vi:'Xem ước tính của tôi',zh:'查看我的估算',es:'Ver mi estimación',ar:'عرض تقديري',fr:'Voir mon estimation',pt:'Ver minha estimativa',ru:'Посмотреть мой расчёт',ja:'見積もりを見る',de:'Meine Schätzung ansehen',ko:'내 예상 비용 보기',hi:'मेरा अनुमान देखें',id:'Lihat estimasi saya',th:'ดูประมาณการของฉัน',it:'Vedi la mia stima',tr:'Tahmini tutarımı gör',tl:'Tingnan ang aking tantiya',pl:'Zobacz moją wycenę',nl:'Bekijk mijn schatting',fa:'مشاهده برآورد من',km:'មើលការប៉ាន់ស្មានរបស់ខ្ញុំ'};
  for(const [lang,c] of Object.entries(copy)){
   const d=dict[lang]||(dict[lang]={});
@@ -1014,9 +1017,8 @@
   };
   for(const [key,alias] of Object.entries(aliases))d[key]=c[alias];
   d['est.q.weight']=c.duties;
-  d['est.fx.confirm']=d['est.note']||c.quoted;
+  derive(d,c);
   d['est.cmp.sub']=c.duties;
-  d['est.plusship']=' + '+(d['est.shiplbl']||c.balance);
   d['est.itemcount']='({n})';
   d['est.share.s']=c.share+' · 24h';
   const P=window.SS_PRICING&&window.SS_PRICING.data, fx=P?P.fx.vndPerUsd:25000;

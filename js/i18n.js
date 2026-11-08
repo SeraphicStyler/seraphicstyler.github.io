@@ -4,9 +4,8 @@
    - English is written directly in index.html (the default + fallback).
    - Each translatable element has data-i18n="key" (or data-i18n-ph for an
      input placeholder). On load this engine caches the English original.
-   - Other languages live in js/translations.js as window.SS_TRANSLATIONS
-     and are listed in window.SS_LANGS. To ADD A LANGUAGE: add one entry to
-     SS_LANGS and one object of the same keys to SS_TRANSLATIONS. That's it.
+   - Other languages are listed in window.SS_LANGS (js/translations.js); each
+     one's strings load from js/i18n/keys.<code>.js the first time it's chosen.
    ====================================================================== */
 (function () {
   'use strict';
@@ -15,8 +14,16 @@
   var DICT = window.SS_TRANSLATIONS || {};
   var RTL = { ar: 1, he: 1, fa: 1, ur: 1 }; // right-to-left languages
   var cur = 'en';
+  var ticket = 0;
   function cacheEnglish() { window.SS_I18N_DOM.cache(); }
   function apply(code, persist) {
+    var mine = ++ticket;
+    if (window.SS_KEYS && !window.SS_KEYS.has(code)) {
+      window.SS_KEYS(code).then(function () { if (mine === ticket) paint(code, persist); },
+        function () { if (mine === ticket) paint('en', false); });
+    } else paint(code, persist);
+  }
+  function paint(code, persist) {
     if (code !== 'en' && !DICT[code]) { code = 'en'; persist = false; }
     cur = code;
     window.SS_I18N_DOM.paint(code === 'en' ? null : DICT[code], code);
