@@ -739,7 +739,7 @@ html.rm .a11y-wrap { animation: none; opacity: 1; }
 /* Phones: keep only the ⚙ settings disc bottom-left. Theme + language already live
    inside its menu, so the standalone toggles were duplicates that stacked up the left
    edge and covered the body text. One disc = less clutter, no overlap. */
-@media (max-width: 600px) { .a11y-wrap .theme-fab, .a11y-wrap .lang-fab { display: none; } }
+@media (max-width: 600px) { .a11y-wrap .lang-fab { display: none; } .a11y-wrap .theme-fab, .a11y-wrap .a11y-fab { width: 44px; height: 44px; } }
 
 .a11y-fab { font-size: 1.3rem; }
 /* Quick EN/VN language toggle — stacks above the settings gear */
@@ -985,6 +985,7 @@ textarea { border-radius: 1rem; padding: 0.9rem 1.05rem; }
 
 /* ---- Lookbook gallery ---- */
 .gallery { columns: 3 220px; column-gap: 1rem; }
+.gallery:empty { min-height: 70vh; } /* room for the looks while they load, so what follows does not jump */
 .gallery .tile { break-inside: avoid; margin-bottom: 1rem; border-radius: var(--tile-radius); overflow: hidden; position: relative; }
 .tile-ph { position: relative; display: grid; place-items: center; color: #fff; text-align: center; padding: 1.4rem; font-family: var(--font-display); text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
 .tile-ph::before { content: ''; position: absolute; inset: 0; background: linear-gradient(rgba(0,0,0,0.18), rgba(0,0,0,0.48)); }

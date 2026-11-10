@@ -21,9 +21,9 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&amp;family=Montserrat:wght@300;400;500&amp;family=Pinyon+Script&amp;family=Tenor+Sans&amp;family=Merriweather+Sans:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
-<link href="css/styles.css?v=2026-08-07" rel="stylesheet"/>
+<link href="css/styles.css?v=2026-11-09s" rel="stylesheet"/>
 <link href="css/theme.css?v=2026-09-10" rel="stylesheet"/>
-<script src="js/theme.js?v=2026-09-10"></script>
+<script src="js/theme.js?v=2026-11-09s"></script>
 <script>if(new URLSearchParams(location.search).get('embed')==='links')document.documentElement.classList.add('est-embedded');</script>
 <style>
     /* Page-scoped layout — keeps just the estimator, centered and mobile-first.
@@ -82,7 +82,7 @@
     .share-msg { margin-top: 0.4rem; }
     .share-card.is-made .share-make { display: none; }
   </style>
-<link href="css/estimate.css?v=2026-11-07b" rel="stylesheet"/>
+<link href="css/estimate.css?v=2026-11-10a" rel="stylesheet"/>
   <script src="js/i18n-site.js?v=2026-09-12" defer></script>
   <script src="js/geo-lang.js?v=2026-10-02" defer></script>
 </head>
@@ -102,40 +102,19 @@
 <section id="estimate">
 <div class="wrap">
 <div class="section-head center">
-<span class="badge-pill" data-i18n="est.badge">Sourcing</span>
 <h1 data-i18n="est.h2">Get your price</h1>
-<p class="lead narrow" data-i18n="est.intro">You have a link with the price showing. Type the shop price, choose where it ships, then send it to me. I confirm the exact total before you pay.</p>
-<ul class="est-rules" aria-label="How it's priced">
-<li><b data-est-rule="minfee">$20</b><span>my fee per item<small data-est-rule="pct">or 8% when that’s more (7% on items over $200)</small></span></li>
-<li><b data-est-rule="order">$10</b><span>per order<small>packing &amp; coordination, 2 shops included</small></span></li>
-<li><b>At cost</b><span>shipping<small>the courier’s real price, no markup</small></span></li>
-</ul>
-<p class="est-rules-link">Plus 3% currency transfer on the order. <a href="prices" target="_top">See every price →</a></p>
-<p class="est-rules-link">The estimator is for <strong>ready-made pieces with a link and a price</strong>. A photo, a post, “DM for price”, or a custom size is The Trace: <b data-est-rule="trace">$50</b> a piece, paid first. <a href="https://tally.so/r/gD10Kl?about=I%20need%20The%20Trace%20for%20item%20identification&amp;source=trace" target="_top">Start a Trace →</a></p>
-<script>/* The rules above read js/pricing.js, so they can never drift from the real fees. */
-document.addEventListener("DOMContentLoaded",function(){var P=window.SS_PRICING;if(!P)return;var d=P.data,s=d.sourcing,fx=d.fx.vndPerUsd,u=P.fmt.usd,pc=P.fmt.pct;
- var set=function(k,v){document.querySelectorAll("[data-est-rule=\""+k+"\"]").forEach(function(e){e.textContent=v;});};
- set("minfee",u(s.minFeeVnd/fx));set("order",u(s.orderFeeVnd/fx));set("trace",u(d.trace.usd));
- set("pct","or "+pc(s.rate)+" when that’s more ("+pc(s.highRate)+" on items over "+u(s.highFromVnd/fx)+")");});</script>
+<p class="lead narrow" data-i18n="est.intro">Type the price, choose where it’s going, and your total appears. You don’t pay anything yet.</p>
 </div>
-<!-- Guess-then-reveal price game (js/price-game.js) — warms up intuition before the real quiz below -->
 <p class="est-fallback">If the calculator does not load, <a href="sourcingandstyling" target="_top">Read the fees</a> or <a href="service-request.html?service=sourcing" target="_top">request a written quote</a>.</p>
 <div aria-label="Sourcing cost estimator" class="quiz" id="estQuiz">
-<div class="quiz-toolbar">
-<label class="quiz-lang">
-<svg aria-hidden="true" fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-width="1.6" viewBox="0 0 24 24" width="14"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c3.5 4.5 3.5 13.5 0 18M12 3c-3.5 4.5-3.5 13.5 0 18"></path></svg>
-<select aria-label="Language / 言語" class="cur-select ss-lang-select" id="estLangSelect"></select>
-</label>
-</div>
 <div class="est-inputs">
 <!-- Step 1 — items -->
 <div class="quiz-step is-active" data-step="1">
 <h2 class="quiz-q est-step-h"><span class="est-n">1</span> <span data-i18n="est.items.h">Your pieces</span></h2>
-<p class="quiz-help small muted" data-i18n="est.items.note" id="estItemsNote">Type the price exactly as the shop shows it, in đồng. Your own currency appears underneath.</p>
+<p class="quiz-help small muted" data-i18n="est.items.note" id="estItemsNote">Type the price just as the shop shows it.</p>
 <div class="line-items" id="lineItems"></div>
 <button class="btn btn-ghost" id="addItem" style="margin-top:0.4rem" type="button">+ <span data-i18n="est.add">Add item</span></button>
-<div class="est-quick-result"><output id="estQuickTotal" aria-live="off"></output><a class="btn btn-primary" href="#estimate-total" data-i18n="est.see">See my estimate</a></div>
-
+<p class="est-trace"><a data-i18n="est.trace" href="https://tally.so/r/gD10Kl?about=I%20need%20The%20Trace%20for%20item%20identification&amp;source=trace" target="_top">Only have a photo, or need a custom size? Start a Trace →</a></p>
 </div>
 <!-- Step 2 — destination -->
 <div class="quiz-step" data-step="2">
@@ -151,8 +130,73 @@ document.addEventListener("DOMContentLoaded",function(){var P=window.SS_PRICING;
 <option data-i18n="ship.r8" value="africa">Africa</option>
 </select>
 </div>
-<!-- Step 3 — everything optional, closed by default (7 Nov 2026: three steps for customers) -->
-<details class="est-more" id="estMore"><summary><span>More options</span><small>Parcel size, extra shops, styling, card payment. Most people skip this.</small></summary>
+</div>
+<!-- Step 3: the answer first, then how to pay, then the detail for anyone who wants it -->
+<div aria-label="Your estimate" class="quiz-step est-receipt" data-step="4">
+<h2 class="quiz-q est-step-h" id="estimate-total" tabindex="-1"><span class="est-n">3</span> <span data-i18n="est.result.h">Your total</span></h2>
+<p class="estimate-note preview-note" id="previewNote" style="display:none"></p>
+<p class="estimate-note" data-i18n="est.empty" id="estEmptyMsg" style="display:none">Type a price above and your total appears here.</p>
+<div class="est-answer" id="estAnswer">
+<div class="result-card">
+<div aria-live="polite" class="result-row total" role="status"><span class="muted"><span data-i18n="est.usd">Total in</span> <select aria-label="Currency" class="cur-select" id="estCurrency"><option>USD</option><option>EUR</option><option>GBP</option><option>AUD</option><option>CAD</option><option>SGD</option><option>JPY</option><option>KRW</option><option>CNY</option><option>THB</option><option>AED</option><option>INR</option></select></span><span class="v usd" id="rUsd">—</span></div>
+<p class="est-allin" data-i18n="est.allin" id="estAllIn">Includes the pieces, my fees and shipping. Import tax, if any, is separate.</p>
+<div class="result-row split-row" id="rDepositRow" style="display:none"><span><span data-i18n="est.deposit">Deposit — due to start</span> </span><span class="v" id="rDeposit">—</span></div>
+<p class="split-cur" id="rDepositCur"></p>
+<p class="split-card" id="rDepositCard" style="display:none"><span><span data-i18n="est.split.card">Card processing</span> </span><span class="v" id="rDepositCardV"></span></p>
+<p class="split-card split-total" id="rDepositTot" style="display:none"><span data-i18n="est.split.deptotal">Deposit total, paid by card</span><span class="v" id="rDepositTotV"></span></p>
+<div class="result-row split-row" id="rBalanceRow" style="display:none"><span><span data-i18n="est.balance">Balance — before it ships</span> </span><span class="v" id="rBalance">—</span></div>
+<p class="split-cur" id="rBalanceCur"></p>
+<p class="split-card" id="rBalanceCard" style="display:none"><span><span data-i18n="est.split.card">Card processing</span> </span><span class="v" id="rBalanceCardV"></span></p>
+<p class="split-card split-total" id="rBalanceTot" style="display:none"><span data-i18n="est.split.baltotal">Balance total, paid by card</span><span class="v" id="rBalanceTotV"></span></p>
+</div>
+<div class="est-pay">
+<label class="quiz-q" data-i18n="est.pay" for="payMethod">How will you pay?</label>
+<select id="payMethod">
+<option data-i18n="est.pay.bank" selected="" value="bank">Bank transfer / Wise / Zelle</option>
+<option data-i18n="est.pay.card" value="card">Card via Stripe (+5.4%)</option>
+</select>
+</div>
+<p class="estimate-note est-duty" id="rDutyNote" hidden></p>
+<div class="dest-compare" hidden="" id="destCompare"></div>
+<details class="est-lines" id="estLines"><summary data-i18n="est.lines">See what’s included</summary>
+<div class="result-row"><span data-i18n="est.sub">Items subtotal</span><span class="v" id="rSubtotal">—</span></div>
+<div class="result-row"><span><span data-i18n="est.fee">My fee, per item</span>  <span class="muted small" id="rFeeNote">—</span></span><span class="v" id="rFee">—</span></div>
+<div class="result-row"><span><span data-i18n="est.base">Order fee</span> </span><span class="v" id="rBase">—</span></div>
+<div class="result-row" id="rStyleRow" style="display:none"><span><span data-i18n="est.styleline">Styling service</span>  <span class="muted small" id="rStyleNote">—</span></span><span class="v" id="rStyle">0₫</span></div>
+<div class="result-row" id="rCreditRow" style="display:none"><span><span data-i18n="est.creditline">Piece credit applied</span> </span><span class="v green-v" id="rCredit">0₫</span></div>
+<div class="result-row" id="rLeftoverRow" style="display:none"><span><span data-i18n="est.leftoverline">Gift credit left over</span> </span><span class="v" id="rLeftover">0₫</span></div>
+<p class="split-cur" id="rLeftoverUsd"></p>
+<div class="result-row" id="rStopsRow" style="display:none"><span><span data-i18n="est.stopsline">Additional stops</span> </span><span class="v" id="rStops">0₫</span></div>
+<div class="result-row" id="rComplexRow" style="display:none"><span data-i18n="est.complexline">Complex sourcing</span><span class="v" id="rComplex">0₫</span></div>
+<div class="result-row" id="rGreenRow" style="display:none"><span data-i18n="est.greenline">Green shopping discount</span><span class="v green-v" id="rGreen">0₫</span></div>
+<div class="result-row"><span><span data-i18n="est.shiplbl">Est. shipping</span> <span class="muted small" id="rShipNote"></span></span><span class="v" id="rShip">—</span></div>
+<div class="result-row" id="rFxRow" style="display:none"><span><span data-i18n="est.fxline">Currency transfer (3%)</span> </span><span class="v" id="rFx">0₫</span></div>
+<div class="result-row" id="rCardRow" style="display:none"><span><span data-i18n="est.cardline">Card processing (Stripe)</span> </span><span class="v" id="rCard">0₫</span></div>
+<div class="result-row" style="border:none"><span data-i18n="est.total">Total in đồng</span><span class="v" id="rTotal">—</span></div>
+<p aria-live="polite" class="fx-status" id="fxStatus" role="status" style="margin-top:0.5rem">Loading live rate…</p><p class="estimate-note" data-i18n="estimate.margin">The exchange rate includes a transfer margin. Your written quote confirms the final rate.</p>
+<div class="est-acc-body">
+<p><strong>Shipping</strong> is the courier’s real cost on the day it ships, including any fuel or peak-season surcharge. You see it before you pay the balance.</p>
+<p><strong>Import duty</strong> depends on your country and goes to its customs, not to me. I confirm the amount and who pays it before anything ships.</p>
+</div>
+<ul class="est-rules" aria-label="How it's priced">
+<li><b data-est-rule="minfee">$20</b><span>my fee per item<small data-est-rule="pct">or 8% when that’s more (7% on items over $200)</small></span></li>
+<li><b data-est-rule="order">$10</b><span>per order<small>packing &amp; coordination, 2 shops included</small></span></li>
+<li><b>At cost</b><span>shipping<small>the courier’s real price, no markup</small></span></li>
+</ul>
+<p class="est-rules-link">Plus 3% currency transfer on the order. <a href="prices" target="_top">See every price →</a></p>
+<p class="est-rules-link">The estimator is for <strong>ready-made pieces with a link and a price</strong>. A photo, a post, “DM for price”, or a custom size is The Trace: <b data-est-rule="trace">$50</b> a piece, paid first. <a href="https://tally.so/r/gD10Kl?about=I%20need%20The%20Trace%20for%20item%20identification&amp;source=trace" target="_top">Start a Trace →</a></p>
+<script>/* The rules above read js/pricing.js, so they can never drift from the real fees. */
+document.addEventListener("DOMContentLoaded",function(){var P=window.SS_PRICING;if(!P)return;var d=P.data,s=d.sourcing,fx=d.fx.vndPerUsd,u=P.fmt.usd,pc=P.fmt.pct;
+ var set=function(k,v){document.querySelectorAll("[data-est-rule=\""+k+"\"]").forEach(function(e){e.textContent=v;});};
+ set("minfee",u(s.minFeeVnd/fx));set("order",u(s.orderFeeVnd/fx));set("trace",u(d.trace.usd));
+ set("pct","or "+pc(s.rate)+" when that’s more ("+pc(s.highRate)+" on items over "+u(s.highFromVnd/fx)+")");});</script>
+</details>
+<button class="btn btn-primary btn-lg" id="sendBasket" style="width:100%;margin-top:1rem" type="button"><span data-i18n="est.send">Send this to me</span></button>
+<p class="estimate-note" id="copiedMsg" style="display:none;color:var(--accent-deep)">✓ Basket summary copied — paste it into your DM to me.</p>
+<p class="estimate-note" data-i18n="est.note">I confirm the exact total before you pay anything.</p>
+</div>
+</div>
+<details class="est-more" id="estMore"><summary><span data-i18n="est.more.h">More options</span><small data-i18n="est.more.s">Parcel size, extra shops, styling. Most people skip this.</small></summary>
 <div class="est-more-body">
 <label class="quiz-q" data-i18n="est.weight" for="weight">Estimated parcel weight</label>
 <p class="quiz-help small muted" data-i18n="est.q.weight">A rough size is fine — I confirm exact weight before shipping.</p>
@@ -180,11 +224,6 @@ document.addEventListener("DOMContentLoaded",function(){var P=window.SS_PRICING;
 <option data-i18n="est.styling.capsule" value="capsule">The Capsule — style profile + capsule edit (+$460, incl. $190 to spend on pieces)</option>
 <option data-i18n="est.styling.atelier" value="atelier">The Atelier — full styling, in person or by video (+$600, incl. $290 to spend on pieces)</option>
 </select>
-<label class="quiz-q" data-i18n="est.pay" for="payMethod" style="margin-top:0.8rem">How will you pay?</label>
-<select id="payMethod">
-<option data-i18n="est.pay.bank" selected="" value="bank">Bank transfer / Wise / Zelle — no card fee</option>
-<option data-i18n="est.pay.card" value="card">Card via Stripe — adds ~5.4% + $0.30 (international rate)</option>
-</select>
 <label class="quiz-check"><input id="compareDest" style="width:auto" type="checkbox"/> <span data-i18n="est.compare">Compare a second destination</span> </label>
 <div hidden="" id="compareWrap">
 <label class="quiz-q" data-i18n="est.shipto2" for="region2" style="margin-top:0.9rem">Second destination</label>
@@ -200,50 +239,6 @@ document.addEventListener("DOMContentLoaded",function(){var P=window.SS_PRICING;
 <option data-i18n="ship.r8" value="africa">Africa</option>
 </select>
 </div>
-</div>
-</details>
-</div>
-<!-- Step 4 — result -->
-<div aria-label="Your estimate" class="quiz-step est-receipt" data-step="4">
-<h2 class="quiz-q est-step-h" id="estimate-total" tabindex="-1"><span class="est-n">3</span> <span data-i18n="est.result.h">Your total</span></h2>
-<p class="estimate-note preview-note" id="previewNote" style="display:none"></p>
-<div class="result-card">
-<div class="result-row"><span data-i18n="est.sub">Items subtotal</span><span class="v" id="rSubtotal">—</span></div>
-<div class="result-row"><span><span data-i18n="est.fee">My fee, per item</span>  <span class="muted small" id="rFeeNote">—</span></span><span class="v" id="rFee">—</span></div>
-<div class="result-row"><span><span data-i18n="est.base">Order fee</span> </span><span class="v" id="rBase">—</span></div>
-<div class="result-row" id="rStyleRow" style="display:none"><span><span data-i18n="est.styleline">Styling service</span>  <span class="muted small" id="rStyleNote">—</span></span><span class="v" id="rStyle">0₫</span></div>
-<div class="result-row" id="rCreditRow" style="display:none"><span><span data-i18n="est.creditline">Piece credit applied</span> </span><span class="v green-v" id="rCredit">0₫</span></div>
-<div class="result-row" id="rLeftoverRow" style="display:none"><span><span data-i18n="est.leftoverline">Gift credit left over</span> </span><span class="v" id="rLeftover">0₫</span></div>
-<p class="split-cur" id="rLeftoverUsd"></p>
-<div class="result-row" id="rStopsRow" style="display:none"><span><span data-i18n="est.stopsline">Additional stops</span> </span><span class="v" id="rStops">0₫</span></div>
-<div class="result-row" id="rComplexRow" style="display:none"><span data-i18n="est.complexline">Complex sourcing</span><span class="v" id="rComplex">0₫</span></div>
-<div class="result-row" id="rGreenRow" style="display:none"><span data-i18n="est.greenline">Green shopping discount</span><span class="v green-v" id="rGreen">0₫</span></div>
-<div class="result-row"><span><span data-i18n="est.shiplbl">Est. shipping</span> <span class="muted small" id="rShipNote"></span></span><span class="v" id="rShip">—</span></div>
-<div class="result-row" id="rFxRow" style="display:none"><span><span data-i18n="est.fxline">Currency transfer (3%)</span> </span><span class="v" id="rFx">0₫</span></div>
-<div class="result-row" id="rCardRow" style="display:none"><span><span data-i18n="est.cardline">Card processing (Stripe)</span> </span><span class="v" id="rCard">0₫</span></div>
-<div aria-live="polite" class="result-row total" role="status"><span class="muted"><span data-i18n="est.usd">Total in</span> <select aria-label="Currency" class="cur-select" id="estCurrency"><option>USD</option><option>EUR</option><option>GBP</option><option>AUD</option><option>CAD</option><option>SGD</option><option>JPY</option><option>KRW</option><option>CNY</option><option>THB</option><option>AED</option><option>INR</option></select></span><span class="v usd" id="rUsd">—</span></div>
-<div class="result-row split-row" id="rDepositRow" style="display:none"><span><span data-i18n="est.deposit">Deposit — due to start</span> </span><span class="v" id="rDeposit">—</span></div>
-<p class="split-cur" id="rDepositCur"></p>
-<p class="split-card" id="rDepositCard" style="display:none"><span><span data-i18n="est.split.card">Card processing</span> </span><span class="v" id="rDepositCardV"></span></p>
-<p class="split-card split-total" id="rDepositTot" style="display:none"><span data-i18n="est.split.deptotal">Deposit total, paid by card</span><span class="v" id="rDepositTotV"></span></p>
-<div class="result-row split-row" id="rBalanceRow" style="display:none"><span><span data-i18n="est.balance">Balance — before it ships</span> </span><span class="v" id="rBalance">—</span></div>
-<p class="split-cur" id="rBalanceCur"></p>
-<p class="split-card" id="rBalanceCard" style="display:none"><span><span data-i18n="est.split.card">Card processing</span> </span><span class="v" id="rBalanceCardV"></span></p>
-<p class="split-card split-total" id="rBalanceTot" style="display:none"><span data-i18n="est.split.baltotal">Balance total, paid by card</span><span class="v" id="rBalanceTotV"></span></p>
-<p class="estimate-note est-duty" id="rDutyNote" hidden></p>
-<p class="estimate-note" data-i18n="est.empty" id="estEmptyMsg" style="display:none">Nothing to estimate yet — add an item price, or choose a styling tier.</p>
-</div>
-<div class="dest-compare" hidden="" id="destCompare"></div>
-<details class="est-fine"><summary>How this total is worked out</summary>
-<div class="result-row" style="border:none"><span data-i18n="est.total">Total in đồng</span><span class="v" id="rTotal">—</span></div>
-<p aria-live="polite" class="fx-status" id="fxStatus" role="status" style="margin-top:0.5rem">Loading live rate…</p><p class="estimate-note" data-i18n="estimate.margin">The exchange rate includes a transfer margin. Your written quote confirms the final rate.</p>
-<div class="est-acc-body">
-<p><strong>Shipping</strong> is the courier’s real cost on the day it ships, including any fuel or peak-season surcharge. You see it before you pay the balance.</p>
-<p><strong>Import duty</strong> depends on your country and goes to its customs, not to me. I confirm the amount and who pays it before anything ships.</p>
-</div>
-</details>
-<button class="btn btn-primary btn-lg" id="sendBasket" style="width:100%;margin-top:1rem" type="button"><span data-i18n="est.send">Send this to me</span></button>
-<p class="estimate-note" id="copiedMsg" style="display:none;color:var(--accent-deep)">✓ Basket summary copied — paste it into your DM to me.</p>
 <details class="share-card" id="shareCard"><summary data-i18n="estimate.share">Share estimate</summary>
 <p class="share-s" data-i18n="est.share.s">Opens this estimate exactly as it stands — same inputs, same rate — straight on this page. It lives 24 hours, then the link dies.</p>
 <div class="share-row" hidden="" id="shareRow">
@@ -253,7 +248,13 @@ document.addEventListener("DOMContentLoaded",function(){var P=window.SS_PRICING;
 <button class="btn btn-ghost share-make" data-i18n="est.preview.btn" id="previewLink" type="button">Create a 24-hour preview link</button>
 <p class="estimate-note share-msg" id="previewMsg" style="display:none"></p>
 </details>
-<p class="estimate-note" data-i18n="est.note">I confirm the exact total before you pay anything.</p>
+</div>
+</details>
+<div class="quiz-toolbar">
+<label class="quiz-lang">
+<svg aria-hidden="true" fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-width="1.6" viewBox="0 0 24 24" width="14"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c3.5 4.5 3.5 13.5 0 18M12 3c-3.5 4.5-3.5 13.5 0 18"></path></svg>
+<select aria-label="Language / 言語" class="cur-select ss-lang-select" id="estLangSelect"></select>
+</label>
 </div>
 </div>
 </div>
@@ -280,8 +281,8 @@ document.addEventListener("DOMContentLoaded",function(){var P=window.SS_PRICING;
 <script src="js/translations.js?v=2026-11-07"></script>
 <script src="js/i18n-dom.js"></script>
 <script src="js/pricing.js?v=2026-11-07b"></script>
-<script src="js/estimate-i18n.js?v=2026-11-07"></script><script src="js/i18n.js?v=2026-11-07"></script>
-<script src="js/estimator.js?v=2026-11-07d"></script>
+<script src="js/estimate-i18n.js?v=2026-11-09"></script><script src="js/i18n.js?v=2026-11-07"></script>
+<script src="js/estimator.js?v=2026-11-09"></script>
 <script>
     /* Esc dismisses an open info tooltip (WCAG 1.4.13) */
     document.addEventListener('keydown', function (e) {
@@ -290,7 +291,7 @@ document.addEventListener("DOMContentLoaded",function(){var P=window.SS_PRICING;
       if (t) t.blur();
     });
   </script>
-<script src="js/estimate-page.js?v=2026-10-02"></script>
+<script src="js/estimate-page.js?v=2026-11-09"></script>
 <!-- Safety net: this page is served network-fresh, but js/i18n.js is cached (cache-first).
        If a returning visitor's cached i18n engine is older than the .ss-lang-select support,
        the selector renders empty ("No Options"). Populate it ourselves from SS_LANGS if so. -->

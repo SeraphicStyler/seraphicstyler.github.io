@@ -186,9 +186,11 @@ function SS_fmtRate(v) {
 
   var el = {};
   ['lineItems','addItem','region','region2','compareDest','compareWrap','destCompare','weight','stops','complex','green','styling','payMethod','estCurrency','rSubtotal','rFee','rFeeNote','rBase','rStopsRow','rStops',
-   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rLeftoverRow','rLeftover','rLeftoverUsd','rComplexRow','rComplex','rGreenRow','rGreen','rFxRow','rFx','rCardRow','rCard','rShip','rShipNote','rDutyNote','rDepositRow','rDeposit','rDepositCur','rBalanceRow','rBalance','rBalanceCur','rDepositCard','rDepositCardV','tipDepCard','rDepositTot','rDepositTotV','rBalanceCard','rBalanceCardV','tipBalCard','rBalanceTot','rBalanceTotV','previewLink','previewMsg','previewNote','shareCard','shareRow','shareUrl','shareCopy','rTotal','rUsd','fxStatus','sendBasket','copiedMsg','estEmptyMsg']
+   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rLeftoverRow','rLeftover','rLeftoverUsd','rComplexRow','rComplex','rGreenRow','rGreen','rFxRow','rFx','rCardRow','rCard','rShip','rShipNote','rDutyNote','rDepositRow','rDeposit','rDepositCur','rBalanceRow','rBalance','rBalanceCur','rDepositCard','rDepositCardV','tipDepCard','rDepositTot','rDepositTotV','rBalanceCard','rBalanceCardV','tipBalCard','rBalanceTot','rBalanceTotV','previewLink','previewMsg','previewNote','shareCard','shareRow','shareUrl','shareCopy','rTotal','rUsd','fxStatus','sendBasket','copiedMsg','estEmptyMsg','estAnswer','estAllIn']
     .forEach(function (id) { el[id] = document.getElementById(id); });
   if (!el.lineItems) return; // not on a page with the estimator
+  var isPage = !!document.querySelector('.est-page'); // the /estimate page and its embed; the homepage quiz keeps its own flow
+  var weightChosen = false;                           // once a visitor picks a parcel size, never change it for them
 
   var CURRENCIES=['USD','EUR','GBP','AUD','CAD','NZD','CHF','SEK','NOK','DKK','PLN','CZK','SGD','HKD','JPY','KRW','TWD','CNY','THB','MYR','PHP','IDR','INR','AED','SAR','BHD','MXN','BRL','ZAR','VND'];
   function populateCurrencies() {
@@ -226,12 +228,28 @@ function SS_fmtRate(v) {
       : /^America\/(Toronto|Vancouver|Edmonton|Winnipeg|Halifax|St_Johns|Regina|Montreal|Moncton|Whitehorse|Yellowknife|Iqaluit|Glace_Bay|Goose_Bay|Swift_Current|Dawson_Creek|Fort_Nelson)$/.test(tz) ? 'CAD' : 'USD');
     return CURRENCIES.indexOf(code) >= 0 ? code : 'USD';
   }
+  /* The shipping region starts where the visitor's clock says they are, so nobody
+     gets a US shipping figure just for not touching the list. */
+  function timeZoneRegion() {
+    var tz = ''; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+    var rules = [
+      [/^Africa\/(Cairo|Casablanca|Tunis|Algiers|Tripoli|El_Aaiun|Ceuta)$/, 'mena'], [/^Africa\//, 'africa'],
+      [/^Europe\/|^Atlantic\/(Reykjavik|Canary|Madeira|Azores|Faroe)$/, 'eu'],
+      [/^Australia\/|^Pacific\/(Auckland|Chatham)$/, 'oceania'], [/^Pacific\/Honolulu$/, 'us'],
+      [/^Asia\/(Kolkata|Calcutta|Karachi|Dhaka|Kathmandu|Katmandu|Colombo|Thimphu|Tashkent|Samarkand|Almaty|Bishkek|Dushanbe|Ashgabat|Kabul)$|^Indian\/Maldives$/, 'sca'],
+      [/^Asia\/(Dubai|Riyadh|Bahrain|Qatar|Kuwait|Muscat|Jerusalem|Tel_Aviv|Beirut|Amman|Baghdad|Tehran|Damascus|Aden|Gaza|Hebron)$/, 'mena'], [/^Asia\//, 'asia'],
+      [/^America\/(New_York|Detroit|Chicago|Denver|Phoenix|Boise|Los_Angeles|Anchorage|Juneau|Sitka|Nome|Adak|Menominee|Indiana\/|Kentucky\/|North_Dakota\/|Toronto|Vancouver|Edmonton|Winnipeg|Halifax|St_Johns|Regina|Montreal|Moncton|Whitehorse|Yellowknife|Iqaluit|Glace_Bay|Goose_Bay|Swift_Current|Dawson_Creek|Fort_Nelson)/, 'us'],
+      [/^America\//, 'latam']
+    ];
+    for (var i = 0; i < rules.length; i++) if (rules[i][0].test(tz)) return rules[i][1];
+    return 'us';
+  }
   function pickedCurrency() { try { return localStorage.getItem(PICKED_KEY); } catch (e) { return null; } }
   /* Their currency first, then dollars: "≈ BHD 243 – BHD 283 · ≈ $647 – $753". */
   function usdTail(lo, hi) {
     if (curCode() === 'USD') return '';
     var r = chargeRate('USD'); if (!Number.isFinite(r) || !Number.isFinite(chargeRate(curCode()))) return '';
-    var f = function (v) { return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(v / r); };
+    var f = function (v) { return new Intl.NumberFormat('en-US', isPage ? { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 } : { style: 'currency', currency: 'USD' }).format(v / r); };
     return ' · ≈ ' + f(lo) + (hi != null ? ' – ' + f(hi) : '');
   }
   function t(key, en) { return window.SS_T ? window.SS_T(key, en) : en; }
@@ -252,6 +270,18 @@ function SS_fmtRate(v) {
   /* Every receipt line in the visitor's own currency (7 Nov 2026: one currency on screen).
      The exact đồng stays on the element as data-vnd for records and tests. */
   function fmtRow(vnd) { var c = curCode(); var v = toCur(vnd); return (c !== 'VND' && Number.isFinite(v)) ? fmtCur(v) : fmtVnd(vnd); }
+  /* The answer on /estimate is in whole money; a cents figure on a shipping range only looks precise. */
+  function fmtWhole(n) {
+    var c = curCode();
+    if (c === 'VND') return fmtVnd(n);
+    try { return new Intl.NumberFormat(document.documentElement.lang || 'en', { style: 'currency', currency: c, minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(n); }
+    catch (e) { return '$' + n; }
+  }
+  function approx(vnd) {
+    var v = toCur(vnd);
+    if (!isPage) return '≈ ' + fmtCur(v);
+    return Number.isFinite(v) ? '≈ ' + fmtWhole(Math.round(v)) : fmtVnd(vnd);
+  }
   function updateFxStatus() {
     if (!el.fxStatus) return;
     var c = curCode();
@@ -268,10 +298,11 @@ function SS_fmtRate(v) {
 
   /* Same forgiving VND parser as the redeem page and directory tray:
      "850k" / "2m" / "1tr" / "1.500.000" / bare "850" (→ 850,000₫) all read correctly. */
-  function parseVnd(raw) {
-    if (raw == null) return 0;
-    var s = String(raw).toLowerCase().replace(/vnd|[₫đ]/g, '').replace(/\s+/g, '');
-    if (!s) return 0;
+  function readVnd(raw) {
+    if (raw == null) return { v: 0 };
+    var s = String(raw).toLowerCase().replace(/vnd|vnđ|đồng|dong|[₫đ]/g, '').replace(/\s+/g, '');
+    if (!s) return { v: 0 };
+    s = s.replace(/^(\d+)tr(\d+)$/, '$1.$2tr').replace(/(\d)d$/, '$1');
     var mult = 1;
     if (/tr$/.test(s)) { mult = 1e6; s = s.slice(0, -2); }
     else if (/m$/.test(s)) { mult = 1e6; s = s.slice(0, -1); }
@@ -280,11 +311,46 @@ function SS_fmtRate(v) {
     if (mult > 1) n = parseFloat(s.replace(',', '.'));
     else if (/^\d{1,3}([.,]\d{3})+$/.test(s)) n = parseInt(s.replace(/[.,]/g, ''), 10);
     else if (/^\d+([.,]\d+)?$/.test(s)) n = parseFloat(s.replace(',', '.'));
-    else return 0;
-    if (isNaN(n) || n <= 0) return 0;
-    var v = n * mult;
-    if (mult === 1 && v <= 9999) v = v * 1000;        // bare "350" reads as thousands, like the tray
-    return Math.round(v);
+    else return { v: 0, bad: true };
+    if (isNaN(n) || n <= 0) return { v: 0, bad: true };
+    var bare = mult === 1 && n <= 9999;               // bare "350" reads as thousands, like the tray
+    return { v: Math.round(n * mult * (bare ? 1000 : 1)), bare: bare, typed: n };
+  }
+  function parseVnd(raw) { return readVnd(raw).v; }
+
+  /* On /estimate a price can be typed exactly as the shop shows it. */
+  var MONEY_SIGNS = { '€': 'EUR', '£': 'GBP', '₩': 'KRW', '₹': 'INR', '฿': 'THB' };
+  var DOLLAR_PREFIX = { us: 'USD', a: 'AUD', au: 'AUD', c: 'CAD', ca: 'CAD', s: 'SGD', sg: 'SGD', hk: 'HKD', nz: 'NZD' };
+  var OWN_DOLLARS = ['USD', 'AUD', 'CAD', 'NZD', 'SGD', 'HKD', 'MXN']; // "$" means the visitor's own dollars
+  function moneyCode(s) {
+    var d = /([a-z]{0,2})\$/.exec(s);
+    if (d) return DOLLAR_PREFIX[d[1]] || (OWN_DOLLARS.indexOf(curCode()) >= 0 ? curCode() : 'USD');
+    for (var sign in MONEY_SIGNS) if (s.indexOf(sign) >= 0) return MONEY_SIGNS[sign];
+    var word = /[a-z]{3}/.exec(s), code = word && word[0].toUpperCase();
+    return code && code !== 'VND' && CURRENCIES.indexOf(code) >= 0 ? code : '';
+  }
+  /* "1,299.50", "1.299,50", "99,50", "1,299": the last separator is decimal unless it groups thousands. */
+  function readAmount(s) {
+    if (!/^\d[\d.,]*$/.test(s)) return NaN;
+    var at = Math.max(s.lastIndexOf('.'), s.lastIndexOf(','));
+    if (at < 0) return parseFloat(s);
+    var mixed = s.indexOf('.') >= 0 && s.indexOf(',') >= 0, once = s.split(s[at]).length === 2;
+    if (mixed || (once && s.length - at - 1 !== 3)) return parseFloat(s.slice(0, at).replace(/[.,]/g, '') + '.' + s.slice(at + 1));
+    return parseFloat(s.replace(/[.,]/g, ''));
+  }
+  /* { vnd } when the meaning is certain; { ask: n } for a bare small number, which could be
+     thousands of đồng or the visitor's own money; { bad: true } when it can't be read. */
+  function parsePrice(raw) {
+    var s = String(raw == null ? '' : raw).toLowerCase().replace(/\s+/g, '');
+    if (!s) return { vnd: 0 };
+    var code = moneyCode(s);
+    if (code) {
+      var amount = readAmount(s.replace(/[^\d.,]/g, '')), rate = chargeRate(code);
+      return amount > 0 && Number.isFinite(rate) ? { vnd: Math.round(amount * rate) } : { vnd: 0, bad: true };
+    }
+    var r = readVnd(s);
+    if (r.bare && curCode() !== 'VND') return { vnd: 0, ask: r.typed };
+    return { vnd: r.v, bad: !!r.bad };
   }
 
   function itemFee(p) {
@@ -311,7 +377,7 @@ function SS_fmtRate(v) {
   function readItems() {
     var vals = [];
     el.lineItems.querySelectorAll('.item-price').forEach(function (i) {
-      vals.push(parseVnd(i.value));
+      vals.push(isPage ? parsePrice(i.value).vnd : parseVnd(i.value));
     });
     return vals;
   }
@@ -329,16 +395,29 @@ function SS_fmtRate(v) {
         '<input class="item-price" type="text" inputmode="numeric" placeholder="e.g. 850,000 or 850k" aria-label="Item price in VND" aria-describedby="estItemsNote">' +
         '<p class="item-usd" aria-live="off"></p>' +
         '<input class="item-link" type="url" placeholder="URL / link (optional)" aria-label="Item link (optional)">' +
+        (isPage ? '<p class="item-note" aria-live="polite" hidden></p>' : '') +
       '</div>' +
       '<button class="remove-item" type="button" aria-label="Remove item">✕</button>';
     var pIn = row.querySelector('.item-price'); pIn.value = value || '';
     var lIn = row.querySelector('.item-link'); lIn.value = link || '';
     pIn.addEventListener('input', function () {
       var raw = pIn.value.trim();
-      pIn.setAttribute('aria-invalid', (raw !== '' && !(parseVnd(raw) > 0)) ? 'true' : 'false');
+      if (!isPage) pIn.setAttribute('aria-invalid', (raw !== '' && !(parseVnd(raw) > 0)) ? 'true' : 'false');
       recalc();
     });
-    lIn.addEventListener('input', save);
+    lIn.addEventListener('input', function () {
+      var note = row.querySelector('.item-note');
+      if (note) { note.hidden = true; delete row.dataset.asked; }
+      save();
+    });
+    /* One tap on "850,000₫" or "$850" rewrites the field so there is nothing left to guess. */
+    if (isPage) row.querySelector('.item-usd').addEventListener('click', function (e) {
+      var pick = e.target.closest('[data-price]');
+      if (!pick) return;
+      pIn.value = pick.getAttribute('data-price');
+      recalc();
+      lIn.focus();
+    });
     row.querySelector('.remove-item').addEventListener('click', function () {
       row.remove(); if (!el.lineItems.children.length) addItem(''); recalc();
     });
@@ -349,7 +428,7 @@ function SS_fmtRate(v) {
     if (preview) return;   // a preview is the client's view of my numbers — never overwrite their own basket with it
     try {
       localStorage.setItem('ss-basket', JSON.stringify({
-        items: readItems(), links: readLinks(), region: el.region.value, weight: el.weight.value, stops: el.stops ? el.stops.value : '', complex: el.complex.checked, green: !!(el.green && el.green.checked), styling: (el.styling && el.styling.value) || 'none', pay: (el.payMethod && el.payMethod.value) || 'bank', cur: curCode(),
+        wc: weightChosen, items: readItems(), links: readLinks(), region: el.region.value, weight: el.weight.value, stops: el.stops ? el.stops.value : '', complex: el.complex.checked, green: !!(el.green && el.green.checked), styling: (el.styling && el.styling.value) || 'none', pay: (el.payMethod && el.payMethod.value) || 'bank', cur: curCode(),
         compare: !!(el.compareDest && el.compareDest.checked), region2: (el.region2 && el.region2.value) || ''
       }));
     } catch (e) {}
@@ -462,10 +541,22 @@ function SS_fmtRate(v) {
     var dual = dualCur();
     var depCur = '≈ ' + fmtCur(toCur(depNet)), balCur = '≈ ' + fmtCur(toCur(balNetLo)) + ' – ' + fmtCur(toCur(balNetHi));
     var depVnd = fmtVnd(depNet), balVnd = fmtVnd(balNetLo) + ' – ' + fmtVnd(balNetHi);
-    el.rDeposit.textContent = dual ? depCur : depVnd;
-    el.rDepositCur.textContent = dual ? depVnd : '';
-    el.rBalance.textContent = dual ? balCur : balVnd;
-    el.rBalanceCur.textContent = dual ? balVnd : '';
+    if (isPage) {
+      /* What actually gets paid, card fee included. The total is built from these two
+         rounded figures so all three always add up. Exact đồng is kept for the message to me. */
+      var payVnd = fmtVnd(s.deposit), laterVnd = fmtVnd(s.balLo) + ' – ' + fmtVnd(s.balHi);
+      var d = dual ? Math.round(toCur(s.deposit)) : 0, lo = dual ? Math.round(toCur(s.balLo)) : 0, hi = dual ? Math.round(toCur(s.balHi)) : 0;
+      el.rDeposit.textContent = dual ? '≈ ' + fmtWhole(d) : payVnd;
+      el.rDepositCur.textContent = dual ? payVnd : '';
+      el.rBalance.textContent = dual ? '≈ ' + fmtWhole(lo) + ' – ' + fmtWhole(hi) : laterVnd;
+      el.rBalanceCur.textContent = dual ? laterVnd : '';
+      el.rUsd.textContent = (dual ? '≈ ' + fmtWhole(d + lo) + ' – ' + fmtWhole(d + hi) : fmtVnd(s.lo) + ' – ' + fmtVnd(s.hi)) + usdTail(s.lo, s.hi);
+    } else {
+      el.rDeposit.textContent = dual ? depCur : depVnd;
+      el.rDepositCur.textContent = dual ? depVnd : '';
+      el.rBalance.textContent = dual ? balCur : balVnd;
+      el.rBalanceCur.textContent = dual ? balVnd : '';
+    }
     var card = s.depositFee > 0;
     ['rDepositCard','rDepositTot','rBalanceCard','rBalanceTot'].forEach(function (id) { if (el[id]) el[id].style.display = card ? '' : 'none'; });
     if (!card || !el.rDepositCardV) return;
@@ -552,15 +643,55 @@ function SS_fmtRate(v) {
     el.lineItems.querySelectorAll('.line-item').forEach(function (row) {
       var h = row.querySelector('.item-usd'), pIn = row.querySelector('.item-price');
       if (!h || !pIn) return;
+      if (isPage) { readBack(h, pIn); return; }
       var v = parseVnd(pIn.value);
       h.textContent = v > 0 ? '≈ ' + fmtCur(toCur(v)) + ' · ' + t('est.itemfee', 'my fee') + ' ' + fmtCur(toCur(itemFee(v))) : '';
     });
+    if (isPage) {
+      var alone = el.lineItems.children.length < 2;
+      el.lineItems.querySelectorAll('.remove-item').forEach(function (b) { b.hidden = alone; });
+    }
+  }
+  /* Says back how a price was read, so a missing zero shows at once. When it can't be sure, it asks. */
+  function readBack(h, pIn) {
+    var p = parsePrice(pIn.value), problem = !!(p.ask || p.bad);
+    pIn.setAttribute('aria-invalid', problem ? 'true' : 'false');
+    h.setAttribute('aria-live', problem ? 'polite' : 'off');
+    h.classList.toggle('is-problem', problem);
+    var key = p.ask ? [p.ask, curCode(), document.documentElement.lang].join('|') : '';
+    if (key && h.dataset.key === key) return;     // leave the buttons alone while the question stands
+    h.dataset.key = key;
+    if (p.ask) {
+      var thousands = Math.round(p.ask * 1000);
+      var chip = function (value, label) { return '<button type="button" data-price="' + esc(value) + '">' + esc(label) + '</button>'; };
+      h.innerHTML = '<span>' + esc(t('est.ask', 'Which did the shop show?')) + '</span><span class="item-ask" dir="ltr">' +
+        chip(thousands.toLocaleString('en-US'), fmtVnd(thousands)) + chip(p.ask + ' ' + curCode(), fmtCur(p.ask)) + '</span>';
+      return;
+    }
+    if (p.bad) { h.textContent = t('est.bad', "I can't read that as a price. Try something like 850,000."); return; }
+    if (!(p.vnd > 0)) { h.textContent = ''; return; }
+    var cur = toCur(p.vnd);
+    h.textContent = fmtVnd(p.vnd) + (curCode() !== 'VND' && Number.isFinite(cur) ? ' ≈ ' + fmtCur(cur) : '');
+    if (p.vnd < 50000 || p.vnd > 500000000) {
+      var warn = document.createElement('span');
+      warn.className = 'item-warn'; warn.textContent = t('est.check', 'That looks unusual. Please check the number.');
+      h.appendChild(warn);
+    }
+  }
+  /* Seven pieces won't fit a 3 kg parcel, so the estimate shouldn't pretend they do. */
+  function fitParcel() {
+    if (!isPage || weightChosen) return;
+    var want = readItems().filter(function (v) { return v > 0; }).length >= 7 ? 'standard' : 'light';
+    if (el.weight.value !== want) el.weight.value = want;
   }
 
   function recalc() {
+    fitParcel();
     var c = compute();
     itemHints();
     var noItems = c.nItems === 0;
+    if (el.estAnswer) el.estAnswer.hidden = noItems && c.styling === 0;
+    if (el.estAllIn) el.estAllIn.hidden = noItems || c.custom;
     el.rSubtotal.textContent = noItems ? '—' : fmtRow(c.subtotal); el.rSubtotal.dataset.vnd = noItems ? '' : Math.round(c.subtotal);
     el.rFee.textContent = noItems ? '—' : fmtRow(c.fees); el.rFee.dataset.vnd = noItems ? '' : Math.round(c.fees);
     el.rFeeNote.textContent = c.nItems ? tf('est.itemcount', '(' + c.nItems + (c.nItems === 1 ? ' item' : ' items') + ')', { n: c.nItems }) : '';
@@ -627,7 +758,7 @@ function SS_fmtRate(v) {
       }
       el.rShip.textContent = t('est.ship.later', 'Added with your pieces');
       el.rTotal.textContent = fmtRow(nonShip + cfS);
-      el.rUsd.textContent = '≈ ' + fmtCur(toCur(nonShip + cfS)) + usdTail(nonShip + cfS);
+      el.rUsd.textContent = approx(nonShip + cfS) + usdTail(nonShip + cfS);
       hideSplit();                       // styling only — one payment, nothing to ship
       updateFxStatus(); save(); return;
     }
@@ -639,7 +770,7 @@ function SS_fmtRate(v) {
       }
       el.rShip.textContent = t('est.customquote', 'Custom quote');
       el.rTotal.textContent = fmtRow(nonShip + cf) + t('est.plusship', ' + shipping');
-      el.rUsd.textContent = '≈ ' + fmtCur(toCur(nonShip + cf)) + usdTail(nonShip + cf) + t('est.customhaul', ' + shipping (custom quote, 10kg+)');
+      el.rUsd.textContent = approx(nonShip + cf) + usdTail(nonShip + cf) + t('est.customhaul', ' + shipping (custom quote, 10kg+)');
       hideSplit();                       // shipping is hand-quoted, so no balance figure yet
     } else {
       // Two charges, so the card fee is calculated on each part separately.
@@ -662,7 +793,7 @@ function SS_fmtRate(v) {
       var rows=[t('est.h2','Build a rough estimate')+' — Seraphic Styler'];
       readItems().forEach(function(price,i){if(price>0)rows.push((i+1)+'. '+fmtVnd(price)+(readLinks()[i]?' — '+readLinks()[i]:''));});
       ['region','weight','stops','styling','payMethod'].forEach(function(id){var select=el[id];if(select)rows.push(select.options[select.selectedIndex].textContent);});
-      document.querySelectorAll('.result-row,.split-cur,.split-card').forEach(function(row){if(getComputedStyle(row).display!=='none'){var clone=row.cloneNode(true);clone.querySelectorAll('select').forEach(function(select){select.replaceWith(curCode());});rows.push(clone.textContent.replace(/\s+/g,' ').trim());}});
+      var all=Array.from(document.querySelectorAll('.result-row,.split-cur,.split-card')),inLines=function(row){return !!row.closest('.est-lines');};all.filter(inLines).concat(all.filter(function(row){return !inLines(row);})).forEach(function(row){if(getComputedStyle(row).display!=='none'){var clone=row.cloneNode(true);clone.querySelectorAll('select').forEach(function(select){select.replaceWith(curCode());});rows.push(clone.textContent.replace(/\s+/g,' ').trim());}});
       if(el.rDutyNote&&!el.rDutyNote.hidden)rows.push(el.rDutyNote.textContent);
       if(compareOn())rows.push(el.destCompare.textContent.replace(/\s+/g,' ').trim());
       rows.push(el.fxStatus.textContent,t('est.note','Your final quote is confirmed before payment.'));
@@ -746,7 +877,25 @@ function SS_fmtRate(v) {
       '&estimate=' + encodeURIComponent(estimateParam(text)) + '&source=home-estimator';
   }
 
+  /* Before sending: settle any price still in question, then ask once for missing links. */
+  function readyToSend() {
+    var rows = Array.from(el.lineItems.querySelectorAll('.line-item'));
+    var price = function (r) { return parsePrice(r.querySelector('.item-price').value); };
+    var stuck = rows.filter(function (r) { var p = price(r); return p.ask || p.bad; })[0];
+    if (stuck) { stuck.querySelector('.item-price').focus(); return false; }
+    var missing = rows.filter(function (r) { return price(r).vnd > 0 && !r.querySelector('.item-link').value.trim() && !r.dataset.asked; });
+    if (!missing.length) return true;
+    missing.forEach(function (r) {
+      var note = r.querySelector('.item-note');
+      note.textContent = t('est.link.need', 'Paste the link so I can find this piece. No link? Press Send again.');
+      note.hidden = false; r.dataset.asked = '1';
+    });
+    missing[0].querySelector('.item-link').focus();
+    return false;
+  }
+
   function send() {
+    if (isPage && !readyToSend()) return;
     var c0 = compute();
     if (c0.nItems === 0 && c0.styling === 0) {
       if (el.copiedMsg) {
@@ -759,11 +908,11 @@ function SS_fmtRate(v) {
     var enc = encodeURIComponent(text);
     if (navigator.clipboard) navigator.clipboard.writeText(text).catch(function () {});
     var form = tallyUrl(text);
-    var parts = ['<a href="' + form + '" target="_blank" rel="noopener">the form</a>'];
+    var parts = ['<a href="' + form + '" target="_blank" rel="noopener">' + (isPage ? esc(t('est.sent.form', 'open the form')) : 'the form') + '</a>'];
     if (CONFIG.contact.whatsapp) parts.push('<a href="https://wa.me/' + CONFIG.contact.whatsapp + '?text=' + enc + '" target="_blank" rel="noopener">WhatsApp</a>');
     parts.push('<a href="' + CONFIG.contact.instagram + '" target="_blank" rel="noopener">Instagram</a>');
     if (el.copiedMsg) {
-      el.copiedMsg.innerHTML = esc(t('est.share.copied','Copied'))+' · '+parts.join(' · ');
+      el.copiedMsg.innerHTML = (isPage ? esc(t('est.sent', "Your estimate is copied. If the form didn't open:")) + ' ' : esc(t('est.share.copied','Copied')) + ' · ') + parts.join(' · ');
       el.copiedMsg.style.display = 'block';
     }
     // the form is the system of record: it always arrives (mailto/DM often don't)
@@ -822,6 +971,7 @@ function SS_fmtRate(v) {
     if(select&&Array.from(select.options).some(function(option){return option.value===String(value);}))select.value=String(value);
   }
   function restore(d) {
+    weightChosen = true;   // a preview shows exactly what was quoted
     el.lineItems.innerHTML = '';
     (Array.isArray(d.items)?d.items:[]).slice(0,100).forEach(function (v, i) { if((typeof v==='string'||typeof v==='number')&&Number.isFinite(parseVnd(v)))addItem(String(v), (Array.isArray(d.links)&&typeof d.links[i]==='string')?d.links[i]:''); });
     if (!el.lineItems.children.length) addItem('');
@@ -945,7 +1095,10 @@ function SS_fmtRate(v) {
       });
   }
 
-  el.addItem.addEventListener('click', function () { addItem(''); recalc(); });
+  el.addItem.addEventListener('click', function () {
+    addItem(''); recalc();
+    if (isPage) el.lineItems.lastElementChild.querySelector('.item-price').focus();
+  });
   el.region.addEventListener('change', function () {
     // Never let both selects sit on the same region — the comparison would be a no-op.
     if (el.region2 && el.region2.value === el.region.value) el.region2.value = firstOtherRegion(el.region.value);
@@ -969,7 +1122,7 @@ function SS_fmtRate(v) {
     else { el.region2.value = el.region.value; el.region.value = pick; }
     recalc();
   });
-  el.weight.addEventListener('change', recalc);
+  el.weight.addEventListener('change', function () { weightChosen = true; recalc(); });
   if (el.stops) el.stops.addEventListener('change', recalc);
   el.complex.addEventListener('change', recalc);
   if (el.green) el.green.addEventListener('change', recalc);
@@ -995,6 +1148,7 @@ function SS_fmtRate(v) {
     saved.items.slice(0,100).forEach(function (v, i) { addItem((typeof v==='string'||typeof v==='number')?v:'', (Array.isArray(saved.links)&&typeof saved.links[i]==='string')?saved.links[i]:''); });
     if (saved.region) restoreChoice(el.region, saved.region);
     if (saved.weight) restoreChoice(el.weight, saved.weight);
+    weightChosen = !!saved.wc || (!!saved.weight && saved.weight !== 'light');
     if (saved.stops && el.stops) restoreChoice(el.stops, saved.stops); // absent (old baskets) → default 1–2 included
     if (saved.complex) el.complex.checked = true;
     if (saved.green && el.green) el.green.checked = true;
@@ -1010,6 +1164,7 @@ function SS_fmtRate(v) {
   } else { addItem(''); }
   if (!(previewId && /^[a-z2-9]{7}$/.test(previewId))) {
     restoreChoice(el.estCurrency, pickedCurrency() || timeZoneCurrency());
+    if (isPage && !(saved && saved.region)) restoreChoice(el.region, timeZoneRegion());
     loadFx();
   }
   recalc();

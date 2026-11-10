@@ -1,0 +1,191 @@
+/* The hero's light, carried to the menu and the directory.
+   Two motifs only: one orb with its thin-film ring and silver orbit, and a drift of bokeh,
+   laid over the signature wash (lavender through white into the page colour).
+   Everything moves by transform or opacity, so it costs the compositor and not the page.
+   js/beacon.js builds the markup. Mono and high contrast show none of it. */
+
+@property --sb-spot { syntax: '<percentage>'; inherits: true; initial-value: 0%; }
+@property --sb-turn { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+
+.ss-beacon {
+  --sb-ease: cubic-bezier(.22, 1, .36, 1);
+  --sb-wash-a: #efeaf8; --sb-wash-b: #fff; --sb-wash-c: #eef3fb;
+  --sb-deep: #2b5cbb; --sb-soft: #a9c1f0;
+  --sb-white: #fff; --sb-lav: #cdbcf0; --sb-ice: #bcd8ff; --sb-rose: #ffcfe4; --sb-peach: #ffe3c2;
+  position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; border-radius: inherit;
+  background: linear-gradient(120deg, var(--sb-wash-a), var(--sb-wash-b) 52%, var(--sb-wash-c));
+}
+html.dark .ss-beacon, [data-theme=dark] .ss-beacon {
+  --sb-wash-a: #1b2030; --sb-wash-b: #1f2536; --sb-wash-c: #161a26;
+  --sb-deep: #1b2f73; --sb-soft: #2a3a7a;
+  --sb-white: #dfe5ff; --sb-lav: #9d8fd6; --sb-ice: #7ea2e6; --sb-rose: #c08fc0; --sb-peach: #c9a98f;
+}
+
+/* ---- The orb: a pool of cobalt, a ring of thin-film light, and nothing else ---- */
+.sb-orb {
+  position: absolute; left: var(--ox, 24%); top: var(--oy, 50%); width: var(--sb-d, 540px); aspect-ratio: 1; translate: -50% -50%;
+}
+.sb-orb::before { /* the pool dissolves outward through periwinkle into the wash */
+  content: ""; position: absolute; inset: var(--sb-pool, -24%); border-radius: 50%;
+  background: radial-gradient(closest-side, var(--sb-deep) 0, var(--sb-deep) 66%,
+    color-mix(in oklab, var(--sb-deep) 58%, var(--sb-soft)) 75%,
+    color-mix(in srgb, var(--sb-soft) 46%, transparent) 87%, transparent 100%);
+}
+.sb-clouds, .sb-film, .sb-film-glow { position: absolute; inset: 0; border-radius: 50%; display: block; }
+.sb-clouds { /* slow violet and sky weather inside the ring */
+  background:
+    radial-gradient(46% 40% at 32% 34%, rgba(122, 92, 214, .42), transparent 72%),
+    radial-gradient(40% 44% at 70% 66%, rgba(176, 96, 176, .3), transparent 72%),
+    radial-gradient(34% 30% at 64% 26%, rgba(96, 150, 240, .34), transparent 72%);
+  animation: sb-spin 70s linear infinite; will-change: transform;
+}
+.sb-orb::after { /* the rim gathers light just inside the ring */
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(closest-side, transparent 90%, rgba(190, 212, 255, .46) 100%);
+}
+.sb-film, .sb-film-glow {
+  background: conic-gradient(from 20deg, #fff, #ffd2e8 12%, #fff 24%, #c2d6ff 36%, #b4efff 48%, #fff 58%, #e2ceff 70%, #ffe4c4 82%, #fff 92%, #ffd2e8);
+}
+.sb-film {
+  -webkit-mask: radial-gradient(closest-side, transparent calc(100% - 3.2px), #000 calc(100% - 2.4px), #000 calc(100% - 1px), transparent 100%);
+  mask: radial-gradient(closest-side, transparent calc(100% - 3.2px), #000 calc(100% - 2.4px), #000 calc(100% - 1px), transparent 100%);
+  animation: sb-spin 90s linear infinite; will-change: transform;
+}
+.sb-film-glow {
+  inset: -22px; opacity: .78; filter: blur(9px);
+  -webkit-mask: radial-gradient(closest-side, transparent 86%, #000 93.5%, #000 95.5%, transparent 100%);
+  mask: radial-gradient(closest-side, transparent 86%, #000 93.5%, #000 95.5%, transparent 100%);
+  animation: sb-spin 130s linear infinite reverse, sb-breathe 9s ease-in-out infinite; will-change: transform, opacity;
+}
+html.dark .sb-film-glow, [data-theme=dark] .sb-film-glow { opacity: .42; }
+html.dark .sb-film, [data-theme=dark] .sb-film { opacity: .72; }
+
+/* ---- Bokeh: discs with a brighter rim, two depths, each on its own slow clock ---- */
+.sb-bokeh { position: absolute; inset: 0; }
+.sb-bokeh i {
+  position: absolute; left: var(--x); top: var(--y); width: var(--d); aspect-ratio: 1; border-radius: 50%; translate: -50% -50%;
+  background: radial-gradient(circle closest-side,
+    color-mix(in srgb, var(--c) 30%, transparent) 0, color-mix(in srgb, var(--c) 42%, transparent) 68%,
+    color-mix(in srgb, var(--c) 78%, transparent) 91%, transparent 100%);
+  filter: blur(var(--b)); opacity: var(--o);
+  animation: sb-drift var(--t) ease-in-out var(--dl) infinite alternate, sb-twinkle calc(var(--t) * .42) ease-in-out var(--dl) infinite;
+  will-change: transform, opacity;
+}
+
+/* The hero's butterflies, painted by js/beacon.js. */
+.sb-flies { position: absolute; inset: 0; width: 100%; height: 100%; display: block; animation: sb-focus 2s ease-out .5s backwards; transition: opacity .5s ease; }
+
+/* Fine grain keeps the long blue gradients from banding, as it does on the hero. */
+.sb-grain {
+  position: absolute; inset: 0; display: block; opacity: .26;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .55 -.08'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---- The silver orbit: one hairline around the words, one travelling glint ---- */
+.sb-orbit { position: absolute; left: 50%; top: 50%; width: var(--sb-orbit, 122%); aspect-ratio: 1000 / 420; translate: -50% -50%; rotate: -7deg; z-index: -1; overflow: visible; pointer-events: none; }
+.sb-orbit ellipse { fill: none; vector-effect: non-scaling-stroke; }
+.sb-orbit-line { stroke-width: 1; opacity: .8; stroke-dasharray: 1000; animation: sb-draw 2.4s cubic-bezier(.5, 0, .25, 1) .15s backwards; }
+.sb-orbit-glint { stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-dasharray: 34 966; filter: drop-shadow(0 0 5px #fff) drop-shadow(0 0 12px #c9d6ff); animation: sb-orbit 18s linear infinite; }
+
+/* ---- What light does to a thing you might choose ---- */
+.sb-halo {
+  position: absolute; left: -5%; right: -5%; top: 0; height: var(--h, 120px); z-index: -1; display: block; opacity: 0; transform: translateY(var(--y, 0));
+  background: radial-gradient(50% 58% at 50% 50%, rgba(170, 192, 255, .85), rgba(205, 188, 240, .4) 56%, transparent 80%);
+  filter: blur(16px); transition: transform .85s var(--sb-ease, ease), height .85s var(--sb-ease, ease), opacity .55s ease; will-change: transform, opacity;
+}
+.sb-halo.on { opacity: 1; }
+
+/* ---- Arrival: the orb opens, the lens finds focus ---- */
+@keyframes sb-bloom { from { opacity: 0; scale: .9; } }
+@keyframes sb-focus { from { opacity: 0; filter: blur(16px); } }
+@keyframes sb-drift { to { transform: translate3d(var(--dx), var(--dy), 0) scale(1.08); } }
+@keyframes sb-twinkle { 0%, 100% { opacity: var(--o); } 50% { opacity: calc(var(--o) * .42); } }
+@keyframes sb-spin { to { transform: rotate(360deg); } }
+@keyframes sb-breathe { 0%, 100% { opacity: .78; } 50% { opacity: .48; } }
+@keyframes sb-orbit { to { stroke-dashoffset: -1000; } }
+@keyframes sb-draw { from { stroke-dashoffset: 1000; } }
+@keyframes sb-rise { from { opacity: 0; transform: translateY(8px); filter: blur(6px); } }
+.sb-orb { animation: sb-bloom 1.5s var(--sb-ease) backwards; transition: opacity .5s ease; }
+.sb-bokeh { animation: sb-focus 1.7s ease-out .1s backwards; }
+
+/* ---- The directory: the same orb at the top of the wash, then the page she already loves ---- */
+.fd-sky { position: relative; }
+.fd-sky > .ss-beacon { border-radius: 0; -webkit-mask-image: linear-gradient(#000 calc(100% - 80px), transparent); mask-image: linear-gradient(#000 calc(100% - 80px), transparent); }
+.ss-beacon[data-kind=menu] { --sb-d: min(490px, 42vw); }
+.ss-beacon[data-kind=head] { --sb-d: min(800px, 136vw); } /* the ring flanks the words and never crosses them */
+/* Only the ring's arcs show here, so its inner rim is dropped: it would read as two vertical bars. */
+.ss-beacon[data-kind=head] .sb-orb::after { display: none; }
+/* A wide, shallow pool sized to the words, so it fades as an orb rather than ending in a band. */
+.ss-beacon[data-kind=head] .sb-orb::before {
+  inset: auto; left: 50%; top: 50%; width: min(1320px, 300vw); height: calc(var(--sb-text-h, 100px) * 1.5 + clamp(190px, 20vw, 290px)); translate: -50% -50%;
+  background: radial-gradient(closest-side, var(--sb-deep) 0, var(--sb-deep) 46%,
+    color-mix(in oklab, var(--sb-deep) 58%, var(--sb-soft)) 68%,
+    color-mix(in srgb, var(--sb-soft) 46%, transparent) 84%, transparent 100%);
+}
+.ss-beacon[data-kind=page] { position: fixed; z-index: -1; background: none; border-radius: 0; }
+html.dark .ss-beacon[data-kind=page], [data-theme=dark] .ss-beacon[data-kind=page] { opacity: .5; }
+.fd-beacon .fd-topbar { background: transparent; border-bottom: 0; }
+.fd-beacon .fd-back { color: var(--ink); }
+.fd-beacon .masthead { position: relative; z-index: 1; overflow: visible; background: none; text-align: center; padding: clamp(46px, 8vh, 84px) 0 clamp(92px, 13vh, 136px); }
+.fd-beacon .masthead::after { display: none; }
+.fd-beacon .masthead .wrap { position: relative; isolation: isolate; max-width: 760px; }
+.fd-beacon .masthead .title { margin-inline: auto; font-weight: 300; letter-spacing: -.01em; }
+.fd-beacon .masthead .lede { margin-inline: auto; max-width: 54ch; }
+html:not(.mono):not(.hc) .fd-beacon .masthead .title { color: #fff; text-shadow: 0 0 34px rgba(255, 255, 255, .3), 0 2px 22px rgba(16, 34, 100, .4); }
+html:not(.mono):not(.hc) .fd-beacon .masthead .title .script { color: #fff; }
+html:not(.mono):not(.hc) .fd-beacon .masthead .lede { color: #fff; text-shadow: 0 1px 14px rgba(16, 34, 100, .55); }
+.fd-beacon .sb-orbit { --sb-orbit: min(118%, 94vw); aspect-ratio: 1000 / 290; rotate: -4deg; }
+
+/* Directory menu: a small pane of the same light. */
+.fd-beacon .fd-site-menu .secnav { overflow: hidden; isolation: isolate; border-color: rgba(255, 255, 255, .7); box-shadow: 0 30px 70px -36px rgba(35, 58, 114, .55), 0 0 44px -22px rgba(170, 192, 255, .7); }
+.fd-beacon .fd-site-menu .secnav::before, .fd-beacon .fd-site-menu .secnav::after { content: ""; position: absolute; border-radius: 50%; z-index: -1; pointer-events: none; }
+.fd-beacon .fd-site-menu .secnav::before { right: -90px; top: -110px; width: 280px; height: 280px; background: radial-gradient(closest-side, rgba(112, 148, 232, .5), rgba(205, 188, 240, .28) 58%, transparent 100%); filter: blur(10px); animation: sb-breathe 9s ease-in-out infinite; }
+.fd-beacon .fd-site-menu .secnav::after { right: 22px; bottom: 20px; width: 74px; height: 74px; background: radial-gradient(circle closest-side, rgba(205, 188, 240, .14) 0, rgba(205, 188, 240, .2) 68%, rgba(205, 188, 240, .46) 92%, transparent 100%); filter: blur(1.4px); animation: sb-twinkle 11s ease-in-out infinite; --o: 1; }
+.fd-beacon .fd-site-menu[open] .secnav, .fd-beacon .fd-appearance[open] .fd-appearance-panel { animation: sb-rise .45s var(--sb-ease, cubic-bezier(.22, 1, .36, 1)) backwards; }
+.fd-beacon .fd-site-menu .secnav a { position: relative; transition: background .35s ease, color .35s ease; }
+.fd-beacon .fd-site-menu .secnav a::after { content: ""; position: absolute; left: 16px; right: 16px; bottom: 6px; height: 1px; transform: scaleX(0); transform-origin: left; background: linear-gradient(90deg, #8a93de, #c9b6e8, #f1bcd3, #f7d7a8); transition: transform .7s cubic-bezier(.22, 1, .36, 1); }
+.fd-beacon .fd-site-menu .secnav a:is(:hover, :focus-visible)::after { transform: none; }
+
+/* Directory cards: a soft light under the hand, a sheen that passes once, a line of colour. */
+.fd-beacon :is(.ff-tile, #main article.card) {
+  --sb-spot: 0%;
+  background-image:
+    radial-gradient(240px circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--lav) var(--sb-spot), transparent), transparent 72%),
+    linear-gradient(105deg, transparent 38%, rgba(255, 214, 240, .36) 47%, rgba(190, 235, 255, .42) 53%, transparent 62%);
+  background-repeat: no-repeat; background-size: 100% 100%, 260% 100%; background-position: 0 0, 130% 0;
+  transition: transform .5s var(--sb-ease, cubic-bezier(.22, 1, .36, 1)), box-shadow .5s ease, border-color .4s ease, --sb-spot .45s ease, background-position 1.2s cubic-bezier(.22, 1, .36, 1);
+}
+.fd-beacon :is(.ff-tile, #main article.card):is(:hover, :focus-within) { --sb-spot: 30%; background-position: 0 0, -30% 0; }
+.fd-beacon .ff-tile:is(:hover, :focus-within) { transform: translateY(-3px); box-shadow: 0 26px 50px -28px rgba(35, 58, 114, .5), 0 0 34px -16px rgba(170, 192, 255, .8); }
+/* Cards sit over moving light, and the light is already soft: a live backdrop blur would cost every frame and show nothing. */
+.fd-beacon #main article.card { -webkit-backdrop-filter: none; backdrop-filter: none; }
+.fd-beacon .ff-go { position: relative; display: inline-block; align-self: flex-start; }
+.fd-beacon .ff-go:hover { text-decoration: none; }
+.fd-beacon .ff-go::after { content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px; transform: scaleX(0); transform-origin: left; background: linear-gradient(90deg, #8a93de, #c9b6e8, #f1bcd3, #f7d7a8); transition: transform .7s cubic-bezier(.22, 1, .36, 1); }
+.fd-beacon .ff-tile:is(:hover, :focus-within) .ff-go::after { transform: none; }
+.fd-beacon .ff-tabs button[aria-selected="true"] { box-shadow: 0 0 26px -6px color-mix(in srgb, var(--cobalt) 75%, transparent); }
+
+@media (max-width: 720px) {
+  .sb-bokeh i:nth-child(n+7) { display: none; }
+  .ss-beacon[data-kind=head] .sb-bokeh i:nth-child(n+3), .ss-beacon[data-kind=menu] .sb-bokeh i:nth-child(2) { display: none; } /* on phones the light stays clear of the words */
+  .fd-beacon .sb-orbit { display: none; }
+  .ss-beacon[data-kind=menu] { --sb-d: min(350px, 88vw); }
+  .fd-beacon .masthead { padding: 34px 0 84px; }
+}
+
+/* ---- Stillness and plainness are honoured everywhere ---- */
+html:is(.mono, .hc) :is(.ss-beacon, .sb-orbit, .sb-halo) { display: none; }
+@media (forced-colors: active) { .ss-beacon, .sb-orbit, .sb-halo { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  :is(.ss-beacon, .sb-orbit, .sb-halo), :is(.ss-beacon, .sb-orbit) *, .ss-beacon *::before, .ss-beacon *::after { animation: none !important; transition: none !important; }
+  .fd-beacon .fd-site-menu .secnav::before, .fd-beacon .fd-site-menu .secnav::after, .fd-beacon .fd-site-menu[open] .secnav, .fd-beacon .fd-appearance[open] .fd-appearance-panel { animation: none; }
+  .fd-beacon :is(.ff-tile, #main article.card), .fd-beacon .ff-go::after, .fd-beacon .fd-site-menu .secnav a::after { transition: none; }
+  .fd-beacon :is(.ff-tile, #main article.card):is(:hover, :focus-within) { background-position: 0 0, 130% 0; transform: none; }
+}
+html.rm :is(.ss-beacon, .sb-orbit, .sb-halo), html.rm :is(.ss-beacon, .sb-orbit) *, html.rm .ss-beacon *::before, html.rm .ss-beacon *::after { animation: none !important; transition: none !important; }
+html.rm .fd-beacon .fd-site-menu .secnav::before, html.rm .fd-beacon .fd-site-menu .secnav::after, html.rm .fd-beacon .fd-site-menu[open] .secnav, html.rm .fd-beacon .fd-appearance[open] .fd-appearance-panel { animation: none; }
+html.rm .fd-beacon :is(.ff-tile, #main article.card), html.rm .fd-beacon .ff-go::after, html.rm .fd-beacon .fd-site-menu .secnav a::after { transition: none; }
+html.rm .fd-beacon :is(.ff-tile, #main article.card):is(:hover, :focus-within) { background-position: 0 0, 130% 0; transform: none; }
+html:is(.mono, .hc) .fd-beacon :is(.ff-tile, #main article.card) { background-image: none; transition: none; }
+html:is(.mono, .hc) .fd-beacon .fd-site-menu .secnav::before, html:is(.mono, .hc) .fd-beacon .fd-site-menu .secnav::after { display: none; }
+html:is(.mono, .hc) .fd-beacon .fd-topbar { background: var(--mist); border-bottom: 1px solid var(--line); }

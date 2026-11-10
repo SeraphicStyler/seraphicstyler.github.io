@@ -6,6 +6,10 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const films = [...page.querySelectorAll('video')];
   const visible = new Set(), pausedByUser = new WeakSet();
+  const icons = {
+    Play: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.4 5.9v12.2c0 .6.7 1 1.2.7l9.5-6.1a.8.8 0 0 0 0-1.4L9.6 5.2c-.5-.3-1.2.1-1.2.7z"/></svg>',
+    Pause: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.8" y="5.2" width="3.4" height="13.6" rx="1.4"/><rect x="13.8" y="5.2" width="3.4" height="13.6" rx="1.4"/></svg>'
+  };
   const quiet = () => reduce.matches || root.matches('.rm,.hc,.mono') || navigator.connection?.saveData;
   const exposed = video => !video.closest('details:not([open])');
   function sync() {
@@ -21,7 +25,12 @@
     const button = document.createElement('button');
     button.type = 'button'; button.className = 'bio-film-toggle';
     const name = video.getAttribute('aria-label');
-    const update = () => { button.textContent = video.paused ? 'Play' : 'Pause'; button.setAttribute('aria-label', `${button.textContent} ${name}`); };
+    const update = () => {
+      const label = video.paused ? 'Play' : 'Pause';
+      button.innerHTML = icons[label];
+      button.setAttribute('aria-label', `${label} ${name}`);
+      video.parentElement.classList.toggle('is-playing', !video.paused);
+    };
     button.addEventListener('click', () => {
       if (video.paused) {
         pausedByUser.delete(video);
@@ -30,7 +39,7 @@
       } else { pausedByUser.add(video); video.pause(); }
     });
     const poster = document.createElement('img');
-    poster.src = video.poster; poster.alt = ''; poster.className = 'bio-film-poster'; poster.loading = 'lazy';
+    poster.src = video.poster || video.dataset.poster; poster.loading = 'lazy'; poster.alt = ''; poster.className = 'bio-film-poster'; poster.loading = 'lazy';
     const fail = () => { video.parentElement.classList.add('is-failed'); button.hidden = true; };
     video.addEventListener('error', fail);
     video.addEventListener('play', update); video.addEventListener('pause', update);
@@ -43,7 +52,7 @@
     }, {threshold:[0,.6]});
     films.forEach(video => observer.observe(video));
   }
-  page.querySelectorAll('details').forEach(details => details.addEventListener('toggle', sync));
+  page.querySelectorAll('details').forEach(details => details.addEventListener('toggle', () => { details.querySelectorAll('video[data-poster]').forEach(v => { v.poster = v.dataset.poster; v.removeAttribute('data-poster'); }); sync(); }));
   reduce.addEventListener('change', sync);
   new MutationObserver(sync).observe(root, {attributes:true, attributeFilter:['class']});
   document.addEventListener('visibilitychange', sync);

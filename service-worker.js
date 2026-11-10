@@ -1,12 +1,12 @@
 /* Offline directory support. Pages and code stay fresh; images are cached on use. */
-const CACHE = 'ss-fd-v90';
+const CACHE = 'ss-fd-v95';
 const CORE = [
   './fashion-directory', './field-guide', './find', './manifest.webmanifest',
   './css/directory.css?v=2026-09-10', './css/field-guide.css?v=2026-09-10',
   './css/find.css?v=2026-09-10', './css/theme.css?v=2026-09-10',
   './css/directory-workspace.css?v=2026-09-10b', './css/directory-discovery.css?v=2026-09-09',
   './css/directory-guide.css?v=2026-09-09c',
-  './js/theme.js?v=2026-09-10', './js/directory.js?v=2026-09-10',
+  './js/theme.js?v=2026-11-09s', './js/directory.js?v=2026-09-10',
   './js/directory-data.js', './js/directory-catalog.js', './js/directory-workspace.js?v=2026-09-10b',
   './js/directory-discovery.js', './js/directory-reference.js', './js/directory-garments.js',
   './js/directory-guide.js?v=2026-09-09c',
@@ -14,7 +14,7 @@ const CORE = [
   './js/route-panel.js', './js/discover-brand.js', './js/i18n-page.js',
   './js/i18n-dom.js', './js/i18n-site.js?v=2026-09-12', './js/i18n/manifest.js', './js/find.js', './js/fd-basket.js',
   './js/fd-atelier.js', './js/fd-voice.js?v=2026-09-09',
-  './js/fd-smartpaste.js', './js/pricing.js?v=2026-11-07b', './js/estimator.js?v=2026-11-07b'
+  './js/fd-smartpaste.js', './css/beacon.css?v=2026-11-09d', './js/wings.js?v=2026-11-09a', './js/beacon.js?v=2026-11-09d', './js/pricing.js?v=2026-11-07b', './js/estimator.js?v=2026-11-07b'
 ];
 // Language bundles and photographs are cached only when requested.
 self.addEventListener('install', event => {

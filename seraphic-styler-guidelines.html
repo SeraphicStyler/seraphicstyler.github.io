@@ -176,6 +176,20 @@ ul.clean li:last-child{border-bottom:none}
 .hint{font-size:.8rem;color:var(--text-secondary);font-style:italic}
 .aurora-band{height:10px;border-radius:999px;background:var(--aurora);margin:6px 0 0}
 .spark{color:var(--blush)}
+/* The signature wash specimen. Fixed colours on purpose: it shows the light surface in every theme. */
+.wash-demo{border-radius:18px;overflow:hidden;border:1px solid rgba(46,71,115,.14);background:#eef3fb;color:#233a72;margin:14px 0 6px}
+.wash-demo .wd-bar{background:#efeaf8;border-bottom:1px solid rgba(46,71,115,.14);padding:12px 18px;font:500 .68rem/1 var(--font-body);letter-spacing:.28em;text-transform:uppercase}
+.wash-demo .wd-head{position:relative;isolation:isolate;background:linear-gradient(120deg,#efeaf8,#fff);padding:30px 18px 34px}
+.wash-demo .wd-head::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(238,243,251,0) 40%,#eef3fb 100%)}
+.wash-demo .wd-title{font:400 clamp(1.5rem,4.4vw,2.3rem)/1.15 var(--font-display);letter-spacing:-.02em;color:#233a72}
+.wash-demo .wd-title em{font:400 1.25em/1 var(--font-script);color:#2e54ad}
+.wash-demo .wd-head p{margin:.6em 0 0;font-size:.9rem;color:#51618f}
+.wash-demo .wd-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:0 18px 22px}
+.wash-demo .wd-card{background:#fff;border:1px solid rgba(46,71,115,.14);border-radius:18px;padding:14px;box-shadow:0 22px 48px -34px rgba(35,58,114,.45);min-width:0}
+.wash-demo .wd-card b{display:block;font:500 1.5rem/1.1 var(--font-display);color:#233a72}
+.wash-demo .wd-card span{display:block;font-size:.8rem;line-height:1.35;color:#233a72;margin-top:4px}
+.wash-demo .wd-card small{display:block;font-size:.72rem;color:#2e54ad;margin-top:8px}
+@media(max-width:520px){.wash-demo .wd-cards{grid-template-columns:1fr}}
 </style>
   <script src="js/i18n-site.js?v=2026-09-12" defer></script>
   <script src="js/geo-lang.js?v=2026-10-02" defer></script>
@@ -328,6 +342,37 @@ ul.clean li:last-child{border-bottom:none}
       <div class="swatch"><div class="chip" style="background:#f1bcd3"></div><div class="meta"><div class="nm">Blush</div><div class="hx">#f1bcd3</div><div class="role">Whisper only</div></div></div>
       <div class="swatch"><div class="chip" style="background:#f7e6ee"></div><div class="meta"><div class="nm">Blush wash</div><div class="hx">#f7e6ee</div></div></div>
       <div class="swatch"><div class="chip" style="background:#9070c4"></div><div class="meta"><div class="nm">Styler violet</div><div class="hx">#9070c4</div><div class="role">Script wordmark</div></div></div>
+    </div>
+
+    <h3 id="signature-wash" style="margin-top:26px">The signature wash: lavender melting into ice</h3>
+    <p class="small">Our most elegant light surface, first resolved on The Saigon Fashion Directory. Pastel lavender and light blue blend through white with no visible edge, so the page feels like air. <strong>Use it as the default light treatment for any new page, tool or directory view.</strong></p>
+    <div class="wash-demo" role="img" aria-label="Specimen of the signature wash: a lavender top bar, a heading area fading from lavender through white into light blue, and white cards on the light blue field">
+      <div class="wd-bar">Seraphic Styler</div>
+      <div class="wd-head"><div class="wd-title">The Saigon <em>Fashion</em> Directory</div><p>Lavender at the top left, white through the middle, ice at the bottom. No edge anywhere.</p></div>
+      <div class="wd-cards">
+        <div class="wd-card"><b>153</b><span>White card</span><small>Hairline border, low shadow</small></div>
+        <div class="wd-card"><b>13</b><span>Cobalt ink</span><small>Never black</small></div>
+        <div class="wd-card"><b>22</b><span>Ice field</span><small>The wash ends here</small></div>
+      </div>
+    </div>
+    <div class="grid g4" style="margin-top:12px">
+      <div class="swatch"><div class="chip" style="background:#efeaf8"></div><div class="meta"><div class="nm">Lavender mist</div><div class="hx">#efeaf8</div><div class="role">Top bar, start of the wash</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#ffffff;border-bottom:1px solid var(--surface-border)"></div><div class="meta"><div class="nm">Paper white</div><div class="hx">#ffffff</div><div class="role">Middle of the wash, every card</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#eef3fb"></div><div class="meta"><div class="nm">Soft ice</div><div class="hx">#eef3fb</div><div class="role">Page field, end of the wash</div></div></div>
+      <div class="swatch"><div class="chip" style="background:linear-gradient(120deg,#efeaf8,#fff 55%,#eef3fb)"></div><div class="meta"><div class="nm">The blend</div><div class="hx">Mist → white → ice</div><div class="role">Never mist straight to ice</div></div></div>
+    </div>
+<pre class="tokens" style="margin-top:14px"><span class="k">body</span>{ background:#eef3fb; color:#233a72; }           <span style="opacity:.6">/* the ice field */</span>
+<span class="k">.topbar</span>{ background:#efeaf8; border-bottom:1px solid rgba(46,71,115,.14); }
+<span class="k">.masthead</span>{ position:relative; isolation:isolate;
+  background:linear-gradient(120deg,#efeaf8,#fff); }  <span style="opacity:.6">/* lavender travels through white */</span>
+<span class="k">.masthead::after</span>{ content:""; position:absolute; inset:0; z-index:-1;
+  background:linear-gradient(180deg,rgba(238,243,251,0) 40%,#eef3fb 100%); }  <span style="opacity:.6">/* melts into the page */</span>
+<span class="k">.card</span>{ background:#fff; border:1px solid rgba(46,71,115,.14); border-radius:18px;
+  box-shadow:0 22px 48px -34px rgba(35,58,114,.45); }  <span style="opacity:.6">/* low, wide, navy-tinted */</span>
+<span class="k">.tab[aria-current]</span>{ background:#fff; border:1px solid rgba(46,71,115,.14); border-radius:999px; color:#2e54ad; }</pre>
+    <div class="dd" style="margin-top:14px">
+      <div class="do"><h4>◆ Do</h4><ul><li>Let colour travel <strong>through white</strong>. The white middle is what removes the seam.</li><li>End every wash in exactly the page colour, <code>#eef3fb</code>, so a section has no bottom edge.</li><li>Keep every tint this pale. The three surface colours sit within a whisper of each other.</li><li>Use cobalt for all text: <code>#233a72</code> headings (9.8:1 on ice), <code>#51618f</code> body (5.5:1), <code>#2e54ad</code> links (6.3:1).</li><li>Make cards plain white with a hairline and a low, wide, navy-tinted shadow.</li><li>Let one thing be bright: a photo or a brand’s logo tile. One script word in a headline is the only flourish.</li></ul></div>
+      <div class="dont"><h4>◇ Don’t</h4><ul><li>No hard stops, visible bands, or a section that ends in a line.</li><li>Don’t fill this field with saturated periwinkle or orchid. Aurora tones stay as hairlines and small glows.</li><li>No tinted panel on a tinted panel. Cards are white.</li><li>No grey or black shadows, and no black text.</li><li>Don’t run the wash in dark mode. Dark keeps its own tokens and starfield.</li></ul></div>
     </div>
 
     <h3 style="margin-top:26px">The 70 / 20 / 10 rule</h3>
@@ -519,6 +564,9 @@ ul.clean li:last-child{border-bottom:none}
   --lav-mist:#c9b6e8; --periwinkle:#8a93de;
   --orchid:#c98fc4; --mauve:#cf9bb4;   <span style="opacity:.6">/* Aurora */</span>
   --blush:#f1bcd3; --blush-wash:#f7e6ee;
+  --wash:linear-gradient(120deg,#efeaf8,#fff);          <span style="opacity:.6">/* signature wash, then melt into --bg-primary */</span>
+  --hairline:rgba(46,71,115,.14);
+  --shadow-soft:0 22px 48px -34px rgba(35,58,114,.45);
   --btn-radius:999px; --card-radius:1.25rem; --tile-radius:1rem;
   --space-xs:.75rem; --space-sm:1rem; --space-md:1.5rem;
   --space-lg:2rem; --space-xl:3rem; --space-2xl:4.5rem; --space-3xl:6.5rem;

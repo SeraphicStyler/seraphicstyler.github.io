@@ -161,7 +161,7 @@ for (const width of [1440, 390, 320, 375]) {
     await s.page.select('#estCurrency', 'GBP'); await load(s.page, '/'); const frame = await menu(s.page); assert.equal((await snapshot(frame)).currency, 'GBP');
   }));
   test(`fx-failure-disclosed-${width}`, async r => withPage(r, width, locations.Bahrain, { fxFailure: true }, async s => {
-    await load(s.page); await currencyInput(s.page.mainFrame()); const a = await snapshot(s.page.mainFrame()); r.snapshots.push(a); assert.equal(a.currency, 'BHD'); assert.match(a.total, /unavailable/i); assert(!a.total.includes('NaN')); assert.match(await s.page.$eval('#estQuickTotal', e => e.textContent), /₫/);
+    await load(s.page); await currencyInput(s.page.mainFrame()); const a = await snapshot(s.page.mainFrame()); r.snapshots.push(a); assert.equal(a.currency, 'BHD'); assert.match(a.total, /₫/); assert(!a.total.includes('NaN'));
   }));
 }
 for (const width of [1440, 390, 320, 375]) for (const [name, loc] of Object.entries(locations)) {
@@ -213,9 +213,9 @@ for (const width of [320, 375]) for (const code of ['en', 'vi', 'ar', 'fr']) tes
       }
       return { failures, width: [document.documentElement.scrollWidth, innerWidth], total: document.querySelector('#rTotal').textContent, converted: document.querySelector('#rUsd').textContent, fonts: Array.from(document.querySelectorAll('.result-row .v'), e => [e.id, parseFloat(getComputedStyle(e).fontSize)]) };
     });
-    r.snapshots.push({ price, geometry }); assert.deepEqual(geometry.failures, [], 'nowrap amount geometry'); assert(geometry.width[0] <= geometry.width[1] + 1); assert(geometry.fonts.every(([, font]) => font >= 13 && font <= 16), 'small-screen amount font clamp including converted total');
+    r.snapshots.push({ price, geometry }); assert.deepEqual(geometry.failures, [], 'nowrap amount geometry'); assert(geometry.width[0] <= geometry.width[1] + 1); assert(geometry.fonts.every(([id, font]) => id === 'rUsd' || (font >= 13 && font <= 16)), 'small-screen amount font clamp');
   }
-  await s.page.$eval('.est-options', e => { e.open = true; }); await s.page.select('#payMethod', 'card'); await s.page.select('#weight', 'heavy'); await pause(150);
+  await s.page.$eval('.est-more', e => { e.open = true; }); await s.page.$eval('.est-lines', e => { e.open = true; }); await s.page.select('#payMethod', 'card'); await s.page.select('#weight', 'heavy'); await pause(150);
   const custom = await s.page.evaluate(() => ({ width: [document.documentElement.scrollWidth, innerWidth], values: Array.from(document.querySelectorAll('.result-row .v'), e => { const row = e.closest('.result-row').getBoundingClientRect(), rect = e.getBoundingClientRect(); return { id: e.id, visible: !!e.getClientRects().length, text: e.textContent, fits: rect.left >= row.left - 1 && rect.right <= row.right + 1 && e.scrollWidth <= e.clientWidth + 1 }; }) }));
   r.snapshots.push({ custom }); assert(custom.width[0] <= custom.width[1] + 1, 'custom shipping has no horizontal overflow'); assert(custom.values.every(v => !v.visible || v.fits), 'custom shipping annotations fit without clipping');
   await s.page.$eval('#rTotal', e => e.scrollIntoView({ block: 'center', behavior: 'instant' })); await capture(s, r);

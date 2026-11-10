@@ -1,5 +1,7 @@
 /* Search, exploration, and decisions share Seraphic's existing surface tokens. */
 .fd-workspace [hidden]{display:none!important}
+/* Before the scripts run, the page links wait out of sight for the Menu they move into, so nothing jumps. */
+.fd-workspace body>.secnav{display:none}
 .fd-workspace .masthead{padding:28px 0 24px;min-height:0;background:linear-gradient(120deg,var(--mist),var(--paper));}
 .fd-workspace .masthead canvas,.fd-workspace .masthead .brandrow,.fd-workspace .masthead .eyebrow,.fd-workspace .statline,.fd-workspace .nowbar,.fd-workspace .fd-rail{display:none}
 .fd-workspace .masthead .title{font-size:clamp(28px,4vw,46px);line-height:1.15;margin:0 0 12px;letter-spacing:-.025em;max-width:none}

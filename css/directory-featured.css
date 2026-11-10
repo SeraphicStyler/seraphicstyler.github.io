@@ -76,3 +76,5 @@ body.fd-workspace .fd-formats { display: none; }          /* one view only: the 
 .ff-acts button:hover, .ff-acts button[aria-pressed="true"] { border-color: var(--cobalt); color: var(--cobalt); }
 .ff-tier { display: inline-block; margin-left: .45rem; padding: .05rem .5rem; border-radius: 999px; font-size: .64rem; letter-spacing: .08em;
   color: var(--ink-soft); background: rgba(138,147,222,.14); border: 1px solid var(--line-soft); text-transform: capitalize; vertical-align: 1px; }
+/* Hold the first screen for the cards while they are built, so the sections below do not jump. */
+.fd-featured:empty { min-height: 100vh; }

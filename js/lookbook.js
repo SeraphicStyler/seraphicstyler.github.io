@@ -153,7 +153,9 @@
     }, { rootMargin: '200px', threshold: 0.1 });
     
     var lazyVideos = container.querySelectorAll('.lazy-video');
-    lazyVideos.forEach(function(v) { observer.observe(v); });
+    // A visitor who asked their browser to save data sees the still image; the clip is not downloaded.
+    var lite = navigator.connection && navigator.connection.saveData;
+    lazyVideos.forEach(function(v) { if (!(lite && v.getAttribute('poster'))) observer.observe(v); });
   }
 
   function render() {

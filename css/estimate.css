@@ -1,12 +1,12 @@
 /* One calculator, standalone or embedded. Calculations stay in estimator.js. */
 .est-page { background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body); }
 .est-page .wrap { max-width:1120px;padding-inline:24px; }
-.est-page .section-head { margin:32px auto 40px;max-width:720px; }
-.est-page h1 { font:400 clamp(32px,5vw,56px)/1.2 var(--font-display);margin:20px 0; }
-.est-page .lead { font-size:20px; }
+.est-page .section-head { margin:8px auto 24px;max-width:720px; }
+.est-page h1 { font:400 clamp(30px,5vw,48px)/1.2 var(--font-display);margin:8px 0 10px; }
+.est-page .lead { font-size:17px;line-height:1.55;margin:0 auto; }
 .est-boundary { font-size:16px;line-height:1.7;color:var(--text-secondary); }
 .est-page #estQuiz { display:none; }
-.est-ready .est-page #estQuiz { display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;max-width:none;margin:0;padding:0;background:none;border:0;box-shadow:none;backdrop-filter:none; }
+.est-ready .est-page #estQuiz { display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto 1fr auto;gap:24px 32px;max-width:none;margin:0;padding:0;background:none;border:0;box-shadow:none;backdrop-filter:none; }
 .est-page .quiz-toolbar { grid-column:1/-1;display:flex;justify-content:flex-end;gap:16px;align-items:center;margin:0; }
 .est-page .quiz-toolbar label { font-size:14px; }
 .est-page .quiz-toolbar select { width:auto;max-width:200px; }
@@ -24,7 +24,8 @@
 .est-page :is(button,.btn) { min-height:48px;white-space:normal; }
 .est-page .btn { border-radius:999px;font:500 14px/1.5 var(--font-body);padding:12px 20px; }
 .est-page :is(input,select,button,a,summary):focus-visible { outline:2px solid var(--accent);outline-offset:3px; }
-.est-page .est-receipt { align-self:start;min-width:0; }
+.est-page .est-receipt { align-self:start;min-width:0;grid-column:2;grid-row:1/span 2; }
+@media(min-width:741px) { .est-page .est-receipt { position:sticky;top:16px; } }
 .est-page .result-card { padding:0;border:0;background:none;box-shadow:none; }
 .est-page .result-row { display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--surface-border);font:400 14px/1.6 var(--font-body); }
 .est-page .result-row>span:first-child { min-width:0; }
@@ -33,15 +34,11 @@
 .est-page .est-amount { display:inline-block;white-space:nowrap; }
 .est-page .est-amount-note { white-space:normal; }
 .est-page .result-row .v.est-note { white-space:normal; }
-.est-page .result-row.total { margin-top:16px;padding:20px 0;font-weight:500; }
-.est-page .result-row.total .v { font-size:clamp(20px,2vw,28px); }
-.est-page .result-row select { margin-top:8px;width:100px; }
 .est-page .result-row .tip { display:none; }
 .est-page details { margin:20px 0;border:0;border-bottom:1px solid var(--surface-border);background:none;box-shadow:none;padding:0;border-radius:0; }
 .est-page summary { cursor:pointer;min-height:48px;padding:12px 0;font:500 16px/1.5 var(--font-body);color:var(--text-primary); }
 .est-page details :is(p,li) { font:400 14px/1.7 var(--font-body);color:var(--text-secondary); }
 .est-page details ul { padding-left:20px; }
-.est-page .est-options[open] { padding-bottom:16px; }
 .est-page .share-row { flex-wrap:wrap; }
 .est-page .share-url { min-width:180px; }
 .est-page .tip { flex-shrink:0; }
@@ -60,28 +57,25 @@
  .est-page .wrap { padding-inline:16px; }
  .est-inputs>.quiz-step,.est-page .est-receipt { padding:20px; }
  .est-page .quiz-toolbar { flex-wrap:wrap; }
- .est-page .result-row .v,.est-page .result-row.total .v,.est-page .result-row #rUsd { font-size:clamp(13px,3.4vw,16px); }
+ .est-page .result-row:not(.total) .v { font-size:clamp(13px,3.4vw,16px); }
+ .est-page .est-receipt,.est-page .est-more { grid-column:1;grid-row:auto; }
+ .est-page section#estimate>.wrap { padding:8px 0 0;border:0;background:none;box-shadow:none;backdrop-filter:none; }
+ .est-page .result-row.split-row { font-size:15px;flex-wrap:nowrap;gap:10px; }
+ .est-page .result-row.split-row .v { flex-shrink:0; }
 }
 @media(prefers-reduced-motion:reduce) { .est-page * { scroll-behavior:auto!important;animation:none!important;transition:none!important; } }
 .est-ready .est-fallback { display:none; }
 .est-page :is(section#estimate,section#est-faq) { background:none;border:0;box-shadow:none;border-radius:0; }
 .est-page .li-fields label { font:500 14px/1.5 var(--font-body);color:var(--text-primary); }
 .est-page :is(.quiz-help,.estimate-note,.result-row) { font-size:16px; }
-.est-page .result-row.total .v { font-family:var(--font-body);font-weight:500; }
-.est-page #addItem { margin-top:16px!important;border:1px solid var(--surface-border);background:var(--surface-solid);color:var(--text-primary); }
-.est-page #estCurrency { width:auto;max-width:100%; }
-.est-page .result-row:has(#estCurrency) { flex-wrap:wrap; }
-.est-page .result-row:has(#estCurrency)>span { max-width:100%; }
+.est-page #addItem { margin-top:4px!important;border:1px solid var(--surface-border);background:var(--surface-solid);color:var(--text-primary); }
+.est-page #estCurrency { flex:1 1 0;min-width:0;width:auto;max-width:240px; }
 .est-page [dir=rtl],html[dir=rtl] .est-page { text-align:start; }
 .est-page :is(.item-price,.item-link,.result-row .v,.split-cur) { direction:ltr;unicode-bidi:isolate; }
 html[lang=ar] .est-page,html[lang=fa] .est-page,html[lang=km] .est-page,html[lang=th] .est-page { letter-spacing:normal; }
 
 /* An embed sizes to its content, not the viewport supplied by its parent. */
 html.est-embedded,html.est-embedded body { min-height:0;height:auto; }
-
-.est-quick-result { display:grid;gap:12px;margin-top:24px; }
-.est-quick-result output { font:500 16px/1.6 var(--font-body);color:var(--text-primary); }
-#estimate-total { scroll-margin-top:24px; }
 
 /* How it's priced — the three rules, stated before any typing (1 Oct 2026). */
 .est-page .est-rules { list-style:none; margin:1.4rem auto 0; padding:0; max-width:640px; display:grid; grid-template-columns:repeat(3,1fr); gap:0.6rem; }
@@ -97,21 +91,28 @@ html.est-embedded,html.est-embedded body { min-height:0;height:auto; }
   .est-page .est-rules b { font-size:1.1rem; }
   .est-page .est-rules span { margin-top:0.2rem; font-size:0.66rem; }
   .est-page .est-rules small { display:none; }
-  .est-page .result-row:has(#estCurrency)>span { margin-inline:-12px; max-width:none; }
-  .est-page .result-row:has(#estCurrency)>.v { margin-inline:0; max-width:100%; }
   .est-page #estCurrency { font-size:14px; }
 }
-/* Dollars and my fee under each price. */
-.est-page .item-usd { margin:-2px 0 0; min-height:1.1em; font:0.78rem/1.4 var(--font-body); color:var(--text-secondary); }
-/* The converted total is the number most clients read — give it the weight. */
-.est-page #rUsd { font-size:clamp(20px,2vw,28px); font-weight:600; color:var(--text-primary); }
+/* Under each price: how it was read, or the one question that settles it. */
+.est-page .item-usd { margin:0; font:500 15px/1.4 var(--font-body); color:var(--text-secondary); }
+.est-page .item-usd:empty { display:none; }
+.est-page .item-usd.is-problem,.est-page .item-warn,.est-page .item-note { color:var(--text-primary); }
+.est-page .item-warn { display:block; margin-top:2px; }
+.est-page .item-note { margin:0; font:500 14px/1.5 var(--font-body); }
+.est-page .item-ask { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+.est-page .item-ask button { min-height:44px; padding:8px 16px; border:1.5px solid var(--accent); border-radius:999px; background:transparent; color:var(--text-primary); font:500 15px/1.2 var(--font-body); cursor:pointer; }
+.est-page .item-ask button:hover { background:color-mix(in srgb,var(--accent) 12%,transparent); }
+.est-page .item-price { font-size:20px; min-height:56px; }
+.est-page .remove-item[hidden] { display:none; }
+.est-page .est-trace { margin:14px 0 0; font:400 14px/1.6 var(--font-body); }
+.est-page .est-trace a { color:var(--accent); }
 .est-page #rTotal { color:var(--text-secondary); }
 
 /* ---- Three steps (7 Nov 2026): 1 your pieces · 2 where it ships · 3 your total ---- */
 .est-step-h { display: flex; align-items: center; gap: .6rem; }
 .est-n { flex: none; display: inline-grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: 50%;
   font: 600 .9rem/1 var(--font-body); color: #fff; background: linear-gradient(135deg, #8a93de, #c98fc4); box-shadow: 0 6px 14px -8px rgba(80,60,160,.6); }
-.est-more { margin-top: .4rem; border: 1px dashed var(--surface-border); border-radius: 16px; padding: .2rem 1rem; background: color-mix(in srgb, var(--surface-solid) 55%, transparent); }
+.est-more { grid-column: 1; grid-row: 2; align-self: start; margin: 0; border: 1px dashed var(--surface-border); border-radius: 16px; padding: .2rem 1rem; background: color-mix(in srgb, var(--surface-solid) 55%, transparent); }
 .est-more > summary { cursor: pointer; list-style: none; display: flex; flex-direction: column; gap: .15rem; padding: .85rem 1.6rem .85rem 0; position: relative; }
 .est-more > summary::-webkit-details-marker { display: none; }
 .est-more > summary::after { content: "+"; position: absolute; right: 0; top: .8rem; font-size: 1.2rem; color: var(--accent); }
@@ -120,18 +121,29 @@ html.est-embedded,html.est-embedded body { min-height:0;height:auto; }
 .est-more > summary small { color: var(--text-secondary); font-size: .8rem; }
 .est-more-body { padding: .2rem 0 1rem; }
 .est-more-body .quiz-q { font-size: 1rem; margin-top: 1rem; }
-.est-fine { margin-top: .9rem; border-top: 1px solid var(--surface-border); padding-top: .6rem; }
-.est-fine > summary { cursor: pointer; font-size: .85rem; color: var(--text-secondary); }
-.est-fine[open] > summary { margin-bottom: .5rem; }
-.est-fine .result-row { border: none; }
-/* the total in the visitor's own currency is the answer: make it big */
-.est-receipt .result-row.total { padding-top: 1rem; }
-.est-receipt .result-row.total .v { font-size: clamp(1.7rem, 5vw, 2.2rem); font-family: 'Cormorant Garamond', var(--font-display); font-weight: 600; color: var(--accent); }
-/* the answer, large */
-#rUsd { font-size: clamp(1.6rem, 6vw, 2.1rem); line-height: 1.15; font-family: 'Cormorant Garamond', var(--font-display); font-weight: 600; color: var(--accent); }
-.est-receipt .result-row.total { flex-wrap: wrap; align-items: baseline; gap: .4rem .8rem; }
-.est-receipt .result-row.total .cur-select { width: auto; min-height: 34px; padding: .25rem 1.8rem .25rem .7rem; font-size: .82rem; }
+.est-page details.est-lines { margin: 14px 0 0; border-bottom: 0; }
+.est-lines > summary { font-size: 15px; color: var(--accent); }
+.est-lines .est-rules { margin-top: 12px; }
+.est-page .est-pay { margin: 16px 0 4px; }
+.est-page .est-pay .quiz-q { font-size: 1rem; margin-bottom: 8px; }
+.est-page .est-allin { margin: 6px 0 10px; font: 400 14px/1.55 var(--font-body); color: var(--text-secondary); }
+/* đồng and card lines stay in the message to me, off the screen */
+.est-page #rDepositCur, .est-page #rBalanceCur, .est-page .split-card { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+/* the answer, large and in plain figures */
+.est-receipt .result-row.total { flex-direction: column; align-items: stretch; gap: .35rem; margin: 0; padding: 0; border: 0; }
+.est-receipt .result-row.total #rUsd { font: 600 clamp(28px, 7.4vw, 36px)/1.15 var(--font-body); font-variant-numeric: lining-nums; letter-spacing: -.01em; color: var(--accent); }
+.est-receipt .result-row.total > span:first-child { display: flex; align-items: center; gap: .5rem; font-weight: 400; }
+.est-receipt .result-row.total .v { text-align: start; }
+.est-receipt .result-row.total > span:first-child > span { flex: none; white-space: nowrap; }
+.est-receipt .result-row.total .cur-select { min-height: 34px; padding: .25rem 1.8rem .25rem .7rem; font-size: .82rem; }
 /* language + appearance: one small row, top right, out of the way */
 .quiz-toolbar { display: flex; justify-content: flex-end; align-items: center; gap: .5rem; flex-wrap: wrap; margin-bottom: .6rem; }
 .quiz-toolbar label { font-size: .75rem; gap: .35rem; }
 .quiz-toolbar select { width: auto; min-height: 34px; padding: .25rem 1.7rem .25rem .65rem; font-size: .8rem; border-radius: 999px; }
+.est-page .est-duty { font-size: 14px; line-height: 1.55; }
+.est-page .est-pay select { font-size: 15px; }
+.est-page .share-card { margin: 12px 0 0; }
+.est-page .est-inputs > .quiz-step .quiz-help { margin-bottom: 10px; }
+.est-page #rUsd .est-amount-usd { font-size: 15px; font-weight: 500; color: var(--text-secondary); }
+/* The page holds a full screen from the first paint, so the footer never shows first and then jumps away. Not when embedded: there the frame is sized to the content. */
+html:not(.est-embedded) .est-main { min-height:100vh; min-height:100svh; }

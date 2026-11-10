@@ -30,17 +30,31 @@
   dialog.setAttribute('role', 'dialog');
   dialog.setAttribute('aria-modal', 'true');
   dialog.setAttribute('aria-label', 'Services menu');
-  dialog.innerHTML = `<div class="ss-menu-bokeh" aria-hidden="true"><i></i><i></i><i></i></div>
+  dialog.innerHTML = `<div class="ss-guide-scroll">
     <header class="ss-menu-top"><span>A Saigon styling &amp; sourcing atelier</span><button type="button" data-close aria-label="Close menu">Close <span aria-hidden="true">×</span></button></header>
     <div class="ss-menu-layout"><div class="ss-menu-identity"><div class="ss-menu-brand"><span class="ss-menu-wordmark">Seraphic</span><span class="ss-menu-script">Styler</span></div><h2 id="ss-guide-title">What do you need?</h2><p>Pick one. Not sure? <a href="service-request.html?service=unsure">Ask me <span aria-hidden="true">→</span></a></p></div>
     <div class="ss-menu-content">
     <label class="sr-only" for="ss-guide-query">Search services, prices, and answers</label><div class="ss-search-wrap" data-search><span aria-hidden="true">⌕</span><input id="ss-guide-query" type="search" placeholder="Or search: shipping, fees, wardrobe…" autocomplete="off"><kbd>⌘ / Ctrl K</kbd></div>
     <div class="ss-guide-results" role="group" aria-label="Search results" hidden></div><p data-empty role="status" hidden>No matches. Try “wardrobe”, “shipping”, or “fees”.</p>
     <div data-explore><nav aria-label="Services"><ul class="ss-doors" role="list">${doors}</ul></nav></div>
-    <footer class="ss-menu-footer"><span>Thoughtfully chosen in Saigon. Sent worldwide.</span><button type="button" data-settings data-i18n="a11y.title">Display &amp; accessibility</button><span>Esc to close</span></footer></div></div>`;
+    <footer class="ss-menu-footer"><span>Thoughtfully chosen in Saigon. Sent worldwide.</span><button type="button" data-settings data-i18n="a11y.title">Display &amp; accessibility</button><span>Esc to close</span></footer></div></div></div>`;
   const mark = document.querySelector('.brand-mark, .lp-brand-mark');
   if (mark) dialog.querySelector('.ss-menu-brand').prepend(mark.cloneNode(true));
   document.body.append(dialog);
+  // The hero's light behind the menu (js/beacon.js). The sky stays put while the content scrolls over it.
+  const scroller = dialog.querySelector('.ss-guide-scroll');
+  const beacon = window.SS_BEACON;
+  const sky = beacon && beacon.scene('menu');
+  let fly = null;
+  const aimSky = () => { if (sky) { beacon.aim(sky, dialog.querySelector('.ss-menu-identity'), scroller); if (fly) fly(); } };
+  if (sky) {
+    dialog.prepend(sky);
+    fly = beacon.flutter(sky, {count:6, tight:.92, active:() => dialog.open});
+    dialog.querySelector('.ss-menu-brand').append(beacon.orbit());
+    beacon.light(dialog.querySelector('[data-explore] nav'), '.ss-door', true);
+    scroller.addEventListener('scroll', aimSky, {passive:true});
+    addEventListener('resize', () => { if (dialog.open) aimSky(); }, {passive:true});
+  }
   // A compact biography page sends detailed service routes to their full pages.
   function bioDestination(href) {
     if (!bioPage) return href;
@@ -108,7 +122,7 @@
     clearTimeout(closeTimer); closing = false; dialog.classList.remove('is-closing'); destination = null;
     if (!dialog.open) { previousFocus = document.activeElement; dialog.showModal(); }
     document.documentElement.classList.add('ss-menu-open'); launcher.setAttribute('aria-expanded', 'true');
-    input.value = ''; render(); dialog.scrollTop = 0;
+    input.value = ''; render(); scroller.scrollTop = 0; aimSky();
     if (matchMedia('(pointer:fine)').matches) input.focus({preventScroll:true}); else dialog.querySelector('[data-close]').focus({preventScroll:true});
   }
   function close(target) {

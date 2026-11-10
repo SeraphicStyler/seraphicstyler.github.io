@@ -1,0 +1,107 @@
+/* The celestial homepage: art first, then the clothes, then the practical part.
+   The sky itself is painted by js/celestial.js, which adds html.ss-sky-on when it can. */
+
+/* ---- The sky layers ---- */
+.ss-sky-canvas, .ss-grain { position: fixed; left: 0; top: 0; width: 100%; height: 100lvh; z-index: -1; pointer-events: none; }
+.ss-sky-canvas { display: block; }
+html:is(.mono, .hc) :is(.ss-sky-canvas, .ss-grain, .ss-fx, .ss-orbit) { display: none; }
+:root.ss-sky-on:not(.dark):not(.mono):not(.hc) body { background: transparent; }
+:root.ss-sky-on:not(.dark) { background: #9db4ea; }
+.aura-bf-layer { transition: opacity 1.2s ease; }
+html.ss-hero-lit .aura-bf-layer { opacity: 0; }
+/* Behind the open menu the opening holds still, so the blurred backdrop is painted once. */
+html.ss-menu-open :is(.ss-fx *, .ss-orbit *) { animation-play-state: paused; }
+
+/* ---- The opening: nothing to decide, only something to look at ---- */
+#hero.hero { padding: 0 0 clamp(3rem, 8vw, 6rem); overflow: hidden; }
+.hero-stage { position: relative; isolation: isolate; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  min-height: calc(100svh - var(--nav-h)); padding: clamp(2rem, 6vh, 4rem) 1.25rem clamp(6rem, 15vh, 9rem); }
+.hero-stage > :not(.ss-fx) { position: relative; z-index: 1; }
+.hero-stage .hero-heading { position: relative; }
+.hero .hero-stage h1 { font-size: min(11.4vw, clamp(3rem, 7.6vw, 7.4rem)); line-height: 1.06; margin: .35em 0 .3em; }
+.hero-stage .lead { font-size: clamp(1.02rem, 1.5vw, 1.3rem); margin: 0; }
+.hero-stage .scroll-cue { position: absolute; left: 0; right: 0; bottom: clamp(14px, 3vh, 28px); margin-inline: auto; }
+:root.ss-sky-on .hero .hero-stage { --text-primary: #fff; --text-secondary: #eef2ff; --accent-deep: #fff; --surface-border: rgba(255,255,255,.35); --eyebrow-ink: #fff; }
+:root.ss-sky-on .hero .hero-stage h1 { color: #fff; text-shadow: 0 0 36px rgba(255,255,255,.34), 0 2px 26px rgba(16,34,100,.42); }
+:root.ss-sky-on .hero .hero-stage :is(.eyebrow, .lead) { color: #fff; text-shadow: 0 1px 16px rgba(16,34,100,.5); background: none; box-shadow: none; }
+
+/* a hairline of silver around the words */
+.ss-orbit { position: absolute; left: 50%; top: 50%; width: min(122%, 94vw); height: auto; aspect-ratio: 1000 / 420; translate: -50% -50%; rotate: -7deg; z-index: -1; overflow: visible; pointer-events: none; }
+.ss-orbit ellipse { fill: none; vector-effect: non-scaling-stroke; }
+.ss-orbit-line { stroke: url(#ss-silver); stroke-width: 1.1; opacity: .85; stroke-dasharray: 1000; }
+.ss-orbit-glint { stroke: #fff; stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 34 966; filter: drop-shadow(0 0 5px #fff) drop-shadow(0 0 12px #c9d6ff); animation: ss-orbit 16s linear infinite; }
+.ss-orbit-line { animation: ss-draw 3.2s cubic-bezier(.5,0,.25,1) .4s both; }
+@keyframes ss-orbit { to { stroke-dashoffset: -1000; } }
+@keyframes ss-draw { from { stroke-dashoffset: 1000; } }
+
+.ss-fx { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.ss-sparks { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.ss-horizon { position: absolute; left: 0; right: 0; top: var(--bh); height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.75) 14%, #fff 50%, rgba(255,255,255,.75) 86%, transparent); box-shadow: 0 0 12px rgba(190,205,255,.75), 0 0 30px rgba(150,170,255,.4); transform-origin: 50% 50%; }
+.ss-bun-light { position: absolute; left: calc(var(--bunx) - 22px); top: calc(var(--bh) - 22px); width: 62px; height: 44px; background: radial-gradient(closest-side, rgba(255,255,255,.55), transparent); }
+.ss-bun { position: absolute; left: var(--bunx); top: calc(var(--bh) - 23px); width: 18px; height: 23px; fill: #fff; overflow: visible; filter: blur(.3px) drop-shadow(0 0 5px #fff) drop-shadow(0 0 14px #b7b4ff); }
+.ss-bun.kit { left: calc(var(--bunx) + 25px); top: calc(var(--bh) - 14px); width: 11px; height: 14px; scale: -1 1; }
+.ss-fx.play .ss-horizon { animation: ss-growx 2.2s cubic-bezier(.65,0,.2,1) .3s both; }
+.ss-fx.play .ss-bun { animation: ss-fade 1.6s ease 2s both; }
+.ss-fx.play .ss-bun-light { animation: ss-fade 1.6s ease 2s both, ss-breathe 7s ease-in-out 3.6s infinite; }
+.ss-fx.play .ss-bun.kit { animation: ss-fade 1.6s ease 2.4s both, ss-hop 13s ease-in-out 5s infinite; }
+@keyframes ss-growx { from { transform: scaleX(0); } }
+@keyframes ss-fade { from { opacity: 0; } }
+@keyframes ss-breathe { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
+@keyframes ss-hop { 0%, 86%, 92%, 98%, 100% { translate: 0 0; } 89% { translate: 0 -8px; } 95% { translate: 0 -5px; } }
+
+/* ---- Form: the clothes, in arched windows, before any number ---- */
+.hero-form { position: relative; z-index: 1; padding: clamp(1.5rem, 4vw, 3rem) clamp(12px, 3vw, 44px) 0; }
+.hero-form-row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(8px, 1.1vw, 18px); }
+.hero-form-row a { position: relative; display: block; aspect-ratio: 3 / 4.5; overflow: hidden; border-radius: 50vw 50vw 10px 10px; box-shadow: 0 0 0 1px rgba(255,255,255,.7), 0 26px 50px -26px rgba(10,22,80,.75), 0 0 34px -8px rgba(190,205,255,.55); }
+.hero-form-row img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 1.4s cubic-bezier(.2,.8,.2,1); }
+.hero-form-row a::after { content: ""; position: absolute; inset: 0; pointer-events: none; transform: translateX(-120%); background: linear-gradient(105deg, transparent 34%, rgba(255,255,255,.55) 48%, rgba(255,214,240,.3) 54%, rgba(190,235,255,.3) 58%, transparent 68%); }
+.hero-form-row a:is(:hover, :focus-visible) img { transform: scale(1.05); }
+.hero-form-row a:is(:hover, :focus-visible)::after { transform: translateX(120%); transition: transform 1.3s cubic-bezier(.2,.8,.2,1); }
+.hero-form-link { text-align: center; max-width: none; margin: 1.1rem 0 0; font: 400 .72rem/1.6 var(--font-accent, var(--font-body)); letter-spacing: .3em; text-transform: uppercase; }
+.hero-form-link a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 3px; }
+@media (max-width: 860px) {
+  .hero-form-row { display: flex; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; padding-bottom: 28px; }
+  .hero-form-row::-webkit-scrollbar { display: none; }
+  .hero-form-row li { flex: 0 0 42vw; scroll-snap-align: center; }
+}
+
+/* ---- Then the practical part ---- */
+.hero > .wrap { margin-top: clamp(3rem, 8vw, 6rem); }
+:root.ss-sky-on:not(.dark) .hero :is(.hero-form, .wrap) { --text-primary: #fff; --text-secondary: #e3e9fb; --accent: #e4ebff; --accent-deep: #fff; --surface-border: rgba(255,255,255,.3); --eyebrow-ink: #fff; color: #fff; }
+.hero-form-link a { color: inherit; }
+:root.ss-sky-on:not(.dark) .hero :is(.sd-door, .ss-concierge) { --text-primary: #233a72; --text-secondary: #51618f; --accent: #2e54ad; --accent-deep: #234193; --surface-border: rgba(46,71,115,.16); --eyebrow-ink: #5a63b8; color: #233a72; }
+
+/* The three doors: a glisten, a line of colour, a spark */
+.sd-door { overflow: hidden; }
+.sd-door::before { transition: opacity .4s ease, left .6s cubic-bezier(.2,.8,.2,1), right .6s cubic-bezier(.2,.8,.2,1); }
+.sd-door:is(:hover, :focus-visible)::before { opacity: 1; left: 0; right: 0; }
+.sd-door::after { content: ""; position: absolute; inset: 0; pointer-events: none; transform: translateX(-120%); background: linear-gradient(105deg, transparent 36%, rgba(255,255,255,.5) 50%, transparent 64%); }
+html.dark .sd-door::after { background: linear-gradient(105deg, transparent 36%, rgba(190,195,255,.16) 50%, transparent 64%); }
+.sd-door:is(:hover, :focus-visible)::after { transform: translateX(120%); transition: transform 1.15s cubic-bezier(.2,.8,.2,1); }
+.sd-go { position: relative; align-self: flex-start; }
+.sd-go::after { content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px; transform: scaleX(0); transform-origin: left; background: linear-gradient(90deg, #8a93de, #c9b6e8, #f1bcd3, #f7d7a8); transition: transform .7s cubic-bezier(.2,.8,.2,1); }
+.sd-go::before { content: "✦"; position: absolute; right: -1.25em; top: -.05em; font-size: .72em; opacity: 0; transform: scale(.2) rotate(-50deg); transition: opacity .25s, transform .7s cubic-bezier(.2,1.5,.4,1); }
+.sd-door:is(:hover, :focus-visible) .sd-go::after { transform: none; }
+.sd-door:is(:hover, :focus-visible) .sd-go::before { opacity: 1; transform: none; }
+
+/* ---- The rest of the page: pearl panels with real depth against the deepening sky ---- */
+:root.ss-sky-on section:not(#hero) > .wrap { -webkit-backdrop-filter: none; backdrop-filter: none; }
+:root.ss-sky-on:not(.dark):not(.mono):not(.hc) section:not(#hero):not(#contact):not(.night) > .wrap {
+  background: linear-gradient(168deg, #ffffff 0%, #fbfaff 55%, #f2f0fc 100%);
+  border-color: rgba(255,255,255,.85);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.5), 0 40px 80px -40px rgba(8,16,70,.75), 0 0 60px -18px rgba(190,205,255,.5);
+}
+:root.ss-sky-on:not(.dark):not(.mono):not(.hc) section.night:not(#hero) > .wrap { box-shadow: 0 0 0 1px rgba(255,255,255,.5), 0 40px 80px -40px rgba(8,16,70,.75), 0 0 60px -18px rgba(201,143,196,.5); }
+:root.ss-sky-on:not(.dark):not(.mono):not(.hc) .ss-chapter { --text-primary: #fff; --text-secondary: #e3e9fb; --accent: #e4ebff; --surface-border: rgba(255,255,255,.32); text-shadow: 0 1px 14px rgba(10,22,80,.5); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ss-fx *, .ss-orbit * { animation: none !important; }
+  .sd-door::after, .hero-form-row a::after { display: none; }
+  .sd-go::after, .sd-go::before, .sd-door::before, .hero-form-row img { transition: none; }
+}
+html.rm :is(.ss-fx *, .ss-orbit *) { animation: none !important; }
+html.rm :is(.sd-door::after, .hero-form-row a::after) { display: none; }
+@media (min-width: 1000px) { :root.dark.ss-sky-on .ss-section-nav { background: rgba(24,27,46,.66); border-radius: 16px; } }
+/* the opening gets the whole width: the page outline waits until the practical part */
+.ss-section-nav { transition: opacity .5s ease, visibility .5s; }
+html.ss-sky-on.ss-hero-lit .ss-section-nav { opacity: 0; visibility: hidden; }

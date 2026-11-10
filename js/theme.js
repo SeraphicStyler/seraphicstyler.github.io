@@ -26,7 +26,8 @@
     });
     document.dispatchEvent(new CustomEvent('ss:themechange', { detail: { mode: selected, effective: mode } }));
   }
-  function next() { const cycle = ['light', 'dark', 'mono']; return cycle[(cycle.indexOf(effective()) + 1) % cycle.length]; }
+  /* the quick switch flips between day and night; mono stays one tap away in settings */
+  function next() { return effective() === 'dark' ? 'light' : 'dark'; }
   function cleanup() { clearTimeout(timer); root.classList.remove('ss-theme-snapshot', 'ss-theme-fallback', 'ss-theme-instant'); }
   function settle() {
     ++revision;

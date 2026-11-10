@@ -112,7 +112,7 @@
     function syncThemeFab(mode) {
       if (!themeFab) return;
       var cur = effectiveTheme(mode);
-      var next = THEMES[(THEMES.indexOf(cur) + 1) % THEMES.length];
+      var next = cur === 'dark' ? 'light' : 'dark';   // the button is a day/night switch
       themeFab.setAttribute('data-mode', cur);
       var label = themeName(cur) + ' → ' + themeName(next);
       themeFab.setAttribute('title', label);
@@ -132,7 +132,7 @@
     if (themeFab) {
       themeFab.addEventListener('click', function () {
         var cur = window.SS_THEME.mode;
-        setThemeWithTransition(THEMES[(THEMES.indexOf(effectiveTheme(cur)) + 1) % THEMES.length], themeFab);
+        setThemeWithTransition(effectiveTheme(cur) === 'dark' ? 'light' : 'dark', themeFab);
       });
     }
     /* The FAB's tooltip is built from translated text, so re-read it after a language swap. */

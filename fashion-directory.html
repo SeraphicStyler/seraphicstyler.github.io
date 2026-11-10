@@ -79,10 +79,13 @@
   <link rel="stylesheet" href="css/directory.css?v=2026-09-10">
   <link rel="stylesheet" href="css/directory-discovery.css?v=2026-09-09">
   <link rel="stylesheet" href="css/directory-guide.css?v=2026-10-01a">
-<link rel="stylesheet" href="css/directory-workspace.css?v=2026-09-10b">
-<link rel="stylesheet" href="css/directory-featured.css?v=2026-11-07c">
+<link rel="stylesheet" href="css/directory-workspace.css?v=2026-11-10a">
+<link rel="stylesheet" href="css/directory-featured.css?v=2026-11-10a">
+<link rel="stylesheet" href="css/beacon.css?v=2026-11-09d">
   <link rel="stylesheet" href="css/theme.css?v=2026-09-10">
-  <script src="js/theme.js?v=2026-09-10"></script>
+  <script src="js/theme.js?v=2026-11-09s"></script>
+  <!-- The header is laid out in its final shape from the first paint; the scripts at the end of the page then fill it in. -->
+  <script>document.documentElement.classList.add('fd-workspace','fd-beacon')</script>
   <script src="js/i18n-site.js?v=2026-09-12" defer></script>
   <script src="js/geo-lang.js?v=2026-10-02" defer></script>
 </head>
@@ -138,7 +141,7 @@
     </div>
     <div class="eyebrow" data-i18n="fd.eye2">The atelier's open directory</div>
     <h1 class="title" data-i18n="fd.title">The Saigon <span class="script">Fashion</span> Directory</h1>
-    <p class="lede" lang="en">Discover Vietnamese labels by fabric, occasion, budget, and district. Compare the houses, plan a visit, or bring an exact piece to Seraphic for purchase assistance.</p>
+    <p class="lede" data-i18n="fd.ws.intro">Find Vietnamese fashion by name, fabric, occasion, or district.</p>
     <div class="statline" id="statline"></div>
     <div class="nowbar" id="nowbar" hidden>
       <span class="tag" id="nowtag">On now</span>
@@ -777,6 +780,8 @@
 <script src="js/house-logos.js?v=2026-11-07a"></script>
 <script src="js/directory-featured.js?v=2026-11-07c"></script>
 <script src="js/directory-workspace.js?v=2026-11-07a"></script>
+<script src="js/wings.js?v=2026-11-09a"></script>
+<script src="js/beacon.js?v=2026-11-09d"></script>
 <script src="js/visitor-currency.js?v=2026-11-07a"></script>
   <script src="js/a11y-panel.js" defer></script>
 </body>
