@@ -39,7 +39,7 @@
       } else { pausedByUser.add(video); video.pause(); }
     });
     const poster = document.createElement('img');
-    poster.src = video.poster || video.dataset.poster; poster.loading = 'lazy'; poster.alt = ''; poster.className = 'bio-film-poster'; poster.loading = 'lazy';
+    poster.loading = 'lazy'; poster.alt = ''; poster.className = 'bio-film-poster'; poster.src = video.poster || video.dataset.poster;
     const fail = () => { video.parentElement.classList.add('is-failed'); button.hidden = true; };
     video.addEventListener('error', fail);
     video.addEventListener('play', update); video.addEventListener('pause', update);

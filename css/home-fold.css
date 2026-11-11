@@ -1,0 +1,159 @@
+/* Homepage folds (10 Nov 2026).
+   The homepage explains each service once. The long versions stay on the page, closed, one tap away:
+   a fold is a plain <details class="ss-fold"> with a hairline above and below, so nothing is removed
+   and every anchor, calculator and booking button inside still works. js/home-fold.js opens a fold
+   when a link points into it and adds the "Close" line at its end.
+   Also here: the phone-only tidying that goes with the shorter page. */
+
+/* ---------- the fold ---------- */
+.ss-fold {
+  max-width: 60rem;
+  margin: clamp(1.6rem, 4vw, 2.4rem) auto 0;
+  border-top: 1px solid var(--surface-border);
+  border-bottom: 1px solid var(--surface-border);
+  text-align: left;
+}
+.ss-fold + .ss-fold { margin-top: 0; border-top: 0; }
+.ss-fold > summary {
+  list-style: none;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 1.4rem;
+  row-gap: .15rem;
+  min-height: 4rem;
+  padding: 1.05rem .25rem 1.1rem;
+  -webkit-tap-highlight-color: transparent;
+}
+.ss-fold > summary::-webkit-details-marker { display: none; }
+.ss-fold-t {
+  grid-column: 1;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.04rem, 2.3vw, 1.22rem);
+  line-height: 1.3;
+  color: var(--text-primary);
+  transition: color .3s ease;
+}
+.ss-fold-s {
+  grid-column: 1;
+  font-size: .84rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+/* a thin plus that turns to a cross: two hairlines, no glyph */
+.ss-fold > summary::after {
+  content: "";
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  width: 1.05rem;
+  height: 1.05rem;
+  background:
+    linear-gradient(currentColor, currentColor) 50% 50% / 100% 1px no-repeat,
+    linear-gradient(currentColor, currentColor) 50% 50% / 1px 100% no-repeat;
+  color: var(--accent-deep, var(--accent));
+  transition: transform .5s cubic-bezier(.2, .8, .2, 1);
+}
+html.dark .ss-fold > summary::after { color: var(--periwinkle, currentColor); }
+.ss-fold[open] > summary::after { transform: rotate(45deg); }
+.ss-fold > summary:hover .ss-fold-t,
+.ss-fold > summary:focus-visible .ss-fold-t { color: var(--accent); }
+html.dark .ss-fold > summary:hover .ss-fold-t,
+html.dark .ss-fold > summary:focus-visible .ss-fold-t { color: var(--periwinkle, var(--accent)); }
+.ss-fold > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.ss-fold-body { padding: clamp(.6rem, 2vw, 1.2rem) 0 clamp(1.4rem, 4vw, 2.2rem); }
+.ss-fold-body > :first-child { margin-top: 0; }
+
+/* opens and closes smoothly where the browser can animate a fold; elsewhere it simply opens */
+@supports selector(::details-content) {
+  .ss-fold { interpolate-size: allow-keywords; }
+  .ss-fold::details-content {
+    block-size: 0;
+    overflow: clip;
+    opacity: 0;
+    transition: block-size .65s cubic-bezier(.2, .8, .2, 1), opacity .5s ease, content-visibility .65s allow-discrete;
+  }
+  .ss-fold[open]::details-content { block-size: auto; opacity: 1; }
+}
+html.rm .ss-fold::details-content,
+html.rm .ss-fold > summary::after { transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  .ss-fold::details-content, .ss-fold > summary::after { transition: none; }
+}
+
+/* the quiet line that closes a long fold from its end */
+.ss-fold-close {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin: clamp(1.4rem, 4vw, 2rem) auto 0;
+  padding: .7rem .4rem;
+  min-height: 44px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font: 500 .72rem/1.4 var(--font-accent, var(--font-body));
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.ss-fold-close::before { content: ""; width: 1.6rem; height: 1px; background: currentColor; opacity: .5; }
+.ss-fold-close:hover, .ss-fold-close:focus-visible { color: var(--text-primary); }
+
+/* high contrast: the fold keeps a firm edge */
+html.hc .ss-fold, html.hc .ss-fold + .ss-fold { border-color: currentColor; }
+
+/* ---------- phones: less chrome over the words, shorter stacks ---------- */
+@media (max-width: 1279.98px) {
+  /* The page outline is a small pill that names where you are. It no longer sits over the headings:
+     it steps away while you read down and returns the moment you scroll up (js/home-fold.js). */
+  .ss-section-nav { transition: opacity .35s ease, visibility .35s, translate .5s cubic-bezier(.2, .8, .2, 1); }
+  .ss-section-nav.ss-tucked:not([open]):not(:focus-within) { opacity: 0; visibility: hidden; translate: 0 -.8rem; }
+}
+@media (max-width: 640px) {
+  .ss-section-nav:not([open]) { width: auto; max-width: min(15rem, calc(100vw - 2rem)); }
+  .ss-section-nav:not([open]) .ss-section-caption { display: none; }
+  .ss-section-nav:not([open]) > summary { flex-wrap: nowrap; }
+
+  /* selected work: two across, as on the links page, so six looks take two screens, not three */
+  #lookbook .gallery { columns: 2; column-gap: .6rem; }
+  #lookbook .gallery .tile { margin-bottom: .6rem; }
+  #lookbook .gallery .tile > div { padding: .8rem .8rem .75rem !important; padding-top: 2.2rem !important; }
+  #lookbook .gallery .tile .label { font-size: 1.02rem !important; line-height: 1.2; }
+  #lookbook .gallery .tile .sub { font-size: .54rem !important; letter-spacing: .12em !important; }
+
+  /* how it works: you only need your own lane, so the three sit side by side and slide */
+  .hw-tracks {
+    display: flex;
+    grid-template-columns: none;
+    gap: .8rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 1.25rem;
+    margin-inline: -1.25rem;
+    padding: 0 1.25rem .6rem;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .hw-tracks::-webkit-scrollbar { display: none; }
+  .hw-track { flex: 0 0 84%; scroll-snap-align: start; }
+
+  /* services: each lane is one row you slide, the next card always peeking in, so seven cards take two screens */
+  .ss-home #services [data-svc-cards] {
+    display: flex;
+    grid-template-columns: none;
+    gap: .8rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: .5rem;
+  }
+  .ss-home #services [data-svc-cards]::-webkit-scrollbar { display: none; }
+  .ss-home #services [data-svc-cards] > .service,
+  .ss-home #services #lane-styling + [data-svc-cards] > .service { flex: 0 0 84%; scroll-snap-align: start; padding: 22px; }
+  /* cards waiting off to the side are already drawn, so sliding never meets a blank */
+  .ss-home #services [data-svc-cards] > .service.reveal,
+  .hw-tracks.reveal { opacity: 1; transform: none; }
+}

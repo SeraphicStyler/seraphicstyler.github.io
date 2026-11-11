@@ -51,6 +51,7 @@
   <script src="js/beacon.js?v=2026-11-09d" defer></script>
   <script src="js/service-guide.js?v=2026-11-09c" defer></script>
   <script src="js/section-nav.js?v=2026-10-02" defer></script>
+  <script src="js/home-fold.js?v=2026-11-10a" defer></script>
   <script type="module" src="js/hero-concierge.js?v=2026-10-01a" defer></script>
   <link rel="stylesheet" href="css/editorial-rhythm.css?v=2026-10-01p">
   <link rel="stylesheet" href="css/theme.css?v=2026-09-10">
@@ -60,6 +61,7 @@
   <link rel="stylesheet" href="css/night-reading.css?v=2026-10-08a">
   <link rel="stylesheet" href="css/light-dusk.css?v=2026-11-07c">
   <link rel="stylesheet" href="css/celestial.css?v=2026-11-09a">
+  <link rel="stylesheet" href="css/home-fold.css?v=2026-11-10a">
   <script src="js/night-reading.js?v=2026-10-08a" defer></script>
   <script src="js/celestial.js?v=2026-11-09b" defer></script>
   <noscript><style>.reveal, .reveal * { opacity: 1 !important; transform: none !important; filter: none !important; }</style></noscript>
@@ -274,7 +276,7 @@
       <div class="scroll-cue reveal" aria-hidden="true"><span class="lbl" data-i18n="hero.scroll">Scroll</span><span class="line"></span></div>
     </div>
     <div class="hero-form" id="hero-form">
-      <ul class="hero-form-row"><li><a href="#lookbook"><img src="assets/lookbook/posters/kathy-3.jpg" alt="White corset and tiered skirt on a hanger" loading="lazy" decoding="async" width="720" height="1280"></a></li><li><a href="#lookbook"><img src="assets/lookbook/posters/lane-5.jpg" alt="Dove grey corset dress with a white silk bow" loading="lazy" decoding="async" width="720" height="1280"></a></li><li><a href="#lookbook"><img src="assets/lookbook/posters/ninisesi-3.jpg" alt="Lavender corset with a ruffled neckline and white bow" loading="lazy" decoding="async" width="720" height="1280"></a></li><li><a href="#lookbook"><img src="assets/lookbook/posters/kathy-4.jpg" alt="White corset dress with layered tulle" loading="lazy" decoding="async" width="720" height="1280"></a></li><li><a href="#lookbook"><img src="assets/lookbook/posters/lane-1.jpg" alt="Rose petal mini dress and ivory pieces on a rail" loading="lazy" decoding="async" width="720" height="1280"></a></li><li><a href="#lookbook"><img src="assets/lookbook/posters/viery-5.jpg" alt="Hand-painted floral corset and skirt" loading="lazy" decoding="async" width="720" height="1280"></a></li></ul>
+      <ul class="hero-form-row"><li><a href="#lookbook"><img src="assets/lookbook/posters/kathy-3.jpg" srcset="assets/lookbook/posters/kathy-3-s.webp 400w, assets/lookbook/posters/kathy-3.webp 720w" sizes="(max-width: 700px) 42vw, 212px" alt="White corset and tiered skirt on a hanger" loading="lazy" decoding="async" width="720" height="1280"></a></li><li><a href="#lookbook"><img src="assets/lookbook/posters/lane-5.jpg" srcset="assets/lookbook/posters/lane-5-s.webp 400w, assets/lookbook/posters/lane-5.webp 720w" sizes="(max-width: 700px) 42vw, 212px" alt="Dove grey corset dress with a white silk bow" loading="lazy" decoding="async" width="720" height="1280"></a></li><li><a href="#lookbook"><img src="assets/lookbook/posters/ninisesi-3.jpg" srcset="assets/lookbook/posters/ninisesi-3-s.webp 400w, assets/lookbook/posters/ninisesi-3.webp 720w" sizes="(max-width: 700px) 42vw, 212px" alt="Lavender corset with a ruffled neckline and white bow" loading="lazy" decoding="async" width="720" height="1280"></a></li><li><a href="#lookbook"><img src="assets/lookbook/posters/kathy-4.jpg" srcset="assets/lookbook/posters/kathy-4-s.webp 400w, assets/lookbook/posters/kathy-4.webp 720w" sizes="(max-width: 700px) 42vw, 212px" alt="White corset dress with layered tulle" loading="lazy" decoding="async" width="720" height="1280"></a></li><li><a href="#lookbook"><img src="assets/lookbook/posters/lane-1.jpg" srcset="assets/lookbook/posters/lane-1-s.webp 400w, assets/lookbook/posters/lane-1.webp 720w" sizes="(max-width: 700px) 42vw, 212px" alt="Rose petal mini dress and ivory pieces on a rail" loading="lazy" decoding="async" width="720" height="1280"></a></li><li><a href="#lookbook"><img src="assets/lookbook/posters/viery-5.jpg" srcset="assets/lookbook/posters/viery-5-s.webp 400w, assets/lookbook/posters/viery-5.webp 720w" sizes="(max-width: 700px) 42vw, 212px" alt="Hand-painted floral corset and skirt" loading="lazy" decoding="async" width="720" height="1280"></a></li></ul>
       <p class="hero-form-link"><a href="#lookbook" data-i18n="nav.lookbook">Lookbook</a></p>
     </div>
     <div class="wrap">
@@ -532,25 +534,6 @@
 
 
 
-      <section class="ss-comparison" id="service-comparison" aria-labelledby="ss-compare-heading">
-        <div class="ss-section-intro"><span class="eyebrow">Find your service</span><h3 id="ss-compare-heading">A piece in mind.<br>Or a wardrobe to imagine.</h3><p><strong>Sourcing</strong> is ready-made: a link, a price, bought as listed. <strong>The Trace</strong> is a personal concierge: I talk with you and with the house, back and forth, for a piece with no price or a custom size. <strong>Styling</strong> includes both, plus my eye, over time, and it is the only service with piece credit.</p></div>
-        <div class="ss-definition-grid ss-three">
-          <article class="ss-definition ss-source"><span class="ss-service-tag">01 · Sourcing</span><h4>“Please buy this exact item.”</h4><p><strong>Ready-made, in stock, as listed.</strong> A page you can click, with the price on it. I buy it in a size the shop already makes and ship it. Routine price, size and stock confirmation is included. <strong>Custom sizes, made-to-measure and extended back-and-forth with the house are The Trace.</strong></p><dl><dt>You send</dt><dd>A direct product link or precise details identifying the exact in-stock item and Vietnamese seller, plus size and destination.</dd><dt>You receive</dt><dd>Purchase coordination for your identified items, with prices and approval photos before purchase.</dd><dt>Priced</dt><dd>Store price + sourcing and coordination fees + shipping. All itemized before you pay.</dd><dt>Begins with</dt><dd>The estimator: paste the link, see your total. Only a screenshot, a “DM for price” shop, or a size they don’t stock? That’s The Trace.</dd></dl><p class="ss-boundary"><strong>Purchase assistance only.</strong> Outfit creation, capsule planning, wardrobe strategy, and ongoing advice on combining purchases belong to styling.</p><a class="ss-action" href="estimate">Get your price <span aria-hidden="true">↗</span></a></article>
-          <article class="ss-definition ss-trace"><span class="ss-service-tag">02 · The Trace</span><h4>“I know what I want. Can you get it?”</h4><p><strong>A personal concierge for one piece.</strong> Not sourcing, because there is no link and price to buy from, or the piece has to be changed for you. Not styling, because you have already chosen. You send the photo; I talk to the house in Vietnamese, back and forth, and bring the answer back to you, until the piece is settled.</p><dl><dt>You send</dt><dd>A screenshot or photo of the piece, your measurements, and the colour or version you want.</dd><dt>I confirm</dt><dd>The shop, the price, sizes in stock, real measurements, colour, fabric and style details, lead time, and whether they will make it to your measurements (+$25 a made-to-measure garment, final sale).</dd><dt>Priced</dt><dd>$50 per item, paid before I start. It pays for the back-and-forth, so it does not come off an order. Buying it after is the usual sourcing fee.</dd><dt>You receive</dt><dd>A written answer within 48 hours: the shop, the price and the measurements, or why it can’t be bought.</dd></dl><p class="ss-boundary"><strong>One piece you already chose. No piece credit.</strong> Looking for alternatives or “something like this” is styling.</p><a class="ss-action" href="https://tally.so/r/gD10Kl?about=I%20need%20The%20Trace%20for%20item%20identification&amp;source=trace">Start The Trace <span aria-hidden="true">↗</span></a></article>
-          <article class="ss-definition ss-style"><span class="ss-service-tag">03 · Styling</span><h4>“Help me find my style.”</h4><p><strong>All-inclusive, and longer-term.</strong> Sourcing and tracing are included, plus my eye: share your taste, lifestyle, occasion and budget, and I choose the pieces and, within your tier, create looks that work together. The only service with piece credit.</p><dl><dt>You send</dt><dd>A moodboard, an event or trip, wardrobe goals, fit notes, and your total clothing budget.</dd><dt>You receive</dt><dd>A personal selection; complete outfits and a lookbook in the Capsule and fuller wardrobe projects. You approve every piece.</dd><dt>Priced</dt><dd>Core tiers $235–$790. Custom Wardrobe from $1,500; Wardrobe+ from $2,000. Styling fee + clothing credit; shipping separate.</dd><dt>Begins with</dt><dd>A confirmed tier, style questionnaire, and payment. Custom projects are quoted before booking.</dd></dl><p class="ss-boundary"><strong>Choose this for wardrobe direction.</strong> Coordinated outfits, fuller capsules, multiple occasions, and support across orders are scoped in your styling project.</p><a class="ss-action" href="#lane-styling">Explore styling <span aria-hidden="true">↓</span></a></article>
-        </div>
-        <details class="ss-compare-details"><summary>Compare sourcing, The Trace &amp; styling <span aria-hidden="true">+</span></summary><div class="ss-table-wrap" tabindex="0" role="region" aria-label="Sourcing, The Trace and styling comparison"><table><thead><tr><th scope="col">At a glance</th><th scope="col">Sourcing</th><th scope="col">The Trace</th><th scope="col">Styling</th></tr></thead><tbody>
-          <tr><th scope="row">Best for</th><td>Purchasing identified Vietnamese items</td><td>A piece you chose, but can’t buy from a link</td><td>Choosing pieces, outfits, or a cohesive wardrobe</td></tr>
-          <tr><th scope="row">Your starting point</th><td>“Buy this in-stock coat from this Vietnamese shop.”</td><td>“Here’s a screenshot of the coat. Can you get it in my size?”</td><td>“Choose a coat that works with my wardrobe.”</td></tr>
-          <tr><th scope="row">My role</th><td>Confirm price, size and stock; arrange purchase</td><td>Find the shop, message them, confirm size, colour, style and price</td><td>Choose, coordinate, and plan around your needs</td></tr>
-          <tr><th scope="row">Scope</th><td>Ready-made, as listed; no research, no custom sizes</td><td>One chosen piece; custom sizes and made-to-measure live here</td><td>A defined selection, occasion, capsule, or custom wardrobe</td></tr>
-<tr><th scope="row">Back-and-forth with the house</th><td>None; bought as listed</td><td>Yes, that is the service</td><td>Yes, included</td></tr>
-<tr><th scope="row">Piece credit</th><td>No</td><td>No</td><td>Yes</td></tr>
-          <tr><th scope="row">Budget</th><td>Per item + service fees + shipping</td><td>$50 per item, then sourcing if you buy</td><td>Project fee + clothing credit; shipping separate</td></tr>
-          <tr><th scope="row">After recommendations</th><td>Purchase and delivery coordination</td><td>A written answer in 48 hours; buy it through sourcing</td><td>Refinement and styling support within your agreed package</td></tr>
-        </tbody></table></div><p>A photo can be an item reference or style inspiration. <strong>The help you need determines the service.</strong> A chosen piece with no link is The Trace ($50 per item). Close matches, Vietnamese equivalents of non-Vietnamese references, and outfit direction are paid styling.</p></details>
-        <p class="ss-compare-foot">A piece is one garment; an outfit combines several. Piece counts depend on store prices and your clothing budget. <a href="service-request.html?service=unsure">Not sure? Let’s choose together →</a></p>
-      <p class="ss-compare-foot"><a href="sourcingandstyling">Read the full sourcing &amp; styling guide, prices, and boundaries →</a></p></section>
       <!-- Scope. The question that actually arrives by email is not "what is sourcing",
            it is "is finding me something else included?" — answered here, before it is asked. -->
       <style>
@@ -562,7 +545,6 @@
         .svc-scope p:last-child{margin-bottom:0}
         .svc-scope strong{color:var(--text-primary);font-weight:500}
       </style>
-      <p class="ss-scope-note"><strong>If an item is sold out:</strong> a restock inquiry can go to the identified seller. Finding alternatives or a close match requires paid styling, confirmed and paid before work begins.</p>
 
       <h3 class="center reveal" id="lane-sourcing" style="margin:0 0 1rem;scroll-margin-top:5rem" data-i18n="svc2.laneA">Sourcing — you name the piece</h3>
       <div class="grid grid-3" data-svc-cards>
@@ -581,6 +563,7 @@
         <p style="margin:0.7rem 0 0"><a class="svc-cta svc-book" href="https://tally.so/r/gD10Kl?about=I%20need%20The%20Trace%20for%20item%20identification&amp;source=trace" data-i18n="svc2.findcta">Start The Trace</a></p></div>
       </div>
       <p class="ss-scope-note"><strong>Item sourcing only.</strong> For complete outfits, a capsule, multiple occasions, or help deciding what to purchase, choose a styling service below.</p>
+      <p class="ss-scope-note"><strong>If an item is sold out:</strong> a restock inquiry can go to the identified seller. Finding alternatives or a close match requires paid styling, confirmed and paid before work begins.</p>
       <h3 class="center reveal" id="lane-styling" style="margin:2.2rem 0 1rem;scroll-margin-top:5rem" data-i18n="svc2.laneB">Styling — I choose for you</h3>
       <div class="grid grid-3" data-svc-cards>
         <div class="service reveal"><h3 data-i18n="svc2.t2h">The Edit — $235</h3>
@@ -606,6 +589,10 @@
         <p style="margin:0.45rem 0 0"><a class="svc-cta" href="signature" data-i18n="svc2.t5cta2">or read the full details first</a></p></div>
       </div>
       <p class="ss-scope-note"><strong>For wardrobe strategy:</strong> the Capsule coordinates 6–8 pieces. For 15+ pieces, multiple orders, or a fuller project across occasions, explore Custom Wardrobe.</p>
+      <!-- The long versions, folded (css/home-fold.css, js/home-fold.js). Nothing is removed: each opens in place. -->
+      <details class="ss-fold" id="fold-wardrobe">
+        <summary><span class="ss-fold-t">The Custom Wardrobe</span><span class="ss-fold-s">Fifteen pieces or more across several occasions, scoped and quoted as one project.</span></summary>
+        <div class="ss-fold-body">
       <section class="ss-wardrobe" id="custom-wardrobe" aria-labelledby="ss-wardrobe-title">
         <div class="ss-section-intro"><span class="eyebrow">Beyond the capsule · Personal styling</span><h3 id="ss-wardrobe-title">A wardrobe, considered as a whole.</h3><p>More looks. More occasions. One cohesive direction, from the first idea to the final parcel.</p></div>
         <div class="ss-wardrobe-grid">
@@ -615,6 +602,32 @@
         <p class="ss-compare-foot">Clothing credit is a budget toward approved purchases, not a guarantee that every piece fits within it. Pieces stay at real store price; any extra clothing budget is agreed before purchase. Shipping is quoted at exact cost.</p>
         <details class="ss-compare-details"><summary>Your project, clearly scoped <span aria-hidden="true">+</span></summary><ul><li>Custom Wardrobe includes up to two refinement rounds before ordering and one consolidated shipment to one address.</li><li>You approve every garment before it is purchased.</li><li>Extra styling is $25 per added item, plus its store price, within the agreed project. Larger scope changes are quoted as a new package.</li><li>Extra destinations, split shipments, and extensive alteration support are quoted separately.</li><li>Rush projects carry a $100–$150 premium, confirmed before booking.</li><li>A nonrefundable styling deposit secures the project; its amount is stated in your quote and counts toward your styling fee. Clothing credit is used only for approved purchases.</li></ul></details>
       </section>
+        </div>
+      </details>
+      <details class="ss-fold" id="fold-compare">
+        <summary><span class="ss-fold-t">Compare the three services in full</span><span class="ss-fold-s">What you send, what you receive, and how each one is priced.</span></summary>
+        <div class="ss-fold-body">
+      <section class="ss-comparison" id="service-comparison" aria-labelledby="ss-compare-heading">
+        <div class="ss-section-intro"><span class="eyebrow">Find your service</span><h3 id="ss-compare-heading">A piece in mind.<br>Or a wardrobe to imagine.</h3><p><strong>Sourcing</strong> is ready-made: a link, a price, bought as listed. <strong>The Trace</strong> is a personal concierge: I talk with you and with the house, back and forth, for a piece with no price or a custom size. <strong>Styling</strong> includes both, plus my eye, over time, and it is the only service with piece credit.</p></div>
+        <div class="ss-definition-grid ss-three">
+          <article class="ss-definition ss-source"><span class="ss-service-tag">01 · Sourcing</span><h4>“Please buy this exact item.”</h4><p><strong>Ready-made, in stock, as listed.</strong> A page you can click, with the price on it. I buy it in a size the shop already makes and ship it. Routine price, size and stock confirmation is included. <strong>Custom sizes, made-to-measure and extended back-and-forth with the house are The Trace.</strong></p><dl><dt>You send</dt><dd>A direct product link or precise details identifying the exact in-stock item and Vietnamese seller, plus size and destination.</dd><dt>You receive</dt><dd>Purchase coordination for your identified items, with prices and approval photos before purchase.</dd><dt>Priced</dt><dd>Store price + sourcing and coordination fees + shipping. All itemized before you pay.</dd><dt>Begins with</dt><dd>The estimator: paste the link, see your total. Only a screenshot, a “DM for price” shop, or a size they don’t stock? That’s The Trace.</dd></dl><p class="ss-boundary"><strong>Purchase assistance only.</strong> Outfit creation, capsule planning, wardrobe strategy, and ongoing advice on combining purchases belong to styling.</p><a class="ss-action" href="estimate">Get your price <span aria-hidden="true">↗</span></a></article>
+          <article class="ss-definition ss-trace"><span class="ss-service-tag">02 · The Trace</span><h4>“I know what I want. Can you get it?”</h4><p><strong>A personal concierge for one piece.</strong> Not sourcing, because there is no link and price to buy from, or the piece has to be changed for you. Not styling, because you have already chosen. You send the photo; I talk to the house in Vietnamese, back and forth, and bring the answer back to you, until the piece is settled.</p><dl><dt>You send</dt><dd>A screenshot or photo of the piece, your measurements, and the colour or version you want.</dd><dt>I confirm</dt><dd>The shop, the price, sizes in stock, real measurements, colour, fabric and style details, lead time, and whether they will make it to your measurements (+$25 a made-to-measure garment, final sale).</dd><dt>Priced</dt><dd>$50 per item, paid before I start. It pays for the back-and-forth, so it does not come off an order. Buying it after is the usual sourcing fee.</dd><dt>You receive</dt><dd>A written answer within 48 hours: the shop, the price and the measurements, or why it can’t be bought.</dd></dl><p class="ss-boundary"><strong>One piece you already chose. No piece credit.</strong> Looking for alternatives or “something like this” is styling.</p><a class="ss-action" href="https://tally.so/r/gD10Kl?about=I%20need%20The%20Trace%20for%20item%20identification&amp;source=trace">Start The Trace <span aria-hidden="true">↗</span></a></article>
+          <article class="ss-definition ss-style"><span class="ss-service-tag">03 · Styling</span><h4>“Help me find my style.”</h4><p><strong>All-inclusive, and longer-term.</strong> Sourcing and tracing are included, plus my eye: share your taste, lifestyle, occasion and budget, and I choose the pieces and, within your tier, create looks that work together. The only service with piece credit.</p><dl><dt>You send</dt><dd>A moodboard, an event or trip, wardrobe goals, fit notes, and your total clothing budget.</dd><dt>You receive</dt><dd>A personal selection; complete outfits and a lookbook in the Capsule and fuller wardrobe projects. You approve every piece.</dd><dt>Priced</dt><dd>Core tiers $235–$790. Custom Wardrobe from $1,500; Wardrobe+ from $2,000. Styling fee + clothing credit; shipping separate.</dd><dt>Begins with</dt><dd>A confirmed tier, style questionnaire, and payment. Custom projects are quoted before booking.</dd></dl><p class="ss-boundary"><strong>Choose this for wardrobe direction.</strong> Coordinated outfits, fuller capsules, multiple occasions, and support across orders are scoped in your styling project.</p><a class="ss-action" href="#lane-styling">Explore styling <span aria-hidden="true">↓</span></a></article>
+        </div>
+        <details class="ss-compare-details"><summary>Compare sourcing, The Trace &amp; styling <span aria-hidden="true">+</span></summary><div class="ss-table-wrap" tabindex="0" role="region" aria-label="Sourcing, The Trace and styling comparison"><table><thead><tr><th scope="col">At a glance</th><th scope="col">Sourcing</th><th scope="col">The Trace</th><th scope="col">Styling</th></tr></thead><tbody>
+          <tr><th scope="row">Best for</th><td>Purchasing identified Vietnamese items</td><td>A piece you chose, but can’t buy from a link</td><td>Choosing pieces, outfits, or a cohesive wardrobe</td></tr>
+          <tr><th scope="row">Your starting point</th><td>“Buy this in-stock coat from this Vietnamese shop.”</td><td>“Here’s a screenshot of the coat. Can you get it in my size?”</td><td>“Choose a coat that works with my wardrobe.”</td></tr>
+          <tr><th scope="row">My role</th><td>Confirm price, size and stock; arrange purchase</td><td>Find the shop, message them, confirm size, colour, style and price</td><td>Choose, coordinate, and plan around your needs</td></tr>
+          <tr><th scope="row">Scope</th><td>Ready-made, as listed; no research, no custom sizes</td><td>One chosen piece; custom sizes and made-to-measure live here</td><td>A defined selection, occasion, capsule, or custom wardrobe</td></tr>
+<tr><th scope="row">Back-and-forth with the house</th><td>None; bought as listed</td><td>Yes, that is the service</td><td>Yes, included</td></tr>
+<tr><th scope="row">Piece credit</th><td>No</td><td>No</td><td>Yes</td></tr>
+          <tr><th scope="row">Budget</th><td>Per item + service fees + shipping</td><td>$50 per item, then sourcing if you buy</td><td>Project fee + clothing credit; shipping separate</td></tr>
+          <tr><th scope="row">After recommendations</th><td>Purchase and delivery coordination</td><td>A written answer in 48 hours; buy it through sourcing</td><td>Refinement and styling support within your agreed package</td></tr>
+        </tbody></table></div><p>A photo can be an item reference or style inspiration. <strong>The help you need determines the service.</strong> A chosen piece with no link is The Trace ($50 per item). Close matches, Vietnamese equivalents of non-Vietnamese references, and outfit direction are paid styling.</p></details>
+        <p class="ss-compare-foot">A piece is one garment; an outfit combines several. Piece counts depend on store prices and your clothing budget. <a href="service-request.html?service=unsure">Not sure? Let’s choose together →</a></p>
+      <p class="ss-compare-foot"><a href="sourcingandstyling">Read the full sourcing &amp; styling guide, prices, and boundaries →</a></p></section>
+        </div>
+      </details>
       <p class="center muted reveal" style="margin-top:1.2rem" >Core tiers are giftable. Each booking separates your styling fee from the credit toward your clothes.</p>
       <p class="center muted reveal" style="margin-top:0.6rem"><a class="svc-cta" href="#service-comparison">Find specific pieces → sourcing. Choose pieces and complete looks → styling.</a></p>
     </div>
@@ -873,7 +886,12 @@
         </div>
       </div>
       <!-- Guess-then-reveal price game (js/price-game.js) — after the estimator, so the real tool comes first -->
+      <details class="ss-fold" id="fold-price-game">
+        <summary><span class="ss-fold-t">Guess what it costs</span><span class="ss-fold-s">Six real orders. Pick a price, then see the real total with shipping.</span></summary>
+        <div class="ss-fold-body">
       <div id="priceGame" class="reveal"></div>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -1087,6 +1105,9 @@
         <div class="gift-card featured"><span class="gift-tag" data-i18n="gift.tag">Most Requested</span><p class="gift-for" data-i18n="gift.4for">For a wardrobe moment</p><h3 data-i18n="gift.4h">The Capsule</h3><div class="gift-price" data-usd="460"><span class="gift-amt">$460</span><span class="vnd">≈ 11,500,000₫</span></div><ul class="gift-facts"><li><span class="gf-ic gf-ic-fee" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="gf-k" data-i18n="gift.k.fee">Styling fee</span><span class="gf-v">$270</span></li><li><span class="gf-ic gf-ic-credit" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="gf-k" data-i18n="gift.k.credit">Piece credit</span><span class="gf-v">$190<span class="gf-sub">≈ 4,750,000₫</span></span></li><li><span class="gf-ic gf-ic-arrive" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="gf-k" data-i18n="gift.k.arrives">Arrives</span><span class="gf-v" data-i18n="gift.4arr2">Six to eight pieces</span></li><li><span class="gf-ic gf-ic-begin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><span class="gf-k" data-i18n="gift.k.begins">Begins with</span><span class="gf-v"><a class="gift-link" href="style-profile.html?tier=capsule&amp;from=gift-card" data-i18n="gift.4beg">A full style profile</a></span></li></ul><div class="body" data-i18n="gift.4b2"><p class="gift-lead">A full capsule, styled to mix and match.</p><ul class="gift-points"><li>A lookbook showing how to wear them together</li><li>Styled remotely, sent worldwide</li></ul></div><a class="btn btn-primary" href="https://buy.stripe.com/14A3cwgaj1AX3c40VkaAw0h" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
         <div class="gift-card"><p class="gift-for" data-i18n="gift.3for">For the milestone</p><h3 data-i18n="gift.3h">The Atelier</h3><div class="gift-price" data-usd="600"><span class="gift-amt">$600</span><span class="vnd">≈ 15,000,000₫</span></div><ul class="gift-facts"><li><span class="gf-ic gf-ic-fee" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 11 3.8H4v7l9.6 9.6a2 2 0 0 0 2.8 0l4.2-4.2a2 2 0 0 0 0-2.8Z"/><path d="M7.5 7.5h.01"/></svg></span><span class="gf-k" data-i18n="gift.k.fee">Styling fee</span><span class="gf-v">$310</span></li><li><span class="gf-ic gf-ic-credit" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9L12 3.5Z"/></svg></span><span class="gf-k" data-i18n="gift.k.credit">Piece credit</span><span class="gf-v">$290<span class="gf-sub">≈ 7,250,000₫</span></span></li><li><span class="gf-ic gf-ic-arrive" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8.5v9l-9 4-9-4v-9l9-4 9 4Z"/><path d="M3 8.5l9 4 9-4"/><path d="M12 12.5v8"/></svg></span><span class="gf-k" data-i18n="gift.k.arrives">Arrives</span><span class="gf-v" data-i18n="gift.3arr">A try-on day — or live video</span></li><li><span class="gf-ic gf-ic-begin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><span class="gf-k" data-i18n="gift.k.begins">Begins with</span><span class="gf-v"><a class="gift-link" href="style-profile.html?tier=atelier&amp;from=gift-card" data-i18n="gift.3beg">A full style profile</a></span></li></ul><div class="body" data-i18n="gift.3b2"><p class="gift-lead">The full experience — in person or by video.</p><ul class="gift-points"><li>In Saigon: sourcing &amp; a two-hour in-shop try-on — often no shipping at all</li><li>From abroad: I shop live on video</li><li>An itemized itinerary to approve before anything ships</li></ul></div><a class="btn btn-primary" href="https://buy.stripe.com/aFaaEYgajbbxdQIdI6aAw0i" target="_blank" rel="noopener" data-i18n="gift.buy">Gift this</a></div>
       </div>
+      <details class="ss-fold" id="fold-gift-more">
+        <summary><span class="ss-fold-t">Special requests and larger gifts</span><span class="ss-fold-s">The Trace, The Signature, and the Custom Wardrobe.</span></summary>
+        <div class="ss-fold-body">
       <div class="gift-special reveal">
         <span class="eyebrow" data-i18n="gift.spec_e">Special requests</span>
         <p data-i18n="gift.spec_p">For a piece already imagined — or a commission worth remembering.</p>
@@ -1116,12 +1137,19 @@
         <p class="ss-compare-foot">Clothing credit is spent only on approved pieces at real store prices. Piece counts depend on the agreed budget; shipping is quoted at cost. Custom gift codes are issued within 24 hours after scope and payment are confirmed.</p>
         <p class="center"><a class="ss-action" href="sourcingandstyling#prices" data-service-menu="prices" aria-haspopup="dialog" aria-controls="ss-service-guide">Explore the full services menu <span aria-hidden="true">↗</span></a></p>
       </section>
+        </div>
+      </details>
       <p class="center muted reveal" style="margin-top:1.1rem" data-i18n="gift.biglinks">Buying for many, not one? <a class="gift-link" href="#bulk">Group &amp; bulk orders →</a><span aria-hidden="true"> &nbsp;·&nbsp; </span><a class="gift-link" href="#boutique">Boutique buying &amp; sourcing →</a></p>
       <!-- Gift finder — three questions that route to the right tier, honestly.
            JS-rendered (outside data-i18n nodes); the line below is the no-JS fallback. -->
+      <details class="ss-fold" id="fold-gift-finder">
+        <summary><span class="ss-fold-t">Find the right gift</span><span class="ss-fold-s">Four short questions, and the tier that fits.</span></summary>
+        <div class="ss-fold-body">
       <div class="gift-quiz glass reveal" id="giftQuiz">
         <p class="vq-bucket" style="margin:0 auto">Not sure which tier? The four-question gift finder above will sort it — or <a href="#contact" style="color:var(--accent-deep);text-decoration:underline">write to me</a> and I'll point you to one.</p>
       </div>
+        </div>
+      </details>
       <!-- For the analytical buyer: the three tiers, side by side -->
       <div class="faq gift-compare reveal">
         <details>
@@ -1176,6 +1204,9 @@
         </details>
       </div>
       <div class="gift-support reveal">
+        <details class="ss-fold" style="margin-top:0" id="fold-gift-covers">
+        <summary><span class="ss-fold-t">What each gift covers</span><span class="ss-fold-s">A flat fee for my time, a fixed credit toward the pieces, and shipping at cost.</span></summary>
+        <div class="ss-fold-body">
         <h3 class="gift-covers-h" data-i18n="gift.coversh">What the gift covers</h3>
         <p class="gift-support__intro small muted" data-i18n="gift.included2">Every gift splits in two: a flat fee for my time, and a fixed credit toward the pieces. Here is exactly where it goes.</p>
         <!-- Three panels, each a headline figure and what it buys. Bullets rather
@@ -1211,6 +1242,8 @@
             </ul>
           </section>
         </div>
+        </div>
+      </details>
         <!-- <p class="gift-support__note assure" data-i18n="gift.pay">Prefer to spread the cost? PayPal Pay Later lets you pay in installments, where it is offered.</p> -->
         <!-- Last-mile reassurance, at the point of commitment -->
         <div class="faq gift-faq">
@@ -1512,12 +1545,35 @@
         </ul>
       </div>
 
+
+      <h3 class="gift-covers-h reveal" style="margin-top:clamp(2rem,5vw,3rem)" data-i18n="btq.termsh">The terms, in plain numbers</h3>
+      <div class="tiers reveal">
+        <div class="tier"><p class="range" data-i18n="btq.t9r">Scouting fee · per round</p><div class="fee">$250</div><p class="muted" data-i18n="btq.t9s3">6,250,000₫ — three to four hours: pinning the brief, designer outreach, the showroom round, and a line sheet of every option. Paid before I start and kept, like a styling fee — it is not deducted from the order. If you decide not to buy, the research and line sheet are yours. <a href="https://buy.stripe.com/aFafZi2jtdjF9AsavUaAw0e?client_reference_id=home-boutique" target="_blank" rel="noopener" data-i18n="btq.t9pay2">Pay the scouting fee by card →</a></p></div>
+        <div class="tier"><p class="range" data-i18n="btq.t1r2">Buying fee · every size</p><div class="fee">15%</div><p class="muted" data-i18n="btq.t1s2">of the pieces — the same rate as group orders. Pieces stay at the designer’s price, never marked up</p></div>
+        <div class="tier"><p class="range" data-i18n="btq.t2r2">Rush or made-to-measure</p><div class="fee">20%</div><p class="muted" data-i18n="btq.t2s2">replaces the 15% rather than adding to it, and is agreed in writing before we start</p></div>
+        <div class="tier"><p class="range" data-i18n="btq.t4r3">Minimum fee</p><div class="fee">$14<span style="font-size:0.42em;letter-spacing:0.04em;opacity:0.72"> /piece</span></div><p class="muted" data-i18n="btq.t4s5">and never under $25 a buy — the same floor as buying a single piece. Example: 24 pieces at 1,000,000₫ come to ≈$913, where 15% would be only ≈$137 — so the fee becomes 24 × $14 = $336. It only reaches inexpensive pieces; your quote shows whichever is higher</p></div>
+        <div class="tier"><p class="range" data-i18n="btq.t3r">Retainer</p><div class="fee">$0</div><p class="muted" data-i18n="btq.t3s">no subscription — agencies charge $500–2,500 a month; here you pay when you buy</p></div>
+        <div class="tier"><p class="range" data-i18n="btq.t10r">Research rate</p><div class="fee">$45<span style="font-size:0.42em;letter-spacing:0.04em;opacity:0.72"> /hr</span></div><p class="muted" data-i18n="btq.t10s2">1,125,000₫ an hour, two-hour minimum, prepaid — for market surveys or option-hunting before a buy brief exists. The same hourly rate my styling is priced on.</p></div>
+      </div>
+      <p class="small muted center narrow reveal" style="margin-top:0.9rem" data-i18n="btq.tierline2">One rate at every size, so there are no thresholds to land on. <strong>Your written quote shows three numbers before you commit to a single piece:</strong> the scouting fee, 15% of the pieces, and shipping at cost.</p>
+
+      <!-- The convinced reader converts here, at the numbers — not after another
+           two screens of caveats and a worked example. Distinct source tag so
+           the two CTAs can be told apart in the form. -->
+      <div class="center reveal" style="margin-top:clamp(1.2rem,3vw,1.8rem)">
+        <a class="btn btn-primary" href="https://tally.so/r/gD10Kl?about=I%20run%20a%20boutique%20%E2%80%94%20buying%20agent%20support&amp;source=home-boutique-terms" target="_blank" rel="noopener" data-i18n="btq.cta.early">Send your buy brief →</a>
+        <p class="small muted" style="margin-top:0.7rem" data-i18n="btq.cta.early2">Three lines is enough — the aesthetic, the budget, the date stock must land.</p>
+        <p class="small" style="margin-top:0.5rem"><a href="boutique-calculator">Work out your buy in dollars: $250 scouting + 15% →</a></p>
+      </div>
+
+      <details class="ss-fold" id="fold-btq-run">
+        <summary><span class="ss-fold-t">What I do for a boutique, and how a buy runs</span><span class="ss-fold-s">Curated depth, the calendar across both sides of the Pacific, and the six steps from brief to dispatch.</span></summary>
+        <div class="ss-fold-body">
       <div class="grid grid-3 reveal">
         <div class="service"><span class="feat-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 7.6a2.05 2.05 0 1 1 2.05-2.05"/><path d="M12 7.6v1.7l-7.9 5.4a1 1 0 0 0 .57 1.82h14.66a1 1 0 0 0 .57-1.82L12 9.3"/></svg></span><h3 data-i18n="btq.1h">Curated depth, not containers</h3><div class="body" data-i18n="btq.1b">Two to three pieces per style, across a handful of designers — the depth a boutique floor actually sells. Whatever the floor asks for, drawn from <a href="fashion-directory.html">320 verified houses</a>.</div></div>
         <div class="service"><span class="feat-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.3 15.3 5.2 5.2"/><path d="M8 10.5a2.5 2.5 0 0 1 5 0"/></svg></span><h3 data-i18n="btq.2h">The market, read in Vietnamese</h3><div class="body" data-i18n="btq.2b">Prices, availability and stockist terms confirmed with each designer in their own channels — DM, Zalo, live video — and every piece checked against a written spec before it ships. Buying windows add my hands on the fabric.</div></div>
         <div class="service"><span class="feat-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m16.4 2.9 4.2 4.2L9.3 18.4l-5.2 1 1-5.2L16.4 2.9Z"/><path d="m14.3 5 4.2 4.2"/><path d="M4 21.6h16"/></svg></span><h3 data-i18n="btq.3h">Negotiated, in writing</h3><div class="body" data-i18n="btq.3b">Every designer's best stockist terms at your depth, in your written quote — before a single đồng is committed.</div></div>
       </div>
-
       <div class="glass reveal boutique-calendar">
         <p class="boutique-calendar-title" data-i18n="btq.calh">Built to run from both sides of the Pacific</p>
         <ol class="tl3">
@@ -1540,29 +1596,13 @@
         <div class="step"><span class="n">05</span><div><h3 data-i18n="btq.s5h">The check</h3><p class="muted" data-i18n="btq.s5b">In a window: my own hands on every piece — seams, stitch density, boning channels, lining, measurements against the chart. Between windows: the designer's photographs and measurements against my written spec. Your quote says which check your buy gets; every piece is photographed for your approval either way.</p></div></div>
         <div class="step"><span class="n">06</span><div><h3 data-i18n="btq.s6h">Dispatch</h3><p class="muted" data-i18n="btq.s6b">The balance plus exact shipping after you approve the photographs. My vetted forwarder collects, consolidates and exports — one parcel, one tracking number, and the per-style commercial invoice your broker needs.</p></div></div>
       </div>
-
-      <h3 class="gift-covers-h reveal" style="margin-top:clamp(2rem,5vw,3rem)" data-i18n="btq.termsh">The terms, in plain numbers</h3>
-      <div class="tiers reveal">
-        <div class="tier"><p class="range" data-i18n="btq.t9r">Scouting fee · per round</p><div class="fee">$250</div><p class="muted" data-i18n="btq.t9s3">6,250,000₫ — three to four hours: pinning the brief, designer outreach, the showroom round, and a line sheet of every option. Paid before I start and kept, like a styling fee — it is not deducted from the order. If you decide not to buy, the research and line sheet are yours. <a href="https://buy.stripe.com/aFafZi2jtdjF9AsavUaAw0e?client_reference_id=home-boutique" target="_blank" rel="noopener" data-i18n="btq.t9pay2">Pay the scouting fee by card →</a></p></div>
-        <div class="tier"><p class="range" data-i18n="btq.t1r2">Buying fee · every size</p><div class="fee">15%</div><p class="muted" data-i18n="btq.t1s2">of the pieces — the same rate as group orders. Pieces stay at the designer’s price, never marked up</p></div>
-        <div class="tier"><p class="range" data-i18n="btq.t2r2">Rush or made-to-measure</p><div class="fee">20%</div><p class="muted" data-i18n="btq.t2s2">replaces the 15% rather than adding to it, and is agreed in writing before we start</p></div>
-        <div class="tier"><p class="range" data-i18n="btq.t4r3">Minimum fee</p><div class="fee">$14<span style="font-size:0.42em;letter-spacing:0.04em;opacity:0.72"> /piece</span></div><p class="muted" data-i18n="btq.t4s5">and never under $25 a buy — the same floor as buying a single piece. Example: 24 pieces at 1,000,000₫ come to ≈$913, where 15% would be only ≈$137 — so the fee becomes 24 × $14 = $336. It only reaches inexpensive pieces; your quote shows whichever is higher</p></div>
-        <div class="tier"><p class="range" data-i18n="btq.t3r">Retainer</p><div class="fee">$0</div><p class="muted" data-i18n="btq.t3s">no subscription — agencies charge $500–2,500 a month; here you pay when you buy</p></div>
-        <div class="tier"><p class="range" data-i18n="btq.t10r">Research rate</p><div class="fee">$45<span style="font-size:0.42em;letter-spacing:0.04em;opacity:0.72"> /hr</span></div><p class="muted" data-i18n="btq.t10s2">1,125,000₫ an hour, two-hour minimum, prepaid — for market surveys or option-hunting before a buy brief exists. The same hourly rate my styling is priced on.</p></div>
-      </div>
-      <p class="small muted center narrow reveal" style="margin-top:0.9rem" data-i18n="btq.tierline2">One rate at every size, so there are no thresholds to land on. <strong>Your written quote shows three numbers before you commit to a single piece:</strong> the scouting fee, 15% of the pieces, and shipping at cost.</p>
-
-      <!-- The convinced reader converts here, at the numbers — not after another
-           two screens of caveats and a worked example. Distinct source tag so
-           the two CTAs can be told apart in the form. -->
-      <div class="center reveal" style="margin-top:clamp(1.2rem,3vw,1.8rem)">
-        <a class="btn btn-primary" href="https://tally.so/r/gD10Kl?about=I%20run%20a%20boutique%20%E2%80%94%20buying%20agent%20support&amp;source=home-boutique-terms" target="_blank" rel="noopener" data-i18n="btq.cta.early">Send your buy brief →</a>
-        <p class="small muted" style="margin-top:0.7rem" data-i18n="btq.cta.early2">Three lines is enough — the aesthetic, the budget, the date stock must land.</p>
-        <p class="small" style="margin-top:0.5rem"><a href="boutique-calculator">Work out your buy in dollars: $250 scouting + 15% →</a></p>
-      </div>
-
+        </div>
+      </details>
+      <details class="ss-fold" id="fold-btq-faq">
+        <summary><span class="ss-fold-t">Questions boutiques ask</span><span class="ss-fold-s">What the fee buys, payment, sampling, shipping, customs and returns.</span></summary>
+        <div class="ss-fold-body">
       <div class="reveal" style="max-width:44rem;margin:clamp(1.4rem,3vw,2rem) auto 0">
-        <details class="acc" open>
+        <details class="acc">
           <summary><span class="ov" data-i18n="btq.q1">What does the buying fee actually buy?</span></summary>
           <div class="acc-body"><ul class="btq-bul" data-i18n="btq.a1"><li>The research, the showroom judgment, designer-by-designer negotiation, and piece-level checks.</li><li>Pieces stay at designer receipt price. I never mark up, and the receipts travel with the parcel.</li><li>The stockist terms I negotiate — typically 10–30% below retail — often cover the fee outright.</li><li>Bulk factory sourcing runs cheaper. This isn't that.</li><li>Where a label has no room to move, I say so before you commit. There the fee buys access, checking and consolidation, and you decide with the real numbers in front of you.</li></ul></div>
         </details>
@@ -1622,6 +1662,11 @@
            case, never instead of it, and self-expires with the homepage band:
            js/boutique-estimator.js -->
       <!-- #btqEst styles live in css/styles.css (shared with for-boutiques.html) -->
+        </div>
+      </details>
+      <details class="ss-fold" id="fold-btq-est">
+        <summary><span class="ss-fold-t">Rough out your buy</span><span class="ss-fold-s">A piece count, an average showroom price and a destination: the same numbers, worked for your order.</span></summary>
+        <div class="ss-fold-body">
       <div class="glass bulk-est reveal" id="btqEst" aria-labelledby="btqEstH">
         <h3 id="btqEstH" class="gift-covers-h" data-i18n="btq.esth">Rough out your buy</h3>
         <p class="gift-support__intro small muted" data-i18n="btq.estsub">A piece count, an average showroom price, a destination — the same fees and anchors as the numbers above. A planning figure, not a quote: your own quote is itemized in writing, fixed in đồng, before anything is placed.</p>
@@ -1687,10 +1732,13 @@
         </div>
         <p class="small muted btq-assume-h" style="margin-top:0.9rem">Planning assumptions</p><ul class="btq-bul small muted" data-i18n="btq.estnote"><li>≈0.35kg per packed piece.</li><li>Converted at ≈26,300₫ to $1. A quote fixes the <em>đồng</em> total, so each payment's dollar figure follows the rate on the day you pay it.</li><li>The tier is set by the whole buy, not per designer.</li><li>Exact shipping is quoted in writing after packing, never guessed.</li><li>US duty on a commercial entry stays yours. I prepare the per-style invoice your broker files.</li><li>Nothing is scouted before the scouting fee lands.</li></ul>
       </div>
-
-      <div class="center reveal" style="margin-top:clamp(2rem,5vw,3rem)">
+      <div class="center" style="margin-top:clamp(1.6rem,4vw,2.4rem)">
         <a class="btn btn-primary btn-lg" href="https://tally.so/r/gD10Kl?about=I%20run%20a%20boutique%20%E2%80%94%20buying%20agent%20support&amp;source=home-boutique" target="_blank" rel="noopener" data-i18n="btq.cta">Send your buy brief →</a>
         <p class="small muted" style="margin-top:0.8rem" data-i18n="btq.cta2">Not sure what a brief looks like? Three lines is enough — the aesthetic, the budget, the date stock must land. The rest we shape together over email or DM.</p>
+      </div>
+        </div>
+      </details>
+      <div class="center reveal" style="margin-top:clamp(1.4rem,4vw,2rem)">
         <p class="small muted" style="margin-top:0.5rem" data-i18n="btq.onepage">The whole lane as one quiet page, made for forwarding: <a href="for-boutiques">seraphicstyler.com/for-boutiques</a></p>
       </div>
     </div>

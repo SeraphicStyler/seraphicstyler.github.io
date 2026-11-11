@@ -91,8 +91,8 @@
       // so tiles paint immediately; works for admin/localStorage data too. A missing
       // poster is harmless — the browser simply shows the plain video box.
       var pm = /^(.*\/)?([^\/]+)\.mp4$/i.exec(lk.url || '');
-      var poster = pm ? (pm[1] || '') + 'posters/' + pm[2] + '.jpg' : '';
-      el.innerHTML = '<video class="lazy-video" data-src="' + esc(lk.url) + '"' + (poster ? ' poster="' + esc(poster) + '"' : '') + ' preload="none" muted loop playsinline style="width: 100%; height: auto; display: block; aspect-ratio: ' + (lk.aspect || '3/4') + '; object-fit: cover;"></video>' +
+      var poster = pm ? (pm[1] || '') + 'posters/' + pm[2] + '.webp' : '';
+      el.innerHTML = '<video class="lazy-video" data-src="' + esc(lk.url) + '"' + (poster ? ' data-poster="' + esc(poster) + '"' : '') + ' preload="none" muted loop playsinline style="width: 100%; height: auto; display: block; aspect-ratio: ' + (lk.aspect || '3/4') + '; object-fit: cover;"></video>' +
         '<div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 1.4rem; padding-top: 3rem; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: white; z-index: 2; pointer-events: none;">' +
         '<div class="label" style="font-family: var(--font-display); font-size: 1.3rem; font-weight: 300;">' + esc(lk.title) + '</div>' +
         (lk.subtitle ? '<div class="sub" style="font-family: var(--font-accent); font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; margin-top: 0.4rem; opacity: 0.95;">' + esc(lk.subtitle) + '</div>' : '') +
@@ -133,7 +133,7 @@
     if (!('IntersectionObserver' in window)) {
       // Fallback for very old browsers: just load and play all
       var vids = container.querySelectorAll('.lazy-video');
-      vids.forEach(function(v) { v.src = v.getAttribute('data-src'); v.play(); });
+      vids.forEach(function(v) { if (v.getAttribute('data-poster')) v.poster = v.getAttribute('data-poster'); v.src = v.getAttribute('data-src'); v.play(); });
       return;
     }
     var observer = new IntersectionObserver(function(entries) {
@@ -155,7 +155,19 @@
     var lazyVideos = container.querySelectorAll('.lazy-video');
     // A visitor who asked their browser to save data sees the still image; the clip is not downloaded.
     var lite = navigator.connection && navigator.connection.saveData;
-    lazyVideos.forEach(function(v) { if (!(lite && v.getAttribute('poster'))) observer.observe(v); });
+    // Still images arrive a little before their tile scrolls into view, not all at page load.
+    var stills = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.poster = entry.target.getAttribute('data-poster');
+        stills.unobserve(entry.target);
+      });
+    }, { rootMargin: '900px' });
+    lazyVideos.forEach(function(v) {
+      var still = v.getAttribute('data-poster');
+      if (still) stills.observe(v);
+      if (!(lite && still)) observer.observe(v);
+    });
   }
 
   function render() {

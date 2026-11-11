@@ -63,13 +63,18 @@
     if (r.w) { try { return { href: r.w, label: new URL(r.w).hostname.replace(/^www\./, '') }; } catch (e) {} }
     return null;
   }
+  // The Trace price comes from js/pricing.js (loaded before this file), so this line can never fall behind it again.
+  function tracePrice() {
+    var P = window.SS_PRICING;
+    return P && P.data && P.data.trace ? P.fmt.usd0(P.data.trace.usd) : '$50';
+  }
   function next(r, occ) {
     var trace = 'https://tally.so/r/gD10Kl?about=' + encodeURIComponent('I need The Trace for item identification') + '&source=directory&house=' + encodeURIComponent(r.n);
     var shop = r.w && !ALWAYS_TRACE[occ] && !ALWAYS_TRACE[r.cat] && r.cat !== 'tailor' && r.st !== 'appt';
     if (shop) return '<a class="ff-go" href="estimate">Found it on their site? Get my total <span aria-hidden="true">→</span></a>' +
       '<a class="ff-alt" href="' + trace + '">Only a photo? The Trace</a>';
     return '<a class="ff-go" href="' + trace + '">Trace a piece from here <span aria-hidden="true">→</span></a>' +
-      '<span class="ff-alt-note">The Trace · $45, paid first</span>';
+      '<span class="ff-alt-note">The Trace · ' + tracePrice() + ', paid first</span>';
   }
   function plate(r) {
     var f = LOGO[r.n] || (window.SS_HOUSE_LOGOS || {})[r.n];

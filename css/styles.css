@@ -1451,7 +1451,7 @@ html.rm .footer .soc-row .soc-icon { transition: color 0.25s ease, border-color 
 
 /* ---- channel pills ---- */
 .chub-ic { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center;
-  color: #fff; flex-shrink: 0; box-shadow: 0 4px 12px -4px rgba(0,0,0,0.25); }
+  color: #fff; flex-shrink: 0; box-shadow: 0 4px 12px -4px rgba(35,58,114,0.35); }
 .chub-ic svg { width: 19px; height: 19px; }
 /* The "Concierge" pill matches the other channels: white pill, cobalt chip, white sparkle. */
 
