@@ -3,7 +3,7 @@
    three-stage payment flow and shipping anchors from the #boutique section,
    made interactive. Uniform with the rest of the menu since 1 Oct 2026: a
    $250 scouting fee kept like a styling fee, then 15% of the pieces (20% rush
-   or made-to-measure, same as group orders), at least $14 a piece (same as
+   or made-to-measure, same as group orders), at least $20 a piece (same as
    buying a single piece) and $25 a buy. Keep BTQ below in step with the
    section markup and prices.html if any of these change.
 
@@ -42,7 +42,7 @@
     boxKg: 10,          /* over one standard box, split shipment — quoted after packing */
 
     minFeeUsd: 25,
-    perPieceMinUsd: 14, /* same floor as buying a single piece (1 Oct 2026) */
+    perPieceMinUsd: 20, /* same floor as buying a single piece (raised from $14, 23 Nov 2026) */
     pct: 0.15,          /* the buying fee — same as group orders */
     rushPct: 0.20,      /* rush or made-to-measure — replaces 15%, never adds to it */
 
@@ -142,7 +142,7 @@
   }
 
   /* The buying fee in đồng: 15%, or 20% for rush / made-to-measure, then the
-     $14-a-piece and $25-a-buy floors. One rule at every size. */
+     $20-a-piece and $25-a-buy floors. One rule at every size. */
   function fee(totalVnd, totalUsd, rush, pieces) {
     var amount = totalVnd * (rush ? BTQ.rushPct : BTQ.pct);
     var label = rush ? Math.round(BTQ.rushPct * 100) + '% — rush or made-to-measure, agreed in writing first' : Math.round(BTQ.pct * 100) + '% of the pieces';

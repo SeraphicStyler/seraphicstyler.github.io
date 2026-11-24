@@ -89,7 +89,7 @@
       "scoutHours": "three to four",
       "pct": 0.15,
       "rushPct": 0.20,
-      "perPieceUsd": 14,
+      "perPieceUsd": 20,
       "perBuyUsd": 25,
       "researchUsdPerHour": 45,
       "researchMinHours": 2,
@@ -150,7 +150,7 @@
     return null;
   }
   /* A boutique buy: the scouting fee, then the buying fee (15%, or 20% rush),
-     floored at $14 a piece and $25 a buy. Paid in three moments. */
+     floored at $20 a piece and $25 a buy. Paid in three moments. */
   function boutiqueQuote(budget, pieces, rush) {
     var b = DATA.boutique;
     var B = Math.max(0, parseFloat(budget) || 0), P = Math.max(0, parseInt(pieces, 10) || 0);

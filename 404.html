@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>404 — Seraphic Styler</title>
 <meta name="robots" content="noindex">
+<script>
+/* Forgiving addresses: /Estimate, /estimate/ and /estimate.html/ all land on /estimate.
+   If the tidied path is the same as the one asked for, stay here (no redirect loop). */
+(function () {
+  var p = location.pathname, q = p.toLowerCase().replace(/\.html\/+$/, '').replace(/\/+$/, '');
+  if (q && q !== p) location.replace(q + location.search + location.hash);
+})();
+</script>
 <meta name="theme-color" content="#070a10">
 <link rel="icon" href="assets/favicon-48.png" type="image/png" sizes="48x48">
 <link rel="icon" href="assets/favicon-192.png" type="image/png" sizes="192x192">
