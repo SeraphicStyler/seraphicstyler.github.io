@@ -186,7 +186,7 @@ function SS_fmtRate(v) {
 
   var el = {};
   ['lineItems','addItem','region','region2','compareDest','compareWrap','destCompare','weight','stops','complex','green','styling','payMethod','estCurrency','rSubtotal','rFee','rFeeNote','rBase','rStopsRow','rStops',
-   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rLeftoverRow','rLeftover','rLeftoverUsd','rComplexRow','rComplex','rGreenRow','rGreen','rFxRow','rFx','rCardRow','rCard','rShip','rShipNote','rDutyNote','rDepositRow','rDeposit','rDepositCur','rBalanceRow','rBalance','rBalanceCur','rDepositCard','rDepositCardV','tipDepCard','rDepositTot','rDepositTotV','rBalanceCard','rBalanceCardV','tipBalCard','rBalanceTot','rBalanceTotV','previewLink','previewMsg','previewNote','shareCard','shareRow','shareUrl','shareCopy','rTotal','rUsd','fxStatus','sendBasket','copiedMsg','estEmptyMsg','estAnswer','estAllIn']
+   'rStyleRow','rStyle','rStyleNote','rCreditRow','rCredit','rLeftoverRow','rLeftover','rLeftoverUsd','rComplexRow','rComplex','rGreenRow','rGreen','rFxRow','rFx','rCardRow','rCard','rShip','rShipNote','rDutyNote','rDepositRow','rDeposit','rDepositCur','rBalanceRow','rBalance','rBalanceCur','rDepositCard','rDepositCardV','tipDepCard','rDepositTot','rDepositTotV','rBalanceCard','rBalanceCardV','tipBalCard','rBalanceTot','rBalanceTotV','previewLink','previewMsg','previewNote','shareCard','shareRow','shareUrl','shareCopy','rTotal','rUsd','fxStatus','sendBasket','copiedMsg','estEmptyMsg','estAnswer','estAllIn','rMyFee','payChoice','rPayBank','rPayCard','rPayCardTag','estSplit','rCardLineRow','rCardLine']
     .forEach(function (id) { el[id] = document.getElementById(id); });
   if (!el.lineItems) return; // not on a page with the estimator
   var isPage = !!document.querySelector('.est-page'); // the /estimate page and its embed; the homepage quiz keeps its own flow
@@ -277,6 +277,8 @@ function SS_fmtRate(v) {
     try { return new Intl.NumberFormat(document.documentElement.lang || 'en', { style: 'currency', currency: c, minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(n); }
     catch (e) { return '$' + n; }
   }
+  /* The three receipt lines on /estimate in whole money, so they visibly add up to the total. */
+  function fmtLine(vnd) { return (isPage && dualCur()) ? fmtWhole(Math.round(toCur(vnd))) : fmtRow(vnd); }
   function approx(vnd) {
     var v = toCur(vnd);
     if (!isPage) return '≈ ' + fmtCur(v);
@@ -387,6 +389,24 @@ function SS_fmtRate(v) {
     return out;
   }
 
+  /* Plain digits get thousands commas as they are typed, so a missing or extra zero
+     shows at a glance. Anything else ("850k", "$40", "1.200.000") is left as typed,
+     and so is a bare "850", which still gets its question. Same reading either way. */
+  function groupDigits(inp) {
+    var v = inp.value;
+    if (!/^\d[\d,]*$/.test(v)) { delete inp.dataset.grouped; return; }
+    if (v.indexOf(',') >= 0 && !inp.dataset.grouped) return;   // commas the visitor typed are theirs to keep
+    var digits = v.replace(/,/g, '').replace(/^0+(?=\d)/, '');
+    var g = digits.length >= 4 ? digits.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : digits;
+    if (g === v) return;
+    var focused = document.activeElement === inp;
+    var before = focused ? v.slice(0, inp.selectionStart).replace(/,/g, '').length : 0;   // digits before the caret
+    inp.value = g; inp.dataset.grouped = '1';
+    if (!focused) return;
+    var i = 0, seen = 0;
+    while (i < g.length && seen < before) { if (g.charAt(i) !== ',') seen++; i++; }
+    inp.setSelectionRange(i, i);
+  }
   function addItem(value, link) {
     var row = document.createElement('div');
     row.className = 'line-item';
@@ -399,8 +419,10 @@ function SS_fmtRate(v) {
       '</div>' +
       '<button class="remove-item" type="button" aria-label="Remove item">✕</button>';
     var pIn = row.querySelector('.item-price'); pIn.value = value || '';
+    if (isPage) groupDigits(pIn);
     var lIn = row.querySelector('.item-link'); lIn.value = link || '';
     pIn.addEventListener('input', function () {
+      if (isPage) groupDigits(pIn);
       var raw = pIn.value.trim();
       if (!isPage) pIn.setAttribute('aria-invalid', (raw !== '' && !(parseVnd(raw) > 0)) ? 'true' : 'false');
       recalc();
@@ -518,6 +540,47 @@ function SS_fmtRate(v) {
       '<span class="m">' + fmtCur(toCur(gross)) + ' − ' + fmtCur(toCur(netVnd)) + ' = ' + fmtCur(toCur(feeVnd)) + '</span>' +
       esc(t('est.card.m5', 'A ceiling, not a surprise — a domestic card costs less than this.'));
   }
+  /* Both ways to pay, priced side by side, so the card fee is a choice made
+     before the total, not a line that appears after it (24 Nov 2026). */
+  function payTotal(c, nonShip, card) {
+    if (c.nItems === 0 && c.styling === 0) return null;
+    if (c.nItems === 0 || c.custom) {
+      var v = nonShip + (card ? cardFee(nonShip) : 0);
+      return { lo: v, hi: v, text: approx(v) + (c.custom ? t('est.plusship', ' + shipping') : '') };
+    }
+    var s = splitOf(nonShip, c.ship, card), text;
+    if (isPage && dualCur()) {
+      var d = Math.round(toCur(s.deposit)), lo = Math.round(toCur(s.balLo)), hi = Math.round(toCur(s.balHi));
+      text = '≈ ' + fmtWhole(d + lo) + ' – ' + fmtWhole(d + hi);   // the same rounding as the headline total
+      return { lo: s.lo, hi: s.hi, text: text, wlo: d + lo, whi: d + hi };
+    }
+    text = dualCur() ? '≈ ' + fmtCur(toCur(s.lo)) + ' – ' + fmtCur(toCur(s.hi)) : fmtVnd(s.lo) + ' – ' + fmtVnd(s.hi);
+    return { lo: s.lo, hi: s.hi, text: text };
+  }
+  function renderPay(c, nonShip) {
+    if (!el.payChoice) return;
+    var bank = payTotal(c, nonShip, false), card = payTotal(c, nonShip, true);
+    if (el.rPayBank) el.rPayBank.textContent = bank ? bank.text : '—';
+    if (el.rPayCard) el.rPayCard.textContent = card ? card.text : '—';
+    /* Each option says only what it adds; the total above follows the choice. */
+    var exLo = (bank && card) ? card.lo - bank.lo : 0, exHi = (bank && card) ? card.hi - bank.hi : 0, exText, exTop;
+    if (bank && card && bank.wlo != null) {
+      // whole money, taken from the two rounded totals, so the card line plus the three lines = the headline
+      exText = fmtWhole(card.wlo - bank.wlo); exTop = fmtWhole(card.whi - bank.whi);
+    } else { exText = fmtLine(exLo); exTop = fmtLine(exHi); }
+    if (exTop !== exText) exText += ' – ' + exTop;
+    el.rPayCardTag.textContent = exLo > 0 ? '+' + exText : '+' + cardRatePct();
+    el.rPayCardTag.title = '+' + cardRatePct();
+    var on = (el.payMethod && el.payMethod.value) || 'bank';
+    if (el.rCardLineRow) {
+      el.rCardLineRow.style.display = (on === 'card' && exLo > 0) ? '' : 'none';
+      el.rCardLine.textContent = exLo > 0 ? exText : '—';
+    }
+    el.payChoice.querySelectorAll('input[name="estPay"]').forEach(function (r) {
+      r.checked = r.value === on;
+      r.closest('.pay-opt').classList.toggle('is-on', r.checked);
+    });
+  }
   /* Shipping to the US: name the import duty in money, under the total. */
   function renderDuty(c) {
     if (!el.rDutyNote) return;
@@ -525,13 +588,14 @@ function SS_fmtRate(v) {
     var on = !!d && el.region.value === 'us' && c.subtotal > 0 && Number.isFinite(chargeRate(curCode()));
     el.rDutyNote.hidden = !on;
     if (!on) return;
-    el.rDutyNote.textContent = t('est.duty.us', 'Shipping to the US? Import duty on clothing from Vietnam is about {lo}–{hi}% of the item prices right now, so about {a} – {b} here. It goes to US customs, not to me, and I confirm it before anything ships.')
+    el.rDutyNote.textContent = t('est.duty.us', 'Not included: US import duty, about {a} – {b}. It is paid to US customs, not to me.')
       .replace('{lo}', Math.round(d.low * 100)).replace('{hi}', Math.round(d.high * 100))
       .replace('{a}', amt(c.subtotal * d.low)).replace('{b}', amt(c.subtotal * d.high));
-    function amt(vnd) { return dualCur() ? fmtCur(toCur(vnd)) : fmtVnd(vnd); }
+    function amt(vnd) { return dualCur() ? (isPage ? fmtWhole(Math.round(toCur(vnd))) : fmtCur(toCur(vnd))) : fmtVnd(vnd); }
   }
   function showSplit(s) {
     if (!el.rDepositRow) return;
+    if (el.estSplit) el.estSplit.hidden = false;
     el.rDepositRow.style.display = '';
     el.rBalanceRow.style.display = '';
     var depNet = s.deposit - s.depositFee;
@@ -546,9 +610,9 @@ function SS_fmtRate(v) {
          rounded figures so all three always add up. Exact đồng is kept for the message to me. */
       var payVnd = fmtVnd(s.deposit), laterVnd = fmtVnd(s.balLo) + ' – ' + fmtVnd(s.balHi);
       var d = dual ? Math.round(toCur(s.deposit)) : 0, lo = dual ? Math.round(toCur(s.balLo)) : 0, hi = dual ? Math.round(toCur(s.balHi)) : 0;
-      el.rDeposit.textContent = dual ? '≈ ' + fmtWhole(d) : payVnd;
+      el.rDeposit.textContent = dual ? fmtWhole(d) : payVnd;
       el.rDepositCur.textContent = dual ? payVnd : '';
-      el.rBalance.textContent = dual ? '≈ ' + fmtWhole(lo) + ' – ' + fmtWhole(hi) : laterVnd;
+      el.rBalance.textContent = dual ? (lo === hi ? fmtWhole(lo) : fmtWhole(lo) + ' – ' + fmtWhole(hi)) : laterVnd;
       el.rBalanceCur.textContent = dual ? laterVnd : '';
       el.rUsd.textContent = (dual ? '≈ ' + fmtWhole(d + lo) + ' – ' + fmtWhole(d + hi) : fmtVnd(s.lo) + ' – ' + fmtVnd(s.hi)) + usdTail(s.lo, s.hi);
     } else {
@@ -570,6 +634,7 @@ function SS_fmtRate(v) {
   }
   function hideSplit() {
     if (!el.rDepositRow) return;
+    if (el.estSplit) el.estSplit.hidden = true;
     el.rDepositRow.style.display = 'none';
     el.rBalanceRow.style.display = 'none';
     ['rDepositCard','rDepositTot','rBalanceCard','rBalanceTot'].forEach(function (id) { if (el[id]) el[id].style.display = 'none'; });
@@ -692,7 +757,7 @@ function SS_fmtRate(v) {
     var noItems = c.nItems === 0;
     if (el.estAnswer) el.estAnswer.hidden = noItems && c.styling === 0;
     if (el.estAllIn) el.estAllIn.hidden = noItems || c.custom;
-    el.rSubtotal.textContent = noItems ? '—' : fmtRow(c.subtotal); el.rSubtotal.dataset.vnd = noItems ? '' : Math.round(c.subtotal);
+    el.rSubtotal.textContent = noItems ? '—' : fmtLine(c.subtotal); el.rSubtotal.dataset.vnd = noItems ? '' : Math.round(c.subtotal);
     el.rFee.textContent = noItems ? '—' : fmtRow(c.fees); el.rFee.dataset.vnd = noItems ? '' : Math.round(c.fees);
     el.rFeeNote.textContent = c.nItems ? tf('est.itemcount', '(' + c.nItems + (c.nItems === 1 ? ' item' : ' items') + ')', { n: c.nItems }) : '';
     el.rBase.textContent = noItems ? '—' : fmtRow(c.base); el.rBase.dataset.vnd = noItems ? '' : Math.round(c.base);
@@ -708,12 +773,12 @@ function SS_fmtRate(v) {
     }
     if (el.rStyleRow) {
       if (c.styling > 0) {
-        el.rStyleRow.style.display = ''; el.rStyle.textContent = fmtRow(c.styling);
+        el.rStyleRow.style.display = ''; el.rStyle.textContent = fmtLine(c.styling);
         if (el.rStyleNote) el.rStyleNote.textContent = c.styleCfg ? c.styleCfg.label : '';
       } else { el.rStyleRow.style.display = 'none'; if (el.rStyleNote) el.rStyleNote.textContent = ''; }
     }
     if (el.rCreditRow) {
-      if (c.credit > 0) { el.rCreditRow.style.display = ''; el.rCredit.textContent = '−' + fmtRow(c.credit); el.rCredit.dataset.vnd = Math.round(c.credit); }
+      if (c.credit > 0) { el.rCreditRow.style.display = ''; el.rCredit.textContent = '−' + fmtLine(c.credit); el.rCredit.dataset.vnd = Math.round(c.credit); }
       else { el.rCreditRow.style.display = 'none'; }
     }
     /* Unused tier credit is never lost — it stays on the gift for a future
@@ -734,6 +799,15 @@ function SS_fmtRate(v) {
       if (fxAllow > 0) { el.rFxRow.style.display = ''; el.rFx.textContent = fmtRow(fxAllow); }
       else { el.rFxRow.style.display = 'none'; }
     }
+    /* "My fee" is one line (24 Nov 2026): per-piece fee, order handling, extra stops,
+       rare sourcing, less the green discount, plus the currency transfer. Same money,
+       one line; the parts stay itemised under "See what's included". */
+    if (el.rMyFee) {
+      var myFee = c.fees + c.base + c.complex + c.stopsFee - c.green + fxAllow;
+      el.rMyFee.textContent = myFee > 0 ? fmtLine(myFee) : '—';
+      el.rMyFee.dataset.vnd = myFee > 0 ? Math.round(myFee) : '';
+    }
+    renderPay(c, nonShip);
     renderCompare(c, nonShip);
     renderDuty(c);
     // When two destinations are in play, name the one this card is priced for.
@@ -779,7 +853,7 @@ function SS_fmtRate(v) {
         if (s.feeLo > 0) { el.rCardRow.style.display = ''; el.rCard.textContent = fmtRow(s.feeLo) + ' – ' + fmtRow(s.feeHi); }
         else { el.rCardRow.style.display = 'none'; }
       }
-      el.rShip.textContent = fmtRow(c.ship[0]) + ' – ' + fmtRow(c.ship[1]);
+      el.rShip.textContent = fmtLine(c.ship[0]) + ' – ' + fmtLine(c.ship[1]);
       el.rTotal.textContent = fmtVnd(s.lo) + ' – ' + fmtVnd(s.hi);
       el.rUsd.textContent = '≈ ' + fmtCur(toCur(s.lo)) + ' – ' + fmtCur(toCur(s.hi)) + usdTail(s.lo, s.hi);
       showSplit(s);
@@ -1128,6 +1202,11 @@ function SS_fmtRate(v) {
   if (el.green) el.green.addEventListener('change', recalc);
   if (el.styling) el.styling.addEventListener('change', recalc);
   if (el.payMethod) el.payMethod.addEventListener('change', recalc);
+  if (el.payChoice) el.payChoice.addEventListener('change', function (e) {
+    if (!e.target || e.target.name !== 'estPay' || !el.payMethod) return;
+    el.payMethod.value = e.target.value;
+    recalc();
+  });
   if (el.estCurrency) el.estCurrency.addEventListener('change', function () {
     try { localStorage.setItem(PICKED_KEY, el.estCurrency.value); } catch (e) {}   // a choice the visitor made themselves
     recalc();

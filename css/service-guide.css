@@ -376,3 +376,9 @@ html.dark #estimate .section-head .badge-pill { color:#1a1d29; }
 #estimate .section-head h2 { font-size:clamp(2.3rem,5.5vw,3.4rem); }
 #estimate .section-head .lead { color:var(--text-primary); }
 #estimate #estQuiz { box-shadow:0 30px 60px -40px color-mix(in srgb,var(--accent) 60%,transparent); border:1px solid color-mix(in srgb,var(--accent) 35%,transparent); }
+
+/* Homepage calculator: one "My fee" line; its parts fold underneath (24 Nov 2026). */
+#estimate .est-line-s { display: block; margin-top: 2px; font-size: .78rem; line-height: 1.45; font-weight: 400; color: var(--text-secondary); }
+#estimate .est-feeparts { margin: 0; padding: 0 0 .35rem; border-bottom: 1px solid var(--surface-border); }
+#estimate .est-feeparts > summary { cursor: pointer; padding: .45rem 0; font-size: .82rem; color: var(--accent); text-decoration: underline; text-underline-offset: .25em; text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+#estimate .est-feeparts .result-row { padding-left: .9rem; font-size: .88rem; color: var(--text-secondary); }

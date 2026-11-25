@@ -309,3 +309,5 @@ html.dark .tr-yes li::before { color: #e2a6d6; }
   .pm-sub { display: block; font-size: .76rem; padding-right: 0; }
   .pm-more { display: none; }
 }
+/* A line's makeup, under its name: "My fee" then what it's made of (24 Nov 2026). */
+.pr-ex-table th small { display: block; margin-top: .1rem; font-size: .78rem; line-height: 1.4; color: var(--text-secondary); font-weight: 400; }

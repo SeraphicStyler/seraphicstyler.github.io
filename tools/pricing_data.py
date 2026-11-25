@@ -203,7 +203,7 @@ def page_head(slug, title, desc, extra_css=()):
     head = re.sub(r'(<meta property="og:description" content=")[^"]*', lambda m: m.group(1) + desc, head)
     head = head.replace('seraphicstyler.com/policy"', f'seraphicstyler.com/{slug}"')
     head += f'  <meta name="ss-pricing-data" content="{data_hash()}" />\n'
-    for css in ('css/legal.css?v=2026-10-01', 'css/pricing.css?v=2026-11-07e') + tuple(extra_css):
+    for css in ('css/legal.css?v=2026-10-01', 'css/pricing.css?v=2026-11-24a') + tuple(extra_css):
         head += f'  <link rel="stylesheet" href="{css}" />\n'
     head += '  <script src="js/pricing.js?v=2026-11-07b"></script>\n'
     head += '  <script src="js/contact-hub.js?v=2026-11-07a" defer></script>\n'

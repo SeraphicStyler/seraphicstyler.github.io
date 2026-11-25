@@ -80,7 +80,7 @@ html.est-embedded,html.est-embedded body { min-height:0;height:auto; }
 /* How it's priced — the three rules, stated before any typing (1 Oct 2026). */
 .est-page .est-rules { list-style:none; margin:1.4rem auto 0; padding:0; max-width:640px; display:grid; grid-template-columns:repeat(3,1fr); gap:0.6rem; }
 .est-page .est-rules li { border:1px solid var(--surface-border); border-radius:14px; background:var(--surface); padding:0.8rem 0.7rem; text-align:center; }
-.est-page .est-rules b { display:block; font:500 1.6rem/1 'Cormorant Garamond',var(--font-display); color:var(--accent); }
+.est-page .est-rules b { display:block; font:500 1.6rem/1 var(--font-display); color:var(--accent); }
 .est-page .est-rules span { display:block; margin-top:0.35rem; font:500 0.8rem/1.4 var(--font-body); color:var(--text-primary); }
 .est-page .est-rules small { display:block; margin-top:0.2rem; font:400 0.72rem/1.45 var(--font-body); color:var(--text-secondary); }
 .est-page .est-rules-link { text-align:center; margin:0.7rem 0 0; font:0.8rem var(--font-body); }
@@ -147,3 +147,288 @@ html.est-embedded,html.est-embedded body { min-height:0;height:auto; }
 .est-page #rUsd .est-amount-usd { font-size: 15px; font-weight: 500; color: var(--text-secondary); }
 /* The page holds a full screen from the first paint, so the footer never shows first and then jumps away. Not when embedded: there the frame is sized to the content. */
 html:not(.est-embedded) .est-main { min-height:100vh; min-height:100svh; }
+
+/* ===================================================================
+   Homepage look (24 Nov 2026). The estimator now wears the same skin as
+   seraphicstyler.com: "angel to evening" in light mode (lavender mist that
+   deepens gradually into navy at the footer), the night sky in dark mode,
+   glass cards with the aurora line on top, hairlines instead of dashed
+   boxes, Merriweather numerals (no Cormorant). Layout and maths unchanged.
+   Not applied when embedded: the parent page owns the background there.
+   =================================================================== */
+
+/* ---- Page background ---- */
+html:not(.est-embedded) .est-page { background: transparent; }
+:root:not(.est-embedded):not(.dark):not(.mono):not(.hc) body {
+  background:
+    radial-gradient(1000px 640px at 82% 60px, rgba(201,143,196,.16), transparent 70%),
+    radial-gradient(900px 600px at 10% 300px, rgba(138,147,222,.14), transparent 70%),
+    linear-gradient(180deg, #f8f6fd 0%, #f1edfa 10%, #ece9fb 30%, #e6e0f6 55%, #e1dbf4 75%, #dad5f2 100%);
+}
+:root:not(.est-embedded):not(.dark):not(.mono):not(.hc) body::before { opacity: .6; }
+
+/* The footer is the deep end of the evening, and it blends in gradually */
+:root:not(.est-embedded):not(.dark):not(.mono):not(.hc) .est-foot {
+  --text-primary: #f3f0fb; --text-secondary: #d3d6ef; --accent-deep: #d9c9f2;
+  margin-top: 2rem; padding-top: 7rem; color: var(--text-secondary);
+  background: linear-gradient(180deg, rgba(218,213,242,0) 0%, #c9c6ec 18%, #9ea2dd 36%, #6c74c0 52%, #48529f 66%, #2e387c 80%, #1d255b 92%, #151c48 100%);
+}
+:root:not(.est-embedded):not(.dark):not(.mono):not(.hc) .est-foot a { color: #e2d6f7; }
+
+/* ---- Header: the lockup over a quiet hairline ---- */
+.est-top .brand-mark { color: var(--periwinkle, #8a93de); }
+.est-page .section-head h1 { color: var(--text-primary); letter-spacing: -.01em; text-wrap: balance; }
+.est-page .section-head .lead { color: var(--text-secondary); max-width: 52ch; text-wrap: pretty; }
+
+/* ---- Cards: glass with the aurora line, same family as the homepage doors ---- */
+.est-inputs > .quiz-step, .est-page .est-receipt {
+  position: relative; border-radius: 22px;
+  background: rgba(251,249,255,.82);
+  -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(255,255,255,.8);
+  box-shadow: 0 1px 0 rgba(255,255,255,.7) inset, 0 22px 44px -32px rgba(35,58,114,.4);
+}
+.est-inputs > .quiz-step::before, .est-page .est-receipt::before {
+  content: ""; position: absolute; left: 22px; right: 22px; top: 0; height: 3px; border-radius: 0 0 3px 3px;
+  background: linear-gradient(90deg, var(--periwinkle, #8a93de), var(--orchid, #c98fc4), var(--mauve, #cf9bb4)); opacity: .7;
+}
+html.dark :is(.est-inputs > .quiz-step, .est-page .est-receipt) {
+  background: color-mix(in srgb, var(--surface-solid) 82%, transparent);
+  border-color: rgba(255,255,255,.1);
+  box-shadow: 0 1px 0 rgba(255,255,255,.05) inset, 0 22px 50px -26px rgba(0,0,0,.55);
+}
+html:is(.mono,.hc) :is(.est-inputs > .quiz-step, .est-page .est-receipt) { background: var(--surface-solid); -webkit-backdrop-filter: none; backdrop-filter: none; }
+html.hc :is(.est-inputs > .quiz-step, .est-page .est-receipt)::before { content: none; }
+
+/* ---- Step headings: a numbered label, not a gradient bubble ---- */
+.est-page .est-step-h { gap: .75rem; font: 400 clamp(19px, 2vw, 22px)/1.35 var(--font-display); color: var(--text-primary); }
+.est-n {
+  width: 2rem; height: 2rem; background: none; box-shadow: none;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  color: var(--accent); font: 500 .8rem/1 var(--font-body); letter-spacing: .04em;
+}
+
+/* ---- Fields: soft white wells on the glass ---- */
+.est-page :is(input,select) { border-radius: 14px; background: color-mix(in srgb, var(--surface-solid) 92%, transparent); transition: border-color .25s ease, box-shadow .25s ease; }
+.est-page :is(input,select):hover { border-color: color-mix(in srgb, var(--accent) 40%, var(--surface-border)); }
+.est-page :is(input,select):focus { border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 14%, transparent); outline: none; }
+.est-page #addItem { border-radius: 999px; background: transparent; border: 1px solid var(--surface-border); }
+.est-page #addItem:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---- The answer ---- */
+.est-receipt .result-row.total #rUsd { font-family: var(--font-display); font-weight: 400; letter-spacing: -.02em; color: var(--accent-deep, var(--accent)); }
+.est-page .est-allin { padding-bottom: 12px; border-bottom: 1px solid var(--surface-border); }
+
+/* ---- Hairlines instead of dashed boxes ---- */
+.est-more {
+  border: 0; border-block: 1px solid var(--surface-border); border-radius: 0;
+  background: none; padding: .2rem .25rem;
+}
+.est-more > summary span { font: 400 1.05rem/1.4 var(--font-display); }
+.est-more > summary::after { font-weight: 300; transition: transform .3s ease; }
+.est-page .share-card { border: 1px solid var(--surface-border); border-radius: 16px; background: color-mix(in srgb, var(--surface-solid) 60%, transparent); }
+.est-page .preview-note { border-color: var(--surface-border); }
+
+/* ---- Text links: underlined, editorial ---- */
+.est-page :is(.est-trace a, .est-rules-link a, .est-fallback a) { text-decoration: underline; text-underline-offset: .25em; text-decoration-thickness: 1px; }
+.est-lines > summary { text-decoration: underline; text-underline-offset: .25em; text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+
+/* ---- How it's priced: hairline tiles, Merriweather numerals ---- */
+.est-page .est-rules li { border-radius: 14px; background: color-mix(in srgb, var(--surface-solid) 70%, transparent); }
+.est-page .est-rules b { font: 400 1.35rem/1.1 var(--font-display); letter-spacing: -.01em; color: var(--accent-deep, var(--accent)); }
+@media (max-width:560px) { .est-page .est-rules b { font-size: 1rem; } }
+
+html.rm .est-page *, html.rm .est-page *::before, html.rm .est-page *::after { transition: none !important; }
+html.est-embedded .night-sky { display: none; }
+html.est-embedded.dark.ss-sky { background: transparent; }
+
+/* ===================================================================
+   Three-line receipt + two ways to pay (24 Nov 2026).
+   Your pieces · My fee · Shipping, on hairlines; then the payment choice
+   as two quiet options, each with its own total, so the card fee is seen
+   and chosen before anyone is attached to a number.
+   =================================================================== */
+.est-page .est-allin { margin-bottom: 0; }
+.est-bill { margin: 0; }
+.est-page .est-bill .est-line { padding: 13px 0; align-items: center; flex-wrap: nowrap; }
+.est-page .est-bill .est-line > span:first-child { font: 400 15px/1.45 var(--font-body); color: var(--text-primary); }
+.est-line-s { display: block; margin-top: 2px; font: 400 12.5px/1.45 var(--font-body); color: var(--text-secondary); }
+.est-page .est-bill .est-line .v { font: 500 16px/1.3 var(--font-body); font-variant-numeric: tabular-nums; }
+.est-page .est-bill #rShipNote:empty { display: none; }
+
+.est-paychoice { border: 0; margin: 22px 0 6px; padding: 0; min-width: 0; }
+.est-paychoice > legend.quiz-q { padding: 0; margin: 0 0 10px; font: 400 1rem/1.4 var(--font-display); color: var(--text-primary); }
+.pay-opt {
+  display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: center; gap: 4px 12px;
+  margin-top: 8px; padding: 14px 16px; cursor: pointer;
+  border: 1px solid var(--surface-border); border-radius: 14px;
+  background: color-mix(in srgb, var(--surface-solid) 65%, transparent);
+  transition: border-color .25s ease, background-color .25s ease, box-shadow .25s ease;
+}
+.pay-opt:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--surface-border)); }
+.pay-opt.is-on {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 7%, var(--surface-solid));
+  box-shadow: 0 10px 26px -20px rgba(35,58,114,.5);
+}
+.pay-opt:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
+.est-page .pay-opt input[type=radio] {
+  width: 18px !important; height: 18px; min-height: 0; margin: 0; padding: 0; border: 0;
+  box-shadow: none; accent-color: var(--accent); flex: none;
+}
+.est-page .pay-opt input[type=radio]:focus { box-shadow: none; }
+.po-txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.po-name { font: 500 14.5px/1.4 var(--font-body); color: var(--text-primary); }
+.po-tag { font: 400 12.5px/1.4 var(--font-body); color: var(--text-secondary); }
+.pay-opt:first-of-type .po-tag { color: var(--accent-deep, var(--accent)); font-weight: 500; }
+.po-total {
+  font: 500 15px/1.3 var(--font-body); font-variant-numeric: tabular-nums; color: var(--text-primary);
+  white-space: nowrap; text-align: end; direction: ltr; unicode-bidi: isolate;
+}
+.pay-opt.is-on .po-total { color: var(--accent-deep, var(--accent)); }
+.est-split { margin-top: 6px; }
+.est-lines-h { margin: 6px 0 0; font: 500 .72rem/1.5 var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--eyebrow-ink, var(--text-secondary)); }
+html.hc .pay-opt.is-on { border-width: 2px; }
+html.rm .pay-opt { transition: none; }
+
+/* ===================================================================
+   Fewer things to read (24 Nov 2026). One figure per idea: the total,
+   three lines under it, a payment choice that shows only what it adds
+   (the total follows the choice), and the deposit/balance as one
+   labelled pair so it never reads as more charges. Plain-digit prices
+   get thousands commas as they are typed. Quiet custom controls.
+   =================================================================== */
+
+/* ---- Header: the homepage butterfly ---- */
+.est-top .brand-mark { width: 44px; height: 44px; color: var(--text-primary); }
+
+/* ---- Pieces: one block each; remove sits on the label line it belongs to ---- */
+.est-page .line-item { position: relative; display: block; margin: 0; padding: 14px 0 18px; }
+.est-page .line-item + .line-item { border-top: 1px solid var(--surface-border); }
+.est-page .li-fields { gap: 6px; }
+.est-page .li-fields label ~ label { margin-top: 10px; }
+.est-page .remove-item {
+  position: absolute; top: 5px; right: -10px; min-width: 40px; min-height: 40px; padding: 0;
+  border: 0; border-radius: 999px; background: none; color: var(--text-secondary);
+  font: 400 14px/1 var(--font-body); cursor: pointer; transition: color .2s ease, background-color .2s ease;
+}
+.est-page .remove-item:hover { color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.est-page .item-price { font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+.est-page #addItem { margin-top: 2px !important; }
+
+/* ---- Payment: name on the left, what it adds on the right ---- */
+.pay-opt { grid-template-columns: auto minmax(0,1fr) auto; gap: 12px; padding: 13px 16px; }
+.po-tag {
+  font: 500 14px/1.3 var(--font-body); font-variant-numeric: tabular-nums; white-space: nowrap;
+  color: var(--text-secondary); text-align: end; direction: ltr; unicode-bidi: isolate;
+}
+.po-tag.po-free, .pay-opt:first-of-type .po-tag { color: var(--accent-deep, var(--accent)); font-weight: 500; }
+.pay-opt.is-on .po-tag { color: var(--accent-deep, var(--accent)); }
+.est-page .pay-opt input[type=radio] {
+  -webkit-appearance: none; appearance: none; display: block; cursor: pointer;
+  width: 18px !important; height: 18px; border-radius: 50%;
+  border: 1.5px solid color-mix(in srgb, var(--text-secondary) 70%, transparent); background: transparent;
+}
+.est-page .pay-opt input[type=radio]:checked,
+.est-page .pay-opt input[type=radio]:checked:focus {
+  border-color: var(--accent); background: var(--accent); box-shadow: inset 0 0 0 3.5px var(--surface-solid);
+}
+
+/* ---- Deposit and balance: the same total, in two steps ---- */
+.est-split {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px;
+  margin: 16px 0 4px; padding: 12px 16px 14px; border-radius: 14px;
+  border: 1px solid var(--surface-border); background: color-mix(in srgb, var(--accent) 4%, transparent);
+}
+.est-split[hidden] { display: none; }
+.est-split-h {
+  grid-column: 1 / -1; margin: 0; font: 500 .7rem/1.5 var(--font-body);
+  letter-spacing: .14em; text-transform: uppercase; color: var(--eyebrow-ink, var(--text-secondary));
+}
+.est-page .est-split .result-row.split-row {
+  flex-direction: column; flex-wrap: nowrap; align-items: flex-start; justify-content: space-between;
+  gap: 2px; padding: 0; border: 0;
+}
+.est-page .est-split .split-row > span:first-child { font: 400 13px/1.4 var(--font-body); color: var(--text-secondary); }
+.est-page .est-split .split-row .v { text-align: start; font: 500 17px/1.3 var(--font-body); color: var(--text-primary); }
+.est-page .est-duty { margin: 14px 0 0; font: 400 13.5px/1.55 var(--font-body); color: var(--text-secondary); }
+
+/* ---- Checkboxes: a quiet square, a clean tick ---- */
+.est-page .quiz-check { align-items: flex-start; gap: 12px; margin-block: 16px; cursor: pointer; }
+.est-page .quiz-check > span { min-width: 0; }
+.est-page input[type=checkbox] {
+  -webkit-appearance: none; appearance: none; flex: none; cursor: pointer;
+  width: 20px !important; height: 20px; min-height: 0; margin: 3px 0 0; padding: 0;
+  border: 1.5px solid color-mix(in srgb, var(--text-secondary) 65%, transparent); border-radius: 6px;
+  background: transparent center / 14px 14px no-repeat;
+}
+.est-page input[type=checkbox]:checked {
+  border-color: var(--accent); background-color: var(--accent);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23ffffff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 8.5l3 3 6-7'/%3E%3C/svg%3E");
+}
+html.dark .est-page input[type=checkbox]:checked {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23151c48' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 8.5l3 3 6-7'/%3E%3C/svg%3E");
+}
+.est-page :is(input[type=checkbox], .pay-opt input[type=radio]):focus:not(:focus-visible) { outline: none; }
+.est-page input[type=checkbox]:focus:not(:focus-visible) { box-shadow: none; }
+.est-page .green-check .leaf-ic { display: inline; margin-right: 6px; vertical-align: -2px; }
+
+/* ---- Share: a plain row like the others, not a box in a box ---- */
+.est-page .share-row[hidden] { display: none; }
+.est-page details.share-card { margin: 8px 0 0; padding: 0; border: 0; border-top: 1px solid var(--surface-border); border-radius: 0; background: none; }
+.est-page .share-card > summary { list-style: none; position: relative; padding: 14px 28px 14px 0; font: 500 15px/1.5 var(--font-body); }
+.est-page .share-card > summary::-webkit-details-marker { display: none; }
+.est-page .share-card > summary::after { content: "+"; position: absolute; right: 0; top: 12px; font-size: 1.15rem; font-weight: 300; color: var(--accent); }
+.est-page .share-card[open] > summary::after { content: "\2212"; }
+.est-page .share-card .share-s { margin: 0 0 12px; font-size: 14px; }
+.est-page .share-card .share-make {
+  width: 100%; margin: 0 0 4px; padding: 12px 20px; border: 1px solid var(--surface-border); border-radius: 999px;
+  background: transparent; color: var(--text-primary); font: 500 14px/1.5 var(--font-body); letter-spacing: .02em; text-transform: none;
+}
+.est-page .share-card .share-make:hover { border-color: var(--accent); color: var(--accent); }
+.est-page .share-copy { min-height: 48px; border-radius: 999px; }
+.est-page .share-url { border-radius: 999px; padding-inline: 16px; }
+.est-more-body > .quiz-help { margin: 0 0 8px; font-size: 14px; line-height: 1.6; }
+/* The glass card rule set position:relative, which kept the sticky "top:16px" as a
+   16px drop on desktop. Sticky again, so the total stays level with step 1 and in view. */
+@media (min-width: 741px) { .est-page .est-receipt { position: sticky; } }
+@media (max-width: 740px) { .est-page .est-receipt { top: auto; } }
+html.rm .est-page .remove-item { transition: none; }
+
+/* ---- More options: a card you can see is a button (24 Nov 2026) ----
+   Same glass as the step cards, the list of what's inside, and a round "+" that
+   turns into "−" when open. Placed before the total in the markup. */
+.est-page details.est-more {
+  margin: 0; padding: 0 22px; border: 1px solid rgba(255,255,255,.8); border-radius: 22px;
+  background: rgba(251,249,255,.82); -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: 0 1px 0 rgba(255,255,255,.7) inset, 0 22px 44px -32px rgba(35,58,114,.4);
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+html.dark .est-page details.est-more { background: color-mix(in srgb, var(--surface-solid) 82%, transparent); border-color: rgba(255,255,255,.1); box-shadow: 0 22px 50px -26px rgba(0,0,0,.55); }
+html:is(.mono,.hc) .est-page details.est-more { background: var(--surface-solid); -webkit-backdrop-filter: none; backdrop-filter: none; border-color: var(--surface-border); }
+.est-page details.est-more:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.est-page .est-more > summary {
+  flex-direction: row; align-items: center; justify-content: space-between; gap: 16px;
+  min-height: 72px; padding: 16px 0; position: static;
+}
+.est-page .est-more > summary::after { content: none; }
+.est-page .est-more > summary .em-txt { display: flex; flex-direction: column; gap: 3px; min-width: 0; font: inherit; }
+.est-page .est-more > summary .em-h { font: 400 clamp(18px, 1.8vw, 20px)/1.35 var(--font-display); color: var(--text-primary); }
+.est-page .est-more > summary small { font: 400 13.5px/1.5 var(--font-body); color: var(--text-secondary); }
+.est-page .est-more > summary .em-plus {
+  flex: none; position: relative; width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid var(--accent); color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent);
+  transition: background-color .25s ease, color .25s ease, transform .3s ease;
+}
+.est-page .est-more > summary .em-plus::before,
+.est-page .est-more > summary .em-plus::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 14px; height: 1.6px; border-radius: 2px;
+  background: currentColor; transform: translate(-50%, -50%);
+}
+.est-page .est-more > summary .em-plus::after { transform: translate(-50%, -50%) rotate(90deg); transition: transform .3s ease; }
+.est-page .est-more[open] > summary .em-plus::after { transform: translate(-50%, -50%) rotate(0deg); }
+.est-page .est-more > summary:hover .em-plus { background: var(--accent); color: var(--cta-text, #fff); }
+.est-page .est-more > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 14px; }
+.est-page .est-more[open] > summary { border-bottom: 1px solid var(--surface-border); }
+.est-page .est-more .est-more-body { padding: 4px 0 18px; }
+html.rm .est-page .est-more > summary .em-plus, html.rm .est-page .est-more > summary .em-plus::after { transition: none; }

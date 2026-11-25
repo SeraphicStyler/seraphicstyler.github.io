@@ -68,13 +68,14 @@ def modules(idp='', home=False):
                                     '<b>You approve.</b> I buy it, check it in person and send you photos.',
                                     '<b>It ships.</b> Tracked, worldwide.'),
         body=bul('<strong>Ready-made, as listed.</strong> In stock, in a size the shop already makes, from a page with the price on it. <strong>Custom sizes, made-to-measure and extended back-and-forth with the house are <a href="#' + idp + 'trace">The Trace</a>.</strong>',
-                 '<strong>The item</strong> at the shop’s own price. I never add a markup.',
-                 f'<strong>My fee: {h_vnd(s["minFeeVnd"])} per item</strong>, or {pct(s["rate"])} of the price when that is more ({pct(s["highRate"])} on items over {h_vnd(s["highFromVnd"])}).',
-                 f'<strong>{h_vnd(order)} per order</strong> for packing and coordination. {["No", "One", "Two", "Three"][s["shopsIncluded"]]} shops are included; each extra shop is {h_vnd(s["extraShopVnd"])}.',
-                 f'<strong>{pct(s["transferPct"])} currency transfer</strong> on the order, which covers sending your money to the shop in đồng.',
-                 '<strong>Shipping</strong> at the courier’s actual cost, quoted before it ships.')
+                 '<strong>Your pieces</strong> at the shop’s own price. I never add a markup.',
+                 f'<strong>My fee</strong>, one line: {h_vnd(s["minFeeVnd"])} a piece, or {pct(s["rate"])} of the price when that is more ({pct(s["highRate"])} on items over {h_vnd(s["highFromVnd"])}), plus {h_vnd(order)} an order for packing and coordination and {pct(s["transferPct"])} for sending your money to the shop in đồng. {["No", "One", "Two", "Three"][s["shopsIncluded"]]} shops are included; each extra shop is {h_vnd(s["extraShopVnd"])}.',
+                 '<strong>Shipping</strong> at the courier’s actual cost, quoted before it ships.',
+                 f'<strong>Paying</strong> by Wise, Zelle or bank transfer has no fee. A card adds about {DATA["card"]["pct"]} + {usd(DATA["card"]["fixedUsd"])}, Stripe’s fee, and you see both totals before you choose.')
              + example(f'one {usd(item / FX)} dress',
-                       [('Dress', h_vnd(item)), ('My fee', h_vnd(fee)), ('Order fee', h_vnd(order)), (f'Currency transfer, {pct(s["transferPct"])}', h_vnd(transfer))],
+                       [('Dress', h_vnd(item)),
+                        (f'My fee<small>{usd(fee / FX)} a piece + {usd(order / FX)} order + {pct(s["transferPct"])} transfer</small>', h_vnd(fee + order + transfer)),
+                        ('Shipping', 'at cost')],
                        ('You pay', h_vnd(buy_total) + ' + shipping')),
         cta=btn('estimate', 'Get your price →')))
 
@@ -164,7 +165,7 @@ def always_html():
         '<strong>Nothing is bought without your yes.</strong> You see the photo, price and size first.',
         '<strong>Your price is confirmed in writing</strong> before you pay. That written quote is what you pay.',
         '<strong>Shipping</strong> is the courier’s actual cost on the day it ships, including the fuel and peak-season surcharges couriers add (high this autumn). It’s quoted before you pay for it. <strong>Import duties and taxes</strong> in your country are yours.',
-        f'<strong>Paying:</strong> bank transfer, Zelle and Wise have no card fee. A card adds about {DATA["card"]["pct"]} + {usd(DATA["card"]["fixedUsd"])}, which is the processor’s fee, shown before you pay. Orders for pieces also carry the {pct(s["transferPct"])} currency transfer. <a href="pay">How payment works</a>.',
+        f'<strong>Paying:</strong> Wise, Zelle and bank transfer have no fee. A card adds about {DATA["card"]["pct"]} + {usd(DATA["card"]["fixedUsd"])}, Stripe’s fee; the estimator shows both totals before you choose. For pieces, the {pct(s["transferPct"])} currency transfer is part of my fee. <a href="pay">How payment works</a>.',
         '<strong>If a piece sells out</strong>, see <a href="policy">returns &amp; credit</a>.')
 
 
