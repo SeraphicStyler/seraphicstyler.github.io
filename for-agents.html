@@ -6,7 +6,7 @@
   <title>For Agents — Seraphic Styler</title>
   <meta name="theme-color" content="#2e54ad" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#161a26" media="(prefers-color-scheme: dark)" />
-  <meta name="description" content="The public, read-only API behind the Saigon Fashion Directory: 320 curated Vietnamese fashion houses, with the rules an AI agent should follow when quoting them." />
+  <meta name="description" content="The public, read-only API behind the Sài Gòn Fashion Directory: 320 curated Vietnamese fashion houses, with the rules an AI agent should follow when quoting them." />
   <link rel="canonical" href="https://www.seraphicstyler.com/for-agents" />
   <meta property="og:title" content="For Agents — Seraphic Styler" />
   <meta property="og:description" content="A public, read-only directory API for 320 Vietnamese fashion houses, and the rules for using it honestly." />
@@ -24,7 +24,7 @@
       {
         "@type":"TechArticle",
         "headline":"Seraphic Styler public directory API",
-        "description":"Documentation and quotation rules for the read-only API behind the Saigon Fashion Directory.",
+        "description":"Documentation and quotation rules for the read-only API behind the Sài Gòn Fashion Directory.",
         "url":"https://www.seraphicstyler.com/for-agents",
         "author":{"@id":"https://www.seraphicstyler.com/#atelier"},
         "about":{"@id":"https://www.seraphicstyler.com/fashion-directory#dataset"}
@@ -46,18 +46,19 @@
     .ag-wrap{max-width:60rem;margin:0 auto;padding:clamp(1.5rem,4vw,3.5rem) clamp(1rem,4vw,2rem) 4rem;}
     .ag-eyebrow{font-family:"Montserrat",sans-serif;font-size:.72rem;letter-spacing:.18em;
       text-transform:uppercase;color:var(--eyebrow-ink);margin:0 0 .6rem;}
-    .ag-wrap h1{font-family:"Tenor Sans",serif;font-weight:400;color:var(--text-primary);
+    .ag-wrap h1{font-family:"Tenor Sans",sans-serif;font-weight:400;color:var(--text-primary);
       font-size:clamp(1.9rem,5vw,2.9rem);line-height:1.15;margin:0 0 .5rem;}
     .ag-script{font-family:"Pinyon Script",cursive;font-size:1.5em;color:var(--accent);}
     .ag-lede{font-family:"Merriweather Sans",sans-serif;font-weight:300;color:var(--text-secondary);
       font-size:1.05rem;line-height:1.7;max-width:44rem;margin:0 0 2.2rem;}
-    .ag-wrap h2{font-family:"Tenor Sans",serif;font-weight:400;color:var(--text-primary);
+    .ag-wrap h2{font-family:"Tenor Sans",sans-serif;font-weight:400;color:var(--text-primary);
       font-size:1.32rem;margin:2.6rem 0 .9rem;padding-bottom:.4rem;
       border-bottom:1px solid var(--surface-border);}
     .ag-wrap h3{font-family:"Montserrat",sans-serif;font-weight:600;font-size:.9rem;
       letter-spacing:.04em;color:var(--text-primary);margin:1.6rem 0 .5rem;}
-    .ag-wrap p,.ag-wrap li{font-family:"Merriweather Sans",sans-serif;font-weight:300;
+    .ag-wrap p,.ag-wrap li{font-family:"Merriweather Sans",sans-serif;font-weight:400;
       color:var(--text-secondary);line-height:1.75;}
+    [data-rh] code{ -webkit-text-fill-color:var(--text-primary); }
     .ag-wrap a{color:var(--accent);}
     .ag-card{background:var(--surface-solid);border:1px solid var(--surface-border);
       border-radius:14px;padding:1.1rem 1.25rem;margin:1rem 0;}
@@ -85,9 +86,11 @@
   </style>
   <script src="js/i18n-site.js?v=2026-09-12" defer></script>
   <script src="js/geo-lang.js?v=2026-10-02" defer></script>
+  <link rel="stylesheet" href="css/reading-highlight.css?v=2026-11-26a">
+  <script src="js/reading-highlight.js?v=2026-11-15a" defer></script>
 </head>
 <body>
-  <main class="ag-wrap">
+  <main class="ag-wrap" data-rh-scope>
     <p class="ag-eyebrow">Seraphic Styler · Public API</p>
     <h1>For <span class="ag-script">agents</span></h1>
     <p class="ag-lede">
@@ -182,7 +185,7 @@
     <div class="ag-flag">
       <p style="margin:0">
         <strong>On why these rules exist.</strong> Every record here was compiled by one person on
-        foot. Saigon boutiques move, share addresses inside multi-brand buildings, and trade partly
+        foot. Sài Gòn boutiques move, share addresses inside multi-brand buildings, and trade partly
         through direct messages. The data is deliberately honest about that uncertainty, and an agent
         that launders a "confirm first" record into a confident recommendation sends someone across a
         city to a closed door.
@@ -221,7 +224,7 @@
 
     <p class="ag-foot">
       <a href="./">Seraphic Styler</a> ·
-      <a href="fashion-directory.html">The Saigon Fashion Directory</a> ·
+      <a href="fashion-directory.html">The Sài Gòn Fashion Directory</a> ·
       <a href="https://api.seraphicstyler.com/openapi.json">openapi.json</a> ·
       <a href="llms.txt">llms.txt</a>
     </p>

@@ -1,4 +1,4 @@
-/* Seraphic Styler — "Find it in Saigon" photo finder (js/find.js)
+/* Seraphic Styler — "Find it in Sài Gòn" photo finder (js/find.js)
    ----------------------------------------------------------------------
    Drop / pick / paste a photo of Vietnamese fashion. With the owner's
    Anthropic API key saved in this browser, the photo plus the 320-brand

@@ -10,7 +10,7 @@
   --shadow:0 22px 48px -34px rgba(35,58,114,.45);
   --shadow-sm:0 8px 22px -16px rgba(35,58,114,.4);
   --halo:0 0 22px rgba(201,182,232,.5),0 0 54px rgba(46,84,173,.14);
-  --font-display:"Merriweather Sans","Tenor Sans",Cambria,serif;
+  --font-display:"Merriweather Sans","Tenor Sans",sans-serif;
   --font-script:"Pinyon Script","Snell Roundhand",cursive;
   --font-body:"Montserrat","Helvetica Neue","Segoe UI",system-ui,sans-serif;
   --maxw:1240px;

@@ -39,9 +39,9 @@
       cta: 'Build your real estimate ↓', again: 'Try another scenario →',
       note: 'A ballpark from the same math as the estimator below — the exact quote is always confirmed by DM.',
       sc: {
-        capsule: 'A 5-piece capsule from Saigon designers, styled to mix and match, shipped to Los Angeles.',
+        capsule: 'A 5-piece capsule from Sài Gòn designers, styled to mix and match, shipped to Los Angeles.',
         dress: 'One rare designer dress, hunted down and verified in person, shipped to Sydney.',
-        haul: 'Three pieces you found online from three different Saigon brands, ordered together to London.',
+        haul: 'Three pieces you found online from three different Sài Gòn brands, ordered together to London.',
         gifttokyo: 'A gift: a few thoughtful pieces chosen from a style profile, sent to a friend in Tokyo.',
         atelier: 'The full atelier day in Sài Gòn — consultation, sourcing, and a two-hour in-shop try-on.',
         onepiece: 'A single 850,000₫ piece from a local label, verified and shipped to Toronto.'

@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>The Saigon Fashion Directory — Seraphic Styler</title>
+  <title>The Sài Gòn Fashion Directory — Seraphic Styler</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <meta name="theme-color" content="#2e54ad" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#161a26" media="(prefers-color-scheme: dark)" />
   <script>if('serviceWorker' in navigator && location.protocol==='https:'){addEventListener('load',function(){navigator.serviceWorker.register('service-worker.js').catch(function(){});});}</script>
-  <meta name="description" content="A curated, filterable directory of 320 Vietnamese fashion houses — boutiques, ateliers, designer labels and markets across Saigon and beyond, mapped by Seraphic Styler." />
+  <meta name="description" content="A curated, filterable directory of 320 Vietnamese fashion houses — boutiques, ateliers, designer labels and markets across Sài Gòn and beyond, mapped by Seraphic Styler." />
   <link rel="canonical" href="https://www.seraphicstyler.com/fashion-directory" />
-  <meta property="og:title" content="The Saigon Fashion Directory — Seraphic Styler" />
-  <meta property="og:description" content="320 Vietnamese fashion houses, filterable by district, tier and category, with a Saigon cluster map." />
+  <meta property="og:title" content="The Sài Gòn Fashion Directory — Seraphic Styler" />
+  <meta property="og:description" content="320 Vietnamese fashion houses, filterable by district, tier and category, with a Sài Gòn cluster map." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://www.seraphicstyler.com/assets/social/og-image.png" />
   <link rel="icon" href="assets/favicon-48.png" type="image/png" sizes="48x48" />
@@ -27,16 +27,16 @@
         "@type":"CollectionPage",
         "@id":"https://www.seraphicstyler.com/fashion-directory#directory",
         "url":"https://www.seraphicstyler.com/fashion-directory",
-        "name":"The Saigon Fashion Directory",
-        "description":"A curated, filterable directory of 320 Vietnamese fashion houses across Saigon and beyond.",
+        "name":"The Sài Gòn Fashion Directory",
+        "description":"A curated, filterable directory of 320 Vietnamese fashion houses across Sài Gòn and beyond.",
         "isPartOf":{"@type":"WebSite","@id":"https://www.seraphicstyler.com/#website","name":"Seraphic Styler","url":"https://www.seraphicstyler.com/"},
         "mainEntity":{"@id":"https://www.seraphicstyler.com/fashion-directory#dataset"},
-        "about":["Vietnamese fashion","Saigon boutiques","Ho Chi Minh City shopping","Vietnamese designers"]
+        "about":["Vietnamese fashion","Sài Gòn boutiques","Ho Chi Minh City shopping","Vietnamese designers"]
       },
       {
         "@type":"Dataset",
         "@id":"https://www.seraphicstyler.com/fashion-directory#dataset",
-        "name":"The Saigon Fashion Directory dataset",
+        "name":"The Sài Gòn Fashion Directory dataset",
         "description":"Curated reference data for 320 Vietnamese boutiques, ateliers, designer labels, tailors and markets, including location, category, access and editorial confidence where recorded.",
         "url":"https://www.seraphicstyler.com/fashion-directory",
         "creator":{"@id":"https://www.seraphicstyler.com/#atelier"},
@@ -53,7 +53,7 @@
         "@type":"BreadcrumbList",
         "itemListElement":[
           {"@type":"ListItem","position":1,"name":"Seraphic Styler","item":"https://www.seraphicstyler.com/"},
-          {"@type":"ListItem","position":2,"name":"The Saigon Fashion Directory","item":"https://www.seraphicstyler.com/fashion-directory"}
+          {"@type":"ListItem","position":2,"name":"The Sài Gòn Fashion Directory","item":"https://www.seraphicstyler.com/fashion-directory"}
         ]
       }
     ]
@@ -79,8 +79,10 @@
   <link rel="stylesheet" href="css/directory.css?v=2026-09-10">
   <link rel="stylesheet" href="css/directory-discovery.css?v=2026-09-09">
   <link rel="stylesheet" href="css/directory-guide.css?v=2026-10-01a">
+  <link rel="stylesheet" href="css/fd-ask.css?v=2026-11-24a">
 <link rel="stylesheet" href="css/directory-workspace.css?v=2026-11-10a">
-<link rel="stylesheet" href="css/directory-featured.css?v=2026-11-10a">
+<link rel="stylesheet" href="css/directory-featured.css?v=2026-11-16a">
+<link rel="stylesheet" href="css/directory-wall.css?v=2026-11-16a">
 <link rel="stylesheet" href="css/beacon.css?v=2026-11-09d">
   <link rel="stylesheet" href="css/theme.css?v=2026-09-10">
   <script src="js/theme.js?v=2026-11-09s"></script>
@@ -88,6 +90,8 @@
   <script>document.documentElement.classList.add('fd-workspace','fd-beacon')</script>
   <script src="js/i18n-site.js?v=2026-09-12" defer></script>
   <script src="js/geo-lang.js?v=2026-10-02" defer></script>
+  <link rel="stylesheet" href="css/reading-highlight.css?v=2026-11-26a">
+  <script src="js/reading-highlight.js?v=2026-11-15a" defer></script>
 </head>
 <body>
   <a class="skiplink" href="#q" data-i18n="fd.skipsearch">Skip to search</a>
@@ -140,8 +144,19 @@
       <div class="lockup"><span class="s">Seraphic</span><span class="t">Styler</span></div>
     </div>
     <div class="eyebrow" data-i18n="fd.eye2">The atelier's open directory</div>
-    <h1 class="title" data-i18n="fd.title">The Saigon <span class="script">Fashion</span> Directory</h1>
+    <h1 class="title" data-i18n="fd.title">The Sài Gòn <span class="script">Fashion</span> Directory</h1>
     <p class="lede" data-i18n="fd.ws.intro">Find Vietnamese fashion by name, fabric, occasion, or district.</p>
+    <form class="fd-ask" id="fd-ask" role="search" aria-label="Find houses by style" lang="en" hidden>
+      <div class="fd-ask-box">
+        <label class="vh" for="fd-ask-q">Describe the style you’re looking for</label>
+        <input id="fd-ask-q" type="text" maxlength="400" autocomplete="off" enterkeyhint="search" placeholder="Describe a style, e.g. lace dresses">
+        <button type="submit" aria-label="Find matching houses"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></button>
+      </div>
+      <div class="fd-ask-chips" aria-label="Add a style">
+        <button type="button" data-fd-chip="satin">Satin</button><button type="button" data-fd-chip="lace">Lace</button><button type="button" data-fd-chip="corset">Corsetry</button><button type="button" data-fd-chip="feminine">Feminine</button><button type="button" data-fd-chip="occasion">Occasion</button><button type="button" data-fd-chip="everyday">Everyday</button>
+      </div>
+      <p class="fd-ask-note">Matched from the directory’s notes on each house. Not live stock.</p>
+    </form>
     <div class="statline" id="statline"></div>
     <div class="nowbar" id="nowbar" hidden>
       <span class="tag" id="nowtag">On now</span>
@@ -150,7 +165,6 @@
   </div>
 </div>
 
-<section class="fd-featured wrap" id="fd-featured" aria-labelledby="ff-title" data-vc-root lang="en"></section>
 
 <section class="fd-guide wrap" id="fd-guide" aria-labelledby="fd-guide-title" lang="en">
   <div class="fd-guide-shell">
@@ -208,13 +222,13 @@
     </div>
     <div class="mapbody" id="mapbody"><div>
       <div class="fdmap-wrap">
-        <svg id="fdmap" viewBox="0 0 720 470" role="group" aria-label="Choose a Saigon district">
+        <svg id="fdmap" viewBox="0 0 720 470" role="group" aria-label="Choose a Sài Gòn district">
           <defs>
             <linearGradient id="riverg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a93de"/><stop offset="1" stop-color="#c9b6e8"/></linearGradient>
             <radialGradient id="nodeg" cx="46%" cy="42%" r="72%"><stop offset="0" stop-color="#234193"/><stop offset=".55" stop-color="#2e54ad"/><stop offset="1" stop-color="#8a93de"/></radialGradient>
           </defs>
           <path d="M556,8 C534,120 496,196 520,272 C542,344 582,404 604,466" fill="none" stroke="url(#riverg)" stroke-width="30" stroke-linecap="round" opacity=".42"/>
-          <text class="fdmap-river-lbl" x="612" y="330" transform="rotate(74 612 330)" aria-hidden="true">Saigon River</text>
+          <text class="fdmap-river-lbl" x="612" y="330" transform="rotate(74 612 330)" aria-hidden="true">Sài Gòn River</text>
           <g id="fdmapnodes"></g>
         </svg>
         <div class="fdmap-foot">
@@ -282,7 +296,8 @@
   </div>
 </div>
 
-<main class="wrap" id="main" tabindex="-1">
+<section class="fd-featured" id="fd-featured" aria-labelledby="ff-title" lang="en"></section>
+<main class="wrap" id="main" tabindex="-1" data-rh-scope>
   <div class="grid" aria-hidden="true" id="skgrid">
     <div class="skcard"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></div>
     <div class="skcard"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></div>
@@ -300,7 +315,7 @@
 <section class="fd-decisions wrap" id="piece-board" aria-labelledby="fd-board-title" lang="en">
   <header><p class="eyebrow">From a house to a piece</p><h2 id="fd-board-title">A board for what draws you in.</h2><p>Collect exact links, note what you know, and compare pieces across houses. Saved in this browser; availability still needs confirmation.</p></header>
   <div id="fd-piece-workspace" hidden>
-    <div class="fd-board-tools"><button type="button" id="fd-open-tray">Open your tray</button><button type="button" id="fd-plan-route">Plan a Saigon visit</button></div>
+    <div class="fd-board-tools"><button type="button" id="fd-open-tray">Open your tray</button><button type="button" id="fd-plan-route">Plan a Sài Gòn visit</button></div>
     <details class="fd-piece-add"><summary>Add a piece from a website, Instagram, or Shopee</summary>
       <form id="fd-piece-form">
         <label>Source link<input name="link" type="url" required maxlength="1200" placeholder="https://…"></label>
@@ -321,7 +336,7 @@
     </details>
     <p id="fd-discovery-status" role="status" aria-live="polite"></p>
   </div>
-  <noscript><p>Save your product links, sizes, and seller names, then <a href="service-request.html?service=unsure">send a service request</a>.</p></noscript>
+  <noscript><p>Save your product links, sizes, and seller names, then <a href="https://tally.so/r/gD10Kl?about=I%20am%20not%20sure%20which%20service%20I%20need&amp;source=directory" target="_blank" rel="noopener">send a service request</a>.</p></noscript>
 </section>
 
 
@@ -330,7 +345,7 @@
   <div class="si-panel">
   <h2 id="si-h">Plain-text directory</h2>
   <p class="si-lead">A readable reference to all 321 houses, for screen readers, saved pages, and quick lookup.</p>
-  <p class="si-meta">321 houses · Last reviewed <time datetime="2026-08-28">2026-08-28</time> · Confirm before travel.<br><a href="dataset">Dataset</a> · <a href="for-agents">JSON API</a> · <a href="directory-methodology">Methodology</a></p>
+  <p class="si-meta">321 houses · Last reviewed <time datetime="2026-08-28">2026-08-28</time> · Confirm before travel.<br><a href="for-agents">JSON API</a> · <a href="directory-methodology">Methodology</a></p>
   <nav class="si-jumps" aria-label="Plain directory sections"><a href="#plain-az">A–Z list</a><a href="#plain-area">By area</a><a href="#plain-category">By category</a></nav>
   <details class="si-all" id="plain-az">
     <summary>Every house, A–Z (321)</summary>
@@ -339,8 +354,8 @@
 <li><a href="https://instagram.com/18again.official" rel="noopener nofollow">18 Again</a><span>52 Trần Quang Diệu · D3 · Womenswear · Walk-in store · Mid — Orders routed via @eighteen.loveyou for now. 10:00–21:45.</span></li>
 <li><a href="houses/1998-before-the-dawn">1998 Before The Dawn</a><span>2F, 42 Tôn Thất Thiệp · D1 · Vintage · Walk-in store · Mid — Vintage; pairs with Dawn Vintage. 10:00–21:00.</span></li>
 <li><a href="houses/2-abnormal">2.abnormal</a><span>407/8 Lê Văn Sỹ, P.12 · D3 · Vintage · Walk-in store · Mid — Reworked vintage + handmade accessories; worldwide shipping.</span></li>
-<li>A Dong Silk<span>23C Lê Văn Miến · Thủ Đức · Tailoring &amp; áo dài · Walk-in store · Mid — The famous Hội An tailor's Saigon branch; dresses ~$40–150.</span></li>
-<li><a href="houses/aeie-studios">AEIE Studios</a><span>Online; stocked at ap0cene, Sucker &amp; REBORNE · Online · Womenswear · Online only · Premium — Bold experimental femininity for the 'Saigon city girl' (est. 2018) — Grazia SG &amp; Her World featured.</span></li>
+<li>A Dong Silk<span>23C Lê Văn Miến · Thủ Đức · Tailoring &amp; áo dài · Walk-in store · Mid — The famous Hội An tailor's Sài Gòn branch; dresses ~$40–150.</span></li>
+<li><a href="houses/aeie-studios">AEIE Studios</a><span>Online; stocked at ap0cene, Sucker &amp; REBORNE · Online · Womenswear · Online only · Premium — Bold experimental femininity for the 'Sài Gòn city girl' (est. 2018) — Grazia SG &amp; Her World featured.</span></li>
 <li><a href="https://instagram.com/aevaatelier" rel="noopener nofollow">Aeva Atelier</a><span>aevaatelier.com · Online · Womenswear · Online only · Mid — Check site for details.</span></li>
 <li><a href="houses/aeyo">aeyo</a><span>shopee.vn/aeyo.fit · IG · Online · Activewear · Online only · Premium — Studio-to-street, made in VN; flattering, shoots well. @aeyo.fit is the active account (@aeyogirlsclub is login-walled).</span></li>
 <li><a href="https://instagram.com/aguja.studio" rel="noopener nofollow">Aguja Studio</a><span>shopee.vn/aguja.studio · Online · Womenswear · Online only · Mid — Online studio.</span></li>
@@ -362,7 +377,7 @@
 <li><a href="houses/aviator-nation">Aviator Nation</a><span>aviatornation.com — likely ships VN · Venice, California · Activewear · Online only · Premium — 1970s CA surf/vintage; signature stitched stripes on brushed fleece.</span></li>
 <li><a href="https://instagram.com/baabeeboo.club" rel="noopener nofollow">BaaBeeBoo</a><span>2F, 6 Trần Quang Diệu · D3 · Womenswear · Walk-in store · Mid — Above Kathy Atelier. 13:30–21:00.</span></li>
 <li><a href="https://instagram.com/babieclub_wear" rel="noopener nofollow">Babie Club</a><span>The New Playground + 11 Garmentory · D1 · Womenswear · Sold via a stockist or hub · Mid — Sun-ready shorts &amp; daily wear via two hubs.</span></li>
-<li><a href="houses/bad-habits">Bad Habits</a><span>22 Lê Thị Riêng + 42 Tôn Thất Thiệp + TNP · D1 · Menswear · Walk-in store · Mid — Saigon unisex streetwear (est. 2017) with Vietnamese-culture graphics; 4th door at 2 Trần Huy Liệu, Phú Nhuận. Also Hanoi, Cần Thơ &amp; Bangkok.</span></li>
+<li><a href="houses/bad-habits">Bad Habits</a><span>22 Lê Thị Riêng + 42 Tôn Thất Thiệp + TNP · D1 · Menswear · Walk-in store · Mid — Sài Gòn unisex streetwear (est. 2017) with Vietnamese-culture graphics; 4th door at 2 Trần Huy Liệu, Phú Nhuận. Also Hanoi, Cần Thơ &amp; Bangkok.</span></li>
 <li><a href="https://instagram.com/badchoices.vn" rel="noopener nofollow">Badchoices</a><span>117B Nguyễn Đình Chính, P. Cầu Kiệu, Phú Nhuận · Phú Nhuận · Womenswear · Sold via a stockist or hub · Mid — Booth @ 11 Garmentory. “Bad choices make good stories.”</span></li>
 <li><a href="houses/bao-loc-silk">Bảo Lộc Silk</a><span>12 Mạc Đĩnh Chi · D1 · Tailoring &amp; áo dài · Walk-in store · Premium — 100% silk by the metre from the Bảo Lộc silk capital — bring it to a tailor.</span></li>
 <li><a href="houses/bom-sister">Bom Sister</a><span>422 Võ Văn Tần · D3 · Lingerie &amp; intimates · Walk-in store · Mid — Fixed-price budget racks — bralettes around 88k₫. Same Võ Văn Tần block as Sexy Forever, so the two pair on one walk.</span></li>
@@ -382,7 +397,7 @@
 <li><a href="houses/canary-linen">Canary Linen</a><span>89B Cách Mạng Tháng 8 · D1 · Womenswear · Walk-in store · Mid — Linen-look daily wear; 100% cotton tees confirmed, linen % not published — ask.</span></li>
 <li><a href="houses/cao-minh-saigon">Cao Minh Saigon</a><span>74/6 Hai Bà Trưng · D1 · Menswear · By appointment · Luxury — Vietnam's oldest tailoring house (est. 1948) — the prestige choice; heritage atelier villa at 193/13 Điện Biên Phủ, Bình Thạnh by appointment. ~9:00–18:00, reservations recommended.</span></li>
 <li><a href="houses/caostu">CAOSTU</a><span>7/5 Kỳ Đồng + Vincom Đồng Khởi B1 · D3 · Luxury · Walk-in store · Premium — Sculptural layered construction, signature metal eyelets; gender-neutral.</span></li>
-<li><a href="houses/catherine-denoual-maison">Catherine Denoual Maison</a><span>38 Lý Tự Trọng, Q.1 · D1 · Sleepwear · Walk-in store · Luxury — Saigon linen house — stone-washed linen &amp; silk pyjamas, kimonos, nightdresses; the city's best sleep fabrics. +84 28 3823 9394.</span></li>
+<li><a href="houses/catherine-denoual-maison">Catherine Denoual Maison</a><span>38 Lý Tự Trọng, Q.1 · D1 · Sleepwear · Walk-in store · Luxury — Sài Gòn linen house — stone-washed linen &amp; silk pyjamas, kimonos, nightdresses; the city's best sleep fabrics. +84 28 3823 9394.</span></li>
 <li><a href="https://instagram.com/ce.ce_studio" rel="noopener nofollow">CE CE</a><span>115B6 (verify) Phạm Ngọc Thạch · Hanoi · Womenswear · Walk-in store · Premium — “More value than you expect.” Made in VN.</span></li>
 <li><a href="houses/cee-s-bridal">Cee's Bridal</a><span>16/8 Đặng Văn Ngữ · Phú Nhuận · Bridal · By appointment · Luxury — Intimate custom atelier with a true remote workflow — video consults, progress photos, worldwide shipping. The overseas-bride pick; 3–5 months.</span></li>
 <li><a href="https://instagram.com/cem_club" rel="noopener nofollow">CEM — Chị Em Mình</a><span>26 Ký Con · D1 · Womenswear · Walk-in store · Mid — Vietnam-based; worldwide shipping.</span></li>
@@ -390,7 +405,7 @@
 <li><a href="houses/chats-by-c-dam">CHATS by C.DAM</a><span>47 Mai Hắc Đế · Hanoi · Luxury · Walk-in store · Couture — Architectural couture; dressed Esther Yu at Cannes 2026.</span></li>
 <li><a href="houses/chautfifth">Chautfifth</a><span>288A7 Nam Kỳ Khởi Nghĩa · D3 · Accessories · Walk-in store · Premium — Handcrafted structured handbags — the local designer-bag name of the moment.</span></li>
 <li><a href="houses/cherieon">Chérieon</a><span>76 Trần Quang Diệu + Vincom Đồng Khởi B2 · D3 / D1 · Womenswear · Walk-in store · Premium — “Heaven dress in temptation.”</span></li>
-<li><a href="houses/cho-ba-chieu">Chợ Bà Chiểu</a><span>Bùi Hữu Nghĩa &amp; Diên Hồng, P.1 · Bình Thạnh · Market · Walk-in store — Old-Saigon market; đồ si (secondhand) racks, fabric &amp; shoes in the west wing. Kiosks shut ~19:00.</span></li>
+<li><a href="houses/cho-ba-chieu">Chợ Bà Chiểu</a><span>Bùi Hữu Nghĩa &amp; Diên Hồng, P.1 · Bình Thạnh · Market · Walk-in store — Old-Sài Gòn market; đồ si (secondhand) racks, fabric &amp; shoes in the west wing. Kiosks shut ~19:00.</span></li>
 <li><a href="houses/cho-ban-co-do-si">Chợ Bàn Cờ đồ si</a><span>Bàn Cờ &amp; hẻm 664 Nguyễn Đình Chiểu, P.3 · D3 · Vintage · Walk-in store — Classic đồ si alley market — dig-for-it secondhand piles. Go morning, bargain gently.</span></li>
 <li><a href="houses/choi-organic-cotton">CHOI — Organic Cotton</a><span>Online only — no shop · Tân Bình · Lingerie &amp; intimates · Online only · Mid — IVN-certified organic-cotton briefs, bras &amp; basics. They state plainly: online only.</span></li>
 <li><a href="https://instagram.com/__chouchou.official" rel="noopener nofollow">Chou Chou</a><span>100A5 Thích Quảng Đức + 324 Huỳnh Văn Bánh · Phú Nhuận · Womenswear · Walk-in store · Mid — Two Phú Nhuận branches.</span></li>
@@ -425,7 +440,7 @@
 <li><a href="https://instagram.com/elena.ngn" rel="noopener nofollow">Elena NGN</a><span>Stocked at Rue Miche, 9B Phùng Khắc Khoan · D1 · Womenswear · Sold via a stockist or hub · Premium — “Flowers on men.” Own Hanoi store closed.</span></li>
 <li><a href="houses/emdash">emdash</a><span>7 Đường số 1 · Thảo Điền · Menswear · Walk-in store · Premium — Cuddle's menswear line (2023) — linen shirts, trousers, sets. Same Thảo Điền door.</span></li>
 <li><a href="https://instagram.com/enuffstudiobyst" rel="noopener nofollow">Enuff Studio</a><span>261 Lý Tự Trọng · D1 · Womenswear · Walk-in store · Premium — HCMC-based; worldwide shipping.</span></li>
-<li><a href="houses/eql-apparel">EQL Apparel</a><span>46 Võ Thị Sáu · D1/D3 edge · Activewear · Walk-in store · Premium — Saigon-born studio-to-street; also a Six Senses Côn Đảo boutique.</span></li>
+<li><a href="houses/eql-apparel">EQL Apparel</a><span>46 Võ Thị Sáu · D1/D3 edge · Activewear · Walk-in store · Premium — Sài Gòn-born studio-to-street; also a Six Senses Côn Đảo boutique.</span></li>
 <li><a href="houses/fanci-club">Fancì Club</a><span>186 Nguyễn Văn Hưởng · Thủ Đức · Luxury · Walk-in store · Luxury — Cult Y2K corsetry &amp; rosette dresses; worn by Bella Hadid, Hailey Bieber, BLACKPINK. 10:00–21:00.</span></li>
 <li><a href="https://instagram.com/feiin.atelier" rel="noopener nofollow">Feiin Atelier</a><span>shopee.vn/feiin_atelier · Online · Womenswear · Online only · Mid — Lingerie sister label too.</span></li>
 <li><a href="https://instagram.com/firefly_studio.vn" rel="noopener nofollow">Firefly Studio</a><span>816/24 Trường Sa · D3 · Womenswear · Walk-in store · Premium — Has a swim line (FFSD). 10:30–21:30.</span></li>
@@ -438,7 +453,7 @@
 <li><a href="https://instagram.com/glamdoll_0fficial" rel="noopener nofollow">Glamdoll</a><span>346 Lê Văn Sỹ · Tân Bình · Womenswear · Walk-in store · Mid — Long-running local RTW.</span></li>
 <li><a href="https://instagram.com/goutdejun.ig" rel="noopener nofollow">Goût De Jun</a><span>55 Nguyễn Trãi + 1 Trần Quang Diệu + TNP · D1 / D3 · Womenswear · Walk-in store · Premium — Three points of sale across the centre.</span></li>
 <li><a href="https://instagram.com/guvie.official" rel="noopener nofollow">Guvie</a><span>Shopee · Online · Womenswear · Online only · Mid — Design fashion.</span></li>
-<li><a href="houses/h-and-d-tailor">H&amp;D Tailor</a><span>Store No. 5, New World Saigon Hotel arcade, 76 Lê Lai · D1 · Menswear · Walk-in store · Premium — Third-generation master tailor Tạ Quốc Hưng — an expat &amp; business-traveler standby for 20 years; tropical-weight wools a specialty. Mon–Sat ~9:00–19:00.</span></li>
+<li><a href="houses/h-and-d-tailor">H&amp;D Tailor</a><span>Store No. 5, New World Sài Gòn Hotel arcade, 76 Lê Lai · D1 · Menswear · Walk-in store · Premium — Third-generation master tailor Tạ Quốc Hưng — an expat &amp; business-traveler standby for 20 years; tropical-weight wools a specialty. Mon–Sat ~9:00–19:00.</span></li>
 <li><a href="houses/ha-linh-thu">Hà Linh Thu</a><span>59 Ngô Tất Tố, Bình Thạnh (HCMC) + Hanoi atelier · Bình Thạnh + Hanoi · Luxury · By appointment · Couture — Hand-crafted silk “wearable art”; one of Hanoi's longest-running couture houses.</span></li>
 <li><a href="houses/hacchic-couture">Hacchic Couture</a><span>108–110 Nguyễn Trãi · D1 · Bridal · Walk-in store · Couture — Japanese-founded atelier — Vietnamese craft, Japanese precision, hand-applied Swarovski. Made-to-own gowns; stocked on Cult Mia internationally.</span></li>
 <li><a href="houses/hades-studio">HADES Studio</a><span>B1 Vincom Đồng Khởi + 152 Trần Quang Diệu · D1 / D3 · Menswear · Walk-in store · Mid — First-wave VN streetwear — darker, grunge-leaning design language. (Older lists citing Gò Vấp/Phạm Ngũ Lão branches are stale.)</span></li>
@@ -455,9 +470,9 @@
 <li><a href="https://huelley.com/" rel="noopener nofollow">Huelley</a><span>214 Hai Bà Trưng · D1 · Womenswear · Walk-in store · Premium — Sister label to Huelley Rose. 8:30–21:40.</span></li>
 <li><a href="houses/huelley-rose">Huelley Rose</a><span>214 Hai Bà Trưng · D1 · Womenswear · Walk-in store · Premium — Romantic RTW; worldwide shipping. Shares its building with Huelley &amp; Stress Mama.</span></li>
 <li><a href="houses/i-sport">I.Sport</a><span>549/43 Xô Viết Nghệ Tĩnh · Bình Thạnh · Activewear · Walk-in store · Premium — Gray-import boutique (Alo / Lorna Jane / Lululemon) — verify each piece.</span></li>
-<li><a href="houses/ibasic">iBasic</a><span>L3 Saigon Centre, 94–96 Nam Kỳ Khởi Nghĩa + 403–405 Nguyễn Đình Chiểu (D3) · D1 / D3 · Lingerie &amp; intimates · Walk-in store · Mid — The everyday basics chain, women's and men's — cheap, everywhere, and fine for filler in a bulk order. Fibre content varies by line; ask rather than assume cotton.</span></li>
+<li><a href="houses/ibasic">iBasic</a><span>L3 Sài Gòn Centre, 94–96 Nam Kỳ Khởi Nghĩa + 403–405 Nguyễn Đình Chiểu (D3) · D1 / D3 · Lingerie &amp; intimates · Walk-in store · Mid — The everyday basics chain, women's and men's — cheap, everywhere, and fine for filler in a bulk order. Fibre content varies by line; ask rather than assume cotton.</span></li>
 <li><a href="houses/icondenim">ICONDENIM</a><span>12–12bis Cách Mạng Tháng 8 + 261 Nguyễn Trãi · D1 · Menswear · Walk-in store · Mid — Denim-first men's casual chain — one of HCMC's largest local menswear retailers; 13 city stores (D7, Tân Phú, Bình Thạnh…). 8:30–22:00.</span></li>
-<li><a href="houses/in-the-mood-saigon">In The Mood Saigon</a><span>32 Trần Ngọc Diện · Thảo Điền · Market · Walk-in store — Multi-brand concept store — stocks Nora Linen and local linen labels. 10:00–18:00.</span></li>
+<li><a href="houses/in-the-mood-saigon">In The Mood Sài Gòn</a><span>32 Trần Ngọc Diện · Thảo Điền · Market · Walk-in store — Multi-brand concept store — stocks Nora Linen and local linen labels. 10:00–18:00.</span></li>
 <li><a href="https://instagram.com/is.flourish" rel="noopener nofollow">Is Flourish</a><span>DM to order · Online · Womenswear · Online only · Mid — Handmade in Vietnam.</span></li>
 <li><a href="https://instagram.com/ivy_moda" rel="noopener nofollow">IVY moda</a><span>ivymoda.com/page/cuahang · Nationwide chain · Womenswear · Walk-in store · Premium — Major nationwide womenswear chain.</span></li>
 <li><a href="https://instagram.com/jeneabyjenny.official" rel="noopener nofollow">Jenéa by Jenny</a><span>380 Hai Bà Trưng · D1 · Womenswear · Walk-in store · Premium — Recently moved to this new location.</span></li>
@@ -480,7 +495,7 @@
 <li><a href="https://instagram.com/kistiny.ig" rel="noopener nofollow">Kistiny</a><span>DM · 0888040309 · Hanoi · Womenswear · Online only · Mid — Ships 10–14 days.</span></li>
 <li>Kydra<span>kydra.co · Singapore · Activewear · Online only · Premium — Ships to VN; no VN stockist.</span></li>
 <li><a href="https://instagram.com/lespoir.com.vn" rel="noopener nofollow">L'Espoir</a><span>489A/4 Huỳnh Văn Bánh · Phú Nhuận · Womenswear · Walk-in store · Premium — 9:30–22:00; nationwide COD.</span></li>
-<li><a href="houses/la-pham">La Phạm</a><span>3F, 125D Lò Đúc · Hanoi · Luxury · Walk-in store · Luxury — Indigenous-fibre luxury — hemp, pandan, hand-dyed brocade + ethnic-minority craft; Paris/London FW. Online/appt for Saigon.</span></li>
+<li><a href="houses/la-pham">La Phạm</a><span>3F, 125D Lò Đúc · Hanoi · Luxury · Walk-in store · Luxury — Indigenous-fibre luxury — hemp, pandan, hand-dyed brocade + ethnic-minority craft; Paris/London FW. Online/appt for Sài Gòn.</span></li>
 <li><a href="houses/la-vierge">La Vierge</a><span>225/6 Nguyễn Đình Chiểu · D3 · Womenswear · Walk-in store · Premium — /lavjɛʁʒ/ Where every touch ignites desire. Ships worldwide.</span></li>
 <li><a href="houses/lace-lingerie-lover">Lace Lingerie Lover</a><span>48 Trần Quang Diệu · D3 · Lingerie &amp; intimates · Walk-in store · Premium — Handmade since 2018 and the name most clients already know — lace, embroidered mesh, ribbon straps; 227k on IG, ships worldwide. ☎ 090 691 3207. Its own posts have shown a door at 51 Trần Quang Diệu and older lists give 249 Huỳnh Văn Bánh (Phú Nhuận) — the strip is small, but confirm the number on IG before you go.</span></li>
 <li><a href="houses/lace-the-label">Lace The Label</a><span>Instagram / Facebook orders · Hanoi · Lingerie &amp; intimates · Online only · Mid — Handmade basic bralettes, made in Vietnam. Hanoi-based — nationwide shipping; DM about overseas.</span></li>
@@ -504,18 +519,18 @@
 <li><a href="houses/linh-phung">Linh Phung</a><span>111 Hoàng Văn Thụ · Phú Nhuận · Bridal · By appointment · Premium — Romantic heritage áo dài + white bridal ('Légende Blanche'); RTW sells online, bridal on inquiry. Call ahead — visit policy unpublished.</span></li>
 <li><a href="houses/liniss">Liniss</a><span>254 Huỳnh Văn Bánh · Phú Nhuận · Womenswear · Walk-in store · Premium — Since 2018 — modern feminine RTW on sensuality, feminism &amp; independence.</span></li>
 <li><a href="houses/lo-silk">Lơ Silk</a><span>87B Pasteur · D1 · Sleepwear · Walk-in store · Luxury — 100% Bảo Lộc silk, plant-dyed, OEKO-TEX. The slips are the lounge pieces. 10:00–20:00.</span></li>
-<li><a href="houses/long-beach-pearl">Long Beach Pearl</a><span>Vincom Đồng Khởi; also Saigon Centre · D1 · Bridal · Walk-in store · Premium — Vietnam's pearl house — crafts Miss International crowns; bridal pearl sets from accessible strands to South Sea.</span></li>
+<li><a href="houses/long-beach-pearl">Long Beach Pearl</a><span>Vincom Đồng Khởi; also Sài Gòn Centre · D1 · Bridal · Walk-in store · Premium — Vietnam's pearl house — crafts Miss International crowns; bridal pearl sets from accessible strands to South Sea.</span></li>
 <li><a href="https://instagram.com/lovelyn.global" rel="noopener nofollow">Lovelyn</a><span>lovelyn.co · Online · Womenswear · Online only · Mid — Worldwide shipping.</span></li>
 <li><a href="https://instagram.com/lsoul.officiel" rel="noopener nofollow">LSOUL</a><span>257B Nguyễn Trãi · D1 · Womenswear · Walk-in store · Premium — Well-known minimalist label. 9:30–21:30.</span></li>
 <li><a href="houses/lua-la-by-diem">Lụa Là by Diễm</a><span>vn.shp.ee/APdvJoh · Online · Womenswear · Online only · Mid — Silk.</span></li>
 <li><a href="https://instagram.com/lussera.vita" rel="noopener nofollow">Lussera</a><span>DM · Online · Womenswear · Online only · Mid — Hometown HCMC; worldwide.</span></li>
-<li><a href="https://mael.vn/" rel="noopener nofollow">Mael Femme</a><span>DM for showroom/appointment · Online / showroom · Womenswear · Online only · Premium — Sells online; registered at Saigon Centre.</span></li>
+<li><a href="https://mael.vn/" rel="noopener nofollow">Mael Femme</a><span>DM for showroom/appointment · Online / showroom · Womenswear · Online only · Premium — Sells online; registered at Sài Gòn Centre.</span></li>
 <li><a href="houses/maintwo">Maintwo</a><span>156/4B Lý Tự Trọng · D1 · Vintage · Walk-in store · Mid — Y2K &amp; '90s streetwear vintage since 2016 — hidden-alley shop. 10:00–21:00; worldwide shipping.</span></li>
 <li><a href="https://instagram.com/mangata.vn" rel="noopener nofollow">Mangata</a><span>1F, 40E Ngô Đức Kế · D1 · Womenswear · Walk-in store · Premium — Founder-run; has a sister coffee brand, Blubean.</span></li>
 <li>ManGii Custom Shoes<span>228 Lê Thánh Tôn · D1 · Tailoring &amp; áo dài · Walk-in store · Premium — Handmade custom leather shoes incl. women's; ~800k–3M/pair.</span></li>
 <li><a href="https://instagram.com/matemade.official" rel="noopener nofollow">Matemade</a><span>shopee.vn/matemade.vn · Online · Womenswear · Online only · Mid — Have a taste.</span></li>
-<li><a href="houses/maydo-saigon">Maydo Saigon</a><span>1F, 130 Pasteur · D1 · Tailoring &amp; áo dài · By appointment · Premium — Best recent reviews for women's eveningwear made-to-measure.</span></li>
-<li><a href="houses/mayhem">Mayhem</a><span>136/1 Lê Thánh Tôn · D1 · Vintage · Walk-in store · Mid — Saigon's vintage pioneer — Japan-sourced racks, strong tailoring-era pieces. 10:00–21:00.</span></li>
+<li><a href="houses/maydo-saigon">Maydo Sài Gòn</a><span>1F, 130 Pasteur · D1 · Tailoring &amp; áo dài · By appointment · Premium — Best recent reviews for women's eveningwear made-to-measure.</span></li>
+<li><a href="houses/mayhem">Mayhem</a><span>136/1 Lê Thánh Tôn · D1 · Vintage · Walk-in store · Mid — Sài Gòn's vintage pioneer — Japan-sourced racks, strong tailoring-era pieces. 10:00–21:00.</span></li>
 <li><a href="houses/mean-blvd">MEAN BLVD</a><span>2F Diamond Plaza, 34 Lê Duẩn · D1 · Market · Walk-in store — First physical store of the 139-designer online platform — one roof for MONTSAND, Rosee de Matin, Sissy Nation, TINH and more.</span></li>
 <li><a href="houses/meera-meera">Meera Meera</a><span>Nguyễn Văn Hưởng (door on booking) · Thảo Điền · Bridal · By appointment · Luxury — Sell-only couture atelier since 2012 — beaded, structured gowns; FedEx worldwide. Contact before visiting.</span></li>
 <li><a href="houses/meman">Mêman</a><span>26B–C Lê Lợi · D1 · Menswear · Walk-in store · Premium — Minimalist menswear &amp; modern áo dài in Japanese linen. 11:00–20:00.</span></li>
@@ -533,7 +548,7 @@
 <li><a href="https://instagram.com/moodswingsvn" rel="noopener nofollow">Moodswings</a><span>75E Đặng Dung · D1 · Womenswear · Walk-in store · Mid — 10:00–21:30; worldwide shipping.</span></li>
 <li><a href="houses/moon-me">Moon Me</a><span>330/1D Phan Đình Phùng · Phú Nhuận · Womenswear · Walk-in store · Mid — Upcycled/custom 2nd-hand; opened May 2026.</span></li>
 <li><a href="https://instagram.com/moorisclothing" rel="noopener nofollow">Mooris</a><span>234 Võ Văn Tần, P.5, Q.3 · D3 · Luxury · Walk-in store · Luxury — DM for orders — ships worldwide. Hotline +84 765 793 515.</span></li>
-<li><a href="houses/moriko-saigon">Moriko Saigon</a><span>158/37 Trần Huy Liệu · Phú Nhuận · Womenswear · Walk-in store · Premium — Linen &amp; hand-embroidery house since 2018; linen áo dài and silk. 9:00–20:00.</span></li>
+<li><a href="houses/moriko-saigon">Moriko Sài Gòn</a><span>158/37 Trần Huy Liệu · Phú Nhuận · Womenswear · Walk-in store · Premium — Linen &amp; hand-embroidery house since 2018; linen áo dài and silk. 9:00–20:00.</span></li>
 <li><a href="https://instagram.com/morris.officiall" rel="noopener nofollow">Morris</a><span>FB Morris Official · Online · Womenswear · Online only · Mid — Separate brand from Mooris (D3 store).</span></li>
 <li><a href="houses/moulin-rose">Moulin Rose</a><span>48 Trần Quang Diệu · D3 · Womenswear · Walk-in store · Premium — On the Trần Quang Diệu design strip.</span></li>
 <li><a href="houses/mui-the-label">Mui The Label</a><span>15B Lê Lợi, Hội An · Hội An · Womenswear · Walk-in store · Mid — Hội An boho boutique since 2016 — hand-made small batches, linen. 9:30–22:30.</span></li>
@@ -556,9 +571,9 @@
 <li><a href="houses/phan-huy">Phan Huy</a><span>Showroom, Tân Bình (DM to book) · Tân Bình · Luxury · By appointment · Couture — Jan 2026: first Vietnamese on the official Paris Haute Couture calendar.</span></li>
 <li><a href="houses/phu-kien-cuoi-minh-tam">Phụ Kiện Cưới Minh Tâm</a><span>36 Trần Quang Diệu, P.13 · D3 · Bridal · Walk-in store · Mid — The finishing-touches stop: veils, lace &amp; pearl gloves (95–215k₫), crowns, mấn sets — one walk-in covers the small accessories.</span></li>
 <li><a href="houses/phuong-my">PHUONG MY</a><span>81 Lê Thánh Tôn · D1 · Bridal · Walk-in store · Couture — First Vietnamese designer at NY Bridal Fashion Week — ethereal architectural silk couture. Gowns retail ~$3–10k abroad; this is the only Vietnam sales point.</span></li>
-<li><a href="https://instagram.com/pomelo.flower" rel="noopener nofollow">Pomelo Flower</a><span>245/43 Nguyễn Trãi · D1 · Womenswear · Walk-in store · Premium — “Timeless fashion for ladies,” made in Saigon.</span></li>
+<li><a href="https://instagram.com/pomelo.flower" rel="noopener nofollow">Pomelo Flower</a><span>245/43 Nguyễn Trãi · D1 · Womenswear · Walk-in store · Premium — “Timeless fashion for ladies,” made in Sài Gòn.</span></li>
 <li><a href="houses/poppy-babi">Poppy Babi</a><span>DM / FB · Hanoi · Tailoring &amp; áo dài · Online only · Premium — Silk made-to-measure tailor.</span></li>
-<li><a href="https://instagram.com/punch.vn" rel="noopener nofollow">Punch</a><span>shopee.vn/punchvn · Online · Womenswear · Online only · Mid — Online in Saigon; worldwide.</span></li>
+<li><a href="https://instagram.com/punch.vn" rel="noopener nofollow">Punch</a><span>shopee.vn/punchvn · Online · Womenswear · Online only · Mid — Online in Sài Gòn; worldwide.</span></li>
 <li><a href="houses/pur-braslove">PUR. Braslove</a><span>36 Trần Huy Liệu · Phú Nhuận · Lingerie &amp; intimates · Walk-in store · Mid — Handmade bralettes in light fabrics, plus a small rail of imported names. Fits and advises on body type rather than just selling a size. 10:00–21:00.</span></li>
 <li><a href="houses/quyen-nguyen-bridal">Quyên Nguyễn Bridal</a><span>115 Hồ Văn Huê · Phú Nhuận · Bridal · Walk-in store · Mid — Trend-current bridal áo dài on the Hồ Văn Huê strip — published MTM prices, 10–15 days. The value pick.</span></li>
 <li><a href="houses/raffine">Raffiné</a><span>Online, ships internationally · Online · Womenswear · Online only · Premium — Simplicity + elegance since 2016 — silk, chiffon and lace in clean minimalist lines.</span></li>
@@ -570,17 +585,17 @@
 <li><a href="houses/rosee-de-matin">Rosee de Matin</a><span>Online; stocked at MEAN BLVD &amp; Cult Mia · Online · Womenswear · Online only · Premium — Handcrafted romance since 2015 — 3D florals, intricate embroidery, delicate lace.</span></li>
 <li><a href="https://instagram.com/rosieofficial.vn" rel="noopener nofollow">Rosie</a><span>DM · Online · Womenswear · Online only · Mid — Worldwide delivery.</span></li>
 <li><a href="houses/routine">Routine</a><span>523A Quang Trung · Gò Vấp · Menswear · Walk-in store · Mid — Menswear-rooted, now VN's benchmark for office-to-weekend basics; 1,000 m² keystone store (May 2025) + Aeon Bình Tân &amp; Tân Phú Celadon malls. 9:00–22:00 daily. See also Routine U Space (Q10) for the two-floor concept version.</span></li>
-<li><a href="houses/routine-u-space">Routine U Space</a><span>583 Sư Vạn Hạnh · Q10 · Womenswear · Walk-in store · Mid — Routine's two-floor concept space, and the rare Saigon store that is a whole afternoon rather than a stop — budget 2 hours. Ground: casual wear, accessories, café. Upstairs: streetwear, linen &amp; silk pieces, plus a jewellery counter, bakery and ice cream. Pair it with DirtyCoins' destination flagship at 561, a few doors down.</span></li>
+<li><a href="houses/routine-u-space">Routine U Space</a><span>583 Sư Vạn Hạnh · Q10 · Womenswear · Walk-in store · Mid — Routine's two-floor concept space, and the rare Sài Gòn store that is a whole afternoon rather than a stop — budget 2 hours. Ground: casual wear, accessories, café. Upstairs: streetwear, linen &amp; silk pieces, plus a jewellery counter, bakery and ice cream. Pair it with DirtyCoins' destination flagship at 561, a few doors down.</span></li>
 <li><a href="houses/rue-des-chats">Rue Des Chats</a><span>2 Cổ Tân, Tràng Tiền · Hanoi · Luxury · Walk-in store · Premium — Romantic Eurasian RTW with an upstairs tea salon (designer Anhuong Tran).</span></li>
 <li><a href="houses/rue-miche-l-edition">Rue Miche L'Édition</a><span>Union Square B3, 171 Đồng Khởi · D1 · Market · Walk-in store — SE Asia's largest multi-brand local-fashion store: 4,728 m², 120+ VN brands + rotating pop-ups. 10:00–21:30.</span></li>
 <li><a href="houses/rustea">Rustea</a><span>23A Đường số 54, Thảo Điền · Thủ Đức · Womenswear · Walk-in store · Mid — Unisex linen, cotton &amp; silk since 2017. A second Thảo Điền door is listed — call 0899 899 767.</span></li>
-<li><a href="houses/saigon-concepts">Saigon Concepts</a><span>Online; studio by appointment · Bình Thạnh · Sleepwear · Online only · Premium — Deadstock 100% cotton, linen &amp; TENCEL pyjamas cut in a Saigon studio. No published address.</span></li>
-<li><a href="houses/saigon-flea-market">Saigon Flea Market</a><span>Boomerang Bistro · D7 · Market · Pop-up — 1st &amp; 3rd Sunday; handmade + vintage pioneer market.</span></li>
-<li><a href="houses/saigon-urban-flea">Saigon Urban Flea</a><span>Saigon Outcast, 188/1 Nguyễn Văn Hưởng · Thảo Điền · Market · Pop-up — Vintage/secondhand + artisan craft + workshops.</span></li>
-<li><a href="houses/saigon-vintage-market">Saigon Vintage Market</a><span>Recent: Bloq Saigon · Roams · Market · Pop-up — Curated vintage/preloved — a stylist favourite.</span></li>
+<li><a href="houses/saigon-concepts">Sài Gòn Concepts</a><span>Online; studio by appointment · Bình Thạnh · Sleepwear · Online only · Premium — Deadstock 100% cotton, linen &amp; TENCEL pyjamas cut in a Sài Gòn studio. No published address.</span></li>
+<li><a href="houses/saigon-flea-market">Sài Gòn Flea Market</a><span>Boomerang Bistro · D7 · Market · Pop-up — 1st &amp; 3rd Sunday; handmade + vintage pioneer market.</span></li>
+<li><a href="houses/saigon-urban-flea">Sài Gòn Urban Flea</a><span>Sài Gòn Outcast, 188/1 Nguyễn Văn Hưởng · Thảo Điền · Market · Pop-up — Vintage/secondhand + artisan craft + workshops.</span></li>
+<li><a href="houses/saigon-vintage-market">Sài Gòn Vintage Market</a><span>Recent: Bloq Sài Gòn · Roams · Market · Pop-up — Curated vintage/preloved — a stylist favourite.</span></li>
 <li><a href="https://instagram.com/sassysis_br" rel="noopener nofollow">Sassy Sis</a><span>441/36 Nguyễn Đình Chiểu · D3 · Womenswear · Walk-in store · Mid — 10:00–20:30 daily.</span></li>
 <li><a href="houses/seeson">SEESON</a><span>199 Điện Biên Phủ · D3 · Accessories · Walk-in store · Premium — VN's leading frame designer; flagship has in-house optometry + café.</span></li>
-<li><a href="https://instagram.com/sensore.studio" rel="noopener nofollow">Sensore</a><span>DM · Zalo 0937427006 · Online · Womenswear · Online only · Mid — Saigon; 11:00–21:00.</span></li>
+<li><a href="https://instagram.com/sensore.studio" rel="noopener nofollow">Sensore</a><span>DM · Zalo 0937427006 · Online · Womenswear · Online only · Mid — Sài Gòn; 11:00–21:00.</span></li>
 <li><a href="houses/seo-studio">Seo Studio</a><span>105B6 Phạm Ngọc Thạch; also 96 Cầu Giấy · Hanoi · Womenswear · Walk-in store · Mid — VN TikTok's coquette leader 2026 — ribbons, bows, corset tops, silk skirts; ships worldwide. Hanoi only.</span></li>
 <li><a href="houses/set-active">Set Active</a><span>setactive.co — ships to VN · California, USA · Activewear · Online only · Premium — Elevated matching sets in seasonal colour drops; sculpting 'it-girl'. Ships to Vietnam.</span></li>
 <li><a href="houses/seti-house">Seti House</a><span>14 Nguyễn Hữu Cầu + 599 Cách Mạng Tháng 8 (Q10) · D1 · Lingerie &amp; intimates · Walk-in store · Mid — Bralettes by the wall — plain everyday cuts through to themed seasonal drops. Facebook-led; ring ahead.</span></li>
@@ -624,7 +639,7 @@
 <li><a href="houses/ther-gab">Ther Gab</a><span>Online; in Singapore via Sift &amp; Pick · Online · Accessories · Online only · Premium — Sculptural limited-edition bags shaped after Vietnamese folk objects — bánh giầy, boats (est. 2022). Bazaar VN SS26 pick.</span></li>
 <li>Thiso Mall pop-ups<span>10 Mai Chí Thọ · Thủ Thiêm · Market · Pop-up — Rotating short brand pop-ups; check the current lineup.</span></li>
 <li><a href="houses/thomas-nguyen-tailor">Thomas Nguyen Tailor</a><span>445/2/2G Quang Trung, P.10, Gò Vấp · Gò Vấp · Sleepwear · By appointment · Couture — Bespoke house since 2012 — treat pyjamas as a custom shirt-and-trouser commission in your fabric; alterations up to 3 years.</span></li>
-<li><a href="houses/thong-tha-lingerie">Thong Thả Lingerie</a><span>Instagram DM — no published shop door · Online · Lingerie &amp; intimates · Online only · Mid — Saigon IG lingerie studio, 10:00–21:00 by message. ☎ 07 6747 0109.</span></li>
+<li><a href="houses/thong-tha-lingerie">Thong Thả Lingerie</a><span>Instagram DM — no published shop door · Online · Lingerie &amp; intimates · Online only · Mid — Sài Gòn IG lingerie studio, 10:00–21:00 by message. ☎ 07 6747 0109.</span></li>
 <li><a href="https://instagram.com/thrifty.chuoi" rel="noopener nofollow">Thrifty Chuối</a><span>DM · PayPal/Wise · Online · Womenswear · Online only · Mid — Thrift; worldwide from $15.</span></li>
 <li><a href="houses/thuy-design-house">Thuy Design House</a><span>44B Lý Tự Trọng · D1 · Tailoring &amp; áo dài · Walk-in store · Luxury — VN's most famous artistic áo dài designer; painterly brocades.</span></li>
 <li><a href="https://instagram.com/tiela.official" rel="noopener nofollow">Tiela</a><span>42 Trần Huy Liệu · Phú Nhuận · Womenswear · Walk-in store · Premium — “Made for your inner muse.” 9:00–22:00.</span></li>
@@ -694,11 +709,10 @@
 </button>
 
 <nav class="tabbar" aria-label="Directory quick actions" data-i18n-al="fd.a11y.tabbar">
-  <button type="button" data-act="search"><svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="M14 14l4 4"/></svg><span lang="en">Search</span></button>
+  <button type="button" data-act="search"><svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="M14 14l4 4"/></svg><span data-i18n="fd.ws.search">Search</span></button>
   <button type="button" data-act="sheet"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg><span data-i18n="fd.tb.filters">Filters</span></button>
-  <button type="button" data-act="map"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg><span lang="en">Visit</span></button>
-  <button type="button" data-act="compare" id="tbtray"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/><path d="M12 17.2c-1.7-1.5-3-2.6-3-4 0-.9.7-1.7 1.6-1.7.6 0 1.1.3 1.4.8.3-.5.8-.8 1.4-.8.9 0 1.6.8 1.6 1.7 0 1.4-1.3 2.5-3 4Z" fill="currentColor" stroke="none"/></svg><span lang="en">Compare</span><span class="bub" id="tbtrayn" hidden></span></button>
-  <button type="button" data-act="board"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg><span lang="en">Buy</span></button>
+  <button type="button" data-act="saved" id="tbsaved" aria-pressed="false"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 20.5C7 16.2 3.5 13 3.5 8.9 3.5 6.4 5.4 4.5 7.8 4.5c1.6 0 3.1.8 4.2 2.3 1.1-1.5 2.6-2.3 4.2-2.3 2.4 0 4.3 1.9 4.3 4.4 0 4.1-3.5 7.3-8.5 11.6Z"/></svg><span data-i18n="fd.savedlab">Saved</span><span class="bub" id="tbsavedn" hidden></span></button>
+  <button type="button" data-act="tools" id="tbtools" aria-haspopup="dialog"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="6" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="18" cy="12" r="1.7"/></svg><span lang="en">Tools</span></button>
 </nav>
 
 <div class="scrim" id="scrim" hidden></div>
@@ -723,7 +737,7 @@
     <div class="row"><span class="cd" style="background:var(--warn)"></span> <span data-i18n="fd.conf.warnl">Confirm first — message the shop before you go (single-source, pop-up or in flux)</span></div>
     <div class="row"><span class="cd" style="background:var(--stale)"></span> <span data-i18n="fd.conf.stalel">May be outdated — kept for reference until re-verified</span></div>
     <p class="meta" data-i18n="fd.legendmeta">Addresses are current to July 2026 from brands' own channels and 2025–26 press, each carried
-      at the confidence noted above. Saigon boutiques relocate often — message a shop the day
+      at the confidence noted above. Sài Gòn boutiques relocate often — message a shop the day
       before you visit. Ward names changed mid-2025; Grab &amp; Google Maps still resolve the older district labels.
       Hearts save to this browser only — no account, nothing leaves your device.</p>
     <p class="meta"><a href="directory-methodology">Read the research methodology, confidence definitions and correction policy →</a></p>
@@ -750,7 +764,7 @@
   <script src="js/directory-data.js"></script>
   <script src="js/directory-catalog.js"></script>
 <script src="js/fd-search.js"></script><!-- diacritic-blind, alias-aware search over the directory; offline -->
-  <script src="js/directory.js?v=2026-09-10"></script>
+  <script src="js/directory.js?v=2026-11-16a"></script>
 
   <script src="js/route-solver.js"></script>
   <script src="js/store-coords.js"></script>
@@ -774,12 +788,13 @@
   <script src="js/fd-voice.js?v=2026-09-09"></script><!-- voice concierge: speech/typed → deep-link hash; all client-side, no API keys -->
 
   <script src="js/directory-garments.js"></script>
-  <script src="js/directory-discovery.js?v=2026-09-12"></script>
+  <script src="js/directory-discovery.js?v=2026-11-16a"></script>
   <script src="js/directory-reference.js"></script>
-  <script src="js/directory-guide.js?v=2026-10-01b"></script>
+  <script src="js/directory-guide.js?v=2026-11-24a"></script>
 <script src="js/house-logos.js?v=2026-11-07a"></script>
-<script src="js/directory-featured.js?v=2026-11-10a"></script>
-<script src="js/directory-workspace.js?v=2026-11-07a"></script>
+<script src="js/directory-featured.js?v=2026-11-16a"></script>
+<script src="js/directory-wall.js?v=2026-11-16a"></script><!-- the logo wall, the house quick look and the Tools menu -->
+<script src="js/directory-workspace.js?v=2026-11-16a"></script>
 <script src="js/wings.js?v=2026-11-09a"></script>
 <script src="js/beacon.js?v=2026-11-09d"></script>
 <script src="js/visitor-currency.js?v=2026-11-07a"></script>

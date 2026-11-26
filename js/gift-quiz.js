@@ -45,9 +45,9 @@
       whySaigon: 'And since they’ll be in Sài Gòn, the two-hour in-shop try-on is theirs.',
       whyRemote: 'Styled remotely and sent worldwide — distance changes nothing.',
       points: [
-        ['Begins with a consultation, so the pieces are theirs, not a guess', 'Three to four pieces from Saigon’s local designers'],
+        ['Begins with a consultation, so the pieces are theirs, not a guess', 'Three to four pieces from Sài Gòn’s local designers'],
         ['A full style profile first — their days, their taste, their fit', 'Six to eight coordinated pieces, with a lookbook to wear them together'],
-        ['In Saigon: a two-hour in-shop try-on — often no shipping at all', 'From abroad: I shop live on video, and nothing ships without their yes']
+        ['In Sài Gòn: a two-hour in-shop try-on — often no shipping at all', 'From abroad: I shop live on video, and nothing ships without their yes']
       ]
     },
     vi: {

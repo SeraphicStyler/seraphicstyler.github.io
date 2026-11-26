@@ -141,7 +141,7 @@
   }
 
   /* ---------- trip classification ---------- */
-  var ZONELABEL = { d1: 'District 1', d3: 'District 3', pn: 'Phú Nhuận', bt: 'Bình Thạnh', td: 'Thảo Điền', q5: 'Q5 · Chợ Lớn', gv: 'Gò Vấp', tb: 'Tân Bình', tp: 'Tân Phú', other: 'Saigon' };
+  var ZONELABEL = { d1: 'District 1', d3: 'District 3', pn: 'Phú Nhuận', bt: 'Bình Thạnh', td: 'Thảo Điền', q5: 'Q5 · Chợ Lớn', gv: 'Gò Vấp', tb: 'Tân Bình', tp: 'Tân Phú', other: 'Sài Gòn' };
   function zoneOf(b) { return (window.SS_FD && window.SS_FD.zoneOf) ? window.SS_FD.zoneOf(b) : null; }
 
   var tripCache = { sig: null, plan: null };
@@ -474,7 +474,7 @@
           esc(t('fd.bk.huntWhy2', 'The first two boutiques are included; each additional store adds 150,000₫ for the extra travel — and hard-to-coordinate runs add the +200,000₫ complex fee. Both are in the preview below.')) + '</p>';
       } else {
         var zoneKeys = Object.keys(v.zones);
-        var where = zoneKeys.length === 1 ? (ZONELABEL[zoneKeys[0]] || 'Saigon') : 'Saigon';
+        var where = zoneKeys.length === 1 ? (ZONELABEL[zoneKeys[0]] || 'Sài Gòn') : 'Sài Gòn';
         html += '<h3>' + esc(t('fd.bk.simple', 'A simple run')) + '</h3>' +
           '<p>' + stores + ' ' + esc(t('fd.bk.stops', 'stop(s)')) + ' ' + esc(t('fd.bk.in', 'in')) + ' ' + esc(where) + '. ' +
           esc(t('fd.bk.simpleWhy2', 'This fits a standard sourcing trip — no extra-stop or complex-sourcing fees apply.')) + '</p>';

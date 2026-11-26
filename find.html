@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Find it in Saigon — Seraphic Styler</title>
+  <title>Find it in Sài Gòn — Seraphic Styler</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <meta name="theme-color" content="#2e54ad" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#161a26" media="(prefers-color-scheme: dark)" />
   <script>if('serviceWorker' in navigator && location.protocol==='https:'){addEventListener('load',function(){navigator.serviceWorker.register('service-worker.js').catch(function(){});});}</script>
   <meta name="description" content="Upload a photo of Vietnamese fashion — an Instagram screenshot or a street photo — and match it against 320 Vietnamese fashion houses in the Seraphic Styler directory." />
   <link rel="canonical" href="https://www.seraphicstyler.com/find" />
-  <meta property="og:title" content="Find it in Saigon — Seraphic Styler" />
+  <meta property="og:title" content="Find it in Sài Gòn — Seraphic Styler" />
   <meta property="og:description" content="Upload a photo of Vietnamese fashion — an Instagram screenshot or a street photo — and match it against 320 Vietnamese fashion houses in the Seraphic Styler directory." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://www.seraphicstyler.com/assets/social/og-image.png" />
@@ -30,6 +30,8 @@
   <script src="js/theme.js?v=2026-11-09s"></script>
   <script src="js/i18n-site.js?v=2026-09-12" defer></script>
   <script src="js/geo-lang.js?v=2026-10-02" defer></script>
+  <link rel="stylesheet" href="css/reading-highlight.css?v=2026-11-26a">
+  <script src="js/reading-highlight.js?v=2026-11-15a" defer></script>
 </head>
 <body>
 <a class="skiplink" href="#main" data-i18n="find.skip">Skip to content</a>
@@ -55,7 +57,7 @@
 <header class="masthead-lite">
   <div class="wrap">
     <p class="script-accent" data-i18n="find.accent">seen it, want it, found it</p>
-    <h1 data-i18n="find.h1">Find it in Saigon</h1>
+    <h1 data-i18n="find.h1">Find it in Sài Gòn</h1>
     <p class="sub" data-i18n="find.sub">Upload a photo of a piece you've spotted — an Instagram screenshot or a street photo — and I'll look for its maker among 320 Vietnamese houses.</p>
   </div>
 </header>
@@ -80,7 +82,7 @@
   </div>
 </aside>
 
-<main id="main" class="wrap">
+<main id="main" class="wrap" data-rh-scope>
 
   <section id="uploader">
     <div id="dropzone" class="up-zone" role="button" tabindex="0" aria-label="Upload a photo">
@@ -129,7 +131,7 @@
 
 <footer class="findfoot">
   <div class="wrap">
-    <p class="mut"><span data-i18n="find.foot.part">Part of</span> <a href="fashion-directory" data-i18n="find.foot.dir">The Saigon Fashion Directory</a></p>
+    <p class="mut"><span data-i18n="find.foot.part">Part of</span> <a href="fashion-directory" data-i18n="find.foot.dir">The Sài Gòn Fashion Directory</a></p>
   </div>
 </footer>
 

@@ -26,7 +26,7 @@ import { guideEndpoint } from './concierge-config.js';
   const reduce = matchMedia('(prefers-reduced-motion:reduce)');
   let state = 'idle', timers = [], pending = null, exchanges = 0, composing = false;
   let controller=null, generation=0, history=[];
-  const opening='A link, a photo, or a wardrobe idea—choose a starting point below.';
+  const opening='A link, a photo, or a wardrobe idea. Choose a starting point below.';
   const guided = {
     sourcing:{question:'Do you have a direct product or shop link?',choices:[['Yes, I have the link','sourcing'],['I only have a photo','photo']]},
     photo:{question:'What would you like me to do with the photo?',choices:[['Identify that exact item','trace'],['Find pieces with a similar feeling','styling']]},

@@ -1,12 +1,18 @@
-/* Seraphic Styler — the directory's front wall (7 Nov 2026).
+/* Seraphic Styler — the directory's front shelf (7 Nov 2026; reworked 16 Nov 2026).
    ------------------------------------------------------------------------
-   Her decision: a first look of a few houses per occasion, each with one
-   clear next step, and the full directory behind "See all". Shown only on
-   the plain landing (no search, filter or other view open).
+   Her decision: a first look of a few houses per occasion, with the full
+   directory right below. Shown only on the plain landing (no search, filter
+   or other view open).
+
+   16 Nov 2026: the shelf is now for looking. Each house is a picture tile
+   (photo → logo → lettered plate) that opens the house's quick look, where
+   the one next step lives (js/directory-wall.js). The service lines no
+   longer repeat on every tile.
 
    EDIT HERE: the houses per occasion. Names must match js/directory-data.js
    exactly (the build check below logs any that don't). These are a starting
    selection, not "editor's picks": the page never calls them that.
+   Occasions whose houses have logos come first, so the first screen is pictures.
 
    The next step per house follows the service lines:
      · house with its own web shop → Sourcing ("Found it on their site?
@@ -15,17 +21,22 @@
 (function () {
   'use strict';
   var OCCASIONS = [
-    { id: 'aodai', label: 'Áo dài', line: 'Ready-to-wear and made-to-measure áo dài. Most will make the trousers to your measurements.',
-      houses: ['Thuy Design House', 'Áo Dài Võ Việt Chung', 'Áo Dài Couture by Anna Hạnh', 'Linh Phung', 'LAHAVA', 'KINZU (Áo Dài Song Toàn)', 'SH Silk Embroidery', 'Áo Dài Thím Ba'] },
-    { id: 'bridal', label: 'Bridal', line: 'Gowns and bridal áo dài to own. Almost all by appointment, so these go through The Trace.',
-      houses: ['Linh Nga Couture', 'Chung Thanh Phong', 'Le Thanh Hoa', 'PHUONG MY', 'Hacchic Couture', "Cee's Bridal", 'Nicole Bridal', 'Meera Meera'] },
-    { id: 'evening', label: 'Evening & wedding guest', line: 'Gowns, cocktail and occasion dresses from Vietnam’s red-carpet names.',
-      houses: ['Valenciani', 'VUNGOC&SON', 'Đỗ Long', 'SIXDO', 'Fancì Club', 'Chérieon', 'Rosee de Matin', 'CHYMEOCHY'] },
     { id: 'everyday', label: 'Everyday', line: 'Polished ready-to-wear from Sài Gòn’s favourite contemporary labels.',
       houses: ['caleélilou', 'Huelley', 'Jubin Studio', 'LSOUL', 'Libé', 'Cocosin', 'Nosbyn', 'Kathy Atelier'] },
+    { id: 'evening', label: 'Evening & wedding guest', line: 'Gowns, cocktail and occasion dresses from Vietnam’s red-carpet names.',
+      houses: ['Valenciani', 'VUNGOC&SON', 'Đỗ Long', 'SIXDO', 'Fancì Club', 'Chérieon', 'Rosee de Matin', 'CHYMEOCHY'] },
+    { id: 'bridal', label: 'Bridal', line: 'Gowns and bridal áo dài to own. Almost all work by appointment.',
+      houses: ['Linh Nga Couture', 'Chung Thanh Phong', 'Le Thanh Hoa', 'PHUONG MY', 'Hacchic Couture', "Cee's Bridal", 'Nicole Bridal', 'Meera Meera'] },
+    { id: 'aodai', label: 'Áo dài', line: 'Ready-to-wear and made-to-measure áo dài. Most will make the trousers to your measurements.',
+      houses: ['Thuy Design House', 'Áo Dài Võ Việt Chung', 'Áo Dài Couture by Anna Hạnh', 'Linh Phung', 'LAHAVA', 'KINZU (Áo Dài Song Toàn)', 'SH Silk Embroidery', 'Áo Dài Thím Ba'] },
     { id: 'men', label: 'Menswear', line: 'Linen, streetwear and tailoring, from everyday labels to Vietnam’s oldest tailor.',
-      houses: ['Mêman', 'emdash', 'Routine', 'Môi Điên', 'Cao Minh Saigon', 'SIR Tailor', 'Degrey', 'ICONDENIM'] }
+      houses: ['Cao Minh Saigon', 'Mêman', 'emdash', 'Routine', 'Môi Điên', 'SIR Tailor', 'Degrey', 'ICONDENIM'] }
   ];
+  /* EDIT HERE: one photo per house, when you have them. Put the image in assets/featured/
+     and add a line: 'House name': 'file-name.jpg'. A photo replaces the logo on the shelf
+     and in the house's quick look. Portrait or square, about 800px wide, is plenty. */
+  var PHOTO = {
+  };
   /* Logos we already hold in icons/ (others get a lettered plate). */
   var LOGO = {
     'Linh Nga Couture': 'Linh Nga Couture.jpg', 'Chung Thanh Phong': 'Chung Thanh Phong.jpg', 'Le Thanh Hoa': 'Le Thanh Hoa .jpg',
@@ -76,11 +87,27 @@
     return '<a class="ff-go" href="' + trace + '">Trace a piece from here <span aria-hidden="true">→</span></a>' +
       '<span class="ff-alt-note">The Trace · ' + tracePrice() + ', paid first</span>';
   }
-  function plate(r) {
-    var f = LOGO[r.n] || (window.SS_HOUSE_LOGOS || {})[r.n];
-    if (f) return '<span class="ff-plate"><img src="icons/' + encodeURIComponent(f) + '" alt="" loading="lazy" decoding="async" width="56" height="56"></span>';
-    var letters = r.n.replace(/\(.*?\)/g, '').replace(/^(Áo Dài|Ao Dai)\s+/i, '').replace(/^Couture by\s+/i, '').trim().split(/\s+/).slice(0, 2).map(function (w) { return w.charAt(0); }).join('');
-    return '<span class="ff-plate ff-mono" aria-hidden="true">' + esc(letters.toUpperCase()) + '</span>';
+  function initials(r) {
+    return r.n.replace(/\(.*?\)/g, '').replace(/^(Áo Dài|Ao Dai)\s+/i, '').replace(/^Couture by\s+/i, '').trim().split(/\s+/).slice(0, 2).map(function (w) { return w.charAt(0); }).join('').toUpperCase();
+  }
+  function logoFile(r) { return LOGO[r.n] || (window.SS_HOUSE_LOGOS || {})[r.n] || ''; }
+  /* A lettered plate takes one of four quiet washes, fixed per house, so a row of them has some rhythm. */
+  function wash(r) { var h = 0, n = r.n; for (var i = 0; i < n.length; i++) h = (h * 31 + n.charCodeAt(i)) >>> 0; return h % 4; }
+  function plate(r, opts) {
+    opts = opts || {};
+    var px = opts.px || 56, cls = 'ff-plate' + (opts.cls ? ' ' + opts.cls : '');
+    var photo = opts.photo && PHOTO[r.n];
+    if (photo) return '<span class="' + cls + ' ff-photo"><img src="assets/featured/' + encodeURIComponent(photo) + '" alt="" loading="lazy" decoding="async" width="' + px + '" height="' + px + '"></span>';
+    var f = logoFile(r);
+    if (f) return '<span class="' + cls + '"><img src="icons/' + encodeURIComponent(f) + '" alt="" loading="' + (opts.eager ? 'eager' : 'lazy') + '" decoding="async" width="' + px + '" height="' + px + '"></span>';
+    return '<span class="' + cls + ' ff-mono" data-wash="' + wash(r) + '" aria-hidden="true"><span>' + esc(initials(r)) + '</span></span>';
+  }
+  /* The shelf tile: a picture and a name. Opens the quick look (js/directory-wall.js). */
+  function shelfTile(r) {
+    return '<li><button type="button" class="fs-tile" data-house="' + rows.indexOf(r) + '">' +
+      plate(r, { cls: 'fs-plate', px: 160, photo: true, eager: true }) +
+      '<span class="fs-name">' + esc(r.n) + '</span>' +
+      '<span class="fs-note">' + esc(line(r.no)) + '</span></button></li>';
   }
   function tile(r, occ) {
     var ch = channel(r);
@@ -102,23 +129,20 @@
       (r.tier && r.tier !== 'none' ? ' <span class="ff-tier">' + esc(r.tier) + '</span>' : '') + '</p>');
     return li;
   };
+  window.SS_HOUSE_PARTS = { plate: plate, next: next, channel: channel, area: area, line: line, esc: esc, category: CAT, hasLogo: function (r) { return !!logoFile(r); } };
   if (!host || !rows.length) return;
 
-  var total = rows.length;
   host.innerHTML =
-    '<div class="ff-head"><p class="eyebrow">Start with the occasion</p>' +
-    '<h2 id="ff-title">Find a Vietnamese house in a minute.</h2>' +
-    '<p class="ff-lede">Pick what you are dressing for. Each house has one next step: a link with a price is <strong>Sourcing</strong>; a photo, a post or a custom size is <strong>The Trace</strong>.</p></div>' +
-    '<div class="ff-tabs" role="tablist" aria-label="Occasions">' +
+    '<div class="ff-head"><h2 id="ff-title" class="eyebrow">Start with an occasion</h2>' +
+    '<div class="ff-tabs" role="tablist" aria-labelledby="ff-title">' +
     OCCASIONS.map(function (o, i) {
       return '<button type="button" role="tab" id="ff-tab-' + o.id + '" aria-controls="ff-panel-' + o.id + '" aria-selected="' + (i === 0) + '" tabindex="' + (i === 0 ? 0 : -1) + '">' + esc(o.label) + '</button>';
-    }).join('') + '</div>' +
+    }).join('') + '</div></div>' +
     OCCASIONS.map(function (o, i) {
       var list = o.houses.map(function (n) { return byName[n]; }).filter(Boolean);
       return '<section class="ff-panel" role="tabpanel" id="ff-panel-' + o.id + '" aria-labelledby="ff-tab-' + o.id + '"' + (i ? ' hidden' : '') + '>' +
-        '<p class="ff-line">' + esc(o.line) + '</p><ol class="ff-grid">' + list.map(function (r) { return tile(r, o.id); }).join('') + '</ol></section>';
-    }).join('') +
-    '<p class="ff-all"><a href="#main" data-ff-all>See all ' + total + ' houses, with search and filters <span aria-hidden="true">↓</span></a></p>';
+        '<p class="ff-line">' + esc(o.line) + '</p><ol class="fs-rail">' + list.map(shelfTile).join('') + '</ol></section>';
+    }).join('');
 
   /* Tabs: click + arrow keys (roving tabindex). */
   var tabs = Array.prototype.slice.call(host.querySelectorAll('[role="tab"]'));

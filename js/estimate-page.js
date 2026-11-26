@@ -18,7 +18,7 @@
    const suffix={rCard:T('est.card.plusship',' (+ card fee on shipping at invoice)'),rTotal:T('est.plusship',' + shipping'),rUsd:T('est.customhaul',' + shipping (custom quote, 10kg+)')}[id];
    let body=text,note=null;
    if(suffix&&text.endsWith(suffix)){body=text.slice(0,-suffix.length);note=suffix;}
-   const bounds=[];let m;const re=/ [–·+] /g;
+   const bounds=[];let m;const to=T('est.to','to').replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),re=new RegExp(' (?:[–·+]|'+to+') ','g');
    while((m=re.exec(body)))bounds.push(m.index);
    if(!bounds.length&&!note)return;
    const chunks=[];let prev=0;
@@ -46,13 +46,17 @@
      const isPrice=input.classList.contains('item-price');
      const text=isPrice?c.price.split(' · ')[0]:c.link;
      const fieldLabel=document.querySelector('label[for="'+input.id+'"]');if(fieldLabel)fieldLabel.textContent=text;
-     input.setAttribute('aria-label',text);input.placeholder=isPrice?'850,000':'https://';
+     input.setAttribute('aria-label',text);input.placeholder=isPrice?'850,000':(input.closest('.line-item')?.dataset.brand?'https:// · '+input.closest('.line-item').dataset.brand:'https://');
    });
    document.querySelectorAll('.remove-item').forEach(button=>button.setAttribute('aria-label',c.remove));
    document.querySelector('#estCurrency').setAttribute('aria-label',window.SS_T('est.usd','Currency'));
  };
  document.addEventListener('ss:lang',localize);
  new MutationObserver(localize).observe(document.getElementById('lineItems'),{childList:true});localize();
+ /* Sticky on wide screens, but never taller than the screen: a long estimate scrolls
+    with the page until its end (the Send button) is in view, then holds there. */
+ const sticky=document.querySelector('.est-page .est-receipt');
+ if(sticky&&'ResizeObserver' in window){const fit=()=>sticky.style.setProperty('--est-top',Math.min(16,innerHeight-sticky.offsetHeight-16)+'px');new ResizeObserver(fit).observe(sticky);addEventListener('resize',fit,{passive:true});fit();}
  if(root.classList.contains('est-embedded')&&parent!==window){
    const content=document.querySelector('.est-page');
    let lastHeight=0;

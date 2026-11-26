@@ -8,11 +8,10 @@
    the page (elevation); mono keeps it in the ice-blue duotone.
 
    Inside, [data-rh] text lights line by line as it reaches the reading
-   line (js/night-reading.js): muted ahead, brightening as it approaches,
-   a peach-orange current line, a pale warm wake that settles to white.
-   Every state clears WCAG AA (≥4.5:1) across the whole band, glows
-   included. High contrast and the site's reduce-motion toggle drop the
-   band entirely; OS reduced motion and forced colours keep plain text.
+   line (js/reading-highlight.js + css/reading-highlight.css): faded ahead,
+   the brand blend (orchid → lavender → cobalt) on the current line, full
+   ink once read. High contrast and the site's reduce-motion toggle drop
+   the band entirely; OS reduced motion and forced colours keep plain text.
    =================================================================== */
 
 :root:not(.hc):not(.rm) section.night {
@@ -34,14 +33,13 @@
   --eyebrow-ink:    #d9c9f2;
   --surface-solid:  #26386e;
   --surface-border: rgba(201, 182, 232, 0.2);
-  --highlight:      rgba(245, 168, 101, 0.4);
+  --highlight:      rgba(201, 143, 196, 0.4);
 
-  /* reading-light palette — read by js/night-reading.js */
-  --rh-ahead:    #a8b0d5;
-  --rh-approach: #d0afcc;
-  --rh-current:  #f5a865;
-  --rh-wake:     #f6d9c0;
-  --rh-read:     #f4f1fb;
+  /* reading-highlight palette (css/reading-highlight.css) */
+  --rh-ink:    #f4f1fb;
+  --rh-bg:     var(--night-bg-b);
+  --rh-active: #c9b6e8;
+  --rh-active-gradient: linear-gradient(90deg, var(--orchid, #c98fc4), var(--lav, #c9b6e8) 55%, #a9b8ee);
   color: var(--text-primary);
 }
 
@@ -55,31 +53,23 @@
 }
 
 :root:not(.hc):not(.rm) section.night .section-head h2 { text-shadow: 0 0 26px rgba(201, 182, 232, 0.2); }
-:root:not(.hc):not(.rm) section.night .section-head h2::first-letter { color: #e2c6ef; text-shadow: 0 1px 18px rgba(245, 168, 101, 0.28); -webkit-text-stroke: 0; }
+:root:not(.hc):not(.rm) section.night .section-head h2::first-letter { color: #e2c6ef; text-shadow: 0 1px 18px rgba(201, 143, 196, 0.32); -webkit-text-stroke: 0; }
 :root:not(.hc):not(.rm) section.night .section-head .eyebrow {
   background: rgba(255, 255, 255, 0.06);
   box-shadow: 0 10px 24px -18px rgba(0, 0, 0, 0.5);
 }
-:root:not(.hc):not(.rm) section.night .row .idx { color: var(--rh-current); }
-:root:not(.hc):not(.rm) section.night ::selection { background: rgba(245, 168, 101, 0.4); color: #fff; -webkit-text-fill-color: #fff; }
+:root:not(.hc):not(.rm) section.night .row .idx { color: var(--orchid, #c98fc4); }
+:root:not(.hc):not(.rm) section.night ::selection { background: rgba(201, 143, 196, 0.4); color: #fff; -webkit-text-fill-color: #fff; }
 
-/* Read text sits at full white — no grey "secondary" on the band. */
+/* Read text sits at full ink — no grey "secondary" on the band. */
 :root:not(.hc):not(.rm) section.night [data-rh] { color: var(--rh-read); }
-
-/* Live reading light: the colour lives in a per-line gradient clipped to the
-   glyphs, so the text itself must be transparent — descendants too. */
-:root:not(.hc):not(.rm) section.night [data-rh].rh-live {
-  -webkit-background-clip: text; background-clip: text;
-  background-origin: border-box; background-repeat: no-repeat;
-  -webkit-text-fill-color: transparent; color: transparent;
-}
-:root:not(.hc):not(.rm) section.night [data-rh].rh-live * { -webkit-text-fill-color: transparent; color: transparent; }
+:root.hc [data-rh], :root.rm [data-rh] { --rh-off: 1; }
 
 /* A highlight wash would paint over the clipped gradient; on the band a key
    phrase is a soft warm underline instead. Same for links. */
 :root:not(.hc):not(.rm) section.night [data-rh] mark.hl {
   background: none; padding: 0; margin: 0; border-radius: 0;
-  text-decoration: underline; text-decoration-color: rgba(245, 168, 101, 0.7);
+  text-decoration: underline; text-decoration-color: rgba(201, 143, 196, 0.75);
   text-decoration-thickness: 1.5px; text-underline-offset: 0.22em;
 }
 :root:not(.hc):not(.rm) section.night [data-rh] a { text-decoration: underline; text-decoration-color: rgba(201, 182, 232, 0.8); text-underline-offset: 0.2em; }
@@ -105,7 +95,7 @@
   --night-edge: rgba(189, 214, 240, 0.28);
   --night-glow-a: rgba(189, 214, 240, 0.06); --night-glow-b: rgba(189, 214, 240, 0.06);
   --accent: #bdd6f0; --accent-deep: #bdd6f0; --eyebrow-ink: #d4e4f5; --surface-solid: #1d3a5a;
-  --rh-ahead: #9fb4cf; --rh-approach: #a9c6e4; --rh-current: #c4e1ff; --rh-wake: #e3f0fc; --rh-read: #f4f8fd;
+  --rh-ink: #f4f8fd; --rh-active: #c4e1ff; --rh-active-gradient: initial;
 }
 :root.mono:not(.hc):not(.rm) section.night [data-rh] mark.hl { text-decoration-color: rgba(196, 225, 255, 0.7); }
 
@@ -114,13 +104,9 @@ section.night [data-rh] { max-width: 65ch; line-height: 1.65; }
 section.night .center [data-rh], section.night [data-rh].center { margin-inline: auto; }
 section.night [data-rh] + [data-rh] { margin-top: 0.75em; }
 
-@media (forced-colors: active) {
-  section.night [data-rh], section.night [data-rh] * { -webkit-text-fill-color: CanvasText; color: CanvasText; background: none; }
-  section.night [data-rh] a, section.night [data-rh] a * { -webkit-text-fill-color: LinkText; color: LinkText; }
-}
 @media print {
   section.night:not(#hero) > .wrap { background: none !important; }
-  section.night, section.night [data-rh], section.night [data-rh] * { color: #000 !important; -webkit-text-fill-color: #000 !important; background: none !important; }
+  section.night { color: #000 !important; }
 }
 
 /* ===================================================================
@@ -147,3 +133,13 @@ section.night [data-rh] + [data-rh] { margin-top: 0.75em; }
   html:not(.rm):not(.hc) .ss-home :is(.section-head, .ss-story-head).reveal.in h2 { filter: none; opacity: 1; transform: none; }
   html:not(.rm):not(.hc) .ss-home :is(.section-head.reveal.in .lead, .ss-story-head.reveal.in > p) { opacity: 1; transform: none; }
 }
+
+/* ===================================================================
+   Reading highlight across the whole homepage (outside the bands)
+   Every paragraph, heading and list item in <main> reads line by line
+   (js/reading-highlight.js, data-rh-scope). Read = the text's own colour,
+   unread = that colour at 30%, the current line = the brand blend.
+   =================================================================== */
+html { --rh-active: #6d4fb3; --rh-active-gradient: linear-gradient(90deg, #9a3f88, #6d4fb3 55%, #2e54ad); }
+html.dark { --rh-active: #c9b6e8; --rh-active-gradient: linear-gradient(90deg, #c98fc4, #c9b6e8 55%, #a9b8ee); }
+html.mono { --rh-active: var(--accent); --rh-active-gradient: initial; }

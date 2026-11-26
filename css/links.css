@@ -3,7 +3,7 @@
    The butterflies are painted by js/links-butterflies.js; everything else here is plain CSS. */
 .ss-bio {
   --silk: cubic-bezier(.22,.8,.2,1);
-  --bio-name: 'Noto Serif Display', 'Cormorant Garamond', var(--font-brand), serif;
+  --bio-name: var(--font-display);
   --bio-line: rgba(46,71,115,.14);
   --bio-glow: rgba(201,182,232,.5);
   --thread-1: linear-gradient(180deg,#FFADD3 0,#FCF6BD 36%,#D0F4DE 66%,#fff 100%);
@@ -62,36 +62,6 @@ html.dark .bio-hero .bio-primary { color:#14183a; background:#c9d4f7; }
 :root.ss-sky-on:not(.dark):not(.mono):not(.hc) .bio-ways { padding:0 clamp(16px,3vw,34px) clamp(18px,3vh,32px); }
 :root.ss-sky-on:not(.dark):not(.mono):not(.hc) .bio-work { padding:clamp(22px,4vh,40px) clamp(16px,3vw,34px); }
 :root.ss-sky-on:not(.dark):not(.mono):not(.hc) .bio-foot-row { --text-primary:#233a72; }
-
-/* ---------- The ways: threads of light hanging from one hairline ---------- */
-.bio-ways { position:relative; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); row-gap:clamp(30px,5vh,46px); margin:0; }
-.way { position:relative; display:flex; flex-direction:column; justify-content:space-between; gap:18px; min-height:220px; padding-bottom:6px; color:var(--text-primary); text-decoration:none; transition-delay:var(--d,0s); }
-.way::before { content:''; position:absolute; left:0; right:0; top:0; height:1px; background:var(--bio-line); transform-origin:left; transition:transform 1.5s var(--silk) var(--d,0s); }
-.way i { position:relative; display:block; flex:none; width:var(--w); height:var(--h); overflow:hidden; transform-origin:top; background-image:var(--g);
-  -webkit-mask-image:linear-gradient(180deg,#000 62%,transparent); mask-image:linear-gradient(180deg,#000 62%,transparent);
-  transition:transform 1.3s var(--silk) var(--d,0s), filter .4s ease; }
-.way i::after { content:''; position:absolute; inset:0; opacity:0; background:linear-gradient(180deg,transparent,rgba(255,255,255,.85),transparent); }
-.reveal:not(.in).way i { transform:scaleY(0); }
-.reveal:not(.in).way::before { transform:scaleX(0); }
-.way:nth-of-type(1) { --g:var(--thread-1); --w:18px; --h:124px; }
-.way:nth-of-type(2) { --g:var(--thread-2); --w:6px; --h:84px; }
-.way:nth-of-type(3) { --g:var(--thread-3); --w:12px; --h:104px; }
-.way:nth-of-type(4) { --g:var(--thread-3); --w:8px; --h:96px; }
-.way:nth-of-type(5) { --g:var(--thread-1); --w:15px; --h:120px; }
-.way:nth-of-type(6) { --g:var(--thread-2); --w:10px; --h:88px; }
-.way:is(:hover,:focus-visible) i { transform:scaleY(1.14); transition:transform .95s var(--silk), filter .4s ease; }
-.way:is(:hover,:focus-visible) i::after { animation:bio-fall 1.5s var(--silk); }
-.way:active i { filter:brightness(1.07); }
-.way:active .way-t { opacity:.68; transition-duration:.08s; }
-@keyframes bio-fall { from { transform:translateY(-100%); opacity:0; } 18% { opacity:1; } to { transform:translateY(100%); opacity:0; } }
-.way-t { display:block; padding-right:12px; transition:opacity .3s ease; }
-.way strong { display:flex; align-items:flex-end; gap:.42em; font:italic 200 clamp(1.42rem,1.3rem + .35vw,1.68rem)/1.16 var(--bio-name); transition:color .35s ease; }
-.way:is(:hover,:focus-visible) strong { color:var(--accent); }
-.way strong svg { width:.95em; height:.56em; flex:none; margin-bottom:.16em; fill:none; stroke:var(--accent); stroke-width:1; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:1; stroke-dashoffset:1; transition:stroke-dashoffset 1s var(--silk); }
-.way:is(:hover,:focus-visible) strong svg { stroke-dashoffset:0; }
-.way small { display:block; margin-top:6px; color:var(--text-secondary); font:400 .875rem/1.5 var(--font-body); }
-html.dark .way small { color:#c6c8e0; }
-@media (hover:none) { .way strong svg { stroke-dashoffset:0; opacity:.62; } }
 
 /* ---------- Bunnies: they sit on the line ---------- */
 .bn-sit { position:absolute; right:clamp(6px,4%,40px); top:-26px; display:flex; align-items:flex-end; gap:7px; z-index:2; animation:bio-fade 1.4s ease 1.3s both; }
@@ -194,33 +164,172 @@ html.mono .bio-themes [data-theme-choice=mono]::after { opacity:1; transform:non
   .ss-bio .a11y-wrap .theme-fab { display:grid; place-items:center; }
   .ss-bio .a11y-panel { top:calc(100% + 10px); bottom:auto; }
   .ss-bio .ss-guide-launch { position:absolute; right:14px; top:14px; }
-  .bio-ways { grid-template-columns:1fr; row-gap:0; }
-  .way { display:grid; grid-template-columns:36px minmax(0,1fr); align-items:start; gap:0; min-height:0; padding-bottom:0; }
-  .way-t { padding:17px 46px 20px 0; }
-  .way strong { font-size:1.42rem; }
-  .way i { margin-top:0; }
-  .way:nth-of-type(1) { --w:15px; --h:78px; }
-  .way:nth-of-type(2) { --w:5px; --h:62px; }
-  .way:nth-of-type(3) { --w:10px; --h:70px; }
-  .way:nth-of-type(4) { --w:6px; --h:60px; }
-  .way:nth-of-type(5) { --w:13px; --h:76px; }
-  .way:nth-of-type(6) { --w:8px; --h:64px; }
   .bio-films { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
   .ss-bio .chub { right:14px; bottom:14px; }
 }
 
 /* ---------- Accessibility ---------- */
-html.hc .way i { background:var(--text-primary); -webkit-mask-image:none; mask-image:none; }
 html.hc .bio-primary::after { display:none; }
 html.hc .bio-film-toggle::before { background:#000; border-color:#fff; -webkit-backdrop-filter:none; backdrop-filter:none; }
 html.rm { scroll-behavior:auto; }
 html.rm .bio *,html.rm .bio *::before,html.rm .bio *::after { animation:none!important; transition:none!important; }
-html.rm .reveal:not(.in).way i { transform:none; }
-html.rm .reveal:not(.in).way::before { transform:none; }
 @media (prefers-reduced-motion:reduce) {
   html:has(.ss-bio) { scroll-behavior:auto; }
   .bio *,.bio *::before,.bio *::after { animation:none!important; transition:none!important; }
-  .reveal:not(.in).way i { transform:none; }
-  .reveal:not(.in).way::before { transform:none; }
 }
 @media print { .aura-bf-layer { display:none; } }
+
+/* Reading highlight (reading-highlight.css/.js): the brand blend on the line
+   being read. Light: deepened orchid → violet → cobalt; dark: orchid → lavender
+   → periwinkle; mono: the accent. Unread = the text's own ink at 30%, so it
+   reads right over the sky and the white panels alike. */
+.ss-bio { --rh-active:#6d4fb3; --rh-active-gradient:linear-gradient(90deg,#9a3f88,#6d4fb3 55%,#2e54ad); }
+html.dark .ss-bio { --rh-active:#c9b6e8; --rh-active-gradient:linear-gradient(90deg,#c98fc4,#c9b6e8 55%,#a9b8ee); }
+html.mono .ss-bio { --rh-active:var(--accent); --rh-active-gradient:initial; }
+html.rm [data-rh], html.hc [data-rh] { --rh-off:1; }
+
+/* =====================================================================
+   Atelier layer (25 Nov 2026). Everything below the hero is held to the
+   hero's standard: the same cobalt light, glass that glows at its top
+   edge, one display face (Merriweather Sans) and one script (Pinyon),
+   generous line-height, 4.5:1 text everywhere, and motion only on touch.
+   ===================================================================== */
+.ss-bio {
+  --at-ink: #1f3268; --at-ink-2: #4b5a8c; --at-line: rgba(46,71,115,.12);
+  --at-glass: linear-gradient(170deg, rgba(255,255,255,.94), rgba(250,248,255,.9) 55%, rgba(242,239,252,.88));
+  --at-edge: linear-gradient(90deg, transparent, #a9b8ee 18%, #c9b6e8 45%, #e9b8d6 70%, transparent);
+  --at-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 40px 80px -46px rgba(14,26,96,.6), 0 0 0 1px rgba(255,255,255,.55);
+  --at-ic-bg: linear-gradient(150deg, #f3f1ff, #e7ecfd);
+  --at-ic-ring: conic-gradient(from 210deg, #a9b8ee, #c9b6e8, #e9b8d6, #a9def9, #a9b8ee);
+}
+html.dark .ss-bio {
+  --at-ink: #f2f0fb; --at-ink-2: #c3c6e6; --at-line: rgba(201,182,232,.16);
+  --at-glass: linear-gradient(170deg, rgba(40,44,98,.62), rgba(28,30,72,.58) 60%, rgba(34,26,72,.6));
+  --at-shadow: 0 1px 0 rgba(255,255,255,.08) inset, 0 40px 90px -40px rgba(0,0,0,.7), 0 0 0 1px rgba(201,182,232,.14), 0 0 80px -30px rgba(120,130,240,.35);
+  --at-ic-bg: linear-gradient(150deg, rgba(169,184,238,.16), rgba(201,143,196,.12));
+}
+/* Dark is a cobalt night, never flat black: the hero's blue continues down the page. */
+html.dark:has(.ss-bio), html.dark.ss-sky:has(.ss-bio) {
+  background:
+    radial-gradient(900px 700px at 15% 38%, rgba(64,86,196,.32), transparent 70%),
+    radial-gradient(800px 640px at 88% 70%, rgba(150,92,190,.26), transparent 70%),
+    radial-gradient(1200px 800px at 50% 105%, rgba(70,110,210,.22), transparent 70%),
+    linear-gradient(180deg, #121640 0%, #0f1236 45%, #141640 100%) fixed;
+}
+html.dark .ss-bio { background: transparent; }
+
+/* ---------- The ways: one glass panel, six calm rows ---------- */
+.ss-bio .bio-ways {
+  position: relative; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 0 clamp(20px,3vw,40px);
+  margin: 0; padding: clamp(10px,1.6vw,18px) clamp(18px,3vw,36px);
+  border-radius: 28px; background: var(--at-glass); box-shadow: var(--at-shadow);
+  -webkit-backdrop-filter: blur(18px) saturate(150%); backdrop-filter: blur(18px) saturate(150%);
+}
+.ss-bio .bio-ways::before {   /* the luminous top edge */
+  content: ""; position: absolute; left: 8%; right: 8%; top: 0; height: 1px; background: var(--at-edge); opacity: .9;
+}
+:root.ss-sky-on:not(.dark):not(.mono):not(.hc) .bio-ways { padding: clamp(10px,1.6vw,18px) clamp(18px,3vw,36px); background: var(--at-glass); }
+.way {
+  position: relative; display: grid; grid-template-columns: 52px minmax(0,1fr) 36px; align-items: center; gap: 18px;
+  min-height: 96px; padding: 20px 6px; color: var(--at-ink); text-decoration: none;
+  border-bottom: 1px solid var(--at-line); transition: background-color .4s ease;
+}
+.way:nth-last-of-type(-n+2) { border-bottom: 0; }
+.way-ic {
+  position: relative; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
+  color: var(--accent); background: var(--at-ic-bg);
+  transition: transform .6s var(--silk), box-shadow .6s var(--silk);
+}
+.way-ic::before {   /* a hairline aurora ring */
+  content: ""; position: absolute; inset: -1px; border-radius: 50%; padding: 1px; background: var(--at-ic-ring);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: .85;
+}
+.way-ic svg { width: 23px; height: 23px; }
+html.dark .way-ic { color: #dfe4ff; }
+.way-t { display: block; min-width: 0; padding: 0; }
+.way strong {
+  display: block; font: 400 clamp(1.06rem, 1rem + .3vw, 1.2rem)/1.35 var(--font-display);
+  letter-spacing: -.005em; color: var(--at-ink); transition: color .35s ease;
+}
+.way small { display: block; margin-top: 4px; color: var(--at-ink-2); font: 400 .875rem/1.55 var(--font-body); }
+html.dark .way small { color: var(--at-ink-2); }
+.way-go {
+  display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  transition: transform .5s var(--silk), background-color .35s ease, color .35s ease, border-color .35s ease;
+}
+.way-go svg { width: 16px; height: 16px; }
+.way:is(:hover,:focus-visible) { background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 5%, transparent) 30%, transparent); }
+.way:is(:hover,:focus-visible) strong { color: var(--accent); }
+html.dark .way:is(:hover,:focus-visible) strong { color: #fff; }
+.way:is(:hover,:focus-visible) .way-ic { transform: translateY(-2px); box-shadow: 0 10px 24px -12px rgba(46,84,173,.55), 0 0 0 4px color-mix(in srgb, var(--accent) 8%, transparent); }
+.way:is(:hover,:focus-visible) .way-go { transform: translateX(3px); background: var(--accent); color: var(--cta-text, #fff); border-color: var(--accent); }
+.way:active { background: color-mix(in srgb, var(--accent) 7%, transparent); }
+.ss-bio .bio-ways .way:focus-visible { outline-offset: -2px; border-radius: 16px; }
+.ss-bio .bn-sit { top: -24px; }
+
+/* ---------- Selected work: the same glass, a script title like the hero ---------- */
+.ss-bio .bio-work {
+  margin-top: clamp(28px,5vh,48px); padding: clamp(26px,4vh,44px) clamp(18px,3vw,36px);
+  border-radius: 28px; background: var(--at-glass); box-shadow: var(--at-shadow);
+  -webkit-backdrop-filter: blur(18px) saturate(150%); backdrop-filter: blur(18px) saturate(150%);
+}
+.ss-bio .bio-work::before { content: ""; position: absolute; left: 8%; right: 8%; top: 0; height: 1px; background: var(--at-edge); }
+.ss-bio .bio-work h2 {
+  font: 400 clamp(2.4rem, 2rem + 1.6vw, 3.3rem)/1.1 var(--font-script); color: var(--at-ink); letter-spacing: 0;
+}
+html.dark .ss-bio .bio-work h2 { color: #fff; text-shadow: 0 0 28px rgba(169,184,238,.45); }
+.ss-bio .bio-work > p { margin: 6px 0 24px; color: var(--at-ink-2); font: 400 .95rem/1.65 var(--font-body); }
+html.dark .ss-bio .bio-work > p { color: var(--at-ink-2); }
+.ss-bio .lp-film { border-radius: 18px; box-shadow: 0 24px 44px -30px rgba(20,34,110,.6), 0 0 0 1px rgba(255,255,255,.55); }
+html.dark .ss-bio .lp-film { box-shadow: 0 24px 50px -28px rgba(0,0,0,.8), 0 0 0 1px rgba(201,182,232,.18); }
+.ss-bio .lp-film figcaption {
+  padding: 40px 54px 14px 16px; font: 400 .7rem/1.3 var(--font-brand); letter-spacing: .22em; text-transform: uppercase;
+  background: linear-gradient(transparent, rgba(16,22,64,.7));
+}
+.ss-bio .bio-archive > summary { font: 500 .8rem/1.5 var(--font-body); letter-spacing: .14em; text-transform: uppercase; }
+
+/* ---------- Footer: quieter words over the sky scene ---------- */
+.ss-bio .bio-foot nav a { font: 500 .78rem/1.5 var(--font-body); letter-spacing: .16em; text-transform: uppercase; }
+.ss-bio .bio-themes button { font: 400 1.25rem/1.2 var(--font-script); min-width: 64px; }
+
+/* ---------- Phone ---------- */
+@media (max-width: 760px) {
+  .ss-bio .bio-ways { grid-template-columns: 1fr; padding: 6px 16px; border-radius: 24px; }
+  .way { grid-template-columns: 46px minmax(0,1fr) 30px; gap: 14px; min-height: 84px; padding: 16px 2px; }
+  .way:nth-last-of-type(-n+2) { border-bottom: 1px solid var(--at-line); }
+  .way:last-of-type { border-bottom: 0; }
+  .way-ic { width: 46px; height: 46px; }
+  .way-ic svg { width: 21px; height: 21px; }
+  .way-go { width: 30px; height: 30px; }
+  .way strong { font-size: 1.05rem; }
+  .ss-bio .bio-work { padding: 24px 16px; border-radius: 24px; }
+  .ss-bio .bio-films { gap: 10px; }
+}
+
+/* ---------- Mono, high contrast, motion ---------- */
+html.mono .ss-bio { --at-glass: #f7fafd; --at-shadow: 0 0 0 1px rgba(40,72,112,.28); --at-edge: linear-gradient(90deg, transparent, #2c6bb0, transparent); --at-ic-ring: linear-gradient(#2c6bb0,#2c6bb0); --at-ic-bg: #eef4fb; --at-ink: #173451; --at-ink-2: #34557a; }
+html.hc .ss-bio { --at-glass: var(--surface-solid); --at-shadow: 0 0 0 2px var(--text-primary); --at-ink: var(--text-primary); --at-ink-2: var(--text-primary); --at-line: var(--text-primary); }
+html.hc .ss-bio :is(.bio-ways,.bio-work) { -webkit-backdrop-filter: none; backdrop-filter: none; }
+html.rm .way, html.rm .way * { transition: none !important; }
+
+/* A link page is scanned, not read line by line: every word at full ink, always. */
+.ss-bio [data-rh] { --rh-off: 1; }
+.ss-bio .bio-hero .bio-under p { opacity: 1; }
+
+/* Footer words sit on a small glass bar, so the rainbow and the aurora never cross them. */
+.ss-bio .bio-foot-row { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.ss-bio .bio-foot nav, .ss-bio .bio-themes {
+  padding: 2px 18px; border-radius: 999px;
+  background: color-mix(in srgb, #fff 62%, transparent); box-shadow: 0 0 0 1px rgba(255,255,255,.7), 0 18px 36px -24px rgba(20,34,110,.55);
+  -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
+}
+html.dark .ss-bio .bio-foot nav, html.dark .ss-bio .bio-themes {
+  background: rgba(16,20,60,.55); box-shadow: 0 0 0 1px rgba(201,182,232,.2), 0 18px 40px -24px rgba(0,0,0,.8);
+}
+.ss-bio .bio-foot nav { gap: 0 22px; }
+.ss-bio .bio-foot nav a { color: var(--at-ink); }
+.ss-bio .bio-themes button { color: var(--at-ink); opacity: .7; }
+@media (max-width: 420px) { .ss-bio .bio-foot nav { gap: 0 14px; padding: 2px 14px; } .ss-bio .bio-foot nav a { letter-spacing: .1em; font-size: .72rem; } }
+html.hc .ss-bio :is(.bio-foot nav, .bio-themes) { background: var(--surface-solid); -webkit-backdrop-filter: none; backdrop-filter: none; }

@@ -24,7 +24,7 @@
     door('sourcing', '01', 'Sourcing', 'You have a link or know the item. I buy it for you.', P ? 'Per item · ~' + F.vnd(D.sourcing.minFeeVnd) + ' (~' + F.usd(D.sourcing.minFeeVnd / D.fx.vndPerUsd) + ')' : '', 'estimate') +
     door('trace', '02', 'The Trace', 'You have a screenshot, not a link. I message the shop and confirm size, colour and style.', P ? F.usd0(D.trace.usd) + ' per item' : '', 'prices#trace') +
     door('styling', '03', 'Styling', 'You want me to choose pieces for you.', P ? 'From ' + F.usd(D.styling[0].totalUsd) : '', 'prices#styling') +
-    door('boutiques', '04', 'Boutiques', 'You own a store and want stock from Saigon.', P ? F.usd0(D.boutique.scoutUsd) + ' + ' + F.pct(D.boutique.pct) : '', 'boutique-calculator');
+    door('boutiques', '04', 'Boutiques', 'You own a store and want stock from Sài Gòn.', P ? F.usd0(D.boutique.scoutUsd) + ' + ' + F.pct(D.boutique.pct) : '', 'boutique-calculator');
   const dialog = document.createElement('dialog');
   dialog.id = 'ss-service-guide'; dialog.className = 'ss-guide';
   dialog.setAttribute('role', 'dialog');
@@ -32,7 +32,7 @@
   dialog.setAttribute('aria-label', 'Services menu');
   dialog.innerHTML = `<div class="ss-guide-scroll">
     <header class="ss-menu-top"><span>A Saigon styling &amp; sourcing atelier</span><button type="button" data-close aria-label="Close menu">Close <span aria-hidden="true">×</span></button></header>
-    <div class="ss-menu-layout"><div class="ss-menu-identity"><div class="ss-menu-brand"><span class="ss-menu-wordmark">Seraphic</span><span class="ss-menu-script">Styler</span></div><h2 id="ss-guide-title">What do you need?</h2><p>Pick one. Not sure? <a href="service-request.html?service=unsure">Ask me <span aria-hidden="true">→</span></a></p></div>
+    <div class="ss-menu-layout"><div class="ss-menu-identity"><div class="ss-menu-brand"><span class="ss-menu-wordmark">Seraphic</span><span class="ss-menu-script">Styler</span></div><h2 id="ss-guide-title">What do you need?</h2><p>Pick one. Not sure? <a href="https://tally.so/r/gD10Kl?about=I%20am%20not%20sure%20which%20service%20I%20need&amp;source=menu-ask" target="_blank" rel="noopener">Ask me <span aria-hidden="true">→</span></a></p></div>
     <div class="ss-menu-content">
     <label class="sr-only" for="ss-guide-query">Search services, prices, and answers</label><div class="ss-search-wrap" data-search><span aria-hidden="true">⌕</span><input id="ss-guide-query" type="search" placeholder="Or search: shipping, fees, wardrobe…" autocomplete="off"><kbd>⌘ / Ctrl K</kbd></div>
     <div class="ss-guide-results" role="group" aria-label="Search results" hidden></div><p data-empty role="status" hidden>No matches. Try “wardrobe”, “shipping”, or “fees”.</p>
@@ -81,7 +81,7 @@
     ['Shipping & order process', section('process', '#lp-how'), 'Worldwide delivery tracking approval'],
     ['Fashion directory', 'fashion-directory', 'Browse Vietnamese brands boutiques designers'],
     ['Gifting', section('gift', '#lp-gift'), 'Gift a styling experience gift card'],
-    ['About the atelier', 'about', 'Who I am, Saigon atelier'],
+    ['About the atelier', 'about', 'Who I am, Sài Gòn atelier'],
     ['Start a request', 'service-request.html', 'Sourcing styling unsure intake consultation contact'],
     ['Every price', home ? '#prices' : 'prices', 'Prices fees costs sourcing styling The Trace gift cards group orders boutique buying'],
     ['Estimate your order', 'estimate', 'Estimator calculator item prices shipping fees total', 'individual'],
@@ -90,7 +90,7 @@
       ['Price your boutique buy', 'boutique-calculator', 'Budget pieces rush calculator: ' + F.usd0(D.boutique.scoutUsd) + ' scouting fee, ' + F.pct(D.boutique.pct) + ' buying fee, total and when you pay', 'boutique'],
       ['Boutique fees · ' + F.usd0(D.boutique.scoutUsd) + ' scouting + ' + F.pct(D.boutique.pct), 'prices?for=boutiques', 'Scouting fee once per round, ' + F.pct(D.boutique.pct) + ' buying fee (' + F.pct(D.boutique.rushPct) + ' rush), $0 markup, ' + F.usd0(D.boutique.perPieceUsd) + ' a piece minimum', 'boutique']
     ] : []),
-    ['Boutique buying agent', 'for-boutiques', 'Stock Saigon designers: scouting round, line sheet, stockist terms, one export shipment', 'boutique']
+    ['Boutique buying agent', 'for-boutiques', 'Stock Sài Gòn designers: scouting round, line sheet, stockist terms, one export shipment', 'boutique']
   ];
   document.querySelectorAll('section[id]').forEach(el => {
     const heading = el.querySelector('h2, h3');

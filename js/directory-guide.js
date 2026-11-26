@@ -26,26 +26,104 @@
   }
   function actions(items){const row=node('div','','fd-guide-links');items.forEach(([text,url])=>row.append(link(text,url)));answer.append(row);}
   function followups(items){const row=node('div','','fd-guide-followups');items.forEach(([label,q])=>row.append(button(label,()=>ask(q))));answer.append(row);}
+  function brandPlate(house){
+    if(window.SS_HOUSE_PARTS?.plate){
+      const wrap=document.createElement('span');
+      wrap.innerHTML=window.SS_HOUSE_PARTS.plate(house,{px:38,cls:'fd-guide-plate'});
+      return wrap.firstElementChild;
+    }
+    const initials=house.n.replace(/\(.*?\)/g,'').trim().split(/\s+/).slice(0,2).map(w=>w.charAt(0)).join('').toUpperCase();
+    const plate=node('span','','ff-plate fd-guide-plate ff-mono');
+    plate.setAttribute('aria-hidden','true');plate.append(node('span',initials));return plate;
+  }
   function recordCard(house,index){
-    const item=node('li','','fd-guide-match');item.append(node('h4',`${index+1}. ${house.n}`));
+    const item=node('li','','fd-guide-match');
+    const head=node('div','','fd-guide-card-head');
+    head.append(brandPlate(house),node('h4',`${index+1}. ${house.n}`));
+    item.append(head);
     const facts=node('dl');
     for(const [label,value] of [['Focus',categories[house.cat]||house.cat],['Area',house.area],['Price tier',house.tier&&house.tier!=='none'?house.tier+' · editorial guide':'Not recorded'],['Access',access[house.st]],['Materials',(house.fib||[]).join?.(', ')||house.fib]]){
       if(value){facts.append(node('dt',label),node('dd',value));}
     }
-    item.append(node('p',[categories[house.cat]||house.cat,house.area,(house.fib||[]).join(', ')].filter(Boolean).join(' · ')));
+    item.append(node('p',[categories[house.cat]||house.cat,house.area,(house.fib||[]).join(', ')].filter(Boolean).join(' · '),'fd-guide-meta'));
     const detail=node('details');detail.append(node('summary','Recorded details'),facts);
     if(house.no)detail.append(node('p',house.no));item.append(detail);
     if(house.flag)item.append(node('p','This record is marked for confirmation. Check the current address and trading details first.'));
     const row=node('div','','fd-guide-links');
-    row.append(link('Directory record',`#q=${encodeURIComponent(house.n)}`));
-    if(house.w)row.append(link('Visit website ↗',house.w));
-    if(house.h&&!house.w)row.append(link('View Instagram ↗',`https://instagram.com/${house.h}`));
+    row.append(link('Record',`#q=${encodeURIComponent(house.n)}`));
+    if(house.w)row.append(link('Website ↗',house.w));
+    if(house.h&&!house.w)row.append(link('Instagram ↗',`https://instagram.com/${house.h}`));
+    const idx=houses.indexOf(house);
+    if(idx>=0){const cmp=button(window.SS_COMPARE?.has(idx)?'In comparison':'Compare',()=>{});cmp.dataset.compareHouse=String(idx);cmp.setAttribute('aria-pressed',String(!!window.SS_COMPARE?.has(idx)));row.append(cmp);}
     if(window.SS_TRAY){
-      const id=house.h||house.n,save=button(window.SS_TRAY.isSaved(id)?'Saved to your tray':'Save this house',()=>{
-        window.SS_TRAY.addSaved(id);save.textContent='Saved to your tray';save.setAttribute('aria-pressed','true');status.textContent=house.n+' saved to your browser’s tray.';
-      });save.setAttribute('aria-pressed',String(window.SS_TRAY.isSaved(id)));row.append(save);
+      const id=house.h||house.n,savedNow=window.SS_TRAY.isSaved(id);
+      const save=button(savedNow?'Saved ✓':'Save',()=>{
+        window.SS_TRAY.addSaved(id);save.textContent='Saved ✓';save.setAttribute('aria-pressed','true');status.textContent=house.n+' saved to your tray.';
+      });save.setAttribute('aria-pressed',String(savedNow));row.append(save);
     }
     item.append(row);return item;
+  }
+  /* — Style words (24 Nov 2026). The filter engine knows categories, fabrics, tiers and
+       districts, but not style: "satin dresses" used to return all 153 womenswear houses and
+       "corset" sent a dress-seeker to lingerie. A style question is now ranked by how many of
+       the client's style words a house's own recorded notes contain, and every result says which
+       words matched. Prefix match on the folded note ("dress" finds "dresses"). Nothing here is
+       a judgement of quality, stock or wholesale terms — only what the record already says. — */
+  const STYLE={
+    satin:{label:'satin',w:['satin']},
+    silk:{label:'silk',w:['silk'],fib:'silk'},
+    lace:{label:'lace',w:['lace']},
+    corset:{label:'corsetry',w:['corset','bustier']},
+    feminine:{label:'feminine',w:['feminine','romantic','delicate','soft','flowy','ruffle','pastel','girly','dreamy','princess']},
+    elegant:{label:'elegant',w:['elegant','refined','timeless','sophisticated','chic','graceful','polished']},
+    occasion:{label:'occasion',w:['occasion','evening','gown','cocktail','formal','gala','party','event','prom'],occ:['event','night','bday']},
+    everyday:{label:'everyday ready-to-wear',w:['everyday','daily','basics','casual','office','workwear','ready to wear','rtw']},
+    dress:{label:'dresses',w:['dress','gown']},
+    trendy:{label:'trend-led',w:['trendy','trend','y2k','street','playful','edgy','cool girl']}
+  };
+  const SKIP_CAT={men:1,active:1,sleep:1,market:1,access:1};
+  const hasWord=(text,w)=>new RegExp('(^| )'+w.replace(/ /g,' ?')).test(text);
+  function styleAsked(text){return Object.keys(STYLE).filter(k=>hasWord(text,k)||STYLE[k].w.some(w=>hasWord(text,norm(w))));}
+  function styleRank(text,asked){
+    const tier=(text.match(/\b(mid|premium|luxury|couture)\b/)||[])[1];
+    return houses.map((h,i)=>{
+      if(SKIP_CAT[h.cat]||(tier&&h.tier!==tier))return null;
+      const note=norm([h.n,h.no].join(' '));
+      const hit=asked.filter(k=>{const s=STYLE[k];
+        return s.w.some(w=>hasWord(note,norm(w)))||(s.fib&&(h.fib||[]).includes(s.fib))||(s.occ&&(h.occ||[]).some(o=>s.occ.includes(o)));});
+      return hit.length?{h,i,hit:hit.map(k=>STYLE[k].label)}:null;
+    }).filter(Boolean).sort((a,b)=>b.hit.length-a.hit.length||a.i-b.i);
+  }
+  function showStyle(q,ranked,asked){
+    intent={};
+    if(!ranked.length){
+      current=[];
+      intro(q,'No house notes mention those styles yet. That means the directory has no recorded match, not that Vietnam has none. Try a broader word, or ask for a personal selection.');
+      actions([['Ask for a personal selection','prices']]);return;
+    }
+    const found=new Set(ranked.flatMap(r=>r.hit)),missing=asked.map(k=>STYLE[k].label).filter(l=>!found.has(l));
+    intro(q,`${ranked.length} ${ranked.length===1?'house matches':'houses match'} at least one of your words. Best matches first.`);
+    if(missing.length)answer.append(node('p',`No house notes mention ${missing.join(' or ')} yet, so these results are matched on your other words.`));
+    const list=node('ol','','fd-guide-matches');answer.append(list);
+    let shown=0;
+    const more=button('Show more matches',()=>{page();(touch()?more:list.lastElementChild?.querySelector('a,button'))?.focus({preventScroll:true});});
+    function page(){
+      ranked.slice(shown,shown+6).forEach((r,j)=>{
+        const card=recordCard(r.h,shown+j);
+        const why=node('div','','fd-guide-tags');
+        r.hit.forEach(lbl=>why.append(node('span',lbl,'fd-guide-tag')));
+        (card.querySelector('.fd-guide-card-head')||card.querySelector('h4')).after(why);
+        list.append(card);
+      });
+      shown=Math.min(ranked.length,shown+6);current=ranked.slice(0,shown).map(r=>r.h);
+      if(shown>=ranked.length)more.remove();
+    }
+    page();if(shown<ranked.length)answer.append(more);
+    answer.append(node('p','Matches come from the directory’s notes on each house. Not a check of live stock, quality, or sizes.','fd-guide-disclaimer'));
+    const foot=node('div','','fd-guide-foot-actions');
+    const gp=link('Get your price →','estimate');gp.className='fd-guide-cta';
+    foot.append(gp,link('Hand-picked selection','prices'),button('Copy brief',copyBrief));
+    answer.append(foot);
   }
   function showRecords(list,comparison=false){
     current=list.slice(0,comparison?3:4);
@@ -82,7 +160,7 @@
       actions([['Buy an identified piece','estimate'],['Identify an unknown piece','https://tally.so/r/gD10Kl?about=I%20need%20The%20Trace%20for%20item%20identification&source=trace']]);
     }else if(/\b(shipping|ship|delivery|deliver|international)\b/.test(text)){
       intro(q,'Some directory notes mention a house’s own shipping, but destination, cost, and timing still need confirmation. Seraphic can coordinate tracked international delivery within the agreed service. Share your country and the pieces you have in mind for a specific request.');
-      actions([['Shipping information','free-international-shipping.html'],['Ask about my destination','service-request.html?service=unsure']]);
+      actions([['Shipping information','free-international-shipping.html'],['Ask about my destination','https://tally.so/r/gD10Kl?about=Question%20about%20my%20shipping%20destination&source=directory-guide']]);
     }else if(/\b(price|prices|cost|budget|under|below|usd|vnd|dollars)\b|\$/.test(text)&&!(/\b(mid|premium|luxury|couture)\b/.test(text))){
       intro(q,'The directory records broad price tiers, not current prices for individual garments. I can narrow your search by tier; an exact budget needs the specific item and current store price. Styling bookings start at US$235, combining a styling fee and clothing credit; shipping is separate.');
       followups([['Explore mid-range labels','Show me mid range womenswear'],['Explore premium labels','Show me premium womenswear']]);actions([['Compare service fees','sourcingandstyling#prices']]);
@@ -100,6 +178,9 @@
       followups([['Mid-range',base+' mid range'],['Premium',base+' premium']]);
     }else if(/\b(not|except|exclude|without|no)\b/.test(text)&&! /\b(no silk|without silk)\b/.test(text)){
       intro(q,'To avoid filtering out the wrong labels, tell me what you would like to include—such as linen, tailoring, or District 3. For a more specific material or fit requirement, send a personal brief.');actions([['Discuss my requirements','/#lane-styling']]);
+    }else if(!named.length&&styleAsked(text).length){
+      {const asked=styleAsked(text);showStyle(q,styleRank(text,asked),asked);}
+      announcement=current.length?`${current.length} matching houses shown. ${current.map(h=>h.n).join(', ')}.`:'';
     }else{
       const searchText=q.replace(/(under|below|less than) premium( pricing)?/gi,'mid range');
       const term=named.length?named[0].n:searchText;
@@ -116,7 +197,7 @@
         }
       }else{
         intro(q,'I can explore the recorded labels by fabric, category, price tier, and area, or compare named houses. I do not have enough recorded detail to answer that question confidently. For an outfit idea or a specific garment, a personal request is the next step.');
-        followups([['Explore linen','Show me houses with linen'],['Explore tailoring','Show me áo dài tailors']]);actions([['Send a personal request','service-request.html?service=unsure']]);
+        followups([['Explore linen','Show me houses with linen'],['Explore tailoring','Show me áo dài tailors']]);actions([['Send a personal request','https://tally.so/r/gD10Kl?about=I%20want%20help%20sourcing%20or%20buying%20specific%20items&source=directory-guide']]);
       }
     }
     // The answer is a single replaceable view, not a growing transcript.
@@ -187,5 +268,20 @@
   input.removeAttribute('aria-expanded');input.placeholder='Try a fabric, district, or house';
   guide.querySelector('[data-fd-interactive]').hidden=false;guide.classList.add('fd-guide-ready');
   guide.hidden=true;guide.inert=true;head.hidden=false;content.hidden=false;openAnchor();viewport();
+  /* The large ask box at the top of the page (#fd-ask): the same assistant, a calmer front
+     door. Chips add a word to the box and ask straight away; the box keeps its text so the
+     client can refine it. Without JavaScript the box stays hidden. */
+  const hero=document.getElementById('fd-ask');
+  if(hero){
+    const heroInput=hero.querySelector('#fd-ask-q');
+    const go=()=>{const v=heroInput.value.trim();if(!v){heroInput.focus();return;}ask(v);if(touch())heroInput.blur();};
+    hero.addEventListener('submit',e=>{e.preventDefault();go();});
+    hero.querySelectorAll('[data-fd-chip]').forEach(chip=>chip.addEventListener('click',()=>{
+      const w=chip.dataset.fdChip,v=heroInput.value.trim();
+      if(!norm(v).split(' ').includes(norm(w)))heroInput.value=(v?v+' ':'')+w;
+      go();
+    }));
+    hero.hidden=false;
+  }
   window.SS_DIRECTORY_GUIDE={ask,open:openGuide,close:()=>setExpanded(false,false)};
 })();

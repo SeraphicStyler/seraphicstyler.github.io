@@ -71,7 +71,7 @@
     "styling": [
       { "id": "edit", "name": "The Edit", "totalUsd": 235, "feeUsd": 135, "creditUsd": 100, "what": "3–4 pieces, one focused need" },
       { "id": "capsule", "name": "The Capsule", "totalUsd": 460, "feeUsd": 270, "creditUsd": 190, "what": "6–8 pieces that work together, with a lookbook" },
-      { "id": "atelier", "name": "The Atelier", "totalUsd": 600, "feeUsd": 310, "creditUsd": 290, "what": "Consultation plus a shopping session, in Saigon or on live video" },
+      { "id": "atelier", "name": "The Atelier", "totalUsd": 600, "feeUsd": 310, "creditUsd": 290, "what": "Consultation plus a shopping session, in Sài Gòn or on live video" },
       { "id": "signature", "name": "The Signature", "totalUsd": 790, "feeUsd": 310, "creditUsd": 480, "what": "Designer pieces and 60 days of support" },
       { "id": "custom-wardrobe", "name": "Custom Wardrobe", "totalUsd": 1500, "feeUsd": 800, "creditUsd": 700, "from": true, "what": "15–20 pieces for several occasions" },
       { "id": "custom-wardrobe-plus", "name": "Custom Wardrobe+", "totalUsd": 2000, "feeUsd": 1100, "creditUsd": null, "from": true, "feeFrom": true, "what": "21–30+ pieces, made-to-measure, quoted for you" }

@@ -55,12 +55,12 @@
   --surface-border: rgba(150, 120, 200, 0.22);
   --highlight:      rgba(201, 143, 196, 0.35);
 
-  /* reading light on a light band: ink ahead, orchid at the line, ink behind (all ≥ 4.5:1) */
-  --rh-ahead:    #636b98;
-  --rh-approach: #7d5a9e;
-  --rh-current:  #9a3f88;
-  --rh-wake:     #6b4a8f;
-  --rh-read:     #233a72;
+  /* reading highlight on the pastel band: the brand blend, deepened so each
+     stop clears 4.5:1 on the wash (orchid → violet → cobalt), ink once read */
+  --rh-ink:    #233a72;
+  --rh-bg:     #f3ecfb;
+  --rh-active: #6d4fb3;
+  --rh-active-gradient: linear-gradient(90deg, #9a3f88, #6d4fb3 55%, #2e54ad);
 }
 :root:not(.dark):not(.mono):not(.hc):not(.rm) section.night:not(#hero) > .wrap {
   background:

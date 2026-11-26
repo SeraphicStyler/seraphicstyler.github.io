@@ -33,25 +33,112 @@
       if(n.textContent!==value)n.textContent=value;
     });
   }
+  const cap=s=>s?String(s).charAt(0).toUpperCase()+String(s).slice(1):'';
+  function plateNode(h,px=40,cls='fd-cmp-plate'){
+    if(window.SS_HOUSE_PARTS?.plate){
+      const w=document.createElement('span');w.innerHTML=window.SS_HOUSE_PARTS.plate(h,{px,cls});return w.firstElementChild;
+    }
+    const ini=h.n.replace(/\(.*?\)/g,'').trim().split(/\s+/).slice(0,2).map(w=>w.charAt(0)).join('').toUpperCase();
+    const s=el('span','','ff-plate ff-mono '+cls);s.setAttribute('aria-hidden','true');s.append(el('span',ini));return s;
+  }
+  function housePicker(host){
+    const bar=el('div','','fd-cmp-picker');
+    let dl=document.getElementById('fd-cmp-datalist');
+    if(!dl){dl=document.createElement('datalist');dl.id='fd-cmp-datalist';houses.forEach(h=>{const o=document.createElement('option');o.value=h.n;dl.append(o);});document.body.append(dl);}
+    const inp=document.createElement('input');inp.type='search';inp.setAttribute('list','fd-cmp-datalist');
+    inp.placeholder=compared.length>=3?'Maximum 3 houses — remove one to swap':'Add a house to compare (up to 3)…';
+    inp.setAttribute('aria-label','Add a house to compare');inp.disabled=compared.length>=3;
+    const add=()=>{
+      const q=normal(inp.value);if(!q)return;
+      const idx=houses.findIndex(h=>normal(h.n)===q)||houses.findIndex(h=>normal(h.n).includes(q));
+      const hit=houses.findIndex(h=>normal(h.n)===q);
+      const chosen=hit>=0?hit:houses.findIndex(h=>normal(h.n).includes(q));
+      if(chosen>=0&&!compared.includes(chosen)&&compared.length<3){compared.push(chosen);inp.value='';houseComparison();}
+      else if(chosen<0){status.textContent='No matching house found in the directory.';}
+    };
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();add();}});
+    const addBtn=btn('+ Add',add);addBtn.disabled=compared.length>=3;
+    const savedBtn=btn('Compare saved',()=>{const picks=houses.map((h,i)=>tray.isSaved(h.h||h.n)?i:-1).filter(i=>i>=0).slice(0,3);if(picks.length){compared=picks;houseComparison();}else status.textContent='Save a few houses first, or type a house name above.';});
+    bar.append(inp,addBtn,savedBtn);
+    if(compared.length){const clr=btn('Clear all',()=>{compared=[];houseComparison();});clr.className='fd-cmp-clear';bar.append(clr);}
+    host.append(bar);
+  }
   function houseComparison(){
     const host=$('fd-house-comparison');host.replaceChildren();
-    if(!compared.length){host.append(el('p','Choose “Compare” on a house card, or start with your saved houses.'));host.append(btn('Compare saved houses',()=>{compared=houses.map((h,i)=>tray.isSaved(h.h||h.n)?i:-1).filter(i=>i>=0).slice(0,3);houseComparison();}));return;}
-    const matrix=el('table','','fd-comparison-matrix'),caption=el('caption','Recorded house details, side by side');matrix.append(caption);const thead=el('thead'),hr=el('tr');hr.append(el('th','Compare'));compared.forEach(i=>{const th=el('th',houses[i].n);th.scope='col';hr.append(th);});thead.append(hr);matrix.append(thead);const tb=el('tbody');
-    for(const [label,get]of [['Price tier',h=>h.tier==='none'?'Not recorded':h.tier],['Shopping',h=>access[h.st]],['Area',h=>h.area],['Materials',h=>(h.fib||[]).join(', ')],['Occasions',h=>(h.occ||[]).map(o=>occasions[o]||o).join(', ')],['Before visiting',h=>h.flag?'Confirmation requested in the notes':h.st==='appt'?'Arrange an appointment':'Confirm current hours'],['Fit & sizes',()=> 'Confirm for each garment']]){const tr=el('tr'),th=el('th',label);th.scope='row';tr.append(th);compared.forEach(i=>tr.append(el('td',known(get(houses[i])))));tb.append(tr);}const ar=el('tr'),ah=el('th','Shortlist');ah.scope='row';ar.append(ah);compared.forEach(index=>{const td=el('td');td.append(btn('Save',()=>{tray.addSaved(houses[index].h||houses[index].n);status.textContent=houses[index].n+' saved.';}),btn('Remove',()=>{compared=compared.filter(i=>i!==index);houseComparison();focusSection('house-compare');}));ar.append(td);});tb.append(ar);matrix.append(tb);host.append(matrix);
+    housePicker(host);
+    if(!compared.length){
+      const empty=el('div','','fd-cmp-empty');
+      empty.append(el('p','Type any house name above, choose “Compare” on a directory card, or load your saved houses to view up to three side by side.'));
+      host.append(empty);syncCompareButtons();return;
+    }
+    const wrap=el('div','','fd-cmp-wrap');
+    const matrix=el('table','','fd-comparison-matrix'),caption=el('caption','Recorded house details, side by side');matrix.append(caption);
+    const thead=el('thead'),hr=el('tr');hr.append(el('th','House'));
+    compared.forEach(i=>{
+      const h=houses[i],th=document.createElement('th');th.scope='col';
+      const head=el('div','','fd-cmp-colhead');
+      const top=el('div','','fd-cmp-coltop');
+      top.append(plateNode(h,40));
+      const rm=btn('×',()=>{compared=compared.filter(x=>x!==i);houseComparison();focusSection('house-compare');});
+      rm.className='fd-cmp-rm';rm.setAttribute('aria-label','Remove '+h.n+' from comparison');
+      top.append(rm);
+      const title=el('span',h.n,'fd-cmp-name');
+      const sub=el('span',category[h.cat]||h.cat,'fd-cmp-cat');
+      head.append(top,title,sub);
+      th.append(head);hr.append(th);
+    });
+    thead.append(hr);matrix.append(thead);
+    const tb=el('tbody');
+    const rowsSpec=[
+      ['Price tier',h=>h.tier&&h.tier!=='none'?cap(h.tier):'Not recorded','pill'],
+      ['Shopping',h=>access[h.st],'pill'],
+      ['Area',h=>h.area,'text'],
+      ['Materials',h=>(h.fib||[]).length?(h.fib||[]).join(', '):'Not recorded','text'],
+      ['Occasions',h=>(h.occ||[]).length?(h.occ||[]).map(o=>occasions[o]||o).join(', '):'Not recorded','text'],
+      ['Channel',h=>url(h.w)?{label:new URL(url(h.w)).hostname.replace(/^www\./,'')+' ↗',href:url(h.w)}:h.h?{label:'@'+h.h+' ↗',href:'https://instagram.com/'+encodeURIComponent(h.h)}:null,'link'],
+      ['Before visiting',h=>h.flag?'Confirm address & trading status':h.st==='appt'?'Arrange an appointment':'Confirm current hours','text'],
+      ['House notes',h=>h.no||'Not recorded','note']
+    ];
+    for(const [label,get,kind]of rowsSpec){
+      const tr=el('tr'),th=el('th',label);th.scope='row';tr.append(th);
+      compared.forEach(i=>{
+        const td=document.createElement('td'),val=get(houses[i]);
+        if(kind==='pill'&&val&&val!=='Not recorded'){td.append(el('span',val,'fd-cmp-pill'));}
+        else if(kind==='link'&&val){td.append(link(val.label,val.href));}
+        else if(kind==='note'&&val&&val!=='Not recorded'){const d=el('details');d.append(el('summary','Read note'),el('p',val));td.append(d);}
+        else{td.textContent=known(val);}
+        tr.append(td);
+      });
+      tb.append(tr);
+    }
+    const ar=el('tr'),ah=el('th','Shortlist');ah.scope='row';ar.append(ah);
+    compared.forEach(index=>{
+      const td=document.createElement('td'),h=houses[index],key=h.h||h.n;
+      const isSaved=tray.isSaved(key);
+      const sv=btn(isSaved?'Saved ✓':'Save',()=>{tray.addSaved(key);sv.textContent='Saved ✓';status.textContent=h.n+' saved.';});
+      td.append(sv,link('Full record','?view=record&brand='+encodeURIComponent(h.n.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''))));
+      ar.append(td);
+    });
+    tb.append(ar);matrix.append(tb);wrap.append(matrix);host.append(wrap);
     const row=el('div','','fd-compare-grid');row.classList.add('fd-house-mobile-comparison');
     compared.forEach(index=>{
-      const h=houses[index],card=el('article');card.append(el('h3',h.n));
-      card.append(facts([['Focus',category[h.cat]||h.cat],['Price tier',h.tier==='none'?'Not recorded':h.tier],['Shopping',access[h.st]],['Area',h.area],['Materials',(h.fib||[]).join(', ')],['Occasions',(h.occ||[]).map(o=>occasions[o]||o).join(', ')],['Before visiting',h.flag?'Confirm address and trading details':h.st==='appt'?'Confirm an appointment':'Confirm current opening hours'],['Shipping',/worldwide|international shipping/i.test(h.no||'')?'Mentioned in house notes; confirm destination':'Not recorded; ask the seller'],['Route planning',window.SS_COORDS?.[h.n]?'Location recorded; confirm address':'Location needs confirmation'],['Fit & sizes','Confirm for each garment']]));
+      const h=houses[index],card=el('article'),head=el('div','','fd-cmp-colhead');
+      const top=el('div','','fd-cmp-coltop');top.append(plateNode(h,40));head.append(top,el('h3',h.n));card.append(head);
+      card.append(facts([['Focus',category[h.cat]||h.cat],['Price tier',h.tier==='none'?'Not recorded':cap(h.tier)],['Shopping',access[h.st]],['Area',h.area],['Materials',(h.fib||[]).join(', ')],['Occasions',(h.occ||[]).map(o=>occasions[o]||o).join(', ')],['Before visiting',h.flag?'Confirm address and trading details':h.st==='appt'?'Confirm an appointment':'Confirm current opening hours']]));
       if(h.no){const note=el('details');note.append(el('summary','House notes'),el('p',h.no));card.append(note);}
       const actions=el('div','','fd-board-tools');
       if(url(h.w))actions.append(link('Open website ↗',url(h.w)));else if(h.h)actions.append(link('Open Instagram ↗','https://instagram.com/'+encodeURIComponent(h.h)));
       actions.append(btn('Save house',()=>{tray.addSaved(h.h||h.n);status.textContent=h.n+' saved to your tray.';}));
-      actions.append(btn('Remove from comparison',()=>{compared=compared.filter(i=>i!==index);houseComparison();$('fd-house-comparison').tabIndex=-1;$('fd-house-comparison').focus({preventScroll:true});}));card.append(actions);row.append(card);
+      actions.append(btn('Remove',()=>{compared=compared.filter(i=>i!==index);houseComparison();$('fd-house-comparison').tabIndex=-1;$('fd-house-comparison').focus({preventScroll:true});}));card.append(actions);row.append(card);
     });
-    host.append(row,el('p','Price tiers and materials describe the house, not every piece. Notes are directory observations; contact the seller for current sizing, shipping, and availability.'));
-    host.append(btn('Copy this shortlist',async()=>{const text=['Houses I would like to explore',...compared.map(i=>houses[i].n+' — '+new URL('#q='+encodeURIComponent(houses[i].n),location.origin+'/fashion-directory').href),'Please help me choose pieces. Size, budget, garments and timing still need confirmation.'].join('\n');try{await navigator.clipboard.writeText(text);status.textContent='Shortlist copied. Paste it into your styling request.';}catch{const area=el('textarea');area.value=text;area.readOnly=true;area.setAttribute('aria-label','House shortlist to copy');host.append(area);area.focus();area.select();}}));
-    host.append(link('Ask for a selection from these houses','/#lane-styling'));syncCompareButtons();
+    host.append(row,el('p','Price tiers and materials describe the house, not every piece. Notes are directory observations; contact the seller for current sizing, shipping, and availability.','fd-cmp-disclaimer'));
+    const bar=el('div','','fd-cmp-actions');
+    bar.append(btn('Copy this shortlist',async()=>{const text=['Houses I would like to explore',...compared.map(i=>houses[i].n+' — '+new URL('#q='+encodeURIComponent(houses[i].n),location.origin+'/fashion-directory').href),'Please help me choose pieces. Size, budget, garments and timing still need confirmation.'].join('\n');try{await navigator.clipboard.writeText(text);status.textContent='Shortlist copied. Paste it into your styling request.';}catch{const area=el('textarea');area.value=text;area.readOnly=true;area.setAttribute('aria-label','House shortlist to copy');host.append(area);area.focus();area.select();}}));
+    const askSel=link('Ask for a selection from these houses →','/#lane-styling');askSel.className='fd-cmp-cta';
+    bar.append(askSel);host.append(bar);syncCompareButtons();
   }
+  /* The quick look and the Tools menu (js/directory-wall.js) are drawn later; they ask for a repaint. */
+  window.SS_COMPARE={has:i=>compared.includes(i),sync:syncCompareButtons};
   function toggleHouse(index){
     if(!houses[index])return;
     if(compared.includes(index))compared=compared.filter(i=>i!==index);

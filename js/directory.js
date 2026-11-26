@@ -13,7 +13,7 @@ const STREETS=[
 {h:"Hai Bà Trưng · Tân Định",d:"District 1 · the sleepwear corridor",c:"3 doors",l:"VINCY Homewear (248) · Wacoal (232) · ONOFF (366) — all within ~300 m of the 214 Hai Bà Trưng stop"},
 {h:"11 Garmentory",d:"Phú Nhuận · 117B Nguyễn Đình Chính",c:"multi-brand hub",l:"Duu Stu flagship · Babie Club · Badchoices · The Fancé + rotating local creatives & The Muse café"},
 {h:"Lý Tự Trọng",d:"District 1",c:"4 shops",l:"The New Playground (26) · Wephobia (98) · Enuff Studio (261) · Calista de Minh Thanh (265)"},
-{h:"Lê Thánh Tôn",d:"District 1 · the tailor & shoe strip",c:"MTM row",l:"Dung Tailor (221) · ManGii custom shoes (228) · Shimmer Silver (128 Lê Lai nearby) — Saigon's made-to-measure heart"}
+{h:"Lê Thánh Tôn",d:"District 1 · the tailor & shoe strip",c:"MTM row",l:"Dung Tailor (221) · ManGii custom shoes (228) · Shimmer Silver (128 Lê Lai nearby) — Sài Gòn's made-to-measure heart"}
 ];
 
 /* ============ BRAND ICONS (icons/ folder, matched to entry names) ============ */
@@ -30,7 +30,7 @@ const CATS=[["all","fd.cat.all","All"],["women","fd.cat.women","Womenswear"],["m
 /* Location taxonomy = exactly the map's zones, so filters and card areas finally agree. */
 const LOCS=[
  ["all","fd.loc.all","Everywhere"],
- ["SGN","fd.loc.sgn","Saigon — all"],
+ ["SGN","fd.loc.sgn","Sài Gòn — all"],
  ["z:d1","fd.loc.d1","District 1",1],
  ["z:d3","fd.loc.d3","District 3",1],
  ["z:pn",null,"Phú Nhuận",1],
@@ -117,7 +117,7 @@ function curLang(){return window.SS_LANG?window.SS_LANG():"en";}
 /* Every dynamic string the page can render, as key + English default. */
 const LX=()=>({
   houses:T("fd.dyn.houses","houses"),
-  pct:T("fd.dyn.pct","% of Saigon"),
+  pct:T("fd.dyn.pct","% of Sài Gòn"),
   showAll:n=>TF("fd.dyn.showAll","Showing all {n} houses",{n}),
   showSome:(a,b)=>TF("fd.dyn.showSome","Showing {a} of {b} houses",{a,b}),
   banner:T("fd.dyn.banner",`Planning a trip around these houses? Read <a href="field-guide">the field guide</a> — getting around, dressing for the heat, and 1-to-30-day shopping itineraries.`),
@@ -132,9 +132,9 @@ const LX=()=>({
   shared:T("fd.dyn.shared","Link copied ✓"),
   shareFor:n=>TF("fd.dyn.shareFor","Share a link to {n}",{n}),
   moreF:T("fd.morefilters","More filters"),
-  stat:[T("fd.dyn.stat.1","houses catalogued"),T("fd.dyn.stat.2","in Saigon"),T("fd.dyn.stat.3","walk-in stores"),T("fd.dyn.stat.4","districts mapped")],
+  stat:[T("fd.dyn.stat.1","houses catalogued"),T("fd.dyn.stat.2","in Sài Gòn"),T("fd.dyn.stat.3","walk-in stores"),T("fd.dyn.stat.4","districts mapped")],
   streetsH:T("fd.dyn.streetsH","The retail clusters"),
-  streetsSub:T("fd.dyn.streetsSub","Saigon's fashion isn't spread evenly — these streets and buildings each hold several boutiques, the highest-value stops on any styling route."),
+  streetsSub:T("fd.dyn.streetsSub","Sài Gòn's fashion isn't spread evenly — these streets and buildings each hold several boutiques, the highest-value stops on any styling route."),
   showAllBtn:n=>TF("fd.dyn.showAllBtn","Show all {n} houses",{n}),
   removeF:l=>TF("fd.dyn.removeF","Remove filter: {l}",{l}),
   searchF:q=>TF("fd.dyn.searchF","Search: “{q}”",{q}),
@@ -144,7 +144,7 @@ const LX=()=>({
   one:T("fd.dyn.one","Exactly one house matches."),
   oneBtn:n=>TF("fd.dyn.showAllBtn","Show all {n} houses",{n}),
   emptyH:T("fd.dyn.emptyH","No houses match"),
-  emptyP:T("fd.dyn.emptyP","Nothing in the directory fits that combination — Saigon's scene moves fast, but not that fast."),
+  emptyP:T("fd.dyn.emptyP","Nothing in the directory fits that combination — Sài Gòn's scene moves fast, but not that fast."),
   actClear:T("fd.dyn.actClear","Clear search"),
   actAll:n=>TF("fd.dyn.showAllBtn","Show all {n} houses",{n}),
   actWomen:T("fd.dyn.actWomen","Browse womenswear"),
@@ -179,7 +179,7 @@ function vibeOf(b){return b.vibe||VIBEMAP[b.n]||"";}
 /* group tuples: [key, EN title, EN desc, VI title] — descs stay EN (data precedent) */
 /* group tuples: [key] — title + description resolve from the bundle at render time */
 const GROUPS=[
- ["women","Contemporary womenswear","Local design houses and boutiques — the heart of the Saigon scene, plus a few chains and Hanoi names."],
+ ["women","Contemporary womenswear","Local design houses and boutiques — the heart of the Sài Gòn scene, plus a few chains and Hanoi names."],
  ["men","Menswear & streetwear","Local menswear labels, streetwear flagships (most unisex-leaning) and made-to-measure suiting."],
  ["luxury","Luxury & couture","Designer labels and made-to-order houses. Most work by appointment; several show internationally."],
  ["bridal","Bridal — gowns & áo dài cưới","Wedding dresses and áo dài cưới made to buy and keep — couture houses, made-to-measure studios and the accessories that finish the look. Buy-to-own only: everything here can ship home with you."],
@@ -188,7 +188,7 @@ const GROUPS=[
  ["access","Eyewear, shoes, bags & jewelry","Vietnamese accessory labels with real HCMC stores."],
  ["lingerie","Lingerie & intimates","Designer and handmade lingerie houses first, then the counters that actually fit a band and a cup — most Vietnamese labels sell S/M/L only, which is the thing to know before you go. Sizes run small; the fitting group is the safer start above ~34C."],
  ["sleep","Sleep & loungewear","Cotton, linen and silk nightwear built for tropical nights — the natural-fibre houses, not the polyester-satin mass market."],
- ["vintage","Vintage & preloved","Curated secondhand houses, reworked one-offs and đồ si hunting grounds — Saigon's circular wardrobe. I can pair finds with a trusted tailor for repairs and resizing."],
+ ["vintage","Vintage & preloved","Curated secondhand houses, reworked one-offs and đồ si hunting grounds — Sài Gòn's circular wardrobe. I can pair finds with a trusted tailor for repairs and resizing."],
  ["market","Markets & pop-ups","Where many brands gather at once — highest value per trip. Dates roam; check socials first."]
 ];
 const grpTitle=g=>T("fd.grp."+g[0]+".t",g[1]);
@@ -537,9 +537,9 @@ const ZONES=[
  {k:"td",x:634,y:168,n:"Thảo Điền"},
  {k:"q5",x:256,y:384,n:"Q5 · Chợ Lớn"}
 ];
-const ZONE_OTHER={k:"other",n:"Other Saigon listings"};
+const ZONE_OTHER={k:"other",n:"Other Sài Gòn listings"};
 const DISTRICTS=ZONES.length;
-/* Every Saigon record maps to exactly one node → node counts sum to the "in Saigon" total. */
+/* Every Saigon record maps to exactly one node → node counts sum to the "in Sài Gòn" total. */
 function zoneOf(b){
  if(b.city!=="SGN")return null;
  const a=b.area||"";
@@ -750,7 +750,7 @@ document.getElementById("main").addEventListener("click",e=>{
   const sh=e.target.closest(".shr");
   if(sh){ /* share a deep link that lands as a pre-filled search + removable chip */
     const url=location.href.split("#")[0]+"#q="+encodeURIComponent(sh.dataset.n);
-    if(navigator.share)navigator.share({title:sh.dataset.n+" — The Saigon Fashion Directory",url}).catch(()=>{});
+    if(navigator.share)navigator.share({title:sh.dataset.n+" — The Sài Gòn Fashion Directory",url}).catch(()=>{});
     else if(navigator.clipboard)navigator.clipboard.writeText(url).then(()=>{
       const L=LX();sh.classList.add("ok");sh.textContent=L.shared;
       setTimeout(()=>{sh.classList.remove("ok");sh.textContent=LX().share;},1500);
@@ -817,7 +817,9 @@ const sheetCtl=(function(){
   let opener=null,startY=null,curY=0;
   const mq=matchMedia("(max-width:720px)");
   function relocate(){ /* one set of controls, two homes: controls row on desktop, sheet on mobile */
-    if(mq.matches){body.appendChild(row2);body.appendChild(more);more.classList.add("open");}
+    /* 16 Nov 2026: with the workspace layout, filters open in the same panel at every width
+       (bottom sheet on a phone, side drawer on desktop), so the house wall keeps the full page. */
+    if(mq.matches||document.documentElement.classList.contains("fd-workspace")){body.appendChild(row2);body.appendChild(more);more.classList.add("open");}
     else{const ab=document.getElementById("activebar");controls.append(row2,more);
       more.classList.remove("open");
       const mbn=document.getElementById("morebtn");mbn.setAttribute("aria-expanded","false");
@@ -1013,6 +1015,7 @@ addEventListener("hashchange",function(){
 
 /* — Reusable hooks for the route planner (js/route-panel.js): reuse the real zoneOf/match/mapsUrl — */
 window.SS_FD={zoneOf,match,mapsUrl,refresh:render,sort:sortList,streets:streetsPanel,
+ groups:()=>GROUPS.map(g=>({id:g[0],title:grpTitle(g),desc:grpDesc(g)})),
  state:()=>({q:fQ,cat:fCat,city:fCity,tier:fTier,fib:fFib,occ:fOcc,zone:fZone,walk:fWalk,saved:fSaved,sig:fSig,sort:fSort}),
  facetCounts:()=>{const result={};for(const [key,id,fn] of [['cat','catchips',(b,v)=>v==='all'||b.cat===v],['loc','locsel',(b,v)=>v==='all'||(v.startsWith('z:')?zoneOf(b)===v.slice(2):b.city===v)],['tier','tiersel',(b,v)=>v==='all'||b.tier===v],['fib','fibsel',(b,v)=>v==='all'||fibMatch(b,v)],['occ','occsel',(b,v)=>v==='all'||occOf(b).includes(v)]]){const candidates=B.filter(b=>match(b,key));result[id]={};document.querySelectorAll('#'+id+' '+(key==='cat'?'button':'option')).forEach(n=>{const v=key==='cat'?n.dataset.v:n.value;result[id][v]=candidates.filter(b=>fn(b,v)).length;});}return result;},
  openFilters:()=>sheetCtl.open(document.activeElement),reset:()=>{history.replaceState(null,'',location.pathname+location.search);applyHash();syncUI();}};

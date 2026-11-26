@@ -76,7 +76,7 @@
       invalid: 'That looks outside the range I can read — double-check the number?',
       buckets: {
         petite: 'The smallest local sizes — petite & junior frames.',
-        standard: 'The widest selection in Saigon boutiques sits here.',
+        standard: 'The widest selection in Sài Gòn boutiques sits here.',
         upper: 'Often the top of a standard shop’s range — I check shoulders, sleeves & rise in person.',
         large: 'Limited in general stores, so I source labels that truly pattern this size.',
         inclusive: 'Through size-inclusive labels like Himistore (to 6XL) & Cow’s House.'

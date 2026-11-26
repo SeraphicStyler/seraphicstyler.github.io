@@ -78,8 +78,8 @@
       bridal: ['Bridal', 'Gowns and áo dài cưới made to buy and keep — not rented.'],
       silk: ['Natural fibre', 'Houses that name their cloth — linen, cotton, hemp, silk.'],
       plant: ['Plant-based · no silk', 'Vegan-friendly: stated cloth is linen, cotton, hemp or TENCEL, with no silk named.'],
-      circular: ['Upcycled & vintage', 'Reworked one-offs and Saigon’s secondhand trade.'],
-      women: ['Everyday designer', 'Small local labels — the wardrobe Saigon actually wears.']
+      circular: ['Upcycled & vintage', 'Reworked one-offs and Sài Gòn’s secondhand trade.'],
+      women: ['Everyday designer', 'Small local labels — the wardrobe Sài Gòn actually wears.']
     },
     stateH: 'Showing', clearAll: 'Clear all', removeF: 'Remove {x}',
     refineH: 'Narrow it:', moreWays: 'Other ways in:',
@@ -108,7 +108,7 @@
     fibs: { plant: 'plant-based', natural: 'natural fibre', linen: 'linen', cotton: 'cotton', silk: 'silk', hemp: 'hemp', tencel: 'TENCEL', circular: 'upcycled' },
     occs: { event: 'balls & formal', night: 'nightlife', bday: 'birthdays' },
     zones: { d1: 'District 1', d3: 'District 3', pn: 'Phú Nhuận', td: 'Thảo Điền', bt: 'Bình Thạnh', tb: 'Tân Bình', tp: 'Tân Phú', gv: 'Gò Vấp', q5: 'Q5 · Chợ Lớn', other: 'Online & hubs' },
-    modes: { ship: 'ship to me', visit: 'visiting Saigon' },
+    modes: { ship: 'ship to me', visit: 'visiting Sài Gòn' },
     walk: 'walk-in', sig: 'signature houses', han: 'Hanoi',
     facet: { cat: 'category', zone: 'district', city: 'city', tier: 'budget', fib: 'fabric', occ: 'occasion', walk: 'walk-in', sig: 'signature', mode: 'delivery' },
     close: 'Close concierge', langBtn: 'Listening language',
@@ -602,7 +602,7 @@
       .replace(/\bD(\d{1,2})\b/g, vi ? 'Quận $1' : 'District $1')
       .replace(/\bQ\.?\s?(\d{1,2})\b/g, vi ? 'Quận $1' : 'District $1')
       .replace(/\bP\.\s?(\d{1,2})\b/g, vi ? 'Phường $1' : 'Ward $1')
-      .replace(/\bSGN\b/g, vi ? 'Sài Gòn' : 'Saigon')
+      .replace(/\bSGN\b/g, vi ? 'Sài Gòn' : 'Sài Gòn')
       .replace(/\bHanoi\b/g, vi ? 'Hà Nội' : 'Hanoi')
       .replace(/\bVN\b/g, vi ? 'Việt Nam' : 'Vietnam')
       .replace(/\bINTL\b/g, vi ? 'nước ngoài' : 'overseas')

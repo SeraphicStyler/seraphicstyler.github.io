@@ -1,0 +1,54 @@
+/* Reading highlight: shared by San Fitness, Sanraphically, The Soft Bunny and Seraphic Styler.
+   Driven by reading-highlight.js. Mark a passage's paragraphs with data-rh.
+
+   Each site sets, on or above the [data-rh] blocks:
+     --rh-ink               read colour (the site's full ink; default: the text's own colour)
+     --rh-bg                the surface behind the passage (default transparent:
+                            unread is then the ink at 30% opacity, right on any backdrop)
+     --rh-active            accent for the line being read
+     --rh-active-gradient   optional: a horizontal gradient used instead
+     --rh-unread-mix        optional: how much ink unread lines keep (30%)
+     --rh-focus             optional: reading line, fraction of viewport (0.5)
+     --rh-off: 1            turns it off (site reduce-motion / contrast toggles) */
+
+/* Default Seraphic Styler palette (zero-specificity so page/section rules override cleanly). */
+:where(html) {
+  --rh-active: #6d4fb3;
+  --rh-active-gradient: linear-gradient(90deg, #9a3f88, #6d4fb3 55%, #2e54ad);
+}
+:where(html.dark) {
+  --rh-active: #c9b6e8;
+  --rh-active-gradient: linear-gradient(90deg, #c98fc4, #c9b6e8 55%, #a9b8ee);
+}
+:where(html.mono) {
+  --rh-active: var(--accent, #2e54ad);
+  --rh-active-gradient: initial;
+}
+:where(html.rm [data-rh], html.hc [data-rh]) { --rh-off: 1; }
+
+[data-rh] {
+  --rh-unread: color-mix(in oklab, var(--rh-ink, currentColor) var(--rh-unread-mix, 30%), var(--rh-bg, transparent));
+  --rh-read: var(--rh-ink, currentColor);
+  --rh-fill: var(--rh-active-gradient, linear-gradient(90deg, var(--rh-active), var(--rh-active)));
+}
+
+/* Live: the colour lives in gradients clipped to the glyphs, so the glyph
+   fill is transparent, descendants too. `color` is left alone, so underlines
+   and currentColor keep working. Nothing moves; only colour changes. */
+[data-rh].rh-live {
+  -webkit-background-clip: text; background-clip: text;
+  background-origin: border-box; background-repeat: no-repeat;
+  background-size: 100% 100%;
+  -webkit-text-fill-color: transparent;
+}
+[data-rh].rh-live * { -webkit-text-fill-color: transparent; }
+
+/* Selected text shows solid so it can be read while highlighted. */
+[data-rh].rh-live::selection, [data-rh].rh-live ::selection { -webkit-text-fill-color: var(--rh-read); }
+
+@media (forced-colors: active) {
+  [data-rh], [data-rh] * { -webkit-text-fill-color: CanvasText; color: CanvasText; background: none; }
+}
+@media print {
+  [data-rh], [data-rh] * { -webkit-text-fill-color: #000 !important; color: #000 !important; background: none !important; }
+}

@@ -287,7 +287,7 @@
         '<div class="sq-spectrum"><p class="sq-spec-h">Most people are a blend — here’s yours</p>' + bars + '</div>' +
         '<div class="sq-cues"><div><h4>Look for</h4><ul>' + look + '</ul></div>' +
           '<div><h4>Maybe skip</h4><p>' + esc(P.skip) + '</p></div></div>' +
-        '<div class="sq-board-head"><h3>Your houses in Saigon</h3>' +
+        '<div class="sq-board-head"><h3>Your houses in Sài Gòn</h3>' +
           '<p class="sq-muted">' + houses.length + ' verified ' + (houses.length === 1 ? 'house' : 'houses') + ' matched to your style' +
           (tierPref ? ' and budget' : '') + '. Tap any to see their pieces.</p></div>' +
         '<div class="sq-board">' + board + '</div>' +

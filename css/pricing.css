@@ -33,7 +33,7 @@
 /* ---- Boutique fee trio ------------------------------------------------- */
 .fee-trio { list-style: none; margin: 1.2rem 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; }
 .fee-trio li { border: 1px solid var(--surface-border); border-radius: 16px; background: var(--surface); padding: .95rem .9rem; text-align: center; }
-.fee-trio b { display: block; font-family: 'Cormorant Garamond', var(--font-display); font-weight: 500; font-size: 2rem; line-height: 1; color: var(--accent); }
+.fee-trio b { display: block; font-family: var(--font-display); font-weight: 500; font-size: 2rem; line-height: 1; color: var(--accent); }
 .fee-trio span { display: block; margin-top: .4rem; font: 500 .84rem/1.35 var(--font-body); color: var(--text-primary); }
 .fee-trio small { display: block; margin-top: .25rem; font: .76rem/1.5 var(--font-body); color: var(--text-secondary); }
 @media (max-width: 560px) {
@@ -138,10 +138,10 @@ html:not(.pr-js) .pr-page .aud-switch { display: none; }
 .pr-sec { padding: clamp(2rem, 6vh, 3rem) 0; border-top: 1px solid var(--surface-border); scroll-margin-top: 7.5rem; }
 .pr-view > .pr-sec:first-of-type { margin-top: 1.4rem; }
 .pr-who { margin: 0 0 .2rem; font-family: var(--font-brand); text-transform: uppercase; letter-spacing: .2em; font-size: .62rem; color: var(--eyebrow-ink); }
-.pr-sec h2 { margin: 0; font-family: 'Cormorant Garamond', var(--font-display); font-weight: 500; font-size: clamp(1.7rem, 4.6vw, 2.1rem); line-height: 1.1; color: var(--text-primary); }
+.pr-sec h2 { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: clamp(1.7rem, 4.6vw, 2.1rem); line-height: 1.1; color: var(--text-primary); }
 .pr-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .7rem; margin: .9rem 0 .4rem; padding: .85rem 1rem; border-radius: 14px;
   background: linear-gradient(135deg, var(--accent-soft), transparent 70%); border: 1px solid var(--surface-border); }
-.pr-price b { font-family: 'Cormorant Garamond', var(--font-display); font-weight: 500; font-size: clamp(1.8rem, 6vw, 2.3rem); line-height: 1.05; color: var(--accent); }
+.pr-price b { font-family: var(--font-display); font-weight: 500; font-size: clamp(1.8rem, 6vw, 2.3rem); line-height: 1.05; color: var(--accent); }
 .pr-price b .money-alt { font-family: var(--font-body); font-size: .4em; letter-spacing: 0; }
 .pr-price > span { font: .84rem var(--font-body); color: var(--text-secondary); }
 .pr-sec p, .pr-sec li, .pr-sec figcaption { max-width: 68ch; }
@@ -190,8 +190,8 @@ html.dark .pr-btn { color: #1a1d29; }
 .pm-card[aria-selected="true"] { border-color: var(--accent); background: linear-gradient(135deg, var(--accent-soft), transparent 75%), var(--surface-solid);
   box-shadow: 0 16px 32px -24px var(--accent); }
 .pm-who { font-family: var(--font-brand); text-transform: uppercase; letter-spacing: .16em; font-size: .56rem; line-height: 1.5; color: var(--eyebrow-ink); }
-.pm-name { font-family: 'Cormorant Garamond', var(--font-display); font-weight: 500; font-size: 1.45rem; line-height: 1.15; }
-.pm-price { margin-top: .2rem; font-family: 'Cormorant Garamond', var(--font-display); font-weight: 500; font-size: 1.35rem; line-height: 1.2; color: var(--accent); }
+.pm-name { font-family: var(--font-display); font-weight: 500; font-size: 1.45rem; line-height: 1.15; }
+.pm-price { margin-top: .2rem; font-family: var(--font-display); font-weight: 500; font-size: 1.35rem; line-height: 1.2; color: var(--accent); }
 .pm-price .money-alt { font-family: var(--font-body); font-size: .62em; }
 .pm-sub { font-size: .76rem; line-height: 1.45; color: var(--text-secondary); }
 .pm-more { margin-top: auto; padding-top: .55rem; font: .7rem var(--font-accent); letter-spacing: .04em; color: var(--accent); }
@@ -201,7 +201,7 @@ html.dark .pr-btn { color: #1a1d29; }
   scroll-margin-top: 6rem; text-align: left; }
 .pm-panel[hidden] { display: none; }
 .pm-panel:focus { outline: none; }
-.pm-panel-h { margin: 0 0 .2rem; font-family: 'Cormorant Garamond', var(--font-display); font-weight: 500; font-size: 1.6rem; color: var(--text-primary); }
+.pm-panel-h { margin: 0 0 .2rem; font-family: var(--font-display); font-weight: 500; font-size: 1.6rem; color: var(--text-primary); }
 .pm-panel .pr-points, .pm-panel .pr-ex, .pm-panel p { max-width: 72ch; }
 .pm-note { margin: 1rem auto 0; max-width: 72ch; text-align: center; font: .76rem/1.6 var(--font-body); color: var(--text-secondary); }
 .pm-foot { margin: .5rem auto 0; text-align: center; font: .86rem/1.7 var(--font-body); color: var(--text-secondary); }
@@ -246,7 +246,7 @@ html:not(.js) .pm:not(.pm-js) .pm-more { display: none; }
 /* ---- The Trace module: hierarchy (7 Nov 2026) ----
    lead (kicker + intro + chips) → "is it a Trace?" split → numbered grid → one note. */
 .tr-lead { max-width: 640px; margin: 1.4rem auto 0; text-align: center; }
-.tr-kicker { font-family: var(--font-display, "Merriweather Sans", sans-serif); font-weight: 700; font-size: clamp(1.15rem, 2vw, 1.35rem); color: var(--text-primary); margin: 0 0 .5rem; letter-spacing: -.01em; }
+.tr-kicker { font-family: var(--font-display, "Merriweather Sans", sans-serif); font-weight: 500; font-size: clamp(1.15rem, 2vw, 1.35rem); color: var(--text-primary); margin: 0 0 .5rem; letter-spacing: -.01em; }
 .tr-intro { color: var(--text-secondary); line-height: 1.7; margin: 0; }
 .tr-chips { list-style: none; padding: 0; margin: 1rem 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; }
 .tr-chips li { font-size: .8rem; font-weight: 500; color: var(--text-primary); padding: .4rem .85rem; border-radius: 999px;
@@ -263,12 +263,12 @@ html:not(.js) .pm:not(.pm-js) .pm-more { display: none; }
 .tr-no li::before { content: "→"; position: absolute; left: 0; color: var(--text-secondary); }
 .tr-sort a { color: var(--accent); font-weight: 600; }
 
-.tr-h { text-align: center; font-family: var(--font-display, "Merriweather Sans", sans-serif); font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin: 2rem 0 .9rem; }
+.tr-h { text-align: center; font-family: var(--font-display, "Merriweather Sans", sans-serif); font-size: 1.05rem; font-weight: 500; color: var(--text-primary); margin: 2rem 0 .9rem; }
 .tr-grid { list-style: none; padding: 0; margin: 0 auto; max-width: 860px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; text-align: left; }
 .tr-grid li { display: grid; grid-template-columns: 2.2rem 1fr; column-gap: .6rem; row-gap: .15rem; padding: .95rem 1.05rem; border-radius: 14px;
   background: var(--surface-solid); border: 1px solid var(--surface-border); box-shadow: 0 10px 24px -20px rgba(35,58,114,.4); }
 .tr-grid li:last-child { grid-column: 1 / -1; background: linear-gradient(150deg, rgba(138,147,222,.16), rgba(201,143,196,.12)), var(--surface-solid); }
-.tr-n { grid-row: span 2; font-family: var(--font-display, sans-serif); font-weight: 700; font-size: .95rem; color: #8a93de; padding-top: .05rem; }
+.tr-n { grid-row: span 2; font-family: var(--font-display, sans-serif); font-weight: 500; font-size: .95rem; color: #8a93de; padding-top: .05rem; }
 .tr-grid strong { font-size: .92rem; color: var(--text-primary); }
 .tr-grid li > span:not(.tr-n) { font-size: .84rem; line-height: 1.55; color: var(--text-secondary); }
 .tr-note { max-width: 640px; margin: 1.4rem auto 0; padding: .9rem 1.1rem; border-left: 3px solid #c98fc4; border-radius: 0 12px 12px 0;
@@ -293,7 +293,7 @@ html.dark .tr-yes li::before { color: #e2a6d6; }
 /* ---- Price cards, simplified (7 Nov 2026): name → price → who it's for ---- */
 .pm-card { gap: .35rem; padding: 1.15rem 1.15rem 1.1rem; }
 .pm-name { font-family: var(--font-brand, 'Tenor Sans'), sans-serif; font-weight: 400; font-size: .74rem; letter-spacing: .18em; text-transform: uppercase; color: var(--eyebrow-ink); line-height: 1.4; }
-.pm-price { margin-top: .15rem; font-family: 'Cormorant Garamond', var(--font-display); font-weight: 500; font-size: 2.1rem; line-height: 1.05; color: var(--text-primary); display: flex; align-items: baseline; gap: .35rem; flex-wrap: wrap; }
+.pm-price { margin-top: .15rem; font-family: var(--font-display); font-weight: 500; font-size: 2.1rem; line-height: 1.05; color: var(--text-primary); display: flex; align-items: baseline; gap: .35rem; flex-wrap: wrap; }
 .pm-unit { font-family: var(--font-body); font-size: .78rem; font-weight: 400; color: var(--text-secondary); letter-spacing: 0; }
 .pm-unit:empty { display: none; }
 .pm-sub { font-size: .84rem; line-height: 1.45; color: var(--text-secondary); padding-right: 1.4rem; }

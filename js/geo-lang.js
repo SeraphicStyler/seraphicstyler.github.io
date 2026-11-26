@@ -41,7 +41,7 @@
   /* The visitor's time zone names their country closely enough to suggest a
      language, with no permission prompt and nothing sent anywhere. */
   var TZ_COUNTRY = {
-    'Asia/Ho_Chi_Minh':'VN','Asia/Saigon':'VN','Asia/Shanghai':'CN','Asia/Chongqing':'CN','Asia/Urumqi':'CN','Asia/Hong_Kong':'HK','Asia/Macau':'MO','Asia/Taipei':'TW',
+    'Asia/Ho_Chi_Minh':'VN','Asia/Sài Gòn':'VN','Asia/Shanghai':'CN','Asia/Chongqing':'CN','Asia/Urumqi':'CN','Asia/Hong_Kong':'HK','Asia/Macau':'MO','Asia/Taipei':'TW',
     'Asia/Tokyo':'JP','Asia/Seoul':'KR','Asia/Bangkok':'TH','Asia/Jakarta':'ID','Asia/Makassar':'ID','Asia/Jayapura':'ID','Asia/Pontianak':'ID','Asia/Manila':'PH',
     'Asia/Phnom_Penh':'KH','Asia/Kolkata':'IN','Asia/Calcutta':'IN','Asia/Tehran':'IR','Asia/Riyadh':'SA','Asia/Dubai':'AE','Asia/Qatar':'QA','Asia/Kuwait':'KW',
     'Asia/Bahrain':'BH','Asia/Muscat':'OM','Asia/Amman':'JO','Asia/Beirut':'LB','Asia/Baghdad':'IQ','Asia/Aden':'YE','Africa/Cairo':'EG','Africa/Casablanca':'MA',

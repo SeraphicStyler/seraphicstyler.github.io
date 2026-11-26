@@ -299,7 +299,7 @@
       });
       var gRate = function (c) { return (gRates && gRates[c] != null) ? gRates[c] : (GFB[c] != null ? GFB[c] : 1); };
       var gFmt = function (n, c) {
-        try { return new Intl.NumberFormat(undefined, { style: 'currency', currency: c, maximumFractionDigits: (c === 'JPY' || c === 'KRW' || c === 'VND' || n >= 100 ? 0 : 2) }).format(n); }
+        try { return new Intl.NumberFormat(undefined, { style: 'currency', currency: c, minimumFractionDigits: 0, maximumFractionDigits: (c === 'JPY' || c === 'KRW' || c === 'VND' || n >= 100 ? 0 : 2) }).format(n); }
         catch (e) { return '$' + Math.round(n); }
       };
       var gRender = function () {

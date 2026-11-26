@@ -66,9 +66,8 @@
  const formats=node('div','','fd-formats');formats.setAttribute('role','group');formats.setAttribute('aria-label','Result format');
  ['compact','rich'].forEach(value=>{const b=button(value==='compact'?'Compact list':'Rich cards',()=>{format=value;page=1;engine.refresh();});b.dataset.format=value;formats.append(b);});tools.append(formats);top.append(tools,$('#activebar'));
  const help=node('form','','fd-context-guide');const l=node('label','Need help narrowing it down?');l.htmlFor='fd-context-question';const input=node('input');input.id='fd-context-question';input.maxLength=400;input.placeholder='Try “linen in District 3”';input.autocomplete='off';const send=node('button','Find a direction');send.type='submit';help.append(l,input,send);help.addEventListener('submit',e=>{e.preventDefault();if(input.value.trim()){window.SS_DIRECTORY_GUIDE?.ask(input.value.trim());input.value='';}});const helpDetails=node('details','','fd-context-disclosure');helpDetails.append(node('summary','Need help choosing? Ask the directory.'),help);top.append(helpDetails);
- // Keep the category facet in the existing mobile bottom sheet, not a second form.
- const catField=$('#catchips').closest('fieldset'),controls=$('.controls .wrap'),mobile=matchMedia('(max-width:720px)');
- function moveCategories(){if(mobile.matches)$('#sheetbody').prepend(catField);else controls.prepend(catField);}mobile.addEventListener('change',moveCategories);moveCategories();
+ // 16 Nov 2026: categories are one scrolling row under the search at every width (they stay in view while browsing).
+ const catField=$('#catchips').closest('fieldset');catField.classList.add('fd-catbar');top.after(catField);
  const exploreTools=node('div','','fd-explore-tools');exploreTools.append(link('Browse district clusters','?view=visit'),link('Signature houses','#sig=1'),link('Linen houses','#fib=linen'),link('Silk houses','#fib=silk'));$('#browse .wrap').append(exploreTools);
  const editorial=node('div','','fd-explore-clusters');editorial.innerHTML=engine.streets();$('#browse .wrap').append(editorial);
  function href(v,id){const u=new URL(location.href);if(u.hash&&!u.hash.includes('='))u.hash='';u.searchParams.set('view',v);if(id)u.searchParams.set('brand',id);else u.searchParams.delete('brand');return u.pathname+u.search+u.hash;}
@@ -89,7 +88,7 @@
  function adopt(v){show(v);const u=new URL(location.href);u.searchParams.set('view',v);u.searchParams.delete('brand');history.replaceState(null,'',u.pathname+u.search+u.hash);}
  function revealHash(){const hash=location.hash.slice(1);if(hashViews[hash])adopt(hashViews[hash]);else if(/^(q|cat|city|tier|fib|occ|zone|walk|saved|sig|sort)=/.test(hash))adopt('search');else if(/^(plain-|ss-static-index|fd-reference-notes)/.test(hash)){adopt('reference');}}
  document.addEventListener('click',e=>{
-  const a=e.target.closest('a');if(a){const u=new URL(a.href,location.href);if(u.origin===location.origin&&u.pathname===location.pathname){if(u.searchParams.has('view')&&!a.getAttribute('href').startsWith('#')){e.preventDefault();go(u.searchParams.get('view'),u.searchParams.get('brand'));return;}if(u.hash){const id=u.hash.slice(1);if(hashViews[id])adopt(hashViews[id]);if(id==='filters'&&mobile.matches){e.preventDefault();engine.openFilters();return;}if(id.startsWith('plain-')||id==='ss-static-index'||id==='fd-reference-notes'){adopt('reference');}}}}
+  const a=e.target.closest('a');if(a){const u=new URL(a.href,location.href);if(u.origin===location.origin&&u.pathname===location.pathname){if(u.searchParams.has('view')&&!a.getAttribute('href').startsWith('#')){e.preventDefault();go(u.searchParams.get('view'),u.searchParams.get('brand'));return;}if(u.hash){const id=u.hash.slice(1);if(hashViews[id])adopt(hashViews[id]);if(id==='filters'){e.preventDefault();engine.openFilters();return;}if(id.startsWith('plain-')||id==='ss-static-index'||id==='fd-reference-notes'){adopt('reference');}}}}
   const action=e.target.closest('.tabbar [data-act]')?.dataset.act;if(action){if(['search','all','sheet'].includes(action))adopt('search');if(action==='map')adopt('visit');if(action==='compare')adopt('compare');if(action==='board')adopt('buy');}
  },true);
  addEventListener('popstate',restore);addEventListener('hashchange',revealHash);
@@ -120,6 +119,8 @@
   formats.querySelectorAll('[data-format]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.format===format)));
   document.body.dataset.resultFormat=format;
   visibleRows=engine.sort(shown);if(format==='rich')return false;
+  /* 16 Nov 2026: the logo wall and its detail cards (js/directory-wall.js) draw the results; the cards below remain as the fallback. */
+  if(window.SS_WALL_RENDER?.({host,shown,rows:visibleRows,q,catalog,href}))return true;
   host.replaceChildren();const title=node('h2',window.SS_TF('fd.ws.count','{n} houses',{n:shown.length}));title.className='fd-results-title';host.append(title,node('p','Directory observations, not live stock. Confirm current hours before a visit.','fd-results-note'));
   const max=Math.max(1,Math.ceil(visibleRows.length/24));page=Math.min(page,max);
   if(!shown.length){host.append(node('p','No houses match these filters. Remove a filter or clear the search to try again.'),button('Clear all filters',()=>engine.reset()));return true;}

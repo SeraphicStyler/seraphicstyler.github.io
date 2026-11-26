@@ -18,17 +18,17 @@ body:has(#fd-guide-launcher) .chub { bottom: 84px; }
 
 /* ---- the button ---- */
 .chub .chub-fab {
-  position: relative; width: 58px; height: 58px; border-radius: 50%; border: 0; padding: 0; cursor: pointer;
-  display: grid; place-items: center; color: #fff; background: var(--chub-aurora);
-  box-shadow: 0 14px 30px -12px rgba(60, 50, 140, .6), 0 0 0 1px rgba(255, 255, 255, .35) inset;
-  animation: chub-breathe 3.8s ease-in-out infinite;
-  transition: transform .3s cubic-bezier(.25, 1, .5, 1), box-shadow .3s ease;
+  position: relative; width: 52px; height: 52px; border-radius: 50%; padding: 0; cursor: pointer;
+  display: grid; place-items: center; color: var(--chub-accent);
+  background: color-mix(in srgb, var(--chub-surface) 90%, transparent);
+  border: 1px solid color-mix(in srgb, var(--chub-accent) 24%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2); backdrop-filter: blur(16px) saturate(1.2);
+  box-shadow: 0 12px 26px -14px rgba(35, 58, 114, .35), 0 0 0 1px rgba(201, 182, 232, .25);
+  transition: transform .3s cubic-bezier(.25, 1, .5, 1), border-color .25s ease, box-shadow .3s ease;
 }
-.chub .chub-fab:hover { transform: translateY(-3px) scale(1.04); }
+.chub .chub-fab:hover { transform: translateY(-2px); border-color: var(--chub-accent); box-shadow: 0 14px 30px -12px rgba(46, 84, 173, .38), 0 0 0 4px color-mix(in srgb, var(--chub-accent) 8%, transparent); }
 .chub-fab:focus-visible { outline: 2px solid var(--chub-accent); outline-offset: 4px; }
-.chub-beacon { position: absolute; inset: -22px; border-radius: 50%; z-index: 0; pointer-events: none;
-  background: radial-gradient(circle, rgba(201, 143, 196, .45) 0%, rgba(138, 147, 222, .2) 40%, transparent 66%); opacity: .5; }
-.chub-ring { display: none; }
+.chub-beacon, .chub-ring { display: none; }
 .chub-icon { position: relative; z-index: 1; grid-area: 1 / 1; display: grid; place-items: center; transition: opacity .25s ease, transform .3s ease; }
 .chub-icon svg { width: 24px; height: 24px; }
 .chub-icon-close { opacity: 0; transform: rotate(-60deg) scale(.7); }
@@ -59,7 +59,7 @@ body:has(#fd-guide-launcher) .chub { bottom: 84px; }
 }
 .chub-pop[hidden] { display: none; }
 .chub.open .chub-pop { opacity: 1; transform: none; }
-.chub-pop-title { margin: 0; font: 400 1.45rem/1.2 var(--font-script-alt, "Cormorant Garamond", Georgia, serif); letter-spacing: -.01em; color: var(--chub-ink); text-transform: lowercase; }
+.chub-pop-title { margin: 0; font: 400 1.45rem/1.2 var(--font-script, "Pinyon Script", cursive); letter-spacing: -.01em; color: var(--chub-ink); text-transform: lowercase; }
 .chub-pop-sub { margin: 4px 0 12px; font-size: .78rem; color: var(--chub-muted); }
 .chub-row {
   display: flex; align-items: center; gap: 12px; padding: 11px 12px; margin-top: 8px; border-radius: 16px;

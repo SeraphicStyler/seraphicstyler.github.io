@@ -45,6 +45,10 @@
   form.querySelectorAll('[name="service"]').forEach(el => el.addEventListener('change', update));
   const params = new URLSearchParams(location.search);
   const service = params.get('service');
+  if (service === 'unsure') {
+    location.replace('https://tally.so/r/gD10Kl?about=I%20am%20not%20sure%20which%20service%20I%20need&source=service-request');
+    return;
+  }
   if (Object.hasOwn(descriptions, service)) form.querySelector(`[value="${service}"]`).checked = true;
   const tier = document.getElementById('request-tier');
   if ([...tier.options].some(o => o.value === params.get('tier'))) tier.value = params.get('tier');

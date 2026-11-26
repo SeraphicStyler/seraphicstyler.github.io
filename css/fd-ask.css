@@ -1,0 +1,78 @@
+/* The large ask box in the directory masthead (#fd-ask). One calm field, a few style
+   chips, a single line of honesty. Colours come from the directory tokens, so light and
+   dark mode follow automatically. Answers open in the existing assistant panel. */
+.fd-ask { width:min(680px,100%); margin:22px 0 0; }
+.fd-ask[hidden] { display:none !important; }
+.fd-ask-box {
+  display:flex; align-items:center; gap:8px;
+  padding:6px 6px 6px 18px;
+  background:var(--card-solid,var(--paper));
+  border:1px solid var(--line);
+  border-radius:20px;
+  box-shadow:0 1px 2px color-mix(in srgb,var(--ink) 6%,transparent),0 8px 24px color-mix(in srgb,var(--ink) 6%,transparent);
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+.fd-ask-box:focus-within {
+  border-color:var(--cobalt);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--cobalt) 18%,transparent),0 8px 24px color-mix(in srgb,var(--ink) 6%,transparent);
+}
+.fd-ask-box input {
+  flex:1; min-width:0; height:48px; padding:0;
+  border:0; outline:0; background:transparent;
+  color:var(--ink); font:400 16px/1.4 var(--font-body);
+}
+/* The directory styles every text input as its own bordered field; inside this box the
+   box itself is the field, so the inner input stays bare (the box shows focus instead). */
+.fd-ask .fd-ask-box input,
+.fd-ask .fd-ask-box input:focus,
+.fd-ask .fd-ask-box input:focus-visible {
+  border:0 !important; background:transparent !important; box-shadow:none !important; outline:0 !important;
+  border-radius:0; padding:0 !important;
+}
+.fd-ask-box input::placeholder { color:var(--ink-soft); opacity:1; }
+.fd-ask-box button {
+  flex:none; display:grid; place-items:center;
+  width:44px; height:44px; padding:0; cursor:pointer;
+  border:0; border-radius:14px;
+  background:var(--cobalt); color:var(--ice);
+  transition:background .2s ease, transform .1s ease;
+}
+.fd-ask-box button:hover { background:var(--cobalt-deep); }
+.fd-ask-box button:active { transform:translateY(1px); }
+.fd-ask-box button:focus-visible { outline:2px solid var(--cobalt); outline-offset:3px; }
+.fd-ask-chips { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 0; }
+.fd-ask-chips button {
+  min-height:36px; padding:6px 14px; cursor:pointer;
+  border:1px solid var(--line); border-radius:999px;
+  background:transparent; color:var(--ink-soft);
+  font:500 14px/1.4 var(--font-body);
+  transition:color .2s ease, border-color .2s ease, background .2s ease;
+}
+.fd-ask-chips button:hover { color:var(--cobalt); border-color:var(--cobalt); background:var(--mist); }
+.fd-ask-chips button:focus-visible { outline:2px solid var(--cobalt); outline-offset:2px; }
+.fd-ask-note { margin:10px 0 0; font-size:13px; line-height:1.5; color:var(--ink-soft); }
+/* In the beacon masthead (deep blue sky in both themes, white title and lede) the chips
+   and note take the lede's white, exactly as beacon.css treats the lede. The mono and
+   high-contrast modes keep the token colours above. */
+.fd-beacon .masthead .fd-ask { margin-inline:auto; }
+.fd-beacon .masthead .fd-ask-chips { justify-content:center; }
+html:not(.mono):not(.hc) .fd-beacon .masthead .fd-ask-chips button {
+  color:#fff; border-color:rgba(255,255,255,.42); background:rgba(255,255,255,.08);
+}
+html:not(.mono):not(.hc) .fd-beacon .masthead .fd-ask-chips button:hover {
+  color:#fff; border-color:rgba(255,255,255,.8); background:rgba(255,255,255,.18);
+}
+html:not(.mono):not(.hc) .fd-beacon .masthead .fd-ask-chips button:focus-visible { outline-color:#fff; }
+html:not(.mono):not(.hc) .fd-beacon .masthead .fd-ask-note {
+  color:#fff; text-shadow:0 1px 14px rgba(16,34,100,.55);
+}
+/* The "Matched:" line on each answer card. */
+.fd-guide-why { margin:2px 0 6px; font-size:13px; font-weight:500; color:var(--cobalt); }
+@media (max-width:480px) {
+  .fd-ask { margin-top:18px; }
+  .fd-ask-box { padding-left:14px; border-radius:18px; }
+  .fd-ask-chips button { min-height:40px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .fd-ask-box, .fd-ask-box button, .fd-ask-chips button { transition:none; }
+}
