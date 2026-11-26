@@ -263,16 +263,16 @@
     </div>
   </aside>
 
-  <main id="main">
+  <main id="main" data-rh-scope>
 
   <!-- ===== HERO ===== -->
-  <section id="hero" class="hero">
+  <section id="hero" class="hero" data-rh-skip>
     <div class="hero-stage">
-      <span class="eyebrow reveal" data-i18n="hero.eyebrow">A Saigon Styling &amp; Sourcing Atelier</span>
+      <span class="eyebrow reveal" data-i18n="hero.eyebrow">A Sài Gòn Styling &amp; Sourcing Atelier</span>
       <div class="hero-heading">
-        <h1 class="reveal" data-i18n="hero.h1">Saigon style,<br/>delivered anywhere.</h1>
+        <h1 class="reveal" data-i18n="hero.h1">Sài Gòn style,<br/>delivered anywhere.</h1>
       </div>
-      <p class="lead reveal" data-i18n="hero.lead">Rare Vietnamese fashion and beauty, sourced in Saigon.</p>
+      <p class="lead reveal" data-i18n="hero.lead">Rare Vietnamese fashion and beauty, found by hand in Sài Gòn and sent to wherever you are.</p>
       <div class="scroll-cue reveal" aria-hidden="true"><span class="lbl" data-i18n="hero.scroll">Scroll</span><span class="line"></span></div>
     </div>
     <div class="hero-form" id="hero-form">
@@ -319,18 +319,18 @@
         styling:u(Math.min.apply(null,d.styling.filter(function(t){return!t.from}).map(function(t){return t.totalUsd}))),
         mtm:d.madeToMeasure?u(d.madeToMeasure.usdPerGarment):null};
       document.querySelectorAll('[data-sd-price]').forEach(function(b){var v=m[b.getAttribute('data-sd-price')];if(v)b.textContent=v;});})();</script>
-      <section class="ss-concierge reveal" aria-labelledby="ss-concierge-title" lang="en">
+      <section class="ss-concierge reveal" data-rh-skip aria-labelledby="ss-concierge-title" lang="en">
         <div class="ss-concierge-glow" aria-hidden="true"></div>
         <header class="ss-concierge-head">
           <p class="ss-concierge-label">Still deciding? · instant answers</p>
           <h2 id="ss-concierge-title">Ask a question first.</h2>
           <button class="ss-concierge-reset" type="button" data-concierge-reset hidden>Start again</button>
         </header>
-        <p class="ss-concierge-disclosure">Answers from the service guide. <a href="service-request.html?service=unsure">Send a personal request →</a></p>
-        <p class="ss-concierge-static">A specific piece, a saved photo, or a wardrobe you want to build—<a href="sourcingandstyling">find the right way in</a>.</p>
+        <p class="ss-concierge-disclosure">Answers from the service guide. <a href="https://tally.so/r/gD10Kl?about=I%20am%20not%20sure%20which%20service%20I%20need&amp;source=home" target="_blank" rel="noopener">Send a personal request →</a></p>
+        <p class="ss-concierge-static">A specific piece, a saved photo, or a wardrobe you want to build: <a href="sourcingandstyling">find the right way in</a>.</p>
         <div data-concierge-interactive hidden>
           <div class="ss-concierge-thread" data-concierge-thread tabindex="0" aria-label="Service guide conversation">
-            <p class="ss-message ss-message-guide">A link, a photo, or a wardrobe idea—choose a starting point below.</p>
+            <p class="ss-message ss-message-guide">A link, a photo, or a wardrobe idea. Choose a starting point below.</p>
           </div>
           <div class="ss-concierge-prompts" aria-label="Suggested questions">
             <button type="button" data-topic="sourcing">Exact piece<small>Best when you have a shop link</small></button>
